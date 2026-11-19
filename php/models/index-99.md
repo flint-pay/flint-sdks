@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# TicketVoidedMerchantEvent to TicketVoidedInstalledMerchantsEvent
+# TicketUpdatedInstalledMerchantsEvent to TicketVoidedInstalledMerchantsEvent
 
+- [TicketUpdatedInstalledMerchantsEvent](TicketUpdatedInstalledMerchantsEvent.md)
+- [TicketVoidedMerchantEventDataObject](TicketVoidedMerchantEventDataObject.md)
+- [TicketVoidedMerchantEventDataPreviousAttributes](TicketVoidedMerchantEventDataPreviousAttributes.md)
+- [TicketVoidedMerchantEventData](TicketVoidedMerchantEventData.md)
+- [TicketVoidedMerchantEventRequest](TicketVoidedMerchantEventRequest.md)
 - [TicketVoidedMerchantEvent](TicketVoidedMerchantEvent.md)
 - [TicketVoidedInstalledMerchantsEventDataObject](TicketVoidedInstalledMerchantsEventDataObject.md)
 - [TicketVoidedInstalledMerchantsEventDataPreviousAttributes](TicketVoidedInstalledMerchantsEventDataPreviousAttributes.md)

@@ -74,7 +74,7 @@ Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previ
 
 ### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.idempotency_key
 
-Declared alternatives: [InventoryCountAppliedMerchantEventDataPreviousAttributes.idempotency_key](../models/InventoryCountAppliedMerchantEventDataPreviousAttributes.md#inventorycountappliedmerchanteventdatapreviousattributesidempotency_key).
+Declared alternatives: [CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.idempotency_key](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributesidempotency_key).
 
 ### InventoryTransferClosedMerchantEvent.data fields 1.previous_attributes.inventory_transfer_id
 

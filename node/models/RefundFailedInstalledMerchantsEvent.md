@@ -84,7 +84,7 @@ Declared alternatives: [BuyerPaymentRefundPreviousAttributes.failure_reason](../
 
 ### RefundFailedInstalledMerchantsEvent.data.previous_attributes.idempotency_key
 
-Declared alternatives: [BuyerRefundPreviousAttributes.idempotency_key](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributesidempotency_key).
+Declared alternatives: [CreditNoteAllocationReversedInstalledMerchantsEvent.data.previous_attributes.idempotency_key](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributesidempotency_key).
 
 ### RefundFailedInstalledMerchantsEvent.data.previous_attributes.initiated_by
 

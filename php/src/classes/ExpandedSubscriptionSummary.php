@@ -19,7 +19,7 @@ namespace Flint;
 final class ExpandedSubscriptionSummary extends Model {
     /** @param array{'billing_anchor_day': int, 'cancel_at_period_end': bool, 'created_at'?: string, 'current_period_end_at'?: string, 'current_period_start_at'?: string, 'customer_id': string, 'next_billing_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan_id': string, 'supported_actions'?: list<string>, 'terms_type': string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionSummary')); }
-    /** UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules; 0 when no anchor day is set. Format: int32.
+    /** Day of the month used for monthly and yearly billing in the subscription's billing timezone. Applies only to Flint-owned schedules; 0 when no anchor day is set. Format: int32.
      * @return int
      */
     public function getBillingAnchorDay(): int { return $this->get('billing_anchor_day'); }
@@ -49,7 +49,7 @@ final class ExpandedSubscriptionSummary extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active subscription has a billing date and isn't set to cancel at the end of its period. Absent when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting a date reports is_awaiting_billing_schedule. Format: date-time.
+    /** When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active subscription has a billing date and isn't set to cancel at the end of its period. Absent when no renewal is scheduled: a subscription in its final billing cycle ends at expires_at, a paused subscription resumes at scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting a date reports is_awaiting_billing_schedule. Format: date-time.
      * @return ?string
      */
     public function getNextBillingAt(): ?string { return $this->get('next_billing_at'); }

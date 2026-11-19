@@ -36,22 +36,19 @@ import type {
     ReturnHandoffRequirementLineItem,
     ReturnFinancialSummary,
     ReturnEligibilitySelection,
-    ReturnLineItemValue,
     ReturnLineItemDecisionProposal
 } from './types-63.js';
 import type { BuyerSelectableOrderPaymentIntent, BuyerReturnResolutionPreview } from './types-4.js';
 import type { PaymentErrorSummary, PaymentFulfillmentHold } from './types-51.js';
 import type { PaymentSourceSummary } from './types-54.js';
 import type { ExpandedCustomerSummary, ExpandedCustomerSummaryPreviousAttributes } from './types-26.js';
+import type { RefundLineItemAllocation, RefundTaxBreakdownRefund, RefundLineItemAllocationPreviousAttributes } from './types-60.js';
 import type {
-    RefundLineItemAllocation,
-    RefundTaxBreakdownRefund,
     RefundTenderAllocation,
-    RefundLineItemAllocationPreviousAttributes,
-    RefundTaxBreakdownRefundPreviousAttributes
-} from './types-60.js';
-import type { RefundTenderAllocationPreviousAttributes } from './types-61.js';
-import type { ReturnReasonSummary, ReturnPolicyAdjustmentProposal } from './types-64.js';
+    RefundTaxBreakdownRefundPreviousAttributes,
+    RefundTenderAllocationPreviousAttributes
+} from './types-61.js';
+import type { ReturnReasonSummary, ReturnLineItemValue, ReturnPolicyAdjustmentProposal } from './types-64.js';
 import type { ReturnRefundTenderEstimate } from './types-65.js';
 /** An additional charge applied to an order. */
 export type BuyerOrderCharge = {
@@ -485,6 +482,8 @@ export type BuyerOrderPaymentAttempt = {
      * attempt, with the amount, tip, and gift card.
      */
     "gift_card_redemptions": Array<PaymentAttemptGiftCardRedemption>;
+    /** Null when read from a buyer route. */
+    "idempotency_key": null;
     /**
      * Whether the attempt can continue through PayOrder with action: resume and this
      * order_payment_attempt_id after any pending client action is complete. If false, check status
@@ -567,7 +566,7 @@ export type BuyerOrderPaymentAttempt = {
      * "payment_link_capacity_validation_failed", "payment_method_activation_pending",
      * "payment_method_required", "payment_option_not_allowed", "payment_option_unavailable",
      * "payment_returned", "payment_source_binding_failed", "payment_source_conflict",
-     * "payment_source_not_updatable", "payment_source_ownership_mismatch",
+     * "payment_source_not_updatable", "payment_source_ownership_mismatch", "rate_limit_exceeded",
      * "resource_guarantee_failed", "setup_action_unavailable", "setup_hold_acquisition_failed",
      * "setup_result_incomplete", "tip_allocation_sync_failed",
      * "zero_balance_hold_acquisition_failed".
@@ -596,6 +595,7 @@ export type BuyerOrderPaymentAttempt = {
         | "payment_source_conflict"
         | "payment_source_not_updatable"
         | "payment_source_ownership_mismatch"
+        | "rate_limit_exceeded"
         | "resource_guarantee_failed"
         | "setup_action_unavailable"
         | "setup_hold_acquisition_failed"
@@ -920,13 +920,17 @@ export type BuyerPackageItem = {
      * Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
      */
     "bundle_component_id"?: string;
+    /** Order containing the allocated line item. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
     /** Order line packed in this package. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
     "order_line_item_id": string;
+    /** Package containing this item. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R". */
+    "package_id": string;
     /** Flint ID for this package allocation. Example: "pki_01KEZF7C00CEFTYV5RD7XVYQ7B". */
     "package_item_id": string;
     /**
-     * Quantity in order line units, or in component units when bundle_component_id is present.
-     * Format: int64.
+     * Quantity in order line units, or in component units when bundle_component_id is present;
+     * fractional quantities are not supported. Format: int64.
      */
     "quantity": number;
 };
@@ -1098,8 +1102,8 @@ export type BuyerPaymentCollection = {
 export type BuyerPaymentCollectionStripe = {
     /**
      * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when
-     * the payment has splits: initialize Stripe.js with publishable_key alone and omit
-     * stripeAccount. Example: "acct_1234567890".
+     * the payment has splits. When null, omit stripeAccount when initializing Stripe.js. Example:
+     * "acct_1234567890".
      */
     "account_id": string | null;
     /**
@@ -1108,6 +1112,12 @@ export type BuyerPaymentCollectionStripe = {
      * through Flint.
      */
     "elements"?: BuyerPaymentCollectionStripeElements;
+    /**
+     * Stripe account ID of the collecting merchant. Present when this payment uses Stripe
+     * on_behalf_of, currently payments with splits. Pass it as onBehalfOf when creating Stripe
+     * Elements.
+     */
+    "on_behalf_of"?: string;
     /** Publishable Stripe key for initializing the payment client. */
     "publishable_key"?: string;
     /** URL the buyer returns to after a redirect payment step. */
@@ -1186,7 +1196,7 @@ export type BuyerPaymentErrorSummary = {
      * "payment_blocked", "expired_card", "incorrect_cvc", "processing_error",
      * "payment_method_unavailable", "payment_method_declined", "payment_not_completed",
      * "payment_action_expired", "payment_method_temporarily_unavailable", "incorrect_pin",
-     * "pin_try_exceeded", "pin_required", "payment_failed".
+     * "pin_try_exceeded", "pin_required", "confirmation_token_account_mismatch", "payment_failed".
      */
     "code": "card_declined"
         | "card_details_outdated"
@@ -1209,6 +1219,7 @@ export type BuyerPaymentErrorSummary = {
         | "incorrect_pin"
         | "pin_try_exceeded"
         | "pin_required"
+        | "confirmation_token_account_mismatch"
         | "payment_failed"
         | (string & {});
     /**
@@ -1826,11 +1837,6 @@ export type BuyerRefund = {
      */
     "failure_reason"?: "refund_failed" | "refund_abandoned" | (string & {});
     /**
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     */
-    "idempotency_key"?: string;
-    /**
      * ID of the invoice whose credit note this refund paid out. Present only on refunds issued
      * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      */
@@ -2040,14 +2046,6 @@ export type BuyerRefundPreviousAttributes = {
      * "refund_abandoned". anyOf[2] (Value): null.
      */
     "failure_reason"?: (("refund_failed" | "refund_abandoned" | (string & {})) | (null));
-    /**
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * anyOf[1] (Value): string. The caller's Idempotency-Key when this refund was created,
-     * including refunds created by issuing a credit note. Use GET /v1/refunds?idempotency_key= to
-     * recover a lost response. anyOf[2] (Value): null.
-     */
-    "idempotency_key"?: ((string) | (null));
     /**
      * ID of the invoice whose credit note this refund paid out. Present only on refunds issued
      * through a credit note. anyOf[1] (Value): string. ID of the invoice whose credit note this
@@ -2449,6 +2447,16 @@ export type BuyerReturn = {
      * their destination, instructions, and handoff status.
      */
     "handoff_requirements": Array<BuyerReturnHandoffRequirement>;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer routes return only keys
+     * from your buyer namespace.
+     */
+    "idempotency_key": string | null;
     /**
      * Who created the Return: buyer for a customer session on /v1/me or Flint's hosted account,
      * merchant for a Dashboard user, integration for an API key or partner app, or system for

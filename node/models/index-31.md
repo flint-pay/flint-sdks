@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# PublicDownloadPreviousAttributes to RefundTenderAllocationPreviousAttributes
+# PromotionScheduleRequestInput to RefundTaxBreakdownRefundPreviousAttributes
 
+- [PromotionScheduleRequestInput](PromotionScheduleRequestInput.md)
+- [PromotionSettings](PromotionSettings.md)
+- [PromotionSettingsRequestInput](PromotionSettingsRequestInput.md)
+- [PromotionUpdatedInstalledMerchantsEvent](PromotionUpdatedInstalledMerchantsEvent.md)
+- [PromotionUpdatedMerchantEvent](PromotionUpdatedMerchantEvent.md)
+- [PublicDownload](PublicDownload.md)
 - [PublicDownloadPreviousAttributes](PublicDownloadPreviousAttributes.md)
 - [PublicPaymentLink](PublicPaymentLink.md)
 - [PublicPaymentLinkResponse](PublicPaymentLinkResponse.md)
@@ -96,10 +102,4 @@
 - [RefundTaxBreakdownRefundIn](RefundTaxBreakdownRefundIn.md)
 - [RefundTaxBreakdownRefundInInput](RefundTaxBreakdownRefundInInput.md)
 - [RefundTaxBreakdownRefundPreviousAttributes](RefundTaxBreakdownRefundPreviousAttributes.md)
-- [RefundTenderAllocation](RefundTenderAllocation.md)
-- [RefundTenderAllocationInputGiftCardRedemption](RefundTenderAllocationInputGiftCardRedemption.md)
-- [RefundTenderAllocationInputGiftCardRedemptionInput](RefundTenderAllocationInputGiftCardRedemptionInput.md)
-- [RefundTenderAllocationInputPaymentIntent](RefundTenderAllocationInputPaymentIntent.md)
-- [RefundTenderAllocationInputPaymentIntentInput](RefundTenderAllocationInputPaymentIntentInput.md)
-- [RefundTenderAllocationPreviousAttributes](RefundTenderAllocationPreviousAttributes.md)
 

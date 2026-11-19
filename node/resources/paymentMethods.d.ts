@@ -10,7 +10,7 @@ import type {
     PaymentMethodsGetParams,
     PaymentMethodsListParams
 } from '../declarations/types-53.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { SavePaymentMethodResponse } from '../declarations/types-67.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -37,20 +37,19 @@ export type {
     PaymentMethodsListParams,
     PaymentMethodListResponse
 } from '../declarations/types-53.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { SavePaymentMethodResponse, SavePaymentMethodRequestInput } from '../declarations/types-67.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { StripeClientSetup, StripeClientSetupStripe, StripeClientAuthority } from '../declarations/types-68.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CardDetails } from '../declarations/types-5.js';
 export type { ExpandedCustomerSummary, DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeSavePaymentMethodRequest } from '../declarations/types-91.js';
+export { makeSavePaymentMethodRequest } from '../declarations/types-92.js';
 export interface PaymentMethodsResource {
     /**
  * Initiates saving a payment method and returns the client setup payload needed to complete setup

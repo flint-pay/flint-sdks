@@ -203,7 +203,7 @@ final class BuyerInvoiceInput extends Model {
      */
     public function getPaymentOptionCostComparison(): mixed { return $this->get('payment_option_cost_comparison'); }
     public function hasPaymentOptionCostComparison(): bool { return $this->has('payment_option_cost_comparison'); }
-    /** Ways the buyer can pay this invoice online, leaving out any option whose limit the amount exceeds. `[]` when it can't be paid online. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+    /** Ways the buyer can pay this invoice online, including when the next scheduled payment becomes due. Ineligible methods are omitted. Check buyer_actions to see whether the buyer can pay now. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      * @return list<string>
      * @throws SdkError When payment_options is omitted; use hasPaymentOptions() or valueOrDefault().
      */

@@ -23,7 +23,7 @@ import type {
     CreditNotesVoidParams
 } from '../declarations/types-15.js';
 import type { IssueCreditNoteResponse, IssueCreditNoteResult } from '../declarations/types-38.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -71,7 +71,7 @@ export type {
     CreditNoteIssueAllocationRequestInput,
     CreditNoteRefundRequestInput
 } from '../declarations/types-15.js';
-export type { RequestOptions, RefundUnissuedGiftCardRecovery } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResourceVersionRequestInput } from '../declarations/types-62.js';
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type {
     IssueCreditNoteResult,
@@ -103,7 +103,6 @@ export type {
 } from '../declarations/types-26.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
 export type { SettlementAmounts, SplitReversalReference } from '../declarations/types-68.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference, ResourceVersionRequestInput } from '../declarations/types-62.js';
 export type {
     ReadinessMerchantAccountSession,
     Refund,
@@ -114,8 +113,7 @@ export type {
     RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation,
-    RefundTaxBreakdownRefund,
-    RefundTenderAllocation
+    RefundTaxBreakdownRefund
 } from '../declarations/types-60.js';
 export type {
     Invoice,
@@ -181,6 +179,7 @@ export type {
     PaymentSourceCardPresentDetails
 } from '../declarations/types-54.js';
 export type { PaymentRefund } from '../declarations/types-53.js';
+export type { RefundTenderAllocation, RefundUnissuedGiftCardRecovery } from '../declarations/types-61.js';
 export type { UpdateCreditNoteRequestInput } from '../declarations/types-75.js';
 export {
     makeConfirmReturnResolutionRequest,

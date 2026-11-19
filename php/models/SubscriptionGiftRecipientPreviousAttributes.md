@@ -11,6 +11,7 @@ Response model.
 | `email` | Optional | string or null | The recipient's email address. Flint sends the recipient's gift and final notices here, and shipment notices when delivery.recipient has no email. `email`: [declared alternatives](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributesemail). |
 | `message` | Optional | string or null | A note from the purchaser, shown in the recipient's gift notice. Up to 200 characters. Null when there is no note. `message`: [declared alternatives](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributesmessage). |
 | `name` | Optional | string or null | The recipient's name, shown in their gift emails. Null when no name was given. `name`: [declared alternatives](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributesname). |
+| `sender_name` | Optional | string or null | Name to show as the sender in gift emails, when provided. `sender_name`: [declared alternatives](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributessender_name). |
 
 ### SubscriptionGiftRecipientPreviousAttributes.email
 
@@ -53,4 +54,18 @@ anyOf variant 1: The recipient's name, shown in their gift emails. Null when no 
 anyOf variant 2.
 
 - Value shape: null. The recipient's name, shown in their gift emails. Null when no name was given. 
+
+### SubscriptionGiftRecipientPreviousAttributes.sender_name
+
+### SubscriptionGiftRecipientPreviousAttributes.sender_name variant 1
+
+anyOf variant 1: Name to show as the sender in gift emails, when provided..
+
+- Value shape: string. Name to show as the sender in gift emails, when provided. Name to show as the sender in gift emails, when provided. maxLength: `255`. 
+
+### SubscriptionGiftRecipientPreviousAttributes.sender_name variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Name to show as the sender in gift emails, when provided. 
 

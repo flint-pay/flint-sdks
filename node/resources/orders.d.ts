@@ -56,8 +56,7 @@ import type {
     OrdersUpdateParams
 } from '../declarations/types-48.js';
 import type { PayOrderResponse, PayOrderResult } from '../declarations/types-50.js';
-import type { RequestOptions } from '../declarations/types-61.js';
-import type { RetryOrderEditRefundResponse, RetryOrderEditRefundResult } from '../declarations/types-62.js';
+import type { RequestOptions, RetryOrderEditRefundResponse, RetryOrderEditRefundResult } from '../declarations/types-62.js';
 import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -111,15 +110,21 @@ export type {
     OrderTaxLocationRequestInput,
     OrderTaxLocationInputPostalCodeInput,
     OrderTaxLocationPostalAddressRequestInput,
+    OrderTaxLocationInputFullAddressInput,
     OrderTaxUpdateRequestInput,
     OrderTaxLocationPostalAddressRequest
 } from '../declarations/types-48.js';
 export type {
     RequestOptions,
-    RefundUnissuedGiftCardRecovery,
-    RemoveDiscountsRequestInput,
-    RepriceDiscountsRequestInput
-} from '../declarations/types-61.js';
+    RetryOrderEditRefundResult,
+    RetryOrderEditRefundResponse,
+    ResourceReference,
+    ResponseMeta,
+    ResponseWarning,
+    RepriceDiscountsRequestInput,
+    ResolveOrderInventoryExceptionRequestInput,
+    RetryOrderEditRefundRequestInput
+} from '../declarations/types-62.js';
 export type {
     Order,
     OrderEdit,
@@ -175,7 +180,6 @@ export type {
     OrderTaxExemptionInputCustomerInput,
     OrderTaxExemptionInputNoneInput,
     OrderTaxExemptionInputOrderInput,
-    OrderTaxLocationInputFullAddressInput,
     OrderTaxLocationFullAddressRequestInput,
     OrderPaymentAttemptPaymentMethodSave,
     OrderLineSubscriptionOfferSummary,
@@ -198,7 +202,7 @@ export type {
     PayOrderResponse,
     PaymentAttemptGiftCardRedemption,
     PaymentAttemptPaymentIntent,
-    PaymentClientAction,
+    PaymentActivityActor,
     PayOrderRequestInput,
     PayOrderRequestPayInput,
     PayOrderRequestConfirmPaymentIntentsInput,
@@ -257,15 +261,6 @@ export type {
     OrderLineItemTaxAssignmentInput,
     OrderEditRemovalRequest
 } from '../declarations/types-46.js';
-export type {
-    RetryOrderEditRefundResult,
-    RetryOrderEditRefundResponse,
-    ResourceReference,
-    ResponseMeta,
-    ResponseWarning,
-    ResolveOrderInventoryExceptionRequestInput,
-    RetryOrderEditRefundRequestInput
-} from '../declarations/types-62.js';
 export type { ClientOptions, CloseOrderRequestInput } from '../declarations/types-7.js';
 export type {
     ManualDiscountRequestInput,
@@ -329,13 +324,13 @@ export type {
     TaxJurisdictionRequestInput
 } from '../declarations/types-74.js';
 export type { DeliveryFulfillmentDetails } from '../declarations/types-19.js';
-export type { PricingAmounts, PlatformFeeRequestInput } from '../declarations/types-56.js';
+export type { PricingAmounts, PlatformFeeRequestInput, PlatformFeeMoneyInput } from '../declarations/types-56.js';
 export type {
     SettlementAmounts,
+    ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
     SetupCollection,
     SetupCollectionStripe,
-    SubscribedLineRequestModelInput,
     SplitReversalReference,
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
@@ -348,16 +343,8 @@ export type {
     PendingPaymentAction,
     PendingPaymentActionSubject,
     PendingPaymentActionPaymentIntentSubject,
-    PendingPaymentActionSetupPaymentSourceSubject,
-    PlatformFeeMoneyInput
+    PendingPaymentActionSetupPaymentSourceSubject
 } from '../declarations/types-55.js';
-export type {
-    ServiceFulfillmentDetails,
-    SelectableOrderPaymentIntent,
-    SelectedProductOption,
-    SendOrderReceiptRequestInput,
-    SendOrderReceiptRequest
-} from '../declarations/types-67.js';
 export type {
     InventoryRoutingSource,
     InventoryRoutingSourceRequestInput,
@@ -370,9 +357,16 @@ export type {
     PaymentCollectionStripe,
     PaymentCollectionStripeElements,
     PaymentErrorSummary,
+    PaymentClientAction,
     PaymentClientActionURL,
     PaymentClientActionStripe
 } from '../declarations/types-51.js';
+export type {
+    SelectableOrderPaymentIntent,
+    SelectedProductOption,
+    SendOrderReceiptRequestInput,
+    SendOrderReceiptRequest
+} from '../declarations/types-67.js';
 export type {
     ReadinessMerchantAccountSession,
     RefundChargeInput,
@@ -385,8 +379,7 @@ export type {
     RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation,
-    RefundTaxBreakdownRefund,
-    RefundTenderAllocation
+    RefundTaxBreakdownRefund
 } from '../declarations/types-60.js';
 export type {
     PaymentSourceSummary,
@@ -431,7 +424,8 @@ export type {
 export type {
     SubscriptionDeliveryDestinationRequestInput,
     SubscriptionDeliveryDestinationInputCustomerAddressInput,
-    SubscriptionDeliveryDestinationInputAddressInput
+    SubscriptionDeliveryDestinationInputAddressInput,
+    SubscribedLineRequestModelInput
 } from '../declarations/types-69.js';
 export type { DeliverySelectionRecipientRequestInput, DeliverySelectionRecipientRequest } from '../declarations/types-24.js';
 export type {
@@ -442,18 +436,16 @@ export type {
     GiftCardPurchaseRecipientPatchRequestInput
 } from '../declarations/types-30.js';
 export type { PaymentRefund } from '../declarations/types-53.js';
+export type { RefundTenderAllocation, RefundUnissuedGiftCardRecovery, RemoveDiscountsRequestInput } from '../declarations/types-61.js';
 export type { GiftCardProductConfiguration } from '../declarations/types-29.js';
 export type { PurchasedGiftCard, ReaderPaymentSourceTipInput, ReaderPaymentSourceTip } from '../declarations/types-59.js';
 export type { UpdateOrderRequestInput, UpdateOrderChargeRequestInput, UpdateLineItemRequestInput } from '../declarations/types-76.js';
+export { makeAddLineItemsRequest, makeAddOrderChargeRequest } from '../declarations/types-79.js';
 export {
-    makeAddLineItemsRequest,
-    makeAddOrderChargeRequest,
     makeAddressRequest,
     makeApplyDiscountRequest,
     makeApplyDiscountRequestManual,
-    makeApplyDiscountRequestPromotion
-} from '../declarations/types-79.js';
-export {
+    makeApplyDiscountRequestPromotion,
     makeApplyOrderGiftCardRequest,
     makeCancelOrderEditRequest,
     makeCancelOrderPaymentAttemptRequest,
@@ -477,11 +469,11 @@ export {
 export {
     makeCustomerTaxExemptionCoverageAllStatesRequest,
     makeCustomerTaxExemptionCoverageRequest,
-    makeCustomerTaxExemptionCoverageStatesRequest,
-    makeDeliveryChargeTaxCalculationRequestModel
+    makeCustomerTaxExemptionCoverageStatesRequest
 } from '../declarations/types-84.js';
-export { makeDeliverySelectionRecipientRequest } from '../declarations/types-85.js';
+export { makeDeliveryChargeTaxCalculationRequestModel } from '../declarations/types-85.js';
 export {
+    makeDeliverySelectionRecipientRequest,
     makeDimensionsRequest,
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientPatchRequest,
@@ -494,10 +486,10 @@ export {
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest,
     makeLineItemFulfillmentOriginRequestModel,
-    makeLineItemFulfillmentRequestModel,
-    makeManualDiscountRequest
+    makeLineItemFulfillmentRequestModel
 } from '../declarations/types-87.js';
 export {
+    makeManualDiscountRequest,
     makeMetadataPatchRequest,
     makeMetadataRequest,
     makeMoneyValue,
@@ -522,15 +514,15 @@ export {
     makeOrderLineItemModifierInputTextRequest,
     makeOrderLineItemModifierRequestModel,
     makeOrderLineItemTaxAssignment,
-    makeOrderPaymentIntentSelection,
+    makeOrderPaymentIntentSelection
+} from '../declarations/types-88.js';
+export {
     makeOrderTaxCalculationInputAutomatic,
     makeOrderTaxCalculationInputExternal,
     makeOrderTaxCalculationRequest,
     makeOrderTaxComponentRequest,
     makeOrderTaxExemptionInputCustomer,
-    makeOrderTaxExemptionInputNone
-} from '../declarations/types-88.js';
-export {
+    makeOrderTaxExemptionInputNone,
     makeOrderTaxExemptionInputOrder,
     makeOrderTaxExemptionRequest,
     makeOrderTaxJurisdictionRequest,
@@ -551,11 +543,11 @@ export {
     makePayOrderRequestConfirmPaymentIntents,
     makePayOrderRequestPay,
     makePayOrderRequestResume,
-    makePayOrderRequestSetup,
-    makePlatformFeeMoney,
-    makePlatformFeeRequest
+    makePayOrderRequestSetup
 } from '../declarations/types-89.js';
 export {
+    makePlatformFeeMoney,
+    makePlatformFeeRequest,
     makePromotionRefInputPromotionCode,
     makePromotionRefInputPromotionID,
     makePromotionRefRequest,
@@ -563,11 +555,11 @@ export {
     makeRefundCharge,
     makeRefundDestinations,
     makeRemoveDiscountsRequest,
-    makeRepriceDiscountsRequest,
-    makeResolveOrderInventoryExceptionRequest
+    makeRepriceDiscountsRequest
 } from '../declarations/types-90.js';
-export { makeRetryOrderEditRefundRequest, makeSendOrderReceiptRequest } from '../declarations/types-91.js';
+export { makeResolveOrderInventoryExceptionRequest, makeRetryOrderEditRefundRequest } from '../declarations/types-91.js';
 export {
+    makeSendOrderReceiptRequest,
     makeSubscribedLineRequestModel,
     makeSubscriptionDeliveryDestinationInputAddress,
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
@@ -575,11 +567,11 @@ export {
     makeTaxCalculationRequestModel,
     makeTaxCalculationRequestRequest,
     makeTaxComponentRequestModel,
-    makeTaxComponentRequestRequest,
-    makeTaxJurisdictionRequest,
-    makeTaxJurisdictionRequestModel
+    makeTaxComponentRequestRequest
 } from '../declarations/types-92.js';
 export {
+    makeTaxJurisdictionRequest,
+    makeTaxJurisdictionRequestModel,
     makeTextModifierRequest,
     makeUpdateLineItemRequest,
     makeUpdateOrderChargeRequest,
@@ -1012,10 +1004,11 @@ export interface OrdersResource {
      */
     listLineItemsItems(order_id: InputValue<string>, params?: OrdersListLineItemsParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<OrderLineItem>;
     /**
- * Returns payment attempts for the order, newest first. Checkout-session callers see only attempts
- * created by their own session. A list filtered by idempotency_key omits pending_actions; read the
- * attempt by ID to get them. Default order: started_at descending, then order_payment_attempt_id
- * descending.
+ * Returns payment attempts for the order, newest first. API keys can use the commerce.orders.read
+ * scope. Dashboard Viewers can list attempts for orders they can access. Checkout-session callers
+ * see only attempts created by their own session. A list filtered by idempotency_key omits
+ * pending_actions; read the attempt by ID to get them. Default order: started_at descending, then
+ * order_payment_attempt_id descending.
  *
  * `GET /v1/orders/{order_id}/payment-attempts`
  * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400
@@ -1077,12 +1070,13 @@ export interface OrdersResource {
  * the request completed, or recovers the same attempt if it was interrupted. Payment intents with
  * manual capture return an active authorization instead of settling immediately. A replay
  * preserves the original HTTP status and domain result, including when the original checkout
- * credential retries after its session becomes paid. A new key or changed body on a paid order
- * returns ACTION_NOT_ALLOWED with reason payment_collected, naming the order and its payment; do
- * not submit another payment for that purchase. Replays return no URL token or Stripe client
- * secret; pending_actions is empty when action authority was stripped. Read the attempt to recover
- * its current permitted actions. Read `client.orders.getPaymentAttempt` for the attempt's current
- * state.
+ * credential retries after its session becomes paid. A resume of an already finished attempt
+ * returns its recorded outcome. A resume of the attempt that paid the order can return its success
+ * after the checkout session becomes paid. A new payment or a resume of a different attempt on a
+ * paid order returns ACTION_NOT_ALLOWED with reason payment_collected, naming the order and its
+ * payment. Replays return no URL token or Stripe client secret; pending_actions is empty when
+ * action authority was stripped. Read the attempt to recover its current permitted actions. Read
+ * `client.orders.getPaymentAttempt` for the attempt's current state.
  *
  * `POST /v1/orders/{order_id}/pay`
  * @param order_id Flint order ID. Must be a valid ID with prefix ord_. Malformed IDs return 400

@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `adjustment_refunds` | Optional | Array of [RefundLineItemAdjustmentRefundInInput](../models/RefundLineItemAdjustmentRefundInInput.md#refundlineitemadjustmentrefundininput) | Amounts to refund back against adjustments withheld by earlier refunds of this line. Each uses the adjustment's remaining value, not the line's again. |
-| `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Amount to refund for this line before `refund_adjustments`. Send `quantity` or `amount_money`, not both. With neither, Flint refunds what remains of the line. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Amount to refund for this line before `refund_adjustments`. Send either `quantity` or `amount_money`. Omit both to refund the line's remaining value and quantity. Released subscription credit can leave refundable money even when the remaining quantity is zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `order_line_item_id` | Required | string | ID of the order line item to refund. minLength: `1`. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `refund_adjustments` | Optional | Array of [RefundLineItemAdjustmentInInput](../models/RefundLineItemAdjustmentInInput.md#refundlineitemadjustmentininput) | Amounts to withhold from this line's refund, such as a restocking fee. Together they must be less than the amount the line would otherwise refund. |

@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# OrderLineItemModifierInputCatalog to PackageItemListResponse
+# OrderLineItemFulfillmentRequirements to PackageCreateRequest
 
+- [OrderLineItemFulfillmentRequirements](OrderLineItemFulfillmentRequirements.md)
+- [OrderLineItemFulfillmentRequirementsPreviousAttributes](OrderLineItemFulfillmentRequirementsPreviousAttributes.md)
+- [OrderLineItemModifier](OrderLineItemModifier.md)
 - [OrderLineItemModifierInputCatalog](OrderLineItemModifierInputCatalog.md)
 - [OrderLineItemModifierInputCatalogRequestInput](OrderLineItemModifierInputCatalogRequestInput.md)
 - [OrderLineItemModifierInputText](OrderLineItemModifierInputText.md)
@@ -99,7 +102,4 @@
 - [PackageCreateInputShipped](PackageCreateInputShipped.md)
 - [PackageCreateInputShippedInput](PackageCreateInputShippedInput.md)
 - [PackageCreateRequest](PackageCreateRequest.md)
-- [PackageCreateRequestInput](PackageCreateRequestInput.md)
-- [PackageItem](PackageItem.md)
-- [PackageItemListResponse](PackageItemListResponse.md)
 

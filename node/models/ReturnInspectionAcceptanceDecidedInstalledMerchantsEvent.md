@@ -96,6 +96,10 @@ anyOf variant 2.
 
 - Value shape: null. Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. 
 
+### ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent.data.previous_attributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedInstalledMerchantsEvent.data.previous_attributes.idempotency_key](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributesidempotency_key).
+
 ### ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent.data.previous_attributes.inspected_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).

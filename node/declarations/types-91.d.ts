@@ -1,5 +1,12 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    ResolveCustomerDeletionRequestInput,
+    ResolveOrderInventoryExceptionRequestInput,
+    ResolvePaymentLinkLineItemModifierInputCatalogInput,
+    ResolvePaymentLinkLineItemModifierInputTextInput,
+    ResolvePaymentLinkLineItemModifierRequestInput,
+    ResolvePaymentLinkLineItemModifiersInput,
+    ResolvePaymentLinkRequestInput,
     ResolvePaymentLinkTextModifierRequestInput,
     ResourceVersionRequestInput,
     RetryOrderEditRefundRequestInput,
@@ -43,11 +50,11 @@ import type {
     ReturnResolutionLineItemRequestInput,
     ReturnRestockingFeePolicyRequestInput,
     ReturnShipmentLineItemAllocationRequestInput,
-    ReturnShippingPolicyRequestInput,
-    ReturnSourceSystemRequestInput,
-    ReturnUnverifiedItemInput
+    ReturnShippingPolicyRequestInput
 } from './types-65.js';
 import type {
+    ReturnSourceSystemRequestInput,
+    ReturnUnverifiedItemInput,
     ReturnWindowRequestInput,
     RevealLicenseKeyRequestInput,
     ReverseInvoiceManualPaymentRequestInput,
@@ -55,26 +62,26 @@ import type {
     RiskPredicateNodeAnyRequestInput,
     RiskPredicateNodeComparisonRequestInput,
     RiskPredicateNodeInListRequestInput,
-    RiskPredicateNodeInRequestInput,
-    RiskPredicateNodeIsMissingRequestInput,
-    RiskPredicateNodeMoneyComparisonRequestInput,
-    RiskPredicateNodeNotRequestInput
+    RiskPredicateNodeInRequestInput
 } from './types-66.js';
 import type {
+    RiskPredicateNodeIsMissingRequestInput,
+    RiskPredicateNodeMoneyComparisonRequestInput,
+    RiskPredicateNodeNotRequestInput,
     RiskPredicateNodeRequestInput,
     RotateGiftCardCodeRequestInput,
     RotatePartnerAppSecretRequestInput,
     RotateWebhookSecretRequestInput,
     SaveMeGiftCardRequestInput,
-    SaveMeGiftCardRequestCodeInput,
-    SaveMeGiftCardRequestRecipientAccessInput,
-    SaveMePaymentMethodRequestInput,
-    SavePaymentMethodRequestInput,
-    ScheduleFulfillmentRequestInput,
-    SellerTaxAttestationRequestInput,
-    SendOrderReceiptRequestInput,
-    SendPaymentIntentReceiptRequestInput
+    SaveMeGiftCardRequestCodeInput
 } from './types-67.js';
+export declare function makeResolveCustomerDeletionRequest(value: InputValue<ResolveCustomerDeletionRequestInput>): Model<ResolveCustomerDeletionRequestInput>;
+export declare function makeResolveOrderInventoryExceptionRequest(value: InputValue<ResolveOrderInventoryExceptionRequestInput>): Model<ResolveOrderInventoryExceptionRequestInput>;
+export declare function makeResolvePaymentLinkLineItemModifierInputCatalog(value: InputValue<ResolvePaymentLinkLineItemModifierInputCatalogInput>): Model<ResolvePaymentLinkLineItemModifierInputCatalogInput>;
+export declare function makeResolvePaymentLinkLineItemModifierInputText(value: InputValue<ResolvePaymentLinkLineItemModifierInputTextInput>): Model<ResolvePaymentLinkLineItemModifierInputTextInput>;
+export declare function makeResolvePaymentLinkLineItemModifierRequest(value: InputValue<ResolvePaymentLinkLineItemModifierRequestInput>): Model<ResolvePaymentLinkLineItemModifierRequestInput>;
+export declare function makeResolvePaymentLinkLineItemModifiers(value: InputValue<ResolvePaymentLinkLineItemModifiersInput>): Model<ResolvePaymentLinkLineItemModifiersInput>;
+export declare function makeResolvePaymentLinkRequest(value: InputValue<ResolvePaymentLinkRequestInput>): Model<ResolvePaymentLinkRequestInput>;
 export declare function makeResolvePaymentLinkTextModifierRequest(value: InputValue<ResolvePaymentLinkTextModifierRequestInput>): Model<ResolvePaymentLinkTextModifierRequestInput>;
 export declare function makeResourceVersionRequest(value: InputValue<ResourceVersionRequestInput>): Model<ResourceVersionRequestInput>;
 export declare function makeRetryOrderEditRefundRequest(value: InputValue<RetryOrderEditRefundRequestInput>): Model<RetryOrderEditRefundRequestInput>;
@@ -133,10 +140,3 @@ export declare function makeRotatePartnerAppSecretRequest(value: InputValue<Rota
 export declare function makeRotateWebhookSecretRequest(value: InputValue<RotateWebhookSecretRequestInput>): Model<RotateWebhookSecretRequestInput>;
 export declare function makeSaveMeGiftCardRequest(value: InputValue<SaveMeGiftCardRequestInput>): Model<SaveMeGiftCardRequestInput>;
 export declare function makeSaveMeGiftCardRequestCode(value: InputValue<SaveMeGiftCardRequestCodeInput>): Model<SaveMeGiftCardRequestCodeInput>;
-export declare function makeSaveMeGiftCardRequestRecipientAccess(value: InputValue<SaveMeGiftCardRequestRecipientAccessInput>): Model<SaveMeGiftCardRequestRecipientAccessInput>;
-export declare function makeSaveMePaymentMethodRequest(value: InputValue<SaveMePaymentMethodRequestInput>): Model<SaveMePaymentMethodRequestInput>;
-export declare function makeSavePaymentMethodRequest(value: InputValue<SavePaymentMethodRequestInput>): Model<SavePaymentMethodRequestInput>;
-export declare function makeScheduleFulfillmentRequest(value: InputValue<ScheduleFulfillmentRequestInput>): Model<ScheduleFulfillmentRequestInput>;
-export declare function makeSellerTaxAttestationRequest(value: InputValue<SellerTaxAttestationRequestInput>): Model<SellerTaxAttestationRequestInput>;
-export declare function makeSendOrderReceiptRequest(value: InputValue<SendOrderReceiptRequestInput>): Model<SendOrderReceiptRequestInput>;
-export declare function makeSendPaymentIntentReceiptRequest(value: InputValue<SendPaymentIntentReceiptRequestInput>): Model<SendPaymentIntentReceiptRequestInput>;

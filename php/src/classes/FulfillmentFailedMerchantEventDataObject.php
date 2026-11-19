@@ -16,6 +16,7 @@ namespace Flint;
  * @property-read ?string $dispatched_at
  * @property-read ?string $external_reference_id
  * @property-read string $fulfillment_id
+ * @property-read string|null $idempotency_key
  * @property-read list<FulfillmentLineItem> $line_items
  * @property-read ?DeliveryFulfillmentDetails $local_delivery_details
  * @property-read ?string $location_id
@@ -41,7 +42,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class FulfillmentFailedMerchantEventDataObject extends Model {
-    /** @param array{'active_hold'?: mixed, 'charges'?: list<mixed>, 'completed_at'?: string, 'created_at': string, 'customer_id'?: string, 'delivery_choice_group_id'?: string|null, 'delivery_execution_leg_id'?: string|null, 'delivery_method_id'?: string|null, 'delivery_selection_id'?: string|null, 'device_id'?: string, 'digital_details'?: mixed, 'dispatched_at'?: string, 'external_reference_id'?: string, 'fulfillment_id': string, 'line_items': list<mixed>, 'local_delivery_details'?: mixed, 'location_id'?: string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'order_number'?: string, 'outcome'?: mixed, 'packages'?: list<mixed>, 'packed_at'?: string, 'picked_at'?: string, 'pickup_details'?: mixed, 'recipient'?: mixed, 'scheduled_start_at': string|null, 'service_details'?: mixed, 'shipment_details'?: mixed, 'shipments'?: list<mixed>, 'status': string, 'supported_actions'?: list<string>, 'terminal_at'?: string, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'active_hold'?: mixed, 'charges'?: list<mixed>, 'completed_at'?: string, 'created_at': string, 'customer_id'?: string, 'delivery_choice_group_id'?: string|null, 'delivery_execution_leg_id'?: string|null, 'delivery_method_id'?: string|null, 'delivery_selection_id'?: string|null, 'device_id'?: string, 'digital_details'?: mixed, 'dispatched_at'?: string, 'external_reference_id'?: string, 'fulfillment_id': string, 'idempotency_key': string|null, 'line_items': list<mixed>, 'local_delivery_details'?: mixed, 'location_id'?: string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'order_number'?: string, 'outcome'?: mixed, 'packages'?: list<mixed>, 'packed_at'?: string, 'picked_at'?: string, 'pickup_details'?: mixed, 'recipient'?: mixed, 'scheduled_start_at': string|null, 'service_details'?: mixed, 'shipment_details'?: mixed, 'shipments'?: list<mixed>, 'status': string, 'supported_actions'?: list<string>, 'terminal_at'?: string, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentFailedMerchantEventDataObject')); }
     /** Current hold details. Present exactly when status is on_hold. A hold on a fulfillment, with its reason, who placed it, and when it became active.
      * @return ?FulfillmentHold
@@ -53,7 +54,7 @@ final class FulfillmentFailedMerchantEventDataObject extends Model {
      */
     public function getCharges(): ?array { return $this->get('charges'); }
     public function hasCharges(): bool { return $this->has('charges'); }
-    /** When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and service_details.completed_at for service fulfillments. Omitted until a completion time is recorded. Format: date-time.
+    /** When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at for service fulfillments, and the order's paid_at for handovers completed at payment. Omitted until a completion time is recorded. Format: date-time.
      * @return ?string
      */
     public function getCompletedAt(): ?string { return $this->get('completed_at'); }
@@ -113,6 +114,11 @@ final class FulfillmentFailedMerchantEventDataObject extends Model {
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Order lines and quantities allocated to this fulfillment. [] (Value): {@see FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the modifiers applied to it.
      * @return list<FulfillmentLineItem>
      */

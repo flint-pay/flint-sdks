@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string|null $expected_ship_date
  * @property-read int $expected_version
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $gift_card_face_value_money
- * @property-read array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface}|object|null $gift_card_recipient
+ * @property-read array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface, 'sender_name'?: string}|object|null $gift_card_recipient
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read list<OrderLineItemModifierRequestModelInput|array<array-key, mixed>|\stdClass> $modifiers
  * @property-read string $name
@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateLineItemRequestInput extends Model {
-    /** @param array{'description'?: string|null, 'expected_ship_date'?: string|null, 'expected_version'?: int, 'gift_card_face_value_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifiers'?: list<OrderLineItemModifierRequestModelInput|array<array-key, mixed>|\stdClass>, 'name'?: string, 'product_type'?: string, 'quantity'?: int, 'subscription'?: array{'billing_interval': string, 'billing_interval_count': int, 'subscription_offer_id': string}|object|null, 'tax'?: OrderCalculatedLineItemTaxRequestInput|array<array-key, mixed>|\stdClass, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'description'?: string|null, 'expected_ship_date'?: string|null, 'expected_version'?: int, 'gift_card_face_value_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface, 'sender_name'?: string}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifiers'?: list<OrderLineItemModifierRequestModelInput|array<array-key, mixed>|\stdClass>, 'name'?: string, 'product_type'?: string, 'quantity'?: int, 'subscription'?: array{'billing_interval': string, 'billing_interval_count': int, 'subscription_offer_id': string}|object|null, 'tax'?: OrderCalculatedLineItemTaxRequestInput|array<array-key, mixed>|\stdClass, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateLineItemRequestInput')); }
     /** Send null to clear description. minLength: 1.
      * @return string|null
@@ -44,7 +44,7 @@ final class UpdateLineItemRequestInput extends Model {
     public function getGiftCardFaceValueMoney(): mixed { return $this->get('gift_card_face_value_money'); }
     public function hasGiftCardFaceValueMoney(): bool { return $this->has('gift_card_face_value_money'); }
     /** Replaces the recipient of an unfunded gift card purchase. Omission preserves it; null clears it. Send expected_version from the order. Send null to clear gift_card_recipient. Requires expected_version. anyOf[1] (Value): {@see GiftCardPurchaseRecipientPatchRequestInput}. Changes to the recipient of a gift card purchase when updating a line item. Send null for `name` or `message` to clear it. anyOf[2] (Value): null.
-     * @return array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface}|object|null
+     * @return array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface, 'sender_name'?: string}|object|null
      * @throws SdkError When gift_card_recipient is omitted; use hasGiftCardRecipient() or valueOrDefault().
      */
     public function getGiftCardRecipient(): mixed { return $this->get('gift_card_recipient'); }

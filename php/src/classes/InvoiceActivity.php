@@ -11,8 +11,10 @@ namespace Flint;
  * @property-read ?string $collection_block_reason
  * @property-read string $created_at
  * @property-read ?string $credit_note_id
+ * @property-read ?string $credit_note_number
  * @property-read ?MoneyValue $credited_money
  * @property-read string $description
+ * @property-read ?string $dispute_id
  * @property-read ?string $due_at
  * @property-read ?string $error_code
  * @property-read ?MoneyValue $expected_amount_money
@@ -23,6 +25,7 @@ namespace Flint;
  * @property-read ?string $invoice_manual_payment_id
  * @property-read ?string $invoice_payment_attempt_id
  * @property-read ?string $invoice_schedule_entry_id
+ * @property-read ?string $payment_failure_code
  * @property-read ?string $payment_intent_id
  * @property-read ?string $rail
  * @property-read ?string $refund_id
@@ -30,9 +33,9 @@ namespace Flint;
  * @property-read ?MoneyValue $written_off_money
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceActivity extends Model {
-    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: mixed, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string, 'credit_note_id'?: string, 'credited_money'?: mixed, 'description': string, 'due_at'?: string, 'error_code'?: string, 'expected_amount_money'?: mixed, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_id': string, 'invoice_late_fee_id'?: string, 'invoice_manual_payment_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: mixed, ...}|object $values */
+    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: mixed, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string, 'credit_note_id'?: string, 'credit_note_number'?: string, 'credited_money'?: mixed, 'description': string, 'dispute_id'?: string, 'due_at'?: string, 'error_code'?: string, 'expected_amount_money'?: mixed, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_id': string, 'invoice_late_fee_id'?: string, 'invoice_manual_payment_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_failure_code'?: string, 'payment_intent_id'?: string, 'rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceActivity')); }
-    /** What happened. other means an activity this API version doesn't describe yet. New values may be added; treat an unrecognized value like `other`. Value enum: "draft_created", "issued", "sent", "delivery_sent", "reminder_sent", "viewed", "payment_attempt_started", "payment_applied", "manual_payment_recorded", "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated", "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible", "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited", "other".
+    /** What happened. other means an activity this API version doesn't describe yet. New values may be added; treat an unrecognized value like `other`. Value enum: "draft_created", "issued", "sent", "delivery_sent", "reminder_sent", "viewed", "payment_attempt_started", "payment_applied", "manual_payment_recorded", "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated", "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible", "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited", "payment_failed", "payment_returned", "reopened", "credit_note_allocated", "other".
      * @return string
      */
     public function getActivityType(): string { return $this->get('activity_type'); }
@@ -47,7 +50,7 @@ final class InvoiceActivity extends Model {
      */
     public function getActorType(): ?string { return $this->get('actor_type'); }
     public function hasActorType(): bool { return $this->has('actor_type'); }
-    /** Amount of the payment, refund, or late fee. Present on payment_applied, manual_payment_recorded, manual_payment_reversed, refund_succeeded, late_fee_assessed, and late_fee_waived, and on updated when a card refund changed or a credit note refund was requested. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount of the payment, credit allocation, refund, or late fee. Present on payment_applied, payment_failed, payment_returned, credit_note_allocated, manual_payment_recorded, manual_payment_reversed, refund_succeeded, late_fee_assessed, and late_fee_waived, and on updated when a card refund changed or a credit note refund was requested. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getAmountMoney(): ?MoneyValue { return $this->get('amount_money'); }
@@ -72,11 +75,16 @@ final class InvoiceActivity extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Credit note that requested the refund. Present on updated when a credit note refund was requested or changed.
+    /** Credit note that changed the balance. Present on credit_note_allocated and on updated when a credit note refund was requested or changed.
      * @return ?string
      */
     public function getCreditNoteId(): ?string { return $this->get('credit_note_id'); }
     public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
+    /** Number printed on the credit note. Present on credit_note_allocated.
+     * @return ?string
+     */
+    public function getCreditNoteNumber(): ?string { return $this->get('credit_note_number'); }
+    public function hasCreditNoteNumber(): bool { return $this->has('credit_note_number'); }
     /** Total credit applied to the invoice. Present on credited. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
@@ -87,6 +95,11 @@ final class InvoiceActivity extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
+    /** Bank return case. Present on payment_returned.
+     * @return ?string
+     */
+    public function getDisputeId(): ?string { return $this->get('dispute_id'); }
+    public function hasDisputeId(): bool { return $this->has('dispute_id'); }
     /** Due date that triggered the activity. Present on overdue, reminder_due, and late_fee_due. Format: date-time.
      * @return ?string
      */
@@ -127,7 +140,7 @@ final class InvoiceActivity extends Model {
      */
     public function getInvoiceManualPaymentId(): ?string { return $this->get('invoice_manual_payment_id'); }
     public function hasInvoiceManualPaymentId(): bool { return $this->has('invoice_manual_payment_id'); }
-    /** The payment attempt. Present on payment_attempt_started and payment_processing.
+    /** The payment attempt. Present on payment_attempt_started, payment_processing, and payment_failed.
      * @return ?string
      */
     public function getInvoicePaymentAttemptId(): ?string { return $this->get('invoice_payment_attempt_id'); }
@@ -137,12 +150,17 @@ final class InvoiceActivity extends Model {
      */
     public function getInvoiceScheduleEntryId(): ?string { return $this->get('invoice_schedule_entry_id'); }
     public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
-    /** Payment intent whose funds were applied. Present on payment_applied.
+    /** Public payment failure code, when known. Present on payment_failed.
+     * @return ?string
+     */
+    public function getPaymentFailureCode(): ?string { return $this->get('payment_failure_code'); }
+    public function hasPaymentFailureCode(): bool { return $this->has('payment_failure_code'); }
+    /** Payment intent whose funds were applied or returned. Present on payment_applied and payment_returned.
      * @return ?string
      */
     public function getPaymentIntentId(): ?string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Payment rail of the attempt. Present on payment_processing. Value enum: "card", "ach_debit".
+    /** Payment rail. Present on payment_processing, payment_failed, and payment_returned. Value enum: "card", "ach_debit".
      * @return ?string
      */
     public function getRail(): ?string { return $this->get('rail'); }

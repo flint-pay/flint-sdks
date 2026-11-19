@@ -4,15 +4,17 @@ namespace Flint;
 /**
  * @property-read ReturnActor|null $actor
  * @property-read ?string $api_request_log_id
+ * @property-read ?ResourceReference $attributed_resource
  * @property-read string $entry_type
  * @property-read string $event_type
+ * @property-read ?PaymentActivityActor $initiator
  * @property-read string $occurred_at
  * @property-read ?string $request_id
  * @property-read string $resource_timeline_entry_id
  * @property-read string $webhook_event_id
  * Presence-aware response; omitted optional fields return null. */
 final class ResourceTimelineEntriesItemWebhookEvent extends Model {
-    /** @param array{'actor': mixed, 'api_request_log_id'?: string, 'entry_type': string, 'event_type': string, 'occurred_at': string, 'request_id'?: string, 'resource_timeline_entry_id': string, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'actor': mixed, 'api_request_log_id'?: string, 'attributed_resource'?: mixed, 'entry_type': string, 'event_type': string, 'initiator'?: mixed, 'occurred_at': string, 'request_id'?: string, 'resource_timeline_entry_id': string, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineEntriesItemWebhookEvent')); }
     /** Who caused the change, captured with the event. Null when the event predates actor attribution, its payload has been redacted, its resource type does not record an actor, or attribution is unavailable. Uses the same actor model as returns. anyOf[1] (Value): {@see ReturnActor}. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. anyOf[2] (Value): null.
      * @return ReturnActor|null
@@ -24,6 +26,11 @@ final class ResourceTimelineEntriesItemWebhookEvent extends Model {
      */
     public function getApiRequestLogId(): ?string { return $this->get('api_request_log_id'); }
     public function hasApiRequestLogId(): bool { return $this->has('api_request_log_id'); }
+    /** The activation this entry refers to. Present for license key activation entries. A reference to another resource by `resource_type` and `resource_id`.
+     * @return ?ResourceReference
+     */
+    public function getAttributedResource(): ?ResourceReference { return $this->get('attributed_resource'); }
+    public function hasAttributedResource(): bool { return $this->has('attributed_resource'); }
     /** Always `webhook_event` for this kind of entry. Value enum: "webhook_event".
      * @return string
      */
@@ -34,6 +41,11 @@ final class ResourceTimelineEntriesItemWebhookEvent extends Model {
      */
     public function getEventType(): string { return $this->get('event_type'); }
     public function hasEventType(): bool { return $this->has('event_type'); }
+    /** The merchant identity associated with a product event's API request, when available. The label reflects the identity's current name. The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed.
+     * @return ?PaymentActivityActor
+     */
+    public function getInitiator(): ?PaymentActivityActor { return $this->get('initiator'); }
+    public function hasInitiator(): bool { return $this->has('initiator'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
      */

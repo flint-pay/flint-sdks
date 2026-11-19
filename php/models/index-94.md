@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# RefundSucceededMerchantEventData to ReturnUpdatedInstalledMerchantsEventDataPreviousAttributes
+# RefundPartiallySucceededInstalledMerchantsEventData to ReturnUpdatedMerchantEventDataPreviousAttributes
 
+- [RefundPartiallySucceededInstalledMerchantsEventData](RefundPartiallySucceededInstalledMerchantsEventData.md)
+- [RefundPartiallySucceededInstalledMerchantsEventSource](RefundPartiallySucceededInstalledMerchantsEventSource.md)
+- [RefundPartiallySucceededInstalledMerchantsEvent](RefundPartiallySucceededInstalledMerchantsEvent.md)
+- [RefundSucceededMerchantEventDataObject](RefundSucceededMerchantEventDataObject.md)
+- [RefundSucceededMerchantEventDataPreviousAttributes](RefundSucceededMerchantEventDataPreviousAttributes.md)
 - [RefundSucceededMerchantEventData](RefundSucceededMerchantEventData.md)
 - [RefundSucceededMerchantEventRequest](RefundSucceededMerchantEventRequest.md)
 - [RefundSucceededMerchantEvent](RefundSucceededMerchantEvent.md)
@@ -97,9 +102,4 @@
 - [ReturnReopenedInstalledMerchantsEvent](ReturnReopenedInstalledMerchantsEvent.md)
 - [ReturnUpdatedMerchantEventDataObject](ReturnUpdatedMerchantEventDataObject.md)
 - [ReturnUpdatedMerchantEventDataPreviousAttributes](ReturnUpdatedMerchantEventDataPreviousAttributes.md)
-- [ReturnUpdatedMerchantEventData](ReturnUpdatedMerchantEventData.md)
-- [ReturnUpdatedMerchantEventRequest](ReturnUpdatedMerchantEventRequest.md)
-- [ReturnUpdatedMerchantEvent](ReturnUpdatedMerchantEvent.md)
-- [ReturnUpdatedInstalledMerchantsEventDataObject](ReturnUpdatedInstalledMerchantsEventDataObject.md)
-- [ReturnUpdatedInstalledMerchantsEventDataPreviousAttributes](ReturnUpdatedInstalledMerchantsEventDataPreviousAttributes.md)
 

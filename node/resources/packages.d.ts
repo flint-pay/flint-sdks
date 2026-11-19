@@ -1,14 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { Package, PackageItem, PackageItemListResponse, PackageItemResponse, PackageListResponse } from '../declarations/types-48.js';
 import type {
-    Package,
-    PackageItem,
-    PackageItemListResponse,
-    PackageItemResponse,
-    PackageListResponse,
-    PackageResponse
-} from '../declarations/types-48.js';
-import type {
+    PackageResponse,
     PackagesCreateItemParams,
     PackagesCreateParams,
     PackagesDeleteItemParams,
@@ -28,7 +22,7 @@ import type {
     PackagesUpdateParams,
     PackagesVoidParams
 } from '../declarations/types-49.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -46,6 +40,7 @@ export type {
 } from '../runtime.js';
 export type {
     PackagesCreateParams,
+    PackageResponse,
     PackagesCreateItemParams,
     PackagesDeleteItemParams,
     PackagesGetParams,
@@ -64,15 +59,8 @@ export type {
     PackagesUpdateItemParams,
     PackagesVoidParams
 } from '../declarations/types-49.js';
-export type { RequestOptions } from '../declarations/types-61.js';
-export type {
-    Package,
-    PackageResponse,
-    PackageItem,
-    PackageItemResponse,
-    PackageItemListResponse,
-    PackageListResponse
-} from '../declarations/types-48.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { Package, PackageItem, PackageItemResponse, PackageItemListResponse, PackageListResponse } from '../declarations/types-48.js';
 export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
@@ -94,14 +82,10 @@ export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
 export type { ReturnHandoffRequirementLineItem } from '../declarations/types-63.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { MarkPackageDeliveredRequestInput, MarkPackageDeliveryAttemptedRequestInput } from '../declarations/types-40.js';
 export type {
-    MarkPackageDeliveredRequestInput,
-    MarkPackageDeliveryAttemptedRequestInput,
-    MarkPackageExceptionRequestInput
-} from '../declarations/types-40.js';
-export type {
+    MarkPackageExceptionRequestInput,
     MarkPackageInTransitRequestInput,
     MarkPackageOutForDeliveryRequestInput,
     MarkPackagePackedRequestInput,
@@ -136,12 +120,12 @@ export { makeUpdatePackageItemRequest, makeUpdatePackageRequest } from '../decla
 export { makeVoidPackageRequest, makeWeightRequest } from '../declarations/types-94.js';
 export interface PackagesResource {
     /**
- * Creates a package record under a shipment. An outbound package created with status shipped
- * requires at least one item. If items is omitted, the API returns 400 INVALID_REQUEST with detail
- * REQUIRED at items. Change package status after creation through its lifecycle action routes.
- * Read timeline events with `client.fulfillmentEvents.list` filtered by package_id, shipment_id,
- * or fulfillment_id, and notifications with `client.fulfillmentNotifications.list` filtered by
- * fulfillment_event_id or fulfillment_id.
+ * Creates a package record under a shipment. For an outbound package created with status shipped,
+ * send at least one item or set pack_fulfillment_items to true. Change package status after
+ * creation through its lifecycle action routes. Read timeline events with
+ * `client.fulfillmentEvents.list` filtered by package_id, shipment_id, or fulfillment_id, and
+ * notifications with `client.fulfillmentNotifications.list` filtered by fulfillment_event_id or
+ * fulfillment_id.
  *
  * `POST /v1/packages`
  * @see https://developers.withflintpay.com/docs/api/fulfillment#createPackage

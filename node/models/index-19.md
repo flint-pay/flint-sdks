@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# InventoryReservationListResponse to InvoiceIssuedInstalledMerchantsEvent
+# InventoryReservationHoldExpiredMerchantEvent to InvoiceDiscount
 
+- [InventoryReservationHoldExpiredMerchantEvent](InventoryReservationHoldExpiredMerchantEvent.md)
+- [InventoryReservationLine](InventoryReservationLine.md)
+- [InventoryReservationLinePreviousAttributes](InventoryReservationLinePreviousAttributes.md)
 - [InventoryReservationListResponse](InventoryReservationListResponse.md)
 - [InventoryReservationOwner](InventoryReservationOwner.md)
 - [InventoryReservationOwnerMerchant](InventoryReservationOwnerMerchant.md)
@@ -99,7 +102,4 @@
 - [InvoiceDeliveryAttemptSuppressedInstalledMerchantsEvent](InvoiceDeliveryAttemptSuppressedInstalledMerchantsEvent.md)
 - [InvoiceDeliveryAttemptSuppressedMerchantEvent](InvoiceDeliveryAttemptSuppressedMerchantEvent.md)
 - [InvoiceDiscount](InvoiceDiscount.md)
-- [InvoiceDiscountPreviousAttributes](InvoiceDiscountPreviousAttributes.md)
-- [InvoiceDocumentRow](InvoiceDocumentRow.md)
-- [InvoiceIssuedInstalledMerchantsEvent](InvoiceIssuedInstalledMerchantsEvent.md)
 

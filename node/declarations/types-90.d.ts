@@ -1,5 +1,14 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    PlatformFeeCapRequestInput,
+    PlatformFeeMoneyInput,
+    PlatformFeeRequestInput,
+    PoolLicenseKeyConfigurationRequestInput,
+    PriceListPriceRequestInput,
+    ProcessExistingReturnLineItemRequestInput,
+    ProcessExistingReturnRequestInput
+} from './types-56.js';
+import type {
     ProductVariantRequestInput,
     ProductVariantSelectedOptionRequestInput,
     PromotionAmountOffMethodRequestInput,
@@ -20,11 +29,11 @@ import type {
     PromotionRecurrenceRequestInput,
     PromotionRefInputPromotionCodeInput,
     PromotionRefInputPromotionIDInput,
-    PromotionRefRequestInput,
-    PromotionRuleGroupRequestInput,
-    PromotionRuleRequestInput
+    PromotionRefRequestInput
 } from './types-58.js';
 import type {
+    PromotionRuleGroupRequestInput,
+    PromotionRuleRequestInput,
     PromotionRuleValueRequestInput,
     PromotionSchedulePatchInput,
     PromotionScheduleRequestInput,
@@ -43,10 +52,10 @@ import type {
     RefundDestinationsInput,
     RefundLineItemInput,
     RefundLineItemAdjustmentInInput,
-    RefundLineItemAdjustmentRefundInInput,
-    RefundTaxBreakdownRefundInInput
+    RefundLineItemAdjustmentRefundInInput
 } from './types-60.js';
 import type {
+    RefundTaxBreakdownRefundInInput,
     RefundTenderAllocationInputGiftCardRedemptionInput,
     RefundTenderAllocationInputPaymentIntentInput,
     RefundTenderAllocationRequestInput,
@@ -60,21 +69,21 @@ import type {
     RemoveSubscriptionPromotionsRequestInput,
     RenewSubscriptionRequestInput,
     ReopenReturnRequestInput,
-    ReportInventoryTransferLossRequestInput,
-    RepriceDiscountsRequestInput,
-    ResendLicenseKeyRequestInput,
-    ResendWebhookDeliveryRequestInput
+    ReportInventoryTransferLossRequestInput
 } from './types-61.js';
 import type {
-    ResetDemoSessionRequestInput,
-    ResolveCustomerDeletionRequestInput,
-    ResolveOrderInventoryExceptionRequestInput,
-    ResolvePaymentLinkLineItemModifierInputCatalogInput,
-    ResolvePaymentLinkLineItemModifierInputTextInput,
-    ResolvePaymentLinkLineItemModifierRequestInput,
-    ResolvePaymentLinkLineItemModifiersInput,
-    ResolvePaymentLinkRequestInput
+    RepriceDiscountsRequestInput,
+    ResendLicenseKeyRequestInput,
+    ResendWebhookDeliveryRequestInput,
+    ResetDemoSessionRequestInput
 } from './types-62.js';
+export declare function makePlatformFeeCapRequest(value: InputValue<PlatformFeeCapRequestInput>): Model<PlatformFeeCapRequestInput>;
+export declare function makePlatformFeeMoney(value: InputValue<PlatformFeeMoneyInput>): Model<PlatformFeeMoneyInput>;
+export declare function makePlatformFeeRequest(value: InputValue<PlatformFeeRequestInput>): Model<PlatformFeeRequestInput>;
+export declare function makePoolLicenseKeyConfigurationRequest(value: InputValue<PoolLicenseKeyConfigurationRequestInput>): Model<PoolLicenseKeyConfigurationRequestInput>;
+export declare function makePriceListPriceRequest(value: InputValue<PriceListPriceRequestInput>): Model<PriceListPriceRequestInput>;
+export declare function makeProcessExistingReturnLineItemRequest(value: InputValue<ProcessExistingReturnLineItemRequestInput>): Model<ProcessExistingReturnLineItemRequestInput>;
+export declare function makeProcessExistingReturnRequest(value: InputValue<ProcessExistingReturnRequestInput>): Model<ProcessExistingReturnRequestInput>;
 export declare function makeProductVariantRequest(value: InputValue<ProductVariantRequestInput>): Model<ProductVariantRequestInput>;
 export declare function makeProductVariantSelectedOptionRequest(value: InputValue<ProductVariantSelectedOptionRequestInput>): Model<ProductVariantSelectedOptionRequestInput>;
 export declare function makePromotionAmountOffMethodRequest(value: InputValue<PromotionAmountOffMethodRequestInput>): Model<PromotionAmountOffMethodRequestInput>;
@@ -136,10 +145,3 @@ export declare function makeRepriceDiscountsRequest(value: InputValue<RepriceDis
 export declare function makeResendLicenseKeyRequest(value: InputValue<ResendLicenseKeyRequestInput>): Model<ResendLicenseKeyRequestInput>;
 export declare function makeResendWebhookDeliveryRequest(value: InputValue<ResendWebhookDeliveryRequestInput>): Model<ResendWebhookDeliveryRequestInput>;
 export declare function makeResetDemoSessionRequest(value: InputValue<ResetDemoSessionRequestInput>): Model<ResetDemoSessionRequestInput>;
-export declare function makeResolveCustomerDeletionRequest(value: InputValue<ResolveCustomerDeletionRequestInput>): Model<ResolveCustomerDeletionRequestInput>;
-export declare function makeResolveOrderInventoryExceptionRequest(value: InputValue<ResolveOrderInventoryExceptionRequestInput>): Model<ResolveOrderInventoryExceptionRequestInput>;
-export declare function makeResolvePaymentLinkLineItemModifierInputCatalog(value: InputValue<ResolvePaymentLinkLineItemModifierInputCatalogInput>): Model<ResolvePaymentLinkLineItemModifierInputCatalogInput>;
-export declare function makeResolvePaymentLinkLineItemModifierInputText(value: InputValue<ResolvePaymentLinkLineItemModifierInputTextInput>): Model<ResolvePaymentLinkLineItemModifierInputTextInput>;
-export declare function makeResolvePaymentLinkLineItemModifierRequest(value: InputValue<ResolvePaymentLinkLineItemModifierRequestInput>): Model<ResolvePaymentLinkLineItemModifierRequestInput>;
-export declare function makeResolvePaymentLinkLineItemModifiers(value: InputValue<ResolvePaymentLinkLineItemModifiersInput>): Model<ResolvePaymentLinkLineItemModifiersInput>;
-export declare function makeResolvePaymentLinkRequest(value: InputValue<ResolvePaymentLinkRequestInput>): Model<ResolvePaymentLinkRequestInput>;

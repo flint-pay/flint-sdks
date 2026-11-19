@@ -12,7 +12,7 @@ import type {
     DeliveryMerchantDiagnostic,
     DeliveryInputRequirementPreviousAttributes
 } from './types-19.js';
-import type { UpdateDeliveryProfileRequestInput } from './types-75.js';
+import type { UpdateDeliveryProfileRequestInput } from './types-76.js';
 import type { Address } from './types-0.js';
 import type {
     DeliveryBuyerLocationResource,
@@ -1036,14 +1036,15 @@ export type DeliveryQuote = {
     /**
      * Buyer-safe reasons a choice group has no available option. Groups with an available option
      * contribute no reasons. Merchant configuration details are never included. [] enum:
-     * "address_required", "address_incomplete", "outside_delivery_area",
+     * "address_required", "address_incomplete", "address_needs_review", "outside_delivery_area",
      * "no_pickup_location_nearby", "unavailable_for_these_items", "temporarily_unavailable". []
      * (Value): string. Value enum: "address_required", "address_incomplete",
-     * "outside_delivery_area", "no_pickup_location_nearby", "unavailable_for_these_items",
-     * "temporarily_unavailable".
+     * "address_needs_review", "outside_delivery_area", "no_pickup_location_nearby",
+     * "unavailable_for_these_items", "temporarily_unavailable".
      */
     "buyer_reasons": Array<"address_required"
         | "address_incomplete"
+        | "address_needs_review"
         | "outside_delivery_area"
         | "no_pickup_location_nearby"
         | "unavailable_for_these_items"

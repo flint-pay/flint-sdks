@@ -9,7 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `billing_anchor_day` | Optional | integer or null | UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules. `billing_anchor_day`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesbilling_anchor_day). |
-| `billing_hold` | Optional | [SubscriptionBillingHoldPreviousAttributes](../models/SubscriptionBillingHoldPreviousAttributes.md#subscriptionbillingholdpreviousattributes) or null | Configuration issue blocking billing, with the first detection time. Flint retries automatically without starting card dunning. Cleared when billing succeeds, the schedule is replaced, the subscription is paused or canceled, or a card decline starts payment recovery. Included only in merchant responses. `billing_hold`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesbilling_hold). |
+| `billing_hold` | Optional | [SubscriptionBillingHoldPreviousAttributes](../models/SubscriptionBillingHoldPreviousAttributes.md#subscriptionbillingholdpreviousattributes) or null | Configuration issue or automatic retry delaying billing, with the first detection time. Flint retries automatically without starting payment recovery. Cleared when billing succeeds, the schedule is replaced, the subscription is paused or canceled, or a card decline starts payment recovery. Included only in merchant responses. `billing_hold`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesbilling_hold). |
 | `billing_interval` | Optional | string or null | How often the subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from the next renewal that has not been paid; next_billing_at does not move. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. `billing_interval`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesbilling_interval). |
 | `billing_interval_count` | Optional | integer or null | Number of billing_interval units between charges. Changes with billing_interval. `billing_interval_count`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesbilling_interval_count). |
 | `billing_interval_options` | Optional | Array of [SubscriptionIntervalOptionPreviousAttributes](../models/SubscriptionIntervalOptionPreviousAttributes.md#subscriptionintervaloptionpreviousattributes) or null | Billing interval and count pairs the subscription can switch to. For a subscription on a plan, they follow the plan's current billing_interval_options. A subscription that came from an offer keeps the pairs the offer had at signup. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Changing the interval does not change the per-delivery price. `billing_interval_options`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesbilling_interval_options). |
@@ -37,6 +37,7 @@ Response model.
 | `expires_at` | Optional | string or null | Projected end under the current schedule and committed plan changes, including an earlier scheduled cancellation. A date limit preserves already-paid entitlement without requiring a future charge schedule. A reached cycle limit uses the last paid period end, or current_period_end_at when no paid history exists; that fallback includes any skip or pause extension. A cycle limit with cycles left needs a future charge schedule unless a known scheduled cancellation determines the end. Paid deliveries extend the end to the last paid delivery when it is later. An indefinite pause with paid deliveries owed makes the end unknown. Null when the end cannot be determined or the subscription is canceled. `expires_at`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesexpires_at). |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id). |
 | `gift_recipient` | Optional | [SubscriptionGiftRecipientPreviousAttributes](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributes) or null | Who receives the gift, when this is a gift subscription. customer_id stays the purchaser. Flint clears it when the subscription ends and when the purchaser's data is erased. Null when the subscription isn't a gift. `gift_recipient`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesgift_recipient). |
+| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field. `idempotency_key`: [declared alternatives](../models/OrderPaymentAttemptPreviousAttributes.md#orderpaymentattemptpreviousattributesidempotency_key). |
 | `inventory_wait` | Optional | [SubscriptionInventoryWaitPreviousAttributes](../models/SubscriptionInventoryWaitPreviousAttributes.md#subscriptioninventorywaitpreviousattributes) or null | Renewal waiting for stock. Buyers receive only started_at. `inventory_wait`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesinventory_wait). |
 | `is_awaiting_billing_schedule` | Optional | boolean or null | True while an active or trialing subscription on an external billing schedule has no next billing date. `is_awaiting_billing_schedule`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesis_awaiting_billing_schedule). |
 | `last_payment_error` | Optional | [PaymentErrorSummaryPreviousAttributes](../models/PaymentErrorSummaryPreviousAttributes.md#paymenterrorsummarypreviousattributes) or null | Latest renewal payment failure, present only while status is past_due and the latest payment failed. Buyer responses omit merchant remediation and sensitive decline signals. `last_payment_error`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributeslast_payment_error). |
@@ -44,7 +45,7 @@ Response model.
 | `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributesmerchant_id). |
 | `metadata` | Optional | Map of string or null | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. `metadata`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesmetadata). |
 | `missed_billing_at` | Optional | string or null | The billing date whose payment failed, as an RFC3339 timestamp. Present only while status is past_due. `missed_billing_at`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesmissed_billing_at). |
-| `next_billing_at` | Optional | string or null | When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active subscription has a billing date and isn't set to cancel at the end of its period. Absent when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting a date reports is_awaiting_billing_schedule. `next_billing_at`: [declared alternatives](../models/ExpandedSubscriptionSummaryPreviousAttributes.md#expandedsubscriptionsummarypreviousattributesnext_billing_at). |
+| `next_billing_at` | Optional | string or null | When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active subscription has a billing date and isn't set to cancel at the end of its period. Absent when no renewal is scheduled: a subscription in its final billing cycle ends at expires_at, a paused subscription resumes at scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting a date reports is_awaiting_billing_schedule. `next_billing_at`: [declared alternatives](../models/ExpandedSubscriptionSummaryPreviousAttributes.md#expandedsubscriptionsummarypreviousattributesnext_billing_at). |
 | `next_delivery_at` | Optional | string or null | When the next prepaid delivery order is due, shifted by a timed pause. Null when the subscription has an indefinite pause, no delivery is scheduled, or the subscription is canceled. `next_delivery_at`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesnext_delivery_at). |
 | `next_retry_at` | Optional | string or null | Recorded automatic payment retry time. Null when no retry time is available. `next_retry_at`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesnext_retry_at). |
 | `open_renewal_order_id` | Optional | string or null | ID of the paid renewal order whose shipment has not been dispatched. It keeps its committed delivery destination after preference changes and cancellation. Absent when no such renewal order exists. Only renewal orders count; the signup order is not included. `open_renewal_order_id`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesopen_renewal_order_id). |
@@ -96,25 +97,26 @@ anyOf variant 2.
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.billing_hold
 
-Configuration issue blocking billing, with the first detection time. Flint retries automatically without starting card dunning. Cleared when billing succeeds, the schedule is replaced, the subscription is paused or canceled, or a card decline starts payment recovery. Included only in merchant responses.
+Configuration issue or automatic retry delaying billing, with the first detection time. Flint retries automatically without starting payment recovery. Cleared when billing succeeds, the schedule is replaced, the subscription is paused or canceled, or a card decline starts payment recovery. Included only in merchant responses.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `detected_at` | Conditional | string or null | When Flint first detected this billing hold. `detected_at`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesbilling_hold-variant-1detected_at). |
-| `reason` | Conditional | string or null | Why subscription billing cannot proceed. Values: `"configuration"`, `"other"`. `reason`: [declared alternatives](../models/SubscriptionBillingHoldPreviousAttributes.md#subscriptionbillingholdpreviousattributesreason). |
+| `reason` | Conditional | string or null | Why subscription billing cannot proceed. Treat unrecognized values as other. Values: `"configuration"`, `"retrying"`, `"other"`. `reason`: [declared alternatives](../models/SubscriptionBillingHoldPreviousAttributes.md#subscriptionbillingholdpreviousattributesreason). |
+| `retry_at` | Conditional | string or null | When Flint next plans to retry a temporary billing issue, when scheduled. This is not a card decline retry. `retry_at`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesbilling_hold-variant-1retry_at). |
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.billing_hold variant 1
 
 anyOf SubscriptionBillingHoldPreviousAttributes.
 
-- Optional: `detected_at`, `reason`.
+- Optional: `detected_at`, `reason`, `retry_at`.
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.billing_hold variant 2
 
 anyOf variant 2.
 
-- Undeclared: `detected_at`, `reason`.
-- Value shape: null. Configuration issue blocking billing, with the first detection time. Flint retries automatically without starting card dunning. Cleared when billing succeeds, the schedule is replaced, the subscription is paused or canceled, or a card decline starts payment recovery. Included only in merchant responses. 
+- Undeclared: `detected_at`, `reason`, `retry_at`.
+- Value shape: null. Configuration issue or automatic retry delaying billing, with the first detection time. Flint retries automatically without starting payment recovery. Cleared when billing succeeds, the schedule is replaced, the subscription is paused or canceled, or a card decline starts payment recovery. Included only in merchant responses. 
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.billing_hold variant 1.detected_at
 
@@ -133,6 +135,20 @@ anyOf variant 2.
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.billing_hold variant 1.reason
 
 Declared alternatives: [SubscriptionBillingHoldPreviousAttributes.reason](../models/SubscriptionBillingHoldPreviousAttributes.md#subscriptionbillingholdpreviousattributesreason).
+
+### SubscriptionActivatedMerchantEventDataPreviousAttributes.billing_hold variant 1.retry_at
+
+### SubscriptionActivatedMerchantEventDataPreviousAttributes.billing_hold variant 1.retry_at variant 1
+
+anyOf variant 1: When Flint next plans to retry a temporary billing issue, when scheduled. This is not a card decline retry..
+
+- Value shape: string. When Flint next plans to retry a temporary billing issue, when scheduled. This is not a card decline retry. When Flint next plans to retry a temporary billing issue, when scheduled. This is not a card decline retry. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### SubscriptionActivatedMerchantEventDataPreviousAttributes.billing_hold variant 1.retry_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When Flint next plans to retry a temporary billing issue, when scheduled. This is not a card decline retry. 
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.billing_interval
 
@@ -480,8 +496,8 @@ Recorded automatic end condition. Null when no automatic end is set. Cycles coun
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `cycle_count` | Conditional | integer or null | Total charged billing cycles, including imported completed cycles. `cycle_count`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesend_after-variant-1cycle_count). |
-| `type` | Conditional | string or null | How this automatic end is measured. `type`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesend_after-variant-1type), [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesend_after-variant-2type). |
+| `cycle_count` | Conditional | integer or null | Total charged billing cycles, including imported completed cycles. `cycle_count`: [declared alternatives](../models/SubscriptionEndAfterCyclesPreviousAttributes.md#subscriptionendaftercyclespreviousattributescycle_count). |
+| `type` | Conditional | string or null | How this automatic end is measured. `type`: [declared alternatives](../models/SubscriptionEndAfterCyclesPreviousAttributes.md#subscriptionendaftercyclespreviousattributestype), [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesend_after-variant-2type). |
 | `end_date` | Conditional | string or null | Last local calendar date allowed by the automatic end condition, in YYYY-MM-DD format. `end_date`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesend_after-variant-2end_date). |
 | `timezone` | Conditional | string or null | IANA timezone saved with the end date. `timezone`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesend_after-variant-2timezone). |
 
@@ -510,31 +526,11 @@ anyOf variant 1: Recorded automatic end condition. Null when no automatic end is
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.end_after variant 1.cycle_count
 
-### SubscriptionActivatedMerchantEventDataPreviousAttributes.end_after variant 1.cycle_count variant 1
-
-anyOf variant 1: Total charged billing cycles, including imported completed cycles..
-
-- Value shape: integer. Total charged billing cycles, including imported completed cycles. Total charged billing cycles, including imported completed cycles. Format: `int32`. minimum: `1`. maximum: `1200`. 
-
-### SubscriptionActivatedMerchantEventDataPreviousAttributes.end_after variant 1.cycle_count variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Total charged billing cycles, including imported completed cycles. 
+Declared alternatives: [SubscriptionEndAfterCyclesPreviousAttributes.cycle_count](../models/SubscriptionEndAfterCyclesPreviousAttributes.md#subscriptionendaftercyclespreviousattributescycle_count).
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.end_after variant 1.type
 
-### SubscriptionActivatedMerchantEventDataPreviousAttributes.end_after variant 1.type variant 1
-
-anyOf variant 1: How this automatic end is measured..
-
-- Value shape: string. How this automatic end is measured. Values: `"cycles"`.
-
-### SubscriptionActivatedMerchantEventDataPreviousAttributes.end_after variant 1.type variant 2
-
-anyOf variant 2.
-
-- Value shape: null. How this automatic end is measured. 
+Declared alternatives: [SubscriptionEndAfterCyclesPreviousAttributes.type](../models/SubscriptionEndAfterCyclesPreviousAttributes.md#subscriptionendaftercyclespreviousattributestype).
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.end_after variant 2.end_date
 
@@ -606,13 +602,13 @@ Field definitions: [shared fields](CheckoutSubscriptionTermsPreviousAttributes.m
 
 anyOf SubscriptionGiftRecipientPreviousAttributes.
 
-- Optional: `email`, `message`, `name`.
+- Optional: `email`, `message`, `name`, `sender_name`.
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.gift_recipient variant 2
 
 anyOf variant 2.
 
-- Undeclared: `email`, `message`, `name`.
+- Undeclared: `email`, `message`, `name`, `sender_name`.
 - Value shape: null. Who receives the gift, when this is a gift subscription. customer_id stays the purchaser. Flint clears it when the subscription ends and when the purchaser's data is erased. Null when the subscription isn't a gift. 
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.gift_recipient variant 1.email
@@ -626,6 +622,14 @@ Declared alternatives: [SubscriptionGiftRecipientPreviousAttributes.message](../
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.gift_recipient variant 1.name
 
 Declared alternatives: [SubscriptionGiftRecipientPreviousAttributes.name](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributesname).
+
+### SubscriptionActivatedMerchantEventDataPreviousAttributes.gift_recipient variant 1.sender_name
+
+Declared alternatives: [SubscriptionGiftRecipientPreviousAttributes.sender_name](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributessender_name).
+
+### SubscriptionActivatedMerchantEventDataPreviousAttributes.idempotency_key
+
+Declared alternatives: [OrderPaymentAttemptPreviousAttributes.idempotency_key](../models/OrderPaymentAttemptPreviousAttributes.md#orderpaymentattemptpreviousattributesidempotency_key).
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.inventory_wait
 

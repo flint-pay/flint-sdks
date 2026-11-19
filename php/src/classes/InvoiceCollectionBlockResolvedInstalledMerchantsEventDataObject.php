@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read ?string $due_date
  * @property-read string|null $external_reference_id
  * @property-read string|null $footer
+ * @property-read string|null $idempotency_key
  * @property-read string $invoice_id
  * @property-read ?string $invoice_number
  * @property-read bool $is_overdue
@@ -50,7 +51,7 @@ namespace Flint;
  * @property-read ?string $voided_at
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceCollectionBlockResolvedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'cc_emails': list<string>, 'closed_at'?: string, 'collection': mixed, 'collection_block_status': string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_mode'?: string, 'due_date'?: string, 'external_reference_id': string|null, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'paid_at'?: string, 'payment_due': mixed, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'pricing_amounts': mixed, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'reminders_paused': bool, 'reminders_paused_at'?: string, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'settlement_amounts': mixed, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'supported_actions': list<string>, 'timezone'?: string, 'uncollectible_at'?: string, 'updated_at': string, 'version': int, 'viewed_at'?: string, 'voided_at'?: string, ...}|object $values */
+    /** @param array{'cc_emails': list<string>, 'closed_at'?: string, 'collection': mixed, 'collection_block_status': string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_mode'?: string, 'due_date'?: string, 'external_reference_id': string|null, 'footer': string|null, 'idempotency_key': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'paid_at'?: string, 'payment_due': mixed, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'pricing_amounts': mixed, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'reminders_paused': bool, 'reminders_paused_at'?: string, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'settlement_amounts': mixed, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'supported_actions': list<string>, 'timezone'?: string, 'uncollectible_at'?: string, 'updated_at': string, 'version': int, 'viewed_at'?: string, 'voided_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceCollectionBlockResolvedInstalledMerchantsEventDataObject')); }
     /** Additional recipients copied on the invoice email and every reminder. [] (Value): string.
      * @return list<string>
@@ -107,6 +108,11 @@ final class InvoiceCollectionBlockResolvedInstalledMerchantsEventDataObject exte
      */
     public function getFooter(): string|null { return $this->get('footer'); }
     public function hasFooter(): bool { return $this->has('footer'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Flint invoice ID.
      * @return string
      */

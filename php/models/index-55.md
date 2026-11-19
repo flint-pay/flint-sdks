@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# ReturnPolicyRevisionScopeAll to CreateReturnPreviewResponseDataResolutionResolutionAdjustmentsItemAppliedAmountMoney
+# ReturnRestockingFeePolicy to CreateReturnPreviewResponseDataResolutionEligibilitySelectionLineItemsLineItemsItem
 
+- [ReturnRestockingFeePolicy](ReturnRestockingFeePolicy.md)
+- [ReturnShippingPolicy](ReturnShippingPolicy.md)
+- [ReturnWindow](ReturnWindow.md)
 - [ReturnPolicyRevisionScopeAll](ReturnPolicyRevisionScopeAll.md)
 - [ReturnPolicyRevision](ReturnPolicyRevision.md)
 - [ReturnPolicy](ReturnPolicy.md)
@@ -99,7 +102,4 @@
 - [CreateReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilledLineItemsItem](CreateReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilledLineItemsItem.md)
 - [CreateReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilled](CreateReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilled.md)
 - [CreateReturnPreviewResponseDataResolutionEligibilitySelectionLineItemsLineItemsItem](CreateReturnPreviewResponseDataResolutionEligibilitySelectionLineItemsLineItemsItem.md)
-- [CreateReturnPreviewResponseDataResolutionEligibilitySelectionLineItems](CreateReturnPreviewResponseDataResolutionEligibilitySelectionLineItems.md)
-- [CreateReturnPreviewResponseDataResolutionEligibility](CreateReturnPreviewResponseDataResolutionEligibility.md)
-- [CreateReturnPreviewResponseDataResolutionResolutionAdjustmentsItemAppliedAmountMoney](CreateReturnPreviewResponseDataResolutionResolutionAdjustmentsItemAppliedAmountMoney.md)
 

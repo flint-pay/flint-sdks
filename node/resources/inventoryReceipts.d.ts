@@ -10,7 +10,7 @@ import type {
     InventoryReceiptsGetParams,
     InventoryReceiptsListParams
 } from '../declarations/types-32.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -41,20 +41,19 @@ export type {
     InventoryReceiptLine
 } from '../declarations/types-32.js';
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateInventoryReceiptRequestInput } from '../declarations/types-10.js';
-export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '../declarations/types-33.js';
+export type { InventorySourceSystemRequestInput } from '../declarations/types-34.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { MetadataMap } from '../declarations/types-43.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { InventorySourceSystem } from '../declarations/types-33.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateInventoryReceiptRequest } from '../declarations/types-82.js';
-export { makeInventoryReceiptLineRequest } from '../declarations/types-86.js';
-export { makeInventorySourceSystemRequest } from '../declarations/types-87.js';
+export { makeInventoryReceiptLineRequest, makeInventorySourceSystemRequest } from '../declarations/types-87.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export interface InventoryReceiptsResource {
     /**

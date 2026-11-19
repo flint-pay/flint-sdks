@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $activity_type
+ * @property-read PaymentActivityActorInput|array<array-key, mixed>|\stdClass $actor
  * @property-read SignedMoneyInput|array<array-key, mixed>|\stdClass $balance_delta_money
  * @property-read string $checkout_session_id
  * @property-read string|\DateTimeInterface $created_at
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read SignedMoneyInput|array<array-key, mixed>|\stdClass $running_balance_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderActivityInput extends Model {
-    /** @param array{'activity_type'?: string, 'balance_delta_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'checkout_session_id'?: string, 'created_at': string|\DateTimeInterface, 'description': string, 'dispute_id'?: string, 'fulfillment_id'?: string, 'order_activity_id': string, 'order_charge_id'?: string, 'order_discount_id'?: string, 'order_id': string, 'order_line_item_id'?: string, 'order_tip_id'?: string, 'payment_intent_id'?: string, 'payment_review_id'?: string, 'refund_id'?: string, 'running_balance_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'activity_type'?: string, 'actor'?: PaymentActivityActorInput|array<array-key, mixed>|\stdClass, 'balance_delta_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'checkout_session_id'?: string, 'created_at': string|\DateTimeInterface, 'description': string, 'dispute_id'?: string, 'fulfillment_id'?: string, 'order_activity_id': string, 'order_charge_id'?: string, 'order_discount_id'?: string, 'order_id': string, 'order_line_item_id'?: string, 'order_tip_id'?: string, 'payment_intent_id'?: string, 'payment_review_id'?: string, 'refund_id'?: string, 'running_balance_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderActivityInput')); }
     /** The action recorded on the order. Omitted when the activity type cannot be identified. Clients must accept values added in future releases. Value enum: "created", "dispute_opened", "dispute_closed", "line_item_added", "line_item_updated", "line_item_removed", "discount_applied", "discount_removed", "tax_updated", "requested_tip_added", "requested_tip_updated", "requested_tip_removed", "charge_added", "charge_updated", "charge_removed", "charge_fulfillment_updated", "order_edited", "payment_review_opened", "payment_review_closed", "order_updated", "adjustment", "closed", "payment", "payment_failed", "refund", "refund_failed", "checkout_session_created", "checkout_session_expired", "checkout_session_invalidated", "fulfillment_created", "fulfillment_updated", "fulfillment_state_changed".
      * @return string
@@ -29,6 +30,12 @@ final class OrderActivityInput extends Model {
      */
     public function getActivityType(): string { return $this->get('activity_type'); }
     public function hasActivityType(): bool { return $this->has('activity_type'); }
+    /** The merchant identity that initiated the refund, when available. Buyer activity lists omit it. The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed.
+     * @return PaymentActivityActorInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When actor is omitted; use hasActor() or valueOrDefault().
+     */
+    public function getActor(): mixed { return $this->get('actor'); }
+    public function hasActor(): bool { return $this->has('actor'); }
     /** Signed change this row made to the order balance: running_balance_money minus the balance before the row. Rows that do not change the balance, such as payment_failed, refund_failed, and most refund rows, have amount 0. A payment or refund amount is on the referenced resource. Do not sum activity deltas to compute the order balance. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return SignedMoneyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When balance_delta_money is omitted; use hasBalanceDeltaMoney() or valueOrDefault().

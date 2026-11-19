@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# BuyerSubscriptionPaymentRetryResponse to BuyerReturnResolutionResponse
+# MerchantAccountSessionResponse to MerchantBillingInvoiceResponse
 
+- [MerchantAccountSessionResponse](MerchantAccountSessionResponse.md)
+- [BuyerReturnPreviewResponse](BuyerReturnPreviewResponse.md)
 - [BuyerSubscriptionPaymentRetryResponse](BuyerSubscriptionPaymentRetryResponse.md)
 - [BuyerSubscriptionPreviewResponse](BuyerSubscriptionPreviewResponse.md)
 - [ModifierGroupResponse](ModifierGroupResponse.md)
@@ -100,6 +102,4 @@
 - [MerchantResponse](MerchantResponse.md)
 - [MerchantBillingBalanceResponse](MerchantBillingBalanceResponse.md)
 - [MerchantBillingInvoiceResponse](MerchantBillingInvoiceResponse.md)
-- [BuyerRefundResponse](BuyerRefundResponse.md)
-- [BuyerReturnResolutionResponse](BuyerReturnResolutionResponse.md)
 

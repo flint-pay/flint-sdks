@@ -1,1 +1,1 @@
-{"shared":"SubscriptionBillingHold","phpRepresentation":{"kind":"record","fields":{"detected_at":{"kind":"value","type":"string"},"reason":{"kind":"value","type":"string"}}},"dependencies":["SubscriptionBillingHold"]}
+{"shared":"SubscriptionBillingHold","phpRepresentation":{"kind":"record","fields":{"detected_at":{"kind":"value","type":"string"},"reason":{"kind":"value","type":"string"},"retry_at":{"kind":"value","type":"string"}}},"dependencies":["SubscriptionBillingHold"]}

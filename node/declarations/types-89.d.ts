@@ -1,12 +1,19 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    OrderPaymentSourceSelectionInput,
+    OrderTaxCalculationInputAutomaticInput,
+    OrderTaxCalculationInputExternalInput,
+    OrderTaxCalculationRequestInput,
+    OrderTaxComponentRequestInput,
+    OrderTaxExemptionInputCustomerInput,
+    OrderTaxExemptionInputNoneInput,
     OrderTaxExemptionInputOrderInput,
     OrderTaxExemptionRequestInput,
     OrderTaxJurisdictionRequestInput,
-    OrderTaxLocationFullAddressRequestInput,
-    OrderTaxLocationInputFullAddressInput
+    OrderTaxLocationFullAddressRequestInput
 } from './types-47.js';
 import type {
+    OrderTaxLocationInputFullAddressInput,
     OrderTaxLocationInputPostalCodeInput,
     OrderTaxLocationPostalAddressRequestInput,
     OrderTaxLocationRequestInput,
@@ -52,10 +59,10 @@ import type {
     PaymentLinkLineItemPatchInputVariantInput,
     PaymentLinkLineItemPatchRequestInput,
     PaymentLinkLineItemRequestInput,
-    PaymentLinkPaymentConfigInput,
-    PaymentLinkPaymentPatchRequestInput
+    PaymentLinkPaymentConfigInput
 } from './types-52.js';
 import type {
+    PaymentLinkPaymentPatchRequestInput,
     PaymentLinkRedirectsPatchRequestInput,
     PaymentLinkResolvePrefillRequestInput,
     PaymentLinkThemeConfigInput,
@@ -70,14 +77,13 @@ import type {
     PaymentSourceCredentialStripePaymentMethodInput,
     PaymentSplitRequestInput
 } from './types-54.js';
-import type { PlatformFeeCapRequestInput, PlatformFeeMoneyInput } from './types-55.js';
-import type {
-    PlatformFeeRequestInput,
-    PoolLicenseKeyConfigurationRequestInput,
-    PriceListPriceRequestInput,
-    ProcessExistingReturnLineItemRequestInput,
-    ProcessExistingReturnRequestInput
-} from './types-56.js';
+export declare function makeOrderPaymentSourceSelection(value: InputValue<OrderPaymentSourceSelectionInput>): Model<OrderPaymentSourceSelectionInput>;
+export declare function makeOrderTaxCalculationInputAutomatic(value: InputValue<OrderTaxCalculationInputAutomaticInput>): Model<OrderTaxCalculationInputAutomaticInput>;
+export declare function makeOrderTaxCalculationInputExternal(value: InputValue<OrderTaxCalculationInputExternalInput>): Model<OrderTaxCalculationInputExternalInput>;
+export declare function makeOrderTaxCalculationRequest(value: InputValue<OrderTaxCalculationRequestInput>): Model<OrderTaxCalculationRequestInput>;
+export declare function makeOrderTaxComponentRequest(value: InputValue<OrderTaxComponentRequestInput>): Model<OrderTaxComponentRequestInput>;
+export declare function makeOrderTaxExemptionInputCustomer(value: InputValue<OrderTaxExemptionInputCustomerInput>): Model<OrderTaxExemptionInputCustomerInput>;
+export declare function makeOrderTaxExemptionInputNone(value: InputValue<OrderTaxExemptionInputNoneInput>): Model<OrderTaxExemptionInputNoneInput>;
 export declare function makeOrderTaxExemptionInputOrder(value: InputValue<OrderTaxExemptionInputOrderInput>): Model<OrderTaxExemptionInputOrderInput>;
 export declare function makeOrderTaxExemptionRequest(value: InputValue<OrderTaxExemptionRequestInput>): Model<OrderTaxExemptionRequestInput>;
 export declare function makeOrderTaxJurisdictionRequest(value: InputValue<OrderTaxJurisdictionRequestInput>): Model<OrderTaxJurisdictionRequestInput>;
@@ -138,10 +144,3 @@ export declare function makePaymentSourceCredentialReader(value: InputValue<Paym
 export declare function makePaymentSourceCredentialStripeConfirmationToken(value: InputValue<PaymentSourceCredentialStripeConfirmationTokenInput>): Model<PaymentSourceCredentialStripeConfirmationTokenInput>;
 export declare function makePaymentSourceCredentialStripePaymentMethod(value: InputValue<PaymentSourceCredentialStripePaymentMethodInput>): Model<PaymentSourceCredentialStripePaymentMethodInput>;
 export declare function makePaymentSplitRequest(value: InputValue<PaymentSplitRequestInput>): Model<PaymentSplitRequestInput>;
-export declare function makePlatformFeeCapRequest(value: InputValue<PlatformFeeCapRequestInput>): Model<PlatformFeeCapRequestInput>;
-export declare function makePlatformFeeMoney(value: InputValue<PlatformFeeMoneyInput>): Model<PlatformFeeMoneyInput>;
-export declare function makePlatformFeeRequest(value: InputValue<PlatformFeeRequestInput>): Model<PlatformFeeRequestInput>;
-export declare function makePoolLicenseKeyConfigurationRequest(value: InputValue<PoolLicenseKeyConfigurationRequestInput>): Model<PoolLicenseKeyConfigurationRequestInput>;
-export declare function makePriceListPriceRequest(value: InputValue<PriceListPriceRequestInput>): Model<PriceListPriceRequestInput>;
-export declare function makeProcessExistingReturnLineItemRequest(value: InputValue<ProcessExistingReturnLineItemRequestInput>): Model<ProcessExistingReturnLineItemRequestInput>;
-export declare function makeProcessExistingReturnRequest(value: InputValue<ProcessExistingReturnRequestInput>): Model<ProcessExistingReturnRequestInput>;

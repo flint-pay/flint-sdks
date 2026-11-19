@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# DisputeCreatedInstalledMerchantsEventSource to FulfillmentCanceledMerchantEventData
+# DisputeCreatedMerchantEventData to FulfillmentRecipientPreviousAttributes
 
+- [DisputeCreatedMerchantEventData](DisputeCreatedMerchantEventData.md)
+- [DisputeCreatedMerchantEventRequest](DisputeCreatedMerchantEventRequest.md)
+- [DisputeCreatedMerchantEvent](DisputeCreatedMerchantEvent.md)
+- [DisputeCreatedInstalledMerchantsEventDataObject](DisputeCreatedInstalledMerchantsEventDataObject.md)
+- [DisputeCreatedInstalledMerchantsEventData](DisputeCreatedInstalledMerchantsEventData.md)
 - [DisputeCreatedInstalledMerchantsEventSource](DisputeCreatedInstalledMerchantsEventSource.md)
 - [DisputeCreatedInstalledMerchantsEvent](DisputeCreatedInstalledMerchantsEvent.md)
 - [DisputeInquiryClosedMerchantEventDataObject](DisputeInquiryClosedMerchantEventDataObject.md)
@@ -97,9 +102,4 @@
 - [ExpandedPackageSummaryPreviousAttributes](ExpandedPackageSummaryPreviousAttributes.md)
 - [PickupFulfillmentDetailsPreviousAttributes](PickupFulfillmentDetailsPreviousAttributes.md)
 - [FulfillmentRecipientPreviousAttributes](FulfillmentRecipientPreviousAttributes.md)
-- [ServiceFulfillmentDetailsPreviousAttributes](ServiceFulfillmentDetailsPreviousAttributes.md)
-- [ShipmentFulfillmentDetailsPreviousAttributes](ShipmentFulfillmentDetailsPreviousAttributes.md)
-- [ExpandedShipmentSummaryPreviousAttributes](ExpandedShipmentSummaryPreviousAttributes.md)
-- [FulfillmentCanceledMerchantEventDataPreviousAttributes](FulfillmentCanceledMerchantEventDataPreviousAttributes.md)
-- [FulfillmentCanceledMerchantEventData](FulfillmentCanceledMerchantEventData.md)
 

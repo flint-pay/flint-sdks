@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class PackagesResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Creates a package record under a shipment. An outbound package created with status shipped requires at least one item. If items is omitted, the API returns 400 INVALID_REQUEST with detail REQUIRED at items. Change package status after creation through its lifecycle action routes. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
+    /** Creates a package record under a shipment. For an outbound package created with status shipped, send at least one item or set pack_fulfillment_items to true. Change package status after creation through its lifecycle action routes. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
      * @param PackagesCreateParams|array<array-key, mixed>|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return Package
      */

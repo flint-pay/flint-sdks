@@ -1,21 +1,30 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    InventoryCountObservationRequestInput,
+    InventoryItemCreateRequestInput,
+    InventoryOriginPolicyRequestInput,
+    InventoryProvenanceRequestInput,
+    InventoryReceiptLineRequestInput
+} from './types-32.js';
+import type {
+    InventoryReservationOwnerRequestInput,
+    InventoryRoutingDemandInput,
     InventoryRoutingSourceInputFixedLocationInput,
     InventoryRoutingSourceInputPolicyInput,
     InventoryRoutingSourceInputPolicyRevisionInput,
     InventoryRoutingSourceRequestInput,
-    InventorySettingsRequestInput,
-    InventorySourceSystemRequestInput
+    InventorySettingsRequestInput
 } from './types-33.js';
 import type {
+    InventorySourceSystemRequestInput,
     InventoryTransferLineRequestInput,
     InvoiceAutopayRetryPolicyInput,
     InvoiceCollectionInputAutomaticInput,
     InvoiceCollectionInputBuyerInitiatedInput,
-    InvoiceCollectionInputExternalInput,
-    InvoiceCollectionInputMerchantDefaultInput
+    InvoiceCollectionInputExternalInput
 } from './types-34.js';
 import type {
+    InvoiceCollectionInputMerchantDefaultInput,
     InvoiceCollectionRequestInput,
     InvoiceLateFeePolicyFixedRequestInput,
     InvoiceLateFeePolicyPercentageRequestInput,
@@ -30,10 +39,10 @@ import type {
     InvoicePaymentDueRequestInput,
     InvoicePaymentOptionLimitRequestInput,
     InvoicePaymentPolicyRequestInput,
-    InvoicePaymentTermCalculationDayOfMonthRequestInput,
-    InvoicePaymentTermCalculationDayOfNextMonthRequestInput
+    InvoicePaymentTermCalculationDayOfMonthRequestInput
 } from './types-36.js';
 import type {
+    InvoicePaymentTermCalculationDayOfNextMonthRequestInput,
     InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput,
     InvoicePaymentTermCalculationNetDaysRequestInput,
     InvoicePaymentTermCalculationOnReceiptRequestInput,
@@ -68,15 +77,15 @@ import type {
     LocationCoordinateRequestInput,
     LookupEmailPreferencesRequestInput,
     LookupGiftCardRequestInput,
-    LookupLicenseKeyRequestInput,
-    LookupTicketRequestInput,
-    ManualDiscountRequestInput,
-    MarkFulfillmentNoShowRequestInput,
-    MarkFulfillmentPackedRequestInput,
-    MarkFulfillmentPickedRequestInput,
-    MarkFulfillmentPreparingRequestInput,
-    MarkFulfillmentReadyRequestInput
+    LookupLicenseKeyRequestInput
 } from './types-40.js';
+export declare function makeInventoryCountObservationRequest(value: InputValue<InventoryCountObservationRequestInput>): Model<InventoryCountObservationRequestInput>;
+export declare function makeInventoryItemCreateRequest(value: InputValue<InventoryItemCreateRequestInput>): Model<InventoryItemCreateRequestInput>;
+export declare function makeInventoryOriginPolicyRequest(value: InputValue<InventoryOriginPolicyRequestInput>): Model<InventoryOriginPolicyRequestInput>;
+export declare function makeInventoryProvenanceRequest(value: InputValue<InventoryProvenanceRequestInput>): Model<InventoryProvenanceRequestInput>;
+export declare function makeInventoryReceiptLineRequest(value: InputValue<InventoryReceiptLineRequestInput>): Model<InventoryReceiptLineRequestInput>;
+export declare function makeInventoryReservationOwnerRequest(value: InputValue<InventoryReservationOwnerRequestInput>): Model<InventoryReservationOwnerRequestInput>;
+export declare function makeInventoryRoutingDemand(value: InputValue<InventoryRoutingDemandInput>): Model<InventoryRoutingDemandInput>;
 export declare function makeInventoryRoutingSourceInputFixedLocation(value: InputValue<InventoryRoutingSourceInputFixedLocationInput>): Model<InventoryRoutingSourceInputFixedLocationInput>;
 export declare function makeInventoryRoutingSourceInputPolicy(value: InputValue<InventoryRoutingSourceInputPolicyInput>): Model<InventoryRoutingSourceInputPolicyInput>;
 export declare function makeInventoryRoutingSourceInputPolicyRevision(value: InputValue<InventoryRoutingSourceInputPolicyRevisionInput>): Model<InventoryRoutingSourceInputPolicyRevisionInput>;
@@ -135,10 +144,3 @@ export declare function makeLocationCoordinateRequest(value: InputValue<Location
 export declare function makeLookupEmailPreferencesRequest(value: InputValue<LookupEmailPreferencesRequestInput>): Model<LookupEmailPreferencesRequestInput>;
 export declare function makeLookupGiftCardRequest(value: InputValue<LookupGiftCardRequestInput>): Model<LookupGiftCardRequestInput>;
 export declare function makeLookupLicenseKeyRequest(value: InputValue<LookupLicenseKeyRequestInput>): Model<LookupLicenseKeyRequestInput>;
-export declare function makeLookupTicketRequest(value: InputValue<LookupTicketRequestInput>): Model<LookupTicketRequestInput>;
-export declare function makeManualDiscountRequest(value: InputValue<ManualDiscountRequestInput>): Model<ManualDiscountRequestInput>;
-export declare function makeMarkFulfillmentNoShowRequest(value: InputValue<MarkFulfillmentNoShowRequestInput>): Model<MarkFulfillmentNoShowRequestInput>;
-export declare function makeMarkFulfillmentPackedRequest(value: InputValue<MarkFulfillmentPackedRequestInput>): Model<MarkFulfillmentPackedRequestInput>;
-export declare function makeMarkFulfillmentPickedRequest(value: InputValue<MarkFulfillmentPickedRequestInput>): Model<MarkFulfillmentPickedRequestInput>;
-export declare function makeMarkFulfillmentPreparingRequest(value: InputValue<MarkFulfillmentPreparingRequestInput>): Model<MarkFulfillmentPreparingRequestInput>;
-export declare function makeMarkFulfillmentReadyRequest(value: InputValue<MarkFulfillmentReadyRequestInput>): Model<MarkFulfillmentReadyRequestInput>;

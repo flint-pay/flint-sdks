@@ -66,6 +66,10 @@ Declared alternatives: [GiftCardUpdatedMerchantEventDataPreviousAttributes.exter
 
 Declared alternatives: [GiftCardUpdatedMerchantEventDataPreviousAttributes.gift_card_id](../models/GiftCardUpdatedMerchantEventDataPreviousAttributes.md#giftcardupdatedmerchanteventdatapreviousattributesgift_card_id).
 
+### GiftCardUpdatedMerchantEvent.data fields 1.previous_attributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.idempotency_key](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributesidempotency_key).
+
 ### GiftCardUpdatedMerchantEvent.data fields 1.previous_attributes.last_loaded_at
 
 Declared alternatives: [GiftCardUpdatedMerchantEventDataPreviousAttributes.last_loaded_at](../models/GiftCardUpdatedMerchantEventDataPreviousAttributes.md#giftcardupdatedmerchanteventdatapreviousattributeslast_loaded_at).

@@ -11,6 +11,7 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `account_id` | Optional | string or null | Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. The Terminal SDK ignores this field. `account_id`: [declared alternatives](../models/StripePaymentClientActionPreviousAttributes.md#stripepaymentclientactionpreviousattributesaccount_id). |
+| `on_behalf_of` | Optional | string or null | The collecting merchant's Stripe account for a payment on Flint's Stripe account. It identifies the settlement account, not the Stripe.js account. Do not pass it as stripeAccount or to handleNextAction. `on_behalf_of`: [declared alternatives](../models/StripePaymentClientActionPreviousAttributes.md#stripepaymentclientactionpreviousattributeson_behalf_of). |
 | `payment_intent` | Optional | [StripeSetupIntentClientActionPreviousAttributes](../models/StripeSetupIntentClientActionPreviousAttributes.md#stripesetupintentclientactionpreviousattributes) or null | PaymentIntent authority for an order payment authentication action. `payment_intent`: [declared alternatives](../models/StripePaymentClientActionPreviousAttributes.md#stripepaymentclientactionpreviousattributespayment_intent). |
 | `publishable_key` | Optional | string or null | Stripe publishable key for the active Flint payment mode; use this with account_id when loading Stripe.js. The Terminal SDK ignores this field. `publishable_key`: [declared alternatives](../models/StripePaymentClientActionPreviousAttributes.md#stripepaymentclientactionpreviousattributespublishable_key). |
 | `setup_intent` | Optional | [StripeSetupIntentClientActionPreviousAttributes](../models/StripeSetupIntentClientActionPreviousAttributes.md#stripesetupintentclientactionpreviousattributes) or null | SetupIntent authority for a saved-payment-method authentication action. `setup_intent`: [declared alternatives](../models/StripePaymentClientActionPreviousAttributes.md#stripepaymentclientactionpreviousattributessetup_intent). |
@@ -29,6 +30,20 @@ anyOf variant 1: Stripe connected account ID to pass as stripeAccount when initi
 anyOf variant 2.
 
 - Value shape: null. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. The Terminal SDK ignores this field. 
+
+### StripePaymentClientActionPreviousAttributes.on_behalf_of
+
+### StripePaymentClientActionPreviousAttributes.on_behalf_of variant 1
+
+anyOf variant 1: The collecting merchant's Stripe account for a payment on Flint's Stripe account. It identifies the settlement account, not the Stripe.js account. Do not pass it as stripeAccount or to handleNextAction..
+
+- Value shape: string. The collecting merchant's Stripe account for a payment on Flint's Stripe account. It identifies the settlement account, not the Stripe.js account. Do not pass it as stripeAccount or to handleNextAction. 
+
+### StripePaymentClientActionPreviousAttributes.on_behalf_of variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The collecting merchant's Stripe account for a payment on Flint's Stripe account. It identifies the settlement account, not the Stripe.js account. Do not pass it as stripeAccount or to handleNextAction. 
 
 ### StripePaymentClientActionPreviousAttributes.payment_intent
 

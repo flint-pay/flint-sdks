@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# ReturnUpdatedInstalledMerchantsEventData to ShipmentCreatedInstalledMerchantsEventDataObject
+# ReturnUpdatedMerchantEventData to ReturnResolutionUpdatedInstalledMerchantsEvent
 
+- [ReturnUpdatedMerchantEventData](ReturnUpdatedMerchantEventData.md)
+- [ReturnUpdatedMerchantEventRequest](ReturnUpdatedMerchantEventRequest.md)
+- [ReturnUpdatedMerchantEvent](ReturnUpdatedMerchantEvent.md)
+- [ReturnUpdatedInstalledMerchantsEventDataObject](ReturnUpdatedInstalledMerchantsEventDataObject.md)
+- [ReturnUpdatedInstalledMerchantsEventDataPreviousAttributes](ReturnUpdatedInstalledMerchantsEventDataPreviousAttributes.md)
 - [ReturnUpdatedInstalledMerchantsEventData](ReturnUpdatedInstalledMerchantsEventData.md)
 - [ReturnUpdatedInstalledMerchantsEventSource](ReturnUpdatedInstalledMerchantsEventSource.md)
 - [ReturnUpdatedInstalledMerchantsEvent](ReturnUpdatedInstalledMerchantsEvent.md)
@@ -97,9 +102,4 @@
 - [ReturnResolutionUpdatedInstalledMerchantsEventData](ReturnResolutionUpdatedInstalledMerchantsEventData.md)
 - [ReturnResolutionUpdatedInstalledMerchantsEventSource](ReturnResolutionUpdatedInstalledMerchantsEventSource.md)
 - [ReturnResolutionUpdatedInstalledMerchantsEvent](ReturnResolutionUpdatedInstalledMerchantsEvent.md)
-- [ShipmentCreatedMerchantEventDataObject](ShipmentCreatedMerchantEventDataObject.md)
-- [ShipmentCreatedMerchantEventData](ShipmentCreatedMerchantEventData.md)
-- [ShipmentCreatedMerchantEventRequest](ShipmentCreatedMerchantEventRequest.md)
-- [ShipmentCreatedMerchantEvent](ShipmentCreatedMerchantEvent.md)
-- [ShipmentCreatedInstalledMerchantsEventDataObject](ShipmentCreatedInstalledMerchantsEventDataObject.md)
 

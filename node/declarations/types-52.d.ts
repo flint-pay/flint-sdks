@@ -1,4 +1,6 @@
 import type { InputValue } from '../runtime.js';
+import type { CreatePaymentIntentRequestInput } from './types-12.js';
+import type { PaymentIntentWithCollectionResponse } from './types-51.js';
 import type { SendPaymentIntentReceiptRequestInput, SelectedProductOption } from './types-67.js';
 import type { UpdatePaymentIntentRequestInput } from './types-76.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
@@ -19,17 +21,173 @@ import type { PaymentLinkSalesSummary } from './types-53.js';
 import type { ThemeConfig } from './types-74.js';
 import type { PublicResolvedModifierGroup, QuantityPriceBreak } from './types-59.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { OrderLineItemTax, OrderLineItemTaxPreviousAttributes, OrderLineItemTaxRequestInput } from './types-46.js';
+import type { OrderLineItemTax } from './types-46.js';
 import type { ProductPriceRange, ProductPriceRangePreviousAttributes } from './types-57.js';
+import type { OrderLineItemTaxPreviousAttributes, OrderLineItemTaxRequestInput } from './types-47.js';
 import type { ResponseMeta } from './types-62.js';
+export type PaymentIntentsCreateParams = (InputValue<CreatePaymentIntentRequestInput>
+    | {
+    "amount_money"?: never;
+    "capture_method"?: never;
+    "customer_id"?: never;
+    "expected_order_version"?: never;
+    "external_reference_id"?: never;
+    "metadata"?: never;
+    "order_id"?: never;
+    "payment_options"?: never;
+    "payment_return_url"?: never;
+    "payment_source_selection"?: never;
+    "platform_fee"?: never;
+    "receipt_email"?: never;
+    "request_overcapture"?: never;
+    "splits"?: never;
+    "tip_money"?: never;
+    "transaction_purpose"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PaymentIntentsCreateResponse = ({
+    "data"?: {
+        [key: string]: unknown;
+    };
+})
+    & (Exclude<PaymentIntentWithCollectionResponse & object, readonly unknown[]>);
+export type PaymentIntentsGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: customer, invoice, order.
+     * Expansion requires payments.payment_intents.read plus the read scope for each expanded
+     * resource. Limits: at most 10 unique expand paths per request. Checkout session credentials
+     * cannot use expand on this route. [] enum: "customer", "invoice", "order". Value enum:
+     * "customer", "invoice", "order". anyOf[1] (Value): Array of string. [] enum: "customer",
+     * "invoice", "order". anyOf[1][] (Value): string. Value enum: "customer", "invoice", "order".
+     * anyOf[2] (Value): string. Value enum: "customer", "invoice", "order".
+     */
+    "expand"?: InputValue<("customer" | "invoice" | "order") | readonly ("customer" | "invoice" | "order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PaymentIntentsListActivitiesParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Filter by activity type. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "created", "updated", "status_changed", "failed", "canceled", "expired",
+     * "refund_created", "refund_status_changed", "dispute_status_changed", "receipt_sent",
+     * "receipt_queued", "receipt_delivery_failed". Value enum: "created", "updated",
+     * "status_changed", "failed", "canceled", "expired", "refund_created",
+     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
+     * "receipt_delivery_failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "created", "updated", "status_changed", "failed", "canceled", "expired", "refund_created",
+     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
+     * "receipt_delivery_failed". anyOf[1][] (Value): string. Value enum: "created", "updated",
+     * "status_changed", "failed", "canceled", "expired", "refund_created",
+     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
+     * "receipt_delivery_failed". anyOf[2] (Value): string. Value enum: "created", "updated",
+     * "status_changed", "failed", "canceled", "expired", "refund_created",
+     * "refund_status_changed", "dispute_status_changed", "receipt_sent", "receipt_queued",
+     * "receipt_delivery_failed".
+     */
+    "activity_type"?: InputValue<("created"
+        | "updated"
+        | "status_changed"
+        | "failed"
+        | "canceled"
+        | "expired"
+        | "refund_created"
+        | "refund_status_changed"
+        | "dispute_status_changed"
+        | "receipt_sent"
+        | "receipt_queued"
+        | "receipt_delivery_failed")
+        | readonly ("created"
+        | "updated"
+        | "status_changed"
+        | "failed"
+        | "canceled"
+        | "expired"
+        | "refund_created"
+        | "refund_status_changed"
+        | "dispute_status_changed"
+        | "receipt_sent"
+        | "receipt_queued"
+        | "receipt_delivery_failed")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type PaymentIntentsListParams = {
     /**
      * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
      * exact and case-sensitive. Returns only resources created in your caller namespace, plus
      * resources created before caller scoping under the original key. Returns current authorized
      * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
-     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -269,9 +427,9 @@ export type PaymentIntentsListParams = {
         | "other")[]>;
     /**
      * Field to sort by. Defaults to created_at; ties are broken by payment_intent_id. Default:
-     * "created_at". Value enum: "created_at", "updated_at", "amount_money".
+     * "created_at". Value enum: "created_at", "updated_at", "amount_money", "captured_money".
      */
-    "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money">;
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "amount_money" | "captured_money">;
     /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
     "sort_direction"?: InputValue<"asc" | "desc">;
     /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
@@ -282,6 +440,10 @@ export type PaymentIntentsListParams = {
     "updated_after"?: InputValue<string | globalThis.Date>;
     /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "updated_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on captured_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "captured_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on captured_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "captured_before"?: InputValue<string | globalThis.Date>;
     /**
      * Include related objects in the response. Supported expansions: customer, invoice, order.
      * Include the requested related resources using scoped batch reads for this page. Each
@@ -623,6 +785,13 @@ export type PaymentLink = {
      */
     "sales_end_at"?: string;
     /**
+     * RFC3339 timestamp when buyers can first start a checkout from this link. Stored to
+     * nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason
+     * sales_not_started. Must be earlier than the link’s sales end, including the event start when
+     * no explicit end is set. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "sales_start_at"?: string;
+    /**
      * Present only with expand=sales_summary on GET /v1/payment-links or GET
      * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
      * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition
@@ -763,6 +932,7 @@ export type PaymentLinkCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             "promotion_config"?: CheckoutPromotionConfig;
             "redirects"?: CheckoutRedirects;
             "sales_end_at"?: string;
+            "sales_start_at"?: string;
             "sales_summary"?: PaymentLinkSalesSummary;
             "status": "active" | "inactive" | (string & {});
             "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
@@ -811,6 +981,7 @@ export type PaymentLinkCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             "promotion_config"?: CheckoutPromotionConfig;
             "redirects"?: CheckoutRedirects;
             "sales_end_at"?: string;
+            "sales_start_at"?: string;
             "sales_summary"?: PaymentLinkSalesSummary;
             "status": "active" | "inactive" | (string & {});
             "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
@@ -918,35 +1089,39 @@ export type PaymentLinkCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
      * Unset means sales do not end on their own, except that an event link without sales_end_at
      * stops selling at event_config.event_at. A checkout opened before the end can still start
      * payment for up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
-     * expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}.
-     * Available to merchant callers, including dashboard sessions and API keys with
-     * checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales
-     * summary. Paid-order sales totals for a payment link, computed on request. Paid means the
-     * order's collection has completed. Fully and partially refunded orders still count, and
-     * paid_totals reports the amount collected before refunds. Each order counts once even if it
-     * has multiple checkout sessions. object.status (Required): string. Whether the link can start
-     * new checkouts. Value enum: "active", "inactive". object.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
-     * object.subscription_plan_id (Optional): string. ID of the subscription plan the link sells.
-     * Absent for a link that doesn't sell a subscription. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV". object.tax (Optional): {@link CheckoutTaxConfig}. Tax
-     * settings for checkouts started from this link. Whether tax is collected for a checkout
-     * session or payment link. object.theme (Optional): {@link ThemeConfig}. The title and colors
-     * for checkouts started from this link, over your branding settings. Colors and title applied
-     * to a payment link's checkout page. object.tip (Optional): {@link CheckoutTipConfig}. Tip
-     * options for checkouts started from this link. Tip settings for a checkout: whether tips are
-     * enabled, the percent or fixed amount options, the default tip, and custom tips.
-     * object.total_quantity_sold (Required): integer. Whole-number quantity; fractional quantities
-     * are not supported. Format: int32. object.updated_at (Required): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.url (Required): string. URL
-     * buyers open to use the link. object.version (Required): integer. Current version of this
-     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
-     * stale write. Format: int64.
+     * object.sales_start_at (Optional): string. RFC3339 timestamp when buyers can first start a
+     * checkout from this link. Stored to nanosecond precision. Before it, resolve fails with
+     * ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end,
+     * including the event start when no explicit end is set. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.sales_summary (Optional): {@link PaymentLinkSalesSummary}.
+     * Present only with expand=sales_summary on GET /v1/payment-links or GET
+     * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+     * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition
+     * as the merchant sales summary. Paid-order sales totals for a payment link, computed on
+     * request. Paid means the order's collection has completed. Fully and partially refunded
+     * orders still count, and paid_totals reports the amount collected before refunds. Each order
+     * counts once even if it has multiple checkout sessions. object.status (Required): string.
+     * Whether the link can start new checkouts. Value enum: "active", "inactive".
+     * object.subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or null.
+     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
+     * no related subscription plan. object.subscription_plan.anyOf[1] (Value): {@link
+     * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name,
+     * billing interval, currency, and status, returned when the plan is expanded.
+     * object.subscription_plan.anyOf[2] (Value): null. object.subscription_plan_id (Optional):
+     * string. ID of the subscription plan the link sells. Absent for a link that doesn't sell a
+     * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". object.tax (Optional): {@link
+     * CheckoutTaxConfig}. Tax settings for checkouts started from this link. Whether tax is
+     * collected for a checkout session or payment link. object.theme (Optional): {@link
+     * ThemeConfig}. The title and colors for checkouts started from this link, over your branding
+     * settings. Colors and title applied to a payment link's checkout page. object.tip (Optional):
+     * {@link CheckoutTipConfig}. Tip options for checkouts started from this link. Tip settings
+     * for a checkout: whether tips are enabled, the percent or fixed amount options, the default
+     * tip, and custom tips. object.total_quantity_sold (Required): integer. Whole-number quantity;
+     * fractional quantities are not supported. Format: int32. object.updated_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.url
+     * (Required): string. URL buyers open to use the link. object.version (Required): integer.
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
      */
     "data"?: {
         /**
@@ -1023,8 +1198,12 @@ export type PaymentLinkCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
          * on their own, except that an event link without sales_end_at stops selling at
          * event_config.event_at. A checkout opened before the end can still start payment for up
          * to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
-         * expand=sales_summary on GET /v1/payment-links or GET
+         * sales_start_at (Optional): string. RFC3339 timestamp when buyers can first start a
+         * checkout from this link. Stored to nanosecond precision. Before it, resolve fails with
+         * ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales
+         * end, including the event start when no explicit end is set. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". sales_summary (Optional): {@link PaymentLinkSalesSummary}.
+         * Present only with expand=sales_summary on GET /v1/payment-links or GET
          * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
          * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order
          * definition as the merchant sales summary. Paid-order sales totals for a payment link,
@@ -1194,6 +1373,14 @@ export type PaymentLinkCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
             "sales_end_at"?: string;
+            /**
+             * RFC3339 timestamp when buyers can first start a checkout from this link. Stored to
+             * nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason
+             * sales_not_started. Must be earlier than the link’s sales end, including the event
+             * start when no explicit end is set. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "sales_start_at"?: string;
             /**
              * Present only with expand=sales_summary on GET /v1/payment-links or GET
              * /v1/payment-links/{payment_link_id}. Available to merchant callers, including
@@ -1369,35 +1556,39 @@ export type PaymentLinkCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
      * Unset means sales do not end on their own, except that an event link without sales_end_at
      * stops selling at event_config.event_at. A checkout opened before the end can still start
      * payment for up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
-     * expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}.
-     * Available to merchant callers, including dashboard sessions and API keys with
-     * checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales
-     * summary. Paid-order sales totals for a payment link, computed on request. Paid means the
-     * order's collection has completed. Fully and partially refunded orders still count, and
-     * paid_totals reports the amount collected before refunds. Each order counts once even if it
-     * has multiple checkout sessions. object.status (Required): string. Whether the link can start
-     * new checkouts. Value enum: "active", "inactive". object.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
-     * object.subscription_plan_id (Optional): string. ID of the subscription plan the link sells.
-     * Absent for a link that doesn't sell a subscription. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV". object.tax (Optional): {@link CheckoutTaxConfig}. Tax
-     * settings for checkouts started from this link. Whether tax is collected for a checkout
-     * session or payment link. object.theme (Optional): {@link ThemeConfig}. The title and colors
-     * for checkouts started from this link, over your branding settings. Colors and title applied
-     * to a payment link's checkout page. object.tip (Optional): {@link CheckoutTipConfig}. Tip
-     * options for checkouts started from this link. Tip settings for a checkout: whether tips are
-     * enabled, the percent or fixed amount options, the default tip, and custom tips.
-     * object.total_quantity_sold (Required): integer. Whole-number quantity; fractional quantities
-     * are not supported. Format: int32. object.updated_at (Required): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.url (Required): string. URL
-     * buyers open to use the link. object.version (Required): integer. Current version of this
-     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
-     * stale write. Format: int64.
+     * object.sales_start_at (Optional): string. RFC3339 timestamp when buyers can first start a
+     * checkout from this link. Stored to nanosecond precision. Before it, resolve fails with
+     * ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end,
+     * including the event start when no explicit end is set. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.sales_summary (Optional): {@link PaymentLinkSalesSummary}.
+     * Present only with expand=sales_summary on GET /v1/payment-links or GET
+     * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
+     * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition
+     * as the merchant sales summary. Paid-order sales totals for a payment link, computed on
+     * request. Paid means the order's collection has completed. Fully and partially refunded
+     * orders still count, and paid_totals reports the amount collected before refunds. Each order
+     * counts once even if it has multiple checkout sessions. object.status (Required): string.
+     * Whether the link can start new checkouts. Value enum: "active", "inactive".
+     * object.subscription_plan (Optional): {@link ExpandedSubscriptionPlanSummary} or null.
+     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
+     * no related subscription plan. object.subscription_plan.anyOf[1] (Value): {@link
+     * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name,
+     * billing interval, currency, and status, returned when the plan is expanded.
+     * object.subscription_plan.anyOf[2] (Value): null. object.subscription_plan_id (Optional):
+     * string. ID of the subscription plan the link sells. Absent for a link that doesn't sell a
+     * subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". object.tax (Optional): {@link
+     * CheckoutTaxConfig}. Tax settings for checkouts started from this link. Whether tax is
+     * collected for a checkout session or payment link. object.theme (Optional): {@link
+     * ThemeConfig}. The title and colors for checkouts started from this link, over your branding
+     * settings. Colors and title applied to a payment link's checkout page. object.tip (Optional):
+     * {@link CheckoutTipConfig}. Tip options for checkouts started from this link. Tip settings
+     * for a checkout: whether tips are enabled, the percent or fixed amount options, the default
+     * tip, and custom tips. object.total_quantity_sold (Required): integer. Whole-number quantity;
+     * fractional quantities are not supported. Format: int32. object.updated_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.url
+     * (Required): string. URL buyers open to use the link. object.version (Required): integer.
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
      */
     "data"?: {
         /**
@@ -1474,8 +1665,12 @@ export type PaymentLinkCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
          * on their own, except that an event link without sales_end_at stops selling at
          * event_config.event_at. A checkout opened before the end can still start payment for up
          * to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * sales_summary (Optional): {@link PaymentLinkSalesSummary}. Present only with
-         * expand=sales_summary on GET /v1/payment-links or GET
+         * sales_start_at (Optional): string. RFC3339 timestamp when buyers can first start a
+         * checkout from this link. Stored to nanosecond precision. Before it, resolve fails with
+         * ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales
+         * end, including the event start when no explicit end is set. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". sales_summary (Optional): {@link PaymentLinkSalesSummary}.
+         * Present only with expand=sales_summary on GET /v1/payment-links or GET
          * /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard
          * sessions and API keys with checkouts.payment_links.read. Uses the same paid-order
          * definition as the merchant sales summary. Paid-order sales totals for a payment link,
@@ -1645,6 +1840,14 @@ export type PaymentLinkCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * up to 15 minutes after it. Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
             "sales_end_at"?: string;
+            /**
+             * RFC3339 timestamp when buyers can first start a checkout from this link. Stored to
+             * nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason
+             * sales_not_started. Must be earlier than the link’s sales end, including the event
+             * start when no explicit end is set. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "sales_start_at"?: string;
             /**
              * Present only with expand=sales_summary on GET /v1/payment-links or GET
              * /v1/payment-links/{payment_link_id}. Available to merchant callers, including
@@ -2097,14 +2300,14 @@ export type PaymentLinkEventConfigPreviousAttributes = {
     "venue"?: ((string) | (null));
 };
 /** Event settings you supply when creating an event payment link. */
-export type PaymentLinkEventConfigRequestInput = {
+export type PaymentLinkEventConfigRequest = {
     /**
      * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
      * names onto the tickets when the order is paid. Defaults to false.
      */
     "collect_attendee_names"?: boolean;
     /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "event_at"?: string | globalThis.Date;
+    "event_at": string;
     /**
      * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
      * On update, send null to remove the limit; a value below the tickets already sold or held by
@@ -2120,7 +2323,35 @@ export type PaymentLinkEventConfigRequestInput = {
      */
     "ticket_prefix"?: string;
     /** IANA time zone of the event venue, used to show `event_at` as venue time. minLength: 1. */
-    "timezone"?: string;
+    "timezone": string;
+    /** Where the event takes place. minLength: 1. maxLength: 500. */
+    "venue"?: string;
+};
+/** Event settings you supply when creating an event payment link. */
+export type PaymentLinkEventConfigRequestInput = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
+     */
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "event_at": string | globalThis.Date;
+    /**
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. minLength: 1. maxLength: 5.
+     */
+    "ticket_prefix"?: string;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. minLength: 1. */
+    "timezone": string;
     /** Where the event takes place. minLength: 1. maxLength: 500. */
     "venue"?: string;
 };
@@ -6828,78 +7059,4 @@ export type PaymentLinkPaymentConfigInput = {
     "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
     /** A note shown to the buyer with the payment options. minLength: 1. maxLength: 500. */
     "payment_note"?: string;
-};
-/** Changes to a payment link's payment settings. Send null on the payment note to clear it. */
-export type PaymentLinkPaymentPatchRequest = {
-    /**
-     * Payment options for this payment link. Checkout offers only the options that are also
-     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
-     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
-     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
-    /** Send null to clear it. minLength: 1. maxLength: 500. */
-    "payment_note"?: string | null;
-};
-/** Changes to a payment link's payment settings. Send null on the payment note to clear it. */
-export type PaymentLinkPaymentPatchRequestInput = {
-    /**
-     * Payment options for this payment link. Checkout offers only the options that are also
-     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
-     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
-     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
-    /** Send null to clear it. minLength: 1. maxLength: 500. */
-    "payment_note"?: string | null;
-};
-/**
- * An active product option offered on a payment link, with values used by its available variants.
- */
-export type PaymentLinkProductOption = {
-    /** Product option name, such as Size or Color. */
-    "name": string;
-    /** ID of the product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". */
-    "option_id": string;
-    /**
-     * Values used by at least one available variant, in product option value position order. []
-     * (Value): {@link PaymentLinkProductOptionValue}. A product option value used by an available
-     * payment link variant.
-     */
-    "values": Array<PaymentLinkProductOptionValue>;
-};
-/** A product option value used by an available payment link variant. */
-export type PaymentLinkProductOptionValue = {
-    /** ID of the product option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F". */
-    "option_value_id": string;
-    /** Product option value shown to the buyer, such as M or Blue. */
-    "value": string;
-};
-/**
- * Changes to a payment link's hosted checkout destinations. Omit a URL to leave it unchanged, or
- * send null to clear it.
- */
-export type PaymentLinkRedirectsPatchRequest = {
-    /**
-     * Where the buyer goes when they leave checkout without paying. The session stays open until
-     * it expires. Absolute HTTPS URL; test mode also accepts HTTP loopback URLs. Up to 2,048
-     * characters. Send null to clear it. Format: uri. minLength: 1. maxLength: 2048. Example:
-     * "https://example.com/receipt".
-     */
-    "cancel_url"?: string | null;
-    /**
-     * Where Flint sends a buyer who opens the session after it expires. Without it, the buyer sees
-     * Flint's expired-checkout page. Absolute HTTPS URL; test mode also accepts HTTP loopback
-     * URLs. Up to 2,048 characters. Send null to clear it. Format: uri. minLength: 1. maxLength:
-     * 2048. Example: "https://example.com/receipt".
-     */
-    "expired_url"?: string | null;
-    /**
-     * Where the buyer goes after paying. Flint adds checkout_session_id and order_id query
-     * parameters, replacing any with those names. The redirect doesn't prove payment: confirm with
-     * the order.paid webhook or by reading the session. Absolute HTTPS URL; test mode also accepts
-     * HTTP loopback URLs. Up to 2,048 characters. Send null to clear it. Format: uri. minLength:
-     * 1. maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "success_url"?: string | null;
 };

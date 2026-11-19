@@ -24,7 +24,7 @@ final class PaymentIntentActivity extends Model {
      */
     public function getActivityType(): string { return $this->get('activity_type'); }
     public function hasActivityType(): bool { return $this->has('activity_type'); }
-    /** Identity that initiated this action. Null for automated activity or when no initiating merchant identity was recorded. Refund creation retains its initiating actor when a worker processes it. Later processor updates are automated activity. anyOf[1] (Value): {@see PaymentActivityActor}. The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed. anyOf[2] (Value): null.
+    /** Identity that initiated this action, with its label recorded at the time. Null when the action was automated or no initiating merchant identity was recorded. Refund creation retains its initiating actor when a worker processes it. Later processor updates are automated activity. anyOf[1] (Value): {@see PaymentActivityActor}. The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed. anyOf[2] (Value): null.
      * @return PaymentActivityActor|null
      */
     public function getActor(): PaymentActivityActor|null { return $this->get('actor'); }

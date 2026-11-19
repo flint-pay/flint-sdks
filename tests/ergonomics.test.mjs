@@ -11,6 +11,7 @@ test("Node and PHP support apiKey, direct payloads, and full response access", a
   const authorizations = [];
   const payload = {
     amount_money: { amount: 100, currency: "USD" },
+    idempotency_key: null,
     payment_flow: "api",
     payment_intent_id: "pi_shortcut_test",
     payment_options: ["card"],

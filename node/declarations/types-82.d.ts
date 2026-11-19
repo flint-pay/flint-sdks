@@ -1,5 +1,12 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    CreateDeliveryPreviewRequestInput,
+    CreateDeliveryProfileRequestInput,
+    CreateDeliveryRateCallbackRequestInput,
+    CreateDeliveryRevocationRequestInput,
+    CreateDeliveryRevocationTargetInput,
+    CreateDeliveryRevocationTargetDeliveryMethodRevisionInput,
+    CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput,
     CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput,
     CreateDeliveryRevocationTargetLocationGeographyInput,
     CreateDeliverySelectionChoiceRequestInput,
@@ -60,15 +67,16 @@ import type {
     CreateMeSubscriptionPreviewRequestDeliveryOptionsInput,
     CreateMeSubscriptionPreviewRequestNextRenewalInput,
     CreateMeSubscriptionPreviewRequestPlanChangeInput,
-    CreateMeSubscriptionPreviewRequestQuantityChangeInput,
-    CreateMerchantSignupRequestInput,
-    CreateModifierGroupRequestInput,
-    CreateModifierRequestInput,
-    CreateModifierSetGroupInputExistingInput,
-    CreateModifierSetGroupInputInlineInput,
-    CreateModifierSetGroupRequestInput,
-    CreateModifierSetRequestInput
+    CreateMeSubscriptionPreviewRequestQuantityChangeInput
 } from './types-11.js';
+export declare function makeCreateDeliveryPreviewRequest(value: InputValue<Exclude<CreateDeliveryPreviewRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateDeliveryPreviewRequestInput & object, readonly unknown[]>>;
+export declare function makeCreateDeliveryPreviewRequest(value: InputValue<CreateDeliveryPreviewRequestInput>): Model<CreateDeliveryPreviewRequestInput>;
+export declare function makeCreateDeliveryProfileRequest(value: InputValue<CreateDeliveryProfileRequestInput>): Model<CreateDeliveryProfileRequestInput>;
+export declare function makeCreateDeliveryRateCallbackRequest(value: InputValue<CreateDeliveryRateCallbackRequestInput>): Model<CreateDeliveryRateCallbackRequestInput>;
+export declare function makeCreateDeliveryRevocationRequest(value: InputValue<CreateDeliveryRevocationRequestInput>): Model<CreateDeliveryRevocationRequestInput>;
+export declare function makeCreateDeliveryRevocationTarget(value: InputValue<CreateDeliveryRevocationTargetInput>): Model<CreateDeliveryRevocationTargetInput>;
+export declare function makeCreateDeliveryRevocationTargetDeliveryMethodRevision(value: InputValue<CreateDeliveryRevocationTargetDeliveryMethodRevisionInput>): Model<CreateDeliveryRevocationTargetDeliveryMethodRevisionInput>;
+export declare function makeCreateDeliveryRevocationTargetDeliveryRateCallbackRevision(value: InputValue<CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput>): Model<CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput>;
 export declare function makeCreateDeliveryRevocationTargetDeliveryRateCallbackSigningKey(value: InputValue<CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput>): Model<CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput>;
 export declare function makeCreateDeliveryRevocationTargetLocationGeography(value: InputValue<CreateDeliveryRevocationTargetLocationGeographyInput>): Model<CreateDeliveryRevocationTargetLocationGeographyInput>;
 export declare function makeCreateDeliverySelectionChoiceRequest(value: InputValue<CreateDeliverySelectionChoiceRequestInput>): Model<CreateDeliverySelectionChoiceRequestInput>;
@@ -128,10 +136,3 @@ export declare function makeCreateMeSubscriptionPreviewRequestDeliveryOptions(va
 export declare function makeCreateMeSubscriptionPreviewRequestNextRenewal(value: InputValue<CreateMeSubscriptionPreviewRequestNextRenewalInput>): Model<CreateMeSubscriptionPreviewRequestNextRenewalInput>;
 export declare function makeCreateMeSubscriptionPreviewRequestPlanChange(value: InputValue<CreateMeSubscriptionPreviewRequestPlanChangeInput>): Model<CreateMeSubscriptionPreviewRequestPlanChangeInput>;
 export declare function makeCreateMeSubscriptionPreviewRequestQuantityChange(value: InputValue<CreateMeSubscriptionPreviewRequestQuantityChangeInput>): Model<CreateMeSubscriptionPreviewRequestQuantityChangeInput>;
-export declare function makeCreateMerchantSignupRequest(value: InputValue<CreateMerchantSignupRequestInput>): Model<CreateMerchantSignupRequestInput>;
-export declare function makeCreateModifierGroupRequest(value: InputValue<CreateModifierGroupRequestInput>): Model<CreateModifierGroupRequestInput>;
-export declare function makeCreateModifierRequest(value: InputValue<CreateModifierRequestInput>): Model<CreateModifierRequestInput>;
-export declare function makeCreateModifierSetGroupInputExisting(value: InputValue<CreateModifierSetGroupInputExistingInput>): Model<CreateModifierSetGroupInputExistingInput>;
-export declare function makeCreateModifierSetGroupInputInline(value: InputValue<CreateModifierSetGroupInputInlineInput>): Model<CreateModifierSetGroupInputInlineInput>;
-export declare function makeCreateModifierSetGroupRequest(value: InputValue<CreateModifierSetGroupRequestInput>): Model<CreateModifierSetGroupRequestInput>;
-export declare function makeCreateModifierSetRequest(value: InputValue<CreateModifierSetRequestInput>): Model<CreateModifierSetRequestInput>;

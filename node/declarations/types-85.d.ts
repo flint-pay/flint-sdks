@@ -1,5 +1,15 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { DeliveryDistanceRequestInput, DeliveryDistanceUnitPriceRequestInput } from './types-18.js';
+import type {
+    DeliveryCallbackPricingStrategyRequestInput,
+    DeliveryCallerSuppliedPricingStrategyRequestInput,
+    DeliveryChargeTaxCalculationRequestModelInput,
+    DeliveryCoordinateRequestInput,
+    DeliveryCountryConditionRequestInput,
+    DeliveryCustomerBooleanConditionInput,
+    DeliveryCustomerSegmentConditionInput,
+    DeliveryDistanceRequestInput,
+    DeliveryDistanceUnitPriceRequestInput
+} from './types-18.js';
 import type {
     DeliveryEligibilityExpressionRequestInput,
     DeliveryEstimateRuleRequestInput,
@@ -63,17 +73,15 @@ import type {
     DeliveryRateEvaluationOutcomeAvailableInput,
     DeliveryRateEvaluationOutcomeCannotCalculateInput,
     DeliveryRateEvaluationOutcomeUnavailableInput,
-    DeliveryRateEvaluationResponseInput,
-    DeliveryRateEvaluationWindowInput,
-    DeliveryRateTablePricingStrategyCreateRequestInput,
-    DeliveryRateTablePricingStrategyRequestInput,
-    DeliveryRecipientRequirementRequestInput
+    DeliveryRateEvaluationResponseInput
 } from './types-23.js';
-import type {
-    DeliveryScheduleWindowRuleRequestInput,
-    DeliverySelectionInstructionsRequestInput,
-    DeliverySelectionRecipientRequestInput
-} from './types-24.js';
+export declare function makeDeliveryCallbackPricingStrategyRequest(value: InputValue<DeliveryCallbackPricingStrategyRequestInput>): Model<DeliveryCallbackPricingStrategyRequestInput>;
+export declare function makeDeliveryCallerSuppliedPricingStrategyRequest(value: InputValue<DeliveryCallerSuppliedPricingStrategyRequestInput>): Model<DeliveryCallerSuppliedPricingStrategyRequestInput>;
+export declare function makeDeliveryChargeTaxCalculationRequestModel(value: InputValue<DeliveryChargeTaxCalculationRequestModelInput>): Model<DeliveryChargeTaxCalculationRequestModelInput>;
+export declare function makeDeliveryCoordinateRequest(value: InputValue<DeliveryCoordinateRequestInput>): Model<DeliveryCoordinateRequestInput>;
+export declare function makeDeliveryCountryConditionRequest(value: InputValue<DeliveryCountryConditionRequestInput>): Model<DeliveryCountryConditionRequestInput>;
+export declare function makeDeliveryCustomerBooleanCondition(value: InputValue<DeliveryCustomerBooleanConditionInput>): Model<DeliveryCustomerBooleanConditionInput>;
+export declare function makeDeliveryCustomerSegmentCondition(value: InputValue<DeliveryCustomerSegmentConditionInput>): Model<DeliveryCustomerSegmentConditionInput>;
 export declare function makeDeliveryDistanceRequest(value: InputValue<DeliveryDistanceRequestInput>): Model<DeliveryDistanceRequestInput>;
 export declare function makeDeliveryDistanceUnitPriceRequest(value: InputValue<DeliveryDistanceUnitPriceRequestInput>): Model<DeliveryDistanceUnitPriceRequestInput>;
 export declare function makeDeliveryEligibilityExpressionRequest(value: InputValue<DeliveryEligibilityExpressionRequestInput>): Model<DeliveryEligibilityExpressionRequestInput>;
@@ -131,10 +139,3 @@ export declare function makeDeliveryRateEvaluationOutcomeAvailable(value: InputV
 export declare function makeDeliveryRateEvaluationOutcomeCannotCalculate(value: InputValue<DeliveryRateEvaluationOutcomeCannotCalculateInput>): Model<DeliveryRateEvaluationOutcomeCannotCalculateInput>;
 export declare function makeDeliveryRateEvaluationOutcomeUnavailable(value: InputValue<DeliveryRateEvaluationOutcomeUnavailableInput>): Model<DeliveryRateEvaluationOutcomeUnavailableInput>;
 export declare function makeDeliveryRateEvaluationResponse(value: InputValue<DeliveryRateEvaluationResponseInput>): Model<DeliveryRateEvaluationResponseInput>;
-export declare function makeDeliveryRateEvaluationWindow(value: InputValue<DeliveryRateEvaluationWindowInput>): Model<DeliveryRateEvaluationWindowInput>;
-export declare function makeDeliveryRateTablePricingStrategyCreateRequest(value: InputValue<DeliveryRateTablePricingStrategyCreateRequestInput>): Model<DeliveryRateTablePricingStrategyCreateRequestInput>;
-export declare function makeDeliveryRateTablePricingStrategyRequest(value: InputValue<DeliveryRateTablePricingStrategyRequestInput>): Model<DeliveryRateTablePricingStrategyRequestInput>;
-export declare function makeDeliveryRecipientRequirementRequest(value: InputValue<DeliveryRecipientRequirementRequestInput>): Model<DeliveryRecipientRequirementRequestInput>;
-export declare function makeDeliveryScheduleWindowRuleRequest(value: InputValue<DeliveryScheduleWindowRuleRequestInput>): Model<DeliveryScheduleWindowRuleRequestInput>;
-export declare function makeDeliverySelectionInstructionsRequest(value: InputValue<DeliverySelectionInstructionsRequestInput>): Model<DeliverySelectionInstructionsRequestInput>;
-export declare function makeDeliverySelectionRecipientRequest(value: InputValue<DeliverySelectionRecipientRequestInput>): Model<DeliverySelectionRecipientRequestInput>;

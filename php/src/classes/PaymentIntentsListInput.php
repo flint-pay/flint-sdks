@@ -37,12 +37,14 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_before
  * @property-read string|\DateTimeInterface $updated_after
  * @property-read string|\DateTimeInterface $updated_before
+ * @property-read string|\DateTimeInterface $captured_after
+ * @property-read string|\DateTimeInterface $captured_before
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsListInput extends Model {
-    /** @param array{'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'customer_id'?: string, 'email'?: string, 'invoice_id'?: string, 'is_action_required'?: bool, 'has_failed_attempts'?: bool, 'payment_link_id'?: string, 'decline_code'?: string, 'card_fingerprint'?: string, 'buyer_ip_address'?: string, 'card_last4'?: string, 'card_brand'?: list<string>|string, 'status'?: list<string>|string, 'risk_level'?: list<string>|string, 'payment_flow'?: list<string>|string, 'external_reference_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'refund_status'?: list<string>|string, 'dispute_status'?: list<string>|string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'customer_id'?: string, 'email'?: string, 'invoice_id'?: string, 'is_action_required'?: bool, 'has_failed_attempts'?: bool, 'payment_link_id'?: string, 'decline_code'?: string, 'card_fingerprint'?: string, 'buyer_ip_address'?: string, 'card_last4'?: string, 'card_brand'?: list<string>|string, 'status'?: list<string>|string, 'risk_level'?: list<string>|string, 'payment_flow'?: list<string>|string, 'external_reference_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'refund_status'?: list<string>|string, 'dispute_status'?: list<string>|string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'captured_after'?: string|\DateTimeInterface, 'captured_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsListInput')); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns only resources created in your caller namespace, plus resources created before caller scoping under the original key. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. A match can show `idempotency_key: null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -204,7 +206,7 @@ final class PaymentIntentsListInput extends Model {
      */
     public function getDisputeStatus(): mixed { return $this->get('dispute_status'); }
     public function hasDisputeStatus(): bool { return $this->has('dispute_status'); }
-    /** Field to sort by. Defaults to created_at; ties are broken by payment_intent_id. Default: "created_at". Value enum: "created_at", "updated_at", "amount_money".
+    /** Field to sort by. Defaults to created_at; ties are broken by payment_intent_id. Default: "created_at". Value enum: "created_at", "updated_at", "amount_money", "captured_money".
      * @return string
      * @throws SdkError When sort_by is omitted; use hasSortBy() or valueOrDefault().
      */
@@ -240,6 +242,18 @@ final class PaymentIntentsListInput extends Model {
      */
     public function getUpdatedBefore(): string|\DateTimeInterface { return $this->get('updated_before'); }
     public function hasUpdatedBefore(): bool { return $this->has('updated_before'); }
+    /** Inclusive lower bound on captured_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When captured_after is omitted; use hasCapturedAfter() or valueOrDefault().
+     */
+    public function getCapturedAfter(): string|\DateTimeInterface { return $this->get('captured_after'); }
+    public function hasCapturedAfter(): bool { return $this->has('captured_after'); }
+    /** Exclusive upper bound on captured_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When captured_before is omitted; use hasCapturedBefore() or valueOrDefault().
+     */
+    public function getCapturedBefore(): string|\DateTimeInterface { return $this->get('captured_before'); }
+    public function hasCapturedBefore(): bool { return $this->has('captured_before'); }
     /** Include related objects in the response. Supported expansions: customer, invoice, order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "customer", "invoice", "order". Value enum: "customer", "invoice", "order". anyOf[1] (Value): Array of string.  [] enum: "customer", "invoice", "order". anyOf[1][] (Value): string.  Value enum: "customer", "invoice", "order". anyOf[2] (Value): string.  Value enum: "customer", "invoice", "order".
      * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().

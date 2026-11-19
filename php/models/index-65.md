@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# CreditNoteAllocationCreatedMerchantEventDataObject to DeliveryMethodActivatedMerchantEventData
+# CreditNoteVoidedInstalledMerchantsEventDataObject to DeliveryEstimateRulePreviousAttributes
 
+- [CreditNoteVoidedInstalledMerchantsEventDataObject](CreditNoteVoidedInstalledMerchantsEventDataObject.md)
+- [CreditNoteVoidedInstalledMerchantsEventDataPreviousAttributes](CreditNoteVoidedInstalledMerchantsEventDataPreviousAttributes.md)
+- [CreditNoteVoidedInstalledMerchantsEventData](CreditNoteVoidedInstalledMerchantsEventData.md)
+- [CreditNoteVoidedInstalledMerchantsEventSource](CreditNoteVoidedInstalledMerchantsEventSource.md)
+- [CreditNoteVoidedInstalledMerchantsEvent](CreditNoteVoidedInstalledMerchantsEvent.md)
 - [CreditNoteAllocationCreatedMerchantEventDataObject](CreditNoteAllocationCreatedMerchantEventDataObject.md)
 - [CreditNoteAllocationCreatedMerchantEventData](CreditNoteAllocationCreatedMerchantEventData.md)
 - [CreditNoteAllocationCreatedMerchantEventRequest](CreditNoteAllocationCreatedMerchantEventRequest.md)
@@ -97,9 +102,4 @@
 - [DeliveryBusinessDayRangePreviousAttributes](DeliveryBusinessDayRangePreviousAttributes.md)
 - [DeliveryTransitTimeRulePreviousAttributes](DeliveryTransitTimeRulePreviousAttributes.md)
 - [DeliveryEstimateRulePreviousAttributes](DeliveryEstimateRulePreviousAttributes.md)
-- [DeliveryMethodConfigurationPreviousAttributesPublicDetails](DeliveryMethodConfigurationPreviousAttributesPublicDetails.md)
-- [DeliveryMethodConfigurationPreviousAttributes](DeliveryMethodConfigurationPreviousAttributes.md)
-- [SubscriptionCountsPreviousAttributes](SubscriptionCountsPreviousAttributes.md)
-- [DeliveryMethodActivatedMerchantEventDataPreviousAttributes](DeliveryMethodActivatedMerchantEventDataPreviousAttributes.md)
-- [DeliveryMethodActivatedMerchantEventData](DeliveryMethodActivatedMerchantEventData.md)
 

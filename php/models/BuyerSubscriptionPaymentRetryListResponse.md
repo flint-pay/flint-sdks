@@ -15,7 +15,7 @@ Response model.
 
 ### BuyerSubscriptionPaymentRetryListResponse.data[]
 
-A retry of a past-due payment on the buyer's subscription. Includes, when available, its order, payment intent and a failure the buyer can act on. Omits the store's idempotency key.
+A retry of a past-due payment on the buyer's subscription. Includes, when available, its order, payment intent and a failure the buyer can act on. Includes a creating key only for the buyer's own namespace.
 
 Field definitions: [shared fields](BuyerSubscriptionPaymentRetryResponse.md#buyersubscriptionpaymentretryresponsedata).
 

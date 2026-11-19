@@ -128,6 +128,10 @@ Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousA
 
 Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.footer](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesfooter).
 
+### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.idempotency_key
+
+Declared alternatives: [OrderPaymentAttemptPreviousAttributes.idempotency_key](../models/OrderPaymentAttemptPreviousAttributes.md#orderpaymentattemptpreviousattributesidempotency_key).
+
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.invoice_id
 
 Declared alternatives: [ExpandedInvoiceSummaryPreviousAttributes.invoice_id](../models/ExpandedInvoiceSummaryPreviousAttributes.md#expandedinvoicesummarypreviousattributesinvoice_id).

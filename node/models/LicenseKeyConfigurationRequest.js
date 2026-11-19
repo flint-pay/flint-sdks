@@ -1,10 +1,10 @@
-import { d1175 as c0 } from '../descriptors/data/59.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
-import { d10319 as c1, d10320 as c2 } from '../descriptors/data/479.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
-import { d1175 as d1175 } from '../descriptors/data/59.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d1174 as c0 } from '../descriptors/data/59.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
+import { d10322 as c1, d10323 as c2 } from '../descriptors/data/481.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
+import { d1174 as d1174 } from '../descriptors/data/59.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1175;
+const read = d1174;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["LicenseKeyConfigurationRequest"]:c0(),["SharedCodec1743"]:c1(),["SharedCodec1744"]:c2()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["LicenseKeyConfigurationRequest"]:c0(),["SharedCodec1744"]:c1(),["SharedCodec1745"]:c2()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeLicenseKeyConfigurationRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -5,9 +5,9 @@
   },
   "api": {
     "repository": "https://github.com/flint-pay/flint",
-    "revision": "1ce368dbaaad17a8bd61adbc19fc1c6762ffaf4f",
+    "revision": "dd5da3f91d534012098dcfabc95deb4fd4256c96",
     "path": "server/monolith/cmd/public-openapi-json/main.go",
-    "sha256": "fde8dba30f6cff24b991c2158bf0a0c8d45ca25f8ffd41512be25319166fe518",
+    "sha256": "ab863380a10e6b9700509d41dfca38db659099917df12daec2559ddd826151f8",
     "version": "2026-09-07"
   }
 }

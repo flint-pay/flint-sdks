@@ -53,6 +53,69 @@ import type { DeliveryChargeTaxCalculationRequest } from './types-18.js';
 import type { TaxBreakdown } from './types-73.js';
 import type { TaxReverseCharge, TaxJurisdiction } from './types-74.js';
 import type { Address } from './types-0.js';
+export type OrderLineItemTaxPreviousAttributes = {
+    /**
+     * Flint line-item tax category. A bundle line takes the stored category shared by all
+     * component variants when added; all must also share taxability. Unset uses the merchant
+     * default and equals only another unset category. Value enum: "general", "physical_goods",
+     * "digital_goods", "software", "saas", "services", "professional_services", "food",
+     * "prepared_food", "clothing", "medical_goods", "admission". anyOf[1] (Value): string. Flint
+     * line-item tax category. A bundle line takes the stored category shared by all component
+     * variants when added; all must also share taxability. Unset uses the merchant default and
+     * equals only another unset category. Value enum: "general", "physical_goods",
+     * "digital_goods", "software", "saas", "services", "professional_services", "food",
+     * "prepared_food", "clothing", "medical_goods", "admission". anyOf[2] (Value): null.
+     */
+    "line_item_tax_category"?: (("general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {}))
+        | (null));
+    /**
+     * Whether the line is subject to tax. A bundle line takes the taxability shared by all
+     * component variants when added; they must also share their stored tax category. anyOf[1]
+     * (Value): boolean. Whether the line is subject to tax. A bundle line takes the taxability
+     * shared by all component variants when added; they must also share their stored tax category.
+     * anyOf[2] (Value): null.
+     */
+    "taxable"?: ((boolean) | (null));
+};
+/** A line item's tax category and whether it is taxable. */
+export type OrderLineItemTaxRequestInput = {
+    /**
+     * Flint line-item tax category. A bundle line takes the stored category shared by all
+     * component variants when added; all must also share taxability. Unset uses the merchant
+     * default and equals only another unset category. Value enum: "general", "physical_goods",
+     * "digital_goods", "software", "saas", "services", "professional_services", "food",
+     * "prepared_food", "clothing", "medical_goods", "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission";
+    /**
+     * Whether the line is subject to tax. A bundle line takes the taxability shared by all
+     * component variants when added; they must also share their stored tax category.
+     */
+    "taxable"?: boolean;
+};
 /** A page of `OrderLineItem` objects. */
 export type OrderLineItemsListResponse = {
     /**
@@ -10061,6 +10124,16 @@ export type OrderPaymentAttempt = {
      */
     "gift_card_redemptions": Array<PaymentAttemptGiftCardRedemption>;
     /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     */
+    "idempotency_key": string | null;
+    /**
      * Whether the attempt can continue through PayOrder with action: resume and this
      * order_payment_attempt_id after any pending client action is complete. If false, check status
      * before starting another payment; the attempt may still be in progress.
@@ -10142,7 +10215,7 @@ export type OrderPaymentAttempt = {
      * "payment_link_capacity_validation_failed", "payment_method_activation_pending",
      * "payment_method_required", "payment_option_not_allowed", "payment_option_unavailable",
      * "payment_returned", "payment_source_binding_failed", "payment_source_conflict",
-     * "payment_source_not_updatable", "payment_source_ownership_mismatch",
+     * "payment_source_not_updatable", "payment_source_ownership_mismatch", "rate_limit_exceeded",
      * "resource_guarantee_failed", "setup_action_unavailable", "setup_hold_acquisition_failed",
      * "setup_result_incomplete", "tip_allocation_sync_failed",
      * "zero_balance_hold_acquisition_failed".
@@ -10171,6 +10244,7 @@ export type OrderPaymentAttempt = {
         | "payment_source_conflict"
         | "payment_source_not_updatable"
         | "payment_source_ownership_mismatch"
+        | "rate_limit_exceeded"
         | "resource_guarantee_failed"
         | "setup_action_unavailable"
         | "setup_hold_acquisition_failed"
@@ -10270,6 +10344,24 @@ export type OrderPaymentAttemptPreviousAttributes = {
      * PaymentAttemptGiftCardRedemptionPreviousAttributes}. anyOf[2] (Value): null.
      */
     "gift_card_redemptions"?: ((Array<PaymentAttemptGiftCardRedemptionPreviousAttributes>) | (null));
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field. anyOf[1]
+     * (Value): string. The Idempotency-Key of the request that created this resource. `null` when
+     * that request sent no key, Flint created the resource, the reader isn't the caller that
+     * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+     * record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
+     * Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include
+     * this field. anyOf[2] (Value): null.
+     */
+    "idempotency_key"?: ((string) | (null));
     /**
      * Whether the attempt can continue through PayOrder with action: resume and this
      * order_payment_attempt_id after any pending client action is complete. If false, check status
@@ -10372,7 +10464,7 @@ export type OrderPaymentAttemptPreviousAttributes = {
      * "payment_link_capacity_validation_failed", "payment_method_activation_pending",
      * "payment_method_required", "payment_option_not_allowed", "payment_option_unavailable",
      * "payment_returned", "payment_source_binding_failed", "payment_source_conflict",
-     * "payment_source_not_updatable", "payment_source_ownership_mismatch",
+     * "payment_source_not_updatable", "payment_source_ownership_mismatch", "rate_limit_exceeded",
      * "resource_guarantee_failed", "setup_action_unavailable", "setup_hold_acquisition_failed",
      * "setup_result_incomplete", "tip_allocation_sync_failed",
      * "zero_balance_hold_acquisition_failed". anyOf[1] (Value): string. Non-payment reason an
@@ -10387,7 +10479,7 @@ export type OrderPaymentAttemptPreviousAttributes = {
      * "payment_link_capacity_validation_failed", "payment_method_activation_pending",
      * "payment_method_required", "payment_option_not_allowed", "payment_option_unavailable",
      * "payment_returned", "payment_source_binding_failed", "payment_source_conflict",
-     * "payment_source_not_updatable", "payment_source_ownership_mismatch",
+     * "payment_source_not_updatable", "payment_source_ownership_mismatch", "rate_limit_exceeded",
      * "resource_guarantee_failed", "setup_action_unavailable", "setup_hold_acquisition_failed",
      * "setup_result_incomplete", "tip_allocation_sync_failed",
      * "zero_balance_hold_acquisition_failed". anyOf[2] (Value): null.
@@ -10416,6 +10508,7 @@ export type OrderPaymentAttemptPreviousAttributes = {
         | "payment_source_conflict"
         | "payment_source_not_updatable"
         | "payment_source_ownership_mismatch"
+        | "rate_limit_exceeded"
         | "resource_guarantee_failed"
         | "setup_action_unavailable"
         | "setup_hold_acquisition_failed"
@@ -13881,6 +13974,13 @@ export type OrderSettlementAmounts = ({
      */
     "disputed_money": MoneyValue;
     /**
+     * Remaining money available for an order refund when an exchange affects the order. Excludes
+     * return credit and payments reserved for processing refunds or applied to the exchange.
+     * Present on affected order reads, including when the amount is zero. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "exchange_refundable_money"?: MoneyValue;
+    /**
      * Collected principal: paid_money minus refunded_money minus dispute_lost_money. Can be
      * negative when refunds and lost disputes exceed payments. Excludes processing and dispute
      * fees; open disputes do not reduce this amount. Signed monetary amount represented as integer
@@ -13894,6 +13994,12 @@ export type OrderSettlementAmounts = ({
      * 4217 currency code.
      */
     "overpaid_money": MoneyValue;
+    /**
+     * Collected order money reserved for refunds that are still processing. It reduces what can be
+     * refunded as soon as Flint records the refund. Present when the amount is greater than zero.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "pending_refund_money"?: MoneyValue;
     /**
      * Authorized money a final capture released instead of collecting, which the order no longer
      * owes. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
@@ -13926,8 +14032,9 @@ export type OrderSettlementAmounts = ({
      */
     "paid_money": MoneyValue;
     /**
-     * Money returned to the buyer from what was collected toward the bill. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
+     * Money returned to the buyer from what was collected toward the bill. On orders, this counts
+     * successful refunds. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
     "refunded_money": MoneyValue;
     /**
@@ -13952,6 +14059,13 @@ export type OrderSettlementAmountsPreviousAttributes = ({
      */
     "disputed_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
+     * Remaining money available for an order refund when an exchange affects the order. Excludes
+     * return credit and payments reserved for processing refunds or applied to the exchange.
+     * Present on affected order reads, including when the amount is zero. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "exchange_refundable_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
      * Collected principal: paid_money minus refunded_money minus dispute_lost_money. Can be
      * negative when refunds and lost disputes exceed payments. Excludes processing and dispute
      * fees; open disputes do not reduce this amount. anyOf[1] (Value): {@link
@@ -13965,6 +14079,12 @@ export type OrderSettlementAmountsPreviousAttributes = ({
      * anyOf[2] (Value): null.
      */
     "overpaid_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Collected order money reserved for refunds that are still processing. It reduces what can be
+     * refunded as soon as Flint records the refund. Present when the amount is greater than zero.
+     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "pending_refund_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
      * Authorized money a final capture released instead of collecting, which the order no longer
      * owes. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
@@ -14976,45 +15096,3 @@ export type OrderTaxLocationFullAddressRequest = ({
 });
 /** A full street address you supply as an order's tax location. */
 export type OrderTaxLocationFullAddressRequestInput = OrderTaxLocationFullAddressRequest;
-/**
- * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
- * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
- */
-export type OrderTaxLocationInputFullAddress = {
-    /**
-     * The address to calculate tax from. A full street address you supply as an order's tax
-     * location.
-     */
-    "address": OrderTaxLocationFullAddressRequest;
-    /**
-     * Where the tax address comes from. The only accepted value is provided, which is the default.
-     * Default: "provided". Value enum: "provided".
-     */
-    "address_source"?: "provided" | (string & {});
-    /**
-     * The kind of address you are sending. Value enum: "tax_address", "billing_address",
-     * "shipping_address".
-     */
-    "address_type": "tax_address" | "billing_address" | "shipping_address" | (string & {});
-};
-/**
- * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
- * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
- */
-export type OrderTaxLocationInputFullAddressInput = {
-    /**
-     * The address to calculate tax from. A full street address you supply as an order's tax
-     * location.
-     */
-    "address": OrderTaxLocationFullAddressRequestInput;
-    /**
-     * Where the tax address comes from. The only accepted value is provided, which is the default.
-     * Default: "provided". Value enum: "provided".
-     */
-    "address_source"?: "provided";
-    /**
-     * The kind of address you are sending. Value enum: "tax_address", "billing_address",
-     * "shipping_address".
-     */
-    "address_type": "tax_address" | "billing_address" | "shipping_address";
-};

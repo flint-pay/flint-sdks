@@ -8,7 +8,7 @@ import type {
     FulfillmentEventsGetParams,
     FulfillmentEventsListParams
 } from '../declarations/types-27.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -32,7 +32,7 @@ export type {
     FulfillmentEventsListParams,
     FulfillmentEventListResponse
 } from '../declarations/types-27.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateFulfillmentEventRequestInput } from '../declarations/types-9.js';
@@ -45,7 +45,6 @@ export type { PricingAmounts } from '../declarations/types-56.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeCreateFulfillmentEventRequest } from '../declarations/types-82.js';
 export { makeMoneyValue } from '../declarations/types-88.js';

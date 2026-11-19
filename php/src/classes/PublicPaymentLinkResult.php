@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @property-read string $checkout_start_due_at
  * @property-read ?CheckoutTheme $checkout_theme
+ * @property-read ?bool $is_before_sales_start
  * @property-read bool $is_past_sales_end
  * @property-read bool $is_sold_out
  * @property-read ?Image $merchant_icon
@@ -19,7 +20,7 @@ namespace Flint;
  * @property-read ?PaymentLinkSubscriptionPreview $subscription_preview
  * Presence-aware response; omitted optional fields return null. */
 final class PublicPaymentLinkResult extends Model {
-    /** @param array{'checkout_start_due_at': string, 'checkout_theme'?: mixed, 'is_past_sales_end': bool, 'is_sold_out': bool, 'merchant_icon'?: mixed, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'merchant_support'?: mixed, 'payment_link': mixed, 'remaining_quantity'?: int, 'resolution_context': string, 'resolution_context_expires_at': string, 'resolved_line_items'?: list<mixed>, 'show_flint_mark': bool, 'subscription_preview'?: mixed, ...}|object $values */
+    /** @param array{'checkout_start_due_at': string, 'checkout_theme'?: mixed, 'is_before_sales_start'?: bool, 'is_past_sales_end': bool, 'is_sold_out': bool, 'merchant_icon'?: mixed, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'merchant_support'?: mixed, 'payment_link': mixed, 'remaining_quantity'?: int, 'resolution_context': string, 'resolution_context_expires_at': string, 'resolved_line_items'?: list<mixed>, 'show_flint_mark': bool, 'subscription_preview'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicPaymentLinkResult')); }
     /** Start a new checkout before this instant. At or after it, read the public payment link again for a new resolution_context; its credential expiry is resolution_context_expires_at. Format: date-time.
      * @return string
@@ -31,6 +32,11 @@ final class PublicPaymentLinkResult extends Model {
      */
     public function getCheckoutTheme(): ?CheckoutTheme { return $this->get('checkout_theme'); }
     public function hasCheckoutTheme(): bool { return $this->has('checkout_theme'); }
+    /** True before the payment link’s scheduled sales start. Omitted otherwise.
+     * @return ?bool
+     */
+    public function getIsBeforeSalesStart(): ?bool { return $this->get('is_before_sales_start'); }
+    public function hasIsBeforeSalesStart(): bool { return $this->has('is_before_sales_start'); }
     /** True when the link's sales end has passed: payment_link.sales_end_at, or event_config.event_at for an event link without sales_end_at. Resolve then fails with `ACTION_NOT_ALLOWED` and reason `not_offered`.
      * @return bool
      */

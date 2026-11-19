@@ -1,7 +1,7 @@
-import { d8227 as c0, d8226 as c1 } from '../descriptors/data/359.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
-import { d8226 as d8226 } from '../descriptors/data/359.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d8228 as c0, d8227 as c1 } from '../descriptors/data/359.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
+import { d8227 as d8227 } from '../descriptors/data/359.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8226;
+const read = d8227;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["PlatformFeeMoney"]:c0(),["PlatformFeeRequest"]:c1()}); }
 export { codec as _validate };

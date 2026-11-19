@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# RefundGiftCardDestinationInput to ReturnCanceledMerchantEventInput
+# RefundGiftCardDestinationInput to ReturnActorPreviousAttributesInput
 
 - [RefundGiftCardDestinationInput](RefundGiftCardDestinationInput.md)
 - [RefundGiftCardDestinationPreviousAttributesInput](RefundGiftCardDestinationPreviousAttributesInput.md)
@@ -68,6 +68,7 @@
 - [ResendWebhookDeliveryRequestInput](ResendWebhookDeliveryRequestInput.md)
 - [ResetDemoSessionRequestInput](ResetDemoSessionRequestInput.md)
 - [ResolveCustomerDeletionRequestInput](ResolveCustomerDeletionRequestInput.md)
+- [ResolvedPaymentLinkCheckoutInput](ResolvedPaymentLinkCheckoutInput.md)
 - [ResolveOrderInventoryExceptionRequestInput](ResolveOrderInventoryExceptionRequestInput.md)
 - [ResolvePaymentLinkLineItemModifierInputCatalogInput](ResolvePaymentLinkLineItemModifierInputCatalogInput.md)
 - [ResolvePaymentLinkLineItemModifierInputTextInput](ResolvePaymentLinkLineItemModifierInputTextInput.md)
@@ -82,6 +83,7 @@
 - [ResourceTimelineAPIRequestEntryInput](ResourceTimelineAPIRequestEntryInput.md)
 - [ResourceTimelineEntryInput](ResourceTimelineEntryInput.md)
 - [ResourceTimelineImageMutationEntryInput](ResourceTimelineImageMutationEntryInput.md)
+- [ResourceTimelineLicenseKeyRestrictionChangeEntryInput](ResourceTimelineLicenseKeyRestrictionChangeEntryInput.md)
 - [ResourceTimelinePoolAttestationEntryInput](ResourceTimelinePoolAttestationEntryInput.md)
 - [ResourceTimelineResponseInput](ResourceTimelineResponseInput.md)
 - [ResourceTimelineWebhookDeliveryAttemptEntryInput](ResourceTimelineWebhookDeliveryAttemptEntryInput.md)
@@ -100,6 +102,4 @@
 - [ReturnActivityInput](ReturnActivityInput.md)
 - [ReturnActorInput](ReturnActorInput.md)
 - [ReturnActorPreviousAttributesInput](ReturnActorPreviousAttributesInput.md)
-- [ReturnCanceledInstalledMerchantsEventInput](ReturnCanceledInstalledMerchantsEventInput.md)
-- [ReturnCanceledMerchantEventInput](ReturnCanceledMerchantEventInput.md)
 

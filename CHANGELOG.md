@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.0.0-beta.8
+
+Both SDKs pin Flint `dd5da3f91d534012098dcfabc95deb4fd4256c96` with API date `2026-09-07`. This prerelease publishes to npm `next`; `latest` stays on `7.0.0`.
+
+Node and PHP now decode signed `refund.succeeded` webhooks when `data.object.idempotency_key` is `null`. Both SDKs also accept nullable creating keys in updated response models, including refunds with gift card codes, credit note allocations, gift card funding dispositions, subscription payment retries, and inventory records. Check for `null` before using a returned creating key. This change does not alter the `Idempotency-Key` request header.
+
+The refreshed contract also changes buyer refund and payment link response types. See the [beta.8 migration notes](MIGRATION.md#changes-in-800-beta8) before upgrading.
+
 ## 8.0.0-beta.7
 
 Both SDKs pin Flint `1ce368dbaaad17a8bd61adbc19fc1c6762ffaf4f` with API date `2026-09-07`. The SDKs add merchant and buyer license key management, activation, and merchant key pools. Apps can validate, activate, and release keys without an API credential by disabling ambient credential discovery and sending the full key and accepted product IDs.

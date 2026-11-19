@@ -10,6 +10,7 @@ namespace Flint;
  * @property-read bool|null $is_default
  * @property-read bool|null $is_removing
  * @property-read string|null $merchant_id
+ * @property-read string|null $origin
  * @property-read string|null $payment_method_id
  * @property-read string|null $saved_with
  * @property-read string|null $status
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read string|null $usage
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentMethodFailedMerchantEventDataPreviousAttributes extends Model {
-    /** @param array{'card'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'fingerprint'?: mixed, 'is_default'?: mixed, 'is_removing'?: mixed, 'merchant_id'?: mixed, 'payment_method_id'?: mixed, 'saved_with'?: mixed, 'status'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'usage'?: mixed, ...}|object $values */
+    /** @param array{'card'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'fingerprint'?: mixed, 'is_default'?: mixed, 'is_removing'?: mixed, 'merchant_id'?: mixed, 'origin'?: mixed, 'payment_method_id'?: mixed, 'saved_with'?: mixed, 'status'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'usage'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodFailedMerchantEventDataPreviousAttributes')); }
     /** Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value): {@see CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
      * @return CardDetailsPreviousAttributes|null
@@ -60,6 +61,11 @@ final class PaymentMethodFailedMerchantEventDataPreviousAttributes extends Model
      */
     public function getMerchantId(): string|null { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
+    /** `imported` for a saved card that Flint migrated from another processor account. Omitted for other cards. Value enum: "imported". anyOf[1] (Value): string. `imported` for a saved card that Flint migrated from another processor account. Omitted for other cards. Value enum: "imported". anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getOrigin(): string|null { return $this->get('origin'); }
+    public function hasOrigin(): bool { return $this->has('origin'); }
     /** Unique identifier for this payment method, prefixed `pm_`. anyOf[1] (Value): string. Unique identifier for this payment method, prefixed `pm_`. anyOf[2] (Value): null.
      * @return string|null
      */

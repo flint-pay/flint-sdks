@@ -10,7 +10,7 @@ import type {
     LocationsListParams,
     LocationsUpdateParams
 } from '../declarations/types-40.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -38,7 +38,7 @@ export type {
     LocationCoordinateRequestInput,
     LocationCoordinate
 } from '../declarations/types-40.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateLocationRequestInput } from '../declarations/types-11.js';
@@ -46,13 +46,12 @@ export type { AddressRequestInput, Address, AddressRequest } from '../declaratio
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateLocationRequestInput } from '../declarations/types-76.js';
 export type { InventoryAllocationPoliciesDeleteParams } from '../declarations/types-31.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeAddressRequest } from '../declarations/types-79.js';
+export { makeAddressRequest } from '../declarations/types-80.js';
 export { makeCreateLocationRequest } from '../declarations/types-82.js';
 export { makeLocationCoordinateRequest } from '../declarations/types-87.js';
 export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';

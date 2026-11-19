@@ -36,10 +36,6 @@ The affected public resource without expansions, client authority fields, or fie
 
 Field definitions: [shared fields](GiftCardNotification.md#giftcardnotification).
 
-### GiftCardNotificationCreatedInstalledMerchantsEvent.data.object.recipient
-
-Field definitions: [CreateGiftCardNotificationRequest.recipient](../models/CreateGiftCardNotificationRequest.md#creategiftcardnotificationrequestrecipient).
-
 ### GiftCardNotificationCreatedInstalledMerchantsEvent.source
 
 Field definitions: [BalanceTransactionCreatedInstalledMerchantsEvent.source](../models/BalanceTransactionCreatedInstalledMerchantsEvent.md#balancetransactioncreatedinstalledmerchantseventsource).

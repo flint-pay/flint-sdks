@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# BuyerRememberedBuyerResponse to CancelReturnRequest
+# BuyerRememberedBuyerListResponse to CancelReturnLineItemRequestInput
 
+- [BuyerRememberedBuyerListResponse](BuyerRememberedBuyerListResponse.md)
 - [BuyerRememberedBuyerResponse](BuyerRememberedBuyerResponse.md)
 - [BuyerRetentionOffer](BuyerRetentionOffer.md)
 - [BuyerRetentionOfferRequestInput](BuyerRetentionOfferRequestInput.md)
@@ -101,5 +102,4 @@
 - [CancelReturnDispositionRequestInput](CancelReturnDispositionRequestInput.md)
 - [CancelReturnLineItemRequest](CancelReturnLineItemRequest.md)
 - [CancelReturnLineItemRequestInput](CancelReturnLineItemRequestInput.md)
-- [CancelReturnRequest](CancelReturnRequest.md)
 

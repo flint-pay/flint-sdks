@@ -36,6 +36,7 @@ Response model.
 | `promotion_config` | Optional | [CheckoutPromotionConfigPreviousAttributes](../models/CheckoutPromotionConfigPreviousAttributes.md#checkoutpromotionconfigpreviousattributes) or null | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. |
 | `redirects` | Optional | [CheckoutRedirectsPreviousAttributes](../models/CheckoutRedirectsPreviousAttributes.md#checkoutredirectspreviousattributes) or null | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. `redirects`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesredirects). |
 | `sales_end_at` | Optional | string or null | RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. `sales_end_at`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_end_at). |
+| `sales_start_at` | Optional | string or null | RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set. `sales_start_at`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_start_at). |
 | `sales_summary` | Optional | [PaymentLinkSalesSummaryPreviousAttributes](../models/PaymentLinkSalesSummaryPreviousAttributes.md#paymentlinksalessummarypreviousattributes) or null | Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales summary. `sales_summary`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_summary). |
 | `status` | Optional | string or null | Whether the link can start new checkouts. Values: `"active"`, `"inactive"`. `status`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributesstatus). |
 | `subscription_plan` | Optional | [ExpandedSubscriptionPlanSummaryPreviousAttributes](../models/ExpandedSubscriptionPlanSummaryPreviousAttributes.md#expandedsubscriptionplansummarypreviousattributes) or null | Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. `subscription_plan`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessubscription_plan). |
@@ -945,6 +946,20 @@ anyOf variant 1: RFC3339 timestamp after which the link stops starting checkouts
 anyOf variant 2.
 
 - Value shape: null. RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. 
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_start_at
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_start_at variant 1
+
+anyOf variant 1: RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set..
+
+- Value shape: string. RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set. RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set. Format: `date-time`. 
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_start_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. RFC3339 timestamp when buyers can first start a checkout from this link. Stored to nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason sales_not_started. Must be earlier than the link’s sales end, including the event start when no explicit end is set. 
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary
 

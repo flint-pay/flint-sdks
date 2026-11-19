@@ -1,12 +1,10 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type {
     SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailure,
-    SubscriptionDeliveryMigrationFailureListResponse
-} from '../declarations/types-69.js';
-import type {
+    SubscriptionDeliveryMigrationFailureListResponse,
     SubscriptionDeliveryMigrationListResponse,
     SubscriptionDeliveryMigrationResponse,
     SubscriptionDeliveryMigrationsCreateParams,
@@ -31,19 +29,17 @@ export type {
 } from '../runtime.js';
 export type {
     SubscriptionDeliveryMigrationsCreateParams,
+    SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationResponse,
     SubscriptionDeliveryMigrationsGetParams,
     SubscriptionDeliveryMigrationsListFailuresParams,
-    SubscriptionDeliveryMigrationsListParams,
-    SubscriptionDeliveryMigrationListResponse
-} from '../declarations/types-70.js';
-export type { RequestOptions } from '../declarations/types-61.js';
-export type {
-    SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailureListResponse,
     SubscriptionDeliveryMigrationFailure,
+    SubscriptionDeliveryMigrationsListParams,
+    SubscriptionDeliveryMigrationListResponse,
     SubscriptionDeliveryMigrationFailureReasonCount
-} from '../declarations/types-69.js';
+} from '../declarations/types-70.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
@@ -52,7 +48,6 @@ export type {
     CreateSubscriptionDeliveryMigrationRequest
 } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';

@@ -11,6 +11,7 @@ The `outbound` variant of `CreateShipmentRequest`.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `direction` | Required | string | Whether the shipment sends items to the buyer or returns items to the merchant. Values: `"outbound"`. |
+| `expected_fulfillment_version` | Optional | integer | Optional version of the owning fulfillment. If the version changed, Flint refuses the request before creating any records. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `external_system` | Optional | string | Name of the external system that external_reference_id belongs to. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. |
 | `fulfillment_id` | Required | string | Shipment fulfillment that owns an outbound shipment. Required when direction is outbound; forbidden when direction is return. minLength: `1`. Example: `"ful_01KEZF7C00F24WVSTTWR1FQX5T"`. |

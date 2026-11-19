@@ -7,7 +7,7 @@ namespace Flint;
 final class TicketsGetParams extends Model {
     /** @param array{'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TicketsGetParams')); }
-    /** Include related objects in the response. Supported expansions: order. Include the order summary. Limits: at most 10 unique expand paths per request. [] enum: "order". Value enum: "order". anyOf[1] (Value): Array of string.  [] enum: "order". anyOf[1][] (Value): string.  Value enum: "order". anyOf[2] (Value): string.  Value enum: "order".
+    /** Include related objects in the response. Supported expansions: order. Include the order summary. Limits: at most 10 unique expand paths per request. Checkout session credentials cannot use expand on this route. [] enum: "order". Value enum: "order". anyOf[1] (Value): Array of string.  [] enum: "order". anyOf[1][] (Value): string.  Value enum: "order". anyOf[2] (Value): string.  Value enum: "order".
      * @return list<string>|string
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */

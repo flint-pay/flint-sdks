@@ -88,7 +88,7 @@ Body model: [CreateGiftCardNotificationRequestInput](../models/CreateGiftCardNot
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `gift_card_id` | Required | string | ID of the gift card the notification is about. minLength: `1`. |
-| `recipient` | Required | [GiftCardNotificationRecipientInput](../models/GiftCardNotificationRecipientInput.md#giftcardnotificationrecipientinput) | Who the notification is sent to. Who receives a gift card notification: their `email`, optional `name` and `message`, and an optional `send_at` time. |
+| `recipient` | Required | [GiftCardNotificationRecipientInput](../models/GiftCardNotificationRecipient.md#giftcardnotificationrecipient) | Who the notification is sent to. Who receives a gift card notification: their `email`, optional `name` and `message`, and an optional `send_at` time. |
 | `resend_of_notification_id` | Optional | string | ID of the earlier notification this one sends again. minLength: `1`. |
 
 #### Response

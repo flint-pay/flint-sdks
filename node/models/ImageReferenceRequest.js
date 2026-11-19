@@ -1,7 +1,7 @@
-import { d8666 as c0 } from '../descriptors/data/383.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
-import { d8666 as d8666 } from '../descriptors/data/383.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d8667 as c0 } from '../descriptors/data/383.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
+import { d8667 as d8667 } from '../descriptors/data/383.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8666;
+const read = d8667;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["ImageReferenceRequest"]:c0()}); }
 export { codec as _validate };

@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# PaymentLinkLineItemsItemCustomVariableSuggestedUnitPriceMoneyOptionsItem to ReturnWindow
+# PaymentLinkLineItemsItemCustomVariableResolvedPriceRangeMinUnitPriceMoney to ReportResponseDataFailed
 
+- [PaymentLinkLineItemsItemCustomVariableResolvedPriceRangeMinUnitPriceMoney](PaymentLinkLineItemsItemCustomVariableResolvedPriceRangeMinUnitPriceMoney.md)
+- [PaymentLinkLineItemsItemCustomVariableResolvedPriceRange](PaymentLinkLineItemsItemCustomVariableResolvedPriceRange.md)
+- [PaymentLinkLineItemsItemCustomVariableResolvedUnitPriceMoney](PaymentLinkLineItemsItemCustomVariableResolvedUnitPriceMoney.md)
 - [PaymentLinkLineItemsItemCustomVariableSuggestedUnitPriceMoneyOptionsItem](PaymentLinkLineItemsItemCustomVariableSuggestedUnitPriceMoneyOptionsItem.md)
 - [PaymentLinkLineItemsItemCustomVariableTax](PaymentLinkLineItemsItemCustomVariableTax.md)
 - [PaymentLinkLineItemsItemCustomVariableUnitPriceMoney](PaymentLinkLineItemsItemCustomVariableUnitPriceMoney.md)
@@ -99,7 +102,4 @@
 - [ReportResponseDataSucceeded](ReportResponseDataSucceeded.md)
 - [ReportResponseDataFailedDownload](ReportResponseDataFailedDownload.md)
 - [ReportResponseDataFailed](ReportResponseDataFailed.md)
-- [ReturnRestockingFeePolicy](ReturnRestockingFeePolicy.md)
-- [ReturnShippingPolicy](ReturnShippingPolicy.md)
-- [ReturnWindow](ReturnWindow.md)
 

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# GiftCardFundingSourceAdjustmentPreviousAttributes to ImageInputFile
+# GiftCardFundingSourceAdjustment to Image
 
+- [GiftCardFundingSourceAdjustment](GiftCardFundingSourceAdjustment.md)
 - [GiftCardFundingSourceAdjustmentPreviousAttributes](GiftCardFundingSourceAdjustmentPreviousAttributes.md)
 - [GiftCardFundingSourceAdjustmentRequestInput](GiftCardFundingSourceAdjustmentRequestInput.md)
 - [GiftCardFundingSourceExternalPayment](GiftCardFundingSourceExternalPayment.md)
@@ -45,7 +46,9 @@
 - [GiftCardNotificationDeliveryEventPreviousAttributes](GiftCardNotificationDeliveryEventPreviousAttributes.md)
 - [GiftCardNotificationDeliveryPreviousAttributes](GiftCardNotificationDeliveryPreviousAttributes.md)
 - [GiftCardNotificationListResponse](GiftCardNotificationListResponse.md)
+- [GiftCardNotificationRecipient](GiftCardNotificationRecipient.md)
 - [GiftCardNotificationRecipientInput](GiftCardNotificationRecipientInput.md)
+- [GiftCardNotificationRecipientPreviousAttributes](GiftCardNotificationRecipientPreviousAttributes.md)
 - [GiftCardNotificationResponse](GiftCardNotificationResponse.md)
 - [GiftCardNotificationUpdatedInstalledMerchantsEvent](GiftCardNotificationUpdatedInstalledMerchantsEvent.md)
 - [GiftCardNotificationUpdatedMerchantEvent](GiftCardNotificationUpdatedMerchantEvent.md)
@@ -99,7 +102,4 @@
 - [HoldFulfillmentRequest](HoldFulfillmentRequest.md)
 - [HoldFulfillmentRequestInput](HoldFulfillmentRequestInput.md)
 - [Image](Image.md)
-- [ImageAttachment](ImageAttachment.md)
-- [ImageAttachmentPreviousAttributes](ImageAttachmentPreviousAttributes.md)
-- [ImageInputFile](ImageInputFile.md)
 

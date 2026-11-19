@@ -76,6 +76,10 @@ Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previ
 
 Declared alternatives: [ReturnInspectionPreviousAttributes.generated_dispositions](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions).
 
+### ReturnInspectionAcceptanceDecidedMerchantEvent.data fields 1.previous_attributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.idempotency_key](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributesidempotency_key).
+
 ### ReturnInspectionAcceptanceDecidedMerchantEvent.data fields 1.previous_attributes.inspected_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at).

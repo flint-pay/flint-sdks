@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# SubscriptionPreviewResponseDataNextRenewal to Merchant
+# SubscriptionPreviewResponseDataDeliveryOptions to ReadinessAxis
 
+- [SubscriptionPreviewResponseDataDeliveryOptions](SubscriptionPreviewResponseDataDeliveryOptions.md)
+- [SubscriptionPreviewResponseDataDeliveryMethodUpdate](SubscriptionPreviewResponseDataDeliveryMethodUpdate.md)
 - [SubscriptionPreviewResponseDataNextRenewal](SubscriptionPreviewResponseDataNextRenewal.md)
 - [SubscriptionPreviewResponseDataPlanChange](SubscriptionPreviewResponseDataPlanChange.md)
 - [SubscriptionPreviewResponseDataQuantityChange](SubscriptionPreviewResponseDataQuantityChange.md)
@@ -100,6 +102,4 @@
 - [ReadinessRequirements](ReadinessRequirements.md)
 - [CapabilityReadiness](CapabilityReadiness.md)
 - [ReadinessAxis](ReadinessAxis.md)
-- [MerchantReadiness](MerchantReadiness.md)
-- [Merchant](Merchant.md)
 

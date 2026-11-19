@@ -10,7 +10,7 @@ import type {
     DeliveryZonesListParams,
     DeliveryZonesUpdateParams
 } from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -35,7 +35,7 @@ export type {
     DeliveryZoneListResponse,
     DeliveryZonesUpdateParams
 } from '../declarations/types-25.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     DeliveryZone,
     DeliveryZoneConfigurationRequestInput,
@@ -62,15 +62,14 @@ export type {
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { UpdateDeliveryZoneRequestInput } from '../declarations/types-75.js';
+export type { UpdateDeliveryZoneRequestInput } from '../declarations/types-76.js';
 export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-19.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateDeliveryZoneRequest } from '../declarations/types-82.js';
-export { makeDeliveryCountryConditionRequest } from '../declarations/types-84.js';
 export {
+    makeDeliveryCountryConditionRequest,
     makeDeliveryDistanceRequest,
     makeDeliveryPostalCodeConditionRequest,
     makeDeliveryPostalCodeValueRequest,

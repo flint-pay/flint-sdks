@@ -49,7 +49,10 @@ for (const [id, resource, method, idField, retired] of scenarios) {
   const body = structuredClone(operation.responses[String(status)].content["application/json"].example);
   const data = resource === "subscriptionPlans" ? structuredClone(plan) : body.data;
   if (retired) delete data[retired];
-  if (resource === "products") for (const category of data.categories) delete category.name;
+  if (resource === "products") {
+    if (!data.categories.length) data.categories.push({ category_id: "ctg_synthetic", handle: "example" });
+    for (const category of data.categories) delete category.name;
+  }
   body.data = method === "list" ? [data] : data;
   const input = operation.requestBody?.content["application/json"].example ?? {};
   test(`Node ${id} decodes the current response after retired fields are removed`, async t => {

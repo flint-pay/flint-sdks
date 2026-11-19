@@ -22,7 +22,7 @@ import type {
     FulfillmentsStartParams,
     FulfillmentsUpdateParams
 } from '../declarations/types-28.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -64,7 +64,7 @@ export type {
     FulfillmentPackagingRequestInput,
     FulfillmentSinglePackageRequestInput
 } from '../declarations/types-28.js';
-export type { RequestOptions, ReleaseFulfillmentHoldRequestInput } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     Fulfillment,
     FulfillmentListResponse,
@@ -94,6 +94,7 @@ export type { PricingAmounts } from '../declarations/types-56.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type {
     SettlementAmounts,
+    ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
     SinglePackageCreateRequestInput,
     SinglePackageCreateInputCreatedInput,
@@ -101,8 +102,6 @@ export type {
     StartFulfillmentRequestInput
 } from '../declarations/types-68.js';
 export type { PickupFulfillmentDetails } from '../declarations/types-55.js';
-export type { ServiceFulfillmentDetails, ScheduleFulfillmentRequestInput } from '../declarations/types-67.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CancelFulfillmentRequestInput } from '../declarations/types-4.js';
 export type {
@@ -129,11 +128,13 @@ export type {
     MarkFulfillmentPreparingRequestInput,
     MarkFulfillmentReadyRequestInput
 } from '../declarations/types-40.js';
+export type { ReleaseFulfillmentHoldRequestInput } from '../declarations/types-61.js';
+export type { ScheduleFulfillmentRequestInput } from '../declarations/types-67.js';
 export type { UpdateFulfillmentRequestInput, UpdateDigitalFulfillmentDetailsInput } from '../declarations/types-76.js';
 export type { UpdateDeliveryFulfillmentDetailsInput } from '../declarations/types-75.js';
 export type { UpdatePickupFulfillmentDetailsInput, UpdateServiceFulfillmentDetailsInput } from '../declarations/types-77.js';
-export { makeAcceptFulfillmentRequest, makeAddressRequest } from '../declarations/types-79.js';
-export { makeCancelFulfillmentRequest } from '../declarations/types-80.js';
+export { makeAcceptFulfillmentRequest } from '../declarations/types-79.js';
+export { makeAddressRequest, makeCancelFulfillmentRequest } from '../declarations/types-80.js';
 export { makeCompleteFulfillmentRequest, makeCreateDeliveryFulfillmentDetails } from '../declarations/types-81.js';
 export {
     makeCreateDigitalFulfillmentDetails,
@@ -162,13 +163,16 @@ export {
     makeMarkFulfillmentPackedRequest,
     makeMarkFulfillmentPickedRequest,
     makeMarkFulfillmentPreparingRequest,
-    makeMarkFulfillmentReadyRequest
-} from '../declarations/types-87.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+    makeMarkFulfillmentReadyRequest,
+    makeMetadataPatchRequest,
+    makeMetadataRequest,
+    makeMoneyValue
+} from '../declarations/types-88.js';
 export { makePackageCreateInputCreated, makePackageCreateInputShipped, makePackageCreateRequest } from '../declarations/types-89.js';
 export { makeReleaseFulfillmentHoldRequest } from '../declarations/types-90.js';
-export { makeReturnShipmentLineItemAllocationRequest, makeScheduleFulfillmentRequest } from '../declarations/types-91.js';
+export { makeReturnShipmentLineItemAllocationRequest } from '../declarations/types-91.js';
 export {
+    makeScheduleFulfillmentRequest,
     makeSinglePackageCreateInputCreated,
     makeSinglePackageCreateInputShipped,
     makeSinglePackageCreateRequest,

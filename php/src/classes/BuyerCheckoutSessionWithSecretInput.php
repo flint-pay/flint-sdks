@@ -182,7 +182,7 @@ final class BuyerCheckoutSessionWithSecretInput extends Model {
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt.
+    /** Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt.
      * @return bool
      * @throws SdkError When is_in_recovery is omitted; use hasIsInRecovery() or valueOrDefault().
      */
@@ -308,7 +308,7 @@ final class BuyerCheckoutSessionWithSecretInput extends Model {
      */
     public function getRecoveryExpiresAt(): string|\DateTimeInterface|null { return $this->get('recovery_expires_at'); }
     public function hasRecoveryExpiresAt(): bool { return $this->has('recovery_expires_at'); }
-    /** Payment attempt that this checkout credential may recover while is_in_recovery is true. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
+    /** The payment attempt in the recovery window. Only merchant reads report a merchant-started attempt. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
      * @return string
      * @throws SdkError When recovery_payment_attempt_id is omitted; use hasRecoveryPaymentAttemptId() or valueOrDefault().
      */

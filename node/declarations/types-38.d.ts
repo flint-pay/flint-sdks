@@ -1,16 +1,18 @@
 import type {
+    InvoiceScheduleAmountSpecificationPreviousAttributes,
+    InvoiceScheduleDuePreviousAttributes,
     InvoiceScheduleAmountSpecification,
     InvoiceScheduleDueWrite,
     InvoiceScheduleAmountSpecificationRequestInput,
     InvoiceScheduleDueWriteInput,
     InvoicePaymentTermsSnapshotPreviousAttributes,
-    InvoiceScheduleEntryPreviousAttributes,
     InvoiceReminderPolicy,
     InvoiceReminderPolicyInput,
     InvoiceRefundedEvent,
     InvoiceReminderDueEvent,
     InvoiceReopenedEvent
 } from './types-37.js';
+import type { MoneyValuePreviousAttributes, MoneyValue, ModifierSetUpdatedEvent } from './types-44.js';
 import type {
     AddressPreviousAttributes,
     Address,
@@ -35,19 +37,6 @@ import type {
 } from './types-26.js';
 import type {
     InvoiceCollectionPreviousAttributes,
-    InvoiceAutopayRetryPolicy,
-    InvoiceAutopayRetryPolicyInput,
-    Invoice,
-    InventoryTransferClosedEvent,
-    InventoryTransferDepartedEvent,
-    InventoryTransferLostEvent,
-    InventoryTransferReceivedEvent,
-    InventoryTransferReturnedEvent,
-    InventoryTransferUpdatedEvent,
-    InvoiceCollectionBlockResolvedEvent,
-    InvoiceCollectionBlockedEvent
-} from './types-34.js';
-import type {
     InvoiceLateFeePreviousAttributes,
     InvoiceDiscount,
     InvoiceLineItem,
@@ -64,13 +53,13 @@ import type {
     InvoiceLateFeeDueEvent,
     InvoiceLateFeeWaivedEvent,
     InvoiceManualPaymentCreatedEvent,
-    InvoiceManualPaymentReversedEvent,
-    InvoiceMarkedUncollectibleEvent
+    InvoiceManualPaymentReversedEvent
 } from './types-35.js';
 import type {
     InvoicePaymentDuePreviousAttributes,
     InvoicePaymentPolicy,
     InvoicePaymentPolicyRequestInput,
+    InvoiceMarkedUncollectibleEvent,
     InvoiceOverdueEvent,
     InvoicePaidEvent,
     InvoicePartiallyPaidEvent,
@@ -99,6 +88,7 @@ import type {
 } from './types-50.js';
 import type {
     PricingAmountsPreviousAttributes,
+    PlatformFeeCreatedEvent,
     PlatformFeePayoutCreatedEvent,
     PlatformFeePayoutFailedEvent,
     PlatformFeePayoutSucceededEvent,
@@ -111,13 +101,24 @@ import type {
     ProductCreatedEvent
 } from './types-56.js';
 import type { WebhookInvoice } from './types-79.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, ModifierSetUpdatedEvent } from './types-44.js';
+import type {
+    InvoiceAutopayRetryPolicy,
+    InvoiceAutopayRetryPolicyInput,
+    Invoice,
+    InventoryTransferClosedEvent,
+    InventoryTransferDepartedEvent,
+    InventoryTransferLostEvent,
+    InventoryTransferReceivedEvent,
+    InventoryTransferReturnedEvent,
+    InventoryTransferUpdatedEvent,
+    InvoiceCollectionBlockResolvedEvent,
+    InvoiceCollectionBlockedEvent
+} from './types-34.js';
 import type {
     SettlementAmounts,
     SettlementAmountsPreviousAttributes,
     ShipmentCreatedEvent,
-    ShipmentUpdatedEvent,
-    SubscriptionActivatedEvent
+    ShipmentUpdatedEvent
 } from './types-68.js';
 import type {
     OrderCharge,
@@ -125,8 +126,7 @@ import type {
     OrderClosedEvent,
     OrderCreatedEvent,
     OrderEditCanceledEvent,
-    OrderEditCompletedEvent,
-    OrderEditCreatedEvent
+    OrderEditCompletedEvent
 } from './types-45.js';
 import type {
     OrderTaxExemption,
@@ -157,9 +157,7 @@ import type {
     TestClockArchivedEvent,
     TestClockCreatedEvent,
     TestClockFailedEvent,
-    TestClockReadyEvent,
-    TicketCheckedInEvent,
-    TicketCreatedEvent
+    TestClockReadyEvent
 } from './types-74.js';
 import type { InputValue } from '../runtime.js';
 import type {
@@ -193,10 +191,9 @@ import type {
     ReturnCanceledEvent,
     ReturnCompletedEvent,
     ReturnCreatedEvent,
-    ReturnDecisionRecordedEvent,
-    ReturnDispositionCreatedEvent
+    ReturnDecisionRecordedEvent
 } from './types-62.js';
-import type { ReverseInvoiceManualPaymentRequestInput } from './types-66.js';
+import type { ReverseInvoiceManualPaymentRequestInput, ReturnUpdatedEvent } from './types-66.js';
 import type { UpdateInvoiceRequestInput } from './types-76.js';
 import type { WaiveInvoiceLateFeeRequestInput } from './types-78.js';
 import type {
@@ -320,9 +317,15 @@ import type {
     MerchantBillingInvoiceUpdatedEvent,
     MerchantReadinessUpdatedEvent
 } from './types-42.js';
-import type { OrderEditUpdatedEvent, OrderInventoryExceptionCreatedEvent, OrderInventoryExceptionResolvedEvent } from './types-46.js';
-import type { OrderUpdatedEvent, PackageCreatedEvent, PackageUpdatedEvent } from './types-48.js';
 import type {
+    OrderEditCreatedEvent,
+    OrderEditUpdatedEvent,
+    OrderInventoryExceptionCreatedEvent,
+    OrderInventoryExceptionResolvedEvent
+} from './types-46.js';
+import type { OrderUpdatedEvent, PackageCreatedEvent } from './types-48.js';
+import type {
+    PackageUpdatedEvent,
     PartnerAppInstallCreatedEvent,
     PartnerAppInstallPermissionsUpdatedEvent,
     PartnerAppInstallRevokedEvent,
@@ -350,10 +353,10 @@ import type {
     PaymentMethodFailedEvent,
     PaymentMethodUpdatedEvent,
     PaymentReviewClosedEvent,
-    PaymentReviewOpenedEvent,
-    PaymentReviewReopenedEvent
+    PaymentReviewOpenedEvent
 } from './types-53.js';
 import type {
+    PaymentReviewReopenedEvent,
     PaymentSplitCanceledEvent,
     PaymentSplitCreatedEvent,
     PaymentSplitFailedEvent,
@@ -361,60 +364,66 @@ import type {
     PaymentSplitUpdatedEvent,
     PayoutCanceledEvent,
     PayoutCreatedEvent,
-    PayoutDestinationArchivedEvent,
-    PayoutDestinationCreatedEvent,
-    PayoutDestinationDisabledEvent
+    PayoutDestinationArchivedEvent
 } from './types-54.js';
 import type {
+    PayoutDestinationCreatedEvent,
+    PayoutDestinationDisabledEvent,
     PayoutDestinationUpdatedEvent,
     PayoutFailedEvent,
     PayoutReversedEvent,
     PayoutSettingsUpdatedEvent,
     PayoutSucceededEvent,
     PayoutUpdatedEvent,
-    PlatformFeeCanceledEvent,
-    PlatformFeeCreatedEvent
+    PlatformFeeCanceledEvent
 } from './types-55.js';
 import type {
     ProductUpdatedEvent,
     ProductVariantArchivedEvent,
     ProductVariantCreatedEvent,
     ProductVariantUpdatedEvent,
-    PromotionArchivedEvent,
-    PromotionCodeArchivedEvent
+    PromotionArchivedEvent
 } from './types-57.js';
-import type { PromotionCodeCreatedEvent, PromotionCodeUpdatedEvent, PromotionCreatedEvent } from './types-58.js';
+import type {
+    PromotionCodeArchivedEvent,
+    PromotionCodeCreatedEvent,
+    PromotionCodeUpdatedEvent,
+    PromotionCreatedEvent
+} from './types-58.js';
 import type { PromotionUpdatedEvent, ReaderArchivedEvent, ReaderCreatedEvent, ReaderUpdatedEvent } from './types-59.js';
 import type { RefundUpdatedEvent, ReportFailedEvent, ReportSucceededEvent } from './types-61.js';
 import type {
+    ReturnDispositionCreatedEvent,
     ReturnDispositionUpdatedEvent,
     ReturnInspectionAcceptanceDecidedEvent,
     ReturnInspectionCreatedEvent,
     ReturnInspectionSupersededEvent
 } from './types-63.js';
-import type { ReturnReceiptCreatedEvent, ReturnReceiptSupersededEvent, ReturnReceiptVerifiedEvent } from './types-64.js';
+import type { ReturnReceiptCreatedEvent } from './types-64.js';
 import type {
+    ReturnReceiptSupersededEvent,
+    ReturnReceiptVerifiedEvent,
     ReturnReopenedEvent,
     ReturnResolutionCreatedEvent,
-    ReturnResolutionUpdatedEvent,
-    ReturnUpdatedEvent
+    ReturnResolutionUpdatedEvent
 } from './types-65.js';
 import type {
+    SubscriptionActivatedEvent,
     SubscriptionCanceledEvent,
     SubscriptionCancellationScheduledEvent,
     SubscriptionCreatedEvent,
     SubscriptionCycleSkippedEvent,
-    SubscriptionDeliveryActionRequiredEvent,
-    SubscriptionDeliveryMigrationCompletedEvent
+    SubscriptionDeliveryActionRequiredEvent
 } from './types-69.js';
 import type {
+    SubscriptionDeliveryMigrationCompletedEvent,
     SubscriptionDeliveryPauseUpcomingEvent,
     SubscriptionDeliveryUpdatedEvent,
     SubscriptionDunningExhaustedEvent,
-    SubscriptionEndUpcomingEvent,
-    SubscriptionPastDueEvent
+    SubscriptionEndUpcomingEvent
 } from './types-70.js';
 import type {
+    SubscriptionPastDueEvent,
     SubscriptionPausedEvent,
     SubscriptionPaymentRetryCreatedEvent,
     SubscriptionPaymentRetryFailedEvent,
@@ -431,7 +440,99 @@ import type {
     SubscriptionTrialEndingEvent,
     SubscriptionUpdatedEvent
 } from './types-72.js';
-import type { TicketUpdatedEvent, TicketVoidedEvent } from './types-75.js';
+import type { TicketCheckedInEvent, TicketCreatedEvent, TicketUpdatedEvent, TicketVoidedEvent } from './types-75.js';
+export type InvoiceScheduleEntryPreviousAttributes = {
+    /**
+     * How the entry's amount is set: a fixed amount, a percent of the invoice total, or the
+     * remaining balance. anyOf[1] (Value): {@link
+     * InvoiceScheduleAmountSpecificationPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "amount_specification"?: ((InvoiceScheduleAmountSpecificationPreviousAttributes) | (null));
+    /**
+     * Credit note credit allocated to this entry, minus reversed allocations. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "credited_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * When the entry is due. anyOf[1] (Value): {@link InvoiceScheduleDuePreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "due"?: ((InvoiceScheduleDuePreviousAttributes) | (null));
+    /**
+     * Flint invoice schedule entry ID. Kept across draft edits that send it back with the entry.
+     * anyOf[1] (Value): string. Flint invoice schedule entry ID. Kept across draft edits that send
+     * it back with the entry. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R". anyOf[2] (Value): null.
+     */
+    "invoice_schedule_entry_id"?: ((string) | (null));
+    /**
+     * The entry's role in the schedule. Value enum: "deposit", "installment", "balance". anyOf[1]
+     * (Value): string. The entry's role in the schedule. Value enum: "deposit", "installment",
+     * "balance". anyOf[2] (Value): null.
+     */
+    "kind"?: (("deposit" | "installment" | "balance" | (string & {})) | (null));
+    /**
+     * What is still owed on this entry, including its unpaid late fee, never below zero. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "outstanding_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Payments applied to this entry, minus reversed payments, including payments toward its late
+     * fee. Dispute losses don't reduce it. It can exceed total_money when the entry carries a late
+     * fee. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "paid_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * The entry's payment status, computed when the invoice is read. It follows the entry's
+     * balance and due time, not the invoice's status. Value enum: "pending", "due",
+     * "partially_satisfied", "satisfied", "overdue", "refunded". anyOf[1] (Value): string. The
+     * entry's payment status, computed when the invoice is read. It follows the entry's balance
+     * and due time, not the invoice's status. Value enum: "pending", "due", "partially_satisfied",
+     * "satisfied", "overdue", "refunded". anyOf[2] (Value): null.
+     */
+    "status"?: (("pending" | "due" | "partially_satisfied" | "satisfied" | "overdue" | "refunded" | (string & {}))
+        | (null));
+    /**
+     * The entry's share of the invoice total, resolved from amount_specification against
+     * pricing_amounts.total_money. Recomputed on draft edits and fixed at issue. Excludes late
+     * fees. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "total_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * The part of this entry written off when the invoice was marked uncollectible, including its
+     * unpaid late fee. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value):
+     * null.
+     */
+    "written_off_money"?: ((MoneyValuePreviousAttributes) | (null));
+};
+/**
+ * One payment schedule entry you supply when creating or updating an invoice. Set its kind, how
+ * much it collects, and when it is due.
+ */
+export type InvoiceScheduleEntryWrite = ({
+    /**
+     * How much the entry collects. Deposits and installments use fixed or percentage, and the
+     * balance uses remaining_balance. How much a payment schedule entry collects: a fixed amount,
+     * a percentage of the invoice total, or the remaining balance.
+     */
+    "amount_specification": InvoiceScheduleAmountSpecification;
+    /**
+     * When the entry is due. Deposits use at_issue or date, installments use date, and the balance
+     * uses invoice_due_date or date. When a payment schedule entry is due, as supplied when
+     * creating or updating an invoice: at issue, on a set date, or on the invoice due date.
+     */
+    "due": InvoiceScheduleDueWrite;
+    /**
+     * An existing entry's ID, to keep that entry when you replace the schedule on PATCH. Omit it
+     * to add a new entry. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
+     */
+    "invoice_schedule_entry_id"?: string;
+    /** The entry's role in the schedule. Value enum: "deposit", "installment", "balance". */
+    "kind": "deposit" | "installment" | "balance" | (string & {});
+})
+    & ((Exclude<InvoiceScheduleEntryWriteDeposit & object, readonly unknown[]>)
+    | (Exclude<InvoiceScheduleEntryWriteInstallment & object, readonly unknown[]>)
+    | (Exclude<InvoiceScheduleEntryWriteBalance & object, readonly unknown[]>)
+    | (Record<string, unknown>));
 /** The `balance` variant of `InvoiceScheduleEntryWrite`. */
 export type InvoiceScheduleEntryWriteBalance = ({
     /**
@@ -867,6 +968,7 @@ export type InvoiceSentEvent = ((((Exclude<MerchantWebhookEnvelope & object, rea
             "due_date"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "footer"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_number"?: ((string) | (null));
             "is_overdue"?: ((boolean) | (null));
@@ -934,6 +1036,7 @@ export type InvoiceSentEvent = ((((Exclude<MerchantWebhookEnvelope & object, rea
             "due_date"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "footer"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_number"?: ((string) | (null));
             "is_overdue"?: ((boolean) | (null));
@@ -1063,7 +1166,24 @@ export type InvoiceSentInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
      * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
      * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
      * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
-     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * unset. previous_attributes.footer.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
      * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
      * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
@@ -1324,19 +1444,36 @@ export type InvoiceSentInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
          * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
          * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
          * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
-         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
-         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. invoice_number (Optional): string or null. Sequential document number
-         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
-         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
-         * number assigned when the invoice is issued. Numbering is per merchant, with test and
-         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
-         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
-         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
-         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
-         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
-         * Whether the invoice is open or partially_paid and past due with a balance remaining.
-         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice_id (Optional): string or null. Flint
+         * invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
          * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
          * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
          * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
@@ -1584,6 +1721,25 @@ export type InvoiceSentInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope
              * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
              */
             "footer"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
@@ -1969,7 +2125,24 @@ export type InvoiceSentMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
      * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
      * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
      * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
-     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * unset. previous_attributes.footer.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
      * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
      * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
@@ -2230,19 +2403,36 @@ export type InvoiceSentMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
          * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
          * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
          * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
-         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
-         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. invoice_number (Optional): string or null. Sequential document number
-         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
-         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
-         * number assigned when the invoice is issued. Numbering is per merchant, with test and
-         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
-         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
-         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
-         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
-         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
-         * Whether the invoice is open or partially_paid and past due with a balance remaining.
-         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice_id (Optional): string or null. Flint
+         * invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
          * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
          * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
          * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
@@ -2490,6 +2680,25 @@ export type InvoiceSentMerchantEvent = (Exclude<MerchantWebhookEnvelope & object
              * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
              */
             "footer"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
@@ -3019,8 +3228,9 @@ export type InvoiceSettlementAmounts = ({
      */
     "paid_money": MoneyValue;
     /**
-     * Money returned to the buyer from what was collected toward the bill. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
+     * Money returned to the buyer from what was collected toward the bill. On orders, this counts
+     * successful refunds. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
     "refunded_money": MoneyValue;
     /**
@@ -3379,6 +3589,7 @@ export type InvoiceUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "due_date"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "footer"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_number"?: ((string) | (null));
             "is_overdue"?: ((boolean) | (null));
@@ -3446,6 +3657,7 @@ export type InvoiceUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "due_date"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "footer"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_number"?: ((string) | (null));
             "is_overdue"?: ((boolean) | (null));
@@ -3575,7 +3787,24 @@ export type InvoiceUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
      * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
      * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
-     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * unset. previous_attributes.footer.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
      * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
      * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
@@ -3836,19 +4065,36 @@ export type InvoiceUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
          * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
          * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
-         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
-         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. invoice_number (Optional): string or null. Sequential document number
-         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
-         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
-         * number assigned when the invoice is issued. Numbering is per merchant, with test and
-         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
-         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
-         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
-         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
-         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
-         * Whether the invoice is open or partially_paid and past due with a balance remaining.
-         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice_id (Optional): string or null. Flint
+         * invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
          * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
          * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
          * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
@@ -4096,6 +4342,25 @@ export type InvoiceUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
              */
             "footer"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
@@ -4481,7 +4746,24 @@ export type InvoiceUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
      * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
      * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
-     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * unset. previous_attributes.footer.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
      * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
      * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
@@ -4742,19 +5024,36 @@ export type InvoiceUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
          * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
          * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
-         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
-         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. invoice_number (Optional): string or null. Sequential document number
-         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
-         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
-         * number assigned when the invoice is issued. Numbering is per merchant, with test and
-         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
-         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
-         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
-         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
-         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
-         * Whether the invoice is open or partially_paid and past due with a balance remaining.
-         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice_id (Optional): string or null. Flint
+         * invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
          * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
          * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
          * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
@@ -5002,6 +5301,25 @@ export type InvoiceUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
              */
             "footer"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
@@ -5301,6 +5619,7 @@ export type InvoiceVoidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "due_date"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "footer"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_number"?: ((string) | (null));
             "is_overdue"?: ((boolean) | (null));
@@ -5368,6 +5687,7 @@ export type InvoiceVoidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "due_date"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "footer"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "invoice_id"?: ((string) | (null));
             "invoice_number"?: ((string) | (null));
             "is_overdue"?: ((boolean) | (null));
@@ -5497,7 +5817,24 @@ export type InvoiceVoidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
      * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
      * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
-     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * unset. previous_attributes.footer.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
      * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
      * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
@@ -5758,19 +6095,36 @@ export type InvoiceVoidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
          * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
          * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
-         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
-         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. invoice_number (Optional): string or null. Sequential document number
-         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
-         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
-         * number assigned when the invoice is issued. Numbering is per merchant, with test and
-         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
-         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
-         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
-         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
-         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
-         * Whether the invoice is open or partially_paid and past due with a balance remaining.
-         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice_id (Optional): string or null. Flint
+         * invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
          * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
          * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
          * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
@@ -6018,6 +6372,25 @@ export type InvoiceVoidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
              */
             "footer"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
@@ -6403,7 +6776,24 @@ export type InvoiceVoidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * (Optional): string or null. Fine print at the bottom of the invoice and PDF. It cannot
      * change after issue. `null` when unset. previous_attributes.footer.anyOf[1] (Value): string.
      * Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
-     * unset. previous_attributes.footer.anyOf[2] (Value): null. previous_attributes.invoice_id
+     * unset. previous_attributes.footer.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.invoice_id
      * (Optional): string or null. Flint invoice ID. previous_attributes.invoice_id.anyOf[1]
      * (Value): string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * previous_attributes.invoice_id.anyOf[2] (Value): null. previous_attributes.invoice_number
@@ -6664,19 +7054,36 @@ export type InvoiceVoidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * print at the bottom of the invoice and PDF. It cannot change after issue. `null` when
          * unset. footer.anyOf[1] (Value): string. Fine print at the bottom of the invoice and PDF.
          * It cannot change after issue. `null` when unset. footer.anyOf[2] (Value): null.
-         * invoice_id (Optional): string or null. Flint invoice ID. invoice_id.anyOf[1] (Value):
-         * string. Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2]
-         * (Value): null. invoice_number (Optional): string or null. Sequential document number
-         * assigned when the invoice is issued. Numbering is per merchant, with test and live mode
-         * numbered independently. invoice_number.anyOf[1] (Value): string. Sequential document
-         * number assigned when the invoice is issued. Numbering is per merchant, with test and
-         * live mode numbered independently. invoice_number.anyOf[2] (Value): null. is_overdue
-         * (Optional): boolean or null. Whether the invoice is open or partially_paid and past due
-         * with a balance remaining. Without schedule_entries, the due_date has ended in timezone
-         * (UTC when absent) and outstanding_money is above zero; with them, at least one entry is
-         * overdue. Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean.
-         * Whether the invoice is open or partially_paid and past due with a balance remaining.
-         * Without schedule_entries, the due_date has ended in timezone (UTC when absent) and
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Buyer sessions on routes shared with
+         * merchants get `null`. `/v1/me` responses do not include this field.
+         * idempotency_key.anyOf[2] (Value): null. invoice_id (Optional): string or null. Flint
+         * invoice ID. invoice_id.anyOf[1] (Value): string. Flint invoice ID. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". invoice_id.anyOf[2] (Value): null. invoice_number
+         * (Optional): string or null. Sequential document number assigned when the invoice is
+         * issued. Numbering is per merchant, with test and live mode numbered independently.
+         * invoice_number.anyOf[1] (Value): string. Sequential document number assigned when the
+         * invoice is issued. Numbering is per merchant, with test and live mode numbered
+         * independently. invoice_number.anyOf[2] (Value): null. is_overdue (Optional): boolean or
+         * null. Whether the invoice is open or partially_paid and past due with a balance
+         * remaining. Without schedule_entries, the due_date has ended in timezone (UTC when
+         * absent) and outstanding_money is above zero; with them, at least one entry is overdue.
+         * Computed when the invoice is read. is_overdue.anyOf[1] (Value): boolean. Whether the
+         * invoice is open or partially_paid and past due with a balance remaining. Without
+         * schedule_entries, the due_date has ended in timezone (UTC when absent) and
          * outstanding_money is above zero; with them, at least one entry is overdue. Computed when
          * the invoice is read. is_overdue.anyOf[2] (Value): null. issued_at (Optional): string or
          * null. When the invoice was issued. Absent on a draft. issued_at.anyOf[1] (Value):
@@ -6924,6 +7331,25 @@ export type InvoiceVoidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
              */
             "footer"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Flint invoice ID. anyOf[1] (Value): string. Flint invoice ID. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
@@ -7376,31 +7802,34 @@ export type InvoicesListActivitiesParams = {
      * "payment_applied", "manual_payment_recorded", "manual_payment_reversed", "refund_succeeded",
      * "voided", "token_regenerated", "collection_blocked", "collection_block_resolved", "updated",
      * "marked_uncollectible", "payment_processing", "issue_failed", "overdue", "reminder_due",
-     * "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited". Value enum:
-     * "draft_created", "issued", "sent", "delivery_sent", "reminder_sent", "viewed",
-     * "payment_attempt_started", "payment_applied", "manual_payment_recorded",
-     * "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated",
-     * "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible",
-     * "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due",
-     * "late_fee_assessed", "late_fee_waived", "credited". anyOf[1] (Value): Array of string.
+     * "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited", "payment_failed",
+     * "payment_returned", "reopened", "credit_note_allocated". Value enum: "draft_created",
+     * "issued", "sent", "delivery_sent", "reminder_sent", "viewed", "payment_attempt_started",
+     * "payment_applied", "manual_payment_recorded", "manual_payment_reversed", "refund_succeeded",
+     * "voided", "token_regenerated", "collection_blocked", "collection_block_resolved", "updated",
+     * "marked_uncollectible", "payment_processing", "issue_failed", "overdue", "reminder_due",
+     * "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited", "payment_failed",
+     * "payment_returned", "reopened", "credit_note_allocated". anyOf[1] (Value): Array of string.
      * minItems: 1. [] enum: "draft_created", "issued", "sent", "delivery_sent", "reminder_sent",
      * "viewed", "payment_attempt_started", "payment_applied", "manual_payment_recorded",
      * "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated",
      * "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible",
      * "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due",
-     * "late_fee_assessed", "late_fee_waived", "credited". anyOf[1][] (Value): string. Value enum:
+     * "late_fee_assessed", "late_fee_waived", "credited", "payment_failed", "payment_returned",
+     * "reopened", "credit_note_allocated". anyOf[1][] (Value): string. Value enum:
      * "draft_created", "issued", "sent", "delivery_sent", "reminder_sent", "viewed",
      * "payment_attempt_started", "payment_applied", "manual_payment_recorded",
      * "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated",
      * "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible",
      * "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due",
-     * "late_fee_assessed", "late_fee_waived", "credited". anyOf[2] (Value): string. Value enum:
-     * "draft_created", "issued", "sent", "delivery_sent", "reminder_sent", "viewed",
-     * "payment_attempt_started", "payment_applied", "manual_payment_recorded",
-     * "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated",
-     * "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible",
-     * "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due",
-     * "late_fee_assessed", "late_fee_waived", "credited".
+     * "late_fee_assessed", "late_fee_waived", "credited", "payment_failed", "payment_returned",
+     * "reopened", "credit_note_allocated". anyOf[2] (Value): string. Value enum: "draft_created",
+     * "issued", "sent", "delivery_sent", "reminder_sent", "viewed", "payment_attempt_started",
+     * "payment_applied", "manual_payment_recorded", "manual_payment_reversed", "refund_succeeded",
+     * "voided", "token_regenerated", "collection_blocked", "collection_block_resolved", "updated",
+     * "marked_uncollectible", "payment_processing", "issue_failed", "overdue", "reminder_due",
+     * "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited", "payment_failed",
+     * "payment_returned", "reopened", "credit_note_allocated".
      */
     "activity_type"?: InputValue<("draft_created"
         | "issued"
@@ -7426,7 +7855,11 @@ export type InvoicesListActivitiesParams = {
         | "late_fee_due"
         | "late_fee_assessed"
         | "late_fee_waived"
-        | "credited")
+        | "credited"
+        | "payment_failed"
+        | "payment_returned"
+        | "reopened"
+        | "credit_note_allocated")
         | readonly ("draft_created"
         | "issued"
         | "sent"
@@ -7451,7 +7884,11 @@ export type InvoicesListActivitiesParams = {
         | "late_fee_due"
         | "late_fee_assessed"
         | "late_fee_waived"
-        | "credited")[]>;
+        | "credited"
+        | "payment_failed"
+        | "payment_returned"
+        | "reopened"
+        | "credit_note_allocated")[]>;
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own
@@ -7505,8 +7942,11 @@ export type InvoicesListParams = {
      * exact and case-sensitive. Returns only resources created in your caller namespace, plus
      * resources created before caller scoping under the original key. Returns current authorized
      * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
-     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -8349,220 +8789,4 @@ export type LicenseKeyActivationCreatedEvent = ((((Exclude<MerchantWebhookEnvelo
 })))
     & {
     "event_type": "license_key_activation.created";
-});
-/**
- * The `license_key_activation.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type LicenseKeyActivationCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Required): string. When the activation was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.fingerprint (Required): string or
-     * null. The identifier supplied by the app. Null when absent or erased.
-     * object.last_validated_at (Required): string or null. When the activation was last checked,
-     * updated at most once an hour. Null when the activation has never been checked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.license_key_activation_id (Required):
-     * string. The activation ID. Example: "lka_01KEZF7C00NZEZVCZW3SRDMHTZ". object.license_key_id
-     * (Required): string. The activated license key ID. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN".
-     * object.name (Required): string or null. The name supplied by the app. Null when erased.
-     * object.product_id (Required): string. The product this installation can use. Example:
-     * "prod_01KEZF7C00BVSHCNWVH528HB66". object.released_at (Required): string or null. When the
-     * activation was released. Null when it is active. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. The activation state. Value enum:
-     * "active", "released". object.supported_actions (Required): Array of string. Actions
-     * available for this activation. [] enum: "release". object.supported_actions[] (Value):
-     * string. Value enum: "release". object.variant_id (Required): string. The variant this
-     * installation can use. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Required): string. When the activation was created. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". fingerprint (Required): string or null. The identifier
-         * supplied by the app. Null when absent or erased. last_validated_at (Required): string or
-         * null. When the activation was last checked, updated at most once an hour. Null when the
-         * activation has never been checked. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * license_key_activation_id (Required): string. The activation ID. Example:
-         * "lka_01KEZF7C00NZEZVCZW3SRDMHTZ". license_key_id (Required): string. The activated
-         * license key ID. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". name (Required): string or
-         * null. The name supplied by the app. Null when erased. product_id (Required): string. The
-         * product this installation can use. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-         * released_at (Required): string or null. When the activation was released. Null when it
-         * is active. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. The activation state. Value enum: "active", "released". supported_actions
-         * (Required): Array of string. Actions available for this activation. [] enum: "release".
-         * supported_actions[] (Value): string. Value enum: "release". variant_id (Required):
-         * string. The variant this installation can use. Example:
-         * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-         */
-        "object": {
-            /**
-             * When the activation was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /** The identifier supplied by the app. Null when absent or erased. */
-            "fingerprint": string | null;
-            /**
-             * When the activation was last checked, updated at most once an hour. Null when the
-             * activation has never been checked. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "last_validated_at": string | null;
-            /** The activation ID. Example: "lka_01KEZF7C00NZEZVCZW3SRDMHTZ". */
-            "license_key_activation_id": string;
-            /** The activated license key ID. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". */
-            "license_key_id": string;
-            /** The name supplied by the app. Null when erased. */
-            "name": string | null;
-            /**
-             * The product this installation can use. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-             */
-            "product_id": string;
-            /**
-             * When the activation was released. Null when it is active. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "released_at": string | null;
-            /** The activation state. Value enum: "active", "released". */
-            "status": "active" | "released" | (string & {});
-            /**
-             * Actions available for this activation. [] enum: "release". [] (Value): string. Value
-             * enum: "release".
-             */
-            "supported_actions": Array<"release" | (string & {})>;
-            /** The variant this installation can use. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-            "variant_id": string;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "license_key_activation.created". */
-    "event_type"?: "license_key_activation.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `license_key_activation.created` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type LicenseKeyActivationCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Required): string. When the activation was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.fingerprint (Required): string or
-     * null. The identifier supplied by the app. Null when absent or erased.
-     * object.last_validated_at (Required): string or null. When the activation was last checked,
-     * updated at most once an hour. Null when the activation has never been checked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.license_key_activation_id (Required):
-     * string. The activation ID. Example: "lka_01KEZF7C00NZEZVCZW3SRDMHTZ". object.license_key_id
-     * (Required): string. The activated license key ID. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN".
-     * object.name (Required): string or null. The name supplied by the app. Null when erased.
-     * object.product_id (Required): string. The product this installation can use. Example:
-     * "prod_01KEZF7C00BVSHCNWVH528HB66". object.released_at (Required): string or null. When the
-     * activation was released. Null when it is active. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.status (Required): string. The activation state. Value enum:
-     * "active", "released". object.supported_actions (Required): Array of string. Actions
-     * available for this activation. [] enum: "release". object.supported_actions[] (Value):
-     * string. Value enum: "release". object.variant_id (Required): string. The variant this
-     * installation can use. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Required): string. When the activation was created. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". fingerprint (Required): string or null. The identifier
-         * supplied by the app. Null when absent or erased. last_validated_at (Required): string or
-         * null. When the activation was last checked, updated at most once an hour. Null when the
-         * activation has never been checked. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * license_key_activation_id (Required): string. The activation ID. Example:
-         * "lka_01KEZF7C00NZEZVCZW3SRDMHTZ". license_key_id (Required): string. The activated
-         * license key ID. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". name (Required): string or
-         * null. The name supplied by the app. Null when erased. product_id (Required): string. The
-         * product this installation can use. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-         * released_at (Required): string or null. When the activation was released. Null when it
-         * is active. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. The activation state. Value enum: "active", "released". supported_actions
-         * (Required): Array of string. Actions available for this activation. [] enum: "release".
-         * supported_actions[] (Value): string. Value enum: "release". variant_id (Required):
-         * string. The variant this installation can use. Example:
-         * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-         */
-        "object": {
-            /**
-             * When the activation was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /** The identifier supplied by the app. Null when absent or erased. */
-            "fingerprint": string | null;
-            /**
-             * When the activation was last checked, updated at most once an hour. Null when the
-             * activation has never been checked. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "last_validated_at": string | null;
-            /** The activation ID. Example: "lka_01KEZF7C00NZEZVCZW3SRDMHTZ". */
-            "license_key_activation_id": string;
-            /** The activated license key ID. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". */
-            "license_key_id": string;
-            /** The name supplied by the app. Null when erased. */
-            "name": string | null;
-            /**
-             * The product this installation can use. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-             */
-            "product_id": string;
-            /**
-             * When the activation was released. Null when it is active. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "released_at": string | null;
-            /** The activation state. Value enum: "active", "released". */
-            "status": "active" | "released" | (string & {});
-            /**
-             * Actions available for this activation. [] enum: "release". [] (Value): string. Value
-             * enum: "release".
-             */
-            "supported_actions": Array<"release" | (string & {})>;
-            /** The variant this installation can use. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-            "variant_id": string;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "license_key_activation.created". */
-    "event_type"?: "license_key_activation.created";
 });

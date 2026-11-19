@@ -1,4 +1,4 @@
-<!-- Package 8.0.0-beta.7; API 2026-09-07 -->
+<!-- Package 8.0.0-beta.8; API 2026-09-07 -->
 
 # Validate and activate license keys
 

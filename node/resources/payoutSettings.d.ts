@@ -8,7 +8,7 @@ import type {
     PayoutSettingsUpdatedInstalledMerchantsEvent,
     PayoutSettingsUpdatedMerchantEvent
 } from '../declarations/types-55.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -33,7 +33,13 @@ export type {
     PayoutSettingsUpdatedMerchantEvent
 } from '../declarations/types-55.js';
 export type { _SdkWithoutIdempotency, WebhookEventSource } from '../declarations/types-79.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type {
+    RequestOptions,
+    ResourceReference,
+    ResponseMeta,
+    ResponseWarning,
+    ResourceReferencePreviousAttributes
+} from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
@@ -47,8 +53,7 @@ export type {
     NextActionPreviousAttributes
 } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession, ReadinessMerchantAccountSessionPreviousAttributes } from '../declarations/types-60.js';
-export type { ResourceReference, ResponseMeta, ResponseWarning, ResourceReferencePreviousAttributes } from '../declarations/types-62.js';
-export type { UpdatePayoutSettingsRequestInput } from '../declarations/types-76.js';
+export type { UpdatePayoutSettingsRequestInput } from '../declarations/types-77.js';
 export type { PartnerWebhookEnvelope } from '../declarations/types-50.js';
 export type { MerchantWebhookEnvelope } from '../declarations/types-43.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';

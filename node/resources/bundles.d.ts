@@ -13,7 +13,7 @@ import type {
     BundlesUpdateParams
 } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -44,7 +44,7 @@ export type {
     AuthMode,
     BundleComponentVariantSummary
 } from '../declarations/types-1.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateBundleRequestInput, CreateBundleComponentRequestInput, CreateBundleComponentRequest } from '../declarations/types-8.js';
@@ -64,7 +64,6 @@ export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/ty
 export type { Credentials } from '../declarations/types-14.js';
 export type { CategoryReference } from '../declarations/types-5.js';
 export type { TextModifierConfig } from '../declarations/types-74.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { SelectedProductOption } from '../declarations/types-67.js';
 export type { UpdateBundleRequestInput, UpdateBundleComponentRequestInput, UpdateBundleComponentRequest } from '../declarations/types-75.js';

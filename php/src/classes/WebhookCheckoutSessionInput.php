@@ -193,7 +193,7 @@ final class WebhookCheckoutSessionInput extends Model {
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt.
+    /** Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt.
      * @return bool
      * @throws SdkError When is_in_recovery is omitted; use hasIsInRecovery() or valueOrDefault().
      */

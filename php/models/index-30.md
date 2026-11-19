@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# SendOrderReceiptRequestInput to SubscriptionDeliveryMethodSummaryInput
+# SelectedProductOptionPreviousAttributesInput to SubscriptionDeliveryMethodCountsInput
 
+- [SelectedProductOptionPreviousAttributesInput](SelectedProductOptionPreviousAttributesInput.md)
+- [SellerTaxAttestationRequestInput](SellerTaxAttestationRequestInput.md)
 - [SendOrderReceiptRequestInput](SendOrderReceiptRequestInput.md)
 - [SendPaymentIntentReceiptRequestInput](SendPaymentIntentReceiptRequestInput.md)
 - [ServiceFulfillmentDetailsInput](ServiceFulfillmentDetailsInput.md)
@@ -100,6 +102,4 @@
 - [SubscriptionDeliveryHoldInput](SubscriptionDeliveryHoldInput.md)
 - [SubscriptionDeliveryHoldPreviousAttributesInput](SubscriptionDeliveryHoldPreviousAttributesInput.md)
 - [SubscriptionDeliveryMethodCountsInput](SubscriptionDeliveryMethodCountsInput.md)
-- [SubscriptionDeliveryMethodImpactInput](SubscriptionDeliveryMethodImpactInput.md)
-- [SubscriptionDeliveryMethodSummaryInput](SubscriptionDeliveryMethodSummaryInput.md)
 

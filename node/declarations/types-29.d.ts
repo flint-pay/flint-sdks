@@ -2,9 +2,7 @@ import type {
     GiftCard,
     GiftCardFundingDispute,
     GiftCardFundingDisputePreviousAttributes,
-    GiftCardCustomAmountBounds,
-    GiftCardCustomAmountBoundsPreviousAttributes,
-    GiftCardCustomAmountBoundsRequestInput
+    GiftCardCustomAmountBounds
 } from './types-28.js';
 import type { ResponseMeta } from './types-62.js';
 import type {
@@ -15,11 +13,9 @@ import type {
     GiftCardPurchaseRefundAllocationPreviousAttributes,
     GiftCardPurchaseRefundValueHoldPreviousAttributes,
     GiftCardPurchaseRestorationPreviousAttributes,
-    GiftCardRefundProvenancePreviousAttributes,
-    GiftCardPurchaseRecipient,
-    GiftCardPurchaseRecipientPreviousAttributes
+    GiftCardRefundProvenancePreviousAttributes
 } from './types-30.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { InputValue } from '../runtime.js';
@@ -1616,8 +1612,13 @@ export type GiftCardLoad = {
      */
     "gift_card_load_id": string;
     /**
-     * Your Idempotency-Key for the command that created this record. `null` when Flint created it
-     * or no key was sent.
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown.
      */
     "idempotency_key": string | null;
     /**
@@ -1772,46 +1773,51 @@ export type GiftCardLoadCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * object.gift_card_id (Required): string. ID of the gift card the load added value to.
      * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_load_id (Required): string.
      * Unique identifier for this gift card load, prefixed `gcl_`. Example:
-     * "gcl_01KEZF7C00YJED2857SE0J6KWC". object.idempotency_key (Required): string or null. Your
-     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
-     * key was sent. object.purchase_refund_value_holds (Optional): Array of {@link
-     * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
-     * this descendant funding lot. Unknown provider outcomes retain these holds.
-     * object.purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift
-     * card value held back by a purchase refund, with the refund, the root gift card and load, and
-     * the amount held. object.purchase_refunds (Required): Array of {@link
-     * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against this
-     * original funding load. Pending refunds reserve their value; confirmed success removes it,
-     * and confirmed failure releases the hold. object.purchase_refunds[] (Value): {@link
-     * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
-     * object.purchase_restoration (Optional): {@link GiftCardPurchaseRestoration}. Set when the
-     * buyer paid again for value that reversing a gift card purchase had removed, and this load
-     * restored it. Names the original card and load, the purchase refund entry that removed the
-     * value, and the purchased unit. Omitted for other loads. Links a gift card load to the
-     * original card and load it restores value to after a purchase refund, for one unit of an
-     * order line item. object.refund_provenance (Optional): {@link GiftCardRefundProvenance}.
-     * Traces a load made by a refund back to its original funding. `null` when the load wasn't
-     * made by a refund. Traces a gift card load made by a refund back to its original funding
-     * source, root gift card and load, and source refund. object.refund_transferred_money
-     * (Optional): {@link MoneyValue}. The part of this load's value that refunds of redemptions
-     * moved onto replacement gift cards. Omitted until a refund moves value. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. object.remaining_money
-     * (Required): {@link MoneyValue}. The value from this load still on the card: not yet spent,
-     * reversed, or moved to a replacement card. It includes value held by a reserved redemption.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.reversed_money (Required): {@link MoneyValue}. The value removed from this load by
-     * refunding or reversing the purchase that funded it. It goes down again when a purchase
-     * refund fails and the value is restored. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.source (Required): {@link GiftCardFundingSource}.
-     * Where the value came from, with your reference for it. Where the value of a gift card load
-     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
-     * your reference for it. object.source_created_at (Required): string or null. RFC3339
-     * timestamp. `null` when no source time was recorded. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.value_money (Required): {@link MoneyValue}. The face value
-     * the load adds to the card. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. object.version (Required): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: int64.
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown. object.purchase_refund_value_holds
+     * (Optional): Array of {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds
+     * holding unspent value on this descendant funding lot. Unknown provider outcomes retain these
+     * holds. object.purchase_refund_value_holds[] (Value): {@link
+     * GiftCardPurchaseRefundValueHold}. Gift card value held back by a purchase refund, with the
+     * refund, the root gift card and load, and the amount held. object.purchase_refunds
+     * (Required): Array of {@link GiftCardPurchaseRefundAllocation}. Cash refunds and manual
+     * payment reversals against this original funding load. Pending refunds reserve their value;
+     * confirmed success removes it, and confirmed failure releases the hold.
+     * object.purchase_refunds[] (Value): {@link GiftCardPurchaseRefundAllocation}. An entry in a
+     * gift card load's purchase refunds. object.purchase_restoration (Optional): {@link
+     * GiftCardPurchaseRestoration}. Set when the buyer paid again for value that reversing a gift
+     * card purchase had removed, and this load restored it. Names the original card and load, the
+     * purchase refund entry that removed the value, and the purchased unit. Omitted for other
+     * loads. Links a gift card load to the original card and load it restores value to after a
+     * purchase refund, for one unit of an order line item. object.refund_provenance (Optional):
+     * {@link GiftCardRefundProvenance}. Traces a load made by a refund back to its original
+     * funding. `null` when the load wasn't made by a refund. Traces a gift card load made by a
+     * refund back to its original funding source, root gift card and load, and source refund.
+     * object.refund_transferred_money (Optional): {@link MoneyValue}. The part of this load's
+     * value that refunds of redemptions moved onto replacement gift cards. Omitted until a refund
+     * moves value. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.remaining_money (Required): {@link MoneyValue}. The value from this load still
+     * on the card: not yet spent, reversed, or moved to a replacement card. It includes value held
+     * by a reserved redemption. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.reversed_money (Required): {@link MoneyValue}. The value removed
+     * from this load by refunding or reversing the purchase that funded it. It goes down again
+     * when a purchase refund fails and the value is restored. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. object.source (Required): {@link
+     * GiftCardFundingSource}. Where the value came from, with your reference for it. Where the
+     * value of a gift card load came from, such as an external payment, a Flint payment, an
+     * import, or an adjustment, with your reference for it. object.source_created_at (Required):
+     * string or null. RFC3339 timestamp. `null` when no source time was recorded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.value_money (Required): {@link
+     * MoneyValue}. The face value the load adds to the card. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. object.version (Required): integer.
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
      */
     "data"?: {
         /**
@@ -1830,13 +1836,19 @@ export type GiftCardLoadCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
          * gift_card_load_id (Required): string. Unique identifier for this gift card load,
          * prefixed `gcl_`. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC". idempotency_key (Required):
-         * string or null. Your Idempotency-Key for the command that created this record. `null`
-         * when Flint created it or no key was sent. purchase_refund_value_holds (Optional): Array
-         * of {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding
-         * unspent value on this descendant funding lot. Unknown provider outcomes retain these
-         * holds. purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}.
-         * Gift card value held back by a purchase refund, with the refund, the root gift card and
-         * load, and the amount held. purchase_refunds (Required): Array of {@link
+         * string or null. The Idempotency-Key of the request that created this resource. `null`
+         * when that request sent no key, Flint created the resource, the reader isn't the caller
+         * that created it (another app install, a buyer, or the merchant reading an app's or
+         * buyer's record), or the caller that created an older record is unknown. Filter its list
+         * with `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Older records can return their key when the creating caller is unknown.
+         * purchase_refund_value_holds (Optional): Array of {@link
+         * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
+         * this descendant funding lot. Unknown provider outcomes retain these holds.
+         * purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift
+         * card value held back by a purchase refund, with the refund, the root gift card and load,
+         * and the amount held. purchase_refunds (Required): Array of {@link
          * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against
          * this original funding load. Pending refunds reserve their value; confirmed success
          * removes it, and confirmed failure releases the hold. purchase_refunds[] (Value): {@link
@@ -1899,8 +1911,14 @@ export type GiftCardLoadCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "gift_card_load_id": string;
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown.
              */
             "idempotency_key": string | null;
             /**
@@ -2033,46 +2051,51 @@ export type GiftCardLoadCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * object.gift_card_id (Required): string. ID of the gift card the load added value to.
      * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_load_id (Required): string.
      * Unique identifier for this gift card load, prefixed `gcl_`. Example:
-     * "gcl_01KEZF7C00YJED2857SE0J6KWC". object.idempotency_key (Required): string or null. Your
-     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
-     * key was sent. object.purchase_refund_value_holds (Optional): Array of {@link
-     * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
-     * this descendant funding lot. Unknown provider outcomes retain these holds.
-     * object.purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift
-     * card value held back by a purchase refund, with the refund, the root gift card and load, and
-     * the amount held. object.purchase_refunds (Required): Array of {@link
-     * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against this
-     * original funding load. Pending refunds reserve their value; confirmed success removes it,
-     * and confirmed failure releases the hold. object.purchase_refunds[] (Value): {@link
-     * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
-     * object.purchase_restoration (Optional): {@link GiftCardPurchaseRestoration}. Set when the
-     * buyer paid again for value that reversing a gift card purchase had removed, and this load
-     * restored it. Names the original card and load, the purchase refund entry that removed the
-     * value, and the purchased unit. Omitted for other loads. Links a gift card load to the
-     * original card and load it restores value to after a purchase refund, for one unit of an
-     * order line item. object.refund_provenance (Optional): {@link GiftCardRefundProvenance}.
-     * Traces a load made by a refund back to its original funding. `null` when the load wasn't
-     * made by a refund. Traces a gift card load made by a refund back to its original funding
-     * source, root gift card and load, and source refund. object.refund_transferred_money
-     * (Optional): {@link MoneyValue}. The part of this load's value that refunds of redemptions
-     * moved onto replacement gift cards. Omitted until a refund moves value. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. object.remaining_money
-     * (Required): {@link MoneyValue}. The value from this load still on the card: not yet spent,
-     * reversed, or moved to a replacement card. It includes value held by a reserved redemption.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.reversed_money (Required): {@link MoneyValue}. The value removed from this load by
-     * refunding or reversing the purchase that funded it. It goes down again when a purchase
-     * refund fails and the value is restored. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.source (Required): {@link GiftCardFundingSource}.
-     * Where the value came from, with your reference for it. Where the value of a gift card load
-     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
-     * your reference for it. object.source_created_at (Required): string or null. RFC3339
-     * timestamp. `null` when no source time was recorded. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.value_money (Required): {@link MoneyValue}. The face value
-     * the load adds to the card. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. object.version (Required): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: int64.
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown. object.purchase_refund_value_holds
+     * (Optional): Array of {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds
+     * holding unspent value on this descendant funding lot. Unknown provider outcomes retain these
+     * holds. object.purchase_refund_value_holds[] (Value): {@link
+     * GiftCardPurchaseRefundValueHold}. Gift card value held back by a purchase refund, with the
+     * refund, the root gift card and load, and the amount held. object.purchase_refunds
+     * (Required): Array of {@link GiftCardPurchaseRefundAllocation}. Cash refunds and manual
+     * payment reversals against this original funding load. Pending refunds reserve their value;
+     * confirmed success removes it, and confirmed failure releases the hold.
+     * object.purchase_refunds[] (Value): {@link GiftCardPurchaseRefundAllocation}. An entry in a
+     * gift card load's purchase refunds. object.purchase_restoration (Optional): {@link
+     * GiftCardPurchaseRestoration}. Set when the buyer paid again for value that reversing a gift
+     * card purchase had removed, and this load restored it. Names the original card and load, the
+     * purchase refund entry that removed the value, and the purchased unit. Omitted for other
+     * loads. Links a gift card load to the original card and load it restores value to after a
+     * purchase refund, for one unit of an order line item. object.refund_provenance (Optional):
+     * {@link GiftCardRefundProvenance}. Traces a load made by a refund back to its original
+     * funding. `null` when the load wasn't made by a refund. Traces a gift card load made by a
+     * refund back to its original funding source, root gift card and load, and source refund.
+     * object.refund_transferred_money (Optional): {@link MoneyValue}. The part of this load's
+     * value that refunds of redemptions moved onto replacement gift cards. Omitted until a refund
+     * moves value. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.remaining_money (Required): {@link MoneyValue}. The value from this load still
+     * on the card: not yet spent, reversed, or moved to a replacement card. It includes value held
+     * by a reserved redemption. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.reversed_money (Required): {@link MoneyValue}. The value removed
+     * from this load by refunding or reversing the purchase that funded it. It goes down again
+     * when a purchase refund fails and the value is restored. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. object.source (Required): {@link
+     * GiftCardFundingSource}. Where the value came from, with your reference for it. Where the
+     * value of a gift card load came from, such as an external payment, a Flint payment, an
+     * import, or an adjustment, with your reference for it. object.source_created_at (Required):
+     * string or null. RFC3339 timestamp. `null` when no source time was recorded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.value_money (Required): {@link
+     * MoneyValue}. The face value the load adds to the card. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. object.version (Required): integer.
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
      */
     "data"?: {
         /**
@@ -2091,13 +2114,19 @@ export type GiftCardLoadCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
          * gift_card_load_id (Required): string. Unique identifier for this gift card load,
          * prefixed `gcl_`. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC". idempotency_key (Required):
-         * string or null. Your Idempotency-Key for the command that created this record. `null`
-         * when Flint created it or no key was sent. purchase_refund_value_holds (Optional): Array
-         * of {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding
-         * unspent value on this descendant funding lot. Unknown provider outcomes retain these
-         * holds. purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}.
-         * Gift card value held back by a purchase refund, with the refund, the root gift card and
-         * load, and the amount held. purchase_refunds (Required): Array of {@link
+         * string or null. The Idempotency-Key of the request that created this resource. `null`
+         * when that request sent no key, Flint created the resource, the reader isn't the caller
+         * that created it (another app install, a buyer, or the merchant reading an app's or
+         * buyer's record), or the caller that created an older record is unknown. Filter its list
+         * with `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Older records can return their key when the creating caller is unknown.
+         * purchase_refund_value_holds (Optional): Array of {@link
+         * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
+         * this descendant funding lot. Unknown provider outcomes retain these holds.
+         * purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift
+         * card value held back by a purchase refund, with the refund, the root gift card and load,
+         * and the amount held. purchase_refunds (Required): Array of {@link
          * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against
          * this original funding load. Pending refunds reserve their value; confirmed success
          * removes it, and confirmed failure releases the hold. purchase_refunds[] (Value): {@link
@@ -2160,8 +2189,14 @@ export type GiftCardLoadCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "gift_card_load_id": string;
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown.
              */
             "idempotency_key": string | null;
             /**
@@ -2412,52 +2447,58 @@ export type GiftCardLoadUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * object.gift_card_id (Required): string. ID of the gift card the load added value to.
      * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_load_id (Required): string.
      * Unique identifier for this gift card load, prefixed `gcl_`. Example:
-     * "gcl_01KEZF7C00YJED2857SE0J6KWC". object.idempotency_key (Required): string or null. Your
-     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
-     * key was sent. object.purchase_refund_value_holds (Optional): Array of {@link
-     * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
-     * this descendant funding lot. Unknown provider outcomes retain these holds.
-     * object.purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift
-     * card value held back by a purchase refund, with the refund, the root gift card and load, and
-     * the amount held. object.purchase_refunds (Required): Array of {@link
-     * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against this
-     * original funding load. Pending refunds reserve their value; confirmed success removes it,
-     * and confirmed failure releases the hold. object.purchase_refunds[] (Value): {@link
-     * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
-     * object.purchase_restoration (Optional): {@link GiftCardPurchaseRestoration}. Set when the
-     * buyer paid again for value that reversing a gift card purchase had removed, and this load
-     * restored it. Names the original card and load, the purchase refund entry that removed the
-     * value, and the purchased unit. Omitted for other loads. Links a gift card load to the
-     * original card and load it restores value to after a purchase refund, for one unit of an
-     * order line item. object.refund_provenance (Optional): {@link GiftCardRefundProvenance}.
-     * Traces a load made by a refund back to its original funding. `null` when the load wasn't
-     * made by a refund. Traces a gift card load made by a refund back to its original funding
-     * source, root gift card and load, and source refund. object.refund_transferred_money
-     * (Optional): {@link MoneyValue}. The part of this load's value that refunds of redemptions
-     * moved onto replacement gift cards. Omitted until a refund moves value. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. object.remaining_money
-     * (Required): {@link MoneyValue}. The value from this load still on the card: not yet spent,
-     * reversed, or moved to a replacement card. It includes value held by a reserved redemption.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.reversed_money (Required): {@link MoneyValue}. The value removed from this load by
-     * refunding or reversing the purchase that funded it. It goes down again when a purchase
-     * refund fails and the value is restored. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.source (Required): {@link GiftCardFundingSource}.
-     * Where the value came from, with your reference for it. Where the value of a gift card load
-     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
-     * your reference for it. object.source_created_at (Required): string or null. RFC3339
-     * timestamp. `null` when no source time was recorded. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.value_money (Required): {@link MoneyValue}. The face value
-     * the load adds to the card. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. object.version (Required): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: int64. previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.consideration_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. What the buyer paid for the value, separate from `value_money`. `null` when no payment
-     * amount is recorded. previous_attributes.consideration_money.anyOf[1] (Value): {@link
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown. object.purchase_refund_value_holds
+     * (Optional): Array of {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds
+     * holding unspent value on this descendant funding lot. Unknown provider outcomes retain these
+     * holds. object.purchase_refund_value_holds[] (Value): {@link
+     * GiftCardPurchaseRefundValueHold}. Gift card value held back by a purchase refund, with the
+     * refund, the root gift card and load, and the amount held. object.purchase_refunds
+     * (Required): Array of {@link GiftCardPurchaseRefundAllocation}. Cash refunds and manual
+     * payment reversals against this original funding load. Pending refunds reserve their value;
+     * confirmed success removes it, and confirmed failure releases the hold.
+     * object.purchase_refunds[] (Value): {@link GiftCardPurchaseRefundAllocation}. An entry in a
+     * gift card load's purchase refunds. object.purchase_restoration (Optional): {@link
+     * GiftCardPurchaseRestoration}. Set when the buyer paid again for value that reversing a gift
+     * card purchase had removed, and this load restored it. Names the original card and load, the
+     * purchase refund entry that removed the value, and the purchased unit. Omitted for other
+     * loads. Links a gift card load to the original card and load it restores value to after a
+     * purchase refund, for one unit of an order line item. object.refund_provenance (Optional):
+     * {@link GiftCardRefundProvenance}. Traces a load made by a refund back to its original
+     * funding. `null` when the load wasn't made by a refund. Traces a gift card load made by a
+     * refund back to its original funding source, root gift card and load, and source refund.
+     * object.refund_transferred_money (Optional): {@link MoneyValue}. The part of this load's
+     * value that refunds of redemptions moved onto replacement gift cards. Omitted until a refund
+     * moves value. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.remaining_money (Required): {@link MoneyValue}. The value from this load still
+     * on the card: not yet spent, reversed, or moved to a replacement card. It includes value held
+     * by a reserved redemption. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.reversed_money (Required): {@link MoneyValue}. The value removed
+     * from this load by refunding or reversing the purchase that funded it. It goes down again
+     * when a purchase refund fails and the value is restored. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. object.source (Required): {@link
+     * GiftCardFundingSource}. Where the value came from, with your reference for it. Where the
+     * value of a gift card load came from, such as an external payment, a Flint payment, an
+     * import, or an adjustment, with your reference for it. object.source_created_at (Required):
+     * string or null. RFC3339 timestamp. `null` when no source time was recorded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.value_money (Required): {@link
+     * MoneyValue}. The face value the load adds to the card. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. object.version (Required): integer.
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events. previous_attributes.consideration_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. What the buyer paid for the value, separate from
+     * `value_money`. `null` when no payment amount is recorded.
+     * previous_attributes.consideration_money.anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. previous_attributes.consideration_money.anyOf[2] (Value):
      * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
@@ -2480,12 +2521,22 @@ export type GiftCardLoadUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * gift card load, prefixed `gcl_`. previous_attributes.gift_card_load_id.anyOf[1] (Value):
      * string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
      * "gcl_01KEZF7C00YJED2857SE0J6KWC". previous_attributes.gift_card_load_id.anyOf[2] (Value):
-     * null. previous_attributes.idempotency_key (Optional): string or null. Your Idempotency-Key
-     * for the command that created this record. `null` when Flint created it or no key was sent.
-     * previous_attributes.idempotency_key.anyOf[1] (Value): string. Your Idempotency-Key for the
-     * command that created this record. `null` when Flint created it or no key was sent.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
-     * previous_attributes.purchase_refund_value_holds (Optional): Array of {@link
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource. `null` when that request sent no key, Flint created
+     * the resource, the reader isn't the caller that created it (another app install, a buyer, or
+     * the merchant reading an app's or buyer's record), or the caller that created an older record
+     * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Older records can return their key when the creating
+     * caller is unknown. previous_attributes.idempotency_key.anyOf[1] (Value): string. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown. previous_attributes.idempotency_key.anyOf[2]
+     * (Value): null. previous_attributes.purchase_refund_value_holds (Optional): Array of {@link
      * GiftCardPurchaseRefundValueHoldPreviousAttributes} or null. Pending original cash refunds
      * holding unspent value on this descendant funding lot. Unknown provider outcomes retain these
      * holds. previous_attributes.purchase_refund_value_holds.anyOf[1] (Value): Array of {@link
@@ -2565,13 +2616,19 @@ export type GiftCardLoadUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
          * gift_card_load_id (Required): string. Unique identifier for this gift card load,
          * prefixed `gcl_`. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC". idempotency_key (Required):
-         * string or null. Your Idempotency-Key for the command that created this record. `null`
-         * when Flint created it or no key was sent. purchase_refund_value_holds (Optional): Array
-         * of {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding
-         * unspent value on this descendant funding lot. Unknown provider outcomes retain these
-         * holds. purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}.
-         * Gift card value held back by a purchase refund, with the refund, the root gift card and
-         * load, and the amount held. purchase_refunds (Required): Array of {@link
+         * string or null. The Idempotency-Key of the request that created this resource. `null`
+         * when that request sent no key, Flint created the resource, the reader isn't the caller
+         * that created it (another app install, a buyer, or the merchant reading an app's or
+         * buyer's record), or the caller that created an older record is unknown. Filter its list
+         * with `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Older records can return their key when the creating caller is unknown.
+         * purchase_refund_value_holds (Optional): Array of {@link
+         * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
+         * this descendant funding lot. Unknown provider outcomes retain these holds.
+         * purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift
+         * card value held back by a purchase refund, with the refund, the root gift card and load,
+         * and the amount held. purchase_refunds (Required): Array of {@link
          * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against
          * this original funding load. Pending refunds reserve their value; confirmed success
          * removes it, and confirmed failure releases the hold. purchase_refunds[] (Value): {@link
@@ -2634,8 +2691,14 @@ export type GiftCardLoadUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "gift_card_load_id": string;
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown.
              */
             "idempotency_key": string | null;
             /**
@@ -2732,12 +2795,23 @@ export type GiftCardLoadUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * Unique identifier for this gift card load, prefixed `gcl_`. gift_card_load_id.anyOf[1]
          * (Value): string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
          * "gcl_01KEZF7C00YJED2857SE0J6KWC". gift_card_load_id.anyOf[2] (Value): null.
-         * idempotency_key (Optional): string or null. Your Idempotency-Key for the command that
-         * created this record. `null` when Flint created it or no key was sent.
-         * idempotency_key.anyOf[1] (Value): string. Your Idempotency-Key for the command that
-         * created this record. `null` when Flint created it or no key was sent.
-         * idempotency_key.anyOf[2] (Value): null. purchase_refund_value_holds (Optional): Array of
-         * {@link GiftCardPurchaseRefundValueHoldPreviousAttributes} or null. Pending original cash
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Older records can return their key when the
+         * creating caller is unknown. idempotency_key.anyOf[1] (Value): string. The
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource. Older records
+         * can return their key when the creating caller is unknown. idempotency_key.anyOf[2]
+         * (Value): null. purchase_refund_value_holds (Optional): Array of {@link
+         * GiftCardPurchaseRefundValueHoldPreviousAttributes} or null. Pending original cash
          * refunds holding unspent value on this descendant funding lot. Unknown provider outcomes
          * retain these holds. purchase_refund_value_holds.anyOf[1] (Value): Array of {@link
          * GiftCardPurchaseRefundValueHoldPreviousAttributes}. Pending original cash refunds
@@ -2831,10 +2905,21 @@ export type GiftCardLoadUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "gift_card_load_id"?: ((string) | (null));
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent. anyOf[1] (Value): string. Your Idempotency-Key for
-             * the command that created this record. `null` when Flint created it or no key was
-             * sent. anyOf[2] (Value): null.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown. anyOf[1] (Value): string. The Idempotency-Key of the request that
+             * created this resource. `null` when that request sent no key, Flint created the
+             * resource, the reader isn't the caller that created it (another app install, a buyer,
+             * or the merchant reading an app's or buyer's record), or the caller that created an
+             * older record is unknown. Filter its list with `idempotency_key` to find it. Recorded
+             * payloads, including replayed responses and webhook events, can return `null`. To
+             * find a key that a replay returns as `null`, read the resource. Older records can
+             * return their key when the creating caller is unknown. anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
             /**
@@ -2975,52 +3060,58 @@ export type GiftCardLoadUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * object.gift_card_id (Required): string. ID of the gift card the load added value to.
      * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_load_id (Required): string.
      * Unique identifier for this gift card load, prefixed `gcl_`. Example:
-     * "gcl_01KEZF7C00YJED2857SE0J6KWC". object.idempotency_key (Required): string or null. Your
-     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
-     * key was sent. object.purchase_refund_value_holds (Optional): Array of {@link
-     * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
-     * this descendant funding lot. Unknown provider outcomes retain these holds.
-     * object.purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift
-     * card value held back by a purchase refund, with the refund, the root gift card and load, and
-     * the amount held. object.purchase_refunds (Required): Array of {@link
-     * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against this
-     * original funding load. Pending refunds reserve their value; confirmed success removes it,
-     * and confirmed failure releases the hold. object.purchase_refunds[] (Value): {@link
-     * GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
-     * object.purchase_restoration (Optional): {@link GiftCardPurchaseRestoration}. Set when the
-     * buyer paid again for value that reversing a gift card purchase had removed, and this load
-     * restored it. Names the original card and load, the purchase refund entry that removed the
-     * value, and the purchased unit. Omitted for other loads. Links a gift card load to the
-     * original card and load it restores value to after a purchase refund, for one unit of an
-     * order line item. object.refund_provenance (Optional): {@link GiftCardRefundProvenance}.
-     * Traces a load made by a refund back to its original funding. `null` when the load wasn't
-     * made by a refund. Traces a gift card load made by a refund back to its original funding
-     * source, root gift card and load, and source refund. object.refund_transferred_money
-     * (Optional): {@link MoneyValue}. The part of this load's value that refunds of redemptions
-     * moved onto replacement gift cards. Omitted until a refund moves value. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. object.remaining_money
-     * (Required): {@link MoneyValue}. The value from this load still on the card: not yet spent,
-     * reversed, or moved to a replacement card. It includes value held by a reserved redemption.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.reversed_money (Required): {@link MoneyValue}. The value removed from this load by
-     * refunding or reversing the purchase that funded it. It goes down again when a purchase
-     * refund fails and the value is restored. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code. object.source (Required): {@link GiftCardFundingSource}.
-     * Where the value came from, with your reference for it. Where the value of a gift card load
-     * came from, such as an external payment, a Flint payment, an import, or an adjustment, with
-     * your reference for it. object.source_created_at (Required): string or null. RFC3339
-     * timestamp. `null` when no source time was recorded. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.value_money (Required): {@link MoneyValue}. The face value
-     * the load adds to the card. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. object.version (Required): integer. Current version of this resource's
-     * owned state. Send it as `expected_version` when changing the resource to reject a stale
-     * write. Format: int64. previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.consideration_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. What the buyer paid for the value, separate from `value_money`. `null` when no payment
-     * amount is recorded. previous_attributes.consideration_money.anyOf[1] (Value): {@link
+     * "gcl_01KEZF7C00YJED2857SE0J6KWC". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown. object.purchase_refund_value_holds
+     * (Optional): Array of {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds
+     * holding unspent value on this descendant funding lot. Unknown provider outcomes retain these
+     * holds. object.purchase_refund_value_holds[] (Value): {@link
+     * GiftCardPurchaseRefundValueHold}. Gift card value held back by a purchase refund, with the
+     * refund, the root gift card and load, and the amount held. object.purchase_refunds
+     * (Required): Array of {@link GiftCardPurchaseRefundAllocation}. Cash refunds and manual
+     * payment reversals against this original funding load. Pending refunds reserve their value;
+     * confirmed success removes it, and confirmed failure releases the hold.
+     * object.purchase_refunds[] (Value): {@link GiftCardPurchaseRefundAllocation}. An entry in a
+     * gift card load's purchase refunds. object.purchase_restoration (Optional): {@link
+     * GiftCardPurchaseRestoration}. Set when the buyer paid again for value that reversing a gift
+     * card purchase had removed, and this load restored it. Names the original card and load, the
+     * purchase refund entry that removed the value, and the purchased unit. Omitted for other
+     * loads. Links a gift card load to the original card and load it restores value to after a
+     * purchase refund, for one unit of an order line item. object.refund_provenance (Optional):
+     * {@link GiftCardRefundProvenance}. Traces a load made by a refund back to its original
+     * funding. `null` when the load wasn't made by a refund. Traces a gift card load made by a
+     * refund back to its original funding source, root gift card and load, and source refund.
+     * object.refund_transferred_money (Optional): {@link MoneyValue}. The part of this load's
+     * value that refunds of redemptions moved onto replacement gift cards. Omitted until a refund
+     * moves value. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.remaining_money (Required): {@link MoneyValue}. The value from this load still
+     * on the card: not yet spent, reversed, or moved to a replacement card. It includes value held
+     * by a reserved redemption. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.reversed_money (Required): {@link MoneyValue}. The value removed
+     * from this load by refunding or reversing the purchase that funded it. It goes down again
+     * when a purchase refund fails and the value is restored. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. object.source (Required): {@link
+     * GiftCardFundingSource}. Where the value came from, with your reference for it. Where the
+     * value of a gift card load came from, such as an external payment, a Flint payment, an
+     * import, or an adjustment, with your reference for it. object.source_created_at (Required):
+     * string or null. RFC3339 timestamp. `null` when no source time was recorded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.value_money (Required): {@link
+     * MoneyValue}. The face value the load adds to the card. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. object.version (Required): integer.
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events. previous_attributes.consideration_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. What the buyer paid for the value, separate from
+     * `value_money`. `null` when no payment amount is recorded.
+     * previous_attributes.consideration_money.anyOf[1] (Value): {@link
      * MoneyValuePreviousAttributes}. previous_attributes.consideration_money.anyOf[2] (Value):
      * null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
@@ -3043,12 +3134,22 @@ export type GiftCardLoadUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * gift card load, prefixed `gcl_`. previous_attributes.gift_card_load_id.anyOf[1] (Value):
      * string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
      * "gcl_01KEZF7C00YJED2857SE0J6KWC". previous_attributes.gift_card_load_id.anyOf[2] (Value):
-     * null. previous_attributes.idempotency_key (Optional): string or null. Your Idempotency-Key
-     * for the command that created this record. `null` when Flint created it or no key was sent.
-     * previous_attributes.idempotency_key.anyOf[1] (Value): string. Your Idempotency-Key for the
-     * command that created this record. `null` when Flint created it or no key was sent.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
-     * previous_attributes.purchase_refund_value_holds (Optional): Array of {@link
+     * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
+     * the request that created this resource. `null` when that request sent no key, Flint created
+     * the resource, the reader isn't the caller that created it (another app install, a buyer, or
+     * the merchant reading an app's or buyer's record), or the caller that created an older record
+     * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Older records can return their key when the creating
+     * caller is unknown. previous_attributes.idempotency_key.anyOf[1] (Value): string. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown. previous_attributes.idempotency_key.anyOf[2]
+     * (Value): null. previous_attributes.purchase_refund_value_holds (Optional): Array of {@link
      * GiftCardPurchaseRefundValueHoldPreviousAttributes} or null. Pending original cash refunds
      * holding unspent value on this descendant funding lot. Unknown provider outcomes retain these
      * holds. previous_attributes.purchase_refund_value_holds.anyOf[1] (Value): Array of {@link
@@ -3128,13 +3229,19 @@ export type GiftCardLoadUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * card the load added value to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
          * gift_card_load_id (Required): string. Unique identifier for this gift card load,
          * prefixed `gcl_`. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC". idempotency_key (Required):
-         * string or null. Your Idempotency-Key for the command that created this record. `null`
-         * when Flint created it or no key was sent. purchase_refund_value_holds (Optional): Array
-         * of {@link GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding
-         * unspent value on this descendant funding lot. Unknown provider outcomes retain these
-         * holds. purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}.
-         * Gift card value held back by a purchase refund, with the refund, the root gift card and
-         * load, and the amount held. purchase_refunds (Required): Array of {@link
+         * string or null. The Idempotency-Key of the request that created this resource. `null`
+         * when that request sent no key, Flint created the resource, the reader isn't the caller
+         * that created it (another app install, a buyer, or the merchant reading an app's or
+         * buyer's record), or the caller that created an older record is unknown. Filter its list
+         * with `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Older records can return their key when the creating caller is unknown.
+         * purchase_refund_value_holds (Optional): Array of {@link
+         * GiftCardPurchaseRefundValueHold}. Pending original cash refunds holding unspent value on
+         * this descendant funding lot. Unknown provider outcomes retain these holds.
+         * purchase_refund_value_holds[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift
+         * card value held back by a purchase refund, with the refund, the root gift card and load,
+         * and the amount held. purchase_refunds (Required): Array of {@link
          * GiftCardPurchaseRefundAllocation}. Cash refunds and manual payment reversals against
          * this original funding load. Pending refunds reserve their value; confirmed success
          * removes it, and confirmed failure releases the hold. purchase_refunds[] (Value): {@link
@@ -3197,8 +3304,14 @@ export type GiftCardLoadUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "gift_card_load_id": string;
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown.
              */
             "idempotency_key": string | null;
             /**
@@ -3295,12 +3408,23 @@ export type GiftCardLoadUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * Unique identifier for this gift card load, prefixed `gcl_`. gift_card_load_id.anyOf[1]
          * (Value): string. Unique identifier for this gift card load, prefixed `gcl_`. Example:
          * "gcl_01KEZF7C00YJED2857SE0J6KWC". gift_card_load_id.anyOf[2] (Value): null.
-         * idempotency_key (Optional): string or null. Your Idempotency-Key for the command that
-         * created this record. `null` when Flint created it or no key was sent.
-         * idempotency_key.anyOf[1] (Value): string. Your Idempotency-Key for the command that
-         * created this record. `null` when Flint created it or no key was sent.
-         * idempotency_key.anyOf[2] (Value): null. purchase_refund_value_holds (Optional): Array of
-         * {@link GiftCardPurchaseRefundValueHoldPreviousAttributes} or null. Pending original cash
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Older records can return their key when the
+         * creating caller is unknown. idempotency_key.anyOf[1] (Value): string. The
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource. Older records
+         * can return their key when the creating caller is unknown. idempotency_key.anyOf[2]
+         * (Value): null. purchase_refund_value_holds (Optional): Array of {@link
+         * GiftCardPurchaseRefundValueHoldPreviousAttributes} or null. Pending original cash
          * refunds holding unspent value on this descendant funding lot. Unknown provider outcomes
          * retain these holds. purchase_refund_value_holds.anyOf[1] (Value): Array of {@link
          * GiftCardPurchaseRefundValueHoldPreviousAttributes}. Pending original cash refunds
@@ -3394,10 +3518,21 @@ export type GiftCardLoadUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "gift_card_load_id"?: ((string) | (null));
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent. anyOf[1] (Value): string. Your Idempotency-Key for
-             * the command that created this record. `null` when Flint created it or no key was
-             * sent. anyOf[2] (Value): null.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown. anyOf[1] (Value): string. The Idempotency-Key of the request that
+             * created this resource. `null` when that request sent no key, Flint created the
+             * resource, the reader isn't the caller that created it (another app install, a buyer,
+             * or the merchant reading an app's or buyer's record), or the caller that created an
+             * older record is unknown. Filter its list with `idempotency_key` to find it. Recorded
+             * payloads, including replayed responses and webhook events, can return `null`. To
+             * find a key that a replay returns as `null`, read the resource. Older records can
+             * return their key when the creating caller is unknown. anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
             /**
@@ -3551,8 +3686,11 @@ export type GiftCardLoadsListParams = {
      * exact and case-sensitive. Returns only resources created in your caller namespace, plus
      * resources created before caller scoping under the original key. Returns current authorized
      * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
-     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -3618,7 +3756,7 @@ export type GiftCardNotification = {
      * Who the notification is sent to. Who receives a gift card notification: their `email`,
      * optional `name` and `message`, and an optional `send_at` time.
      */
-    "recipient": GiftCardPurchaseRecipient;
+    "recipient": GiftCardNotificationRecipient;
     /**
      * ID of the earlier notification this one sends again. Example:
      * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
@@ -3659,7 +3797,7 @@ export type GiftCardNotificationCreatedEvent = ((((Exclude<MerchantWebhookEnvelo
             "delivery"?: GiftCardNotificationDelivery;
             "gift_card_id": string;
             "gift_card_notification_id": string;
-            "recipient": GiftCardPurchaseRecipient;
+            "recipient": GiftCardNotificationRecipient;
             "resend_of_notification_id"?: string;
             "sent_at"?: string;
             "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
@@ -3680,7 +3818,7 @@ export type GiftCardNotificationCreatedEvent = ((((Exclude<MerchantWebhookEnvelo
             "delivery"?: GiftCardNotificationDelivery;
             "gift_card_id": string;
             "gift_card_notification_id": string;
-            "recipient": GiftCardPurchaseRecipient;
+            "recipient": GiftCardNotificationRecipient;
             "resend_of_notification_id"?: string;
             "sent_at"?: string;
             "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
@@ -3721,23 +3859,23 @@ export type GiftCardNotificationCreatedInstalledMerchantsEvent = (Exclude<Partne
      * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * object.gift_card_notification_id (Required): string. Unique identifier for this gift card
      * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". object.recipient
-     * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who receives
-     * a gift card notification: their `email`, optional `name` and `message`, and an optional
-     * `send_at` time. object.resend_of_notification_id (Optional): string. ID of the earlier
-     * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". object.sent_at
-     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.status (Required): string. Where sending the notification stands. Read `delivery` for
-     * the attempts and email events behind it. Value enum: "scheduled", "pending", "sent",
-     * "failed", "unconfirmed", "canceled". object.status_reason (Required): string or null. Why
-     * the notification has its current status. credential_rotated means code rotation canceled an
-     * unsent notification for the previous code. Null when no reason applies. Value enum:
-     * "credential_rotated", null. object.supported_actions (Required): Array of string. Lifecycle
-     * actions accepted for this notification's stored state, independent of the caller's
-     * credentials. Empty when none are available. [] enum: "cancel". object.supported_actions[]
-     * (Value): string. Value enum: "cancel". object.updated_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current version of this resource's owned state. Send it as `expected_version` when
-     * changing the resource to reject a stale write. Format: int64.
+     * (Required): {@link GiftCardNotificationRecipient}. Who the notification is sent to. Who
+     * receives a gift card notification: their `email`, optional `name` and `message`, and an
+     * optional `send_at` time. object.resend_of_notification_id (Optional): string. ID of the
+     * earlier notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+     * object.sent_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.status (Required): string. Where sending the notification
+     * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+     * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". object.status_reason
+     * (Required): string or null. Why the notification has its current status. credential_rotated
+     * means code rotation canceled an unsent notification for the previous code. Null when no
+     * reason applies. Value enum: "credential_rotated", null. object.supported_actions (Required):
+     * Array of string. Lifecycle actions accepted for this notification's stored state,
+     * independent of the caller's credentials. Empty when none are available. [] enum: "cancel".
+     * object.supported_actions[] (Value): string. Value enum: "cancel". object.updated_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: int64.
      */
     "data"?: {
         /**
@@ -3752,7 +3890,7 @@ export type GiftCardNotificationCreatedInstalledMerchantsEvent = (Exclude<Partne
          * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
          * gift_card_notification_id (Required): string. Unique identifier for this gift card
          * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". recipient
-         * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who
+         * (Required): {@link GiftCardNotificationRecipient}. Who the notification is sent to. Who
          * receives a gift card notification: their `email`, optional `name` and `message`, and an
          * optional `send_at` time. resend_of_notification_id (Optional): string. ID of the earlier
          * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". sent_at
@@ -3796,7 +3934,7 @@ export type GiftCardNotificationCreatedInstalledMerchantsEvent = (Exclude<Partne
              * Who the notification is sent to. Who receives a gift card notification: their
              * `email`, optional `name` and `message`, and an optional `send_at` time.
              */
-            "recipient": GiftCardPurchaseRecipient;
+            "recipient": GiftCardNotificationRecipient;
             /**
              * ID of the earlier notification this one sends again. Example:
              * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
@@ -3888,23 +4026,23 @@ export type GiftCardNotificationCreatedMerchantEvent = (Exclude<MerchantWebhookE
      * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * object.gift_card_notification_id (Required): string. Unique identifier for this gift card
      * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". object.recipient
-     * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who receives
-     * a gift card notification: their `email`, optional `name` and `message`, and an optional
-     * `send_at` time. object.resend_of_notification_id (Optional): string. ID of the earlier
-     * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". object.sent_at
-     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.status (Required): string. Where sending the notification stands. Read `delivery` for
-     * the attempts and email events behind it. Value enum: "scheduled", "pending", "sent",
-     * "failed", "unconfirmed", "canceled". object.status_reason (Required): string or null. Why
-     * the notification has its current status. credential_rotated means code rotation canceled an
-     * unsent notification for the previous code. Null when no reason applies. Value enum:
-     * "credential_rotated", null. object.supported_actions (Required): Array of string. Lifecycle
-     * actions accepted for this notification's stored state, independent of the caller's
-     * credentials. Empty when none are available. [] enum: "cancel". object.supported_actions[]
-     * (Value): string. Value enum: "cancel". object.updated_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current version of this resource's owned state. Send it as `expected_version` when
-     * changing the resource to reject a stale write. Format: int64.
+     * (Required): {@link GiftCardNotificationRecipient}. Who the notification is sent to. Who
+     * receives a gift card notification: their `email`, optional `name` and `message`, and an
+     * optional `send_at` time. object.resend_of_notification_id (Optional): string. ID of the
+     * earlier notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+     * object.sent_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.status (Required): string. Where sending the notification
+     * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+     * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". object.status_reason
+     * (Required): string or null. Why the notification has its current status. credential_rotated
+     * means code rotation canceled an unsent notification for the previous code. Null when no
+     * reason applies. Value enum: "credential_rotated", null. object.supported_actions (Required):
+     * Array of string. Lifecycle actions accepted for this notification's stored state,
+     * independent of the caller's credentials. Empty when none are available. [] enum: "cancel".
+     * object.supported_actions[] (Value): string. Value enum: "cancel". object.updated_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: int64.
      */
     "data"?: {
         /**
@@ -3919,7 +4057,7 @@ export type GiftCardNotificationCreatedMerchantEvent = (Exclude<MerchantWebhookE
          * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
          * gift_card_notification_id (Required): string. Unique identifier for this gift card
          * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". recipient
-         * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who
+         * (Required): {@link GiftCardNotificationRecipient}. Who the notification is sent to. Who
          * receives a gift card notification: their `email`, optional `name` and `message`, and an
          * optional `send_at` time. resend_of_notification_id (Optional): string. ID of the earlier
          * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". sent_at
@@ -3963,7 +4101,7 @@ export type GiftCardNotificationCreatedMerchantEvent = (Exclude<MerchantWebhookE
              * Who the notification is sent to. Who receives a gift card notification: their
              * `email`, optional `name` and `message`, and an optional `send_at` time.
              */
-            "recipient": GiftCardPurchaseRecipient;
+            "recipient": GiftCardNotificationRecipient;
             /**
              * ID of the earlier notification this one sends again. Example:
              * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
@@ -4172,6 +4310,30 @@ export type GiftCardNotificationListResponse = {
  * Who receives a gift card notification: their `email`, optional `name` and `message`, and an
  * optional `send_at` time.
  */
+export type GiftCardNotificationRecipient = {
+    /**
+     * Email address the notification is sent to. The local part before @ must be at most 64 octets
+     * (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254. Example: "buyer@example.com".
+     */
+    "email": string;
+    /** Message included in the notification. minLength: 1. maxLength: 200. */
+    "message"?: string;
+    /**
+     * Name of the person the notification is addressed to. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Optional whole-second send time between now and 90 days from now. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "send_at"?: string;
+};
+/**
+ * Who receives a gift card notification: their `email`, optional `name` and `message`, and an
+ * optional `send_at` time.
+ */
 export type GiftCardNotificationRecipientInput = {
     /**
      * Email address the notification is sent to. The local part before @ must be at most 64 octets
@@ -4191,6 +4353,35 @@ export type GiftCardNotificationRecipientInput = {
      * minLength: 1. Example: "2026-08-02T16:00:00Z".
      */
     "send_at"?: string | globalThis.Date;
+};
+export type GiftCardNotificationRecipientPreviousAttributes = {
+    /**
+     * Email address the notification is sent to. The local part before @ must be at most 64 octets
+     * (UTF-8 bytes). anyOf[1] (Value): string. Email address the notification is sent to. The
+     * local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1.
+     * maxLength: 254. Example: "buyer@example.com". anyOf[2] (Value): null.
+     */
+    "email"?: ((string) | (null));
+    /**
+     * Message included in the notification. anyOf[1] (Value): string. Message included in the
+     * notification. minLength: 1. maxLength: 200. anyOf[2] (Value): null.
+     */
+    "message"?: ((string) | (null));
+    /**
+     * Name of the person the notification is addressed to. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. anyOf[1] (Value): string. Name of the person the notification is addressed to.
+     * Surrounding whitespace is trimmed before length validation. A supplied value cannot be
+     * blank; use null where clearing is supported. minLength: 1. maxLength: 255. anyOf[2] (Value):
+     * null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Optional whole-second send time between now and 90 days from now. anyOf[1] (Value): string.
+     * Optional whole-second send time between now and 90 days from now. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "send_at"?: ((string) | (null));
 };
 /** A response containing `GiftCardNotification` data. */
 export type GiftCardNotificationResponse = {
@@ -4218,7 +4409,7 @@ export type GiftCardNotificationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelo
             "delivery"?: GiftCardNotificationDelivery;
             "gift_card_id": string;
             "gift_card_notification_id": string;
-            "recipient": GiftCardPurchaseRecipient;
+            "recipient": GiftCardNotificationRecipient;
             "resend_of_notification_id"?: string;
             "sent_at"?: string;
             "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
@@ -4235,7 +4426,7 @@ export type GiftCardNotificationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelo
             "delivery"?: ((GiftCardNotificationDeliveryPreviousAttributes) | (null));
             "gift_card_id"?: ((string) | (null));
             "gift_card_notification_id"?: ((string) | (null));
-            "recipient"?: ((GiftCardPurchaseRecipientPreviousAttributes) | (null));
+            "recipient"?: ((GiftCardNotificationRecipientPreviousAttributes) | (null));
             "resend_of_notification_id"?: ((string) | (null));
             "sent_at"?: ((string) | (null));
             "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
@@ -4256,7 +4447,7 @@ export type GiftCardNotificationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelo
             "delivery"?: GiftCardNotificationDelivery;
             "gift_card_id": string;
             "gift_card_notification_id": string;
-            "recipient": GiftCardPurchaseRecipient;
+            "recipient": GiftCardNotificationRecipient;
             "resend_of_notification_id"?: string;
             "sent_at"?: string;
             "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
@@ -4273,7 +4464,7 @@ export type GiftCardNotificationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelo
             "delivery"?: ((GiftCardNotificationDeliveryPreviousAttributes) | (null));
             "gift_card_id"?: ((string) | (null));
             "gift_card_notification_id"?: ((string) | (null));
-            "recipient"?: ((GiftCardPurchaseRecipientPreviousAttributes) | (null));
+            "recipient"?: ((GiftCardNotificationRecipientPreviousAttributes) | (null));
             "resend_of_notification_id"?: ((string) | (null));
             "sent_at"?: ((string) | (null));
             "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
@@ -4314,39 +4505,39 @@ export type GiftCardNotificationUpdatedInstalledMerchantsEvent = (Exclude<Partne
      * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * object.gift_card_notification_id (Required): string. Unique identifier for this gift card
      * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". object.recipient
-     * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who receives
-     * a gift card notification: their `email`, optional `name` and `message`, and an optional
-     * `send_at` time. object.resend_of_notification_id (Optional): string. ID of the earlier
-     * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". object.sent_at
-     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.status (Required): string. Where sending the notification stands. Read `delivery` for
-     * the attempts and email events behind it. Value enum: "scheduled", "pending", "sent",
-     * "failed", "unconfirmed", "canceled". object.status_reason (Required): string or null. Why
-     * the notification has its current status. credential_rotated means code rotation canceled an
-     * unsent notification for the previous code. Null when no reason applies. Value enum:
-     * "credential_rotated", null. object.supported_actions (Required): Array of string. Lifecycle
-     * actions accepted for this notification's stored state, independent of the caller's
-     * credentials. Empty when none are available. [] enum: "cancel". object.supported_actions[]
-     * (Value): string. Value enum: "cancel". object.updated_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current version of this resource's owned state. Send it as `expected_version` when
-     * changing the resource to reject a stale write. Format: int64. previous_attributes
-     * (Optional): object. Previous values of changed top-level fields in data.object, at this
-     * delivery's API version. Nested changes include the whole previous top-level value. A value
-     * is null when the field was absent before the change. Omitted when Flint did not record the
-     * previous state, including synthetic test events. previous_attributes.created_at (Optional):
-     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.delivery
-     * (Optional): {@link GiftCardNotificationDeliveryPreviousAttributes} or null. Included on
-     * notification retrieval. Contains the most recent sending attempts and delivery events,
-     * newest first. A failed attempt describes the send call; use notification.status to determine
-     * whether acceptance remains unconfirmed. previous_attributes.delivery.anyOf[1] (Value):
-     * {@link GiftCardNotificationDeliveryPreviousAttributes}.
-     * previous_attributes.delivery.anyOf[2] (Value): null. previous_attributes.gift_card_id
-     * (Optional): string or null. ID of the gift card the notification is about.
-     * previous_attributes.gift_card_id.anyOf[1] (Value): string. ID of the gift card the
-     * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * (Required): {@link GiftCardNotificationRecipient}. Who the notification is sent to. Who
+     * receives a gift card notification: their `email`, optional `name` and `message`, and an
+     * optional `send_at` time. object.resend_of_notification_id (Optional): string. ID of the
+     * earlier notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+     * object.sent_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.status (Required): string. Where sending the notification
+     * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+     * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". object.status_reason
+     * (Required): string or null. Why the notification has its current status. credential_rotated
+     * means code rotation canceled an unsent notification for the previous code. Null when no
+     * reason applies. Value enum: "credential_rotated", null. object.supported_actions (Required):
+     * Array of string. Lifecycle actions accepted for this notification's stored state,
+     * independent of the caller's credentials. Empty when none are available. [] enum: "cancel".
+     * object.supported_actions[] (Value): string. Value enum: "cancel". object.updated_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: int64.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.delivery (Optional): {@link
+     * GiftCardNotificationDeliveryPreviousAttributes} or null. Included on notification retrieval.
+     * Contains the most recent sending attempts and delivery events, newest first. A failed
+     * attempt describes the send call; use notification.status to determine whether acceptance
+     * remains unconfirmed. previous_attributes.delivery.anyOf[1] (Value): {@link
+     * GiftCardNotificationDeliveryPreviousAttributes}. previous_attributes.delivery.anyOf[2]
+     * (Value): null. previous_attributes.gift_card_id (Optional): string or null. ID of the gift
+     * card the notification is about. previous_attributes.gift_card_id.anyOf[1] (Value): string.
+     * ID of the gift card the notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * previous_attributes.gift_card_id.anyOf[2] (Value): null.
      * previous_attributes.gift_card_notification_id (Optional): string or null. Unique identifier
      * for this gift card notification, prefixed `gcn_`.
@@ -4354,9 +4545,9 @@ export type GiftCardNotificationUpdatedInstalledMerchantsEvent = (Exclude<Partne
      * for this gift card notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1".
      * previous_attributes.gift_card_notification_id.anyOf[2] (Value): null.
      * previous_attributes.recipient (Optional): {@link
-     * GiftCardPurchaseRecipientPreviousAttributes} or null. Who the notification is sent to.
+     * GiftCardNotificationRecipientPreviousAttributes} or null. Who the notification is sent to.
      * previous_attributes.recipient.anyOf[1] (Value): {@link
-     * GiftCardPurchaseRecipientPreviousAttributes}. previous_attributes.recipient.anyOf[2]
+     * GiftCardNotificationRecipientPreviousAttributes}. previous_attributes.recipient.anyOf[2]
      * (Value): null. previous_attributes.resend_of_notification_id (Optional): string or null. ID
      * of the earlier notification this one sends again.
      * previous_attributes.resend_of_notification_id.anyOf[1] (Value): string. ID of the earlier
@@ -4408,7 +4599,7 @@ export type GiftCardNotificationUpdatedInstalledMerchantsEvent = (Exclude<Partne
          * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
          * gift_card_notification_id (Required): string. Unique identifier for this gift card
          * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". recipient
-         * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who
+         * (Required): {@link GiftCardNotificationRecipient}. Who the notification is sent to. Who
          * receives a gift card notification: their `email`, optional `name` and `message`, and an
          * optional `send_at` time. resend_of_notification_id (Optional): string. ID of the earlier
          * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". sent_at
@@ -4452,7 +4643,7 @@ export type GiftCardNotificationUpdatedInstalledMerchantsEvent = (Exclude<Partne
              * Who the notification is sent to. Who receives a gift card notification: their
              * `email`, optional `name` and `message`, and an optional `send_at` time.
              */
-            "recipient": GiftCardPurchaseRecipient;
+            "recipient": GiftCardNotificationRecipient;
             /**
              * ID of the earlier notification this one sends again. Example:
              * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
@@ -4505,9 +4696,9 @@ export type GiftCardNotificationUpdatedInstalledMerchantsEvent = (Exclude<Partne
          * card notification, prefixed `gcn_`. gift_card_notification_id.anyOf[1] (Value): string.
          * Unique identifier for this gift card notification, prefixed `gcn_`. Example:
          * "gcn_01KEZF7C0023FN0HF9GH34RZA1". gift_card_notification_id.anyOf[2] (Value): null.
-         * recipient (Optional): {@link GiftCardPurchaseRecipientPreviousAttributes} or null. Who
-         * the notification is sent to. recipient.anyOf[1] (Value): {@link
-         * GiftCardPurchaseRecipientPreviousAttributes}. recipient.anyOf[2] (Value): null.
+         * recipient (Optional): {@link GiftCardNotificationRecipientPreviousAttributes} or null.
+         * Who the notification is sent to. recipient.anyOf[1] (Value): {@link
+         * GiftCardNotificationRecipientPreviousAttributes}. recipient.anyOf[2] (Value): null.
          * resend_of_notification_id (Optional): string or null. ID of the earlier notification
          * this one sends again. resend_of_notification_id.anyOf[1] (Value): string. ID of the
          * earlier notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
@@ -4571,9 +4762,9 @@ export type GiftCardNotificationUpdatedInstalledMerchantsEvent = (Exclude<Partne
             "gift_card_notification_id"?: ((string) | (null));
             /**
              * Who the notification is sent to. anyOf[1] (Value): {@link
-             * GiftCardPurchaseRecipientPreviousAttributes}. anyOf[2] (Value): null.
+             * GiftCardNotificationRecipientPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "recipient"?: ((GiftCardPurchaseRecipientPreviousAttributes) | (null));
+            "recipient"?: ((GiftCardNotificationRecipientPreviousAttributes) | (null));
             /**
              * ID of the earlier notification this one sends again. anyOf[1] (Value): string. ID of
              * the earlier notification this one sends again. Example:
@@ -4683,39 +4874,39 @@ export type GiftCardNotificationUpdatedMerchantEvent = (Exclude<MerchantWebhookE
      * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * object.gift_card_notification_id (Required): string. Unique identifier for this gift card
      * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". object.recipient
-     * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who receives
-     * a gift card notification: their `email`, optional `name` and `message`, and an optional
-     * `send_at` time. object.resend_of_notification_id (Optional): string. ID of the earlier
-     * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". object.sent_at
-     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.status (Required): string. Where sending the notification stands. Read `delivery` for
-     * the attempts and email events behind it. Value enum: "scheduled", "pending", "sent",
-     * "failed", "unconfirmed", "canceled". object.status_reason (Required): string or null. Why
-     * the notification has its current status. credential_rotated means code rotation canceled an
-     * unsent notification for the previous code. Null when no reason applies. Value enum:
-     * "credential_rotated", null. object.supported_actions (Required): Array of string. Lifecycle
-     * actions accepted for this notification's stored state, independent of the caller's
-     * credentials. Empty when none are available. [] enum: "cancel". object.supported_actions[]
-     * (Value): string. Value enum: "cancel". object.updated_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current version of this resource's owned state. Send it as `expected_version` when
-     * changing the resource to reject a stale write. Format: int64. previous_attributes
-     * (Optional): object. Previous values of changed top-level fields in data.object, at this
-     * delivery's API version. Nested changes include the whole previous top-level value. A value
-     * is null when the field was absent before the change. Omitted when Flint did not record the
-     * previous state, including synthetic test events. previous_attributes.created_at (Optional):
-     * string or null. RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.delivery
-     * (Optional): {@link GiftCardNotificationDeliveryPreviousAttributes} or null. Included on
-     * notification retrieval. Contains the most recent sending attempts and delivery events,
-     * newest first. A failed attempt describes the send call; use notification.status to determine
-     * whether acceptance remains unconfirmed. previous_attributes.delivery.anyOf[1] (Value):
-     * {@link GiftCardNotificationDeliveryPreviousAttributes}.
-     * previous_attributes.delivery.anyOf[2] (Value): null. previous_attributes.gift_card_id
-     * (Optional): string or null. ID of the gift card the notification is about.
-     * previous_attributes.gift_card_id.anyOf[1] (Value): string. ID of the gift card the
-     * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     * (Required): {@link GiftCardNotificationRecipient}. Who the notification is sent to. Who
+     * receives a gift card notification: their `email`, optional `name` and `message`, and an
+     * optional `send_at` time. object.resend_of_notification_id (Optional): string. ID of the
+     * earlier notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
+     * object.sent_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.status (Required): string. Where sending the notification
+     * stands. Read `delivery` for the attempts and email events behind it. Value enum:
+     * "scheduled", "pending", "sent", "failed", "unconfirmed", "canceled". object.status_reason
+     * (Required): string or null. Why the notification has its current status. credential_rotated
+     * means code rotation canceled an unsent notification for the previous code. Null when no
+     * reason applies. Value enum: "credential_rotated", null. object.supported_actions (Required):
+     * Array of string. Lifecycle actions accepted for this notification's stored state,
+     * independent of the caller's credentials. Empty when none are available. [] enum: "cancel".
+     * object.supported_actions[] (Value): string. Value enum: "cancel". object.updated_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: int64.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.delivery (Optional): {@link
+     * GiftCardNotificationDeliveryPreviousAttributes} or null. Included on notification retrieval.
+     * Contains the most recent sending attempts and delivery events, newest first. A failed
+     * attempt describes the send call; use notification.status to determine whether acceptance
+     * remains unconfirmed. previous_attributes.delivery.anyOf[1] (Value): {@link
+     * GiftCardNotificationDeliveryPreviousAttributes}. previous_attributes.delivery.anyOf[2]
+     * (Value): null. previous_attributes.gift_card_id (Optional): string or null. ID of the gift
+     * card the notification is about. previous_attributes.gift_card_id.anyOf[1] (Value): string.
+     * ID of the gift card the notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * previous_attributes.gift_card_id.anyOf[2] (Value): null.
      * previous_attributes.gift_card_notification_id (Optional): string or null. Unique identifier
      * for this gift card notification, prefixed `gcn_`.
@@ -4723,9 +4914,9 @@ export type GiftCardNotificationUpdatedMerchantEvent = (Exclude<MerchantWebhookE
      * for this gift card notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1".
      * previous_attributes.gift_card_notification_id.anyOf[2] (Value): null.
      * previous_attributes.recipient (Optional): {@link
-     * GiftCardPurchaseRecipientPreviousAttributes} or null. Who the notification is sent to.
+     * GiftCardNotificationRecipientPreviousAttributes} or null. Who the notification is sent to.
      * previous_attributes.recipient.anyOf[1] (Value): {@link
-     * GiftCardPurchaseRecipientPreviousAttributes}. previous_attributes.recipient.anyOf[2]
+     * GiftCardNotificationRecipientPreviousAttributes}. previous_attributes.recipient.anyOf[2]
      * (Value): null. previous_attributes.resend_of_notification_id (Optional): string or null. ID
      * of the earlier notification this one sends again.
      * previous_attributes.resend_of_notification_id.anyOf[1] (Value): string. ID of the earlier
@@ -4777,7 +4968,7 @@ export type GiftCardNotificationUpdatedMerchantEvent = (Exclude<MerchantWebhookE
          * notification is about. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
          * gift_card_notification_id (Required): string. Unique identifier for this gift card
          * notification, prefixed `gcn_`. Example: "gcn_01KEZF7C0023FN0HF9GH34RZA1". recipient
-         * (Required): {@link GiftCardPurchaseRecipient}. Who the notification is sent to. Who
+         * (Required): {@link GiftCardNotificationRecipient}. Who the notification is sent to. Who
          * receives a gift card notification: their `email`, optional `name` and `message`, and an
          * optional `send_at` time. resend_of_notification_id (Optional): string. ID of the earlier
          * notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1". sent_at
@@ -4821,7 +5012,7 @@ export type GiftCardNotificationUpdatedMerchantEvent = (Exclude<MerchantWebhookE
              * Who the notification is sent to. Who receives a gift card notification: their
              * `email`, optional `name` and `message`, and an optional `send_at` time.
              */
-            "recipient": GiftCardPurchaseRecipient;
+            "recipient": GiftCardNotificationRecipient;
             /**
              * ID of the earlier notification this one sends again. Example:
              * "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
@@ -4874,9 +5065,9 @@ export type GiftCardNotificationUpdatedMerchantEvent = (Exclude<MerchantWebhookE
          * card notification, prefixed `gcn_`. gift_card_notification_id.anyOf[1] (Value): string.
          * Unique identifier for this gift card notification, prefixed `gcn_`. Example:
          * "gcn_01KEZF7C0023FN0HF9GH34RZA1". gift_card_notification_id.anyOf[2] (Value): null.
-         * recipient (Optional): {@link GiftCardPurchaseRecipientPreviousAttributes} or null. Who
-         * the notification is sent to. recipient.anyOf[1] (Value): {@link
-         * GiftCardPurchaseRecipientPreviousAttributes}. recipient.anyOf[2] (Value): null.
+         * recipient (Optional): {@link GiftCardNotificationRecipientPreviousAttributes} or null.
+         * Who the notification is sent to. recipient.anyOf[1] (Value): {@link
+         * GiftCardNotificationRecipientPreviousAttributes}. recipient.anyOf[2] (Value): null.
          * resend_of_notification_id (Optional): string or null. ID of the earlier notification
          * this one sends again. resend_of_notification_id.anyOf[1] (Value): string. ID of the
          * earlier notification this one sends again. Example: "ntf_01KEZF7C00X0DP9KT950FYXHQ1".
@@ -4940,9 +5131,9 @@ export type GiftCardNotificationUpdatedMerchantEvent = (Exclude<MerchantWebhookE
             "gift_card_notification_id"?: ((string) | (null));
             /**
              * Who the notification is sent to. anyOf[1] (Value): {@link
-             * GiftCardPurchaseRecipientPreviousAttributes}. anyOf[2] (Value): null.
+             * GiftCardNotificationRecipientPreviousAttributes}. anyOf[2] (Value): null.
              */
-            "recipient"?: ((GiftCardPurchaseRecipientPreviousAttributes) | (null));
+            "recipient"?: ((GiftCardNotificationRecipientPreviousAttributes) | (null));
             /**
              * ID of the earlier notification this one sends again. anyOf[1] (Value): string. ID of
              * the earlier notification this one sends again. Example:
@@ -5117,47 +5308,4 @@ export type GiftCardProductConfiguration = {
      * "face_value", "discounted".
      */
     "price_mode": "face_value" | "discounted" | (string & {});
-};
-export type GiftCardProductConfigurationPreviousAttributes = {
-    /**
-     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination.
-     * anyOf[1] (Value): {@link GiftCardCustomAmountBoundsPreviousAttributes}. anyOf[2] (Value):
-     * null.
-     */
-    "custom_amount_bounds"?: ((GiftCardCustomAmountBoundsPreviousAttributes) | (null));
-    /**
-     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
-     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. anyOf[1]
-     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "face_value_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
-     * "face_value", "discounted". anyOf[1] (Value): string. Whether the gift card is sold at its
-     * face value or at a discounted price. Value enum: "face_value", "discounted". anyOf[2]
-     * (Value): null.
-     */
-    "price_mode"?: (("face_value" | "discounted" | (string & {})) | (null));
-};
-/**
- * Gift card settings on a product variant: its `face_value_money`, price mode (face value or
- * discounted), and bounds for custom amounts.
- */
-export type GiftCardProductConfigurationRequestInput = {
-    /**
-     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. The
-     * minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
-     */
-    "custom_amount_bounds"?: GiftCardCustomAmountBoundsRequestInput;
-    /**
-     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
-     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "face_value_money": MoneyValueInput;
-    /**
-     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
-     * "face_value", "discounted".
-     */
-    "price_mode": "face_value" | "discounted";
 };

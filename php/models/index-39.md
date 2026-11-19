@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# RetryReturnDispositionResponse to FulfillmentLineItem
+# ResolvePaymentLinkResponse to TextModifierRequest
 
+- [ResolvePaymentLinkResponse](ResolvePaymentLinkResponse.md)
+- [RetryOrderEditRefundResponse](RetryOrderEditRefundResponse.md)
 - [RetryReturnDispositionResponse](RetryReturnDispositionResponse.md)
 - [RetryReturnResolutionResponse](RetryReturnResolutionResponse.md)
 - [LicenseKeyWithKeyResponse](LicenseKeyWithKeyResponse.md)
@@ -100,6 +102,4 @@
 - [FulfillmentChargeLink](FulfillmentChargeLink.md)
 - [DigitalFulfillmentDetails](DigitalFulfillmentDetails.md)
 - [TextModifierRequest](TextModifierRequest.md)
-- [OrderLineItemModifier](OrderLineItemModifier.md)
-- [FulfillmentLineItem](FulfillmentLineItem.md)
 

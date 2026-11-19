@@ -5,15 +5,13 @@ import type { DeleteReturnPolicyResponse } from '../declarations/types-17.js';
 import type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-28.js';
 import type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-40.js';
 import type { PublishReturnPolicyRevisionResponse } from '../declarations/types-59.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type {
     ReturnPoliciesCreateParams,
     ReturnPoliciesCreateRevisionParams,
     ReturnPoliciesDeleteParams,
     ReturnPoliciesGetParams,
-    ReturnPoliciesGetRevisionParams
-} from '../declarations/types-63.js';
-import type {
+    ReturnPoliciesGetRevisionParams,
     ReturnPoliciesListParams,
     ReturnPoliciesListRevisionsParams,
     ReturnPoliciesUpdateParams,
@@ -38,14 +36,11 @@ export type {
 } from '../runtime.js';
 export type {
     ReturnPoliciesCreateParams,
+    ReturnPolicy,
     ReturnPoliciesCreateRevisionParams,
     ReturnPoliciesDeleteParams,
     ReturnPoliciesGetParams,
-    ReturnPoliciesGetRevisionParams
-} from '../declarations/types-63.js';
-export type { RequestOptions } from '../declarations/types-61.js';
-export type {
-    ReturnPolicy,
+    ReturnPoliciesGetRevisionParams,
     ReturnPolicyRevision,
     ReturnPoliciesListParams,
     ReturnPoliciesListRevisionsParams,
@@ -60,6 +55,7 @@ export type {
     ReturnPolicyScopeAll,
     ReturnPolicyScopeInclude
 } from '../declarations/types-64.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { CreateReturnPolicyResponse, CreateReturnPolicyRequestInput } from '../declarations/types-13.js';
 export type { PublishReturnPolicyRevisionResponse, PublishReturnPolicyRevisionRequestInput } from '../declarations/types-59.js';
 export type { DeleteReturnPolicyResponse } from '../declarations/types-17.js';
@@ -79,7 +75,6 @@ export type { MoneyValueInput, NextAction, MoneyValue } from '../declarations/ty
 export type { ReturnWindowRequestInput, ReturnWindow } from '../declarations/types-66.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateReturnPolicyRequest } from '../declarations/types-83.js';

@@ -20,7 +20,7 @@ A read-only entry in a payment intent's human-readable history. Read the referen
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `activity_type` | Required | string | What kind of change this entry records. Values: [13 declared values](#paymentintentactivitylistresponsedata-activity_type-values). |
-| `actor` | Required | [PaymentActivityActor](../models/PaymentActivityActor.md#paymentactivityactor) or null | Identity that initiated this action. Null for automated activity or when no initiating merchant identity was recorded. Refund creation retains its initiating actor when a worker processes it. Later processor updates are automated activity. `actor`: [declared alternatives](../models/PaymentIntentActivityListResponse.md#paymentintentactivitylistresponsedataactor). |
+| `actor` | Required | [PaymentActivityActor](../models/PaymentActivityActor.md#paymentactivityactor) or null | Identity that initiated this action, with its label recorded at the time. Null when the action was automated or no initiating merchant identity was recorded. Refund creation retains its initiating actor when a worker processes it. Later processor updates are automated activity. `actor`: [declared alternatives](../models/PaymentIntentActivityListResponse.md#paymentintentactivitylistresponsedataactor). |
 | `checkout_session_id` | Optional | string | ID of the checkout session that created the payment intent. Present only on `created` entries, when the payment intent has no order. Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `description` | Required | string | Short human-readable summary of the change. It doesn't carry processor diagnostics, so read the referenced resource for details. |
@@ -77,13 +77,13 @@ A read-only entry in a payment intent's human-readable history. Read the referen
 
 ### PaymentIntentActivityListResponse.data[].actor
 
-Identity that initiated this action. Null for automated activity or when no initiating merchant identity was recorded. Refund creation retains its initiating actor when a worker processes it. Later processor updates are automated activity.
+Identity that initiated this action, with its label recorded at the time. Null when the action was automated or no initiating merchant identity was recorded. Refund creation retains its initiating actor when a worker processes it. Later processor updates are automated activity.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `label` | Conditional | string | Recorded teammate name (or email), API key name, or app name. Empty when a display label was unavailable; use resource_id as a fallback. |
+| `label` | Conditional | string | Teammate name (or email), API key name, or app name. Empty when a display label was unavailable; use resource_id as a fallback. |
 | `resource_id` | Conditional | string | Flint ID of the identity that initiated the action. Key creators and app installers are not the actor. Example: `"usr_01KEZF7C00YC8757ZYP9727JM0"`. |
-| `resource_type` | Conditional | string | The acting resource type: a teammate, API key, partner app installation, or partner app. Example: `"user"`. Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. The acting resource type: a teammate, API key, partner app installation, or partner app. Example: `"user"`. Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: `"user"`, `"api_key"`, `"partner_app_install"`, `"partner_app"`. |
+| `resource_type` | Conditional | string | The acting identity's resource type. Today one of `user` (a teammate acting through Dashboard or a CLI login), `api_key` (an API key, not its creator), `partner_app_install` (an installed partner app, not its installer), or `partner_app` (a partner app acting on its own resources). Accept other resource types. Values: [157 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 
 ### PaymentIntentActivityListResponse.data[].actor variant 1
 
@@ -96,7 +96,7 @@ anyOf PaymentActivityActor: The merchant identity that initiated the action. Lab
 anyOf variant 2.
 
 - Undeclared: `label`, `resource_id`, `resource_type`.
-- Value shape: null. Identity that initiated this action. Null for automated activity or when no initiating merchant identity was recorded. Refund creation retains its initiating actor when a worker processes it. Later processor updates are automated activity. 
+- Value shape: null. Identity that initiated this action, with its label recorded at the time. Null when the action was automated or no initiating merchant identity was recorded. Refund creation retains its initiating actor when a worker processes it. Later processor updates are automated activity. 
 
 ### PaymentIntentActivityListResponse.meta
 

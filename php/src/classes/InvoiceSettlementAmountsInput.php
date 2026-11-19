@@ -50,7 +50,7 @@ final class InvoiceSettlementAmountsInput extends Model {
      */
     public function getPaidMoney(): mixed { return $this->get('paid_money'); }
     public function hasPaidMoney(): bool { return $this->has('paid_money'); }
-    /** Money returned to the buyer from what was collected toward the bill. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Money returned to the buyer from what was collected toward the bill. On orders, this counts successful refunds. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
      */

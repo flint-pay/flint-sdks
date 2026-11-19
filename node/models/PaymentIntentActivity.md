@@ -11,7 +11,7 @@ A read-only entry in a payment intent's human-readable history. Read the referen
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `activity_type` | Required | string | What kind of change this entry records. Values: [13 declared values](#paymentintentactivity-activity_type-values). |
-| `actor` | Required | [PaymentActivityActor](../models/PaymentActivityActor.md#paymentactivityactor) or null | Identity that initiated this action. Null for automated activity or when no initiating merchant identity was recorded. Refund creation retains its initiating actor when a worker processes it. Later processor updates are automated activity. |
+| `actor` | Required | [PaymentActivityActor](../models/PaymentActivityActor.md#paymentactivityactor) or null | Identity that initiated this action, with its label recorded at the time. Null when the action was automated or no initiating merchant identity was recorded. Refund creation retains its initiating actor when a worker processes it. Later processor updates are automated activity. |
 | `checkout_session_id` | Optional | string | ID of the checkout session that created the payment intent. Present only on `created` entries, when the payment intent has no order. Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `description` | Required | string | Short human-readable summary of the change. It doesn't carry processor diagnostics, so read the referenced resource for details. |

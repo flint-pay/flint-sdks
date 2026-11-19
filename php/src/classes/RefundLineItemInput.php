@@ -22,7 +22,7 @@ final class RefundLineItemInput extends Model {
      */
     public function getAdjustmentRefunds(): array { return $this->get('adjustment_refunds'); }
     public function hasAdjustmentRefunds(): bool { return $this->has('adjustment_refunds'); }
-    /** Amount to refund for this line before `refund_adjustments`. Send `quantity` or `amount_money`, not both. With neither, Flint refunds what remains of the line. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount to refund for this line before `refund_adjustments`. Send either `quantity` or `amount_money`. Omit both to refund the line's remaining value and quantity. Released subscription credit can leave refundable money even when the remaining quantity is zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */

@@ -6,6 +6,13 @@ import type {
     WorkloadIdentityOptions
 } from '../runtime.js';
 import type {
+    UpdateProductOptionValueRequestInput,
+    UpdateProductRequestInput,
+    UpdateProductVariantRequestInput,
+    UpdatePromotionCodeRequestInput,
+    UpdatePromotionRequestInput,
+    UpdateReaderRequestInput,
+    UpdateRefundRequestInput,
     UpdateReturnLineItemRequestInput,
     UpdateReturnPolicyRequestInput,
     UpdateReturnReasonRequestInput,
@@ -20,13 +27,13 @@ import type {
     UpdateRiskListRequestInput,
     UpdateRiskRuleRequestInput,
     UpdateServiceFulfillmentDetailsInput,
-    UpdateSettingsRequestInput,
+    UpdateSettingsRequestInput
+} from './types-77.js';
+import type {
     UpdateShipmentRequestInput,
     UpdateSubscriptionLineItemRequestInput,
     UpdateSubscriptionOfferRequestInput,
-    UpdateSubscriptionPlanLineItemInputBundleInput
-} from './types-77.js';
-import type {
+    UpdateSubscriptionPlanLineItemInputBundleInput,
     UpdateSubscriptionPlanLineItemInputCustomInput,
     UpdateSubscriptionPlanLineItemInputVariantInput,
     UpdateSubscriptionPlanLineItemRequestInput,
@@ -52,6 +59,13 @@ import type {
     WorkloadIdentityClaimConditionRequestInput,
     WebhookVerificationOptions
 } from './types-79.js';
+export declare function makeUpdateProductOptionValueRequest(value: InputValue<UpdateProductOptionValueRequestInput>): Model<UpdateProductOptionValueRequestInput>;
+export declare function makeUpdateProductRequest(value: InputValue<UpdateProductRequestInput>): Model<UpdateProductRequestInput>;
+export declare function makeUpdateProductVariantRequest(value: InputValue<UpdateProductVariantRequestInput>): Model<UpdateProductVariantRequestInput>;
+export declare function makeUpdatePromotionCodeRequest(value: InputValue<UpdatePromotionCodeRequestInput>): Model<UpdatePromotionCodeRequestInput>;
+export declare function makeUpdatePromotionRequest(value: InputValue<UpdatePromotionRequestInput>): Model<UpdatePromotionRequestInput>;
+export declare function makeUpdateReaderRequest(value: InputValue<UpdateReaderRequestInput>): Model<UpdateReaderRequestInput>;
+export declare function makeUpdateRefundRequest(value: InputValue<UpdateRefundRequestInput>): Model<UpdateRefundRequestInput>;
 export declare function makeUpdateReturnLineItemRequest(value: InputValue<UpdateReturnLineItemRequestInput>): Model<UpdateReturnLineItemRequestInput>;
 export declare function makeUpdateReturnPolicyRequest(value: InputValue<UpdateReturnPolicyRequestInput>): Model<UpdateReturnPolicyRequestInput>;
 export declare function makeUpdateReturnReasonRequest(value: InputValue<UpdateReturnReasonRequestInput>): Model<UpdateReturnReasonRequestInput>;

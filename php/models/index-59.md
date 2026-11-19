@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# PaymentIntentActivity to MerchantBillingBalanceUpdatedEventData
+# BuyerRememberedBuyer to EnvironmentGrantUpdatedEventData
 
+- [BuyerRememberedBuyer](BuyerRememberedBuyer.md)
+- [BuyerTicketEvent](BuyerTicketEvent.md)
+- [BuyerTicket](BuyerTicket.md)
 - [PaymentIntentActivity](PaymentIntentActivity.md)
 - [PlatformFeeBalance](PlatformFeeBalance.md)
 - [ReportListResponseDataItemPendingDownload](ReportListResponseDataItemPendingDownload.md)
@@ -24,6 +27,7 @@
 - [LicenseKeyPoolRemovals](LicenseKeyPoolRemovals.md)
 - [BuyerSubscriptionRenewalResult](BuyerSubscriptionRenewalResult.md)
 - [SubscriptionRenewalResult](SubscriptionRenewalResult.md)
+- [ResolvedPaymentLinkCheckout](ResolvedPaymentLinkCheckout.md)
 - [RetryOrderEditRefundResult](RetryOrderEditRefundResult.md)
 - [LicenseKeyWithKey](LicenseKeyWithKey.md)
 - [CustomerSession](CustomerSession.md)
@@ -98,8 +102,4 @@
 - [EnvironmentGrantUpdatedEventDataObject](EnvironmentGrantUpdatedEventDataObject.md)
 - [EnvironmentGrantUpdatedEventDataPreviousAttributes](EnvironmentGrantUpdatedEventDataPreviousAttributes.md)
 - [EnvironmentGrantUpdatedEventData](EnvironmentGrantUpdatedEventData.md)
-- [EnvironmentGrantUpdatedEventSource](EnvironmentGrantUpdatedEventSource.md)
-- [MerchantBillingBalanceUpdatedEventDataObject](MerchantBillingBalanceUpdatedEventDataObject.md)
-- [MerchantBillingBalanceUpdatedEventDataPreviousAttributes](MerchantBillingBalanceUpdatedEventDataPreviousAttributes.md)
-- [MerchantBillingBalanceUpdatedEventData](MerchantBillingBalanceUpdatedEventData.md)
 

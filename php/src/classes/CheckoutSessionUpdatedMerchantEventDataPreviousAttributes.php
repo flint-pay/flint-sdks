@@ -171,7 +171,7 @@ final class CheckoutSessionUpdatedMerchantEventDataPreviousAttributes extends Mo
      */
     public function getInvoiceId(): string|null { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt. anyOf[1] (Value): boolean. Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt. anyOf[2] (Value): null.
+    /** Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt. anyOf[1] (Value): boolean. Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt. anyOf[2] (Value): null.
      * @return bool|null
      */
     public function getIsInRecovery(): bool|null { return $this->get('is_in_recovery'); }

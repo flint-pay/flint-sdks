@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read ?string $completed_at
  * @property-read string $created_at
- * @property-read string $idempotency_key
+ * @property-read string|null $idempotency_key
  * @property-read ?PaymentErrorSummary $last_payment_error
  * @property-read ?string $order_id
  * @property-read ?string $payment_intent_id
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPaymentRetryFailedMerchantEventDataObject extends Model {
-    /** @param array{'completed_at'?: string, 'created_at': string, 'idempotency_key': string, 'last_payment_error'?: mixed, 'order_id'?: string, 'payment_intent_id'?: string, 'started_at'?: string, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string, ...}|object $values */
+    /** @param array{'completed_at'?: string, 'created_at': string, 'idempotency_key': string|null, 'last_payment_error'?: mixed, 'order_id'?: string, 'payment_intent_id'?: string, 'started_at'?: string, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPaymentRetryFailedMerchantEventDataObject')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return ?string
@@ -27,10 +27,10 @@ final class SubscriptionPaymentRetryFailedMerchantEventDataObject extends Model 
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The idempotency key sent with the request that created the retry. Repeating the request with the same key returns this retry.
-     * @return string
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer routes return only keys from the buyer's namespace.
+     * @return string|null
      */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Why the payment failed. Present only when the retry's status is `failed` and a payment attempt was made. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation.
      * @return ?PaymentErrorSummary

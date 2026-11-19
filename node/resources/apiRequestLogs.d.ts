@@ -8,7 +8,7 @@ import type {
     ApiRequestLogsListParams
 } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -35,11 +35,10 @@ export type {
     APIRequestLogReproduction
 } from '../declarations/types-0.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeMoneyValue } from '../declarations/types-88.js';

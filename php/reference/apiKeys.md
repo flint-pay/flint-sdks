@@ -211,7 +211,7 @@ $result = $client->apiKeys->list([], new RequestOptions());
 
 ### apiKeys.revoke
 
-Permanently revokes an external API key and returns metadata with status revoked. A CLI login with accounts.api_keys.write can revoke a key in its own merchant and environment context even when the key holds broader scopes. API keys and workload credentials must also hold the target key's scopes. Dashboard sessions can manage only live keys in live mode or keys in the selected sandbox in test mode. A key outside that environment returns 404 RESOURCE_NOT_FOUND.
+Permanently revokes an external API key and returns metadata with status revoked. A CLI login with accounts.api_keys.write can revoke a key in its own merchant and environment context even when the key holds broader scopes. API keys and workload credentials must also hold the target key's scopes. Dashboard sessions can manage only live keys in live mode or keys in the selected sandbox in test mode. A key outside that environment returns 404 RESOURCE_NOT_FOUND. An onboarding session with permission to manage API keys can revoke unlinked external keys in any active sandbox of its merchant.
 
 `POST /v1/api-keys/{api_key_id}/revoke`
 

@@ -3,7 +3,7 @@ import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateReturnReceiptResponse } from '../declarations/types-13.js';
 import type { GetReturnReceiptResponse } from '../declarations/types-28.js';
 import type { ListReturnReceiptsResponse } from '../declarations/types-40.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { ReturnReceipt } from '../declarations/types-64.js';
 import type {
     ReturnReceiptsCreateParams,
@@ -32,13 +32,10 @@ export type {
     ReturnReceiptsGetParams,
     ReturnReceiptsListParams,
     ReturnReceiptsVerifyLineItemParams,
-    ReturnUnverifiedItemInput,
-    ReturnSourceSystemRequestInput,
-    ReturnUnverifiedItem,
     ReturnSourceSystem
 } from '../declarations/types-65.js';
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     ReturnReceipt,
     ReturnReceiptLineItemRequestInput,
@@ -52,9 +49,10 @@ export type { GetReturnReceiptResponse } from '../declarations/types-28.js';
 export type { ListReturnReceiptsResponse } from '../declarations/types-40.js';
 export type { VerifyReturnReceiptLineItemResponse, VerifyReturnReceiptLineItemRequestInput } from '../declarations/types-78.js';
 export type { ClientOptions } from '../declarations/types-7.js';
+export type { ReturnUnverifiedItemInput, ReturnSourceSystemRequestInput, ReturnUnverifiedItem } from '../declarations/types-66.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ReturnDisposition, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { ReturnDisposition } from '../declarations/types-63.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';

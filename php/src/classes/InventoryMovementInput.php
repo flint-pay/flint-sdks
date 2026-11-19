@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read int $damaged_quantity_delta
  * @property-read string $external_actor_id
  * @property-read int $held_quantity_delta
- * @property-read string $idempotency_key
+ * @property-read string|null $idempotency_key
  * @property-read int $incoming_quantity_delta
  * @property-read InventoryItemInput|array<array-key, mixed>|\stdClass $inventory_item
  * @property-read string $inventory_item_id
@@ -35,7 +35,7 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryMovementInput extends Model {
-    /** @param array{'backordered_quantity_delta': int, 'committed_quantity_delta': int, 'created_at': string|\DateTimeInterface, 'created_by': array{'resource_id': string, 'resource_type': string}|object|null, 'damaged_quantity_delta': int, 'external_actor_id'?: string, 'held_quantity_delta': int, 'idempotency_key'?: string, 'incoming_quantity_delta': int, 'inventory_item'?: InventoryItemInput|array<array-key, mixed>|\stdClass, 'inventory_item_id': string, 'inventory_level_claim_version': int, 'inventory_level_id': string, 'inventory_level_physical_version': int, 'inventory_level_version': int, 'inventory_movement_id': string, 'location_id': string, 'note'?: string, 'occurred_at': string|\DateTimeInterface, 'on_hand_quantity_delta': int, 'quality_control_quantity_delta': int, 'quarantined_quantity_delta': int, 'reason'?: string, 'resulting_inventory_level': InventoryLevelInput|array<array-key, mixed>|\stdClass, 'return_disposition_id'?: string, 'return_id'?: string, 'safety_stock_quantity_delta': int, 'source_observation_sequence'?: int, 'source_reference': ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'source_system': array{'external_source_id'?: string, 'type': string, ...}|object|null, 'type': string, ...}|object $values */
+    /** @param array{'backordered_quantity_delta': int, 'committed_quantity_delta': int, 'created_at': string|\DateTimeInterface, 'created_by': array{'resource_id': string, 'resource_type': string}|object|null, 'damaged_quantity_delta': int, 'external_actor_id'?: string, 'held_quantity_delta': int, 'idempotency_key': string|null, 'incoming_quantity_delta': int, 'inventory_item'?: InventoryItemInput|array<array-key, mixed>|\stdClass, 'inventory_item_id': string, 'inventory_level_claim_version': int, 'inventory_level_id': string, 'inventory_level_physical_version': int, 'inventory_level_version': int, 'inventory_movement_id': string, 'location_id': string, 'note'?: string, 'occurred_at': string|\DateTimeInterface, 'on_hand_quantity_delta': int, 'quality_control_quantity_delta': int, 'quarantined_quantity_delta': int, 'reason'?: string, 'resulting_inventory_level': InventoryLevelInput|array<array-key, mixed>|\stdClass, 'return_disposition_id'?: string, 'return_id'?: string, 'safety_stock_quantity_delta': int, 'source_observation_sequence'?: int, 'source_reference': ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'source_system': array{'external_source_id'?: string, 'type': string, ...}|object|null, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryMovementInput')); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
@@ -79,11 +79,11 @@ final class InventoryMovementInput extends Model {
      */
     public function getHeldQuantityDelta(): int { return $this->get('held_quantity_delta'); }
     public function hasHeldQuantityDelta(): bool { return $this->has('held_quantity_delta'); }
-    /** The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key.
-     * @return string
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource.
+     * @return string|null
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int

@@ -1,5 +1,14 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { CreateRiskPreviewRequestInlineInput } from './types-13.js';
+import type {
+    CreateReturnResolutionPreviewRequestCorrectionInput,
+    CreateReturnResolutionPreviewRequestStandardInput,
+    CreateReturnResolutionRequestInput,
+    CreateReturnResolutionRequestCorrectionInput,
+    CreateReturnResolutionRequestStandardInput,
+    CreateRiskListRequestInput,
+    CreateRiskPreviewRequestInput,
+    CreateRiskPreviewRequestInlineInput
+} from './types-13.js';
 import type {
     CreateRiskPreviewRequestStoredRuleInput,
     CreateRiskRuleRequestInput,
@@ -64,15 +73,15 @@ import type {
     DeliveryBuyerLocationInputAddressInput,
     DeliveryBuyerLocationInputCoordinateInput,
     DeliveryBuyerLocationRequestInput,
-    DeliveryCalculatedPricingStrategyRequestInput,
-    DeliveryCallbackPricingStrategyRequestInput,
-    DeliveryCallerSuppliedPricingStrategyRequestInput,
-    DeliveryChargeTaxCalculationRequestModelInput,
-    DeliveryCoordinateRequestInput,
-    DeliveryCountryConditionRequestInput,
-    DeliveryCustomerBooleanConditionInput,
-    DeliveryCustomerSegmentConditionInput
+    DeliveryCalculatedPricingStrategyRequestInput
 } from './types-18.js';
+export declare function makeCreateReturnResolutionPreviewRequestCorrection(value: InputValue<CreateReturnResolutionPreviewRequestCorrectionInput>): Model<CreateReturnResolutionPreviewRequestCorrectionInput>;
+export declare function makeCreateReturnResolutionPreviewRequestStandard(value: InputValue<CreateReturnResolutionPreviewRequestStandardInput>): Model<CreateReturnResolutionPreviewRequestStandardInput>;
+export declare function makeCreateReturnResolutionRequest(value: InputValue<CreateReturnResolutionRequestInput>): Model<CreateReturnResolutionRequestInput>;
+export declare function makeCreateReturnResolutionRequestCorrection(value: InputValue<CreateReturnResolutionRequestCorrectionInput>): Model<CreateReturnResolutionRequestCorrectionInput>;
+export declare function makeCreateReturnResolutionRequestStandard(value: InputValue<CreateReturnResolutionRequestStandardInput>): Model<CreateReturnResolutionRequestStandardInput>;
+export declare function makeCreateRiskListRequest(value: InputValue<CreateRiskListRequestInput>): Model<CreateRiskListRequestInput>;
+export declare function makeCreateRiskPreviewRequest(value: InputValue<CreateRiskPreviewRequestInput>): Model<CreateRiskPreviewRequestInput>;
 export declare function makeCreateRiskPreviewRequestInline(value: InputValue<CreateRiskPreviewRequestInlineInput>): Model<CreateRiskPreviewRequestInlineInput>;
 export declare function makeCreateRiskPreviewRequestStoredRule(value: InputValue<CreateRiskPreviewRequestStoredRuleInput>): Model<CreateRiskPreviewRequestStoredRuleInput>;
 export declare function makeCreateRiskRuleRequest(value: InputValue<CreateRiskRuleRequestInput>): Model<CreateRiskRuleRequestInput>;
@@ -131,10 +140,3 @@ export declare function makeDeliveryBuyerLocationInputAddress(value: InputValue<
 export declare function makeDeliveryBuyerLocationInputCoordinate(value: InputValue<DeliveryBuyerLocationInputCoordinateInput>): Model<DeliveryBuyerLocationInputCoordinateInput>;
 export declare function makeDeliveryBuyerLocationRequest(value: InputValue<DeliveryBuyerLocationRequestInput>): Model<DeliveryBuyerLocationRequestInput>;
 export declare function makeDeliveryCalculatedPricingStrategyRequest(value: InputValue<DeliveryCalculatedPricingStrategyRequestInput>): Model<DeliveryCalculatedPricingStrategyRequestInput>;
-export declare function makeDeliveryCallbackPricingStrategyRequest(value: InputValue<DeliveryCallbackPricingStrategyRequestInput>): Model<DeliveryCallbackPricingStrategyRequestInput>;
-export declare function makeDeliveryCallerSuppliedPricingStrategyRequest(value: InputValue<DeliveryCallerSuppliedPricingStrategyRequestInput>): Model<DeliveryCallerSuppliedPricingStrategyRequestInput>;
-export declare function makeDeliveryChargeTaxCalculationRequestModel(value: InputValue<DeliveryChargeTaxCalculationRequestModelInput>): Model<DeliveryChargeTaxCalculationRequestModelInput>;
-export declare function makeDeliveryCoordinateRequest(value: InputValue<DeliveryCoordinateRequestInput>): Model<DeliveryCoordinateRequestInput>;
-export declare function makeDeliveryCountryConditionRequest(value: InputValue<DeliveryCountryConditionRequestInput>): Model<DeliveryCountryConditionRequestInput>;
-export declare function makeDeliveryCustomerBooleanCondition(value: InputValue<DeliveryCustomerBooleanConditionInput>): Model<DeliveryCustomerBooleanConditionInput>;
-export declare function makeDeliveryCustomerSegmentCondition(value: InputValue<DeliveryCustomerSegmentConditionInput>): Model<DeliveryCustomerSegmentConditionInput>;

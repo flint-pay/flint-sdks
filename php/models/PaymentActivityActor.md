@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `label` | Required | string | Recorded teammate name (or email), API key name, or app name. Empty when a display label was unavailable; use resource_id as a fallback. |
+| `label` | Required | string | Teammate name (or email), API key name, or app name. Empty when a display label was unavailable; use resource_id as a fallback. |
 | `resource_id` | Required | string | Flint ID of the identity that initiated the action. Key creators and app installers are not the actor. |
-| `resource_type` | Required | string | The acting resource type: a teammate, API key, partner app installation, or partner app. Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. The acting resource type: a teammate, API key, partner app installation, or partner app. Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: `"user"`, `"api_key"`, `"partner_app_install"`, `"partner_app"`. |
+| `resource_type` | Required | string | The acting identity's resource type. Today one of `user` (a teammate acting through Dashboard or a CLI login), `api_key` (an API key, not its creator), `partner_app_install` (an installed partner app, not its installer), or `partner_app` (a partner app acting on its own resources). Accept other resource types. Values: [157 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 

@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type {
     TaxCalculationCallback,
     TaxCalculationCallbackConnectionCheck,
@@ -57,12 +57,11 @@ export type {
     TaxCalculationCallbackConfiguration,
     TaxCalculationCallbackConfigurationPatchRequestInput
 } from '../declarations/types-73.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials, CreateTaxCalculationCallbackRequestInput } from '../declarations/types-14.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateTaxCalculationCallbackRequestInput } from '../declarations/types-78.js';

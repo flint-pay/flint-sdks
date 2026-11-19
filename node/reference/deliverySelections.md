@@ -77,7 +77,7 @@ const result = await client.deliverySelections.create({choices: [{delivery_choic
 
 ### deliverySelections.get
 
-Returns one delivery selection, current or earlier, with its economics, lifecycle events, and retention-aware private data. While the selection is selected, the tax on its delivery charges follows the order's tax. A checkout credential reads only its own session's selections and receives the buyer view; any other selection is refused as not found.
+Returns one delivery selection, current or earlier, with its economics, lifecycle events, and retention-aware private data. While the selection is selected, the tax on its delivery charges follows the order's tax. A checkout credential receives the buyer view of its own session's selections. For an issued invoice, it can also retrieve the merchant-set selection named by the order's governing_delivery_selection_id. Other selections return 404.
 
 `GET /v1/delivery-selections/{delivery_selection_id}`
 

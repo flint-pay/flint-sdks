@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# DeliveryFulfillmentDetails to BundleComponent
+# OrderLineItemModifier to SelectedProductOption
 
+- [OrderLineItemModifier](OrderLineItemModifier.md)
+- [FulfillmentLineItem](FulfillmentLineItem.md)
 - [DeliveryFulfillmentDetails](DeliveryFulfillmentDetails.md)
 - [FulfillmentOutcome](FulfillmentOutcome.md)
 - [ExpandedPackageSummary](ExpandedPackageSummary.md)
@@ -100,6 +102,4 @@
 - [OrderHandover](OrderHandover.md)
 - [InventoryRoutingSource](InventoryRoutingSource.md)
 - [SelectedProductOption](SelectedProductOption.md)
-- [BundleComponentVariantSummary](BundleComponentVariantSummary.md)
-- [BundleComponent](BundleComponent.md)
 

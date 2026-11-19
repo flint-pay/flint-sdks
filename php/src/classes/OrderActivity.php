@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read ?string $activity_type
+ * @property-read ?PaymentActivityActor $actor
  * @property-read SignedMoney $balance_delta_money
  * @property-read ?string $checkout_session_id
  * @property-read string $created_at
@@ -21,13 +22,18 @@ namespace Flint;
  * @property-read SignedMoney $running_balance_money
  * Presence-aware response; omitted optional fields return null. */
 final class OrderActivity extends Model {
-    /** @param array{'activity_type'?: string, 'balance_delta_money': mixed, 'checkout_session_id'?: string, 'created_at': string, 'description': string, 'dispute_id'?: string, 'fulfillment_id'?: string, 'order_activity_id': string, 'order_charge_id'?: string, 'order_discount_id'?: string, 'order_id': string, 'order_line_item_id'?: string, 'order_tip_id'?: string, 'payment_intent_id'?: string, 'payment_review_id'?: string, 'refund_id'?: string, 'running_balance_money': mixed, ...}|object $values */
+    /** @param array{'activity_type'?: string, 'actor'?: mixed, 'balance_delta_money': mixed, 'checkout_session_id'?: string, 'created_at': string, 'description': string, 'dispute_id'?: string, 'fulfillment_id'?: string, 'order_activity_id': string, 'order_charge_id'?: string, 'order_discount_id'?: string, 'order_id': string, 'order_line_item_id'?: string, 'order_tip_id'?: string, 'payment_intent_id'?: string, 'payment_review_id'?: string, 'refund_id'?: string, 'running_balance_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderActivity')); }
     /** The action recorded on the order. Omitted when the activity type cannot be identified. Clients must accept values added in future releases. Value enum: "created", "dispute_opened", "dispute_closed", "line_item_added", "line_item_updated", "line_item_removed", "discount_applied", "discount_removed", "tax_updated", "requested_tip_added", "requested_tip_updated", "requested_tip_removed", "charge_added", "charge_updated", "charge_removed", "charge_fulfillment_updated", "order_edited", "payment_review_opened", "payment_review_closed", "order_updated", "adjustment", "closed", "payment", "payment_failed", "refund", "refund_failed", "checkout_session_created", "checkout_session_expired", "checkout_session_invalidated", "fulfillment_created", "fulfillment_updated", "fulfillment_state_changed".
      * @return ?string
      */
     public function getActivityType(): ?string { return $this->get('activity_type'); }
     public function hasActivityType(): bool { return $this->has('activity_type'); }
+    /** The merchant identity that initiated the refund, when available. Buyer activity lists omit it. The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed.
+     * @return ?PaymentActivityActor
+     */
+    public function getActor(): ?PaymentActivityActor { return $this->get('actor'); }
+    public function hasActor(): bool { return $this->has('actor'); }
     /** Signed change this row made to the order balance: running_balance_money minus the balance before the row. Rows that do not change the balance, such as payment_failed, refund_failed, and most refund rows, have amount 0. A payment or refund amount is on the referenced resource. Do not sum activity deltas to compute the order balance. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return SignedMoney
      */

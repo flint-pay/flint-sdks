@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CancelReturnRequestInput to CheckoutSessionTaxPreviousAttributes
+# CancelReturnRequest to CheckoutSessionTax
 
+- [CancelReturnRequest](CancelReturnRequest.md)
 - [CancelReturnRequestInput](CancelReturnRequestInput.md)
 - [CancelReturnResolutionRequestInput](CancelReturnResolutionRequestInput.md)
 - [CancelSubscriptionRequest](CancelSubscriptionRequest.md)
@@ -101,5 +102,4 @@
 - [CheckoutSessionPlatformFee](CheckoutSessionPlatformFee.md)
 - [CheckoutSessionResponse](CheckoutSessionResponse.md)
 - [CheckoutSessionTax](CheckoutSessionTax.md)
-- [CheckoutSessionTaxPreviousAttributes](CheckoutSessionTaxPreviousAttributes.md)
 

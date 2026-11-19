@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { DisconnectTaxConnectionResponse, DisconnectTaxConnectionResult } from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type {
     TaxConnection,
     TaxConnectionConnectParams,
@@ -9,9 +9,7 @@ import type {
     TaxConnectionDeleteRegistrationParams,
     TaxConnectionDisclosure,
     TaxConnectionDisclosurePreviousAttributes,
-    TaxConnectionDisconnectParams
-} from '../declarations/types-73.js';
-import type {
+    TaxConnectionDisconnectParams,
     TaxConnectionGetParams,
     TaxConnectionGetRegistrationParams,
     TaxConnectionListRegistrationsParams,
@@ -41,22 +39,19 @@ export type {
 export type {
     TaxConnectionConnectParams,
     TaxConnection,
-    TaxConnectionCreateRegistrationParams,
-    TaxConnectionDeleteRegistrationParams,
-    TaxConnectionDisconnectParams,
-    TaxConnectionDisclosure,
-    TaxConnectionDisclosurePreviousAttributes
-} from '../declarations/types-73.js';
-export type { RequestOptions } from '../declarations/types-61.js';
-export type {
     TaxConnectionResponse,
+    TaxConnectionCreateRegistrationParams,
     TaxRegistration,
     TaxRegistrationResponse,
+    TaxConnectionDeleteRegistrationParams,
+    TaxConnectionDisconnectParams,
     TaxConnectionGetParams,
     TaxConnectionGetRegistrationParams,
     TaxConnectionListRegistrationsParams,
     TaxRegistrationListResponse,
     TaxConnectionUpdateRegistrationParams,
+    TaxConnectionDisclosure,
+    TaxConnectionDisclosurePreviousAttributes,
     TaxConnectionSellerAttestation,
     TaxConnectionSellerAttestationPreviousAttributes,
     TaxCountryCoverage,
@@ -66,6 +61,7 @@ export type {
     TaxDisclosureStatement,
     TaxDisclosureStatementPreviousAttributes
 } from '../declarations/types-74.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     DisconnectTaxConnectionResult,
     DisconnectTaxConnectionResponse,
@@ -75,12 +71,12 @@ export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions, CheckoutSettings } from '../declarations/types-7.js';
 export type { ConnectTaxConnectionRequestInput } from '../declarations/types-8.js';
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';
-export type { SellerTaxAttestationRequestInput, Settings, SellerTaxAttestationRequest } from '../declarations/types-67.js';
+export type { SellerTaxAttestationRequestInput, SellerTaxAttestationRequest } from '../declarations/types-67.js';
 export type { AuthMode, BrandingSettings, BuyerCapabilities } from '../declarations/types-1.js';
 export type { Credentials, CreateTaxRegistrationRequestInput } from '../declarations/types-14.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession, ReceiptSettings } from '../declarations/types-60.js';
+export type { Settings, StatementDescriptorStatus } from '../declarations/types-68.js';
 export type { CheckoutRecoveryEmailSettings, CheckoutSavedPaymentDetailsSettings } from '../declarations/types-6.js';
 export type {
     CustomerAccountSettings,
@@ -100,20 +96,18 @@ export type { InvoiceReminderPolicy, InvoiceReminderRule } from '../declarations
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { PaymentLimitSettings } from '../declarations/types-52.js';
 export type { PaymentSettings } from '../declarations/types-54.js';
-export type { StatementDescriptorStatus } from '../declarations/types-68.js';
 export type { PromotionSettings } from '../declarations/types-59.js';
 export type { SubscriptionSettings } from '../declarations/types-72.js';
 export type { DocumentTaxID } from '../declarations/types-26.js';
 export type { TippingSettings } from '../declarations/types-75.js';
 export type { UpdateTaxRegistrationRequestInput } from '../declarations/types-78.js';
-export { makeAddressRequest } from '../declarations/types-79.js';
-export { makeBuyerPauseCapability, makeBuyerSkipCapability } from '../declarations/types-80.js';
+export { makeAddressRequest, makeBuyerPauseCapability, makeBuyerSkipCapability } from '../declarations/types-80.js';
 export { makeConnectTaxConnectionRequest } from '../declarations/types-81.js';
 export { makeCreateTaxRegistrationRequest } from '../declarations/types-84.js';
 export { makeDisconnectTaxConnectionRequest } from '../declarations/types-86.js';
 export { makeInvoiceAutopayRetryPolicy, makeInvoiceReminderPolicy, makeInvoiceReminderRule } from '../declarations/types-87.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeSellerTaxAttestationRequest } from '../declarations/types-91.js';
+export { makeSellerTaxAttestationRequest } from '../declarations/types-92.js';
 export { makeUpdateTaxRegistrationRequest } from '../declarations/types-94.js';
 export interface TaxConnectionResource {
     /**
@@ -124,11 +118,12 @@ export interface TaxConnectionResource {
  * explicit address must match once the tax account exists. Live mode rejects legal_address and
  * requires verified business details. Syncs registrations and removes tax-account copies of
  * deleted registrations. Reconnect retains the tax account and does not turn the default tax
- * setting back on. A rejected stored registration returns INVALID_REQUEST on registration_number
- * and leaves the connection attention_required with registration_rejected. Successful
- * configuration marks open calculated automatic-tax orders without an issued invoice incomplete
- * and advances their versions. A same-key retry resumes setup without creating another account;
- * unconfirmed account creation requires support. Retrieve the connection after a lost response.
+ * setting back on. A rejected registration returns INVALID_REQUEST on registration_number, state,
+ * or country. The connection can become active if another registration is usable. Read the
+ * connection and registration statuses after a refusal. Successful configuration marks open
+ * calculated automatic-tax orders without an issued invoice incomplete and advances their
+ * versions. A same-key retry resumes setup without creating another account; unconfirmed account
+ * creation requires support. Retrieve the connection after a lost response.
  *
  * `POST /v1/tax-connection/connect`
  * @see https://developers.withflintpay.com/docs/api/tax-connection#connectTaxConnection

@@ -13,6 +13,7 @@ Response model.
 | `checkout_session_id` | Optional | string or null | The hosted or headless checkout session the buyer pays through. Absent for automatic charges. `checkout_session_id`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributescheckout_session_id). |
 | `expected_amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The amount this attempt collects: the outstanding balance, or the targeted schedule entry's outstanding amount. |
 | `expires_at` | Optional | string or null | When a checkout attempt expires, matching its checkout session. Absent for automatic charges. `expires_at`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesexpires_at). |
+| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field. `idempotency_key`: [declared alternatives](../models/OrderPaymentAttemptPreviousAttributes.md#orderpaymentattemptpreviousattributesidempotency_key). |
 | `invoice_id` | Optional | string or null | The invoice this attempt collects. `invoice_id`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesinvoice_id). |
 | `invoice_payment_attempt_id` | Optional | string or null | Flint invoice payment attempt ID. `invoice_payment_attempt_id`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesinvoice_payment_attempt_id). |
 | `invoice_schedule_entry_id` | Optional | string or null | The schedule entry this attempt collects. Absent when the attempt collects the invoice balance. `invoice_schedule_entry_id`: [declared alternatives](../models/InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.md#invoicepaymentattemptcanceledmerchanteventdatapreviousattributesinvoice_schedule_entry_id). |
@@ -80,6 +81,10 @@ anyOf variant 1: When a checkout attempt expires, matching its checkout session.
 anyOf variant 2.
 
 - Value shape: null. When a checkout attempt expires, matching its checkout session. Absent for automatic charges. 
+
+### InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.idempotency_key
+
+Declared alternatives: [OrderPaymentAttemptPreviousAttributes.idempotency_key](../models/OrderPaymentAttemptPreviousAttributes.md#orderpaymentattemptpreviousattributesidempotency_key).
 
 ### InvoicePaymentAttemptCanceledMerchantEventDataPreviousAttributes.invoice_id
 

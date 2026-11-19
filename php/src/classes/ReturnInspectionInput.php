@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string $external_actor_id
  * @property-read string $external_reference_id
  * @property-read list<ReturnDispositionInput|array<array-key, mixed>|\stdClass> $generated_dispositions
+ * @property-read string|null $idempotency_key
  * @property-read string|\DateTimeInterface $inspected_at
  * @property-read string $inspection_location_id
  * @property-read list<ReturnInspectionLineItemInput|array<array-key, mixed>|\stdClass> $line_items
@@ -23,7 +24,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnInspectionInput extends Model {
-    /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<ReturnDispositionInput|array<array-key, mixed>|\stdClass>, 'inspected_at': string|\DateTimeInterface, 'inspection_location_id': string, 'line_items': list<ReturnInspectionLineItemInput|array<array-key, mixed>|\stdClass>, 'return_id': string, 'return_inspection_id': string, 'return_receipt_id': string, 'source_system': array{'external_source_id'?: string, 'source_system_type': string}|object|null, 'status': string, 'superseded_at'?: string|\DateTimeInterface, 'superseded_by_return_inspection_id'?: string, 'supersedes_return_inspection_id'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<ReturnDispositionInput|array<array-key, mixed>|\stdClass>, 'idempotency_key': string|null, 'inspected_at': string|\DateTimeInterface, 'inspection_location_id': string, 'line_items': list<ReturnInspectionLineItemInput|array<array-key, mixed>|\stdClass>, 'return_id': string, 'return_inspection_id': string, 'return_receipt_id': string, 'source_system': array{'external_source_id'?: string, 'source_system_type': string}|object|null, 'status': string, 'superseded_at'?: string|\DateTimeInterface, 'superseded_by_return_inspection_id'?: string, 'supersedes_return_inspection_id'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnInspectionInput')); }
     /** Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other".
      * @return string
@@ -61,6 +62,12 @@ final class ReturnInspectionInput extends Model {
      */
     public function getGeneratedDispositions(): array { return $this->get('generated_dispositions'); }
     public function hasGeneratedDispositions(): bool { return $this->has('generated_dispositions'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource.
+     * @return string|null
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When inspected_at is omitted; use hasInspectedAt() or valueOrDefault().

@@ -29,9 +29,10 @@ import type {
     FulfillmentRecipientPreviousAttributes
 } from './types-28.js';
 import type { PickupFulfillmentDetails, PickupFulfillmentDetailsPreviousAttributes } from './types-55.js';
-import type { ServiceFulfillmentDetails, ServiceFulfillmentDetailsPreviousAttributes } from './types-67.js';
 import type {
+    ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
+    ServiceFulfillmentDetailsPreviousAttributes,
     ShipmentFulfillmentDetailsPreviousAttributes,
     SinglePackageCreateRequest,
     SinglePackageCreateRequestInput
@@ -41,10 +42,11 @@ import type { PackageCreateRequest, PackageCreateRequestInput } from './types-48
 import type { OrderLineItemModifier, OrderLineItemModifierPreviousAttributes } from './types-46.js';
 export type ExpandedSubscriptionSummaryPreviousAttributes = {
     /**
-     * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
-     * schedules; 0 when no anchor day is set. anyOf[1] (Value): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules; 0 when no anchor day
-     * is set. Format: int32. anyOf[2] (Value): null.
+     * Day of the month used for monthly and yearly billing in the subscription's billing timezone.
+     * Applies only to Flint-owned schedules; 0 when no anchor day is set. anyOf[1] (Value):
+     * integer. Day of the month used for monthly and yearly billing in the subscription's billing
+     * timezone. Applies only to Flint-owned schedules; 0 when no anchor day is set. Format: int32.
+     * anyOf[2] (Value): null.
      */
     "billing_anchor_day"?: ((number) | (null));
     /**
@@ -76,19 +78,21 @@ export type ExpandedSubscriptionSummaryPreviousAttributes = {
     /**
      * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
      * while a trialing or active subscription has a billing date and isn't set to cancel at the
-     * end of its period. Absent when no renewal is scheduled: a paused subscription resumes at
-     * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and
-     * retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start
-     * begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule
-     * awaiting a date reports is_awaiting_billing_schedule. anyOf[1] (Value): string. When Flint
-     * next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only while a
-     * trialing or active subscription has a billing date and isn't set to cancel at the end of its
-     * period. Absent when no renewal is scheduled: a paused subscription resumes at
-     * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and
-     * retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start
-     * begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule
-     * awaiting a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * end of its period. Absent when no renewal is scheduled: a subscription in its final billing
+     * cycle ends at expires_at, a paused subscription resumes at scheduled_resume_at, a past_due
+     * one reports the failed billing date in missed_billing_at and retries at next_retry_at, an
+     * incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one set to
+     * cancel ends at scheduled_cancel_at, and an external schedule awaiting a date reports
+     * is_awaiting_billing_schedule. anyOf[1] (Value): string. When Flint next starts a scheduled
+     * renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
+     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
+     * when no renewal is scheduled: a subscription in its final billing cycle ends at expires_at,
+     * a paused subscription resumes at scheduled_resume_at, a past_due one reports the failed
+     * billing date in missed_billing_at and retries at next_retry_at, an incomplete one retries at
+     * next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at
+     * scheduled_cancel_at, and an external schedule awaiting a date reports
+     * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
+     * (Value): null.
      */
     "next_billing_at"?: ((string) | (null));
     /**
@@ -1857,9 +1861,10 @@ export type Fulfillment = {
     "charges"?: Array<FulfillmentChargeLink>;
     /**
      * When the fulfillment was completed. Mirrors the completion time for its type: delivered_at
-     * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup,
+     * service_details.completed_at for service fulfillments, and the order's paid_at for handovers
+     * completed at payment. Omitted until a completion time is recorded. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
      */
     "completed_at"?: string;
     /**
@@ -1919,6 +1924,16 @@ export type Fulfillment = {
     "external_reference_id"?: string;
     /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
     "fulfillment_id": string;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     */
+    "idempotency_key": string | null;
     /**
      * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
      * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
@@ -2113,6 +2128,7 @@ export type FulfillmentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
+            "idempotency_key": string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -2183,6 +2199,7 @@ export type FulfillmentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "dispatched_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "fulfillment_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "line_items"?: ((Array<FulfillmentLineItemPreviousAttributes>) | (null));
             "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null));
             "location_id"?: ((string) | (null));
@@ -2260,6 +2277,7 @@ export type FulfillmentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
+            "idempotency_key": string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -2330,6 +2348,7 @@ export type FulfillmentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "dispatched_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "fulfillment_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "line_items"?: ((Array<FulfillmentLineItemPreviousAttributes>) | (null));
             "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null));
             "location_id"?: ((string) | (null));
@@ -2414,78 +2433,87 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
      * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
-     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.delivery_choice_group_id (Optional): string or null. Delivery choice group that
-     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Always present with merchant credentials. Example:
-     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". object.delivery_execution_leg_id (Optional): string or
-     * null. Execution leg of the selected delivery option that created this fulfillment. `null`
-     * when the merchant created the fulfillment or checkout created it without a delivery quote.
-     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-     * object.delivery_method_id (Optional): string or null. Delivery method chosen for this
-     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
-     * a delivery quote. Also `null` when it was created before this field was added. Always
-     * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * object.delivery_selection_id (Optional): string or null. Delivery selection that created
-     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
-     * without a delivery quote. Always present with merchant credentials. Example:
-     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id (Optional): string. Device associated
-     * with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     * object.digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
-     * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
-     * delivered (`delivered_at`) and its `delivery_url`. object.dispatched_at (Optional): string.
-     * First time this fulfillment reached dispatched. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.fulfillment_id (Required): string. Stable identifier of the
-     * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items (Required): Array
-     * of {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
-     * object.line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
-     * included in a fulfillment, with the modifiers applied to it. object.local_delivery_details
-     * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
-     * details for a local delivery fulfillment. Details of a local delivery fulfillment: courier,
-     * timing window, instructions, and tracking. Some fields are omitted for credentials that
-     * don't act for the verified customer. object.location_id (Optional): string. Merchant
-     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
-     * with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
-     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
-     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
-     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
-     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
-     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
-     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
-     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
-     * package's summary fields, including carrier, tracking, status, and supported actions,
-     * returned when the package is expanded. object.packed_at (Optional): string. First time this
-     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
-     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
-     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
-     * instructions name the store the buyer chose and the delivery method's pickup instructions.
-     * The note the buyer left for the store is in recipient.instructions. object.recipient
-     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
-     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
-     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
-     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
-     * authoritative schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and
-     * last descending. Sorting by due_at compares this same value with nulls last ascending and
-     * first descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.created_at (Required): string. When the fulfillment was
+     * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer_id (Optional): string. Customer receiving this fulfillment, when one is set.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery_choice_group_id (Optional):
+     * string or null. Delivery choice group that created this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Always present with merchant
+     * credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id
+     * (Optional): string or null. Delivery method chosen for this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Also
+     * `null` when it was created before this field was added. Always present with merchant
+     * credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". object.delivery_selection_id
+     * (Optional): string or null. Delivery selection that created this fulfillment. `null` when
+     * the merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * object.device_id (Optional): string. Device associated with the fulfillment, when one is
+     * recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional):
+     * {@link DigitalFulfillmentDetails}. Delivery URL and completion time for a digital
+     * fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and
+     * its `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment
+     * reached dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
+     * (Required): string. Stable identifier of the fulfillment. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * object.line_items (Required): Array of {@link FulfillmentLineItem}. Order lines and
+     * quantities allocated to this fulfillment. object.line_items[] (Value): {@link
+     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
+     * modifiers applied to it. object.local_delivery_details (Optional): {@link
+     * DeliveryFulfillmentDetails}. Courier, delivery window, and handoff details for a local
+     * delivery fulfillment. Details of a local delivery fulfillment: courier, timing window,
+     * instructions, and tracking. Some fields are omitted for credentials that don't act for the
+     * verified customer. object.location_id (Optional): string. Merchant location responsible for
+     * this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional):
+     * {@link MetadataMap}. Caller-owned key-value metadata associated with the fulfillment.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
+     * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
+     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
+     * and there is no related order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}.
+     * An order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded. object.order.anyOf[2] (Value):
+     * null. object.order_id (Required): string. Order whose items this fulfillment delivers.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number (Optional): string.
+     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
+     * no number. object.outcome (Optional): {@link FulfillmentOutcome}. Terminal outcome details.
+     * Present exactly when status is no_show. The terminal outcome recorded for a fulfillment,
+     * such as a no-show, with its reason, notes, and when it occurred. object.packages (Optional):
+     * Array of {@link ExpandedPackageSummary}. Packages associated with this fulfillment.
+     * object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary fields,
+     * including carrier, tracking, status, and supported actions, returned when the package is
+     * expanded. object.packed_at (Optional): string. First time this fulfillment reached packed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.picked_at (Optional): string.
+     * First time this fulfillment reached picked. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link PickupFulfillmentDetails}.
+     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
+     * a pickup that checkout creates, location_name, address, and instructions name the store the
+     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
+     * store is in recipient.instructions. object.recipient (Optional): {@link
+     * FulfillmentRecipient}. Omitted for a checkout session credential that doesn't act for the
+     * customer the buyer verified. The recipient of a fulfillment, with name, email, phone,
+     * address, and handling instructions. object.scheduled_start_at (Required): string or null.
+     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
+     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
+     * schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and last
+     * descending. Sorting by due_at compares this same value with nulls last ascending and first
+     * descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". object.service_details (Optional): {@link
      * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
      * Details of a service fulfillment: the scheduled start and end, timezone, completion time,
@@ -2545,22 +2573,22 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * FulfillmentChargeLinkPreviousAttributes}. previous_attributes.charges.anyOf[2] (Value):
      * null. previous_attributes.completed_at (Optional): string or null. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. previous_attributes.completed_at.anyOf[1] (Value): string. When the fulfillment
-     * was completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.completed_at.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. When the fulfillment was created, in RFC3339 format.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the fulfillment was created,
-     * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer_id
-     * (Optional): string or null. Customer receiving this fulfillment, when one is set.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. previous_attributes.completed_at.anyOf[1]
+     * (Value): string. When the fulfillment was completed. Mirrors the completion time for its
+     * type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for
+     * pickup, service_details.completed_at for service fulfillments, and the order's paid_at for
+     * handovers completed at payment. Omitted until a completion time is recorded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the
+     * fulfillment was created, in RFC3339 format. previous_attributes.created_at.anyOf[1] (Value):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.customer_id (Optional): string or null. Customer receiving this
+     * fulfillment, when one is set. previous_attributes.customer_id.anyOf[1] (Value): string.
+     * Customer receiving this fulfillment, when one is set. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
      * previous_attributes.delivery_choice_group_id (Optional): string or null. Delivery choice
      * group that created this fulfillment. `null` when the merchant created the fulfillment or
      * checkout created it without a delivery quote. Always present with merchant credentials.
@@ -2612,7 +2640,24 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * previous_attributes.fulfillment_id (Optional): string or null. Stable identifier of the
      * fulfillment. previous_attributes.fulfillment_id.anyOf[1] (Value): string. Stable identifier
      * of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.line_items
+     * previous_attributes.fulfillment_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.line_items
      * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines and
      * quantities allocated to this fulfillment. previous_attributes.line_items.anyOf[1] (Value):
      * Array of {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
@@ -2776,11 +2821,12 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
          * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
          * completion time for its type: delivered_at for shipment, local delivery, and digital
-         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
-         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
-         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
-         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at (Required): string. When the fulfillment was created, in RFC3339 format.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Optional): string.
+         * Customer receiving this fulfillment, when one is set. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Optional): string or null.
          * Delivery choice group that created this fulfillment. `null` when the merchant created
          * the fulfillment or checkout created it without a delivery quote. Always present with
@@ -2805,8 +2851,16 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
-         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * string or null. The Idempotency-Key of the request that created this resource. `null`
+         * when that request sent no key, Flint created the resource, the reader isn't the caller
+         * that created it (another app install, a buyer, or the merchant reading an app's or
+         * buyer's record), or the caller that created an older record is unknown. Filter its list
+         * with `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. line_items (Required): Array of {@link
+         * FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
          * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
          * included in a fulfillment, with the modifiers applied to it. local_delivery_details
          * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
@@ -2908,8 +2962,9 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
             "completed_at"?: string;
             /**
@@ -2970,6 +3025,17 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
             "external_reference_id"?: string;
             /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
             "fulfillment_id": string;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field.
+             */
+            "idempotency_key": string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -3172,19 +3238,20 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * FulfillmentChargeLinkPreviousAttributes}. charges.anyOf[2] (Value): null. completed_at
          * (Optional): string or null. When the fulfillment was completed. Mirrors the completion
          * time for its type: delivered_at for shipment, local delivery, and digital fulfillments,
-         * picked_up_at for pickup, and service_details.completed_at for service fulfillments.
-         * Omitted until a completion time is recorded. completed_at.anyOf[1] (Value): string. When
-         * the fulfillment was completed. Mirrors the completion time for its type: delivered_at
-         * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
-         * service_details.completed_at for service fulfillments. Omitted until a completion time
-         * is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2]
-         * (Value): null. created_at (Optional): string or null. When the fulfillment was created,
-         * in RFC3339 format. created_at.anyOf[1] (Value): string. When the fulfillment was
-         * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer
-         * receiving this fulfillment, when one is set. customer_id.anyOf[1] (Value): string.
-         * Customer receiving this fulfillment, when one is set. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * picked_up_at for pickup, service_details.completed_at for service fulfillments, and the
+         * order's paid_at for handovers completed at payment. Omitted until a completion time is
+         * recorded. completed_at.anyOf[1] (Value): string. When the fulfillment was completed.
+         * Mirrors the completion time for its type: delivered_at for shipment, local delivery, and
+         * digital fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * completed_at.anyOf[2] (Value): null. created_at (Optional): string or null. When the
+         * fulfillment was created, in RFC3339 format. created_at.anyOf[1] (Value): string. When
+         * the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer_id (Optional):
+         * string or null. Customer receiving this fulfillment, when one is set.
+         * customer_id.anyOf[1] (Value): string. Customer receiving this fulfillment, when one is
+         * set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
          * delivery_choice_group_id (Optional): string or null. Delivery choice group that created
          * this fulfillment. `null` when the merchant created the fulfillment or checkout created
          * it without a delivery quote. Always present with merchant credentials.
@@ -3230,7 +3297,23 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. fulfillment_id
          * (Optional): string or null. Stable identifier of the fulfillment.
          * fulfillment_id.anyOf[1] (Value): string. Stable identifier of the fulfillment. Example:
-         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. line_items
+         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. idempotency_key
+         * (Optional): string or null. The Idempotency-Key of the request that created this
+         * resource. `null` when that request sent no key, Flint created the resource, the reader
+         * isn't the caller that created it (another app install, a buyer, or the merchant reading
+         * an app's or buyer's record), or the caller that created an older record is unknown.
+         * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+         * responses and webhook events, can return `null`. To find a key that a replay returns as
+         * `null`, read the resource. Buyer sessions on routes shared with merchants get `null`.
+         * `/v1/me` responses do not include this field. idempotency_key.anyOf[1] (Value): string.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. idempotency_key.anyOf[2] (Value): null. line_items
          * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines
          * and quantities allocated to this fulfillment. line_items.anyOf[1] (Value): Array of
          * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated to
@@ -3389,13 +3472,14 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. anyOf[1] (Value): string. When the fulfillment was
-             * completed. Mirrors the completion time for its type: delivered_at for shipment,
-             * local delivery, and digital fulfillments, picked_up_at for pickup, and
-             * service_details.completed_at for service fulfillments. Omitted until a completion
-             * time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. anyOf[1] (Value): string. When the fulfillment was completed. Mirrors the
+             * completion time for its type: delivered_at for shipment, local delivery, and digital
+             * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+             * fulfillments, and the order's paid_at for handovers completed at payment. Omitted
+             * until a completion time is recorded. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "completed_at"?: ((string) | (null));
             /**
@@ -3477,6 +3561,25 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2] (Value): null.
              */
             "fulfillment_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Order lines and quantities allocated to this fulfillment. anyOf[1] (Value): Array of
              * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
@@ -3761,78 +3864,87 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
      * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
-     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.delivery_choice_group_id (Optional): string or null. Delivery choice group that
-     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Always present with merchant credentials. Example:
-     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". object.delivery_execution_leg_id (Optional): string or
-     * null. Execution leg of the selected delivery option that created this fulfillment. `null`
-     * when the merchant created the fulfillment or checkout created it without a delivery quote.
-     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-     * object.delivery_method_id (Optional): string or null. Delivery method chosen for this
-     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
-     * a delivery quote. Also `null` when it was created before this field was added. Always
-     * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * object.delivery_selection_id (Optional): string or null. Delivery selection that created
-     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
-     * without a delivery quote. Always present with merchant credentials. Example:
-     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id (Optional): string. Device associated
-     * with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     * object.digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
-     * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
-     * delivered (`delivered_at`) and its `delivery_url`. object.dispatched_at (Optional): string.
-     * First time this fulfillment reached dispatched. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.fulfillment_id (Required): string. Stable identifier of the
-     * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items (Required): Array
-     * of {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
-     * object.line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
-     * included in a fulfillment, with the modifiers applied to it. object.local_delivery_details
-     * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
-     * details for a local delivery fulfillment. Details of a local delivery fulfillment: courier,
-     * timing window, instructions, and tracking. Some fields are omitted for credentials that
-     * don't act for the verified customer. object.location_id (Optional): string. Merchant
-     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
-     * with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
-     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
-     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
-     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
-     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
-     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
-     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
-     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
-     * package's summary fields, including carrier, tracking, status, and supported actions,
-     * returned when the package is expanded. object.packed_at (Optional): string. First time this
-     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
-     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
-     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
-     * instructions name the store the buyer chose and the delivery method's pickup instructions.
-     * The note the buyer left for the store is in recipient.instructions. object.recipient
-     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
-     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
-     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
-     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
-     * authoritative schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and
-     * last descending. Sorting by due_at compares this same value with nulls last ascending and
-     * first descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.created_at (Required): string. When the fulfillment was
+     * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer_id (Optional): string. Customer receiving this fulfillment, when one is set.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery_choice_group_id (Optional):
+     * string or null. Delivery choice group that created this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Always present with merchant
+     * credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id
+     * (Optional): string or null. Delivery method chosen for this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Also
+     * `null` when it was created before this field was added. Always present with merchant
+     * credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". object.delivery_selection_id
+     * (Optional): string or null. Delivery selection that created this fulfillment. `null` when
+     * the merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * object.device_id (Optional): string. Device associated with the fulfillment, when one is
+     * recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional):
+     * {@link DigitalFulfillmentDetails}. Delivery URL and completion time for a digital
+     * fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and
+     * its `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment
+     * reached dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
+     * (Required): string. Stable identifier of the fulfillment. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * object.line_items (Required): Array of {@link FulfillmentLineItem}. Order lines and
+     * quantities allocated to this fulfillment. object.line_items[] (Value): {@link
+     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
+     * modifiers applied to it. object.local_delivery_details (Optional): {@link
+     * DeliveryFulfillmentDetails}. Courier, delivery window, and handoff details for a local
+     * delivery fulfillment. Details of a local delivery fulfillment: courier, timing window,
+     * instructions, and tracking. Some fields are omitted for credentials that don't act for the
+     * verified customer. object.location_id (Optional): string. Merchant location responsible for
+     * this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional):
+     * {@link MetadataMap}. Caller-owned key-value metadata associated with the fulfillment.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
+     * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
+     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
+     * and there is no related order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}.
+     * An order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded. object.order.anyOf[2] (Value):
+     * null. object.order_id (Required): string. Order whose items this fulfillment delivers.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number (Optional): string.
+     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
+     * no number. object.outcome (Optional): {@link FulfillmentOutcome}. Terminal outcome details.
+     * Present exactly when status is no_show. The terminal outcome recorded for a fulfillment,
+     * such as a no-show, with its reason, notes, and when it occurred. object.packages (Optional):
+     * Array of {@link ExpandedPackageSummary}. Packages associated with this fulfillment.
+     * object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary fields,
+     * including carrier, tracking, status, and supported actions, returned when the package is
+     * expanded. object.packed_at (Optional): string. First time this fulfillment reached packed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.picked_at (Optional): string.
+     * First time this fulfillment reached picked. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link PickupFulfillmentDetails}.
+     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
+     * a pickup that checkout creates, location_name, address, and instructions name the store the
+     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
+     * store is in recipient.instructions. object.recipient (Optional): {@link
+     * FulfillmentRecipient}. Omitted for a checkout session credential that doesn't act for the
+     * customer the buyer verified. The recipient of a fulfillment, with name, email, phone,
+     * address, and handling instructions. object.scheduled_start_at (Required): string or null.
+     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
+     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
+     * schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and last
+     * descending. Sorting by due_at compares this same value with nulls last ascending and first
+     * descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". object.service_details (Optional): {@link
      * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
      * Details of a service fulfillment: the scheduled start and end, timezone, completion time,
@@ -3892,22 +4004,22 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * FulfillmentChargeLinkPreviousAttributes}. previous_attributes.charges.anyOf[2] (Value):
      * null. previous_attributes.completed_at (Optional): string or null. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. previous_attributes.completed_at.anyOf[1] (Value): string. When the fulfillment
-     * was completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.completed_at.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. When the fulfillment was created, in RFC3339 format.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the fulfillment was created,
-     * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer_id
-     * (Optional): string or null. Customer receiving this fulfillment, when one is set.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. previous_attributes.completed_at.anyOf[1]
+     * (Value): string. When the fulfillment was completed. Mirrors the completion time for its
+     * type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for
+     * pickup, service_details.completed_at for service fulfillments, and the order's paid_at for
+     * handovers completed at payment. Omitted until a completion time is recorded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the
+     * fulfillment was created, in RFC3339 format. previous_attributes.created_at.anyOf[1] (Value):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.customer_id (Optional): string or null. Customer receiving this
+     * fulfillment, when one is set. previous_attributes.customer_id.anyOf[1] (Value): string.
+     * Customer receiving this fulfillment, when one is set. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
      * previous_attributes.delivery_choice_group_id (Optional): string or null. Delivery choice
      * group that created this fulfillment. `null` when the merchant created the fulfillment or
      * checkout created it without a delivery quote. Always present with merchant credentials.
@@ -3959,7 +4071,24 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * previous_attributes.fulfillment_id (Optional): string or null. Stable identifier of the
      * fulfillment. previous_attributes.fulfillment_id.anyOf[1] (Value): string. Stable identifier
      * of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.line_items
+     * previous_attributes.fulfillment_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.line_items
      * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines and
      * quantities allocated to this fulfillment. previous_attributes.line_items.anyOf[1] (Value):
      * Array of {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
@@ -4123,11 +4252,12 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
          * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
          * completion time for its type: delivered_at for shipment, local delivery, and digital
-         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
-         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
-         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
-         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at (Required): string. When the fulfillment was created, in RFC3339 format.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Optional): string.
+         * Customer receiving this fulfillment, when one is set. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Optional): string or null.
          * Delivery choice group that created this fulfillment. `null` when the merchant created
          * the fulfillment or checkout created it without a delivery quote. Always present with
@@ -4152,8 +4282,16 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
-         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * string or null. The Idempotency-Key of the request that created this resource. `null`
+         * when that request sent no key, Flint created the resource, the reader isn't the caller
+         * that created it (another app install, a buyer, or the merchant reading an app's or
+         * buyer's record), or the caller that created an older record is unknown. Filter its list
+         * with `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. line_items (Required): Array of {@link
+         * FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
          * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
          * included in a fulfillment, with the modifiers applied to it. local_delivery_details
          * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
@@ -4255,8 +4393,9 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
             "completed_at"?: string;
             /**
@@ -4317,6 +4456,17 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
             "external_reference_id"?: string;
             /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
             "fulfillment_id": string;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field.
+             */
+            "idempotency_key": string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -4519,19 +4669,20 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * FulfillmentChargeLinkPreviousAttributes}. charges.anyOf[2] (Value): null. completed_at
          * (Optional): string or null. When the fulfillment was completed. Mirrors the completion
          * time for its type: delivered_at for shipment, local delivery, and digital fulfillments,
-         * picked_up_at for pickup, and service_details.completed_at for service fulfillments.
-         * Omitted until a completion time is recorded. completed_at.anyOf[1] (Value): string. When
-         * the fulfillment was completed. Mirrors the completion time for its type: delivered_at
-         * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
-         * service_details.completed_at for service fulfillments. Omitted until a completion time
-         * is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2]
-         * (Value): null. created_at (Optional): string or null. When the fulfillment was created,
-         * in RFC3339 format. created_at.anyOf[1] (Value): string. When the fulfillment was
-         * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer
-         * receiving this fulfillment, when one is set. customer_id.anyOf[1] (Value): string.
-         * Customer receiving this fulfillment, when one is set. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * picked_up_at for pickup, service_details.completed_at for service fulfillments, and the
+         * order's paid_at for handovers completed at payment. Omitted until a completion time is
+         * recorded. completed_at.anyOf[1] (Value): string. When the fulfillment was completed.
+         * Mirrors the completion time for its type: delivered_at for shipment, local delivery, and
+         * digital fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * completed_at.anyOf[2] (Value): null. created_at (Optional): string or null. When the
+         * fulfillment was created, in RFC3339 format. created_at.anyOf[1] (Value): string. When
+         * the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer_id (Optional):
+         * string or null. Customer receiving this fulfillment, when one is set.
+         * customer_id.anyOf[1] (Value): string. Customer receiving this fulfillment, when one is
+         * set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
          * delivery_choice_group_id (Optional): string or null. Delivery choice group that created
          * this fulfillment. `null` when the merchant created the fulfillment or checkout created
          * it without a delivery quote. Always present with merchant credentials.
@@ -4577,7 +4728,23 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. fulfillment_id
          * (Optional): string or null. Stable identifier of the fulfillment.
          * fulfillment_id.anyOf[1] (Value): string. Stable identifier of the fulfillment. Example:
-         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. line_items
+         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. idempotency_key
+         * (Optional): string or null. The Idempotency-Key of the request that created this
+         * resource. `null` when that request sent no key, Flint created the resource, the reader
+         * isn't the caller that created it (another app install, a buyer, or the merchant reading
+         * an app's or buyer's record), or the caller that created an older record is unknown.
+         * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+         * responses and webhook events, can return `null`. To find a key that a replay returns as
+         * `null`, read the resource. Buyer sessions on routes shared with merchants get `null`.
+         * `/v1/me` responses do not include this field. idempotency_key.anyOf[1] (Value): string.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. idempotency_key.anyOf[2] (Value): null. line_items
          * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines
          * and quantities allocated to this fulfillment. line_items.anyOf[1] (Value): Array of
          * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated to
@@ -4736,13 +4903,14 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. anyOf[1] (Value): string. When the fulfillment was
-             * completed. Mirrors the completion time for its type: delivered_at for shipment,
-             * local delivery, and digital fulfillments, picked_up_at for pickup, and
-             * service_details.completed_at for service fulfillments. Omitted until a completion
-             * time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. anyOf[1] (Value): string. When the fulfillment was completed. Mirrors the
+             * completion time for its type: delivered_at for shipment, local delivery, and digital
+             * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+             * fulfillments, and the order's paid_at for handovers completed at payment. Omitted
+             * until a completion time is recorded. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "completed_at"?: ((string) | (null));
             /**
@@ -4824,6 +4992,25 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2] (Value): null.
              */
             "fulfillment_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Order lines and quantities allocated to this fulfillment. anyOf[1] (Value): Array of
              * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
@@ -5097,6 +5284,7 @@ export type FulfillmentCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
+            "idempotency_key": string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -5167,6 +5355,7 @@ export type FulfillmentCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "dispatched_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "fulfillment_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "line_items"?: ((Array<FulfillmentLineItemPreviousAttributes>) | (null));
             "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null));
             "location_id"?: ((string) | (null));
@@ -5244,6 +5433,7 @@ export type FulfillmentCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
+            "idempotency_key": string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -5314,6 +5504,7 @@ export type FulfillmentCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "dispatched_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "fulfillment_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "line_items"?: ((Array<FulfillmentLineItemPreviousAttributes>) | (null));
             "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null));
             "location_id"?: ((string) | (null));
@@ -5398,78 +5589,87 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
      * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
-     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.delivery_choice_group_id (Optional): string or null. Delivery choice group that
-     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Always present with merchant credentials. Example:
-     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". object.delivery_execution_leg_id (Optional): string or
-     * null. Execution leg of the selected delivery option that created this fulfillment. `null`
-     * when the merchant created the fulfillment or checkout created it without a delivery quote.
-     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-     * object.delivery_method_id (Optional): string or null. Delivery method chosen for this
-     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
-     * a delivery quote. Also `null` when it was created before this field was added. Always
-     * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * object.delivery_selection_id (Optional): string or null. Delivery selection that created
-     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
-     * without a delivery quote. Always present with merchant credentials. Example:
-     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id (Optional): string. Device associated
-     * with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     * object.digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
-     * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
-     * delivered (`delivered_at`) and its `delivery_url`. object.dispatched_at (Optional): string.
-     * First time this fulfillment reached dispatched. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.fulfillment_id (Required): string. Stable identifier of the
-     * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items (Required): Array
-     * of {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
-     * object.line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
-     * included in a fulfillment, with the modifiers applied to it. object.local_delivery_details
-     * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
-     * details for a local delivery fulfillment. Details of a local delivery fulfillment: courier,
-     * timing window, instructions, and tracking. Some fields are omitted for credentials that
-     * don't act for the verified customer. object.location_id (Optional): string. Merchant
-     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
-     * with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
-     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
-     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
-     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
-     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
-     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
-     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
-     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
-     * package's summary fields, including carrier, tracking, status, and supported actions,
-     * returned when the package is expanded. object.packed_at (Optional): string. First time this
-     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
-     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
-     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
-     * instructions name the store the buyer chose and the delivery method's pickup instructions.
-     * The note the buyer left for the store is in recipient.instructions. object.recipient
-     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
-     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
-     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
-     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
-     * authoritative schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and
-     * last descending. Sorting by due_at compares this same value with nulls last ascending and
-     * first descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.created_at (Required): string. When the fulfillment was
+     * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer_id (Optional): string. Customer receiving this fulfillment, when one is set.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery_choice_group_id (Optional):
+     * string or null. Delivery choice group that created this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Always present with merchant
+     * credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id
+     * (Optional): string or null. Delivery method chosen for this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Also
+     * `null` when it was created before this field was added. Always present with merchant
+     * credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". object.delivery_selection_id
+     * (Optional): string or null. Delivery selection that created this fulfillment. `null` when
+     * the merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * object.device_id (Optional): string. Device associated with the fulfillment, when one is
+     * recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional):
+     * {@link DigitalFulfillmentDetails}. Delivery URL and completion time for a digital
+     * fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and
+     * its `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment
+     * reached dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
+     * (Required): string. Stable identifier of the fulfillment. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * object.line_items (Required): Array of {@link FulfillmentLineItem}. Order lines and
+     * quantities allocated to this fulfillment. object.line_items[] (Value): {@link
+     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
+     * modifiers applied to it. object.local_delivery_details (Optional): {@link
+     * DeliveryFulfillmentDetails}. Courier, delivery window, and handoff details for a local
+     * delivery fulfillment. Details of a local delivery fulfillment: courier, timing window,
+     * instructions, and tracking. Some fields are omitted for credentials that don't act for the
+     * verified customer. object.location_id (Optional): string. Merchant location responsible for
+     * this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional):
+     * {@link MetadataMap}. Caller-owned key-value metadata associated with the fulfillment.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
+     * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
+     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
+     * and there is no related order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}.
+     * An order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded. object.order.anyOf[2] (Value):
+     * null. object.order_id (Required): string. Order whose items this fulfillment delivers.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number (Optional): string.
+     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
+     * no number. object.outcome (Optional): {@link FulfillmentOutcome}. Terminal outcome details.
+     * Present exactly when status is no_show. The terminal outcome recorded for a fulfillment,
+     * such as a no-show, with its reason, notes, and when it occurred. object.packages (Optional):
+     * Array of {@link ExpandedPackageSummary}. Packages associated with this fulfillment.
+     * object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary fields,
+     * including carrier, tracking, status, and supported actions, returned when the package is
+     * expanded. object.packed_at (Optional): string. First time this fulfillment reached packed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.picked_at (Optional): string.
+     * First time this fulfillment reached picked. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link PickupFulfillmentDetails}.
+     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
+     * a pickup that checkout creates, location_name, address, and instructions name the store the
+     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
+     * store is in recipient.instructions. object.recipient (Optional): {@link
+     * FulfillmentRecipient}. Omitted for a checkout session credential that doesn't act for the
+     * customer the buyer verified. The recipient of a fulfillment, with name, email, phone,
+     * address, and handling instructions. object.scheduled_start_at (Required): string or null.
+     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
+     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
+     * schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and last
+     * descending. Sorting by due_at compares this same value with nulls last ascending and first
+     * descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". object.service_details (Optional): {@link
      * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
      * Details of a service fulfillment: the scheduled start and end, timezone, completion time,
@@ -5529,22 +5729,22 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * FulfillmentChargeLinkPreviousAttributes}. previous_attributes.charges.anyOf[2] (Value):
      * null. previous_attributes.completed_at (Optional): string or null. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. previous_attributes.completed_at.anyOf[1] (Value): string. When the fulfillment
-     * was completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.completed_at.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. When the fulfillment was created, in RFC3339 format.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the fulfillment was created,
-     * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer_id
-     * (Optional): string or null. Customer receiving this fulfillment, when one is set.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. previous_attributes.completed_at.anyOf[1]
+     * (Value): string. When the fulfillment was completed. Mirrors the completion time for its
+     * type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for
+     * pickup, service_details.completed_at for service fulfillments, and the order's paid_at for
+     * handovers completed at payment. Omitted until a completion time is recorded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the
+     * fulfillment was created, in RFC3339 format. previous_attributes.created_at.anyOf[1] (Value):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.customer_id (Optional): string or null. Customer receiving this
+     * fulfillment, when one is set. previous_attributes.customer_id.anyOf[1] (Value): string.
+     * Customer receiving this fulfillment, when one is set. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
      * previous_attributes.delivery_choice_group_id (Optional): string or null. Delivery choice
      * group that created this fulfillment. `null` when the merchant created the fulfillment or
      * checkout created it without a delivery quote. Always present with merchant credentials.
@@ -5596,7 +5796,24 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * previous_attributes.fulfillment_id (Optional): string or null. Stable identifier of the
      * fulfillment. previous_attributes.fulfillment_id.anyOf[1] (Value): string. Stable identifier
      * of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.line_items
+     * previous_attributes.fulfillment_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.line_items
      * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines and
      * quantities allocated to this fulfillment. previous_attributes.line_items.anyOf[1] (Value):
      * Array of {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
@@ -5760,11 +5977,12 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
          * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
          * completion time for its type: delivered_at for shipment, local delivery, and digital
-         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
-         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
-         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
-         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at (Required): string. When the fulfillment was created, in RFC3339 format.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Optional): string.
+         * Customer receiving this fulfillment, when one is set. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Optional): string or null.
          * Delivery choice group that created this fulfillment. `null` when the merchant created
          * the fulfillment or checkout created it without a delivery quote. Always present with
@@ -5789,8 +6007,16 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
-         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * string or null. The Idempotency-Key of the request that created this resource. `null`
+         * when that request sent no key, Flint created the resource, the reader isn't the caller
+         * that created it (another app install, a buyer, or the merchant reading an app's or
+         * buyer's record), or the caller that created an older record is unknown. Filter its list
+         * with `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. line_items (Required): Array of {@link
+         * FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
          * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
          * included in a fulfillment, with the modifiers applied to it. local_delivery_details
          * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
@@ -5892,8 +6118,9 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
             "completed_at"?: string;
             /**
@@ -5954,6 +6181,17 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             "external_reference_id"?: string;
             /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
             "fulfillment_id": string;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field.
+             */
+            "idempotency_key": string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -6156,19 +6394,20 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * FulfillmentChargeLinkPreviousAttributes}. charges.anyOf[2] (Value): null. completed_at
          * (Optional): string or null. When the fulfillment was completed. Mirrors the completion
          * time for its type: delivered_at for shipment, local delivery, and digital fulfillments,
-         * picked_up_at for pickup, and service_details.completed_at for service fulfillments.
-         * Omitted until a completion time is recorded. completed_at.anyOf[1] (Value): string. When
-         * the fulfillment was completed. Mirrors the completion time for its type: delivered_at
-         * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
-         * service_details.completed_at for service fulfillments. Omitted until a completion time
-         * is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2]
-         * (Value): null. created_at (Optional): string or null. When the fulfillment was created,
-         * in RFC3339 format. created_at.anyOf[1] (Value): string. When the fulfillment was
-         * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer
-         * receiving this fulfillment, when one is set. customer_id.anyOf[1] (Value): string.
-         * Customer receiving this fulfillment, when one is set. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * picked_up_at for pickup, service_details.completed_at for service fulfillments, and the
+         * order's paid_at for handovers completed at payment. Omitted until a completion time is
+         * recorded. completed_at.anyOf[1] (Value): string. When the fulfillment was completed.
+         * Mirrors the completion time for its type: delivered_at for shipment, local delivery, and
+         * digital fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * completed_at.anyOf[2] (Value): null. created_at (Optional): string or null. When the
+         * fulfillment was created, in RFC3339 format. created_at.anyOf[1] (Value): string. When
+         * the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer_id (Optional):
+         * string or null. Customer receiving this fulfillment, when one is set.
+         * customer_id.anyOf[1] (Value): string. Customer receiving this fulfillment, when one is
+         * set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
          * delivery_choice_group_id (Optional): string or null. Delivery choice group that created
          * this fulfillment. `null` when the merchant created the fulfillment or checkout created
          * it without a delivery quote. Always present with merchant credentials.
@@ -6214,7 +6453,23 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. fulfillment_id
          * (Optional): string or null. Stable identifier of the fulfillment.
          * fulfillment_id.anyOf[1] (Value): string. Stable identifier of the fulfillment. Example:
-         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. line_items
+         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. idempotency_key
+         * (Optional): string or null. The Idempotency-Key of the request that created this
+         * resource. `null` when that request sent no key, Flint created the resource, the reader
+         * isn't the caller that created it (another app install, a buyer, or the merchant reading
+         * an app's or buyer's record), or the caller that created an older record is unknown.
+         * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+         * responses and webhook events, can return `null`. To find a key that a replay returns as
+         * `null`, read the resource. Buyer sessions on routes shared with merchants get `null`.
+         * `/v1/me` responses do not include this field. idempotency_key.anyOf[1] (Value): string.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. idempotency_key.anyOf[2] (Value): null. line_items
          * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines
          * and quantities allocated to this fulfillment. line_items.anyOf[1] (Value): Array of
          * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated to
@@ -6373,13 +6628,14 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. anyOf[1] (Value): string. When the fulfillment was
-             * completed. Mirrors the completion time for its type: delivered_at for shipment,
-             * local delivery, and digital fulfillments, picked_up_at for pickup, and
-             * service_details.completed_at for service fulfillments. Omitted until a completion
-             * time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. anyOf[1] (Value): string. When the fulfillment was completed. Mirrors the
+             * completion time for its type: delivered_at for shipment, local delivery, and digital
+             * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+             * fulfillments, and the order's paid_at for handovers completed at payment. Omitted
+             * until a completion time is recorded. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "completed_at"?: ((string) | (null));
             /**
@@ -6461,6 +6717,25 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2] (Value): null.
              */
             "fulfillment_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Order lines and quantities allocated to this fulfillment. anyOf[1] (Value): Array of
              * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
@@ -6745,78 +7020,87 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
      * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
-     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.delivery_choice_group_id (Optional): string or null. Delivery choice group that
-     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Always present with merchant credentials. Example:
-     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". object.delivery_execution_leg_id (Optional): string or
-     * null. Execution leg of the selected delivery option that created this fulfillment. `null`
-     * when the merchant created the fulfillment or checkout created it without a delivery quote.
-     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-     * object.delivery_method_id (Optional): string or null. Delivery method chosen for this
-     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
-     * a delivery quote. Also `null` when it was created before this field was added. Always
-     * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * object.delivery_selection_id (Optional): string or null. Delivery selection that created
-     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
-     * without a delivery quote. Always present with merchant credentials. Example:
-     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id (Optional): string. Device associated
-     * with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     * object.digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
-     * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
-     * delivered (`delivered_at`) and its `delivery_url`. object.dispatched_at (Optional): string.
-     * First time this fulfillment reached dispatched. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.fulfillment_id (Required): string. Stable identifier of the
-     * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items (Required): Array
-     * of {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
-     * object.line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
-     * included in a fulfillment, with the modifiers applied to it. object.local_delivery_details
-     * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
-     * details for a local delivery fulfillment. Details of a local delivery fulfillment: courier,
-     * timing window, instructions, and tracking. Some fields are omitted for credentials that
-     * don't act for the verified customer. object.location_id (Optional): string. Merchant
-     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
-     * with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
-     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
-     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
-     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
-     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
-     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
-     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
-     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
-     * package's summary fields, including carrier, tracking, status, and supported actions,
-     * returned when the package is expanded. object.packed_at (Optional): string. First time this
-     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
-     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
-     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
-     * instructions name the store the buyer chose and the delivery method's pickup instructions.
-     * The note the buyer left for the store is in recipient.instructions. object.recipient
-     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
-     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
-     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
-     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
-     * authoritative schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and
-     * last descending. Sorting by due_at compares this same value with nulls last ascending and
-     * first descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.created_at (Required): string. When the fulfillment was
+     * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer_id (Optional): string. Customer receiving this fulfillment, when one is set.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery_choice_group_id (Optional):
+     * string or null. Delivery choice group that created this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Always present with merchant
+     * credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id
+     * (Optional): string or null. Delivery method chosen for this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Also
+     * `null` when it was created before this field was added. Always present with merchant
+     * credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". object.delivery_selection_id
+     * (Optional): string or null. Delivery selection that created this fulfillment. `null` when
+     * the merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * object.device_id (Optional): string. Device associated with the fulfillment, when one is
+     * recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional):
+     * {@link DigitalFulfillmentDetails}. Delivery URL and completion time for a digital
+     * fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and
+     * its `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment
+     * reached dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
+     * (Required): string. Stable identifier of the fulfillment. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * object.line_items (Required): Array of {@link FulfillmentLineItem}. Order lines and
+     * quantities allocated to this fulfillment. object.line_items[] (Value): {@link
+     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
+     * modifiers applied to it. object.local_delivery_details (Optional): {@link
+     * DeliveryFulfillmentDetails}. Courier, delivery window, and handoff details for a local
+     * delivery fulfillment. Details of a local delivery fulfillment: courier, timing window,
+     * instructions, and tracking. Some fields are omitted for credentials that don't act for the
+     * verified customer. object.location_id (Optional): string. Merchant location responsible for
+     * this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional):
+     * {@link MetadataMap}. Caller-owned key-value metadata associated with the fulfillment.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
+     * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
+     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
+     * and there is no related order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}.
+     * An order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded. object.order.anyOf[2] (Value):
+     * null. object.order_id (Required): string. Order whose items this fulfillment delivers.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number (Optional): string.
+     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
+     * no number. object.outcome (Optional): {@link FulfillmentOutcome}. Terminal outcome details.
+     * Present exactly when status is no_show. The terminal outcome recorded for a fulfillment,
+     * such as a no-show, with its reason, notes, and when it occurred. object.packages (Optional):
+     * Array of {@link ExpandedPackageSummary}. Packages associated with this fulfillment.
+     * object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary fields,
+     * including carrier, tracking, status, and supported actions, returned when the package is
+     * expanded. object.packed_at (Optional): string. First time this fulfillment reached packed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.picked_at (Optional): string.
+     * First time this fulfillment reached picked. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link PickupFulfillmentDetails}.
+     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
+     * a pickup that checkout creates, location_name, address, and instructions name the store the
+     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
+     * store is in recipient.instructions. object.recipient (Optional): {@link
+     * FulfillmentRecipient}. Omitted for a checkout session credential that doesn't act for the
+     * customer the buyer verified. The recipient of a fulfillment, with name, email, phone,
+     * address, and handling instructions. object.scheduled_start_at (Required): string or null.
+     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
+     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
+     * schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and last
+     * descending. Sorting by due_at compares this same value with nulls last ascending and first
+     * descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". object.service_details (Optional): {@link
      * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
      * Details of a service fulfillment: the scheduled start and end, timezone, completion time,
@@ -6876,22 +7160,22 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * FulfillmentChargeLinkPreviousAttributes}. previous_attributes.charges.anyOf[2] (Value):
      * null. previous_attributes.completed_at (Optional): string or null. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. previous_attributes.completed_at.anyOf[1] (Value): string. When the fulfillment
-     * was completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.completed_at.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. When the fulfillment was created, in RFC3339 format.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the fulfillment was created,
-     * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer_id
-     * (Optional): string or null. Customer receiving this fulfillment, when one is set.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. previous_attributes.completed_at.anyOf[1]
+     * (Value): string. When the fulfillment was completed. Mirrors the completion time for its
+     * type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for
+     * pickup, service_details.completed_at for service fulfillments, and the order's paid_at for
+     * handovers completed at payment. Omitted until a completion time is recorded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the
+     * fulfillment was created, in RFC3339 format. previous_attributes.created_at.anyOf[1] (Value):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.customer_id (Optional): string or null. Customer receiving this
+     * fulfillment, when one is set. previous_attributes.customer_id.anyOf[1] (Value): string.
+     * Customer receiving this fulfillment, when one is set. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
      * previous_attributes.delivery_choice_group_id (Optional): string or null. Delivery choice
      * group that created this fulfillment. `null` when the merchant created the fulfillment or
      * checkout created it without a delivery quote. Always present with merchant credentials.
@@ -6943,7 +7227,24 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * previous_attributes.fulfillment_id (Optional): string or null. Stable identifier of the
      * fulfillment. previous_attributes.fulfillment_id.anyOf[1] (Value): string. Stable identifier
      * of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.line_items
+     * previous_attributes.fulfillment_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.line_items
      * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines and
      * quantities allocated to this fulfillment. previous_attributes.line_items.anyOf[1] (Value):
      * Array of {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
@@ -7107,11 +7408,12 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
          * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
          * completion time for its type: delivered_at for shipment, local delivery, and digital
-         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
-         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
-         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
-         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at (Required): string. When the fulfillment was created, in RFC3339 format.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Optional): string.
+         * Customer receiving this fulfillment, when one is set. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Optional): string or null.
          * Delivery choice group that created this fulfillment. `null` when the merchant created
          * the fulfillment or checkout created it without a delivery quote. Always present with
@@ -7136,8 +7438,16 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
-         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * string or null. The Idempotency-Key of the request that created this resource. `null`
+         * when that request sent no key, Flint created the resource, the reader isn't the caller
+         * that created it (another app install, a buyer, or the merchant reading an app's or
+         * buyer's record), or the caller that created an older record is unknown. Filter its list
+         * with `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. line_items (Required): Array of {@link
+         * FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
          * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
          * included in a fulfillment, with the modifiers applied to it. local_delivery_details
          * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
@@ -7239,8 +7549,9 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
             "completed_at"?: string;
             /**
@@ -7301,6 +7612,17 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
             "external_reference_id"?: string;
             /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
             "fulfillment_id": string;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field.
+             */
+            "idempotency_key": string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -7503,19 +7825,20 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * FulfillmentChargeLinkPreviousAttributes}. charges.anyOf[2] (Value): null. completed_at
          * (Optional): string or null. When the fulfillment was completed. Mirrors the completion
          * time for its type: delivered_at for shipment, local delivery, and digital fulfillments,
-         * picked_up_at for pickup, and service_details.completed_at for service fulfillments.
-         * Omitted until a completion time is recorded. completed_at.anyOf[1] (Value): string. When
-         * the fulfillment was completed. Mirrors the completion time for its type: delivered_at
-         * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
-         * service_details.completed_at for service fulfillments. Omitted until a completion time
-         * is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2]
-         * (Value): null. created_at (Optional): string or null. When the fulfillment was created,
-         * in RFC3339 format. created_at.anyOf[1] (Value): string. When the fulfillment was
-         * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer
-         * receiving this fulfillment, when one is set. customer_id.anyOf[1] (Value): string.
-         * Customer receiving this fulfillment, when one is set. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * picked_up_at for pickup, service_details.completed_at for service fulfillments, and the
+         * order's paid_at for handovers completed at payment. Omitted until a completion time is
+         * recorded. completed_at.anyOf[1] (Value): string. When the fulfillment was completed.
+         * Mirrors the completion time for its type: delivered_at for shipment, local delivery, and
+         * digital fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * completed_at.anyOf[2] (Value): null. created_at (Optional): string or null. When the
+         * fulfillment was created, in RFC3339 format. created_at.anyOf[1] (Value): string. When
+         * the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer_id (Optional):
+         * string or null. Customer receiving this fulfillment, when one is set.
+         * customer_id.anyOf[1] (Value): string. Customer receiving this fulfillment, when one is
+         * set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
          * delivery_choice_group_id (Optional): string or null. Delivery choice group that created
          * this fulfillment. `null` when the merchant created the fulfillment or checkout created
          * it without a delivery quote. Always present with merchant credentials.
@@ -7561,7 +7884,23 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. fulfillment_id
          * (Optional): string or null. Stable identifier of the fulfillment.
          * fulfillment_id.anyOf[1] (Value): string. Stable identifier of the fulfillment. Example:
-         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. line_items
+         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. idempotency_key
+         * (Optional): string or null. The Idempotency-Key of the request that created this
+         * resource. `null` when that request sent no key, Flint created the resource, the reader
+         * isn't the caller that created it (another app install, a buyer, or the merchant reading
+         * an app's or buyer's record), or the caller that created an older record is unknown.
+         * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+         * responses and webhook events, can return `null`. To find a key that a replay returns as
+         * `null`, read the resource. Buyer sessions on routes shared with merchants get `null`.
+         * `/v1/me` responses do not include this field. idempotency_key.anyOf[1] (Value): string.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. idempotency_key.anyOf[2] (Value): null. line_items
          * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines
          * and quantities allocated to this fulfillment. line_items.anyOf[1] (Value): Array of
          * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated to
@@ -7720,13 +8059,14 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. anyOf[1] (Value): string. When the fulfillment was
-             * completed. Mirrors the completion time for its type: delivered_at for shipment,
-             * local delivery, and digital fulfillments, picked_up_at for pickup, and
-             * service_details.completed_at for service fulfillments. Omitted until a completion
-             * time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. anyOf[1] (Value): string. When the fulfillment was completed. Mirrors the
+             * completion time for its type: delivered_at for shipment, local delivery, and digital
+             * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+             * fulfillments, and the order's paid_at for handovers completed at payment. Omitted
+             * until a completion time is recorded. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "completed_at"?: ((string) | (null));
             /**
@@ -7808,6 +8148,25 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2] (Value): null.
              */
             "fulfillment_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Order lines and quantities allocated to this fulfillment. anyOf[1] (Value): Array of
              * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
@@ -8061,6 +8420,7 @@ export type FulfillmentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
+            "idempotency_key": string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -8135,6 +8495,7 @@ export type FulfillmentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
+            "idempotency_key": string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -8216,78 +8577,87 @@ export type FulfillmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
      * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
      * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
-     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.delivery_choice_group_id (Optional): string or null. Delivery choice group that
-     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Always present with merchant credentials. Example:
-     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". object.delivery_execution_leg_id (Optional): string or
-     * null. Execution leg of the selected delivery option that created this fulfillment. `null`
-     * when the merchant created the fulfillment or checkout created it without a delivery quote.
-     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-     * object.delivery_method_id (Optional): string or null. Delivery method chosen for this
-     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
-     * a delivery quote. Also `null` when it was created before this field was added. Always
-     * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * object.delivery_selection_id (Optional): string or null. Delivery selection that created
-     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
-     * without a delivery quote. Always present with merchant credentials. Example:
-     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id (Optional): string. Device associated
-     * with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     * object.digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
-     * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
-     * delivered (`delivered_at`) and its `delivery_url`. object.dispatched_at (Optional): string.
-     * First time this fulfillment reached dispatched. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.fulfillment_id (Required): string. Stable identifier of the
-     * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items (Required): Array
-     * of {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
-     * object.line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
-     * included in a fulfillment, with the modifiers applied to it. object.local_delivery_details
-     * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
-     * details for a local delivery fulfillment. Details of a local delivery fulfillment: courier,
-     * timing window, instructions, and tracking. Some fields are omitted for credentials that
-     * don't act for the verified customer. object.location_id (Optional): string. Merchant
-     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
-     * with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
-     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
-     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
-     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
-     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
-     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
-     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
-     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
-     * package's summary fields, including carrier, tracking, status, and supported actions,
-     * returned when the package is expanded. object.packed_at (Optional): string. First time this
-     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
-     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
-     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
-     * instructions name the store the buyer chose and the delivery method's pickup instructions.
-     * The note the buyer left for the store is in recipient.instructions. object.recipient
-     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
-     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
-     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
-     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
-     * authoritative schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and
-     * last descending. Sorting by due_at compares this same value with nulls last ascending and
-     * first descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.created_at (Required): string. When the fulfillment was
+     * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer_id (Optional): string. Customer receiving this fulfillment, when one is set.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery_choice_group_id (Optional):
+     * string or null. Delivery choice group that created this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Always present with merchant
+     * credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id
+     * (Optional): string or null. Delivery method chosen for this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Also
+     * `null` when it was created before this field was added. Always present with merchant
+     * credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". object.delivery_selection_id
+     * (Optional): string or null. Delivery selection that created this fulfillment. `null` when
+     * the merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * object.device_id (Optional): string. Device associated with the fulfillment, when one is
+     * recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional):
+     * {@link DigitalFulfillmentDetails}. Delivery URL and completion time for a digital
+     * fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and
+     * its `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment
+     * reached dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
+     * (Required): string. Stable identifier of the fulfillment. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * object.line_items (Required): Array of {@link FulfillmentLineItem}. Order lines and
+     * quantities allocated to this fulfillment. object.line_items[] (Value): {@link
+     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
+     * modifiers applied to it. object.local_delivery_details (Optional): {@link
+     * DeliveryFulfillmentDetails}. Courier, delivery window, and handoff details for a local
+     * delivery fulfillment. Details of a local delivery fulfillment: courier, timing window,
+     * instructions, and tracking. Some fields are omitted for credentials that don't act for the
+     * verified customer. object.location_id (Optional): string. Merchant location responsible for
+     * this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional):
+     * {@link MetadataMap}. Caller-owned key-value metadata associated with the fulfillment.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
+     * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
+     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
+     * and there is no related order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}.
+     * An order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded. object.order.anyOf[2] (Value):
+     * null. object.order_id (Required): string. Order whose items this fulfillment delivers.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number (Optional): string.
+     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
+     * no number. object.outcome (Optional): {@link FulfillmentOutcome}. Terminal outcome details.
+     * Present exactly when status is no_show. The terminal outcome recorded for a fulfillment,
+     * such as a no-show, with its reason, notes, and when it occurred. object.packages (Optional):
+     * Array of {@link ExpandedPackageSummary}. Packages associated with this fulfillment.
+     * object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary fields,
+     * including carrier, tracking, status, and supported actions, returned when the package is
+     * expanded. object.packed_at (Optional): string. First time this fulfillment reached packed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.picked_at (Optional): string.
+     * First time this fulfillment reached picked. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link PickupFulfillmentDetails}.
+     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
+     * a pickup that checkout creates, location_name, address, and instructions name the store the
+     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
+     * store is in recipient.instructions. object.recipient (Optional): {@link
+     * FulfillmentRecipient}. Omitted for a checkout session credential that doesn't act for the
+     * customer the buyer verified. The recipient of a fulfillment, with name, email, phone,
+     * address, and handling instructions. object.scheduled_start_at (Required): string or null.
+     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
+     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
+     * schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and last
+     * descending. Sorting by due_at compares this same value with nulls last ascending and first
+     * descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". object.service_details (Optional): {@link
      * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
      * Details of a service fulfillment: the scheduled start and end, timezone, completion time,
@@ -8343,11 +8713,12 @@ export type FulfillmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
          * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
          * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
          * completion time for its type: delivered_at for shipment, local delivery, and digital
-         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
-         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
-         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
-         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at (Required): string. When the fulfillment was created, in RFC3339 format.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Optional): string.
+         * Customer receiving this fulfillment, when one is set. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Optional): string or null.
          * Delivery choice group that created this fulfillment. `null` when the merchant created
          * the fulfillment or checkout created it without a delivery quote. Always present with
@@ -8372,8 +8743,16 @@ export type FulfillmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
-         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * string or null. The Idempotency-Key of the request that created this resource. `null`
+         * when that request sent no key, Flint created the resource, the reader isn't the caller
+         * that created it (another app install, a buyer, or the merchant reading an app's or
+         * buyer's record), or the caller that created an older record is unknown. Filter its list
+         * with `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. line_items (Required): Array of {@link
+         * FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
          * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
          * included in a fulfillment, with the modifiers applied to it. local_delivery_details
          * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
@@ -8475,8 +8854,9 @@ export type FulfillmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
             "completed_at"?: string;
             /**
@@ -8537,6 +8917,17 @@ export type FulfillmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
             "external_reference_id"?: string;
             /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
             "fulfillment_id": string;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field.
+             */
+            "idempotency_key": string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -8779,78 +9170,87 @@ export type FulfillmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
      * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
      * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
-     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.delivery_choice_group_id (Optional): string or null. Delivery choice group that
-     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Always present with merchant credentials. Example:
-     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". object.delivery_execution_leg_id (Optional): string or
-     * null. Execution leg of the selected delivery option that created this fulfillment. `null`
-     * when the merchant created the fulfillment or checkout created it without a delivery quote.
-     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-     * object.delivery_method_id (Optional): string or null. Delivery method chosen for this
-     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
-     * a delivery quote. Also `null` when it was created before this field was added. Always
-     * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * object.delivery_selection_id (Optional): string or null. Delivery selection that created
-     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
-     * without a delivery quote. Always present with merchant credentials. Example:
-     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id (Optional): string. Device associated
-     * with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     * object.digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
-     * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
-     * delivered (`delivered_at`) and its `delivery_url`. object.dispatched_at (Optional): string.
-     * First time this fulfillment reached dispatched. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.fulfillment_id (Required): string. Stable identifier of the
-     * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items (Required): Array
-     * of {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
-     * object.line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
-     * included in a fulfillment, with the modifiers applied to it. object.local_delivery_details
-     * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
-     * details for a local delivery fulfillment. Details of a local delivery fulfillment: courier,
-     * timing window, instructions, and tracking. Some fields are omitted for credentials that
-     * don't act for the verified customer. object.location_id (Optional): string. Merchant
-     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
-     * with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
-     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
-     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
-     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
-     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
-     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
-     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
-     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
-     * package's summary fields, including carrier, tracking, status, and supported actions,
-     * returned when the package is expanded. object.packed_at (Optional): string. First time this
-     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
-     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
-     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
-     * instructions name the store the buyer chose and the delivery method's pickup instructions.
-     * The note the buyer left for the store is in recipient.instructions. object.recipient
-     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
-     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
-     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
-     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
-     * authoritative schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and
-     * last descending. Sorting by due_at compares this same value with nulls last ascending and
-     * first descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.created_at (Required): string. When the fulfillment was
+     * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer_id (Optional): string. Customer receiving this fulfillment, when one is set.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery_choice_group_id (Optional):
+     * string or null. Delivery choice group that created this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Always present with merchant
+     * credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id
+     * (Optional): string or null. Delivery method chosen for this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Also
+     * `null` when it was created before this field was added. Always present with merchant
+     * credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". object.delivery_selection_id
+     * (Optional): string or null. Delivery selection that created this fulfillment. `null` when
+     * the merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * object.device_id (Optional): string. Device associated with the fulfillment, when one is
+     * recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional):
+     * {@link DigitalFulfillmentDetails}. Delivery URL and completion time for a digital
+     * fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and
+     * its `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment
+     * reached dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
+     * (Required): string. Stable identifier of the fulfillment. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * object.line_items (Required): Array of {@link FulfillmentLineItem}. Order lines and
+     * quantities allocated to this fulfillment. object.line_items[] (Value): {@link
+     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
+     * modifiers applied to it. object.local_delivery_details (Optional): {@link
+     * DeliveryFulfillmentDetails}. Courier, delivery window, and handoff details for a local
+     * delivery fulfillment. Details of a local delivery fulfillment: courier, timing window,
+     * instructions, and tracking. Some fields are omitted for credentials that don't act for the
+     * verified customer. object.location_id (Optional): string. Merchant location responsible for
+     * this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional):
+     * {@link MetadataMap}. Caller-owned key-value metadata associated with the fulfillment.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
+     * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
+     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
+     * and there is no related order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}.
+     * An order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded. object.order.anyOf[2] (Value):
+     * null. object.order_id (Required): string. Order whose items this fulfillment delivers.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number (Optional): string.
+     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
+     * no number. object.outcome (Optional): {@link FulfillmentOutcome}. Terminal outcome details.
+     * Present exactly when status is no_show. The terminal outcome recorded for a fulfillment,
+     * such as a no-show, with its reason, notes, and when it occurred. object.packages (Optional):
+     * Array of {@link ExpandedPackageSummary}. Packages associated with this fulfillment.
+     * object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary fields,
+     * including carrier, tracking, status, and supported actions, returned when the package is
+     * expanded. object.packed_at (Optional): string. First time this fulfillment reached packed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.picked_at (Optional): string.
+     * First time this fulfillment reached picked. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link PickupFulfillmentDetails}.
+     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
+     * a pickup that checkout creates, location_name, address, and instructions name the store the
+     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
+     * store is in recipient.instructions. object.recipient (Optional): {@link
+     * FulfillmentRecipient}. Omitted for a checkout session credential that doesn't act for the
+     * customer the buyer verified. The recipient of a fulfillment, with name, email, phone,
+     * address, and handling instructions. object.scheduled_start_at (Required): string or null.
+     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
+     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
+     * schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and last
+     * descending. Sorting by due_at compares this same value with nulls last ascending and first
+     * descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". object.service_details (Optional): {@link
      * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
      * Details of a service fulfillment: the scheduled start and end, timezone, completion time,
@@ -8906,11 +9306,12 @@ export type FulfillmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
          * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
          * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
          * completion time for its type: delivered_at for shipment, local delivery, and digital
-         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
-         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
-         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
-         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at (Required): string. When the fulfillment was created, in RFC3339 format.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Optional): string.
+         * Customer receiving this fulfillment, when one is set. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Optional): string or null.
          * Delivery choice group that created this fulfillment. `null` when the merchant created
          * the fulfillment or checkout created it without a delivery quote. Always present with
@@ -8935,8 +9336,16 @@ export type FulfillmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
-         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * string or null. The Idempotency-Key of the request that created this resource. `null`
+         * when that request sent no key, Flint created the resource, the reader isn't the caller
+         * that created it (another app install, a buyer, or the merchant reading an app's or
+         * buyer's record), or the caller that created an older record is unknown. Filter its list
+         * with `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. line_items (Required): Array of {@link
+         * FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
          * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
          * included in a fulfillment, with the modifiers applied to it. local_delivery_details
          * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
@@ -9038,8 +9447,9 @@ export type FulfillmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
             "completed_at"?: string;
             /**
@@ -9100,6 +9510,17 @@ export type FulfillmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
             "external_reference_id"?: string;
             /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
             "fulfillment_id": string;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field.
+             */
+            "idempotency_key": string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -10535,6 +10956,7 @@ export type FulfillmentFailedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
+            "idempotency_key": string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -10605,6 +11027,7 @@ export type FulfillmentFailedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
             "dispatched_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "fulfillment_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "line_items"?: ((Array<FulfillmentLineItemPreviousAttributes>) | (null));
             "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null));
             "location_id"?: ((string) | (null));
@@ -10682,6 +11105,7 @@ export type FulfillmentFailedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
+            "idempotency_key": string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -10752,6 +11176,7 @@ export type FulfillmentFailedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
             "dispatched_at"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "fulfillment_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "line_items"?: ((Array<FulfillmentLineItemPreviousAttributes>) | (null));
             "local_delivery_details"?: ((DeliveryFulfillmentDetailsPreviousAttributes) | (null));
             "location_id"?: ((string) | (null));
@@ -10836,78 +11261,87 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
      * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
      * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
-     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.delivery_choice_group_id (Optional): string or null. Delivery choice group that
-     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Always present with merchant credentials. Example:
-     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". object.delivery_execution_leg_id (Optional): string or
-     * null. Execution leg of the selected delivery option that created this fulfillment. `null`
-     * when the merchant created the fulfillment or checkout created it without a delivery quote.
-     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-     * object.delivery_method_id (Optional): string or null. Delivery method chosen for this
-     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
-     * a delivery quote. Also `null` when it was created before this field was added. Always
-     * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * object.delivery_selection_id (Optional): string or null. Delivery selection that created
-     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
-     * without a delivery quote. Always present with merchant credentials. Example:
-     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id (Optional): string. Device associated
-     * with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     * object.digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
-     * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
-     * delivered (`delivered_at`) and its `delivery_url`. object.dispatched_at (Optional): string.
-     * First time this fulfillment reached dispatched. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.fulfillment_id (Required): string. Stable identifier of the
-     * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items (Required): Array
-     * of {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
-     * object.line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
-     * included in a fulfillment, with the modifiers applied to it. object.local_delivery_details
-     * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
-     * details for a local delivery fulfillment. Details of a local delivery fulfillment: courier,
-     * timing window, instructions, and tracking. Some fields are omitted for credentials that
-     * don't act for the verified customer. object.location_id (Optional): string. Merchant
-     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
-     * with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
-     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
-     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
-     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
-     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
-     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
-     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
-     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
-     * package's summary fields, including carrier, tracking, status, and supported actions,
-     * returned when the package is expanded. object.packed_at (Optional): string. First time this
-     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
-     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
-     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
-     * instructions name the store the buyer chose and the delivery method's pickup instructions.
-     * The note the buyer left for the store is in recipient.instructions. object.recipient
-     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
-     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
-     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
-     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
-     * authoritative schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and
-     * last descending. Sorting by due_at compares this same value with nulls last ascending and
-     * first descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.created_at (Required): string. When the fulfillment was
+     * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer_id (Optional): string. Customer receiving this fulfillment, when one is set.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery_choice_group_id (Optional):
+     * string or null. Delivery choice group that created this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Always present with merchant
+     * credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id
+     * (Optional): string or null. Delivery method chosen for this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Also
+     * `null` when it was created before this field was added. Always present with merchant
+     * credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". object.delivery_selection_id
+     * (Optional): string or null. Delivery selection that created this fulfillment. `null` when
+     * the merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * object.device_id (Optional): string. Device associated with the fulfillment, when one is
+     * recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional):
+     * {@link DigitalFulfillmentDetails}. Delivery URL and completion time for a digital
+     * fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and
+     * its `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment
+     * reached dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
+     * (Required): string. Stable identifier of the fulfillment. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * object.line_items (Required): Array of {@link FulfillmentLineItem}. Order lines and
+     * quantities allocated to this fulfillment. object.line_items[] (Value): {@link
+     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
+     * modifiers applied to it. object.local_delivery_details (Optional): {@link
+     * DeliveryFulfillmentDetails}. Courier, delivery window, and handoff details for a local
+     * delivery fulfillment. Details of a local delivery fulfillment: courier, timing window,
+     * instructions, and tracking. Some fields are omitted for credentials that don't act for the
+     * verified customer. object.location_id (Optional): string. Merchant location responsible for
+     * this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional):
+     * {@link MetadataMap}. Caller-owned key-value metadata associated with the fulfillment.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
+     * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
+     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
+     * and there is no related order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}.
+     * An order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded. object.order.anyOf[2] (Value):
+     * null. object.order_id (Required): string. Order whose items this fulfillment delivers.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number (Optional): string.
+     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
+     * no number. object.outcome (Optional): {@link FulfillmentOutcome}. Terminal outcome details.
+     * Present exactly when status is no_show. The terminal outcome recorded for a fulfillment,
+     * such as a no-show, with its reason, notes, and when it occurred. object.packages (Optional):
+     * Array of {@link ExpandedPackageSummary}. Packages associated with this fulfillment.
+     * object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary fields,
+     * including carrier, tracking, status, and supported actions, returned when the package is
+     * expanded. object.packed_at (Optional): string. First time this fulfillment reached packed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.picked_at (Optional): string.
+     * First time this fulfillment reached picked. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link PickupFulfillmentDetails}.
+     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
+     * a pickup that checkout creates, location_name, address, and instructions name the store the
+     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
+     * store is in recipient.instructions. object.recipient (Optional): {@link
+     * FulfillmentRecipient}. Omitted for a checkout session credential that doesn't act for the
+     * customer the buyer verified. The recipient of a fulfillment, with name, email, phone,
+     * address, and handling instructions. object.scheduled_start_at (Required): string or null.
+     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
+     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
+     * schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and last
+     * descending. Sorting by due_at compares this same value with nulls last ascending and first
+     * descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". object.service_details (Optional): {@link
      * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
      * Details of a service fulfillment: the scheduled start and end, timezone, completion time,
@@ -10967,22 +11401,22 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
      * FulfillmentChargeLinkPreviousAttributes}. previous_attributes.charges.anyOf[2] (Value):
      * null. previous_attributes.completed_at (Optional): string or null. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. previous_attributes.completed_at.anyOf[1] (Value): string. When the fulfillment
-     * was completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.completed_at.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. When the fulfillment was created, in RFC3339 format.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the fulfillment was created,
-     * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer_id
-     * (Optional): string or null. Customer receiving this fulfillment, when one is set.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. previous_attributes.completed_at.anyOf[1]
+     * (Value): string. When the fulfillment was completed. Mirrors the completion time for its
+     * type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for
+     * pickup, service_details.completed_at for service fulfillments, and the order's paid_at for
+     * handovers completed at payment. Omitted until a completion time is recorded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the
+     * fulfillment was created, in RFC3339 format. previous_attributes.created_at.anyOf[1] (Value):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.customer_id (Optional): string or null. Customer receiving this
+     * fulfillment, when one is set. previous_attributes.customer_id.anyOf[1] (Value): string.
+     * Customer receiving this fulfillment, when one is set. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
      * previous_attributes.delivery_choice_group_id (Optional): string or null. Delivery choice
      * group that created this fulfillment. `null` when the merchant created the fulfillment or
      * checkout created it without a delivery quote. Always present with merchant credentials.
@@ -11034,7 +11468,24 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
      * previous_attributes.fulfillment_id (Optional): string or null. Stable identifier of the
      * fulfillment. previous_attributes.fulfillment_id.anyOf[1] (Value): string. Stable identifier
      * of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.line_items
+     * previous_attributes.fulfillment_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.line_items
      * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines and
      * quantities allocated to this fulfillment. previous_attributes.line_items.anyOf[1] (Value):
      * Array of {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
@@ -11198,11 +11649,12 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
          * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
          * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
          * completion time for its type: delivered_at for shipment, local delivery, and digital
-         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
-         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
-         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
-         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at (Required): string. When the fulfillment was created, in RFC3339 format.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Optional): string.
+         * Customer receiving this fulfillment, when one is set. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Optional): string or null.
          * Delivery choice group that created this fulfillment. `null` when the merchant created
          * the fulfillment or checkout created it without a delivery quote. Always present with
@@ -11227,8 +11679,16 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
-         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * string or null. The Idempotency-Key of the request that created this resource. `null`
+         * when that request sent no key, Flint created the resource, the reader isn't the caller
+         * that created it (another app install, a buyer, or the merchant reading an app's or
+         * buyer's record), or the caller that created an older record is unknown. Filter its list
+         * with `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. line_items (Required): Array of {@link
+         * FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
          * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
          * included in a fulfillment, with the modifiers applied to it. local_delivery_details
          * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
@@ -11330,8 +11790,9 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
             "completed_at"?: string;
             /**
@@ -11392,6 +11853,17 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
             "external_reference_id"?: string;
             /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
             "fulfillment_id": string;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field.
+             */
+            "idempotency_key": string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -11594,19 +12066,20 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
          * FulfillmentChargeLinkPreviousAttributes}. charges.anyOf[2] (Value): null. completed_at
          * (Optional): string or null. When the fulfillment was completed. Mirrors the completion
          * time for its type: delivered_at for shipment, local delivery, and digital fulfillments,
-         * picked_up_at for pickup, and service_details.completed_at for service fulfillments.
-         * Omitted until a completion time is recorded. completed_at.anyOf[1] (Value): string. When
-         * the fulfillment was completed. Mirrors the completion time for its type: delivered_at
-         * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
-         * service_details.completed_at for service fulfillments. Omitted until a completion time
-         * is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2]
-         * (Value): null. created_at (Optional): string or null. When the fulfillment was created,
-         * in RFC3339 format. created_at.anyOf[1] (Value): string. When the fulfillment was
-         * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer
-         * receiving this fulfillment, when one is set. customer_id.anyOf[1] (Value): string.
-         * Customer receiving this fulfillment, when one is set. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * picked_up_at for pickup, service_details.completed_at for service fulfillments, and the
+         * order's paid_at for handovers completed at payment. Omitted until a completion time is
+         * recorded. completed_at.anyOf[1] (Value): string. When the fulfillment was completed.
+         * Mirrors the completion time for its type: delivered_at for shipment, local delivery, and
+         * digital fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * completed_at.anyOf[2] (Value): null. created_at (Optional): string or null. When the
+         * fulfillment was created, in RFC3339 format. created_at.anyOf[1] (Value): string. When
+         * the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer_id (Optional):
+         * string or null. Customer receiving this fulfillment, when one is set.
+         * customer_id.anyOf[1] (Value): string. Customer receiving this fulfillment, when one is
+         * set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
          * delivery_choice_group_id (Optional): string or null. Delivery choice group that created
          * this fulfillment. `null` when the merchant created the fulfillment or checkout created
          * it without a delivery quote. Always present with merchant credentials.
@@ -11652,7 +12125,23 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
          * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. fulfillment_id
          * (Optional): string or null. Stable identifier of the fulfillment.
          * fulfillment_id.anyOf[1] (Value): string. Stable identifier of the fulfillment. Example:
-         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. line_items
+         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. idempotency_key
+         * (Optional): string or null. The Idempotency-Key of the request that created this
+         * resource. `null` when that request sent no key, Flint created the resource, the reader
+         * isn't the caller that created it (another app install, a buyer, or the merchant reading
+         * an app's or buyer's record), or the caller that created an older record is unknown.
+         * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+         * responses and webhook events, can return `null`. To find a key that a replay returns as
+         * `null`, read the resource. Buyer sessions on routes shared with merchants get `null`.
+         * `/v1/me` responses do not include this field. idempotency_key.anyOf[1] (Value): string.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. idempotency_key.anyOf[2] (Value): null. line_items
          * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines
          * and quantities allocated to this fulfillment. line_items.anyOf[1] (Value): Array of
          * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated to
@@ -11811,13 +12300,14 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. anyOf[1] (Value): string. When the fulfillment was
-             * completed. Mirrors the completion time for its type: delivered_at for shipment,
-             * local delivery, and digital fulfillments, picked_up_at for pickup, and
-             * service_details.completed_at for service fulfillments. Omitted until a completion
-             * time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. anyOf[1] (Value): string. When the fulfillment was completed. Mirrors the
+             * completion time for its type: delivered_at for shipment, local delivery, and digital
+             * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+             * fulfillments, and the order's paid_at for handovers completed at payment. Omitted
+             * until a completion time is recorded. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "completed_at"?: ((string) | (null));
             /**
@@ -11899,6 +12389,25 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
              * the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2] (Value): null.
              */
             "fulfillment_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Order lines and quantities allocated to this fulfillment. anyOf[1] (Value): Array of
              * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
@@ -12183,78 +12692,87 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
      * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
      * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
-     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.delivery_choice_group_id (Optional): string or null. Delivery choice group that
-     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
-     * created it without a delivery quote. Always present with merchant credentials. Example:
-     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". object.delivery_execution_leg_id (Optional): string or
-     * null. Execution leg of the selected delivery option that created this fulfillment. `null`
-     * when the merchant created the fulfillment or checkout created it without a delivery quote.
-     * Always present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
-     * object.delivery_method_id (Optional): string or null. Delivery method chosen for this
-     * fulfillment. `null` when the merchant created the fulfillment or checkout created it without
-     * a delivery quote. Also `null` when it was created before this field was added. Always
-     * present with merchant credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * object.delivery_selection_id (Optional): string or null. Delivery selection that created
-     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
-     * without a delivery quote. Always present with merchant credentials. Example:
-     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id (Optional): string. Device associated
-     * with the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     * object.digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
-     * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
-     * delivered (`delivered_at`) and its `delivery_url`. object.dispatched_at (Optional): string.
-     * First time this fulfillment reached dispatched. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.fulfillment_id (Required): string. Stable identifier of the
-     * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items (Required): Array
-     * of {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
-     * object.line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
-     * included in a fulfillment, with the modifiers applied to it. object.local_delivery_details
-     * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
-     * details for a local delivery fulfillment. Details of a local delivery fulfillment: courier,
-     * timing window, instructions, and tracking. Some fields are omitted for credentials that
-     * don't act for the verified customer. object.location_id (Optional): string. Merchant
-     * location responsible for this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned key-value metadata associated
-     * with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with
-     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.order (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when
-     * the order relationship is expanded. Present only when `expand` includes `order`; `null` when
-     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
-     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
-     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
-     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
-     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
-     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
-     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
-     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
-     * package's summary fields, including carrier, tracking, status, and supported actions,
-     * returned when the package is expanded. object.packed_at (Optional): string. First time this
-     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
-     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
-     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
-     * instructions name the store the buyer chose and the delivery method's pickup instructions.
-     * The note the buyer left for the store is in recipient.instructions. object.recipient
-     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
-     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
-     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
-     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
-     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
-     * authoritative schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and
-     * last descending. Sorting by due_at compares this same value with nulls last ascending and
-     * first descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.created_at (Required): string. When the fulfillment was
+     * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer_id (Optional): string. Customer receiving this fulfillment, when one is set.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery_choice_group_id (Optional):
+     * string or null. Delivery choice group that created this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Optional): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Always present with merchant
+     * credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id
+     * (Optional): string or null. Delivery method chosen for this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Also
+     * `null` when it was created before this field was added. Always present with merchant
+     * credentials. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". object.delivery_selection_id
+     * (Optional): string or null. Delivery selection that created this fulfillment. `null` when
+     * the merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     * object.device_id (Optional): string. Device associated with the fulfillment, when one is
+     * recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional):
+     * {@link DigitalFulfillmentDetails}. Delivery URL and completion time for a digital
+     * fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and
+     * its `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment
+     * reached dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
+     * (Required): string. Stable identifier of the fulfillment. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * object.line_items (Required): Array of {@link FulfillmentLineItem}. Order lines and
+     * quantities allocated to this fulfillment. object.line_items[] (Value): {@link
+     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
+     * modifiers applied to it. object.local_delivery_details (Optional): {@link
+     * DeliveryFulfillmentDetails}. Courier, delivery window, and handoff details for a local
+     * delivery fulfillment. Details of a local delivery fulfillment: courier, timing window,
+     * instructions, and tracking. Some fields are omitted for credentials that don't act for the
+     * verified customer. object.location_id (Optional): string. Merchant location responsible for
+     * this fulfillment. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional):
+     * {@link MetadataMap}. Caller-owned key-value metadata associated with the fulfillment.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
+     * (Optional): {@link ExpandedOrderSummary} or null. Order summary returned when the order
+     * relationship is expanded. Present only when `expand` includes `order`; `null` when expanded
+     * and there is no related order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}.
+     * An order's summary fields, including status, payment and refund status, and pricing and
+     * settlement amounts, returned when the order is expanded. object.order.anyOf[2] (Value):
+     * null. object.order_id (Required): string. Order whose items this fulfillment delivers.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number (Optional): string.
+     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
+     * no number. object.outcome (Optional): {@link FulfillmentOutcome}. Terminal outcome details.
+     * Present exactly when status is no_show. The terminal outcome recorded for a fulfillment,
+     * such as a no-show, with its reason, notes, and when it occurred. object.packages (Optional):
+     * Array of {@link ExpandedPackageSummary}. Packages associated with this fulfillment.
+     * object.packages[] (Value): {@link ExpandedPackageSummary}. A package's summary fields,
+     * including carrier, tracking, status, and supported actions, returned when the package is
+     * expanded. object.packed_at (Optional): string. First time this fulfillment reached packed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.picked_at (Optional): string.
+     * First time this fulfillment reached picked. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link PickupFulfillmentDetails}.
+     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
+     * a pickup that checkout creates, location_name, address, and instructions name the store the
+     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
+     * store is in recipient.instructions. object.recipient (Optional): {@link
+     * FulfillmentRecipient}. Omitted for a checkout session credential that doesn't act for the
+     * customer the buyer verified. The recipient of a fulfillment, with name, email, phone,
+     * address, and handling instructions. object.scheduled_start_at (Required): string or null.
+     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
+     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
+     * schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and last
+     * descending. Sorting by due_at compares this same value with nulls last ascending and first
+     * descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". object.service_details (Optional): {@link
      * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
      * Details of a service fulfillment: the scheduled start and end, timezone, completion time,
@@ -12314,22 +12832,22 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
      * FulfillmentChargeLinkPreviousAttributes}. previous_attributes.charges.anyOf[2] (Value):
      * null. previous_attributes.completed_at (Optional): string or null. When the fulfillment was
      * completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. previous_attributes.completed_at.anyOf[1] (Value): string. When the fulfillment
-     * was completed. Mirrors the completion time for its type: delivered_at for shipment, local
-     * delivery, and digital fulfillments, picked_up_at for pickup, and
-     * service_details.completed_at for service fulfillments. Omitted until a completion time is
-     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.completed_at.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. When the fulfillment was created, in RFC3339 format.
-     * previous_attributes.created_at.anyOf[1] (Value): string. When the fulfillment was created,
-     * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.customer_id
-     * (Optional): string or null. Customer receiving this fulfillment, when one is set.
-     * previous_attributes.customer_id.anyOf[1] (Value): string. Customer receiving this
-     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * previous_attributes.customer_id.anyOf[2] (Value): null.
+     * delivery, and digital fulfillments, picked_up_at for pickup, service_details.completed_at
+     * for service fulfillments, and the order's paid_at for handovers completed at payment.
+     * Omitted until a completion time is recorded. previous_attributes.completed_at.anyOf[1]
+     * (Value): string. When the fulfillment was completed. Mirrors the completion time for its
+     * type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for
+     * pickup, service_details.completed_at for service fulfillments, and the order's paid_at for
+     * handovers completed at payment. Omitted until a completion time is recorded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.completed_at.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. When the
+     * fulfillment was created, in RFC3339 format. previous_attributes.created_at.anyOf[1] (Value):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.customer_id (Optional): string or null. Customer receiving this
+     * fulfillment, when one is set. previous_attributes.customer_id.anyOf[1] (Value): string.
+     * Customer receiving this fulfillment, when one is set. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
      * previous_attributes.delivery_choice_group_id (Optional): string or null. Delivery choice
      * group that created this fulfillment. `null` when the merchant created the fulfillment or
      * checkout created it without a delivery quote. Always present with merchant credentials.
@@ -12381,7 +12899,24 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
      * previous_attributes.fulfillment_id (Optional): string or null. Stable identifier of the
      * fulfillment. previous_attributes.fulfillment_id.anyOf[1] (Value): string. Stable identifier
      * of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     * previous_attributes.fulfillment_id.anyOf[2] (Value): null. previous_attributes.line_items
+     * previous_attributes.fulfillment_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Buyer sessions on routes shared with merchants get
+     * `null`. `/v1/me` responses do not include this field.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.line_items
      * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines and
      * quantities allocated to this fulfillment. previous_attributes.line_items.anyOf[1] (Value):
      * Array of {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
@@ -12545,11 +13080,12 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
          * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
          * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
          * completion time for its type: delivered_at for shipment, local delivery, and digital
-         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
-         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
-         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
-         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at (Required): string. When the fulfillment was created, in RFC3339 format.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id (Optional): string.
+         * Customer receiving this fulfillment, when one is set. Example:
          * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Optional): string or null.
          * Delivery choice group that created this fulfillment. `null` when the merchant created
          * the fulfillment or checkout created it without a delivery quote. Always present with
@@ -12574,8 +13110,16 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
-         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * string or null. The Idempotency-Key of the request that created this resource. `null`
+         * when that request sent no key, Flint created the resource, the reader isn't the caller
+         * that created it (another app install, a buyer, or the merchant reading an app's or
+         * buyer's record), or the caller that created an older record is unknown. Filter its list
+         * with `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. line_items (Required): Array of {@link
+         * FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
          * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
          * included in a fulfillment, with the modifiers applied to it. local_delivery_details
          * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
@@ -12677,8 +13221,9 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
             "completed_at"?: string;
             /**
@@ -12739,6 +13284,17 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
             "external_reference_id"?: string;
             /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
             "fulfillment_id": string;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field.
+             */
+            "idempotency_key": string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -12941,19 +13497,20 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
          * FulfillmentChargeLinkPreviousAttributes}. charges.anyOf[2] (Value): null. completed_at
          * (Optional): string or null. When the fulfillment was completed. Mirrors the completion
          * time for its type: delivered_at for shipment, local delivery, and digital fulfillments,
-         * picked_up_at for pickup, and service_details.completed_at for service fulfillments.
-         * Omitted until a completion time is recorded. completed_at.anyOf[1] (Value): string. When
-         * the fulfillment was completed. Mirrors the completion time for its type: delivered_at
-         * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
-         * service_details.completed_at for service fulfillments. Omitted until a completion time
-         * is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". completed_at.anyOf[2]
-         * (Value): null. created_at (Optional): string or null. When the fulfillment was created,
-         * in RFC3339 format. created_at.anyOf[1] (Value): string. When the fulfillment was
-         * created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. customer_id (Optional): string or null. Customer
-         * receiving this fulfillment, when one is set. customer_id.anyOf[1] (Value): string.
-         * Customer receiving this fulfillment, when one is set. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * picked_up_at for pickup, service_details.completed_at for service fulfillments, and the
+         * order's paid_at for handovers completed at payment. Omitted until a completion time is
+         * recorded. completed_at.anyOf[1] (Value): string. When the fulfillment was completed.
+         * Mirrors the completion time for its type: delivered_at for shipment, local delivery, and
+         * digital fulfillments, picked_up_at for pickup, service_details.completed_at for service
+         * fulfillments, and the order's paid_at for handovers completed at payment. Omitted until
+         * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * completed_at.anyOf[2] (Value): null. created_at (Optional): string or null. When the
+         * fulfillment was created, in RFC3339 format. created_at.anyOf[1] (Value): string. When
+         * the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer_id (Optional):
+         * string or null. Customer receiving this fulfillment, when one is set.
+         * customer_id.anyOf[1] (Value): string. Customer receiving this fulfillment, when one is
+         * set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
          * delivery_choice_group_id (Optional): string or null. Delivery choice group that created
          * this fulfillment. `null` when the merchant created the fulfillment or checkout created
          * it without a delivery quote. Always present with merchant credentials.
@@ -12999,7 +13556,23 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
          * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. fulfillment_id
          * (Optional): string or null. Stable identifier of the fulfillment.
          * fulfillment_id.anyOf[1] (Value): string. Stable identifier of the fulfillment. Example:
-         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. line_items
+         * "ful_01KEZF7C00F24WVSTTWR1FQX5T". fulfillment_id.anyOf[2] (Value): null. idempotency_key
+         * (Optional): string or null. The Idempotency-Key of the request that created this
+         * resource. `null` when that request sent no key, Flint created the resource, the reader
+         * isn't the caller that created it (another app install, a buyer, or the merchant reading
+         * an app's or buyer's record), or the caller that created an older record is unknown.
+         * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+         * responses and webhook events, can return `null`. To find a key that a replay returns as
+         * `null`, read the resource. Buyer sessions on routes shared with merchants get `null`.
+         * `/v1/me` responses do not include this field. idempotency_key.anyOf[1] (Value): string.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me`
+         * responses do not include this field. idempotency_key.anyOf[2] (Value): null. line_items
          * (Optional): Array of {@link FulfillmentLineItemPreviousAttributes} or null. Order lines
          * and quantities allocated to this fulfillment. line_items.anyOf[1] (Value): Array of
          * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated to
@@ -13158,13 +13731,14 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
             /**
              * When the fulfillment was completed. Mirrors the completion time for its type:
              * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
-             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
-             * a completion time is recorded. anyOf[1] (Value): string. When the fulfillment was
-             * completed. Mirrors the completion time for its type: delivered_at for shipment,
-             * local delivery, and digital fulfillments, picked_up_at for pickup, and
-             * service_details.completed_at for service fulfillments. Omitted until a completion
-             * time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
-             * (Value): null.
+             * for pickup, service_details.completed_at for service fulfillments, and the order's
+             * paid_at for handovers completed at payment. Omitted until a completion time is
+             * recorded. anyOf[1] (Value): string. When the fulfillment was completed. Mirrors the
+             * completion time for its type: delivered_at for shipment, local delivery, and digital
+             * fulfillments, picked_up_at for pickup, service_details.completed_at for service
+             * fulfillments, and the order's paid_at for handovers completed at payment. Omitted
+             * until a completion time is recorded. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "completed_at"?: ((string) | (null));
             /**
@@ -13246,6 +13820,25 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              * the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2] (Value): null.
              */
             "fulfillment_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Buyer sessions on routes shared with merchants get
+             * `null`. `/v1/me` responses do not include this field. anyOf[1] (Value): string. The
+             * Idempotency-Key of the request that created this resource. `null` when that request
+             * sent no key, Flint created the resource, the reader isn't the caller that created it
+             * (another app install, a buyer, or the merchant reading an app's or buyer's record),
+             * or the caller that created an older record is unknown. Filter its list with
+             * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+             * webhook events, can return `null`. To find a key that a replay returns as `null`,
+             * read the resource. Buyer sessions on routes shared with merchants get `null`.
+             * `/v1/me` responses do not include this field. anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * Order lines and quantities allocated to this fulfillment. anyOf[1] (Value): Array of
              * {@link FulfillmentLineItemPreviousAttributes}. Order lines and quantities allocated
@@ -13635,48 +14228,51 @@ export type FulfillmentItemizedPackagesRequest = ({
      * [].external_system (Optional): string. Name of the external system that
      * external_reference_id belongs to. External references are not unique. Use Idempotency-Key
      * for retries. minLength: 1. [].items (Required): Array of {@link CreatePackageItemRequest}.
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [].items[] (Value): {@link CreatePackageItemRequest}. The request body for:
-     * Create package item. [].label_url (Optional): string. HTTPS shipping-label URL supplied by
-     * your integration. Non-Flint URLs require external_system for provenance. Flint does not host
-     * the label file. minLength: 1. [].metadata (Optional): {@link MetadataMap}. Caller-owned
-     * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API. Caller-owned key-value data
-     * for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to
-     * 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values
-     * total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with
-     * flint_ are reserved for Flint. maxProperties: 50. [].return_line_items (Optional): Array of
-     * {@link ReturnResolutionLineItemRequest}. Required for a package on a return shipment:
-     * allocates quantities from the shipment's return_line_items to this parcel. Rejected on
-     * outbound shipments. [].return_line_items[] (Value): {@link ReturnResolutionLineItemRequest}.
-     * A Return line and the quantity to place in a return shipment or package. The enclosing
-     * Return or shipment determines its parent. [].service_code (Optional): string. Carrier's code
-     * for the shipping service used. minLength: 1. [].shipped_at (Optional): string. Package
-     * handoff time. Defaults to request time. Only allowed with status shipped. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z". [].status (Required): string. Outbound
-     * packages can start as created or shipped. Return packages must start as created, omit items,
-     * and include return_line_items. Use mark_shipped after the buyer hands over the return
-     * package. Value enum: "created", "shipped". [].status_reason (Optional): string. Additional
-     * explanation of the package's starting status. minLength: 1. [].tracking_number (Optional):
-     * string. Carrier tracking number for the package. minLength: 1. [].tracking_url (Optional):
-     * string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected.
-     * minLength: 1. [].weight (Optional): {@link Weight}. Weight of the package. A weight value in
-     * grams, kilograms, ounces, or pounds, used in delivery profile configuration. [].oneOf[1]
-     * (Value): {@link PackageCreateInputCreated}. Package to create inline with its enclosing
-     * shipment or fulfillment. Set status to created before handoff, or shipped to report handoff
-     * during creation. [].oneOf[2] (Value): {@link PackageCreateInputShipped}. Package to create
-     * inline with its enclosing shipment or fulfillment. Set status to created before handoff, or
-     * shipped to report handoff during creation.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [].items[] (Value):
+     * {@link CreatePackageItemRequest}. The request body for: Create package item. [].label_url
+     * (Optional): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
+     * require external_system for provenance. Flint does not host the label file. minLength: 1.
+     * [].metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50. [].pack_fulfillment_items (Optional): boolean. Put every item in the
+     * fulfillment into this outbound package. Use with status shipped and a single package. Omit
+     * items. Value enum: true. [].return_line_items (Optional): Array of {@link
+     * ReturnResolutionLineItemRequest}. Required for a package on a return shipment: allocates
+     * quantities from the shipment's return_line_items to this parcel. Rejected on outbound
+     * shipments. [].return_line_items[] (Value): {@link ReturnResolutionLineItemRequest}. A Return
+     * line and the quantity to place in a return shipment or package. The enclosing Return or
+     * shipment determines its parent. [].service_code (Optional): string. Carrier's code for the
+     * shipping service used. minLength: 1. [].shipped_at (Optional): string. Package handoff time.
+     * Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z". [].status (Required): string. Outbound packages can start
+     * as created or shipped. Return packages must start as created, omit items, and include
+     * return_line_items. Use mark_shipped after the buyer hands over the return package. Value
+     * enum: "created", "shipped". [].status_reason (Optional): string. Additional explanation of
+     * the package's starting status. minLength: 1. [].tracking_number (Optional): string. Carrier
+     * tracking number for the package. minLength: 1. [].tracking_url (Optional): string. Absolute
+     * HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. [].weight
+     * (Optional): {@link Weight}. Weight of the package. A weight value in grams, kilograms,
+     * ounces, or pounds, used in delivery profile configuration. [].oneOf[1] (Value): {@link
+     * PackageCreateInputCreated}. Package to create inline with its enclosing shipment or
+     * fulfillment. Set status to created before handoff, or shipped to report handoff during
+     * creation. [].oneOf[2] (Value): {@link PackageCreateInputShipped}. Package to create inline
+     * with its enclosing shipment or fulfillment. Set status to created before handoff, or shipped
+     * to report handoff during creation.
      */
     "packages": Array<({
         /**
-         * Independent package-item collection. Required when status is shipped. Inline creation
-         * uses the child-create shape and commits atomically; edit items through the package item
-         * routes after creation. Each order line and bundle component pair may appear once.
-         * minItems: 1. maxItems: 100. [] (Value): {@link CreatePackageItemRequest}. The request
-         * body for: Create package item.
+         * Independent package-item collection. Required when status is shipped unless
+         * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+         * atomically; edit items through the package item routes after creation. Each order line
+         * and bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value):
+         * {@link CreatePackageItemRequest}. The request body for: Create package item.
          */
         "items": Array<CreatePackageItemRequest>;
     })
@@ -13728,22 +14324,24 @@ export type FulfillmentItemizedPackagesRequestInput = ({
      * external_reference_id belongs to. External references are not unique. Use Idempotency-Key
      * for retries. minLength: 1. [].items (Required): Array of {@link
      * CreatePackageItemRequestInput}. Independent package-item collection. Required when status is
-     * shipped. Inline creation uses the child-create shape and commits atomically; edit items
-     * through the package item routes after creation. Each order line and bundle component pair
-     * may appear once. minItems: 1. maxItems: 100. [].items[] (Value): {@link
-     * CreatePackageItemRequestInput}. The request body for: Create package item. [].label_url
-     * (Optional): string. HTTPS shipping-label URL supplied by your integration. Non-Flint URLs
-     * require external_system for provenance. Flint does not host the label file. minLength: 1.
-     * [].metadata (Optional): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be
-     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
-     * cannot be written through the public API. Caller-owned key-value data for a new or replaced
-     * map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code
-     * points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768
-     * UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for
-     * Flint. maxProperties: 50. [].return_line_items (Optional): Array of {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. Required for a package on a return shipment:
-     * allocates quantities from the shipment's return_line_items to this parcel. Rejected on
-     * outbound shipments. [].return_line_items[] (Value): {@link
+     * shipped unless pack_fulfillment_items is true. Inline creation uses the child-create shape
+     * and commits atomically; edit items through the package item routes after creation. Each
+     * order line and bundle component pair may appear once. minItems: 1. maxItems: 100. [].items[]
+     * (Value): {@link CreatePackageItemRequestInput}. The request body for: Create package item.
+     * [].label_url (Optional): string. HTTPS shipping-label URL supplied by your integration.
+     * Non-Flint URLs require external_system for provenance. Flint does not host the label file.
+     * minLength: 1. [].metadata (Optional): {@link MetadataRequestInput}. Caller-owned metadata.
+     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
+     * returned, and cannot be written through the public API. Caller-owned key-value data for a
+     * new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256
+     * Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at
+     * most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are
+     * reserved for Flint. maxProperties: 50. [].pack_fulfillment_items (Optional): boolean. Put
+     * every item in the fulfillment into this outbound package. Use with status shipped and a
+     * single package. Omit items. Value enum: true. [].return_line_items (Optional): Array of
+     * {@link ReturnShipmentLineItemAllocationRequestInput}. Required for a package on a return
+     * shipment: allocates quantities from the shipment's return_line_items to this parcel.
+     * Rejected on outbound shipments. [].return_line_items[] (Value): {@link
      * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
      * return shipment or package. The enclosing Return or shipment determines its parent.
      * [].service_code (Optional): string. Carrier's code for the shipping service used. minLength:
@@ -13766,11 +14364,11 @@ export type FulfillmentItemizedPackagesRequestInput = ({
      */
     "packages": Array<({
         /**
-         * Independent package-item collection. Required when status is shipped. Inline creation
-         * uses the child-create shape and commits atomically; edit items through the package item
-         * routes after creation. Each order line and bundle component pair may appear once.
-         * minItems: 1. maxItems: 100. [] (Value): {@link CreatePackageItemRequestInput}. The
-         * request body for: Create package item.
+         * Independent package-item collection. Required when status is shipped unless
+         * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+         * atomically; edit items through the package item routes after creation. Each order line
+         * and bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value):
+         * {@link CreatePackageItemRequestInput}. The request body for: Create package item.
          */
         "items": Array<CreatePackageItemRequestInput>;
     })

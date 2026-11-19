@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# WorkloadIdentityResponseInput to BuyerReturnPreviewResponse
+# WorkloadIdentityCreatorInput to BuyerSavePaymentMethodResponse
 
+- [WorkloadIdentityCreatorInput](WorkloadIdentityCreatorInput.md)
+- [WorkloadIdentityListResponseInput](WorkloadIdentityListResponseInput.md)
 - [WorkloadIdentityResponseInput](WorkloadIdentityResponseInput.md)
 - [DisputeResponse](DisputeResponse.md)
 - [FulfillmentResponse](FulfillmentResponse.md)
@@ -100,6 +102,4 @@
 - [BuyerCustomerDeletionRequestResponse](BuyerCustomerDeletionRequestResponse.md)
 - [BuyerFlintWalletStoreSetupResponse](BuyerFlintWalletStoreSetupResponse.md)
 - [BuyerSavePaymentMethodResponse](BuyerSavePaymentMethodResponse.md)
-- [MerchantAccountSessionResponse](MerchantAccountSessionResponse.md)
-- [BuyerReturnPreviewResponse](BuyerReturnPreviewResponse.md)
 

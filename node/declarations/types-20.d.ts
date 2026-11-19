@@ -16,7 +16,7 @@ import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateDeliveryMethodRequestInput, CreateDeliveryPreviewRequestInput } from './types-9.js';
 import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdateDeliveryMethodRequestInput } from './types-75.js';
+import type { UpdateDeliveryMethodRequestInput } from './types-76.js';
 import type { BuyerInstructionsConfig, BuyerInstructionsConfigPreviousAttributes } from './types-2.js';
 import type {
     DeliveryArrivalEstimate,

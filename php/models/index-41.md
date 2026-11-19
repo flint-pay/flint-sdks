@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# CatalogPricing to OrderTaxTaxBreakdownsItemPercentage
+# BundleComponentVariantSummary to OrderTaxTaxBreakdownsItemPercentageTaxMoney
 
+- [BundleComponentVariantSummary](BundleComponentVariantSummary.md)
+- [BundleComponent](BundleComponent.md)
 - [CatalogPricing](CatalogPricing.md)
 - [CategoryReference](CategoryReference.md)
 - [OrderLineItemFulfillmentQuantities](OrderLineItemFulfillmentQuantities.md)
@@ -100,6 +102,4 @@
 - [OrderTaxTaxBreakdownsItemPercentageFlatMoney](OrderTaxTaxBreakdownsItemPercentageFlatMoney.md)
 - [OrderTaxTaxBreakdownsItemPercentageJurisdiction](OrderTaxTaxBreakdownsItemPercentageJurisdiction.md)
 - [OrderTaxTaxBreakdownsItemPercentageTaxMoney](OrderTaxTaxBreakdownsItemPercentageTaxMoney.md)
-- [OrderTaxTaxBreakdownsItemPercentageTaxableMoney](OrderTaxTaxBreakdownsItemPercentageTaxableMoney.md)
-- [OrderTaxTaxBreakdownsItemPercentage](OrderTaxTaxBreakdownsItemPercentage.md)
 

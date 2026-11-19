@@ -8,7 +8,7 @@ import type {
 } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { PaymentVolumeTimeseries, PaymentVolumeTimeseriesResponse } from '../declarations/types-54.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { SubscriptionAnalytics, SubscriptionAnalyticsResponse } from '../declarations/types-69.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -33,16 +33,16 @@ export type {
     AnalyticsGetSubscriptionParams
 } from '../declarations/types-0.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { PaymentVolumeTimeseries, PaymentVolumeTimeseriesResponse, PaymentVolumeBucket } from '../declarations/types-54.js';
 export type { SubscriptionAnalytics, SubscriptionAnalyticsResponse } from '../declarations/types-69.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { SubscriptionSnapshotMetrics, SubscriptionStatusCounts, SubscriptionWindowMetrics } from '../declarations/types-72.js';
+export type { SubscriptionSnapshotMetrics, SubscriptionStatusCounts } from '../declarations/types-72.js';
+export type { SubscriptionWindowMetrics } from '../declarations/types-73.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export interface AnalyticsResource {
     /**

@@ -1,4 +1,5 @@
-import type { GuestPurchaseLink } from './types-30.js';
+import type { InputValue } from '../runtime.js';
+import type { UpdateGiftCardRequestInput, UpdateInventoryAllocationPolicyRequestInput } from './types-76.js';
 import type { ResponseMeta } from './types-62.js';
 import type { GiftCardFundingSource, GiftCardFundingSourceRequestInput } from './types-29.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
@@ -10,13 +11,53 @@ import type {
     MerchantWebhookEnvelope
 } from './types-43.js';
 import type { TextModifierConfigRequest, TextModifierConfigRequestInput } from './types-74.js';
-import type { InventorySourceSystem, InventorySourceSystemPreviousAttributes } from './types-33.js';
-import type { InventoryLevel } from './types-32.js';
-import type { InputValue } from '../runtime.js';
+import type { InventorySourceSystem } from './types-33.js';
+import type {
+    InventoryLevel,
+    InventoryCountObservationProvenance,
+    InventoryCountObservationProvenancePreviousAttributes
+} from './types-32.js';
 import type { CreateInventoryAdjustmentRequestInput, CreateInventoryAllocationPolicyRequestInput } from './types-10.js';
 import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdateInventoryAllocationPolicyRequestInput } from './types-76.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
+export type GiftCardsUpdateParams = (InputValue<UpdateGiftCardRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/**
+ * Result of linking a guest's purchases to a customer, with the customer, the email, and the
+ * number of orders linked.
+ */
+export type GuestPurchaseLink = {
+    /**
+     * ID of the customer the guest purchases now belong to. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /** The verified email address whose guest purchases were linked. */
+    "email": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "linked_at": string;
+    /** Number of guest orders linked to the customer by this request. Format: int64. */
+    "linked_order_count": number;
+};
 /** A response containing `GuestPurchaseLink` data. */
 export type GuestPurchaseLinkResponse = {
     /**
@@ -734,10 +775,14 @@ export type InventoryAdjustment = {
      */
     "external_actor_id"?: string;
     /**
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
      */
-    "idempotency_key"?: string;
+    "idempotency_key": string | null;
     /**
      * Unique identifier for this inventory adjustment, prefixed `invadj_`. Example:
      * "invadj_01KEZF7C00HFCAS32T4NVHX75M".
@@ -1207,8 +1252,11 @@ export type InventoryAdjustmentsListParams = {
      * exact and case-sensitive. Returns only resources created in your caller namespace, plus
      * resources created before caller scoping under the original key. Returns current authorized
      * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
-     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -1691,10 +1739,14 @@ export type InventoryCount = {
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
     /**
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
      */
-    "idempotency_key"?: string;
+    "idempotency_key": string | null;
     /**
      * Unique identifier for this inventory count, prefixed `invc_`. Example:
      * "invc_01KEZF7C00B47NXRE3ET37QQ59".
@@ -1738,7 +1790,7 @@ export type InventoryCountAppliedEvent = ((((Exclude<MerchantWebhookEnvelope & o
         "object": {
             "applied_at"?: string;
             "created_at": string;
-            "idempotency_key"?: string;
+            "idempotency_key": string | null;
             "inventory_count_id": string;
             "lines": Array<InventoryCountLine>;
             "location_id": string;
@@ -1774,7 +1826,7 @@ export type InventoryCountAppliedEvent = ((((Exclude<MerchantWebhookEnvelope & o
         "object": {
             "applied_at"?: string;
             "created_at": string;
-            "idempotency_key"?: string;
+            "idempotency_key": string | null;
             "inventory_count_id": string;
             "lines": Array<InventoryCountLine>;
             "location_id": string;
@@ -1825,8 +1877,12 @@ export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * additional fields. object.applied_at (Optional): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339
      * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_count_id (Required): string. Unique identifier for this inventory count,
      * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59". object.lines (Required): Array
      * of {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
@@ -1856,10 +1912,18 @@ export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
      * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
-     * the request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * the request that created this resource. `null` when that request sent no key, Flint created
+     * the resource, the reader isn't the caller that created it (another app install, a buyer, or
+     * the merchant reading an app's or buyer's record), or the caller that created an older record
+     * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_count_id (Optional): string or null. Unique identifier for
      * this inventory count, prefixed `invc_`. previous_attributes.inventory_count_id.anyOf[1]
@@ -1908,20 +1972,24 @@ export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
          * applied_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_count_id (Required):
-         * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-         * "invc_01KEZF7C00B47NXRE3ET37QQ59". lines (Required): Array of {@link
-         * InventoryCountLine}. Count lines, one for each inventory item being counted. lines[]
-         * (Value): {@link InventoryCountLine}. One item's line in an inventory count, with the
-         * quantities Flint expected, the quantities counted, and the variance applied. location_id
-         * (Required): string. ID of the Location whose stock is counted. Example:
-         * "loc_01KEZF7C00CMHRRYA3MV996JB2". observation_provenance (Optional): {@link
-         * InventoryCountObservationProvenance}. Source system, actor, and time reported with the
-         * count's observations. Where an inventory count came from: the source system, an external
-         * actor ID, and when the event occurred. status (Required): string. Whether the count is
-         * still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
+         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Required): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_count_id (Required): string. Unique identifier for this
+         * inventory count, prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59". lines
+         * (Required): Array of {@link InventoryCountLine}. Count lines, one for each inventory
+         * item being counted. lines[] (Value): {@link InventoryCountLine}. One item's line in an
+         * inventory count, with the quantities Flint expected, the quantities counted, and the
+         * variance applied. location_id (Required): string. ID of the Location whose stock is
+         * counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". observation_provenance (Optional):
+         * {@link InventoryCountObservationProvenance}. Source system, actor, and time reported
+         * with the count's observations. Where an inventory count came from: the source system, an
+         * external actor ID, and when the event occurred. status (Required): string. Whether the
+         * count is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
          * "applied", "canceled". supported_actions (Required): Array of string. Actions that can
          * change this count now. A draft can be canceled, and applied once every line has an
          * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
@@ -1937,10 +2005,15 @@ export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebho
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "created_at": string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key": string | null;
             /**
              * Unique identifier for this inventory count, prefixed `invc_`. Example:
              * "invc_01KEZF7C00B47NXRE3ET37QQ59".
@@ -1992,14 +2065,22 @@ export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * created_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_count_id (Optional): string or null.
-         * Unique identifier for this inventory count, prefixed `invc_`.
-         * inventory_count_id.anyOf[1] (Value): string. Unique identifier for this inventory count,
-         * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_count_id (Optional): string or null. Unique identifier for this inventory
+         * count, prefixed `invc_`. inventory_count_id.anyOf[1] (Value): string. Unique identifier
+         * for this inventory count, prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
          * inventory_count_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
          * InventoryCountLinePreviousAttributes} or null. Count lines, one for each inventory item
          * being counted. lines.anyOf[1] (Value): Array of {@link
@@ -2047,10 +2128,19 @@ export type InventoryCountAppliedInstalledMerchantsEvent = (Exclude<PartnerWebho
              */
             "created_at"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -2161,8 +2251,12 @@ export type InventoryCountAppliedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * additional fields. object.applied_at (Optional): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339
      * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
+     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * `null` when that request sent no key, Flint created the resource, the reader isn't the
+     * caller that created it (another app install, a buyer, or the merchant reading an app's or
+     * buyer's record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
      * object.inventory_count_id (Required): string. Unique identifier for this inventory count,
      * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59". object.lines (Required): Array
      * of {@link InventoryCountLine}. Count lines, one for each inventory item being counted.
@@ -2192,10 +2286,18 @@ export type InventoryCountAppliedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
      * null. previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of
-     * the request that created this resource; on a movement, of the command that wrote it. Omitted
-     * when that request had no key. previous_attributes.idempotency_key.anyOf[1] (Value): string.
-     * The Idempotency-Key of the request that created this resource; on a movement, of the command
-     * that wrote it. Omitted when that request had no key.
+     * the request that created this resource. `null` when that request sent no key, Flint created
+     * the resource, the reader isn't the caller that created it (another app install, a buyer, or
+     * the merchant reading an app's or buyer's record), or the caller that created an older record
+     * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_count_id (Optional): string or null. Unique identifier for
      * this inventory count, prefixed `invc_`. previous_attributes.inventory_count_id.anyOf[1]
@@ -2244,20 +2346,24 @@ export type InventoryCountAppliedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
          * applied_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_count_id (Required):
-         * string. Unique identifier for this inventory count, prefixed `invc_`. Example:
-         * "invc_01KEZF7C00B47NXRE3ET37QQ59". lines (Required): Array of {@link
-         * InventoryCountLine}. Count lines, one for each inventory item being counted. lines[]
-         * (Value): {@link InventoryCountLine}. One item's line in an inventory count, with the
-         * quantities Flint expected, the quantities counted, and the variance applied. location_id
-         * (Required): string. ID of the Location whose stock is counted. Example:
-         * "loc_01KEZF7C00CMHRRYA3MV996JB2". observation_provenance (Optional): {@link
-         * InventoryCountObservationProvenance}. Source system, actor, and time reported with the
-         * count's observations. Where an inventory count came from: the source system, an external
-         * actor ID, and when the event occurred. status (Required): string. Whether the count is
-         * still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
+         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Required): string or null.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inventory_count_id (Required): string. Unique identifier for this
+         * inventory count, prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59". lines
+         * (Required): Array of {@link InventoryCountLine}. Count lines, one for each inventory
+         * item being counted. lines[] (Value): {@link InventoryCountLine}. One item's line in an
+         * inventory count, with the quantities Flint expected, the quantities counted, and the
+         * variance applied. location_id (Required): string. ID of the Location whose stock is
+         * counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". observation_provenance (Optional):
+         * {@link InventoryCountObservationProvenance}. Source system, actor, and time reported
+         * with the count's observations. Where an inventory count came from: the source system, an
+         * external actor ID, and when the event occurred. status (Required): string. Whether the
+         * count is still open. Applying or canceling a `draft` count ends it. Value enum: "draft",
          * "applied", "canceled". supported_actions (Required): Array of string. Actions that can
          * change this count now. A draft can be canceled, and applied once every line has an
          * observation. Empty after the count is applied or canceled. [] enum: "apply", "cancel".
@@ -2273,10 +2379,15 @@ export type InventoryCountAppliedMerchantEvent = (Exclude<MerchantWebhookEnvelop
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "created_at": string;
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
              */
-            "idempotency_key"?: string;
+            "idempotency_key": string | null;
             /**
              * Unique identifier for this inventory count, prefixed `invc_`. Example:
              * "invc_01KEZF7C00B47NXRE3ET37QQ59".
@@ -2328,14 +2439,22 @@ export type InventoryCountAppliedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
          * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * created_at.anyOf[2] (Value): null. idempotency_key (Optional): string or null. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. idempotency_key.anyOf[1] (Value):
-         * string. The Idempotency-Key of the request that created this resource; on a movement, of
-         * the command that wrote it. Omitted when that request had no key.
-         * idempotency_key.anyOf[2] (Value): null. inventory_count_id (Optional): string or null.
-         * Unique identifier for this inventory count, prefixed `invc_`.
-         * inventory_count_id.anyOf[1] (Value): string. Unique identifier for this inventory count,
-         * prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource.
+         * idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[2] (Value): null.
+         * inventory_count_id (Optional): string or null. Unique identifier for this inventory
+         * count, prefixed `invc_`. inventory_count_id.anyOf[1] (Value): string. Unique identifier
+         * for this inventory count, prefixed `invc_`. Example: "invc_01KEZF7C00B47NXRE3ET37QQ59".
          * inventory_count_id.anyOf[2] (Value): null. lines (Optional): Array of {@link
          * InventoryCountLinePreviousAttributes} or null. Count lines, one for each inventory item
          * being counted. lines.anyOf[1] (Value): Array of {@link
@@ -2383,10 +2502,19 @@ export type InventoryCountAppliedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              */
             "created_at"?: ((string) | (null));
             /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key. anyOf[1] (Value):
-             * string. The Idempotency-Key of the request that created this resource; on a
-             * movement, of the command that wrote it. Omitted when that request had no key.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
              * anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
@@ -2709,47 +2837,3 @@ export type InventoryCountListResponse = {
      */
     "request_id": string;
 };
-/**
- * Where an inventory count came from: the source system, an external actor ID, and when the event
- * occurred.
- */
-export type InventoryCountObservationProvenance = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. `null` when the
-     * request named no source system. anyOf[1] (Value): {@link InventorySourceSystem}. The system
-     * an inventory event came from, such as manual entry, a point of sale, a warehouse system, or
-     * Flint, with your source identifier when it applies. anyOf[2] (Value): null.
-     */
-    "source_system": ((InventorySourceSystem) | (null));
-});
-export type InventoryCountObservationProvenancePreviousAttributes = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * anyOf[1] (Value): string. Your identifier for the actor who recorded the event. Don't put
-     * secrets in this field. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-     */
-    "external_actor_id"?: ((string) | (null));
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. anyOf[1] (Value): string. When the event occurred, at most 5
-     * minutes in the future. Required when source_system.type is pos, wms, erp, or other. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "occurred_at"?: ((string) | (null));
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. `null` when the
-     * request named no source system. anyOf[1] (Value): {@link
-     * InventorySourceSystemPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "source_system"?: ((InventorySourceSystemPreviousAttributes) | (null));
-});

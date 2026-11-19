@@ -1,3 +1,5 @@
+import type { WebhookEndpoint, UpdateWebhookEndpointRequestInput, UpdateWorkloadIdentityRequestInput } from './types-78.js';
+import type { ResponseMeta, ResourceReference } from './types-62.js';
 import type {
     InputValue,
     EventStream,
@@ -5,10 +7,11 @@ import type {
     CredentialProvider,
     Model
 } from '../runtime.js';
-import type { RotateWebhookSecretRequestInput, SelectedProductOption } from './types-67.js';
-import type { SignWebhookEndpointDeliveryRequestInput } from './types-68.js';
-import type { UpdateWebhookEndpointRequestInput, UpdateWorkloadIdentityRequestInput } from './types-78.js';
-import type { ResponseMeta, ResourceReference } from './types-62.js';
+import type {
+    CreateWebhookEndpointRequestInput,
+    CreateWebhookTestEventRequestInput,
+    CreateWorkloadIdentityRequestInput
+} from './types-14.js';
 import type {
     DisputesAcceptParams,
     ExpandedCustomerSummary,
@@ -18,6 +21,8 @@ import type {
     ExpandedSubscriptionSummary,
     ExpandedInvoiceSummary
 } from './types-26.js';
+import type { RotateWebhookSecretRequestInput, SelectedProductOption } from './types-67.js';
+import type { SignWebhookEndpointDeliveryRequestInput } from './types-68.js';
 import type {
     Address,
     AcceptFulfillmentRequestInput,
@@ -25,14 +30,7 @@ import type {
     AddLineItemsRequestInput,
     AddOrderChargeRequestInput,
     AddReturnLineItemRequestInput,
-    AddRiskListItemsRequestInput,
-    AddressRequestInput,
-    AdjustGiftCardBalanceRequestInput,
-    AdvanceTestClockRequestInput,
-    ApplyDiscountRequestInput,
-    ApplyDiscountRequestManualInput,
-    ApplyDiscountRequestPromotionInput,
-    ApplyInventoryCountRequestInput
+    AddRiskListItemsRequestInput
 } from './types-0.js';
 import type { InvoiceCollection } from './types-34.js';
 import type { InvoiceLateFee } from './types-35.js';
@@ -40,7 +38,7 @@ import type { InvoicePaymentDue } from './types-36.js';
 import type { InvoicePaymentTermsSnapshot, InvoiceScheduleEntry } from './types-37.js';
 import type { InvoiceSettlementAmounts, InvoiceSnapshot } from './types-38.js';
 import type { MetadataMap } from './types-43.js';
-import type { PricingAmounts, ProductOption } from './types-56.js';
+import type { PricingAmounts } from './types-56.js';
 import type { ImageAttachment } from './types-31.js';
 import type { MerchantReadiness } from './types-42.js';
 import type { CheckoutBuyerContact } from './types-6.js';
@@ -72,13 +70,126 @@ import type { PartnerEnvironmentGrant } from './types-50.js';
 import type { PaymentErrorSummary, PaymentFulfillmentHold, PaymentIntentOvercapture, PaymentIntentPlatformFee } from './types-51.js';
 import type { PaymentRisk, PaymentSourceSummary, PaymentSplit } from './types-54.js';
 import type { CategoryReference } from './types-5.js';
-import type { ProductPriceRange, ProductVariant, PromotionApplicationMethod } from './types-57.js';
+import type { ProductOption, ProductPriceRange, ProductVariant, PromotionApplicationMethod } from './types-57.js';
 import type { Dimensions } from './types-25.js';
 import type { GiftCardProductConfiguration } from './types-29.js';
 import type { LicenseKeyConfiguration } from './types-39.js';
 import type { QuantityPriceBreak, PromotionSchedule, ReaderConnectivity } from './types-59.js';
 import type { PromotionCodesSummary, PromotionCombinesWith, PromotionExclusivity, PromotionRuleGroup } from './types-58.js';
-import type { CreateWorkloadIdentityRequestInput } from './types-14.js';
+/**
+ * A webhook endpoint with its one-time signing secret, returned on create with hmac, when PATCH
+ * first enables hmac, or when its secret is rotated. A merchant webhook endpoint belongs to the
+ * live mode or sandbox of the credential that created it and receives only that environment's
+ * events. Partner endpoints select sources with event_sources and installed_merchant_modes.
+ */
+export type WebhookEndpointWithSecret = (Exclude<WebhookEndpoint & object, readonly unknown[]>)
+    & ({
+    /**
+     * One-time signing secret. Present on create when hmac is enabled, on PATCH when hmac is first
+     * enabled, and on rotation; omitted on an idempotent replay after the secret retention period.
+     */
+    "secret"?: string;
+});
+/** A response containing `WebhookEndpointWithSecret` data. */
+export type WebhookEndpointWithSecretResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A webhook endpoint with
+     * its one-time signing secret, returned on create with hmac, when PATCH first enables hmac, or
+     * when its secret is rotated. A merchant webhook endpoint belongs to the live mode or sandbox
+     * of the credential that created it and receives only that environment's events. Partner
+     * endpoints select sources with event_sources and installed_merchant_modes.
+     */
+    "data": WebhookEndpointWithSecret;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type WebhookEndpointsCreateParams = (InputValue<CreateWebhookEndpointRequestInput>);
+export type WebhookEndpointsCreateTestEventParams = (InputValue<CreateWebhookTestEventRequestInput>);
+export type WebhookEndpointsDeleteParams = {
+    /**
+     * Optional configuration version last read by the caller. Format: uint64. minimum: 1. maximum:
+     * 9007199254740991.
+     */
+    "expected_version"?: InputValue<number>;
+};
+export type WebhookEndpointsGetParams = DisputesAcceptParams;
+export type WebhookEndpointsListParams = {
+    /**
+     * Filter by the exact ID of the API key, user, partner app, or workload identity that created
+     * the endpoint. Unknown IDs return an empty list. pattern:
+     * ^(key|usr|papp|wid)_[0-7][0-9A-HJKMNP-TV-Z]{25}$.
+     */
+    "created_by"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by status. Omitted, the list leaves out deleted rows; name deleted to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "inactive", "deleted". Value enum: "active", "inactive", "deleted". anyOf[1] (Value): Array
+     * of string. minItems: 1. [] enum: "active", "inactive", "deleted". anyOf[1][] (Value):
+     * string. Value enum: "active", "inactive", "deleted". anyOf[2] (Value): string. Value enum:
+     * "active", "inactive", "deleted".
+     */
+    "status"?: InputValue<("active" | "inactive" | "deleted") | readonly ("active" | "inactive" | "deleted")[]>;
+    /**
+     * Filter by webhook endpoint event sources. Values are trimmed and deduplicated in first-seen
+     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
+     * filters are ANDed. [] enum: "merchant", "partner_app", "installed_merchants". Value enum:
+     * "merchant", "partner_app", "installed_merchants". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "merchant", "partner_app", "installed_merchants". anyOf[1][] (Value):
+     * string. Value enum: "merchant", "partner_app", "installed_merchants". anyOf[2] (Value):
+     * string. Value enum: "merchant", "partner_app", "installed_merchants".
+     */
+    "event_sources"?: InputValue<("merchant" | "partner_app" | "installed_merchants")
+        | readonly ("merchant" | "partner_app" | "installed_merchants")[]>;
+    /**
+     * Filter by partner app ID for partner-source webhook endpoints. pattern:
+     * ^papp_[0-9A-HJKMNP-TV-Z]{26}$. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: InputValue<string>;
+    /**
+     * Exact-match filter on partner_app_install_id. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     */
+    "partner_app_install_id"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type WebhookEndpointsRotateSecretParams = (InputValue<RotateWebhookSecretRequestInput>);
 export type WebhookEndpointsSignDeliveryParams = (InputValue<SignWebhookEndpointDeliveryRequestInput>);
 export type WebhookEndpointsUpdateParams = (InputValue<UpdateWebhookEndpointRequestInput>);
@@ -3000,7 +3111,7 @@ export type WebhookEventsListParams = {
         | "ticket")[]>;
     /**
      * Filter by affected resource ID. pattern:
-     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwph|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|lk|lka|lkp|lkpa|lkpk|lkr|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcaa|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tae|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
+     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwph|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|lk|lka|lkp|lkpa|lkpk|lkr|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcaa|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|saa|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tae|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      */
     "resource_id"?: InputValue<string>;
@@ -4251,6 +4362,16 @@ export type WebhookInvoice = ({
      * unset.
      */
     "footer": string | null;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     */
+    "idempotency_key": string | null;
     /** Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
     "invoice_id": string;
     /**
@@ -5217,7 +5338,8 @@ export type WebhookPartnerAppInstall = ({
 });
 /**
  * The resource snapshot, without expansions. Webhooks omit these fields: `processing_fee_money`,
- * `processing_fee_details`, `add_on_fees`, `merchant_net_money`, `payment_collection`.
+ * `processing_fee_details`, `add_on_fees`, `merchant_net_money`, `payment_collection`,
+ * `remaining_refundable_money`.
  */
 export type WebhookPaymentIntent = ({
     /**
@@ -5370,6 +5492,16 @@ export type WebhookPaymentIntent = ({
      * hold is active or released.
      */
     "fulfillment_hold"?: PaymentFulfillmentHold;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     */
+    "idempotency_key": string | null;
     /**
      * The linked invoice. Returned only with expand=invoice. Present only when `expand` includes
      * `invoice`; `null` when expanded and there is no related invoice. anyOf[1] (Value): {@link
@@ -5591,14 +5723,15 @@ export type WebhookPaymentIntent = ({
      * can change without a payment intent version change. Order legs list confirm when a single
      * leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift
      * cards, or automatic tax with a leg below the balance require pay_order instead. Invoice
-     * payments list only cancel; subscription payments list none. Order edit payments list confirm
-     * while awaiting payment details or action. A listed action can still be refused due to an
-     * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
-     * merchant list is credential-independent. Checkout credentials receive that list filtered to
-     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
-     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel". [] (Value):
-     * string. Value enum: "confirm", "capture", "cancel".
+     * payments list only cancel. An unused first-period subscription payment lists cancel once the
+     * subscription is canceled. Order edit payments list confirm while awaiting payment details or
+     * action. A listed action can still be refused due to an open risk review, an order payment
+     * attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner
+     * and its command in remediation.next_actions. The merchant list is credential-independent.
+     * Checkout credentials receive that list filtered to confirm and cancel on their own session's
+     * intents, never capture. Customer sessions omit this field. New actions may be added. []
+     * enum: "confirm", "capture", "cancel". [] (Value): string. Value enum: "confirm", "capture",
+     * "cancel".
      */
     "supported_actions": Array<"confirm" | "capture" | "cancel" | (string & {})>;
     /**
@@ -7220,10 +7353,3 @@ export declare function makeAddLineItemsRequest(value: InputValue<AddLineItemsRe
 export declare function makeAddOrderChargeRequest(value: InputValue<AddOrderChargeRequestInput>): Model<AddOrderChargeRequestInput>;
 export declare function makeAddReturnLineItemRequest(value: InputValue<AddReturnLineItemRequestInput>): Model<AddReturnLineItemRequestInput>;
 export declare function makeAddRiskListItemsRequest(value: InputValue<AddRiskListItemsRequestInput>): Model<AddRiskListItemsRequestInput>;
-export declare function makeAddressRequest(value: InputValue<AddressRequestInput>): Model<AddressRequestInput>;
-export declare function makeAdjustGiftCardBalanceRequest(value: InputValue<AdjustGiftCardBalanceRequestInput>): Model<AdjustGiftCardBalanceRequestInput>;
-export declare function makeAdvanceTestClockRequest(value: InputValue<AdvanceTestClockRequestInput>): Model<AdvanceTestClockRequestInput>;
-export declare function makeApplyDiscountRequest(value: InputValue<ApplyDiscountRequestInput>): Model<ApplyDiscountRequestInput>;
-export declare function makeApplyDiscountRequestManual(value: InputValue<ApplyDiscountRequestManualInput>): Model<ApplyDiscountRequestManualInput>;
-export declare function makeApplyDiscountRequestPromotion(value: InputValue<ApplyDiscountRequestPromotionInput>): Model<ApplyDiscountRequestPromotionInput>;
-export declare function makeApplyInventoryCountRequest(value: InputValue<ApplyInventoryCountRequestInput>): Model<ApplyInventoryCountRequestInput>;

@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reason` | Required | string or null | Stripe's refusal reason in plain language. Null when status is accepted or pending. |
+| `reason` | Required | string or null | Stripe's refusal reason in plain language. `null` when status is accepted or pending. |
 | `status` | Required | string | accepted when Stripe has no outstanding descriptor requirement, rejected when Stripe reports a refusal, or pending while a change or review is unresolved. Values: `"accepted"`, `"rejected"`, `"pending"`. |
 

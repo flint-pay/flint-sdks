@@ -13,13 +13,13 @@ namespace Flint;
 final class PaymentVolumeTimeseriesInput extends Model {
     /** @param array{'buckets': list<PaymentVolumeBucketInput|array<array-key, mixed>|\stdClass>, 'currencies': list<string>, 'currency': string, 'granularity': string, 'period_end_at': string|\DateTimeInterface, 'period_start_at': string|\DateTimeInterface, 'timezone': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentVolumeTimeseriesInput')); }
-    /** Payment created_at buckets clipped to the period, including empty buckets. Repeated local hours produce two buckets; skipped hours and days produce none. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies. [] (Value): {@see PaymentVolumeBucketInput}. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.
+    /** Payment capture-time buckets clipped to the period, including empty buckets. Repeated local hours produce two buckets; skipped hours and days produce none. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies. [] (Value): {@see PaymentVolumeBucketInput}. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.
      * @return list<PaymentVolumeBucketInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When buckets is omitted; use hasBuckets() or valueOrDefault().
      */
     public function getBuckets(): array { return $this->get('buckets'); }
     public function hasBuckets(): bool { return $this->has('buckets'); }
-    /** Currencies of succeeded payments selected by payment created_at or counted refunds selected by refund created_at in the period, regardless of the currency filter. Empty when neither has rows. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies. [] (Value): string.
+    /** Currencies of succeeded payments captured in the period and qualifying refunds that succeeded in the period, regardless of the currency filter. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies. [] (Value): string.
      * @return list<string>
      * @throws SdkError When currencies is omitted; use hasCurrencies() or valueOrDefault().
      */

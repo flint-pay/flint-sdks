@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `applied_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `idempotency_key` | Optional | string | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. |
+| `idempotency_key` | Required | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. |
 | `inventory_count_id` | Required | string | Unique identifier for this inventory count, prefixed `invc_`. |
 | `lines` | Required | Array of [InventoryCountLine](../models/InventoryCountLine.md#inventorycountline) | Count lines, one for each inventory item being counted. `lines[]`: [field definitions](../models/InventoryCountResponse.md#inventorycountresponsedatalines). |
 | `location_id` | Required | string | ID of the Location whose stock is counted. |

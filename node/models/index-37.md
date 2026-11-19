@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# SubscriptionPaymentRetryCreatedInstalledMerchantsEvent to SubscriptionUpdatedMerchantEvent
+# SubscriptionOfferTermsRequestInput to SubscriptionTaxRequestInput
 
+- [SubscriptionOfferTermsRequestInput](SubscriptionOfferTermsRequestInput.md)
+- [SubscriptionPastDueInstalledMerchantsEvent](SubscriptionPastDueInstalledMerchantsEvent.md)
+- [SubscriptionPastDueMerchantEvent](SubscriptionPastDueMerchantEvent.md)
+- [SubscriptionPausedDeliveryHold](SubscriptionPausedDeliveryHold.md)
+- [SubscriptionPausedDeliveryHoldPreviousAttributes](SubscriptionPausedDeliveryHoldPreviousAttributes.md)
+- [SubscriptionPausedInstalledMerchantsEvent](SubscriptionPausedInstalledMerchantsEvent.md)
+- [SubscriptionPausedMerchantEvent](SubscriptionPausedMerchantEvent.md)
+- [SubscriptionPaymentRetry](SubscriptionPaymentRetry.md)
 - [SubscriptionPaymentRetryCreatedInstalledMerchantsEvent](SubscriptionPaymentRetryCreatedInstalledMerchantsEvent.md)
 - [SubscriptionPaymentRetryCreatedMerchantEvent](SubscriptionPaymentRetryCreatedMerchantEvent.md)
 - [SubscriptionPaymentRetryFailedInstalledMerchantsEvent](SubscriptionPaymentRetryFailedInstalledMerchantsEvent.md)
@@ -94,12 +102,4 @@
 - [SubscriptionTaxPreviousAttributes](SubscriptionTaxPreviousAttributes.md)
 - [SubscriptionTaxRequest](SubscriptionTaxRequest.md)
 - [SubscriptionTaxRequestInput](SubscriptionTaxRequestInput.md)
-- [SubscriptionTermsRequest](SubscriptionTermsRequest.md)
-- [SubscriptionTermsRequestInput](SubscriptionTermsRequestInput.md)
-- [SubscriptionTrialEndingInstalledMerchantsEvent](SubscriptionTrialEndingInstalledMerchantsEvent.md)
-- [SubscriptionTrialEndingMerchantEvent](SubscriptionTrialEndingMerchantEvent.md)
-- [SubscriptionUpcomingDeliveryHold](SubscriptionUpcomingDeliveryHold.md)
-- [SubscriptionUpcomingDeliveryHoldPreviousAttributes](SubscriptionUpcomingDeliveryHoldPreviousAttributes.md)
-- [SubscriptionUpdatedInstalledMerchantsEvent](SubscriptionUpdatedInstalledMerchantsEvent.md)
-- [SubscriptionUpdatedMerchantEvent](SubscriptionUpdatedMerchantEvent.md)
 

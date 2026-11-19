@@ -39,7 +39,7 @@ The most recent payment error recorded on this payment, when it has a public err
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Conditional | string or null | Flint-normalized payment failure code. Unknown provider values are returned as payment_failed. Values: [27 declared values](ErrorDetailInput.md#errordetailinput-failure_code-values). `code`: [declared alternatives](../models/PaymentErrorSummaryPreviousAttributes.md#paymenterrorsummarypreviousattributescode). |
+| `code` | Conditional | string or null | Flint-normalized payment failure code. Unknown provider values are returned as payment_failed. Values: [28 declared values](ErrorDetailInput.md#errordetailinput-failure_code-values). `code`: [declared alternatives](../models/PaymentErrorSummaryPreviousAttributes.md#paymenterrorsummarypreviousattributescode). |
 | `failed_at` | Conditional | string or null | Time the payment attempt concluded in failure. `failed_at`: [declared alternatives](../models/PaymentAttemptPaymentIntentPreviousAttributes.md#paymentattemptpaymentintentpreviousattributeslast_payment_error-variant-1failed_at). |
 | `message` | Conditional | string or null | Flint-authored merchant-facing payment failure message. This is stable explanatory text, not raw provider copy. `message`: [declared alternatives](../models/PaymentErrorSummaryPreviousAttributes.md#paymenterrorsummarypreviousattributesmessage). |
 | `remediation` | Conditional | [ErrorRemediationPreviousAttributes](../models/ErrorRemediationPreviousAttributes.md#errorremediationpreviousattributes) or null | Guidance for resolving the payment failure before trying to collect again. |

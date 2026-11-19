@@ -209,6 +209,10 @@ Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previ
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.gift_recipient](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesgift_recipient).
 
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.idempotency_key
+
+Declared alternatives: [OrderPaymentAttemptPreviousAttributes.idempotency_key](../models/OrderPaymentAttemptPreviousAttributes.md#orderpaymentattemptpreviousattributesidempotency_key).
+
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.inventory_wait
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.inventory_wait](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesinventory_wait).

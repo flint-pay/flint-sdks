@@ -1,5 +1,12 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    CreateMerchantSignupRequestInput,
+    CreateModifierGroupRequestInput,
+    CreateModifierRequestInput,
+    CreateModifierSetGroupInputExistingInput,
+    CreateModifierSetGroupInputInlineInput,
+    CreateModifierSetGroupRequestInput,
+    CreateModifierSetRequestInput,
     CreateOnboardingAccessLinkRequestInput,
     CreateOrderDiscountInput,
     CreateOrderDiscountManualInput,
@@ -60,15 +67,15 @@ import type {
     CreateReturnReasonRequestInput,
     CreateReturnReceiptRequestInput,
     CreateReturnRequestInput,
-    CreateReturnResolutionPreviewRequestInput,
-    CreateReturnResolutionPreviewRequestCorrectionInput,
-    CreateReturnResolutionPreviewRequestStandardInput,
-    CreateReturnResolutionRequestInput,
-    CreateReturnResolutionRequestCorrectionInput,
-    CreateReturnResolutionRequestStandardInput,
-    CreateRiskListRequestInput,
-    CreateRiskPreviewRequestInput
+    CreateReturnResolutionPreviewRequestInput
 } from './types-13.js';
+export declare function makeCreateMerchantSignupRequest(value: InputValue<CreateMerchantSignupRequestInput>): Model<CreateMerchantSignupRequestInput>;
+export declare function makeCreateModifierGroupRequest(value: InputValue<CreateModifierGroupRequestInput>): Model<CreateModifierGroupRequestInput>;
+export declare function makeCreateModifierRequest(value: InputValue<CreateModifierRequestInput>): Model<CreateModifierRequestInput>;
+export declare function makeCreateModifierSetGroupInputExisting(value: InputValue<CreateModifierSetGroupInputExistingInput>): Model<CreateModifierSetGroupInputExistingInput>;
+export declare function makeCreateModifierSetGroupInputInline(value: InputValue<CreateModifierSetGroupInputInlineInput>): Model<CreateModifierSetGroupInputInlineInput>;
+export declare function makeCreateModifierSetGroupRequest(value: InputValue<CreateModifierSetGroupRequestInput>): Model<CreateModifierSetGroupRequestInput>;
+export declare function makeCreateModifierSetRequest(value: InputValue<CreateModifierSetRequestInput>): Model<CreateModifierSetRequestInput>;
 export declare function makeCreateOnboardingAccessLinkRequest(value: InputValue<CreateOnboardingAccessLinkRequestInput>): Model<CreateOnboardingAccessLinkRequestInput>;
 export declare function makeCreateOrderDiscount(value: InputValue<CreateOrderDiscountInput>): Model<CreateOrderDiscountInput>;
 export declare function makeCreateOrderDiscountManual(value: InputValue<CreateOrderDiscountManualInput>): Model<CreateOrderDiscountManualInput>;
@@ -128,10 +135,3 @@ export declare function makeCreateReturnReasonRequest(value: InputValue<CreateRe
 export declare function makeCreateReturnReceiptRequest(value: InputValue<CreateReturnReceiptRequestInput>): Model<CreateReturnReceiptRequestInput>;
 export declare function makeCreateReturnRequest(value: InputValue<CreateReturnRequestInput>): Model<CreateReturnRequestInput>;
 export declare function makeCreateReturnResolutionPreviewRequest(value: InputValue<CreateReturnResolutionPreviewRequestInput>): Model<CreateReturnResolutionPreviewRequestInput>;
-export declare function makeCreateReturnResolutionPreviewRequestCorrection(value: InputValue<CreateReturnResolutionPreviewRequestCorrectionInput>): Model<CreateReturnResolutionPreviewRequestCorrectionInput>;
-export declare function makeCreateReturnResolutionPreviewRequestStandard(value: InputValue<CreateReturnResolutionPreviewRequestStandardInput>): Model<CreateReturnResolutionPreviewRequestStandardInput>;
-export declare function makeCreateReturnResolutionRequest(value: InputValue<CreateReturnResolutionRequestInput>): Model<CreateReturnResolutionRequestInput>;
-export declare function makeCreateReturnResolutionRequestCorrection(value: InputValue<CreateReturnResolutionRequestCorrectionInput>): Model<CreateReturnResolutionRequestCorrectionInput>;
-export declare function makeCreateReturnResolutionRequestStandard(value: InputValue<CreateReturnResolutionRequestStandardInput>): Model<CreateReturnResolutionRequestStandardInput>;
-export declare function makeCreateRiskListRequest(value: InputValue<CreateRiskListRequestInput>): Model<CreateRiskListRequestInput>;
-export declare function makeCreateRiskPreviewRequest(value: InputValue<CreateRiskPreviewRequestInput>): Model<CreateRiskPreviewRequestInput>;

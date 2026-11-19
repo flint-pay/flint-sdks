@@ -6,13 +6,13 @@ namespace Flint;
  * @property-read MoneyValue $amount_money
  * @property-read string $credit_note_allocation_id
  * @property-read string $credit_note_id
- * @property-read string $idempotency_key
+ * @property-read string|null $idempotency_key
  * @property-read string $invoice_id
  * @property-read ?string $reversed_at
  * @property-read list<string> $supported_actions
  * Presence-aware response; omitted optional fields return null. */
 final class CreditNoteAllocationReversedMerchantEventDataObject extends Model {
-    /** @param array{'allocated_at': string, 'amount_money': mixed, 'credit_note_allocation_id': string, 'credit_note_id': string, 'idempotency_key': string, 'invoice_id': string, 'reversed_at'?: string, 'supported_actions': list<string>, ...}|object $values */
+    /** @param array{'allocated_at': string, 'amount_money': mixed, 'credit_note_allocation_id': string, 'credit_note_id': string, 'idempotency_key': string|null, 'invoice_id': string, 'reversed_at'?: string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteAllocationReversedMerchantEventDataObject')); }
     /** When the credit was applied to the invoice balance. Format: date-time.
      * @return string
@@ -34,10 +34,10 @@ final class CreditNoteAllocationReversedMerchantEventDataObject extends Model {
      */
     public function getCreditNoteId(): string { return $this->get('credit_note_id'); }
     public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
-    /** The Idempotency-Key the caller sent when allocating, or the issue request's Idempotency-Key for an allocation made on issue. Filterable on the allocations list.
-     * @return string
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource.
+     * @return string|null
      */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** The invoice whose balance the credit reduced.
      * @return string

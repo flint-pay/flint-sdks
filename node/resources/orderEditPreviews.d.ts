@@ -1,7 +1,7 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { OrderEditPreview, OrderEditPreviewResponse, OrderEditPreviewsCreateParams } from '../declarations/types-46.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -31,7 +31,7 @@ export type {
     OrderEditRemovalRequest
 } from '../declarations/types-46.js';
 export type { _SdkWithoutIdempotency, WeightRequestInput } from '../declarations/types-79.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateOrderLineItemRequestInput,
@@ -54,12 +54,11 @@ export type {
 } from '../declarations/types-45.js';
 export type { MetadataRequestInput, MetadataMap } from '../declarations/types-43.js';
 export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-74.js';
-export type { SubscribedLineRequestModelInput } from '../declarations/types-68.js';
+export type { SubscribedLineRequestModelInput } from '../declarations/types-69.js';
 export type { DimensionsRequestInput } from '../declarations/types-25.js';
 export type { RefundChargeInput, RefundDestinationsInput, ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export {
     makeCreateOrderLineItemInputBundle,
     makeCreateOrderLineItemInputCustom,

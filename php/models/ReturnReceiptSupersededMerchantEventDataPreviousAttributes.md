@@ -32,6 +32,10 @@ Declared alternatives: [TaxCalculationCallbackActivatedEvent.data fields 1.previ
 
 Declared alternatives: [ReturnInspectionPreviousAttributes.generated_dispositions](../models/ReturnInspectionPreviousAttributes.md#returninspectionpreviousattributesgenerated_dispositions).
 
+### ReturnReceiptSupersededMerchantEventDataPreviousAttributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.idempotency_key](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributesidempotency_key).
+
 ### ReturnReceiptSupersededMerchantEventDataPreviousAttributes.line_items
 
 Declared alternatives: [ReturnReceiptPreviousAttributes.line_items](../models/ReturnReceiptPreviousAttributes.md#returnreceiptpreviousattributesline_items).

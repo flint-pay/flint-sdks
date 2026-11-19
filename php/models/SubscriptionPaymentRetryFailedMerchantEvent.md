@@ -52,7 +52,7 @@ Declared alternatives: [ApiKeyRevokedEvent.data fields 1.previous_attributes.cre
 
 ### SubscriptionPaymentRetryFailedMerchantEvent.data fields 1.previous_attributes.idempotency_key
 
-Declared alternatives: [SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.idempotency_key](../models/SubscriptionPaymentRetryFailedMerchantEventDataPreviousAttributes.md#subscriptionpaymentretryfailedmerchanteventdatapreviousattributesidempotency_key).
+Declared alternatives: [ReturnCanceledMerchantEventDataPreviousAttributes.idempotency_key](../models/ReturnCanceledMerchantEventDataPreviousAttributes.md#returncanceledmerchanteventdatapreviousattributesidempotency_key).
 
 ### SubscriptionPaymentRetryFailedMerchantEvent.data fields 1.previous_attributes.last_payment_error
 

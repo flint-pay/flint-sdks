@@ -28,5 +28,5 @@ anyOf variant 2: Declared schema SendOrderReceiptRequest. The request body for: 
 
 anyOf variant 3: Declared schema SendPaymentIntentReceiptRequest. The request body for: Send a payment receipt..
 
-- Constraints for `email`: Email address that receives the receipt. Omit to use the order's receipt address for an order-owned intent, or receipt_email then the customer's email for a standalone intent. The local part before @ must be at most 64 octets (UTF-8 bytes). minLength: `1`. maxLength: `254`.
+- Constraints for `email`: Email address that receives the receipt. Omit to use receipt_email, then the order's receipt address for an order-owned intent or the customer's email for a standalone intent. The local part before @ must be at most 64 octets (UTF-8 bytes). minLength: `1`. maxLength: `254`.
 

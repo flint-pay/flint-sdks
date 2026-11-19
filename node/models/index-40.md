@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# UpdatePaymentLinkRequest to WaiveInvoiceLateFeeRequest
+# UpdatePackageItemRequest to VerifyMerchantSignupRequestInput
 
+- [UpdatePackageItemRequest](UpdatePackageItemRequest.md)
+- [UpdatePackageItemRequestInput](UpdatePackageItemRequestInput.md)
+- [UpdatePackageRequest](UpdatePackageRequest.md)
+- [UpdatePackageRequestInput](UpdatePackageRequestInput.md)
+- [UpdatePartnerAppRequest](UpdatePartnerAppRequest.md)
+- [UpdatePartnerAppRequestInput](UpdatePartnerAppRequestInput.md)
+- [UpdatePaymentIntentRequest](UpdatePaymentIntentRequest.md)
+- [UpdatePaymentIntentRequestInput](UpdatePaymentIntentRequestInput.md)
 - [UpdatePaymentLinkRequest](UpdatePaymentLinkRequest.md)
 - [UpdatePaymentLinkRequestInput](UpdatePaymentLinkRequestInput.md)
 - [UpdatePaymentMethodDomainRequest](UpdatePaymentMethodDomainRequest.md)
@@ -94,12 +102,4 @@
 - [ValidateLicenseKeyRequestInput](ValidateLicenseKeyRequestInput.md)
 - [VerifyMerchantSignupRequest](VerifyMerchantSignupRequest.md)
 - [VerifyMerchantSignupRequestInput](VerifyMerchantSignupRequestInput.md)
-- [VerifyReturnReceiptLineItemRequest](VerifyReturnReceiptLineItemRequest.md)
-- [VerifyReturnReceiptLineItemRequestInput](VerifyReturnReceiptLineItemRequestInput.md)
-- [VoidPackageRequest](VoidPackageRequest.md)
-- [VoidPackageRequestInput](VoidPackageRequestInput.md)
-- [VoidShipmentRequestInput](VoidShipmentRequestInput.md)
-- [VoidShipmentResponse](VoidShipmentResponse.md)
-- [VoidShipmentResult](VoidShipmentResult.md)
-- [WaiveInvoiceLateFeeRequest](WaiveInvoiceLateFeeRequest.md)
 

@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# MerchantBillingBalanceUpdatedEventRequest to ReportFailedEventDataObjectPending
+# EnvironmentGrantUpdatedEventSource to PlatformFeeUpdatedEventDataPreviousAttributes
 
+- [EnvironmentGrantUpdatedEventSource](EnvironmentGrantUpdatedEventSource.md)
+- [MerchantBillingBalanceUpdatedEventDataObject](MerchantBillingBalanceUpdatedEventDataObject.md)
+- [MerchantBillingBalanceUpdatedEventDataPreviousAttributes](MerchantBillingBalanceUpdatedEventDataPreviousAttributes.md)
+- [MerchantBillingBalanceUpdatedEventData](MerchantBillingBalanceUpdatedEventData.md)
 - [MerchantBillingBalanceUpdatedEventRequest](MerchantBillingBalanceUpdatedEventRequest.md)
 - [MerchantBillingInvoiceIssuedEventDataObject](MerchantBillingInvoiceIssuedEventDataObject.md)
 - [MerchantBillingInvoiceLineItemPreviousAttributes](MerchantBillingInvoiceLineItemPreviousAttributes.md)
@@ -98,8 +102,4 @@
 - [PlatformFeeSucceededEventRequest](PlatformFeeSucceededEventRequest.md)
 - [PlatformFeeUpdatedEventDataObject](PlatformFeeUpdatedEventDataObject.md)
 - [PlatformFeeUpdatedEventDataPreviousAttributes](PlatformFeeUpdatedEventDataPreviousAttributes.md)
-- [PlatformFeeUpdatedEventData](PlatformFeeUpdatedEventData.md)
-- [PlatformFeeUpdatedEventRequest](PlatformFeeUpdatedEventRequest.md)
-- [ReportFailedEventDataObjectPendingDownload](ReportFailedEventDataObjectPendingDownload.md)
-- [ReportFailedEventDataObjectPending](ReportFailedEventDataObjectPending.md)
 

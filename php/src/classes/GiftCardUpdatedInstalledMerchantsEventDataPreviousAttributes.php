@@ -10,6 +10,7 @@ namespace Flint;
  * @property-read string|null $customer_id
  * @property-read string|null $external_reference_id
  * @property-read string|null $gift_card_id
+ * @property-read string|null $idempotency_key
  * @property-read string|null $last_loaded_at
  * @property-read string|null $last_redeemed_at
  * @property-read string|null $last4
@@ -22,7 +23,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class GiftCardUpdatedInstalledMerchantsEventDataPreviousAttributes extends Model {
-    /** @param array{'available_money'?: mixed, 'balance_money'?: mixed, 'code_source'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'customer_id'?: mixed, 'external_reference_id'?: mixed, 'gift_card_id'?: mixed, 'last_loaded_at'?: mixed, 'last_redeemed_at'?: mixed, 'last4'?: mixed, 'merchant_id'?: mixed, 'reserved_money'?: mixed, 'restrictions'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
+    /** @param array{'available_money'?: mixed, 'balance_money'?: mixed, 'code_source'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'customer_id'?: mixed, 'external_reference_id'?: mixed, 'gift_card_id'?: mixed, 'idempotency_key'?: mixed, 'last_loaded_at'?: mixed, 'last_redeemed_at'?: mixed, 'last4'?: mixed, 'merchant_id'?: mixed, 'reserved_money'?: mixed, 'restrictions'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardUpdatedInstalledMerchantsEventDataPreviousAttributes')); }
     /** The balance minus reserved value: what can be spent now. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
@@ -64,6 +65,11 @@ final class GiftCardUpdatedInstalledMerchantsEventDataPreviousAttributes extends
      */
     public function getGiftCardId(): string|null { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** RFC3339 timestamp. `null` when no value has been loaded onto the card. anyOf[1] (Value): string. RFC3339 timestamp. `null` when no value has been loaded onto the card. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */

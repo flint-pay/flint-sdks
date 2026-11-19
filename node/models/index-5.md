@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CheckoutSessionUpdatedInstalledMerchantsEvent to CreateCheckoutSessionSavePaymentMethodVerificationRequest
+# CheckoutSessionTaxPreviousAttributes to CreateCheckoutSessionReturnResolutionInput
 
+- [CheckoutSessionTaxPreviousAttributes](CheckoutSessionTaxPreviousAttributes.md)
 - [CheckoutSessionUpdatedInstalledMerchantsEvent](CheckoutSessionUpdatedInstalledMerchantsEvent.md)
 - [CheckoutSessionUpdatedMerchantEvent](CheckoutSessionUpdatedMerchantEvent.md)
 - [CheckoutSessionWithSecret](CheckoutSessionWithSecret.md)
@@ -101,5 +102,4 @@
 - [CreateCheckoutSessionRequestInput](CreateCheckoutSessionRequestInput.md)
 - [CreateCheckoutSessionReturnResolution](CreateCheckoutSessionReturnResolution.md)
 - [CreateCheckoutSessionReturnResolutionInput](CreateCheckoutSessionReturnResolutionInput.md)
-- [CreateCheckoutSessionSavePaymentMethodVerificationRequest](CreateCheckoutSessionSavePaymentMethodVerificationRequest.md)
 

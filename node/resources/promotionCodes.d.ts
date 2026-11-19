@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { PromotionCode } from '../declarations/types-57.js';
 import type {
+    PromotionCode,
     PromotionCodeListResponse,
     PromotionCodeResponse,
     PromotionCodesCreateParams,
@@ -12,7 +12,7 @@ import type {
     PromotionCodesSummaryPreviousAttributes,
     PromotionCodesUpdateParams
 } from '../declarations/types-58.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -30,6 +30,7 @@ export type {
 } from '../runtime.js';
 export type {
     PromotionCodesCreateParams,
+    PromotionCode,
     PromotionCodeResponse,
     PromotionCodesDeleteParams,
     PromotionCodesGetParams,
@@ -41,7 +42,6 @@ export type {
     PromotionPercentOffMethod,
     PromotionRuleGroup,
     PromotionRule,
-    PromotionRuleValue,
     PromotionRecurrence,
     PromotionRecurrenceOnce,
     PromotionRecurrenceRepeating,
@@ -49,30 +49,23 @@ export type {
     PromotionCombinesWith,
     PromotionExclusivity
 } from '../declarations/types-58.js';
-export type { RequestOptions } from '../declarations/types-61.js';
-export type {
-    PromotionCode,
-    Promotion,
-    PromotionApplicationMethod,
-    PromotionAmountOffMethod,
-    PromotionBuyXGetYMethod
-} from '../declarations/types-57.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreatePromotionCodeRequestInput } from '../declarations/types-12.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
+export type { Promotion, PromotionApplicationMethod, PromotionAmountOffMethod, PromotionBuyXGetYMethod } from '../declarations/types-57.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
-export type { PromotionSchedule } from '../declarations/types-59.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { PromotionRuleValue, PromotionSchedule } from '../declarations/types-59.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdatePromotionCodeRequestInput } from '../declarations/types-77.js';
 export type { CategoriesDeleteParams } from '../declarations/types-5.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreatePromotionCodeRequest } from '../declarations/types-83.js';
 export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdatePromotionCodeRequest } from '../declarations/types-93.js';
+export { makeUpdatePromotionCodeRequest } from '../declarations/types-94.js';
 export interface PromotionCodesResource {
     /**
  * Creates a code for a promotion whose `redemption_type` is code; adding a code to an automatic

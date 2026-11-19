@@ -1,5 +1,14 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    CheckoutRecoveryEmailSettingsRequestInput,
+    CheckoutRedirectsRequestInput,
+    CheckoutSavedPaymentDetailsSettingsRequestInput
+} from './types-6.js';
+import type {
+    CheckoutSettingsRequestInput,
+    CheckoutSubscriptionTermsRequestInput,
+    CheckoutTaxCalculationRequestInput,
+    CheckoutTaxConfigRequestInput,
     CheckoutTipConfigRequestInput,
     CloseCheckoutSessionRequestInput,
     CloseGiftCardRequestInput,
@@ -60,15 +69,15 @@ import type {
     CreateDeliveryMethodRequestPickupInput,
     CreateDeliveryMethodRequestShipmentInput,
     CreateDeliveryOptionsPreviewRequestInput,
-    CreateDeliveryPickupLocationsPreviewRequestInput,
-    CreateDeliveryPreviewRequestInput,
-    CreateDeliveryProfileRequestInput,
-    CreateDeliveryRateCallbackRequestInput,
-    CreateDeliveryRevocationRequestInput,
-    CreateDeliveryRevocationTargetInput,
-    CreateDeliveryRevocationTargetDeliveryMethodRevisionInput,
-    CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput
+    CreateDeliveryPickupLocationsPreviewRequestInput
 } from './types-9.js';
+export declare function makeCheckoutRecoveryEmailSettingsRequest(value: InputValue<CheckoutRecoveryEmailSettingsRequestInput>): Model<CheckoutRecoveryEmailSettingsRequestInput>;
+export declare function makeCheckoutRedirectsRequest(value: InputValue<CheckoutRedirectsRequestInput>): Model<CheckoutRedirectsRequestInput>;
+export declare function makeCheckoutSavedPaymentDetailsSettingsRequest(value: InputValue<CheckoutSavedPaymentDetailsSettingsRequestInput>): Model<CheckoutSavedPaymentDetailsSettingsRequestInput>;
+export declare function makeCheckoutSettingsRequest(value: InputValue<CheckoutSettingsRequestInput>): Model<CheckoutSettingsRequestInput>;
+export declare function makeCheckoutSubscriptionTermsRequest(value: InputValue<CheckoutSubscriptionTermsRequestInput>): Model<CheckoutSubscriptionTermsRequestInput>;
+export declare function makeCheckoutTaxCalculationRequest(value: InputValue<CheckoutTaxCalculationRequestInput>): Model<CheckoutTaxCalculationRequestInput>;
+export declare function makeCheckoutTaxConfigRequest(value: InputValue<CheckoutTaxConfigRequestInput>): Model<CheckoutTaxConfigRequestInput>;
 export declare function makeCheckoutTipConfigRequest(value: InputValue<CheckoutTipConfigRequestInput>): Model<CheckoutTipConfigRequestInput>;
 export declare function makeCloseCheckoutSessionRequest(value: InputValue<CloseCheckoutSessionRequestInput>): Model<CloseCheckoutSessionRequestInput>;
 export declare function makeCloseGiftCardRequest(value: InputValue<CloseGiftCardRequestInput>): Model<CloseGiftCardRequestInput>;
@@ -127,11 +136,3 @@ export declare function makeCreateDeliveryMethodRequestPickup(value: InputValue<
 export declare function makeCreateDeliveryMethodRequestShipment(value: InputValue<CreateDeliveryMethodRequestShipmentInput>): Model<CreateDeliveryMethodRequestShipmentInput>;
 export declare function makeCreateDeliveryOptionsPreviewRequest(value: InputValue<CreateDeliveryOptionsPreviewRequestInput>): Model<CreateDeliveryOptionsPreviewRequestInput>;
 export declare function makeCreateDeliveryPickupLocationsPreviewRequest(value: InputValue<CreateDeliveryPickupLocationsPreviewRequestInput>): Model<CreateDeliveryPickupLocationsPreviewRequestInput>;
-export declare function makeCreateDeliveryPreviewRequest(value: InputValue<Exclude<CreateDeliveryPreviewRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateDeliveryPreviewRequestInput & object, readonly unknown[]>>;
-export declare function makeCreateDeliveryPreviewRequest(value: InputValue<CreateDeliveryPreviewRequestInput>): Model<CreateDeliveryPreviewRequestInput>;
-export declare function makeCreateDeliveryProfileRequest(value: InputValue<CreateDeliveryProfileRequestInput>): Model<CreateDeliveryProfileRequestInput>;
-export declare function makeCreateDeliveryRateCallbackRequest(value: InputValue<CreateDeliveryRateCallbackRequestInput>): Model<CreateDeliveryRateCallbackRequestInput>;
-export declare function makeCreateDeliveryRevocationRequest(value: InputValue<CreateDeliveryRevocationRequestInput>): Model<CreateDeliveryRevocationRequestInput>;
-export declare function makeCreateDeliveryRevocationTarget(value: InputValue<CreateDeliveryRevocationTargetInput>): Model<CreateDeliveryRevocationTargetInput>;
-export declare function makeCreateDeliveryRevocationTargetDeliveryMethodRevision(value: InputValue<CreateDeliveryRevocationTargetDeliveryMethodRevisionInput>): Model<CreateDeliveryRevocationTargetDeliveryMethodRevisionInput>;
-export declare function makeCreateDeliveryRevocationTargetDeliveryRateCallbackRevision(value: InputValue<CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput>): Model<CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput>;

@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# BundleComponentVariantSummaryPreviousAttributes to SelectableOrderPaymentIntentPreviousAttributes
+# BalanceTransactionUpdatedInstalledMerchantsEvent to CheckoutGiftCardChallengePreviousAttributes
 
+- [BalanceTransactionUpdatedInstalledMerchantsEvent](BalanceTransactionUpdatedInstalledMerchantsEvent.md)
+- [BundleArchivedMerchantEventDataObject](BundleArchivedMerchantEventDataObject.md)
+- [CategoryReferencePreviousAttributes](CategoryReferencePreviousAttributes.md)
+- [SelectedProductOptionPreviousAttributes](SelectedProductOptionPreviousAttributes.md)
 - [BundleComponentVariantSummaryPreviousAttributes](BundleComponentVariantSummaryPreviousAttributes.md)
 - [BundleComponentPreviousAttributes](BundleComponentPreviousAttributes.md)
 - [ImageAttachmentPreviousAttributes](ImageAttachmentPreviousAttributes.md)
@@ -98,8 +102,4 @@
 - [DeliveryMerchantDiagnosticPreviousAttributes](DeliveryMerchantDiagnosticPreviousAttributes.md)
 - [CheckoutDerivedDeliveryResourcePreviousAttributes](CheckoutDerivedDeliveryResourcePreviousAttributes.md)
 - [CheckoutGiftCardChallengePreviousAttributes](CheckoutGiftCardChallengePreviousAttributes.md)
-- [InvoiceSettlementAmountsPreviousAttributes](InvoiceSettlementAmountsPreviousAttributes.md)
-- [ExpandedInvoiceSummaryPreviousAttributes](ExpandedInvoiceSummaryPreviousAttributes.md)
-- [CheckoutLegalConfigPreviousAttributes](CheckoutLegalConfigPreviousAttributes.md)
-- [SelectableOrderPaymentIntentPreviousAttributes](SelectableOrderPaymentIntentPreviousAttributes.md)
 

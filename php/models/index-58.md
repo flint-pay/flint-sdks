@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# MerchantBillingBalance to PaymentActivityActor
+# MerchantReadiness to MerchantBillingEntry
 
+- [MerchantReadiness](MerchantReadiness.md)
+- [Merchant](Merchant.md)
 - [MerchantBillingBalance](MerchantBillingBalance.md)
 - [MerchantBillingInvoiceLineItem](MerchantBillingInvoiceLineItem.md)
 - [MerchantBillingInvoice](MerchantBillingInvoice.md)
@@ -67,10 +69,12 @@
 - [PlatformFeeBalanceTransaction](PlatformFeeBalanceTransaction.md)
 - [PlatformFeePayout](PlatformFeePayout.md)
 - [ResourceTimelineEntriesItemApiRequest](ResourceTimelineEntriesItemApiRequest.md)
+- [PaymentActivityActor](PaymentActivityActor.md)
 - [ResourceTimelineEntriesItemWebhookEvent](ResourceTimelineEntriesItemWebhookEvent.md)
 - [ResourceTimelineEntriesItemWebhookDeliveryAttempt](ResourceTimelineEntriesItemWebhookDeliveryAttempt.md)
 - [ResourceTimelineEntriesItemImageMutation](ResourceTimelineEntriesItemImageMutation.md)
 - [ResourceTimelinePoolAttestationEntry](ResourceTimelinePoolAttestationEntry.md)
+- [ResourceTimelineLicenseKeyRestrictionChangeEntry](ResourceTimelineLicenseKeyRestrictionChangeEntry.md)
 - [ResourceTimeline](ResourceTimeline.md)
 - [RiskAttribute](RiskAttribute.md)
 - [RiskAttributeRegistry](RiskAttributeRegistry.md)
@@ -98,8 +102,4 @@
 - [BuyerLicenseKey](BuyerLicenseKey.md)
 - [OrderActivity](OrderActivity.md)
 - [MerchantBillingEntry](MerchantBillingEntry.md)
-- [BuyerRememberedBuyer](BuyerRememberedBuyer.md)
-- [BuyerTicketEvent](BuyerTicketEvent.md)
-- [BuyerTicket](BuyerTicket.md)
-- [PaymentActivityActor](PaymentActivityActor.md)
 

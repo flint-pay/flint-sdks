@@ -96,6 +96,7 @@ Stripe.js initialization and a Stripe client secret returned by Flint's API for 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `account_id` | Conditional | string or null | Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. The Terminal SDK ignores this field. `account_id`: [declared alternatives](../models/PendingPaymentActionPreviousAttributes.md#pendingpaymentactionpreviousattributesclient_action-variant-2stripe-variant-1account_id). |
+| `on_behalf_of` | Conditional | string or null | The collecting merchant's Stripe account for a payment on Flint's Stripe account. It identifies the settlement account, not the Stripe.js account. Do not pass it as stripeAccount or to handleNextAction. `on_behalf_of`: [declared alternatives](../models/PendingPaymentActionPreviousAttributes.md#pendingpaymentactionpreviousattributesclient_action-variant-2stripe-variant-1on_behalf_of). |
 | `payment_intent` | Conditional | Alternative shapes (see declared variants) | PaymentIntent authority for an order payment authentication action. `payment_intent`: [declared alternatives](../models/PendingPaymentActionPreviousAttributes.md#pendingpaymentactionpreviousattributesclient_action-variant-2stripe-variant-1payment_intent). |
 | `publishable_key` | Conditional | string or null | Stripe publishable key for the active Flint payment mode; use this with account_id when loading Stripe.js. The Terminal SDK ignores this field. `publishable_key`: [declared alternatives](../models/PendingPaymentActionPreviousAttributes.md#pendingpaymentactionpreviousattributesclient_action-variant-2stripe-variant-1publishable_key). |
 | `setup_intent` | Conditional | Alternative shapes (see declared variants) | SetupIntent authority for a saved-payment-method authentication action. `setup_intent`: [declared alternatives](../models/PendingPaymentActionPreviousAttributes.md#pendingpaymentactionpreviousattributesclient_action-variant-2stripe-variant-1setup_intent). |
@@ -105,13 +106,13 @@ Stripe.js initialization and a Stripe client secret returned by Flint's API for 
 
 anyOf StripePaymentClientActionPreviousAttributes.
 
-- Optional: `account_id`, `payment_intent`, `publishable_key`, `setup_intent`, `terminal_payment_intent`.
+- Optional: `account_id`, `on_behalf_of`, `payment_intent`, `publishable_key`, `setup_intent`, `terminal_payment_intent`.
 
 ### PendingPaymentActionPreviousAttributes.client_action variant 2.stripe variant 2
 
 anyOf variant 2.
 
-- Undeclared: `account_id`, `payment_intent`, `publishable_key`, `setup_intent`, `terminal_payment_intent`.
+- Undeclared: `account_id`, `on_behalf_of`, `payment_intent`, `publishable_key`, `setup_intent`, `terminal_payment_intent`.
 - Value shape: null. Stripe.js initialization and a Stripe client secret returned by Flint's API for client_action_type stripe. Use the client secret only with handleNextAction; it can also confirm the underlying payment with another card. 
 
 ### PendingPaymentActionPreviousAttributes.client_action variant 2.stripe variant 1.account_id
@@ -127,6 +128,20 @@ anyOf variant 1: Stripe connected account ID to pass as stripeAccount when initi
 anyOf variant 2.
 
 - Value shape: null. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. The Terminal SDK ignores this field. 
+
+### PendingPaymentActionPreviousAttributes.client_action variant 2.stripe variant 1.on_behalf_of
+
+### PendingPaymentActionPreviousAttributes.client_action variant 2.stripe variant 1.on_behalf_of variant 1
+
+anyOf variant 1: The collecting merchant's Stripe account for a payment on Flint's Stripe account. It identifies the settlement account, not the Stripe.js account. Do not pass it as stripeAccount or to handleNextAction..
+
+- Value shape: string. The collecting merchant's Stripe account for a payment on Flint's Stripe account. It identifies the settlement account, not the Stripe.js account. Do not pass it as stripeAccount or to handleNextAction. 
+
+### PendingPaymentActionPreviousAttributes.client_action variant 2.stripe variant 1.on_behalf_of variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The collecting merchant's Stripe account for a payment on Flint's Stripe account. It identifies the settlement account, not the Stripe.js account. Do not pass it as stripeAccount or to handleNextAction. 
 
 ### PendingPaymentActionPreviousAttributes.client_action variant 2.stripe variant 1.payment_intent
 

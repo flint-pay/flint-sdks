@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# ImageInputFileInput to InventoryReservationLinePreviousAttributes
+# ImageAttachment to InventoryReservationHoldExpiredInstalledMerchantsEvent
 
+- [ImageAttachment](ImageAttachment.md)
+- [ImageAttachmentPreviousAttributes](ImageAttachmentPreviousAttributes.md)
+- [ImageInputFile](ImageInputFile.md)
 - [ImageInputFileInput](ImageInputFileInput.md)
 - [ImageInputSourceURL](ImageInputSourceURL.md)
 - [ImageInputSourceURLInput](ImageInputSourceURLInput.md)
@@ -99,7 +102,4 @@
 - [InventoryReservationCreatedInstalledMerchantsEvent](InventoryReservationCreatedInstalledMerchantsEvent.md)
 - [InventoryReservationCreatedMerchantEvent](InventoryReservationCreatedMerchantEvent.md)
 - [InventoryReservationHoldExpiredInstalledMerchantsEvent](InventoryReservationHoldExpiredInstalledMerchantsEvent.md)
-- [InventoryReservationHoldExpiredMerchantEvent](InventoryReservationHoldExpiredMerchantEvent.md)
-- [InventoryReservationLine](InventoryReservationLine.md)
-- [InventoryReservationLinePreviousAttributes](InventoryReservationLinePreviousAttributes.md)
 

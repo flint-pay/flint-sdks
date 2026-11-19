@@ -1,1 +1,1 @@
-{"shared":"ResourceTimelineWebhookEventEntry","dependencies":["ResourceTimelineWebhookEventEntry","SharedCodec2616","SharedCodec2617","SharedCodec44"]}
+{"shared":"ResourceTimelineWebhookEventEntry","dependencies":["PaymentActivityActor","ResourceReference","ResourceTimelineWebhookEventEntry","ResourceType","SharedCodec2617","SharedCodec2618","SharedCodec44"]}

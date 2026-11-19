@@ -1,5 +1,14 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    SaveMeGiftCardRequestRecipientAccessInput,
+    SaveMePaymentMethodRequestInput,
+    SavePaymentMethodRequestInput,
+    ScheduleFulfillmentRequestInput,
+    SellerTaxAttestationRequestInput,
+    SendOrderReceiptRequestInput,
+    SendPaymentIntentReceiptRequestInput
+} from './types-67.js';
+import type {
     SignWebhookEndpointDeliveryRequestInput,
     SignedMoneyRequestInput,
     SimulateDisputeRequestInput,
@@ -10,10 +19,10 @@ import type {
     SkipMeSubscriptionCycleRequestInput,
     SkipSubscriptionCycleRequestInput,
     SplitReversalRequestInput,
-    StartFulfillmentRequestInput,
-    SubscribedLineRequestModelInput
+    StartFulfillmentRequestInput
 } from './types-68.js';
 import type {
+    SubscribedLineRequestModelInput,
     SubscriptionBillingScheduleInputExternalInput,
     SubscriptionBillingScheduleInputFlintInput,
     SubscriptionBillingScheduleRequestInput,
@@ -67,16 +76,14 @@ import type {
     TaxComponentRequestModelInput,
     TaxComponentRequestRequestInput
 } from './types-73.js';
-import type {
-    TaxDefaultCalculationRequestInput,
-    TaxIdentityPatchInput,
-    TaxIdentityRequestInput,
-    TaxJurisdictionRequestInput,
-    TaxJurisdictionRequestModelInput,
-    TaxSettingsRequestInput,
-    TextModifierConfigPatchRequestInput,
-    TextModifierConfigRequestInput
-} from './types-74.js';
+import type { TaxDefaultCalculationRequestInput } from './types-74.js';
+export declare function makeSaveMeGiftCardRequestRecipientAccess(value: InputValue<SaveMeGiftCardRequestRecipientAccessInput>): Model<SaveMeGiftCardRequestRecipientAccessInput>;
+export declare function makeSaveMePaymentMethodRequest(value: InputValue<SaveMePaymentMethodRequestInput>): Model<SaveMePaymentMethodRequestInput>;
+export declare function makeSavePaymentMethodRequest(value: InputValue<SavePaymentMethodRequestInput>): Model<SavePaymentMethodRequestInput>;
+export declare function makeScheduleFulfillmentRequest(value: InputValue<ScheduleFulfillmentRequestInput>): Model<ScheduleFulfillmentRequestInput>;
+export declare function makeSellerTaxAttestationRequest(value: InputValue<SellerTaxAttestationRequestInput>): Model<SellerTaxAttestationRequestInput>;
+export declare function makeSendOrderReceiptRequest(value: InputValue<SendOrderReceiptRequestInput>): Model<SendOrderReceiptRequestInput>;
+export declare function makeSendPaymentIntentReceiptRequest(value: InputValue<SendPaymentIntentReceiptRequestInput>): Model<SendPaymentIntentReceiptRequestInput>;
 export declare function makeSignWebhookEndpointDeliveryRequest(value: InputValue<SignWebhookEndpointDeliveryRequestInput>): Model<SignWebhookEndpointDeliveryRequestInput>;
 export declare function makeSignedMoneyRequest(value: InputValue<SignedMoneyRequestInput>): Model<SignedMoneyRequestInput>;
 export declare function makeSimulateDisputeRequest(value: InputValue<SimulateDisputeRequestInput>): Model<SimulateDisputeRequestInput>;
@@ -140,10 +147,3 @@ export declare function makeTaxCalculationRequestRequest(value: InputValue<TaxCa
 export declare function makeTaxComponentRequestModel(value: InputValue<TaxComponentRequestModelInput>): Model<TaxComponentRequestModelInput>;
 export declare function makeTaxComponentRequestRequest(value: InputValue<TaxComponentRequestRequestInput>): Model<TaxComponentRequestRequestInput>;
 export declare function makeTaxDefaultCalculationRequest(value: InputValue<TaxDefaultCalculationRequestInput>): Model<TaxDefaultCalculationRequestInput>;
-export declare function makeTaxIdentityPatch(value: InputValue<TaxIdentityPatchInput>): Model<TaxIdentityPatchInput>;
-export declare function makeTaxIdentityRequest(value: InputValue<TaxIdentityRequestInput>): Model<TaxIdentityRequestInput>;
-export declare function makeTaxJurisdictionRequest(value: InputValue<TaxJurisdictionRequestInput>): Model<TaxJurisdictionRequestInput>;
-export declare function makeTaxJurisdictionRequestModel(value: InputValue<TaxJurisdictionRequestModelInput>): Model<TaxJurisdictionRequestModelInput>;
-export declare function makeTaxSettingsRequest(value: InputValue<TaxSettingsRequestInput>): Model<TaxSettingsRequestInput>;
-export declare function makeTextModifierConfigPatchRequest(value: InputValue<TextModifierConfigPatchRequestInput>): Model<TextModifierConfigPatchRequestInput>;
-export declare function makeTextModifierConfigRequest(value: InputValue<TextModifierConfigRequestInput>): Model<TextModifierConfigRequestInput>;

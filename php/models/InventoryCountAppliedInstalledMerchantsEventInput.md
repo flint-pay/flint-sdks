@@ -44,7 +44,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | --- | --- | --- | --- |
 | `applied_at` | Optional | string or null | RFC3339 timestamp. `applied_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. `idempotency_key`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEventInput.md#inventorycountappliedinstalledmerchantseventinputdataprevious_attributesidempotency_key). |
+| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. `idempotency_key`: [declared alternatives](../models/CreditNoteAllocationReversedInstalledMerchantsEventInput.md#creditnoteallocationreversedinstalledmerchantseventinputdataprevious_attributesidempotency_key). |
 | `inventory_count_id` | Optional | string or null | Unique identifier for this inventory count, prefixed `invc_`. `inventory_count_id`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEventInput.md#inventorycountappliedinstalledmerchantseventinputdataprevious_attributesinventory_count_id). |
 | `lines` | Optional | Array of [InventoryCountLinePreviousAttributesInput](../models/InventoryCountLinePreviousAttributesInput.md#inventorycountlinepreviousattributesinput) or null | Count lines, one for each inventory item being counted. `lines`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEventInput.md#inventorycountappliedinstalledmerchantseventinputdataprevious_attributeslines). |
 | `location_id` | Optional | string or null | ID of the Location whose stock is counted. `location_id`: [declared alternatives](../models/InventoryCountAppliedInstalledMerchantsEventInput.md#inventorycountappliedinstalledmerchantseventinputdataprevious_attributeslocation_id). |
@@ -64,17 +64,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created
 
 ### InventoryCountAppliedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key
 
-### InventoryCountAppliedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key variant 1
-
-anyOf variant 1: The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key..
-
-- Value shape: string. The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. 
-
-### InventoryCountAppliedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. 
+Declared alternatives: [CreditNoteAllocationReversedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key](../models/CreditNoteAllocationReversedInstalledMerchantsEventInput.md#creditnoteallocationreversedinstalledmerchantseventinputdataprevious_attributesidempotency_key).
 
 ### InventoryCountAppliedInstalledMerchantsEventInput.data.previous_attributes.inventory_count_id
 

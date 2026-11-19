@@ -4,8 +4,10 @@ namespace Flint;
 /**
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $dispute_lost_money
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $disputed_money
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $exchange_refundable_money
  * @property-read SignedMoneyPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $net_collected_money
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $overpaid_money
+ * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $pending_refund_money
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $released_money
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $removed_money
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $settled_tip_money
@@ -15,7 +17,7 @@ namespace Flint;
  * @property-read MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null $written_off_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderSettlementAmountsPreviousAttributesInput extends Model {
-    /** @param array{'dispute_lost_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'disputed_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'net_collected_money'?: SignedMoneyPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'overpaid_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'released_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'removed_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'settled_tip_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'outstanding_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'paid_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'refunded_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'written_off_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object $values */
+    /** @param array{'dispute_lost_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'disputed_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'exchange_refundable_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'net_collected_money'?: SignedMoneyPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'overpaid_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'pending_refund_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'released_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'removed_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'settled_tip_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'outstanding_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'paid_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'refunded_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'written_off_money'?: MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderSettlementAmountsPreviousAttributesInput')); }
     /** Principal lost to chargebacks on counted order payments. A later win removes that dispute from this amount. Excludes dispute fees and does not reopen outstanding_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
@@ -29,6 +31,12 @@ final class OrderSettlementAmountsPreviousAttributesInput extends Model {
      */
     public function getDisputedMoney(): mixed { return $this->get('disputed_money'); }
     public function hasDisputedMoney(): bool { return $this->has('disputed_money'); }
+    /** Remaining money available for an order refund when an exchange affects the order. Excludes return credit and payments reserved for processing refunds or applied to the exchange. Present on affected order reads, including when the amount is zero. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When exchange_refundable_money is omitted; use hasExchangeRefundableMoney() or valueOrDefault().
+     */
+    public function getExchangeRefundableMoney(): mixed { return $this->get('exchange_refundable_money'); }
+    public function hasExchangeRefundableMoney(): bool { return $this->has('exchange_refundable_money'); }
     /** Collected principal: paid_money minus refunded_money minus dispute_lost_money. Can be negative when refunds and lost disputes exceed payments. Excludes processing and dispute fees; open disputes do not reduce this amount. anyOf[1] (Value): {@see SignedMoneyPreviousAttributesInput}. anyOf[2] (Value): null.
      * @return SignedMoneyPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When net_collected_money is omitted; use hasNetCollectedMoney() or valueOrDefault().
@@ -41,6 +49,12 @@ final class OrderSettlementAmountsPreviousAttributesInput extends Model {
      */
     public function getOverpaidMoney(): mixed { return $this->get('overpaid_money'); }
     public function hasOverpaidMoney(): bool { return $this->has('overpaid_money'); }
+    /** Collected order money reserved for refunds that are still processing. It reduces what can be refunded as soon as Flint records the refund. Present when the amount is greater than zero. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
+     * @throws SdkError When pending_refund_money is omitted; use hasPendingRefundMoney() or valueOrDefault().
+     */
+    public function getPendingRefundMoney(): mixed { return $this->get('pending_refund_money'); }
+    public function hasPendingRefundMoney(): bool { return $this->has('pending_refund_money'); }
     /** Authorized money a final capture released instead of collecting, which the order no longer owes. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When released_money is omitted; use hasReleasedMoney() or valueOrDefault().
@@ -71,7 +85,7 @@ final class OrderSettlementAmountsPreviousAttributesInput extends Model {
      */
     public function getPaidMoney(): mixed { return $this->get('paid_money'); }
     public function hasPaidMoney(): bool { return $this->has('paid_money'); }
-    /** Money returned to the buyer from what was collected toward the bill. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+    /** Money returned to the buyer from what was collected toward the bill. On orders, this counts successful refunds. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
      */

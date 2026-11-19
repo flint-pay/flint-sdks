@@ -26,6 +26,7 @@ Resource, collection, or operation result returned by this request.
 | `shipping_countries` | Conditional | Array of string | Sorted ISO 3166-1 alpha-2 countries potentially served by this subscription's shipping methods, based on their delivery configuration and shipping zones. Restrict a country selector with this list only when shipping_countries_complete is true. Empty when no shipping coverage is available. Other address, cart, customer and rate checks still apply. |
 | `shipping_countries_complete` | Conditional | boolean | Whether shipping_countries is safe to use as a country restriction. False when a radius without an explicit country boundary may serve addresses across a border; clients must not restrict the country selector in that case. Other address, cart, customer and rate checks still apply when true. |
 | `subscription_id` | Conditional | string |  |
+| `billing_at_if_resumed_now` | Conditional | string | Estimated next billing time if the subscriber resumes now and still has paid time left. Omitted when that estimate does not apply. Format: `date-time`. |
 | `renewal` | Conditional | [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate) | Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax. `renewal`: [field definitions](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-2renewal), [field definitions](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-3renewal), [field definitions](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-4renewal). |
 | `billing_interval` | Conditional | string | Unit of the billing period the subscription would have after the change. Read with `billing_interval_count`. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Conditional | integer | Number of `billing_interval` units between charges after the change. Format: `int32`. |
@@ -46,7 +47,7 @@ oneOf with mode: "delivery_options": Available subscription delivery methods sho
 
 - Required: `delivery_methods`, `shipping_countries`, `shipping_countries_complete`.
 - Optional: `address_verification`, `currency`, `destination_address`, `subscription_id`.
-- Undeclared: `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_adjustment_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
+- Undeclared: `billing_at_if_resumed_now`, `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_adjustment_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
 - Constraints for `mode`: Always delivery_options for buyer previews. Values: `"delivery_options"`.
 - Constraints for `subscription_id`: ID of the subscription the delivery methods were listed for.
 
@@ -55,6 +56,7 @@ oneOf with mode: "delivery_options": Available subscription delivery methods sho
 oneOf with mode: "next_renewal": A preview of a subscription's next renewal and its estimated pricing..
 
 - Required: `renewal`, `subscription_id`.
+- Optional: `billing_at_if_resumed_now`.
 - Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `shipping_countries`, `shipping_countries_complete`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_adjustment_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
 - Constraints for `mode`: The kind of subscription preview. Values: `"next_renewal"`.
 - Constraints for `renewal`: Estimated charge for the subscription's next renewal.
@@ -65,7 +67,7 @@ oneOf with mode: "next_renewal": A preview of a subscription's next renewal and 
 oneOf with mode: "plan_change": Estimated pricing for a subscription plan change, including the recurring item subtotal and renewal amounts..
 
 - Required: `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_adjustment_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `recurring_subtotal_money`, `renewal`, `subscription_id`, `subscription_plan_id`.
-- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `shipping_countries`, `shipping_countries_complete`, `interval`, `interval_count`.
+- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `shipping_countries`, `shipping_countries_complete`, `billing_at_if_resumed_now`, `interval`, `interval_count`.
 - Constraints for `billing_starts`: When the change takes effect and bills, as the request set it. Each value says what happens to the current period and to the charge. Values: `"now"`, `"next_renewal"`, `"period_end"`, `"prorated_now"`.
 - Constraints for `credit_adjustment_money`: Unused paid item time credited against the new charge when billing_starts is now or prorated_now. Null when billing_starts is next_renewal or period_end.
 - Constraints for `effective_at`: When the plan is expected to take effect. Null when no billing time is scheduled.
@@ -79,7 +81,7 @@ oneOf with mode: "plan_change": Estimated pricing for a subscription plan change
 oneOf with mode: "quantity_change": Estimated pricing for a quantity change that keeps the billing period and anchor..
 
 - Required: `billing_starts`, `credit_adjustment_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `interval`, `interval_count`, `recurring_subtotal_money`, `renewal`, `subscription_id`.
-- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `shipping_countries`, `shipping_countries_complete`, `billing_interval`, `billing_interval_count`, `subscription_plan_id`.
+- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `shipping_countries`, `shipping_countries_complete`, `billing_at_if_resumed_now`, `billing_interval`, `billing_interval_count`, `subscription_plan_id`.
 - Constraints for `billing_starts`: When this quantity change is billed. Values: `"prorated_now"`.
 - Constraints for `credit_adjustment_money`: Credit for unused paid subscription time. Null when there is no paid period to credit.
 - Constraints for `effective_at`: When the quantities are expected to take effect. Null when no billing time is available.

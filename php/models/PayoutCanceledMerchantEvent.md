@@ -88,6 +88,10 @@ Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.failur
 
 Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.fee_amount_status](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesfee_amount_status).
 
+### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.idempotency_key](../models/CreditNoteAllocationReversedMerchantEventDataPreviousAttributes.md#creditnoteallocationreversedmerchanteventdatapreviousattributesidempotency_key).
+
 ### PayoutCanceledMerchantEvent.data fields 1.previous_attributes.initiated_by
 
 Declared alternatives: [PayoutCanceledMerchantEventDataPreviousAttributes.initiated_by](../models/PayoutCanceledMerchantEventDataPreviousAttributes.md#payoutcanceledmerchanteventdatapreviousattributesinitiated_by).

@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# BuyerInvoiceListResponse to RetryOrderEditRefundResponse
+# BuyerGiftCardListResponse to BuyerLicenseKeyResponse
 
+- [BuyerGiftCardListResponse](BuyerGiftCardListResponse.md)
+- [BuyerGiftCardTransactionListResponse](BuyerGiftCardTransactionListResponse.md)
 - [BuyerInvoiceListResponse](BuyerInvoiceListResponse.md)
 - [BuyerLicenseKeyActivationListResponse](BuyerLicenseKeyActivationListResponse.md)
 - [BuyerLicenseKeyListResponse](BuyerLicenseKeyListResponse.md)
@@ -100,6 +102,4 @@
 - [SubscriptionRenewalResultResponse](SubscriptionRenewalResultResponse.md)
 - [ReopenReturnResponse](ReopenReturnResponse.md)
 - [BuyerLicenseKeyResponse](BuyerLicenseKeyResponse.md)
-- [ResolvePaymentLinkResponse](ResolvePaymentLinkResponse.md)
-- [RetryOrderEditRefundResponse](RetryOrderEditRefundResponse.md)
 

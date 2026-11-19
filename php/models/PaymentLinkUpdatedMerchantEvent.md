@@ -126,6 +126,10 @@ Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.re
 
 Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_end_at](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_end_at).
 
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.sales_start_at
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_start_at](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_start_at).
+
 ### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.sales_summary
 
 Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.sales_summary](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_summary).

@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# ReportFailedEventDataObjectSucceededDownload to SelectedProductOptionPreviousAttributes
+# PlatformFeeUpdatedEventData to BalanceTransactionUpdatedInstalledMerchantsEventSource
 
+- [PlatformFeeUpdatedEventData](PlatformFeeUpdatedEventData.md)
+- [PlatformFeeUpdatedEventRequest](PlatformFeeUpdatedEventRequest.md)
+- [ReportFailedEventDataObjectPendingDownload](ReportFailedEventDataObjectPendingDownload.md)
+- [ReportFailedEventDataObjectPending](ReportFailedEventDataObjectPending.md)
 - [ReportFailedEventDataObjectSucceededDownload](ReportFailedEventDataObjectSucceededDownload.md)
 - [ReportFailedEventDataObjectSucceeded](ReportFailedEventDataObjectSucceeded.md)
 - [ReportFailedEventDataObjectFailedDownload](ReportFailedEventDataObjectFailedDownload.md)
@@ -98,8 +102,4 @@
 - [BalanceTransactionUpdatedInstalledMerchantsEventDataPreviousAttributes](BalanceTransactionUpdatedInstalledMerchantsEventDataPreviousAttributes.md)
 - [BalanceTransactionUpdatedInstalledMerchantsEventData](BalanceTransactionUpdatedInstalledMerchantsEventData.md)
 - [BalanceTransactionUpdatedInstalledMerchantsEventSource](BalanceTransactionUpdatedInstalledMerchantsEventSource.md)
-- [BalanceTransactionUpdatedInstalledMerchantsEvent](BalanceTransactionUpdatedInstalledMerchantsEvent.md)
-- [BundleArchivedMerchantEventDataObject](BundleArchivedMerchantEventDataObject.md)
-- [CategoryReferencePreviousAttributes](CategoryReferencePreviousAttributes.md)
-- [SelectedProductOptionPreviousAttributes](SelectedProductOptionPreviousAttributes.md)
 

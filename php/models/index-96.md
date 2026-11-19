@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# ShipmentCreatedInstalledMerchantsEventData to SubscriptionDeliveryUpdatedMerchantEvent
+# ShipmentCreatedMerchantEventDataObject to SubscriptionDeliveryPauseUpcomingInstalledMerchantsEvent
 
+- [ShipmentCreatedMerchantEventDataObject](ShipmentCreatedMerchantEventDataObject.md)
+- [ShipmentCreatedMerchantEventData](ShipmentCreatedMerchantEventData.md)
+- [ShipmentCreatedMerchantEventRequest](ShipmentCreatedMerchantEventRequest.md)
+- [ShipmentCreatedMerchantEvent](ShipmentCreatedMerchantEvent.md)
+- [ShipmentCreatedInstalledMerchantsEventDataObject](ShipmentCreatedInstalledMerchantsEventDataObject.md)
 - [ShipmentCreatedInstalledMerchantsEventData](ShipmentCreatedInstalledMerchantsEventData.md)
 - [ShipmentCreatedInstalledMerchantsEventSource](ShipmentCreatedInstalledMerchantsEventSource.md)
 - [ShipmentCreatedInstalledMerchantsEvent](ShipmentCreatedInstalledMerchantsEvent.md)
@@ -97,9 +102,4 @@
 - [SubscriptionDeliveryPauseUpcomingInstalledMerchantsEventData](SubscriptionDeliveryPauseUpcomingInstalledMerchantsEventData.md)
 - [SubscriptionDeliveryPauseUpcomingInstalledMerchantsEventSource](SubscriptionDeliveryPauseUpcomingInstalledMerchantsEventSource.md)
 - [SubscriptionDeliveryPauseUpcomingInstalledMerchantsEvent](SubscriptionDeliveryPauseUpcomingInstalledMerchantsEvent.md)
-- [SubscriptionDeliveryUpdatedMerchantEventDataObject](SubscriptionDeliveryUpdatedMerchantEventDataObject.md)
-- [SubscriptionDeliveryUpdatedMerchantEventDataPreviousAttributes](SubscriptionDeliveryUpdatedMerchantEventDataPreviousAttributes.md)
-- [SubscriptionDeliveryUpdatedMerchantEventData](SubscriptionDeliveryUpdatedMerchantEventData.md)
-- [SubscriptionDeliveryUpdatedMerchantEventRequest](SubscriptionDeliveryUpdatedMerchantEventRequest.md)
-- [SubscriptionDeliveryUpdatedMerchantEvent](SubscriptionDeliveryUpdatedMerchantEvent.md)
 

@@ -11,7 +11,8 @@ namespace Flint;
  * @property-read int|null $delivery_interval_count
  * @property-read bool $delivery_required
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $early_termination_fee_money
- * @property-read array{'email': string, 'message': string|null, 'name': string|null, ...}|object|null $gift_recipient
+ * @property-read SubscriptionEndAfterCyclesInput|array<array-key, mixed>|\stdClass $end_after
+ * @property-read array{'email': string, 'message': string|null, 'name': string|null, 'sender_name'?: string, ...}|object|null $gift_recipient
  * @property-read bool $gifts_enabled
  * @property-read list<array{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object> $line_items
  * @property-read string $plan_name
@@ -23,7 +24,7 @@ namespace Flint;
  * @property-read int $trial_period_days
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSubscriptionTermsInput extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'delivery_required': bool, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_recipient': array{'email': string, 'message': string|null, 'name': string|null, ...}|object|null, 'gifts_enabled': bool, 'line_items': list<array{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object>, 'plan_name': string, 'recurring_price_phases': list<CheckoutSubscriptionPricePhaseInput|array<array-key, mixed>|\stdClass>, 'recurring_shipping'?: CheckoutSubscriptionRecurringShippingInput|array<array-key, mixed>|\stdClass, 'recurring_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'subscription_plan_id': string, 'trial_period_days'?: int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'delivery_required': bool, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after'?: SubscriptionEndAfterCyclesInput|array<array-key, mixed>|\stdClass, 'gift_recipient': array{'email': string, 'message': string|null, 'name': string|null, 'sender_name'?: string, ...}|object|null, 'gifts_enabled': bool, 'line_items': list<array{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object>, 'plan_name': string, 'recurring_price_phases': list<CheckoutSubscriptionPricePhaseInput|array<array-key, mixed>|\stdClass>, 'recurring_shipping'?: CheckoutSubscriptionRecurringShippingInput|array<array-key, mixed>|\stdClass, 'recurring_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'subscription_plan_id': string, 'trial_period_days'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionTermsInput')); }
     /** Unit of the billing period this checkout currently charges on. It starts as the interval chosen when the checkout session was created, or the plan's default when none was chosen, and changes when the buyer picks another option. Read with `billing_interval_count`. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -79,8 +80,14 @@ final class CheckoutSubscriptionTermsInput extends Model {
      */
     public function getEarlyTerminationFeeMoney(): mixed { return $this->get('early_termination_fee_money'); }
     public function hasEarlyTerminationFeeMoney(): bool { return $this->has('early_termination_fee_money'); }
+    /** The automatic end condition frozen with the order. Omitted for subscriptions with no automatic end. A subscription automatic end measured by the total number of charged billing cycles.
+     * @return SubscriptionEndAfterCyclesInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When end_after is omitted; use hasEndAfter() or valueOrDefault().
+     */
+    public function getEndAfter(): mixed { return $this->get('end_after'); }
+    public function hasEndAfter(): bool { return $this->has('end_after'); }
     /** Who receives the gift. The subscription this checkout starts gets it, and the buyer stays the purchaser. Null when the buyer hasn't named one. anyOf[1] (Value): {@see SubscriptionGiftRecipientInput}. Who receives a gift subscription. The customer stays the purchaser, who pays, gets receipts and reminders, and manages the subscription. delivery.recipient stays the ship-to address. anyOf[2] (Value): null.
-     * @return array{'email': string, 'message': string|null, 'name': string|null, ...}|object|null
+     * @return array{'email': string, 'message': string|null, 'name': string|null, 'sender_name'?: string, ...}|object|null
      * @throws SdkError When gift_recipient is omitted; use hasGiftRecipient() or valueOrDefault().
      */
     public function getGiftRecipient(): mixed { return $this->get('gift_recipient'); }
@@ -103,7 +110,7 @@ final class CheckoutSubscriptionTermsInput extends Model {
      */
     public function getPlanName(): string { return $this->get('plan_name'); }
     public function hasPlanName(): bool { return $this->has('plan_name'); }
-    /** Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count and continues until cancellation. Tax and shipping are additional. Always contains at least one phase. [] (Value): {@see CheckoutSubscriptionPricePhaseInput}. One consecutive price window in a checkout subscription's paid billing periods.
+    /** Ordered recurring merchandise prices from the first paid billing period, after any trial, with frozen signup promotions applied. Each finite phase is followed by the next phase; the final phase has a null billing_period_count. The subscription’s end_after condition can end any phase. Tax and shipping are additional. Always contains at least one phase. [] (Value): {@see CheckoutSubscriptionPricePhaseInput}. One consecutive price window in a checkout subscription's paid billing periods.
      * @return list<CheckoutSubscriptionPricePhaseInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When recurring_price_phases is omitted; use hasRecurringPricePhases() or valueOrDefault().
      */

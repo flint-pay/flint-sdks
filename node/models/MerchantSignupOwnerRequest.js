@@ -1,7 +1,7 @@
-import { d9741 as c0 } from '../descriptors/data/446.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
-import { d9741 as d9741 } from '../descriptors/data/446.js?sdk=22459f40165c8f83629c1309c0555e659f12bdc99933459ef8de8ac0e4796ba2';
+import { d9744 as c0 } from '../descriptors/data/446.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
+import { d9744 as d9744 } from '../descriptors/data/446.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d9741;
+const read = d9744;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["MerchantSignupOwnerRequest"]:c0()}); }
 export { codec as _validate };

@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $external_actor_id
- * @property-read string $idempotency_key
+ * @property-read string|null $idempotency_key
  * @property-read string $inventory_adjustment_id
  * @property-read list<InventoryAdjustmentLineInput|array<array-key, mixed>|\stdClass> $lines
  * @property-read string $note
@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read array{'external_source_id'?: string, 'type': string, ...}|object|null $source_system
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryAdjustmentInput extends Model {
-    /** @param array{'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'idempotency_key'?: string, 'inventory_adjustment_id': string, 'lines': list<InventoryAdjustmentLineInput|array<array-key, mixed>|\stdClass>, 'note'?: string, 'occurred_at': string|\DateTimeInterface, 'reason': string, 'source_system': array{'external_source_id'?: string, 'type': string, ...}|object|null, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'idempotency_key': string|null, 'inventory_adjustment_id': string, 'lines': list<InventoryAdjustmentLineInput|array<array-key, mixed>|\stdClass>, 'note'?: string, 'occurred_at': string|\DateTimeInterface, 'reason': string, 'source_system': array{'external_source_id'?: string, 'type': string, ...}|object|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAdjustmentInput')); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -27,11 +27,11 @@ final class InventoryAdjustmentInput extends Model {
      */
     public function getExternalActorId(): string { return $this->get('external_actor_id'); }
     public function hasExternalActorId(): bool { return $this->has('external_actor_id'); }
-    /** The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key.
-     * @return string
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource.
+     * @return string|null
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Unique identifier for this inventory adjustment, prefixed `invadj_`. Example: "invadj_01KEZF7C00HFCAS32T4NVHX75M".
      * @return string

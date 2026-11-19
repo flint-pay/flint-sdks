@@ -10,7 +10,7 @@ import type {
     DisputesListParams,
     DisputesSimulateParams
 } from '../declarations/types-26.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -42,7 +42,7 @@ export type {
     DisputeResponseSessionStripeAccountSession,
     DisputeResponseSessionStripeComponent
 } from '../declarations/types-26.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { Dispute, DisputeResponse, DisputeListResponse } from '../declarations/types-25.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
@@ -60,7 +60,6 @@ export type {
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
 } from '../declarations/types-54.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeSimulateDisputeRequest } from '../declarations/types-92.js';

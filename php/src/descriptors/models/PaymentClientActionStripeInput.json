@@ -1,1 +1,1 @@
-{"shared":"PaymentClientActionStripe","dependencies":["PaymentClientActionStripe","SharedCodec2832","SharedCodec2833","SharedCodec2834","StripePaymentClientAction","StripePaymentIntentClientAction","StripeSetupIntentClientAction","StripeTerminalPaymentIntentClientAction"]}
+{"shared":"PaymentClientActionStripe","dependencies":["PaymentClientActionStripe","SharedCodec2833","SharedCodec2834","SharedCodec2835","StripePaymentClientAction","StripePaymentIntentClientAction","StripeSetupIntentClientAction","StripeTerminalPaymentIntentClientAction"]}

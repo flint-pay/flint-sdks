@@ -4,8 +4,6 @@ import type {
     ModifierOverrideRequestInput,
     ModifierGroupPreviousAttributes,
     ModifierOverridePreviousAttributes,
-    ModifierSetGroupInputExisting,
-    ModifierSetGroupInputExistingInput,
     ModifierSet,
     MetadataMap,
     MerchantWebhookEnvelope,
@@ -17,10 +15,153 @@ import type { InputValue } from '../runtime.js';
 import type { CreateModifierSetRequestInput, CreateOnboardingAccessLinkRequestInput } from './types-11.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { UpdateModifierSetRequestInput } from './types-76.js';
-import type { ReadinessMerchantAccountSession, ReadinessMerchantAccountSessionPreviousAttributes } from './types-60.js';
+import type {
+    ReadinessMerchantAccountSession,
+    ReadinessMerchantAccountSessionPreviousAttributes,
+    ReadinessAction
+} from './types-60.js';
 import type { CLIDeviceRequestInput, CLIContextsRequestInput, CLIReauthorizeRequestInput } from './types-4.js';
-import type { ReadinessAction } from './types-59.js';
-import type { OnboardingVerifyEmailRequestInput } from './types-45.js';
+/** The `existing` variant of `ModifierSetGroupInput`. */
+export type ModifierSetGroupInputExisting = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when setting up a modifier set, with its name, rules for how many options can
+     * be selected, and its modifiers.
+     */
+    "modifier_group"?: InlineModifierGroupRequest;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
+     * overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverride>;
+    /**
+     * Stable identifier of this group entry within the set. In a replacement request, include it
+     * to retain an entry or omit it to create one. minLength: 1. Example:
+     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
+     */
+    "modifier_set_group_id"?: string;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing".
+     */
+    "source": "existing" | (string & {});
+})
+    & (({
+    /** References an independent modifier group. Value enum: "existing". */
+    "source": "existing" | (string & {});
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+}));
+/** The `existing` variant of `ModifierSetGroupInput`. */
+export type ModifierSetGroupInputExistingInput = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when setting up a modifier set, with its name, rules for how many options can
+     * be selected, and its modifiers.
+     */
+    "modifier_group"?: InlineModifierGroupRequestInput;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
+     * set group, overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
+    /**
+     * Stable identifier of this group entry within the set. In a replacement request, include it
+     * to retain an entry or omit it to create one. minLength: 1. Example:
+     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
+     */
+    "modifier_set_group_id"?: string;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing".
+     */
+    "source": "existing";
+})
+    & (({
+    /** References an independent modifier group. Value enum: "existing". */
+    "source": "existing";
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+})
+    & ({
+    "modifier_group"?: never;
+}));
 /** The `inline` variant of `ModifierSetGroupInput`. */
 export type ModifierSetGroupInputInline = ({
     /**
@@ -1490,10 +1631,10 @@ export type NextAction = {
      * "list_return_receipts", "list_return_resolutions", "list_returns", "list_shipments",
      * "list_subscription_line_items", "list_subscription_payment_retries", "list_subscriptions",
      * "pay_order", "payment_authentication", "recreate_delivery_quote",
-     * "review_merchant_readiness", "review_onboarding_state", "start_new_image_ingestion",
-     * "update_checkout_session", "update_delivery_profile", "update_inventory_allocation_policy",
-     * "update_invoice", "update_location", "update_order", "update_payment_link",
-     * "update_settings".
+     * "replace_default_payout_destination", "review_merchant_readiness",
+     * "review_onboarding_state", "start_new_image_ingestion", "update_checkout_session",
+     * "update_delivery_profile", "update_inventory_allocation_policy", "update_invoice",
+     * "update_location", "update_order", "update_payment_link", "update_settings".
      */
     "action_type": "add_line_items"
         | "cancel_order_edit"
@@ -1651,6 +1792,7 @@ export type NextAction = {
         | "pay_order"
         | "payment_authentication"
         | "recreate_delivery_quote"
+        | "replace_default_payout_destination"
         | "review_merchant_readiness"
         | "review_onboarding_state"
         | "start_new_image_ingestion"
@@ -1894,39 +2036,39 @@ export type NextActionPreviousAttributes = {
      * "list_return_receipts", "list_return_resolutions", "list_returns", "list_shipments",
      * "list_subscription_line_items", "list_subscription_payment_retries", "list_subscriptions",
      * "pay_order", "payment_authentication", "recreate_delivery_quote",
-     * "review_merchant_readiness", "review_onboarding_state", "start_new_image_ingestion",
-     * "update_checkout_session", "update_delivery_profile", "update_inventory_allocation_policy",
-     * "update_invoice", "update_location", "update_order", "update_payment_link",
-     * "update_settings". anyOf[1] (Value): string. Action to take next. Use its target resource
-     * and required_fields to prepare the request. Value enum: "add_line_items",
-     * "cancel_order_edit", "cancel_payment_intent", "capture_payment_intent",
-     * "close_checkout_session", "close_order", "collect_invoice", "complete_gift_card_challenge",
-     * "confirm_payment_intent", "create_checkout_session_customer_verification",
-     * "create_delivery_selection", "create_dispute_response_session",
-     * "create_merchant_account_session", "create_refund", "create_subscription_payment_retry",
-     * "get_api_key", "get_bundle", "get_category", "get_checkout_session", "get_credit_note",
-     * "get_custom_domain", "get_customer", "get_customer_address",
-     * "get_customer_deletion_request", "get_customer_email_change_request",
-     * "get_customer_tax_exemption", "get_customer_verification", "get_delivery_location_set",
-     * "get_delivery_method", "get_delivery_profile", "get_delivery_rate_callback",
-     * "get_delivery_selection", "get_delivery_zone", "get_device", "get_dispute", "get_file",
-     * "get_gift_card", "get_gift_card_notification", "get_gift_card_redemption",
-     * "get_inventory_count", "get_inventory_item", "get_inventory_level",
-     * "get_inventory_reservation", "get_inventory_transfer", "get_invoice",
-     * "get_invoice_manual_payment", "get_invoice_payment_term", "get_license_key",
-     * "get_license_key_pool", "get_location", "get_me", "get_me_address",
-     * "get_me_email_preferences", "get_me_gift_card", "get_me_payment_method", "get_me_return",
-     * "get_me_subscription", "get_merchant", "get_merchant_signup", "get_modifier_group",
-     * "get_modifier_set", "get_onboarding_state", "get_operation", "get_order", "get_order_edit",
-     * "get_order_payment_attempt", "get_partner_app", "get_partner_app_credential",
-     * "get_partner_app_install", "get_payment_intent", "get_payment_link",
-     * "get_payment_link_public", "get_payment_method", "get_payment_method_domain",
-     * "get_payment_review", "get_payout", "get_payout_destination", "get_payout_settings",
-     * "get_price_list", "get_price_list_price", "get_product", "get_product_variant",
-     * "get_promotion", "get_promotion_code", "get_reader", "get_refund", "get_return",
-     * "get_return_line_item", "get_return_policy", "get_return_resolution", "get_risk_list",
-     * "get_risk_list_item", "get_risk_rule", "get_sandbox", "get_settings", "get_shipment",
-     * "get_subscription", "get_subscription_offer", "get_subscription_plan",
+     * "replace_default_payout_destination", "review_merchant_readiness",
+     * "review_onboarding_state", "start_new_image_ingestion", "update_checkout_session",
+     * "update_delivery_profile", "update_inventory_allocation_policy", "update_invoice",
+     * "update_location", "update_order", "update_payment_link", "update_settings". anyOf[1]
+     * (Value): string. Action to take next. Use its target resource and required_fields to prepare
+     * the request. Value enum: "add_line_items", "cancel_order_edit", "cancel_payment_intent",
+     * "capture_payment_intent", "close_checkout_session", "close_order", "collect_invoice",
+     * "complete_gift_card_challenge", "confirm_payment_intent",
+     * "create_checkout_session_customer_verification", "create_delivery_selection",
+     * "create_dispute_response_session", "create_merchant_account_session", "create_refund",
+     * "create_subscription_payment_retry", "get_api_key", "get_bundle", "get_category",
+     * "get_checkout_session", "get_credit_note", "get_custom_domain", "get_customer",
+     * "get_customer_address", "get_customer_deletion_request",
+     * "get_customer_email_change_request", "get_customer_tax_exemption",
+     * "get_customer_verification", "get_delivery_location_set", "get_delivery_method",
+     * "get_delivery_profile", "get_delivery_rate_callback", "get_delivery_selection",
+     * "get_delivery_zone", "get_device", "get_dispute", "get_file", "get_gift_card",
+     * "get_gift_card_notification", "get_gift_card_redemption", "get_inventory_count",
+     * "get_inventory_item", "get_inventory_level", "get_inventory_reservation",
+     * "get_inventory_transfer", "get_invoice", "get_invoice_manual_payment",
+     * "get_invoice_payment_term", "get_license_key", "get_license_key_pool", "get_location",
+     * "get_me", "get_me_address", "get_me_email_preferences", "get_me_gift_card",
+     * "get_me_payment_method", "get_me_return", "get_me_subscription", "get_merchant",
+     * "get_merchant_signup", "get_modifier_group", "get_modifier_set", "get_onboarding_state",
+     * "get_operation", "get_order", "get_order_edit", "get_order_payment_attempt",
+     * "get_partner_app", "get_partner_app_credential", "get_partner_app_install",
+     * "get_payment_intent", "get_payment_link", "get_payment_link_public", "get_payment_method",
+     * "get_payment_method_domain", "get_payment_review", "get_payout", "get_payout_destination",
+     * "get_payout_settings", "get_price_list", "get_price_list_price", "get_product",
+     * "get_product_variant", "get_promotion", "get_promotion_code", "get_reader", "get_refund",
+     * "get_return", "get_return_line_item", "get_return_policy", "get_return_resolution",
+     * "get_risk_list", "get_risk_list_item", "get_risk_rule", "get_sandbox", "get_settings",
+     * "get_shipment", "get_subscription", "get_subscription_offer", "get_subscription_plan",
      * "get_tax_calculation_callback", "get_tax_connection", "get_tax_registration",
      * "get_test_clock", "get_ticket", "get_webhook_delivery", "get_webhook_endpoint",
      * "get_workload_identity", "issue_developer_sandbox_test_key", "list_credit_note_allocations",
@@ -1945,10 +2087,11 @@ export type NextActionPreviousAttributes = {
      * "list_return_receipts", "list_return_resolutions", "list_returns", "list_shipments",
      * "list_subscription_line_items", "list_subscription_payment_retries", "list_subscriptions",
      * "pay_order", "payment_authentication", "recreate_delivery_quote",
-     * "review_merchant_readiness", "review_onboarding_state", "start_new_image_ingestion",
-     * "update_checkout_session", "update_delivery_profile", "update_inventory_allocation_policy",
-     * "update_invoice", "update_location", "update_order", "update_payment_link",
-     * "update_settings". anyOf[2] (Value): null.
+     * "replace_default_payout_destination", "review_merchant_readiness",
+     * "review_onboarding_state", "start_new_image_ingestion", "update_checkout_session",
+     * "update_delivery_profile", "update_inventory_allocation_policy", "update_invoice",
+     * "update_location", "update_order", "update_payment_link", "update_settings". anyOf[2]
+     * (Value): null.
      */
     "action_type"?: (("add_line_items"
         | "cancel_order_edit"
@@ -2106,6 +2249,7 @@ export type NextActionPreviousAttributes = {
         | "pay_order"
         | "payment_authentication"
         | "recreate_delivery_quote"
+        | "replace_default_payout_destination"
         | "review_merchant_readiness"
         | "review_onboarding_state"
         | "start_new_image_ingestion"
@@ -4061,22 +4205,3 @@ export type OnboardingState = {
      */
     "status": "complete" | "waiting_for_review" | "needs_external_action" | "needs_input" | (string & {});
 };
-/** A response containing `OnboardingState` data. */
-export type OnboardingStateResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A merchant's onboarding
-     * status, profile, next step, requested capabilities, and whether an API key can be issued.
-     */
-    "data": OnboardingState;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type OnboardingVerifyEmailParams = (InputValue<OnboardingVerifyEmailRequestInput>);

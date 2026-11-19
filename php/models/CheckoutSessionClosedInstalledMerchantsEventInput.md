@@ -64,7 +64,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `inventory_reservation_ids` | Optional | Array of string or null | Immutable cart hold IDs authorized by the merchant at session creation. Omitted when empty and from checkout-credential responses. Buyer and merchant delivery requests that omit IDs use eligible bound holds; explicit merchant IDs replace the binding for that request. First adopter wins when sessions share a hold. Invalidated or otherwise ended sessions cannot adopt stock, and replacements never inherit the binding. Unused cart units retain their own release and expiration lifecycle. `inventory_reservation_ids`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEventInput.md#checkoutsessionclosedinstalledmerchantseventinputdataprevious_attributesinventory_reservation_ids). |
 | `invoice` | Optional | [ExpandedInvoiceSummaryPreviousAttributesInput](../models/ExpandedInvoiceSummaryPreviousAttributesInput.md#expandedinvoicesummarypreviousattributesinput) or null | Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. |
 | `invoice_id` | Optional | string or null | ID of the invoice a session of type `invoice` collects payment for. Absent for other types. `invoice_id`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEventInput.md#checkoutsessionclosedinstalledmerchantseventinputdataprevious_attributesinvoice_id). |
-| `is_in_recovery` | Optional | boolean or null | Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt. `is_in_recovery`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEventInput.md#checkoutsessionclosedinstalledmerchantseventinputdataprevious_attributesis_in_recovery). |
+| `is_in_recovery` | Optional | boolean or null | Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt. `is_in_recovery`: [declared alternatives](../models/CheckoutSessionClosedInstalledMerchantsEventInput.md#checkoutsessionclosedinstalledmerchantseventinputdataprevious_attributesis_in_recovery). |
 | `legal` | Optional | [CheckoutLegalConfigPreviousAttributesInput](../models/CheckoutLegalConfigPreviousAttributesInput.md#checkoutlegalconfigpreviousattributesinput) or null | The terms and policy links this session shows the buyer, and whether the buyer must accept the terms. |
 | `merchant_id` | Optional | string or null | ID of the merchant this resource belongs to. `merchant_id`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributesmerchant_id). |
 | `metadata` | Optional | [MetadataMapPreviousAttributesInput](../models/MetadataMapPreviousAttributesInput.md#metadatamappreviousattributesinput) or null | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. |
@@ -268,15 +268,15 @@ anyOf variant 2.
 
 ### CheckoutSessionClosedInstalledMerchantsEventInput.data.previous_attributes.is_in_recovery variant 1
 
-anyOf variant 1: Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt..
+anyOf variant 1: Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt..
 
-- Value shape: boolean. Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt. 
+- Value shape: boolean. Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt. 
 
 ### CheckoutSessionClosedInstalledMerchantsEventInput.data.previous_attributes.is_in_recovery variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt. 
+- Value shape: null. Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt. 
 
 ### CheckoutSessionClosedInstalledMerchantsEventInput.data.previous_attributes.merchant_id
 

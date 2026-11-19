@@ -4,12 +4,13 @@ namespace Flint;
 /**
  * @property-read list<ResourceTimelineEntriesItemApiRequest|ResourceTimelineEntriesItemWebhookEvent|ResourceTimelineEntriesItemWebhookDeliveryAttempt|ResourceTimelineEntriesItemImageMutation|\stdClass> $entries
  * @property-read ?list<ResourceTimelinePoolAttestationEntry> $license_key_pool_attestations
+ * @property-read ?list<ResourceTimelineLicenseKeyRestrictionChangeEntry> $license_key_restriction_changes
  * @property-read string $resource_id
  * @property-read string $resource_type
  * @property-read bool $test
  * Presence-aware response; omitted optional fields return null. */
 final class ResourceTimeline extends Model {
-    /** @param array{'entries': list<mixed>, 'license_key_pool_attestations'?: list<mixed>, 'resource_id': string, 'resource_type': string, 'test': bool, ...}|object $values */
+    /** @param array{'entries': list<mixed>, 'license_key_pool_attestations'?: list<mixed>, 'license_key_restriction_changes'?: list<mixed>, 'resource_id': string, 'resource_type': string, 'test': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimeline')); }
     /** Timeline entries for the resource, each tagged by `entry_type`. Narrowed by `include`, `occurred_after`, and `occurred_before`. [] (Value): {@see ResourceTimelineEntry}. One entry in a resource timeline. The `entry_type` selects which of the request, webhook, or image fields are present.
      * @return list<ResourceTimelineEntriesItemApiRequest|ResourceTimelineEntriesItemWebhookEvent|ResourceTimelineEntriesItemWebhookDeliveryAttempt|ResourceTimelineEntriesItemImageMutation|\stdClass>
@@ -21,6 +22,11 @@ final class ResourceTimeline extends Model {
      */
     public function getLicenseKeyPoolAttestations(): ?array { return $this->get('license_key_pool_attestations'); }
     public function hasLicenseKeyPoolAttestations(): bool { return $this->has('license_key_pool_attestations'); }
+    /** Restriction changes on this page. Present for license keys when the include filter selects restriction changes. [] (Value): {@see ResourceTimelineLicenseKeyRestrictionChangeEntry}. One restriction taking effect or being lifted on a license key.
+     * @return ?list<ResourceTimelineLicenseKeyRestrictionChangeEntry>
+     */
+    public function getLicenseKeyRestrictionChanges(): ?array { return $this->get('license_key_restriction_changes'); }
+    public function hasLicenseKeyRestrictionChanges(): bool { return $this->has('license_key_restriction_changes'); }
     /** ID of the resource this timeline is for.
      * @return string
      */

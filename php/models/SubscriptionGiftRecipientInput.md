@@ -11,4 +11,5 @@ Request input.
 | `email` | Required | string | The recipient's email address. Flint sends the recipient's gift and final notices here, and shipment notices when delivery.recipient has no email. Format: `email`. Example: `"buyer@example.com"`. |
 | `message` | Required | string or null | A note from the purchaser, shown in the recipient's gift notice. Up to 200 characters. Null when there is no note. |
 | `name` | Required | string or null | The recipient's name, shown in their gift emails. Null when no name was given. |
+| `sender_name` | Optional | string | Name to show as the sender in gift emails, when provided. maxLength: `255`. |
 

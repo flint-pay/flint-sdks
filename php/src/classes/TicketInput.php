@@ -16,12 +16,13 @@ namespace Flint;
  * @property-read list<string> $supported_actions
  * @property-read string $ticket_id
  * @property-read string $ticket_number
+ * @property-read string $tier_name
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read int $version
  * @property-read string|\DateTimeInterface|null $voided_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class TicketInput extends Model {
-    /** @param array{'admission_code'?: string, 'admission_code_last4': string, 'attendee_name': string|null, 'check_in_method': string|null, 'checked_in_at': string|\DateTimeInterface|null, 'created_at': string|\DateTimeInterface, 'order'?: ExpandedOrderSummaryInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'order_line_item_id': string, 'payment_link_id': string, 'status': string, 'supported_actions': list<string>, 'ticket_id': string, 'ticket_number': string, 'updated_at': string|\DateTimeInterface, 'version': int, 'voided_at': string|\DateTimeInterface|null, ...}|object $values */
+    /** @param array{'admission_code'?: string, 'admission_code_last4': string, 'attendee_name': string|null, 'check_in_method': string|null, 'checked_in_at': string|\DateTimeInterface|null, 'created_at': string|\DateTimeInterface, 'order'?: ExpandedOrderSummaryInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'order_line_item_id': string, 'payment_link_id': string, 'status': string, 'supported_actions': list<string>, 'ticket_id': string, 'ticket_number': string, 'tier_name'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, 'voided_at': string|\DateTimeInterface|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TicketInput')); }
     /** The ticket's 16-character Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid checkout session's own paying credential receives it, on its own order's tickets that aren't voided. A checkout credential from a launch URL a merchant reads or requests after payment never does. Returned only to the checkout credential; never in webhook payloads. minLength: 16.
      * @return string
@@ -107,6 +108,12 @@ final class TicketInput extends Model {
      */
     public function getTicketNumber(): string { return $this->get('ticket_number'); }
     public function hasTicketNumber(): bool { return $this->has('ticket_number'); }
+    /** Name of the ticket tier on the purchased order line.
+     * @return string
+     * @throws SdkError When tier_name is omitted; use hasTierName() or valueOrDefault().
+     */
+    public function getTierName(): string { return $this->get('tier_name'); }
+    public function hasTierName(): bool { return $this->has('tier_name'); }
     /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().

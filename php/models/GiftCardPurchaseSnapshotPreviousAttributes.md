@@ -24,18 +24,19 @@ Who receives the gift card. `null` when no recipient was set.
 | `message` | Conditional | string or null | Personal message included with the gift card. `message`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesmessage). |
 | `name` | Conditional | string or null | Name of the person receiving the gift card. `name`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesname). |
 | `send_at` | Conditional | string or null | Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. `send_at`: [declared alternatives](../models/GiftCardPurchaseSnapshotPreviousAttributes.md#giftcardpurchasesnapshotpreviousattributesrecipient-variant-1send_at). |
+| `sender_name` | Conditional | string or null | Name to show as the sender in the gift card email, when provided. `sender_name`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributessender_name). |
 
 ### GiftCardPurchaseSnapshotPreviousAttributes.recipient variant 1
 
 anyOf GiftCardPurchaseRecipientPreviousAttributes.
 
-- Optional: `email`, `message`, `name`, `send_at`.
+- Optional: `email`, `message`, `name`, `send_at`, `sender_name`.
 
 ### GiftCardPurchaseSnapshotPreviousAttributes.recipient variant 2
 
 anyOf variant 2.
 
-- Undeclared: `email`, `message`, `name`, `send_at`.
+- Undeclared: `email`, `message`, `name`, `send_at`, `sender_name`.
 - Value shape: null. Who receives the gift card. `null` when no recipient was set. 
 
 ### GiftCardPurchaseSnapshotPreviousAttributes.recipient variant 1.email
@@ -73,4 +74,8 @@ anyOf variant 1: Optional send time between now and 90 days from now. Omission r
 anyOf variant 2.
 
 - Value shape: null. Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. 
+
+### GiftCardPurchaseSnapshotPreviousAttributes.recipient variant 1.sender_name
+
+Declared alternatives: [GiftCardPurchaseRecipientPreviousAttributes.sender_name](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributessender_name).
 

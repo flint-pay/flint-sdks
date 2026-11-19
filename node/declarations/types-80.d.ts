@@ -1,5 +1,12 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    AddressRequestInput,
+    AdjustGiftCardBalanceRequestInput,
+    AdvanceTestClockRequestInput,
+    ApplyDiscountRequestInput,
+    ApplyDiscountRequestManualInput,
+    ApplyDiscountRequestPromotionInput,
+    ApplyInventoryCountRequestInput,
     ApplyOrderGiftCardRequestInput,
     ApplySubscriptionPromotionRequestInput,
     AssessInvoiceLateFeeRequestInput
@@ -68,17 +75,15 @@ import type {
     CheckoutPaymentConfigRequestInput,
     CheckoutPrefillRequestInput,
     CheckoutPromotionConfigRequestInput,
-    CheckoutQuickPayItemRequestInput,
-    CheckoutRecoveryEmailSettingsRequestInput,
-    CheckoutRedirectsRequestInput,
-    CheckoutSavedPaymentDetailsSettingsRequestInput
+    CheckoutQuickPayItemRequestInput
 } from './types-6.js';
-import type {
-    CheckoutSettingsRequestInput,
-    CheckoutSubscriptionTermsRequestInput,
-    CheckoutTaxCalculationRequestInput,
-    CheckoutTaxConfigRequestInput
-} from './types-7.js';
+export declare function makeAddressRequest(value: InputValue<AddressRequestInput>): Model<AddressRequestInput>;
+export declare function makeAdjustGiftCardBalanceRequest(value: InputValue<AdjustGiftCardBalanceRequestInput>): Model<AdjustGiftCardBalanceRequestInput>;
+export declare function makeAdvanceTestClockRequest(value: InputValue<AdvanceTestClockRequestInput>): Model<AdvanceTestClockRequestInput>;
+export declare function makeApplyDiscountRequest(value: InputValue<ApplyDiscountRequestInput>): Model<ApplyDiscountRequestInput>;
+export declare function makeApplyDiscountRequestManual(value: InputValue<ApplyDiscountRequestManualInput>): Model<ApplyDiscountRequestManualInput>;
+export declare function makeApplyDiscountRequestPromotion(value: InputValue<ApplyDiscountRequestPromotionInput>): Model<ApplyDiscountRequestPromotionInput>;
+export declare function makeApplyInventoryCountRequest(value: InputValue<ApplyInventoryCountRequestInput>): Model<ApplyInventoryCountRequestInput>;
 export declare function makeApplyOrderGiftCardRequest(value: InputValue<ApplyOrderGiftCardRequestInput>): Model<ApplyOrderGiftCardRequestInput>;
 export declare function makeApplySubscriptionPromotionRequest(value: InputValue<ApplySubscriptionPromotionRequestInput>): Model<ApplySubscriptionPromotionRequestInput>;
 export declare function makeAssessInvoiceLateFeeRequest(value: InputValue<AssessInvoiceLateFeeRequestInput>): Model<AssessInvoiceLateFeeRequestInput>;
@@ -136,10 +141,3 @@ export declare function makeCheckoutPaymentConfigRequest(value: InputValue<Check
 export declare function makeCheckoutPrefillRequest(value: InputValue<CheckoutPrefillRequestInput>): Model<CheckoutPrefillRequestInput>;
 export declare function makeCheckoutPromotionConfigRequest(value: InputValue<CheckoutPromotionConfigRequestInput>): Model<CheckoutPromotionConfigRequestInput>;
 export declare function makeCheckoutQuickPayItemRequest(value: InputValue<CheckoutQuickPayItemRequestInput>): Model<CheckoutQuickPayItemRequestInput>;
-export declare function makeCheckoutRecoveryEmailSettingsRequest(value: InputValue<CheckoutRecoveryEmailSettingsRequestInput>): Model<CheckoutRecoveryEmailSettingsRequestInput>;
-export declare function makeCheckoutRedirectsRequest(value: InputValue<CheckoutRedirectsRequestInput>): Model<CheckoutRedirectsRequestInput>;
-export declare function makeCheckoutSavedPaymentDetailsSettingsRequest(value: InputValue<CheckoutSavedPaymentDetailsSettingsRequestInput>): Model<CheckoutSavedPaymentDetailsSettingsRequestInput>;
-export declare function makeCheckoutSettingsRequest(value: InputValue<CheckoutSettingsRequestInput>): Model<CheckoutSettingsRequestInput>;
-export declare function makeCheckoutSubscriptionTermsRequest(value: InputValue<CheckoutSubscriptionTermsRequestInput>): Model<CheckoutSubscriptionTermsRequestInput>;
-export declare function makeCheckoutTaxCalculationRequest(value: InputValue<CheckoutTaxCalculationRequestInput>): Model<CheckoutTaxCalculationRequestInput>;
-export declare function makeCheckoutTaxConfigRequest(value: InputValue<CheckoutTaxConfigRequestInput>): Model<CheckoutTaxConfigRequestInput>;

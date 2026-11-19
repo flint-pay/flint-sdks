@@ -5,10 +5,8 @@ import type {
     RefundDestinationsInput,
     RefundChargeInput,
     RefundLineItemInput,
-    RefundTaxBreakdownRefundInInput,
     RefundCharge,
-    RefundLineItem,
-    RefundTaxBreakdownRefundIn
+    RefundLineItem
 } from './types-60.js';
 import type { SplitReversalRequest, SplitReversalRequestInput } from './types-68.js';
 import type {
@@ -16,7 +14,12 @@ import type {
     CreateReceivablesAgingReportRequest,
     CreateReceivablesAgingReportRequestInput
 } from './types-12.js';
-import type { RefundTenderAllocationRequestInput, RefundWithGiftCardCodes } from './types-61.js';
+import type {
+    RefundTaxBreakdownRefundInInput,
+    RefundTenderAllocationRequestInput,
+    RefundTaxBreakdownRefundIn,
+    RefundWithGiftCardCodes
+} from './types-61.js';
 import type { ResponseMeta } from './types-62.js';
 import type { CreateIntervalReportRequest, CreateIntervalReportRequestInput } from './types-10.js';
 import type {
@@ -37,9 +40,14 @@ import type {
     ReturnLineItemRequest,
     ReturnLineItemRequestInput
 } from './types-63.js';
+import type { ReturnSourceSystemRequest, ReturnSourceSystemRequestInput } from './types-66.js';
 import type {
-    ReturnSourceSystemRequest,
-    ReturnSourceSystemRequestInput,
+    ReturnPolicyRevisionRequest,
+    ReturnPolicyRevisionRequestInput,
+    ReturnReceiptLineItemRequest,
+    ReturnReceiptLineItemRequestInput
+} from './types-64.js';
+import type {
     ReturnResolutionPreview,
     ReturnReplacementLineItemRequest,
     ReturnResolutionAdjustmentRequest,
@@ -48,12 +56,6 @@ import type {
     ReturnReplacementLineItemRequestInput,
     ReturnResolutionLineItemRequestInput
 } from './types-65.js';
-import type {
-    ReturnPolicyRevisionRequest,
-    ReturnPolicyRevisionRequestInput,
-    ReturnReceiptLineItemRequest,
-    ReturnReceiptLineItemRequestInput
-} from './types-64.js';
 import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-67.js';
 import type { CreateRiskPreviewRequestStoredRuleInput } from './types-14.js';
 /** The `credit_note` variant of `CreateRefundRequest`. */

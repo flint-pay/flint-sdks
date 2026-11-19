@@ -25,7 +25,8 @@ import type {
     SubscriptionPlanChangeLineItemRequest,
     SubscriptionPlanChangeLineItemRequestInput
 } from './types-71.js';
-import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-75.js';
+import type { UpdateDeliveryMethodRequest } from './types-75.js';
+import type { UpdateDeliveryMethodRequestInput } from './types-76.js';
 import type {
     SubscriptionServiceLocationRequest,
     SubscriptionQuantityChangeLineItemRequest,
@@ -1053,6 +1054,11 @@ export type CreateShipmentRequest = ({
      */
     "direction": "outbound" | "return" | (string & {});
     /**
+     * Optional version of the owning fulfillment. If the version changed, Flint refuses the
+     * request before creating any records. Format: uint64. minimum: 1.
+     */
+    "expected_fulfillment_version"?: number;
+    /**
      * Caller-owned identifier for this resource in an external system. Requires external_system.
      * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
      * maxLength: 255. Example: "warehouse-1842".
@@ -1106,6 +1112,11 @@ export type CreateShipmentRequestInput = ({
      * "outbound", "return".
      */
     "direction": "outbound" | "return";
+    /**
+     * Optional version of the owning fulfillment. If the version changed, Flint refuses the
+     * request before creating any records. Format: uint64. minimum: 1.
+     */
+    "expected_fulfillment_version"?: number;
     /**
      * Caller-owned identifier for this resource in an external system. Requires external_system.
      * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
@@ -1161,6 +1172,11 @@ export type CreateShipmentRequestOutbound = ({
      */
     "direction": "outbound" | (string & {});
     /**
+     * Optional version of the owning fulfillment. If the version changed, Flint refuses the
+     * request before creating any records. Format: uint64. minimum: 1.
+     */
+    "expected_fulfillment_version"?: number;
+    /**
      * Caller-owned identifier for this resource in an external system. Requires external_system.
      * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
      * maxLength: 255. Example: "warehouse-1842".
@@ -1211,6 +1227,11 @@ export type CreateShipmentRequestOutboundInput = ({
      * "outbound".
      */
     "direction": "outbound";
+    /**
+     * Optional version of the owning fulfillment. If the version changed, Flint refuses the
+     * request before creating any records. Format: uint64. minimum: 1.
+     */
+    "expected_fulfillment_version"?: number;
     /**
      * Caller-owned identifier for this resource in an external system. Requires external_system.
      * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
@@ -1270,6 +1291,11 @@ export type CreateShipmentRequestReturn = ({
      */
     "direction": "return" | (string & {});
     /**
+     * Optional version of the owning fulfillment. If the version changed, Flint refuses the
+     * request before creating any records. Format: uint64. minimum: 1.
+     */
+    "expected_fulfillment_version"?: number;
+    /**
      * Caller-owned identifier for this resource in an external system. Requires external_system.
      * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
      * maxLength: 255. Example: "warehouse-1842".
@@ -1320,6 +1346,11 @@ export type CreateShipmentRequestReturnInput = ({
      * "return".
      */
     "direction": "return";
+    /**
+     * Optional version of the owning fulfillment. If the version changed, Flint refuses the
+     * request before creating any records. Format: uint64. minimum: 1.
+     */
+    "expected_fulfillment_version"?: number;
     /**
      * Caller-owned identifier for this resource in an external system. Requires external_system.
      * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
@@ -2213,7 +2244,7 @@ export type CreateSubscriptionPreviewRequestInput = ((CreateSubscriptionPreviewR
     | (CreateSubscriptionPreviewRequestQuantityChangeInput)
     | (CreateSubscriptionPreviewRequestPromotionApplyInput));
 /** The `next_renewal` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestNextRenewal = {
+export type CreateSubscriptionPreviewRequestNextRenewal = ({
     /**
      * Proposed complete delivery preference, as accepted by subscription PATCH. Prices the next
      * paid renewal as if this delivery were saved. A held delivery with
@@ -2223,6 +2254,17 @@ export type CreateSubscriptionPreviewRequestNextRenewal = {
      * subscription: delivery method, type, destination, and recipient.
      */
     "delivery"?: SubscriptionDeliveryRequest;
+    /**
+     * Reject the quantity estimate if the subscription version has changed. Requires line_items.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Proposed quantities at the next renewal. Send line_items as in change-quantity. Omitted
+     * lines keep their quantities. minItems: 1. maxItems: 50. [] (Value): {@link
+     * SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription line.
+     */
+    "line_items"?: Array<SubscriptionQuantityChangeLineItemRequest>;
     /** Selects the next renewal preview. Value enum: "next_renewal". */
     "mode": "next_renewal" | (string & {});
     /**
@@ -2230,9 +2272,9 @@ export type CreateSubscriptionPreviewRequestNextRenewal = {
      * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
     "subscription_id": string;
-};
+});
 /** The `next_renewal` variant of `CreateSubscriptionPreviewRequest`. */
-export type CreateSubscriptionPreviewRequestNextRenewalInput = {
+export type CreateSubscriptionPreviewRequestNextRenewalInput = ({
     /**
      * Proposed complete delivery preference, as accepted by subscription PATCH. Prices the next
      * paid renewal as if this delivery were saved. A held delivery with
@@ -2242,6 +2284,17 @@ export type CreateSubscriptionPreviewRequestNextRenewalInput = {
      * subscription: delivery method, type, destination, and recipient.
      */
     "delivery"?: SubscriptionDeliveryRequestInput;
+    /**
+     * Reject the quantity estimate if the subscription version has changed. Requires line_items.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Proposed quantities at the next renewal. Send line_items as in change-quantity. Omitted
+     * lines keep their quantities. minItems: 1. maxItems: 50. [] (Value): {@link
+     * SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
+     */
+    "line_items"?: Array<SubscriptionQuantityChangeLineItemRequestInput>;
     /** Selects the next renewal preview. Value enum: "next_renewal". */
     "mode": "next_renewal";
     /**
@@ -2249,7 +2302,12 @@ export type CreateSubscriptionPreviewRequestNextRenewalInput = {
      * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
     "subscription_id": string;
-};
+})
+    & (({
+    "delivery"?: never;
+} | {
+    "line_items"?: never;
+}));
 /** The `plan_change` variant of `CreateSubscriptionPreviewRequest`. */
 export type CreateSubscriptionPreviewRequestPlanChange = ({
     /**

@@ -1,13 +1,6 @@
 import type {
-    AddressPreviousAttributes,
-    ApplyDiscountRequestInput,
-    ApplyOrderGiftCardRequestInput,
-    AddOrderChargeRequestInput,
-    AddLineItemsRequestInput
-} from './types-0.js';
-import type {
-    OrderTaxLocationInputFullAddress,
-    OrderTaxLocationInputFullAddressInput,
+    OrderTaxLocationFullAddressRequest,
+    OrderTaxLocationFullAddressRequestInput,
     OrderTaxAttentionPreviousAttributes,
     OrderTaxCallbackEvaluationPreviousAttributes,
     OrderTaxExemptionPreviousAttributes,
@@ -18,6 +11,13 @@ import type {
     OrderReturnCreditSettlementPreviousAttributes,
     OrderSettlementAmountsPreviousAttributes
 } from './types-47.js';
+import type {
+    AddressPreviousAttributes,
+    ApplyDiscountRequestInput,
+    ApplyOrderGiftCardRequestInput,
+    AddOrderChargeRequestInput,
+    AddLineItemsRequestInput
+} from './types-0.js';
 import type {
     DeliveryChargeTaxCalculationRequestPreviousAttributes,
     DeliveryChargeTaxCalculationRequest,
@@ -51,8 +51,7 @@ import type {
     ExpandedPaymentIntentSummaryPreviousAttributes,
     ExpandedSubscriptionPlanSummaryPreviousAttributes,
     DisputesAcceptParams,
-    ExpandedOrderSummary,
-    ExpandedOrderSummaryPreviousAttributes
+    ExpandedOrderSummary
 } from './types-26.js';
 import type { ExpandedSubscriptionSummaryPreviousAttributes, FilesCompleteParams } from './types-27.js';
 import type { FulfillmentPreviousAttributes } from './types-28.js';
@@ -61,19 +60,66 @@ import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from 
 import type { PartnerWebhookEnvelope, PayOrderRequestInput } from './types-50.js';
 import type { PricingAmountsPreviousAttributes } from './types-56.js';
 import type { TicketedEventPreviousAttributes, TipPreviousAttributes } from './types-75.js';
-import type { WebhookOrder, Weight, WeightRequestInput, WeightPreviousAttributes } from './types-79.js';
+import type { WebhookOrder, Weight, WeightRequestInput } from './types-79.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelOrderEditRequestInput, CancelOrderPaymentAttemptRequestInput } from './types-5.js';
 import type { CloseOrderRequestInput } from './types-7.js';
 import type { CreateOrderEditRequestInput } from './types-11.js';
 import type { CreateOrderRequestInput, CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-12.js';
-import type { RemoveDiscountsRequestInput, RepriceDiscountsRequestInput } from './types-61.js';
-import type { ResolveOrderInventoryExceptionRequestInput, RetryOrderEditRefundRequestInput, ResponseMeta } from './types-62.js';
+import type { RemoveDiscountsRequestInput } from './types-61.js';
+import type {
+    RepriceDiscountsRequestInput,
+    ResolveOrderInventoryExceptionRequestInput,
+    RetryOrderEditRefundRequestInput,
+    ResponseMeta
+} from './types-62.js';
 import type { SendOrderReceiptRequestInput } from './types-67.js';
 import type { UpdateOrderChargeRequestInput, UpdateLineItemRequestInput, UpdateOrderRequestInput } from './types-76.js';
-import type { Dimensions, DimensionsRequestInput, DimensionsPreviousAttributes } from './types-25.js';
-import type { ReturnHandoffRequirementLineItem, ReturnHandoffRequirementLineItemPreviousAttributes } from './types-63.js';
+import type { Dimensions, DimensionsRequestInput } from './types-25.js';
+import type { ReturnHandoffRequirementLineItem } from './types-63.js';
 import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-65.js';
+/**
+ * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
+ * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
+ */
+export type OrderTaxLocationInputFullAddress = {
+    /**
+     * The address to calculate tax from. A full street address you supply as an order's tax
+     * location.
+     */
+    "address": OrderTaxLocationFullAddressRequest;
+    /**
+     * Where the tax address comes from. The only accepted value is provided, which is the default.
+     * Default: "provided". Value enum: "provided".
+     */
+    "address_source"?: "provided" | (string & {});
+    /**
+     * The kind of address you are sending. Value enum: "tax_address", "billing_address",
+     * "shipping_address".
+     */
+    "address_type": "tax_address" | "billing_address" | "shipping_address" | (string & {});
+};
+/**
+ * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
+ * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
+ */
+export type OrderTaxLocationInputFullAddressInput = {
+    /**
+     * The address to calculate tax from. A full street address you supply as an order's tax
+     * location.
+     */
+    "address": OrderTaxLocationFullAddressRequestInput;
+    /**
+     * Where the tax address comes from. The only accepted value is provided, which is the default.
+     * Default: "provided". Value enum: "provided".
+     */
+    "address_source"?: "provided";
+    /**
+     * The kind of address you are sending. Value enum: "tax_address", "billing_address",
+     * "shipping_address".
+     */
+    "address_type": "tax_address" | "billing_address" | "shipping_address";
+};
 /** The `postal_code` variant of `OrderTaxLocationInput`. */
 export type OrderTaxLocationInputPostalCode = {
     /**
@@ -4032,18 +4078,19 @@ export type OrdersGetParams = {
     /**
      * Include related objects in the response. Supported expansions: customer,
      * fulfillments.packages, fulfillments.shipments, payment_intents, subscription,
-     * subscription_plan. Expansion requires the base order read scope plus the read scope for each
-     * expanded resource. Limits: at most 10 unique expand paths per request. To-many expansions
-     * are capped at 20 related objects per path. [] enum: "customer", "fulfillments.packages",
-     * "fulfillments.shipments", "payment_intents", "subscription", "subscription_plan". Value
+     * subscription_plan. For merchant credentials, expansion requires the base order read scope
+     * plus the read scope for each expanded resource. Limits: at most 10 unique expand paths per
+     * request. To-many expansions are capped at 20 related objects per path. Checkout session
+     * credentials can expand only fulfillments.packages, fulfillments.shipments. [] enum:
+     * "customer", "fulfillments.packages", "fulfillments.shipments", "payment_intents",
+     * "subscription", "subscription_plan". Value enum: "customer", "fulfillments.packages",
+     * "fulfillments.shipments", "payment_intents", "subscription", "subscription_plan". anyOf[1]
+     * (Value): Array of string. [] enum: "customer", "fulfillments.packages",
+     * "fulfillments.shipments", "payment_intents", "subscription", "subscription_plan". anyOf[1][]
+     * (Value): string. Value enum: "customer", "fulfillments.packages", "fulfillments.shipments",
+     * "payment_intents", "subscription", "subscription_plan". anyOf[2] (Value): string. Value
      * enum: "customer", "fulfillments.packages", "fulfillments.shipments", "payment_intents",
-     * "subscription", "subscription_plan". anyOf[1] (Value): Array of string. [] enum: "customer",
-     * "fulfillments.packages", "fulfillments.shipments", "payment_intents", "subscription",
-     * "subscription_plan". anyOf[1][] (Value): string. Value enum: "customer",
-     * "fulfillments.packages", "fulfillments.shipments", "payment_intents", "subscription",
-     * "subscription_plan". anyOf[2] (Value): string. Value enum: "customer",
-     * "fulfillments.packages", "fulfillments.shipments", "payment_intents", "subscription",
-     * "subscription_plan".
+     * "subscription", "subscription_plan".
      */
     "expand"?: InputValue<("customer"
         | "fulfillments.packages"
@@ -4435,10 +4482,10 @@ export type OrdersListParams = {
         | readonly ("virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription" | "invoice")[]>;
     /**
      * Search across order_id, order number, external_reference_id, fulfillment
-     * external_reference_id, buyer_email, notes, and line item names. The linked customer's name
-     * and email aren't searched; use email or customer_id to find a customer's orders. Text fields
-     * match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs
-     * match from the start and need the type prefix, such as ord_01.
+     * external_reference_id, buyer_email, notes, and line item names and SKUs. The linked
+     * customer's name and email aren't searched; use email or customer_id to find a customer's
+     * orders. Text fields match any part of the value, and %, _ and \ are ordinary characters, not
+     * wildcards. IDs match from the start and need the type prefix, such as ord_01.
      */
     "query"?: InputValue<string>;
     /**
@@ -4529,8 +4576,11 @@ export type OrdersListPaymentAttemptsParams = {
      * exact and case-sensitive. Returns only resources created in your caller namespace, plus
      * resources created before caller scoping under the original key. Returns current authorized
      * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
-     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -4967,11 +5017,11 @@ export type PackageCreateInputCreated = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [] (Value): {@link CreatePackageItemRequest}. The request body for: Create
-     * package item.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequest}. The request body for: Create package item.
      */
     "items"?: Array<CreatePackageItemRequest>;
     /**
@@ -5059,11 +5109,11 @@ export type PackageCreateInputCreatedInput = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [] (Value): {@link CreatePackageItemRequestInput}. The request body for:
-     * Create package item.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequestInput}. The request body for: Create package item.
      */
     "items"?: Array<CreatePackageItemRequestInput>;
     /**
@@ -5157,13 +5207,13 @@ export type PackageCreateInputShipped = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [] (Value): {@link CreatePackageItemRequest}. The request body for: Create
-     * package item.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequest}. The request body for: Create package item.
      */
-    "items": Array<CreatePackageItemRequest>;
+    "items"?: Array<CreatePackageItemRequest>;
     /**
      * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
      * external_system for provenance. Flint does not host the label file. minLength: 1.
@@ -5178,6 +5228,11 @@ export type PackageCreateInputShipped = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
+    /**
+     * Put every item in the fulfillment into this outbound package. Use with status shipped and a
+     * single package. Omit items. Value enum: true.
+     */
+    "pack_fulfillment_items"?: boolean;
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
@@ -5250,13 +5305,13 @@ export type PackageCreateInputShippedInput = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [] (Value): {@link CreatePackageItemRequestInput}. The request body for:
-     * Create package item.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequestInput}. The request body for: Create package item.
      */
-    "items": Array<CreatePackageItemRequestInput>;
+    "items"?: Array<CreatePackageItemRequestInput>;
     /**
      * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
      * external_system for provenance. Flint does not host the label file. minLength: 1.
@@ -5271,6 +5326,11 @@ export type PackageCreateInputShippedInput = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
+    /**
+     * Put every item in the fulfillment into this outbound package. Use with status shipped and a
+     * single package. Omit items. Value enum: true.
+     */
+    "pack_fulfillment_items"?: (true) & (true);
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
@@ -5346,11 +5406,11 @@ export type PackageCreateRequest = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [] (Value): {@link CreatePackageItemRequest}. The request body for: Create
-     * package item.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequest}. The request body for: Create package item.
      */
     "items"?: Array<CreatePackageItemRequest>;
     /**
@@ -5367,6 +5427,11 @@ export type PackageCreateRequest = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
+    /**
+     * Put every item in the fulfillment into this outbound package. Use with status shipped and a
+     * single package. Omit items. Value enum: true.
+     */
+    "pack_fulfillment_items"?: boolean;
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
@@ -5438,11 +5503,11 @@ export type PackageCreateRequestInput = ({
      */
     "external_system"?: string;
     /**
-     * Independent package-item collection. Required when status is shipped. Inline creation uses
-     * the child-create shape and commits atomically; edit items through the package item routes
-     * after creation. Each order line and bundle component pair may appear once. minItems: 1.
-     * maxItems: 100. [] (Value): {@link CreatePackageItemRequestInput}. The request body for:
-     * Create package item.
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequestInput}. The request body for: Create package item.
      */
     "items"?: Array<CreatePackageItemRequestInput>;
     /**
@@ -5459,6 +5524,11 @@ export type PackageCreateRequestInput = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
+    /**
+     * Put every item in the fulfillment into this outbound package. Use with status shipped and a
+     * single package. Omit items. Value enum: true.
+     */
+    "pack_fulfillment_items"?: (true) & (true);
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
@@ -6365,243 +6435,3 @@ export type PackageListResponse = {
      */
     "request_id": string;
 };
-/** A response containing `Package` data. */
-export type PackageResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A package within a
-     * shipment.
-     */
-    "data": Package;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PackageUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "carrier"?: string;
-            "created_at": string;
-            "delivered_at"?: string;
-            "dimensions"?: Dimensions;
-            "expected_delivery_at"?: string | null;
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "label_url"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_id": string;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "service_code"?: string;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "status_reason"?: string;
-            "supported_actions": Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>;
-            "tracking_number"?: string;
-            "tracking_url"?: string;
-            "updated_at": string;
-            "version": number;
-            "weight"?: Weight;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "carrier"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "delivered_at"?: ((string) | (null));
-            "dimensions"?: ((DimensionsPreviousAttributes) | (null));
-            "expected_delivery_at"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "external_system"?: ((string) | (null));
-            "fulfillment_id"?: ((string) | (null));
-            "label_url"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "package_id"?: ((string) | (null));
-            "return_id"?: ((string) | (null));
-            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItemPreviousAttributes>) | (null));
-            "service_code"?: ((string) | (null));
-            "shipment_id"?: ((string) | (null));
-            "shipped_at"?: ((string) | (null));
-            "status"?: (("created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {}))
-                | (null));
-            "status_reason"?: ((string) | (null));
-            "supported_actions"?: ((Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>)
-                | (null));
-            "tracking_number"?: ((string) | (null));
-            "tracking_url"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "weight"?: ((WeightPreviousAttributes) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "package.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "carrier"?: string;
-            "created_at": string;
-            "delivered_at"?: string;
-            "dimensions"?: Dimensions;
-            "expected_delivery_at"?: string | null;
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "label_url"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_id": string;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "service_code"?: string;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "status_reason"?: string;
-            "supported_actions": Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>;
-            "tracking_number"?: string;
-            "tracking_url"?: string;
-            "updated_at": string;
-            "version": number;
-            "weight"?: Weight;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "carrier"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "delivered_at"?: ((string) | (null));
-            "dimensions"?: ((DimensionsPreviousAttributes) | (null));
-            "expected_delivery_at"?: ((string) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "external_system"?: ((string) | (null));
-            "fulfillment_id"?: ((string) | (null));
-            "label_url"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "package_id"?: ((string) | (null));
-            "return_id"?: ((string) | (null));
-            "return_line_items"?: ((Array<ReturnHandoffRequirementLineItemPreviousAttributes>) | (null));
-            "service_code"?: ((string) | (null));
-            "shipment_id"?: ((string) | (null));
-            "shipped_at"?: ((string) | (null));
-            "status"?: (("created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {}))
-                | (null));
-            "status_reason"?: ((string) | (null));
-            "supported_actions"?: ((Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>)
-                | (null));
-            "tracking_number"?: ((string) | (null));
-            "tracking_url"?: ((string) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-            "weight"?: ((WeightPreviousAttributes) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "package.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "package.updated";
-});

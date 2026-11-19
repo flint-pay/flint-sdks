@@ -42,7 +42,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | --- | --- | --- | --- |
 | `completed_at` | Optional | string or null | RFC3339 timestamp. `completed_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
-| `idempotency_key` | Optional | string or null | The idempotency key sent with the request that created the retry. Repeating the request with the same key returns this retry. `idempotency_key`: [declared alternatives](../models/SubscriptionPaymentRetryFailedInstalledMerchantsEventInput.md#subscriptionpaymentretryfailedinstalledmerchantseventinputdataprevious_attributesidempotency_key). |
+| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer routes return only keys from the buyer's namespace. `idempotency_key`: [declared alternatives](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesidempotency_key). |
 | `last_payment_error` | Optional | [PaymentErrorSummaryPreviousAttributesInput](../models/PaymentErrorSummaryPreviousAttributesInput.md#paymenterrorsummarypreviousattributesinput) or null | Why the payment failed. Present only when the retry's status is `failed` and a payment attempt was made. |
 | `order_id` | Optional | string or null | ID of the renewal order the retry collects. Omitted until Flint records it, which can be after processing starts. `order_id`: [declared alternatives](../models/SubscriptionPaymentRetryFailedInstalledMerchantsEventInput.md#subscriptionpaymentretryfailedinstalledmerchantseventinputdataprevious_attributesorder_id). |
 | `payment_intent_id` | Optional | string or null | The payment intent this retry started. Omitted before charging begins or when no payment intent was created. `payment_intent_id`: [declared alternatives](../models/SubscriptionPaymentRetryFailedInstalledMerchantsEventInput.md#subscriptionpaymentretryfailedinstalledmerchantseventinputdataprevious_attributespayment_intent_id). |
@@ -62,17 +62,7 @@ Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created
 
 ### SubscriptionPaymentRetryFailedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key
 
-### SubscriptionPaymentRetryFailedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key variant 1
-
-anyOf variant 1: The idempotency key sent with the request that created the retry. Repeating the request with the same key returns this retry..
-
-- Value shape: string. The idempotency key sent with the request that created the retry. Repeating the request with the same key returns this retry. 
-
-### SubscriptionPaymentRetryFailedInstalledMerchantsEventInput.data.previous_attributes.idempotency_key variant 2
-
-anyOf variant 2.
-
-- Value shape: null. The idempotency key sent with the request that created the retry. Repeating the request with the same key returns this retry. 
+Declared alternatives: [ReturnCanceledInstalledMerchantsEventInput.data.previous_attributes.idempotency_key](../models/ReturnCanceledInstalledMerchantsEventInput.md#returncanceledinstalledmerchantseventinputdataprevious_attributesidempotency_key).
 
 ### SubscriptionPaymentRetryFailedInstalledMerchantsEventInput.data.previous_attributes.order_id
 

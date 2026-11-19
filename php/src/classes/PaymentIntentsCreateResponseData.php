@@ -23,6 +23,7 @@ namespace Flint;
  * @property-read ?int $failed_attempt_count
  * @property-read ?list<FailedPaymentAttempt> $failed_attempts
  * @property-read ?PaymentFulfillmentHold $fulfillment_hold
+ * @property-read string|null $idempotency_key
  * @property-read ExpandedInvoiceSummary|null $invoice
  * @property-read ?string $invoice_id
  * @property-read ?string $invoice_schedule_entry_id
@@ -48,6 +49,7 @@ namespace Flint;
  * @property-read ?string $refund_status
  * @property-read ?MoneyValue $refunded_money
  * @property-read ?MoneyValue $released_money
+ * @property-read ?MoneyValue $remaining_refundable_money
  * @property-read ?bool $request_overcapture
  * @property-read ?string $return_id
  * @property-read ?string $return_resolution_id
@@ -66,7 +68,7 @@ namespace Flint;
  * @property-read ?PaymentCollection $payment_collection
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentIntentsCreateResponseData extends Model {
-    /** @param array{'add_on_fees'?: list<mixed>, 'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'customer_presence': string, 'dispute_status'?: string, 'external_reference_id'?: string|null, 'failed_attempt_count'?: int, 'failed_attempts'?: list<mixed>, 'fulfillment_hold'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'invoice_schedule_entry_id'?: string, 'last_payment_error': mixed, 'latest_order_payment_attempt_id'?: string|null, 'merchant_id'?: string, 'merchant_net_money'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'overcapture'?: mixed, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'platform_fee'?: mixed, 'processing_fee_details'?: list<mixed>, 'processing_fee_money'?: mixed, 'reader_id'?: string, 'receipt_email'?: string|null, 'refund_expires_at'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'request_overcapture'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'risk'?: mixed, 'selected_payment_option'?: string, 'splits'?: list<mixed>, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, 'payment_collection'?: mixed, ...}|object $values */
+    /** @param array{'add_on_fees'?: list<mixed>, 'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'customer_presence': string, 'dispute_status'?: string, 'external_reference_id'?: string|null, 'failed_attempt_count'?: int, 'failed_attempts'?: list<mixed>, 'fulfillment_hold'?: mixed, 'idempotency_key': string|null, 'invoice'?: mixed, 'invoice_id'?: string, 'invoice_schedule_entry_id'?: string, 'last_payment_error': mixed, 'latest_order_payment_attempt_id'?: string|null, 'merchant_id'?: string, 'merchant_net_money'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'overcapture'?: mixed, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'platform_fee'?: mixed, 'processing_fee_details'?: list<mixed>, 'processing_fee_money'?: mixed, 'reader_id'?: string, 'receipt_email'?: string|null, 'refund_expires_at'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'remaining_refundable_money'?: mixed, 'request_overcapture'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'risk'?: mixed, 'selected_payment_option'?: string, 'splits'?: list<mixed>, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, 'payment_collection'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsCreateResponseData')); }
     /** Itemized invoice, subscription, and automatic tax fees collected with this payment. Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do not return or revise these fees. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. [] (Value): {@see PaymentAddOnFee}. A Flint fee added to a payment intent, with the fee type and amount.
      * @return ?list<PaymentAddOnFee>
@@ -173,6 +175,11 @@ final class PaymentIntentsCreateResponseData extends Model {
      */
     public function getFulfillmentHold(): ?PaymentFulfillmentHold { return $this->get('fulfillment_hold'); }
     public function hasFulfillmentHold(): bool { return $this->has('fulfillment_hold'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field.
+     * @return string|null
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** The linked invoice. Returned only with expand=invoice. Present only when `expand` includes `invoice`; `null` when expanded and there is no related invoice. anyOf[1] (Value): {@see ExpandedInvoiceSummary}. An invoice's summary fields, including status, due date, and paid, outstanding, and refunded amounts, returned when the invoice is expanded. anyOf[2] (Value): null.
      * @return ExpandedInvoiceSummary|null
      */
@@ -298,6 +305,11 @@ final class PaymentIntentsCreateResponseData extends Model {
      */
     public function getReleasedMoney(): ?MoneyValue { return $this->get('released_money'); }
     public function hasReleasedMoney(): bool { return $this->has('released_money'); }
+    /** Remaining payment refund capacity after pending and completed refunds and order reservations. Present on affected merchant payment detail reads, including when the amount is zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return ?MoneyValue
+     */
+    public function getRemainingRefundableMoney(): ?MoneyValue { return $this->get('remaining_refundable_money'); }
+    public function hasRemainingRefundableMoney(): bool { return $this->has('remaining_refundable_money'); }
     /** Whether one capture may collect more than the authorization where the card network allows it. Fixed at create. Always present with merchant credentials; omitted with buyer and checkout credentials.
      * @return ?bool
      */
@@ -348,7 +360,7 @@ final class PaymentIntentsCreateResponseData extends Model {
      */
     public function getSupportReference(): string { return $this->get('support_reference'); }
     public function hasSupportReference(): bool { return $this->has('support_reference'); }
-    /** Verbs this payment intent accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and can change without a payment intent version change. Order legs list confirm when a single leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance require pay_order instead. Invoice payments list only cancel; subscription payments list none. Order edit payments list confirm while awaiting payment details or action. A listed action can still be refused due to an open risk review, an order payment attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner and its command in remediation.next_actions. The merchant list is credential-independent. Checkout credentials receive that list filtered to confirm and cancel on their own session's intents, never capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm", "capture", "cancel". [] (Value): string.  Value enum: "confirm", "capture", "cancel".
+    /** Verbs this payment intent accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and can change without a payment intent version change. Order legs list confirm when a single leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance require pay_order instead. Invoice payments list only cancel. An unused first-period subscription payment lists cancel once the subscription is canceled. Order edit payments list confirm while awaiting payment details or action. A listed action can still be refused due to an open risk review, an order payment attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner and its command in remediation.next_actions. The merchant list is credential-independent. Checkout credentials receive that list filtered to confirm and cancel on their own session's intents, never capture. Customer sessions omit this field. New actions may be added. [] enum: "confirm", "capture", "cancel". [] (Value): string.  Value enum: "confirm", "capture", "cancel".
      * @return list<string>
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }

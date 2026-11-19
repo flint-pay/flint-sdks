@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateCallbackCreatedInstalledMerchantsEventDataObject to DisputeCreatedInstalledMerchantsEventData
+# DeliveryRateCallbackArchivedInstalledMerchantsEvent to DisputeCreatedMerchantEventDataObject
 
+- [DeliveryRateCallbackArchivedInstalledMerchantsEvent](DeliveryRateCallbackArchivedInstalledMerchantsEvent.md)
+- [DeliveryRateCallbackCreatedMerchantEventDataObject](DeliveryRateCallbackCreatedMerchantEventDataObject.md)
+- [DeliveryRateCallbackCreatedMerchantEventData](DeliveryRateCallbackCreatedMerchantEventData.md)
+- [DeliveryRateCallbackCreatedMerchantEventRequest](DeliveryRateCallbackCreatedMerchantEventRequest.md)
+- [DeliveryRateCallbackCreatedMerchantEvent](DeliveryRateCallbackCreatedMerchantEvent.md)
 - [DeliveryRateCallbackCreatedInstalledMerchantsEventDataObject](DeliveryRateCallbackCreatedInstalledMerchantsEventDataObject.md)
 - [DeliveryRateCallbackCreatedInstalledMerchantsEventData](DeliveryRateCallbackCreatedInstalledMerchantsEventData.md)
 - [DeliveryRateCallbackCreatedInstalledMerchantsEventSource](DeliveryRateCallbackCreatedInstalledMerchantsEventSource.md)
@@ -97,9 +102,4 @@
 - [DeliveryZoneUpdatedInstalledMerchantsEventSource](DeliveryZoneUpdatedInstalledMerchantsEventSource.md)
 - [DeliveryZoneUpdatedInstalledMerchantsEvent](DeliveryZoneUpdatedInstalledMerchantsEvent.md)
 - [DisputeCreatedMerchantEventDataObject](DisputeCreatedMerchantEventDataObject.md)
-- [DisputeCreatedMerchantEventData](DisputeCreatedMerchantEventData.md)
-- [DisputeCreatedMerchantEventRequest](DisputeCreatedMerchantEventRequest.md)
-- [DisputeCreatedMerchantEvent](DisputeCreatedMerchantEvent.md)
-- [DisputeCreatedInstalledMerchantsEventDataObject](DisputeCreatedInstalledMerchantsEventDataObject.md)
-- [DisputeCreatedInstalledMerchantsEventData](DisputeCreatedInstalledMerchantsEventData.md)
 

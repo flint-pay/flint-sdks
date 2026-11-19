@@ -10,14 +10,14 @@ The half-open period [period_start_at, period_end_at) includes its start and exc
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payments_count` | Required | integer | Succeeded payments selected by payment created_at within this bucket, restricted to the response currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: `int64`. |
+| `payments_count` | Required | integer | Succeeded payments captured in this bucket, restricted to the response currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: `int64`. |
 | `period_end_at` | Required | string | Exclusive bucket end instant, clipped to the resolved period. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `period_start_at` | Required | string | Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `volume_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Succeeded payment amounts selected by payment created_at within this bucket, in the response currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code. `volume_money`: [field definitions](../models/PaymentVolumeBucket.md#paymentvolumebucketvolume_money). |
+| `volume_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Captured amounts for succeeded payments captured in this bucket, in the response currency. Excludes gift card and store credit redemptions. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code. `volume_money`: [field definitions](../models/PaymentVolumeBucket.md#paymentvolumebucketvolume_money). |
 
 ### PaymentVolumeBucket.volume_money
 
-Succeeded payment amounts selected by payment created_at within this bucket, in the response currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+Captured amounts for succeeded payments captured in this bucket, in the response currency. Excludes gift card and store credit redemptions. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
 Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 

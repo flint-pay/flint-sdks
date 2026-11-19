@@ -1,14 +1,9 @@
-import type { MoneyValueInput, MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
-import type {
-    GiftCardProductConfiguration,
-    GiftCardProductConfigurationPreviousAttributes,
-    GiftCardFundingSource,
-    GiftCardFundingSourcePreviousAttributes
-} from './types-29.js';
+import type { GiftCardCustomAmountBoundsPreviousAttributes, GiftCardCustomAmountBoundsRequestInput, GiftCard } from './types-28.js';
+import type { MoneyValuePreviousAttributes, MoneyValueInput, MoneyValue } from './types-44.js';
+import type { GiftCardProductConfiguration, GiftCardFundingSource, GiftCardFundingSourcePreviousAttributes } from './types-29.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { ResponseMeta, ResourceReference } from './types-62.js';
-import type { GiftCard } from './types-28.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateGiftCardRedemptionRequestInput, CreateGiftCardRequestInput } from './types-10.js';
 import type { DisputesAcceptParams } from './types-26.js';
@@ -19,7 +14,49 @@ import type { FreezeGiftCardRequestInput } from './types-27.js';
 import type { LookupGiftCardRequestInput } from './types-40.js';
 import type { RotateGiftCardCodeRequestInput } from './types-67.js';
 import type { UnfreezeGiftCardRequestInput } from './types-75.js';
-import type { UpdateGiftCardRequestInput } from './types-76.js';
+export type GiftCardProductConfigurationPreviousAttributes = {
+    /**
+     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination.
+     * anyOf[1] (Value): {@link GiftCardCustomAmountBoundsPreviousAttributes}. anyOf[2] (Value):
+     * null.
+     */
+    "custom_amount_bounds"?: ((GiftCardCustomAmountBoundsPreviousAttributes) | (null));
+    /**
+     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
+     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "face_value_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
+     * "face_value", "discounted". anyOf[1] (Value): string. Whether the gift card is sold at its
+     * face value or at a discounted price. Value enum: "face_value", "discounted". anyOf[2]
+     * (Value): null.
+     */
+    "price_mode"?: (("face_value" | "discounted" | (string & {})) | (null));
+};
+/**
+ * Gift card settings on a product variant: its `face_value_money`, price mode (face value or
+ * discounted), and bounds for custom amounts.
+ */
+export type GiftCardProductConfigurationRequestInput = {
+    /**
+     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. The
+     * minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
+     */
+    "custom_amount_bounds"?: GiftCardCustomAmountBoundsRequestInput;
+    /**
+     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
+     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "face_value_money": MoneyValueInput;
+    /**
+     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
+     * "face_value", "discounted".
+     */
+    "price_mode": "face_value" | "discounted";
+};
 /**
  * Gift card details you supply for an order line item: the `face_value_money` and the `recipient`
  * who receives the card.
@@ -60,6 +97,8 @@ export type GiftCardPurchaseRecipient = {
      * notification after funding. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
     "send_at"?: string;
+    /** Name to show as the sender in the gift card email, when provided. maxLength: 255. */
+    "sender_name"?: string;
 };
 /**
  * Changes to the recipient of a gift card purchase when updating a line item. Send null for `name`
@@ -86,6 +125,11 @@ export type GiftCardPurchaseRecipientPatchRequest = {
      * "2026-08-02T16:00:00Z".
      */
     "send_at"?: string;
+    /**
+     * Name to show as the sender in the gift card email, when provided. minLength: 1. maxLength:
+     * 255.
+     */
+    "sender_name"?: string;
 };
 /**
  * Changes to the recipient of a gift card purchase when updating a line item. Send null for `name`
@@ -112,6 +156,11 @@ export type GiftCardPurchaseRecipientPatchRequestInput = {
      * "2026-08-02T16:00:00Z".
      */
     "send_at"?: string | globalThis.Date;
+    /**
+     * Name to show as the sender in the gift card email, when provided. minLength: 1. maxLength:
+     * 255.
+     */
+    "sender_name"?: string;
 };
 export type GiftCardPurchaseRecipientPreviousAttributes = {
     /**
@@ -137,6 +186,12 @@ export type GiftCardPurchaseRecipientPreviousAttributes = {
      * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      */
     "send_at"?: ((string) | (null));
+    /**
+     * Name to show as the sender in the gift card email, when provided. anyOf[1] (Value): string.
+     * Name to show as the sender in the gift card email, when provided. maxLength: 255. anyOf[2]
+     * (Value): null.
+     */
+    "sender_name"?: ((string) | (null));
 };
 /**
  * Recipient of a gift card purchase that you supply: `email`, optional `name` and `message`, and
@@ -163,6 +218,11 @@ export type GiftCardPurchaseRecipientRequestInput = {
      * "2026-08-02T16:00:00Z".
      */
     "send_at"?: string | globalThis.Date;
+    /**
+     * Name to show as the sender in the gift card email, when provided. minLength: 1. maxLength:
+     * 255.
+     */
+    "sender_name"?: string;
 };
 /** An entry in a gift card load's purchase refunds. */
 export type GiftCardPurchaseRefundAllocation = {
@@ -636,8 +696,13 @@ export type GiftCardRedemption = {
      */
     "gift_card_redemption_id": string;
     /**
-     * Your Idempotency-Key for the command that created this record. `null` when Flint created it
-     * or no key was sent.
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown.
      */
     "idempotency_key": string | null;
     /**
@@ -657,9 +722,10 @@ export type GiftCardRedemption = {
      */
     "refunded_money": MoneyValue;
     /**
-     * Captured value not yet refunded. A refund allocation to this redemption can be at most this
-     * amount. Zero while the redemption is reserved, canceled, or expired. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
+     * Captured value available to refund to this redemption. Order redemption reads account for
+     * refunds and value reserved by exchanges or order edits. Zero while the redemption is
+     * reserved, canceled, or expired. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
      */
     "remaining_refundable_money": MoneyValue;
     /**
@@ -788,38 +854,44 @@ export type GiftCardRedemptionCreatedInstalledMerchantsEvent = (Exclude<PartnerW
      * (Required): string. ID of the gift card the value is spent from. Example:
      * "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_redemption_id (Required): string. Unique
      * identifier for this gift card redemption, prefixed `gcr_`. Example:
-     * "gcr_01KEZF7C002YD2G2J734RRZTWT". object.idempotency_key (Required): string or null. Your
-     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
-     * key was sent. object.order_id (Required): string or null. ID of the Flint order the
-     * redemption pays for. `null` when `source_type` is `external`. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.order_payment_attempt_id (Required): string or
-     * null. The order payment attempt the redemption belongs to. Set for source_type flint_order.
-     * `null` when `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
-     * object.refunded_money (Required): {@link MoneyValue}. Total refunded against this redemption
-     * across all refunds. Each refund lists its share in `tender_allocations`. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.remaining_refundable_money (Required): {@link MoneyValue}. Captured value not yet
-     * refunded. A refund allocation to this redemption can be at most this amount. Zero while the
-     * redemption is reserved, canceled, or expired. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. object.requested_money (Required): {@link MoneyValue}.
-     * The amount requested when the redemption was created. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. object.reserved_money (Required): {@link
-     * MoneyValue}. The value held on the card for this redemption while it is reserved. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.sale_reference (Required): string or null. Your reference for the sale the redemption
-     * pays for. Set for source_type external. `null` when `source_type` is `flint_order`.
-     * maxLength: 255. object.source_type (Required): string. What the redemption pays for: a sale
-     * you record, or a Flint order's payment. Value enum: "external", "flint_order". object.status
-     * (Required): string. Where the redemption is in its lifecycle. Value enum: "reserved",
-     * "succeeded", "canceled", "expired". object.supported_actions (Required): Array of string.
-     * Lifecycle actions accepted for the stored redemption, independent of the caller's
-     * credentials. capture is available only before expires_at; cancel remains available until the
-     * reservation is resolved. Reservations for Flint orders are resolved through their payment
-     * attempt and list no actions. [] enum: "capture", "cancel". object.supported_actions[]
-     * (Value): string. Value enum: "capture", "cancel". object.updated_at (Required): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
-     * (Required): integer. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write. Format: int64.
+     * "gcr_01KEZF7C002YD2G2J734RRZTWT". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown. object.order_id (Required): string or null.
+     * ID of the Flint order the redemption pays for. `null` when `source_type` is `external`.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_payment_attempt_id (Required):
+     * string or null. The order payment attempt the redemption belongs to. Set for source_type
+     * flint_order. `null` when `source_type` is `external`. Example:
+     * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.refunded_money (Required): {@link MoneyValue}.
+     * Total refunded against this redemption across all refunds. Each refund lists its share in
+     * `tender_allocations`. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. object.remaining_refundable_money (Required): {@link MoneyValue}. Captured
+     * value available to refund to this redemption. Order redemption reads account for refunds and
+     * value reserved by exchanges or order edits. Zero while the redemption is reserved, canceled,
+     * or expired. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.requested_money (Required): {@link MoneyValue}. The amount requested when the
+     * redemption was created. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. object.reserved_money (Required): {@link MoneyValue}. The value held on the
+     * card for this redemption while it is reserved. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. object.sale_reference (Required): string or null. Your
+     * reference for the sale the redemption pays for. Set for source_type external. `null` when
+     * `source_type` is `flint_order`. maxLength: 255. object.source_type (Required): string. What
+     * the redemption pays for: a sale you record, or a Flint order's payment. Value enum:
+     * "external", "flint_order". object.status (Required): string. Where the redemption is in its
+     * lifecycle. Value enum: "reserved", "succeeded", "canceled", "expired".
+     * object.supported_actions (Required): Array of string. Lifecycle actions accepted for the
+     * stored redemption, independent of the caller's credentials. capture is available only before
+     * expires_at; cancel remains available until the reservation is resolved. Reservations for
+     * Flint orders are resolved through their payment attempt and list no actions. [] enum:
+     * "capture", "cancel". object.supported_actions[] (Value): string. Value enum: "capture",
+     * "cancel". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64.
      */
     "data"?: {
         /**
@@ -835,21 +907,27 @@ export type GiftCardRedemptionCreatedInstalledMerchantsEvent = (Exclude<PartnerW
          * is spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_redemption_id
          * (Required): string. Unique identifier for this gift card redemption, prefixed `gcr_`.
          * Example: "gcr_01KEZF7C002YD2G2J734RRZTWT". idempotency_key (Required): string or null.
-         * Your Idempotency-Key for the command that created this record. `null` when Flint created
-         * it or no key was sent. order_id (Required): string or null. ID of the Flint order the
-         * redemption pays for. `null` when `source_type` is `external`. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". order_payment_attempt_id (Required): string or null.
-         * The order payment attempt the redemption belongs to. Set for source_type flint_order.
-         * `null` when `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
-         * refunded_money (Required): {@link MoneyValue}. Total refunded against this redemption
-         * across all refunds. Each refund lists its share in `tender_allocations`. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code.
-         * remaining_refundable_money (Required): {@link MoneyValue}. Captured value not yet
-         * refunded. A refund allocation to this redemption can be at most this amount. Zero while
-         * the redemption is reserved, canceled, or expired. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. requested_money (Required): {@link
-         * MoneyValue}. The amount requested when the redemption was created. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code. reserved_money
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Older records can return their key when the creating caller is unknown.
+         * order_id (Required): string or null. ID of the Flint order the redemption pays for.
+         * `null` when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_payment_attempt_id (Required): string or null. The order payment attempt the
+         * redemption belongs to. Set for source_type flint_order. `null` when `source_type` is
+         * `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D". refunded_money (Required):
+         * {@link MoneyValue}. Total refunded against this redemption across all refunds. Each
+         * refund lists its share in `tender_allocations`. Monetary amount represented as integer
+         * minor units plus an ISO 4217 currency code. remaining_refundable_money (Required):
+         * {@link MoneyValue}. Captured value available to refund to this redemption. Order
+         * redemption reads account for refunds and value reserved by exchanges or order edits.
+         * Zero while the redemption is reserved, canceled, or expired. Monetary amount represented
+         * as integer minor units plus an ISO 4217 currency code. requested_money (Required):
+         * {@link MoneyValue}. The amount requested when the redemption was created. Monetary
+         * amount represented as integer minor units plus an ISO 4217 currency code. reserved_money
          * (Required): {@link MoneyValue}. The value held on the card for this redemption while it
          * is reserved. Monetary amount represented as integer minor units plus an ISO 4217
          * currency code. sale_reference (Required): string or null. Your reference for the sale
@@ -898,8 +976,14 @@ export type GiftCardRedemptionCreatedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "gift_card_redemption_id": string;
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown.
              */
             "idempotency_key": string | null;
             /**
@@ -920,9 +1004,10 @@ export type GiftCardRedemptionCreatedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "refunded_money": MoneyValue;
             /**
-             * Captured value not yet refunded. A refund allocation to this redemption can be at
-             * most this amount. Zero while the redemption is reserved, canceled, or expired.
-             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             * Captured value available to refund to this redemption. Order redemption reads
+             * account for refunds and value reserved by exchanges or order edits. Zero while the
+             * redemption is reserved, canceled, or expired. Monetary amount represented as integer
+             * minor units plus an ISO 4217 currency code.
              */
             "remaining_refundable_money": MoneyValue;
             /**
@@ -1025,38 +1110,44 @@ export type GiftCardRedemptionCreatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * (Required): string. ID of the gift card the value is spent from. Example:
      * "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_redemption_id (Required): string. Unique
      * identifier for this gift card redemption, prefixed `gcr_`. Example:
-     * "gcr_01KEZF7C002YD2G2J734RRZTWT". object.idempotency_key (Required): string or null. Your
-     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
-     * key was sent. object.order_id (Required): string or null. ID of the Flint order the
-     * redemption pays for. `null` when `source_type` is `external`. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.order_payment_attempt_id (Required): string or
-     * null. The order payment attempt the redemption belongs to. Set for source_type flint_order.
-     * `null` when `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
-     * object.refunded_money (Required): {@link MoneyValue}. Total refunded against this redemption
-     * across all refunds. Each refund lists its share in `tender_allocations`. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.remaining_refundable_money (Required): {@link MoneyValue}. Captured value not yet
-     * refunded. A refund allocation to this redemption can be at most this amount. Zero while the
-     * redemption is reserved, canceled, or expired. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. object.requested_money (Required): {@link MoneyValue}.
-     * The amount requested when the redemption was created. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. object.reserved_money (Required): {@link
-     * MoneyValue}. The value held on the card for this redemption while it is reserved. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.sale_reference (Required): string or null. Your reference for the sale the redemption
-     * pays for. Set for source_type external. `null` when `source_type` is `flint_order`.
-     * maxLength: 255. object.source_type (Required): string. What the redemption pays for: a sale
-     * you record, or a Flint order's payment. Value enum: "external", "flint_order". object.status
-     * (Required): string. Where the redemption is in its lifecycle. Value enum: "reserved",
-     * "succeeded", "canceled", "expired". object.supported_actions (Required): Array of string.
-     * Lifecycle actions accepted for the stored redemption, independent of the caller's
-     * credentials. capture is available only before expires_at; cancel remains available until the
-     * reservation is resolved. Reservations for Flint orders are resolved through their payment
-     * attempt and list no actions. [] enum: "capture", "cancel". object.supported_actions[]
-     * (Value): string. Value enum: "capture", "cancel". object.updated_at (Required): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
-     * (Required): integer. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write. Format: int64.
+     * "gcr_01KEZF7C002YD2G2J734RRZTWT". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown. object.order_id (Required): string or null.
+     * ID of the Flint order the redemption pays for. `null` when `source_type` is `external`.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_payment_attempt_id (Required):
+     * string or null. The order payment attempt the redemption belongs to. Set for source_type
+     * flint_order. `null` when `source_type` is `external`. Example:
+     * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.refunded_money (Required): {@link MoneyValue}.
+     * Total refunded against this redemption across all refunds. Each refund lists its share in
+     * `tender_allocations`. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. object.remaining_refundable_money (Required): {@link MoneyValue}. Captured
+     * value available to refund to this redemption. Order redemption reads account for refunds and
+     * value reserved by exchanges or order edits. Zero while the redemption is reserved, canceled,
+     * or expired. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.requested_money (Required): {@link MoneyValue}. The amount requested when the
+     * redemption was created. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. object.reserved_money (Required): {@link MoneyValue}. The value held on the
+     * card for this redemption while it is reserved. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. object.sale_reference (Required): string or null. Your
+     * reference for the sale the redemption pays for. Set for source_type external. `null` when
+     * `source_type` is `flint_order`. maxLength: 255. object.source_type (Required): string. What
+     * the redemption pays for: a sale you record, or a Flint order's payment. Value enum:
+     * "external", "flint_order". object.status (Required): string. Where the redemption is in its
+     * lifecycle. Value enum: "reserved", "succeeded", "canceled", "expired".
+     * object.supported_actions (Required): Array of string. Lifecycle actions accepted for the
+     * stored redemption, independent of the caller's credentials. capture is available only before
+     * expires_at; cancel remains available until the reservation is resolved. Reservations for
+     * Flint orders are resolved through their payment attempt and list no actions. [] enum:
+     * "capture", "cancel". object.supported_actions[] (Value): string. Value enum: "capture",
+     * "cancel". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64.
      */
     "data"?: {
         /**
@@ -1072,21 +1163,27 @@ export type GiftCardRedemptionCreatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * is spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_redemption_id
          * (Required): string. Unique identifier for this gift card redemption, prefixed `gcr_`.
          * Example: "gcr_01KEZF7C002YD2G2J734RRZTWT". idempotency_key (Required): string or null.
-         * Your Idempotency-Key for the command that created this record. `null` when Flint created
-         * it or no key was sent. order_id (Required): string or null. ID of the Flint order the
-         * redemption pays for. `null` when `source_type` is `external`. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". order_payment_attempt_id (Required): string or null.
-         * The order payment attempt the redemption belongs to. Set for source_type flint_order.
-         * `null` when `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
-         * refunded_money (Required): {@link MoneyValue}. Total refunded against this redemption
-         * across all refunds. Each refund lists its share in `tender_allocations`. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code.
-         * remaining_refundable_money (Required): {@link MoneyValue}. Captured value not yet
-         * refunded. A refund allocation to this redemption can be at most this amount. Zero while
-         * the redemption is reserved, canceled, or expired. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. requested_money (Required): {@link
-         * MoneyValue}. The amount requested when the redemption was created. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code. reserved_money
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Older records can return their key when the creating caller is unknown.
+         * order_id (Required): string or null. ID of the Flint order the redemption pays for.
+         * `null` when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_payment_attempt_id (Required): string or null. The order payment attempt the
+         * redemption belongs to. Set for source_type flint_order. `null` when `source_type` is
+         * `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D". refunded_money (Required):
+         * {@link MoneyValue}. Total refunded against this redemption across all refunds. Each
+         * refund lists its share in `tender_allocations`. Monetary amount represented as integer
+         * minor units plus an ISO 4217 currency code. remaining_refundable_money (Required):
+         * {@link MoneyValue}. Captured value available to refund to this redemption. Order
+         * redemption reads account for refunds and value reserved by exchanges or order edits.
+         * Zero while the redemption is reserved, canceled, or expired. Monetary amount represented
+         * as integer minor units plus an ISO 4217 currency code. requested_money (Required):
+         * {@link MoneyValue}. The amount requested when the redemption was created. Monetary
+         * amount represented as integer minor units plus an ISO 4217 currency code. reserved_money
          * (Required): {@link MoneyValue}. The value held on the card for this redemption while it
          * is reserved. Monetary amount represented as integer minor units plus an ISO 4217
          * currency code. sale_reference (Required): string or null. Your reference for the sale
@@ -1135,8 +1232,14 @@ export type GiftCardRedemptionCreatedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "gift_card_redemption_id": string;
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown.
              */
             "idempotency_key": string | null;
             /**
@@ -1157,9 +1260,10 @@ export type GiftCardRedemptionCreatedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "refunded_money": MoneyValue;
             /**
-             * Captured value not yet refunded. A refund allocation to this redemption can be at
-             * most this amount. Zero while the redemption is reserved, canceled, or expired.
-             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             * Captured value available to refund to this redemption. Order redemption reads
+             * account for refunds and value reserved by exchanges or order edits. Zero while the
+             * redemption is reserved, canceled, or expired. Monetary amount represented as integer
+             * minor units plus an ISO 4217 currency code.
              */
             "remaining_refundable_money": MoneyValue;
             /**
@@ -1434,44 +1538,49 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
      * (Required): string. ID of the gift card the value is spent from. Example:
      * "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_redemption_id (Required): string. Unique
      * identifier for this gift card redemption, prefixed `gcr_`. Example:
-     * "gcr_01KEZF7C002YD2G2J734RRZTWT". object.idempotency_key (Required): string or null. Your
-     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
-     * key was sent. object.order_id (Required): string or null. ID of the Flint order the
-     * redemption pays for. `null` when `source_type` is `external`. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.order_payment_attempt_id (Required): string or
-     * null. The order payment attempt the redemption belongs to. Set for source_type flint_order.
-     * `null` when `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
-     * object.refunded_money (Required): {@link MoneyValue}. Total refunded against this redemption
-     * across all refunds. Each refund lists its share in `tender_allocations`. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.remaining_refundable_money (Required): {@link MoneyValue}. Captured value not yet
-     * refunded. A refund allocation to this redemption can be at most this amount. Zero while the
-     * redemption is reserved, canceled, or expired. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. object.requested_money (Required): {@link MoneyValue}.
-     * The amount requested when the redemption was created. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. object.reserved_money (Required): {@link
-     * MoneyValue}. The value held on the card for this redemption while it is reserved. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.sale_reference (Required): string or null. Your reference for the sale the redemption
-     * pays for. Set for source_type external. `null` when `source_type` is `flint_order`.
-     * maxLength: 255. object.source_type (Required): string. What the redemption pays for: a sale
-     * you record, or a Flint order's payment. Value enum: "external", "flint_order". object.status
-     * (Required): string. Where the redemption is in its lifecycle. Value enum: "reserved",
-     * "succeeded", "canceled", "expired". object.supported_actions (Required): Array of string.
-     * Lifecycle actions accepted for the stored redemption, independent of the caller's
-     * credentials. capture is available only before expires_at; cancel remains available until the
-     * reservation is resolved. Reservations for Flint orders are resolved through their payment
-     * attempt and list no actions. [] enum: "capture", "cancel". object.supported_actions[]
-     * (Value): string. Value enum: "capture", "cancel". object.updated_at (Required): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
-     * (Required): integer. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write. Format: int64.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.capture_mode (Optional): string or null. Whether the redemption spends
-     * the value now or reserves it to capture later. Value enum: "automatic", "manual".
+     * "gcr_01KEZF7C002YD2G2J734RRZTWT". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown. object.order_id (Required): string or null.
+     * ID of the Flint order the redemption pays for. `null` when `source_type` is `external`.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_payment_attempt_id (Required):
+     * string or null. The order payment attempt the redemption belongs to. Set for source_type
+     * flint_order. `null` when `source_type` is `external`. Example:
+     * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.refunded_money (Required): {@link MoneyValue}.
+     * Total refunded against this redemption across all refunds. Each refund lists its share in
+     * `tender_allocations`. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. object.remaining_refundable_money (Required): {@link MoneyValue}. Captured
+     * value available to refund to this redemption. Order redemption reads account for refunds and
+     * value reserved by exchanges or order edits. Zero while the redemption is reserved, canceled,
+     * or expired. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.requested_money (Required): {@link MoneyValue}. The amount requested when the
+     * redemption was created. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. object.reserved_money (Required): {@link MoneyValue}. The value held on the
+     * card for this redemption while it is reserved. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. object.sale_reference (Required): string or null. Your
+     * reference for the sale the redemption pays for. Set for source_type external. `null` when
+     * `source_type` is `flint_order`. maxLength: 255. object.source_type (Required): string. What
+     * the redemption pays for: a sale you record, or a Flint order's payment. Value enum:
+     * "external", "flint_order". object.status (Required): string. Where the redemption is in its
+     * lifecycle. Value enum: "reserved", "succeeded", "canceled", "expired".
+     * object.supported_actions (Required): Array of string. Lifecycle actions accepted for the
+     * stored redemption, independent of the caller's credentials. capture is available only before
+     * expires_at; cancel remains available until the reservation is resolved. Reservations for
+     * Flint orders are resolved through their payment attempt and list no actions. [] enum:
+     * "capture", "cancel". object.supported_actions[] (Value): string. Value enum: "capture",
+     * "cancel". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.capture_mode (Optional): string or null. Whether the redemption
+     * spends the value now or reserves it to capture later. Value enum: "automatic", "manual".
      * previous_attributes.capture_mode.anyOf[1] (Value): string. Whether the redemption spends the
      * value now or reserves it to capture later. Value enum: "automatic", "manual".
      * previous_attributes.capture_mode.anyOf[2] (Value): null. previous_attributes.captured_money
@@ -1495,14 +1604,25 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
      * previous_attributes.gift_card_redemption_id.anyOf[1] (Value): string. Unique identifier for
      * this gift card redemption, prefixed `gcr_`. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
      * previous_attributes.gift_card_redemption_id.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. Your Idempotency-Key for the
-     * command that created this record. `null` when Flint created it or no key was sent.
-     * previous_attributes.idempotency_key.anyOf[1] (Value): string. Your Idempotency-Key for the
-     * command that created this record. `null` when Flint created it or no key was sent.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.order_id
-     * (Optional): string or null. ID of the Flint order the redemption pays for. `null` when
-     * `source_type` is `external`. previous_attributes.order_id.anyOf[1] (Value): string. ID of
-     * the Flint order the redemption pays for. `null` when `source_type` is `external`. Example:
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Older records can return their key when the creating
+     * caller is unknown. previous_attributes.idempotency_key.anyOf[1] (Value): string. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown. previous_attributes.idempotency_key.anyOf[2]
+     * (Value): null. previous_attributes.order_id (Optional): string or null. ID of the Flint
+     * order the redemption pays for. `null` when `source_type` is `external`.
+     * previous_attributes.order_id.anyOf[1] (Value): string. ID of the Flint order the redemption
+     * pays for. `null` when `source_type` is `external`. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
      * previous_attributes.order_payment_attempt_id (Optional): string or null. The order payment
      * attempt the redemption belongs to. Set for source_type flint_order. `null` when
@@ -1516,13 +1636,13 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
      * previous_attributes.refunded_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * previous_attributes.refunded_money.anyOf[2] (Value): null.
      * previous_attributes.remaining_refundable_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Captured value not yet refunded. A refund allocation
-     * to this redemption can be at most this amount. Zero while the redemption is reserved,
-     * canceled, or expired. previous_attributes.remaining_refundable_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.remaining_refundable_money.anyOf[2] (Value): null.
-     * previous_attributes.requested_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. The amount requested when the redemption was created.
+     * MoneyValuePreviousAttributes} or null. Captured value available to refund to this
+     * redemption. Order redemption reads account for refunds and value reserved by exchanges or
+     * order edits. Zero while the redemption is reserved, canceled, or expired.
+     * previous_attributes.remaining_refundable_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.remaining_refundable_money.anyOf[2]
+     * (Value): null. previous_attributes.requested_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. The amount requested when the redemption was created.
      * previous_attributes.requested_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * previous_attributes.requested_money.anyOf[2] (Value): null.
      * previous_attributes.reserved_money (Optional): {@link MoneyValuePreviousAttributes} or null.
@@ -1578,21 +1698,27 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
          * is spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_redemption_id
          * (Required): string. Unique identifier for this gift card redemption, prefixed `gcr_`.
          * Example: "gcr_01KEZF7C002YD2G2J734RRZTWT". idempotency_key (Required): string or null.
-         * Your Idempotency-Key for the command that created this record. `null` when Flint created
-         * it or no key was sent. order_id (Required): string or null. ID of the Flint order the
-         * redemption pays for. `null` when `source_type` is `external`. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". order_payment_attempt_id (Required): string or null.
-         * The order payment attempt the redemption belongs to. Set for source_type flint_order.
-         * `null` when `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
-         * refunded_money (Required): {@link MoneyValue}. Total refunded against this redemption
-         * across all refunds. Each refund lists its share in `tender_allocations`. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code.
-         * remaining_refundable_money (Required): {@link MoneyValue}. Captured value not yet
-         * refunded. A refund allocation to this redemption can be at most this amount. Zero while
-         * the redemption is reserved, canceled, or expired. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. requested_money (Required): {@link
-         * MoneyValue}. The amount requested when the redemption was created. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code. reserved_money
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Older records can return their key when the creating caller is unknown.
+         * order_id (Required): string or null. ID of the Flint order the redemption pays for.
+         * `null` when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_payment_attempt_id (Required): string or null. The order payment attempt the
+         * redemption belongs to. Set for source_type flint_order. `null` when `source_type` is
+         * `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D". refunded_money (Required):
+         * {@link MoneyValue}. Total refunded against this redemption across all refunds. Each
+         * refund lists its share in `tender_allocations`. Monetary amount represented as integer
+         * minor units plus an ISO 4217 currency code. remaining_refundable_money (Required):
+         * {@link MoneyValue}. Captured value available to refund to this redemption. Order
+         * redemption reads account for refunds and value reserved by exchanges or order edits.
+         * Zero while the redemption is reserved, canceled, or expired. Monetary amount represented
+         * as integer minor units plus an ISO 4217 currency code. requested_money (Required):
+         * {@link MoneyValue}. The amount requested when the redemption was created. Monetary
+         * amount represented as integer minor units plus an ISO 4217 currency code. reserved_money
          * (Required): {@link MoneyValue}. The value held on the card for this redemption while it
          * is reserved. Monetary amount represented as integer minor units plus an ISO 4217
          * currency code. sale_reference (Required): string or null. Your reference for the sale
@@ -1641,8 +1767,14 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "gift_card_redemption_id": string;
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown.
              */
             "idempotency_key": string | null;
             /**
@@ -1663,9 +1795,10 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "refunded_money": MoneyValue;
             /**
-             * Captured value not yet refunded. A refund allocation to this redemption can be at
-             * most this amount. Zero while the redemption is reserved, canceled, or expired.
-             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             * Captured value available to refund to this redemption. Order redemption reads
+             * account for refunds and value reserved by exchanges or order edits. Zero while the
+             * redemption is reserved, canceled, or expired. Monetary amount represented as integer
+             * minor units plus an ISO 4217 currency code.
              */
             "remaining_refundable_money": MoneyValue;
             /**
@@ -1735,34 +1868,44 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
          * redemption, prefixed `gcr_`. gift_card_redemption_id.anyOf[1] (Value): string. Unique
          * identifier for this gift card redemption, prefixed `gcr_`. Example:
          * "gcr_01KEZF7C002YD2G2J734RRZTWT". gift_card_redemption_id.anyOf[2] (Value): null.
-         * idempotency_key (Optional): string or null. Your Idempotency-Key for the command that
-         * created this record. `null` when Flint created it or no key was sent.
-         * idempotency_key.anyOf[1] (Value): string. Your Idempotency-Key for the command that
-         * created this record. `null` when Flint created it or no key was sent.
-         * idempotency_key.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the
-         * Flint order the redemption pays for. `null` when `source_type` is `external`.
-         * order_id.anyOf[1] (Value): string. ID of the Flint order the redemption pays for. `null`
-         * when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-         * order_id.anyOf[2] (Value): null. order_payment_attempt_id (Optional): string or null.
-         * The order payment attempt the redemption belongs to. Set for source_type flint_order.
-         * `null` when `source_type` is `external`. order_payment_attempt_id.anyOf[1] (Value):
-         * string. The order payment attempt the redemption belongs to. Set for source_type
-         * flint_order. `null` when `source_type` is `external`. Example:
-         * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". order_payment_attempt_id.anyOf[2] (Value): null.
-         * refunded_money (Optional): {@link MoneyValuePreviousAttributes} or null. Total refunded
-         * against this redemption across all refunds. Each refund lists its share in
-         * `tender_allocations`. refunded_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. refunded_money.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Older records can return their key when the
+         * creating caller is unknown. idempotency_key.anyOf[1] (Value): string. The
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource. Older records
+         * can return their key when the creating caller is unknown. idempotency_key.anyOf[2]
+         * (Value): null. order_id (Optional): string or null. ID of the Flint order the redemption
+         * pays for. `null` when `source_type` is `external`. order_id.anyOf[1] (Value): string. ID
+         * of the Flint order the redemption pays for. `null` when `source_type` is `external`.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * order_payment_attempt_id (Optional): string or null. The order payment attempt the
+         * redemption belongs to. Set for source_type flint_order. `null` when `source_type` is
+         * `external`. order_payment_attempt_id.anyOf[1] (Value): string. The order payment attempt
+         * the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is
+         * `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
+         * order_payment_attempt_id.anyOf[2] (Value): null. refunded_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Total refunded against this redemption across all
+         * refunds. Each refund lists its share in `tender_allocations`. refunded_money.anyOf[1]
+         * (Value): {@link MoneyValuePreviousAttributes}. refunded_money.anyOf[2] (Value): null.
          * remaining_refundable_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-         * Captured value not yet refunded. A refund allocation to this redemption can be at most
-         * this amount. Zero while the redemption is reserved, canceled, or expired.
-         * remaining_refundable_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * remaining_refundable_money.anyOf[2] (Value): null. requested_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. The amount requested when the redemption was
-         * created. requested_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * requested_money.anyOf[2] (Value): null. reserved_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. The value held on the card for this redemption
-         * while it is reserved. reserved_money.anyOf[1] (Value): {@link
+         * Captured value available to refund to this redemption. Order redemption reads account
+         * for refunds and value reserved by exchanges or order edits. Zero while the redemption is
+         * reserved, canceled, or expired. remaining_refundable_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. remaining_refundable_money.anyOf[2] (Value): null.
+         * requested_money (Optional): {@link MoneyValuePreviousAttributes} or null. The amount
+         * requested when the redemption was created. requested_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. requested_money.anyOf[2] (Value): null. reserved_money
+         * (Optional): {@link MoneyValuePreviousAttributes} or null. The value held on the card for
+         * this redemption while it is reserved. reserved_money.anyOf[1] (Value): {@link
          * MoneyValuePreviousAttributes}. reserved_money.anyOf[2] (Value): null. sale_reference
          * (Optional): string or null. Your reference for the sale the redemption pays for. Set for
          * source_type external. `null` when `source_type` is `flint_order`.
@@ -1837,10 +1980,21 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "gift_card_redemption_id"?: ((string) | (null));
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent. anyOf[1] (Value): string. Your Idempotency-Key for
-             * the command that created this record. `null` when Flint created it or no key was
-             * sent. anyOf[2] (Value): null.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown. anyOf[1] (Value): string. The Idempotency-Key of the request that
+             * created this resource. `null` when that request sent no key, Flint created the
+             * resource, the reader isn't the caller that created it (another app install, a buyer,
+             * or the merchant reading an app's or buyer's record), or the caller that created an
+             * older record is unknown. Filter its list with `idempotency_key` to find it. Recorded
+             * payloads, including replayed responses and webhook events, can return `null`. To
+             * find a key that a replay returns as `null`, read the resource. Older records can
+             * return their key when the creating caller is unknown. anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
             /**
@@ -1865,9 +2019,10 @@ export type GiftCardRedemptionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
-             * Captured value not yet refunded. A refund allocation to this redemption can be at
-             * most this amount. Zero while the redemption is reserved, canceled, or expired.
-             * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             * Captured value available to refund to this redemption. Order redemption reads
+             * account for refunds and value reserved by exchanges or order edits. Zero while the
+             * redemption is reserved, canceled, or expired. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
             "remaining_refundable_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
@@ -1986,44 +2141,49 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * (Required): string. ID of the gift card the value is spent from. Example:
      * "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_redemption_id (Required): string. Unique
      * identifier for this gift card redemption, prefixed `gcr_`. Example:
-     * "gcr_01KEZF7C002YD2G2J734RRZTWT". object.idempotency_key (Required): string or null. Your
-     * Idempotency-Key for the command that created this record. `null` when Flint created it or no
-     * key was sent. object.order_id (Required): string or null. ID of the Flint order the
-     * redemption pays for. `null` when `source_type` is `external`. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.order_payment_attempt_id (Required): string or
-     * null. The order payment attempt the redemption belongs to. Set for source_type flint_order.
-     * `null` when `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
-     * object.refunded_money (Required): {@link MoneyValue}. Total refunded against this redemption
-     * across all refunds. Each refund lists its share in `tender_allocations`. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.remaining_refundable_money (Required): {@link MoneyValue}. Captured value not yet
-     * refunded. A refund allocation to this redemption can be at most this amount. Zero while the
-     * redemption is reserved, canceled, or expired. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. object.requested_money (Required): {@link MoneyValue}.
-     * The amount requested when the redemption was created. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. object.reserved_money (Required): {@link
-     * MoneyValue}. The value held on the card for this redemption while it is reserved. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.sale_reference (Required): string or null. Your reference for the sale the redemption
-     * pays for. Set for source_type external. `null` when `source_type` is `flint_order`.
-     * maxLength: 255. object.source_type (Required): string. What the redemption pays for: a sale
-     * you record, or a Flint order's payment. Value enum: "external", "flint_order". object.status
-     * (Required): string. Where the redemption is in its lifecycle. Value enum: "reserved",
-     * "succeeded", "canceled", "expired". object.supported_actions (Required): Array of string.
-     * Lifecycle actions accepted for the stored redemption, independent of the caller's
-     * credentials. capture is available only before expires_at; cancel remains available until the
-     * reservation is resolved. Reservations for Flint orders are resolved through their payment
-     * attempt and list no actions. [] enum: "capture", "cancel". object.supported_actions[]
-     * (Value): string. Value enum: "capture", "cancel". object.updated_at (Required): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
-     * (Required): integer. Current version of this resource's owned state. Send it as
-     * `expected_version` when changing the resource to reject a stale write. Format: int64.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.capture_mode (Optional): string or null. Whether the redemption spends
-     * the value now or reserves it to capture later. Value enum: "automatic", "manual".
+     * "gcr_01KEZF7C002YD2G2J734RRZTWT". object.idempotency_key (Required): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown. object.order_id (Required): string or null.
+     * ID of the Flint order the redemption pays for. `null` when `source_type` is `external`.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_payment_attempt_id (Required):
+     * string or null. The order payment attempt the redemption belongs to. Set for source_type
+     * flint_order. `null` when `source_type` is `external`. Example:
+     * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.refunded_money (Required): {@link MoneyValue}.
+     * Total refunded against this redemption across all refunds. Each refund lists its share in
+     * `tender_allocations`. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. object.remaining_refundable_money (Required): {@link MoneyValue}. Captured
+     * value available to refund to this redemption. Order redemption reads account for refunds and
+     * value reserved by exchanges or order edits. Zero while the redemption is reserved, canceled,
+     * or expired. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.requested_money (Required): {@link MoneyValue}. The amount requested when the
+     * redemption was created. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. object.reserved_money (Required): {@link MoneyValue}. The value held on the
+     * card for this redemption while it is reserved. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. object.sale_reference (Required): string or null. Your
+     * reference for the sale the redemption pays for. Set for source_type external. `null` when
+     * `source_type` is `flint_order`. maxLength: 255. object.source_type (Required): string. What
+     * the redemption pays for: a sale you record, or a Flint order's payment. Value enum:
+     * "external", "flint_order". object.status (Required): string. Where the redemption is in its
+     * lifecycle. Value enum: "reserved", "succeeded", "canceled", "expired".
+     * object.supported_actions (Required): Array of string. Lifecycle actions accepted for the
+     * stored redemption, independent of the caller's credentials. capture is available only before
+     * expires_at; cancel remains available until the reservation is resolved. Reservations for
+     * Flint orders are resolved through their payment attempt and list no actions. [] enum:
+     * "capture", "cancel". object.supported_actions[] (Value): string. Value enum: "capture",
+     * "cancel". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events. previous_attributes.capture_mode (Optional): string or null. Whether the redemption
+     * spends the value now or reserves it to capture later. Value enum: "automatic", "manual".
      * previous_attributes.capture_mode.anyOf[1] (Value): string. Whether the redemption spends the
      * value now or reserves it to capture later. Value enum: "automatic", "manual".
      * previous_attributes.capture_mode.anyOf[2] (Value): null. previous_attributes.captured_money
@@ -2047,14 +2207,25 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * previous_attributes.gift_card_redemption_id.anyOf[1] (Value): string. Unique identifier for
      * this gift card redemption, prefixed `gcr_`. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
      * previous_attributes.gift_card_redemption_id.anyOf[2] (Value): null.
-     * previous_attributes.idempotency_key (Optional): string or null. Your Idempotency-Key for the
-     * command that created this record. `null` when Flint created it or no key was sent.
-     * previous_attributes.idempotency_key.anyOf[1] (Value): string. Your Idempotency-Key for the
-     * command that created this record. `null` when Flint created it or no key was sent.
-     * previous_attributes.idempotency_key.anyOf[2] (Value): null. previous_attributes.order_id
-     * (Optional): string or null. ID of the Flint order the redemption pays for. `null` when
-     * `source_type` is `external`. previous_attributes.order_id.anyOf[1] (Value): string. ID of
-     * the Flint order the redemption pays for. `null` when `source_type` is `external`. Example:
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. Older records can return their key when the creating
+     * caller is unknown. previous_attributes.idempotency_key.anyOf[1] (Value): string. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown. previous_attributes.idempotency_key.anyOf[2]
+     * (Value): null. previous_attributes.order_id (Optional): string or null. ID of the Flint
+     * order the redemption pays for. `null` when `source_type` is `external`.
+     * previous_attributes.order_id.anyOf[1] (Value): string. ID of the Flint order the redemption
+     * pays for. `null` when `source_type` is `external`. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
      * previous_attributes.order_payment_attempt_id (Optional): string or null. The order payment
      * attempt the redemption belongs to. Set for source_type flint_order. `null` when
@@ -2068,13 +2239,13 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * previous_attributes.refunded_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * previous_attributes.refunded_money.anyOf[2] (Value): null.
      * previous_attributes.remaining_refundable_money (Optional): {@link
-     * MoneyValuePreviousAttributes} or null. Captured value not yet refunded. A refund allocation
-     * to this redemption can be at most this amount. Zero while the redemption is reserved,
-     * canceled, or expired. previous_attributes.remaining_refundable_money.anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}.
-     * previous_attributes.remaining_refundable_money.anyOf[2] (Value): null.
-     * previous_attributes.requested_money (Optional): {@link MoneyValuePreviousAttributes} or
-     * null. The amount requested when the redemption was created.
+     * MoneyValuePreviousAttributes} or null. Captured value available to refund to this
+     * redemption. Order redemption reads account for refunds and value reserved by exchanges or
+     * order edits. Zero while the redemption is reserved, canceled, or expired.
+     * previous_attributes.remaining_refundable_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.remaining_refundable_money.anyOf[2]
+     * (Value): null. previous_attributes.requested_money (Optional): {@link
+     * MoneyValuePreviousAttributes} or null. The amount requested when the redemption was created.
      * previous_attributes.requested_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * previous_attributes.requested_money.anyOf[2] (Value): null.
      * previous_attributes.reserved_money (Optional): {@link MoneyValuePreviousAttributes} or null.
@@ -2130,21 +2301,27 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * is spent from. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_redemption_id
          * (Required): string. Unique identifier for this gift card redemption, prefixed `gcr_`.
          * Example: "gcr_01KEZF7C002YD2G2J734RRZTWT". idempotency_key (Required): string or null.
-         * Your Idempotency-Key for the command that created this record. `null` when Flint created
-         * it or no key was sent. order_id (Required): string or null. ID of the Flint order the
-         * redemption pays for. `null` when `source_type` is `external`. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". order_payment_attempt_id (Required): string or null.
-         * The order payment attempt the redemption belongs to. Set for source_type flint_order.
-         * `null` when `source_type` is `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
-         * refunded_money (Required): {@link MoneyValue}. Total refunded against this redemption
-         * across all refunds. Each refund lists its share in `tender_allocations`. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code.
-         * remaining_refundable_money (Required): {@link MoneyValue}. Captured value not yet
-         * refunded. A refund allocation to this redemption can be at most this amount. Zero while
-         * the redemption is reserved, canceled, or expired. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. requested_money (Required): {@link
-         * MoneyValue}. The amount requested when the redemption was created. Monetary amount
-         * represented as integer minor units plus an ISO 4217 currency code. reserved_money
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. Older records can return their key when the creating caller is unknown.
+         * order_id (Required): string or null. ID of the Flint order the redemption pays for.
+         * `null` when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_payment_attempt_id (Required): string or null. The order payment attempt the
+         * redemption belongs to. Set for source_type flint_order. `null` when `source_type` is
+         * `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D". refunded_money (Required):
+         * {@link MoneyValue}. Total refunded against this redemption across all refunds. Each
+         * refund lists its share in `tender_allocations`. Monetary amount represented as integer
+         * minor units plus an ISO 4217 currency code. remaining_refundable_money (Required):
+         * {@link MoneyValue}. Captured value available to refund to this redemption. Order
+         * redemption reads account for refunds and value reserved by exchanges or order edits.
+         * Zero while the redemption is reserved, canceled, or expired. Monetary amount represented
+         * as integer minor units plus an ISO 4217 currency code. requested_money (Required):
+         * {@link MoneyValue}. The amount requested when the redemption was created. Monetary
+         * amount represented as integer minor units plus an ISO 4217 currency code. reserved_money
          * (Required): {@link MoneyValue}. The value held on the card for this redemption while it
          * is reserved. Monetary amount represented as integer minor units plus an ISO 4217
          * currency code. sale_reference (Required): string or null. Your reference for the sale
@@ -2193,8 +2370,14 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "gift_card_redemption_id": string;
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown.
              */
             "idempotency_key": string | null;
             /**
@@ -2215,9 +2398,10 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "refunded_money": MoneyValue;
             /**
-             * Captured value not yet refunded. A refund allocation to this redemption can be at
-             * most this amount. Zero while the redemption is reserved, canceled, or expired.
-             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+             * Captured value available to refund to this redemption. Order redemption reads
+             * account for refunds and value reserved by exchanges or order edits. Zero while the
+             * redemption is reserved, canceled, or expired. Monetary amount represented as integer
+             * minor units plus an ISO 4217 currency code.
              */
             "remaining_refundable_money": MoneyValue;
             /**
@@ -2287,34 +2471,44 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * redemption, prefixed `gcr_`. gift_card_redemption_id.anyOf[1] (Value): string. Unique
          * identifier for this gift card redemption, prefixed `gcr_`. Example:
          * "gcr_01KEZF7C002YD2G2J734RRZTWT". gift_card_redemption_id.anyOf[2] (Value): null.
-         * idempotency_key (Optional): string or null. Your Idempotency-Key for the command that
-         * created this record. `null` when Flint created it or no key was sent.
-         * idempotency_key.anyOf[1] (Value): string. Your Idempotency-Key for the command that
-         * created this record. `null` when Flint created it or no key was sent.
-         * idempotency_key.anyOf[2] (Value): null. order_id (Optional): string or null. ID of the
-         * Flint order the redemption pays for. `null` when `source_type` is `external`.
-         * order_id.anyOf[1] (Value): string. ID of the Flint order the redemption pays for. `null`
-         * when `source_type` is `external`. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-         * order_id.anyOf[2] (Value): null. order_payment_attempt_id (Optional): string or null.
-         * The order payment attempt the redemption belongs to. Set for source_type flint_order.
-         * `null` when `source_type` is `external`. order_payment_attempt_id.anyOf[1] (Value):
-         * string. The order payment attempt the redemption belongs to. Set for source_type
-         * flint_order. `null` when `source_type` is `external`. Example:
-         * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". order_payment_attempt_id.anyOf[2] (Value): null.
-         * refunded_money (Optional): {@link MoneyValuePreviousAttributes} or null. Total refunded
-         * against this redemption across all refunds. Each refund lists its share in
-         * `tender_allocations`. refunded_money.anyOf[1] (Value): {@link
-         * MoneyValuePreviousAttributes}. refunded_money.anyOf[2] (Value): null.
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Older records can return their key when the
+         * creating caller is unknown. idempotency_key.anyOf[1] (Value): string. The
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource. Older records
+         * can return their key when the creating caller is unknown. idempotency_key.anyOf[2]
+         * (Value): null. order_id (Optional): string or null. ID of the Flint order the redemption
+         * pays for. `null` when `source_type` is `external`. order_id.anyOf[1] (Value): string. ID
+         * of the Flint order the redemption pays for. `null` when `source_type` is `external`.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * order_payment_attempt_id (Optional): string or null. The order payment attempt the
+         * redemption belongs to. Set for source_type flint_order. `null` when `source_type` is
+         * `external`. order_payment_attempt_id.anyOf[1] (Value): string. The order payment attempt
+         * the redemption belongs to. Set for source_type flint_order. `null` when `source_type` is
+         * `external`. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
+         * order_payment_attempt_id.anyOf[2] (Value): null. refunded_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Total refunded against this redemption across all
+         * refunds. Each refund lists its share in `tender_allocations`. refunded_money.anyOf[1]
+         * (Value): {@link MoneyValuePreviousAttributes}. refunded_money.anyOf[2] (Value): null.
          * remaining_refundable_money (Optional): {@link MoneyValuePreviousAttributes} or null.
-         * Captured value not yet refunded. A refund allocation to this redemption can be at most
-         * this amount. Zero while the redemption is reserved, canceled, or expired.
-         * remaining_refundable_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * remaining_refundable_money.anyOf[2] (Value): null. requested_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. The amount requested when the redemption was
-         * created. requested_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
-         * requested_money.anyOf[2] (Value): null. reserved_money (Optional): {@link
-         * MoneyValuePreviousAttributes} or null. The value held on the card for this redemption
-         * while it is reserved. reserved_money.anyOf[1] (Value): {@link
+         * Captured value available to refund to this redemption. Order redemption reads account
+         * for refunds and value reserved by exchanges or order edits. Zero while the redemption is
+         * reserved, canceled, or expired. remaining_refundable_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. remaining_refundable_money.anyOf[2] (Value): null.
+         * requested_money (Optional): {@link MoneyValuePreviousAttributes} or null. The amount
+         * requested when the redemption was created. requested_money.anyOf[1] (Value): {@link
+         * MoneyValuePreviousAttributes}. requested_money.anyOf[2] (Value): null. reserved_money
+         * (Optional): {@link MoneyValuePreviousAttributes} or null. The value held on the card for
+         * this redemption while it is reserved. reserved_money.anyOf[1] (Value): {@link
          * MoneyValuePreviousAttributes}. reserved_money.anyOf[2] (Value): null. sale_reference
          * (Optional): string or null. Your reference for the sale the redemption pays for. Set for
          * source_type external. `null` when `source_type` is `flint_order`.
@@ -2389,10 +2583,21 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "gift_card_redemption_id"?: ((string) | (null));
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent. anyOf[1] (Value): string. Your Idempotency-Key for
-             * the command that created this record. `null` when Flint created it or no key was
-             * sent. anyOf[2] (Value): null.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown. anyOf[1] (Value): string. The Idempotency-Key of the request that
+             * created this resource. `null` when that request sent no key, Flint created the
+             * resource, the reader isn't the caller that created it (another app install, a buyer,
+             * or the merchant reading an app's or buyer's record), or the caller that created an
+             * older record is unknown. Filter its list with `idempotency_key` to find it. Recorded
+             * payloads, including replayed responses and webhook events, can return `null`. To
+             * find a key that a replay returns as `null`, read the resource. Older records can
+             * return their key when the creating caller is unknown. anyOf[2] (Value): null.
              */
             "idempotency_key"?: ((string) | (null));
             /**
@@ -2417,9 +2622,10 @@ export type GiftCardRedemptionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
-             * Captured value not yet refunded. A refund allocation to this redemption can be at
-             * most this amount. Zero while the redemption is reserved, canceled, or expired.
-             * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             * Captured value available to refund to this redemption. Order redemption reads
+             * account for refunds and value reserved by exchanges or order edits. Zero while the
+             * redemption is reserved, canceled, or expired. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
              */
             "remaining_refundable_money"?: ((MoneyValuePreviousAttributes) | (null));
             /**
@@ -2546,8 +2752,11 @@ export type GiftCardRedemptionsListParams = {
      * exact and case-sensitive. Returns only resources created in your caller namespace, plus
      * resources created before caller scoping under the original key. Returns current authorized
      * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
-     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -2971,8 +3180,13 @@ export type GiftCardTransaction = {
     /** Stable identifier of the transaction. Example: "gct_01KEZF7C006Q1VC3M2DXJ6T936". */
     "gift_card_transaction_id": string;
     /**
-     * Your Idempotency-Key for the command that created this record. `null` when Flint created it
-     * or no key was sent.
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Older records can return
+     * their key when the creating caller is unknown.
      */
     "idempotency_key": string | null;
     /**
@@ -3153,10 +3367,15 @@ export type GiftCardTransactionCreatedInstalledMerchantsEvent = (Exclude<Partner
      * (Required): string. Gift card whose balance this transaction changed. Example:
      * "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_transaction_id (Required): string. Stable
      * identifier of the transaction. Example: "gct_01KEZF7C006Q1VC3M2DXJ6T936".
-     * object.idempotency_key (Required): string or null. Your Idempotency-Key for the command that
-     * created this record. `null` when Flint created it or no key was sent.
-     * object.merchant_sequence (Required): integer. Position of this transaction among all of your
-     * gift card transactions in this environment. It increases by one with each posted
+     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * created this resource. `null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+     * responses and webhook events, can return `null`. To find a key that a replay returns as
+     * `null`, read the resource. Older records can return their key when the creating caller is
+     * unknown. object.merchant_sequence (Required): integer. Position of this transaction among
+     * all of your gift card transactions in this environment. It increases by one with each posted
      * transaction, and the transaction list is ordered by it. Format: int64. object.order_id
      * (Optional): string. Order this transaction belongs to, when there is one. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". object.posted_at (Required): string. When the transaction
@@ -3193,17 +3412,22 @@ export type GiftCardTransactionCreatedInstalledMerchantsEvent = (Exclude<Partner
          * Gift card whose balance this transaction changed. Example:
          * "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_transaction_id (Required): string. Stable
          * identifier of the transaction. Example: "gct_01KEZF7C006Q1VC3M2DXJ6T936".
-         * idempotency_key (Required): string or null. Your Idempotency-Key for the command that
-         * created this record. `null` when Flint created it or no key was sent. merchant_sequence
-         * (Required): integer. Position of this transaction among all of your gift card
-         * transactions in this environment. It increases by one with each posted transaction, and
-         * the transaction list is ordered by it. Format: int64. order_id (Optional): string. Order
-         * this transaction belongs to, when there is one. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". posted_at (Required): string. When the transaction was
-         * posted to the card. Format: date-time. Example: "2026-08-02T16:00:00Z". reason
-         * (Required): string or null. Your adjustment reason on adjustment transactions, and
-         * customer_request on cash_out. `null` when the transaction is any other type. Value enum:
-         * "complimentary", "balance_accidentally_decreased", "support_issue",
+         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Older records can return their key when the
+         * creating caller is unknown. merchant_sequence (Required): integer. Position of this
+         * transaction among all of your gift card transactions in this environment. It increases
+         * by one with each posted transaction, and the transaction list is ordered by it. Format:
+         * int64. order_id (Optional): string. Order this transaction belongs to, when there is
+         * one. Example: "ord_01KEZF7C0054GQKJ142A8X367A". posted_at (Required): string. When the
+         * transaction was posted to the card. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * reason (Required): string or null. Your adjustment reason on adjustment transactions,
+         * and customer_request on cash_out. `null` when the transaction is any other type. Value
+         * enum: "complimentary", "balance_accidentally_decreased", "support_issue",
          * "suspicious_activity", "balance_accidentally_increased", "customer_request", null.
          * sequence (Required): integer. Position of this transaction in the card's history. It
          * increases by one with each transaction posted to the card. Format: int64. source
@@ -3248,8 +3472,14 @@ export type GiftCardTransactionCreatedInstalledMerchantsEvent = (Exclude<Partner
             /** Stable identifier of the transaction. Example: "gct_01KEZF7C006Q1VC3M2DXJ6T936". */
             "gift_card_transaction_id": string;
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown.
              */
             "idempotency_key": string | null;
             /**
@@ -3377,10 +3607,15 @@ export type GiftCardTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEn
      * (Required): string. Gift card whose balance this transaction changed. Example:
      * "gc_01KEZF7C00RT1618WYBM1Y94CG". object.gift_card_transaction_id (Required): string. Stable
      * identifier of the transaction. Example: "gct_01KEZF7C006Q1VC3M2DXJ6T936".
-     * object.idempotency_key (Required): string or null. Your Idempotency-Key for the command that
-     * created this record. `null` when Flint created it or no key was sent.
-     * object.merchant_sequence (Required): integer. Position of this transaction among all of your
-     * gift card transactions in this environment. It increases by one with each posted
+     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * created this resource. `null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+     * responses and webhook events, can return `null`. To find a key that a replay returns as
+     * `null`, read the resource. Older records can return their key when the creating caller is
+     * unknown. object.merchant_sequence (Required): integer. Position of this transaction among
+     * all of your gift card transactions in this environment. It increases by one with each posted
      * transaction, and the transaction list is ordered by it. Format: int64. object.order_id
      * (Optional): string. Order this transaction belongs to, when there is one. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A". object.posted_at (Required): string. When the transaction
@@ -3417,17 +3652,22 @@ export type GiftCardTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEn
          * Gift card whose balance this transaction changed. Example:
          * "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_transaction_id (Required): string. Stable
          * identifier of the transaction. Example: "gct_01KEZF7C006Q1VC3M2DXJ6T936".
-         * idempotency_key (Required): string or null. Your Idempotency-Key for the command that
-         * created this record. `null` when Flint created it or no key was sent. merchant_sequence
-         * (Required): integer. Position of this transaction among all of your gift card
-         * transactions in this environment. It increases by one with each posted transaction, and
-         * the transaction list is ordered by it. Format: int64. order_id (Optional): string. Order
-         * this transaction belongs to, when there is one. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". posted_at (Required): string. When the transaction was
-         * posted to the card. Format: date-time. Example: "2026-08-02T16:00:00Z". reason
-         * (Required): string or null. Your adjustment reason on adjustment transactions, and
-         * customer_request on cash_out. `null` when the transaction is any other type. Value enum:
-         * "complimentary", "balance_accidentally_decreased", "support_issue",
+         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * created this resource. `null` when that request sent no key, Flint created the resource,
+         * the reader isn't the caller that created it (another app install, a buyer, or the
+         * merchant reading an app's or buyer's record), or the caller that created an older record
+         * is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. Older records can return their key when the
+         * creating caller is unknown. merchant_sequence (Required): integer. Position of this
+         * transaction among all of your gift card transactions in this environment. It increases
+         * by one with each posted transaction, and the transaction list is ordered by it. Format:
+         * int64. order_id (Optional): string. Order this transaction belongs to, when there is
+         * one. Example: "ord_01KEZF7C0054GQKJ142A8X367A". posted_at (Required): string. When the
+         * transaction was posted to the card. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * reason (Required): string or null. Your adjustment reason on adjustment transactions,
+         * and customer_request on cash_out. `null` when the transaction is any other type. Value
+         * enum: "complimentary", "balance_accidentally_decreased", "support_issue",
          * "suspicious_activity", "balance_accidentally_increased", "customer_request", null.
          * sequence (Required): integer. Position of this transaction in the card's history. It
          * increases by one with each transaction posted to the card. Format: int64. source
@@ -3472,8 +3712,14 @@ export type GiftCardTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEn
             /** Stable identifier of the transaction. Example: "gct_01KEZF7C006Q1VC3M2DXJ6T936". */
             "gift_card_transaction_id": string;
             /**
-             * Your Idempotency-Key for the command that created this record. `null` when Flint
-             * created it or no key was sent.
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. Older records can return their key when the creating
+             * caller is unknown.
              */
             "idempotency_key": string | null;
             /**
@@ -3585,8 +3831,11 @@ export type GiftCardTransactionsListParams = {
      * exact and case-sensitive. Returns only resources created in your caller namespace, plus
      * resources created before caller scoping under the original key. Returns current authorized
      * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
-     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -3713,6 +3962,7 @@ export type GiftCardUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "customer_id": string | null;
             "external_reference_id": string | null;
             "gift_card_id": string;
+            "idempotency_key": string | null;
             "last_loaded_at": string | null;
             "last_redeemed_at": string | null;
             "last4": string;
@@ -3736,6 +3986,7 @@ export type GiftCardUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "customer_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "gift_card_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "last_loaded_at"?: ((string) | (null));
             "last_redeemed_at"?: ((string) | (null));
             "last4"?: ((string) | (null));
@@ -3763,6 +4014,7 @@ export type GiftCardUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "customer_id": string | null;
             "external_reference_id": string | null;
             "gift_card_id": string;
+            "idempotency_key": string | null;
             "last_loaded_at": string | null;
             "last_redeemed_at": string | null;
             "last4": string;
@@ -3786,6 +4038,7 @@ export type GiftCardUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "customer_id"?: ((string) | (null));
             "external_reference_id"?: ((string) | (null));
             "gift_card_id"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
             "last_loaded_at"?: ((string) | (null));
             "last_redeemed_at"?: ((string) | (null));
             "last4"?: ((string) | (null));
@@ -3835,36 +4088,43 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * (Required): string or null. Caller-owned identifier for this resource in an external system.
      * `null` when none is set. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * object.gift_card_id (Required): string. Unique identifier for this gift card, prefixed
-     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.last_loaded_at (Required): string or
-     * null. RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.last_redeemed_at (Required): string or
-     * null. RFC3339 timestamp. `null` when the card has never been redeemed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.last4 (Required): string. Last four characters of
-     * the card's current code. minLength: 4. maxLength: 4. object.merchant_id (Required): string.
-     * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * object.reserved_money (Required): {@link MoneyValue}. Value held for redemptions in
-     * progress. It isn't available to other payments until the redemption succeeds or is released.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.restrictions (Required): Array of {@link GiftCardRestriction}. The restrictions that
-     * keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze.
-     * A funding_dispute with dispute_status lost needs a gift card funding disposition.
-     * object.restrictions[] (Value): {@link GiftCardRestriction}. A restriction on a gift card,
-     * either a merchant freeze or a funding dispute, with its reason or dispute details.
-     * object.status (Required): string. Where the card is in its lifecycle. Only an `active` card
-     * can be spent. Value enum: "pending", "active", "frozen", "closed". object.supported_actions
-     * (Required): Array of string. Lifecycle actions accepted for the stored card state,
-     * independent of the caller's credentials. Empty when no action is available. [] enum:
-     * "adjust_balance", "cash_out", "close", "freeze", "unfreeze". object.supported_actions[]
-     * (Value): string. Value enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Current version of this
-     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
-     * stale write. Format: int64. previous_attributes (Optional): object. Previous values of
-     * changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.available_money (Optional): {@link MoneyValuePreviousAttributes}
-     * or null. The balance minus reserved value: what can be spent now.
+     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.idempotency_key (Required): string
+     * or null. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
+     * object.last_loaded_at (Required): string or null. RFC3339 timestamp. `null` when no value
+     * has been loaded onto the card. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.last_redeemed_at (Required): string or null. RFC3339 timestamp. `null` when the card
+     * has never been redeemed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.last4
+     * (Required): string. Last four characters of the card's current code. minLength: 4.
+     * maxLength: 4. object.merchant_id (Required): string. ID of the merchant this resource
+     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.reserved_money (Required):
+     * {@link MoneyValue}. Value held for redemptions in progress. It isn't available to other
+     * payments until the redemption succeeds or is released. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. object.restrictions (Required): Array of
+     * {@link GiftCardRestriction}. The restrictions that keep the card frozen. unfreeze is
+     * supported only when every restriction is merchant_freeze. A funding_dispute with
+     * dispute_status lost needs a gift card funding disposition. object.restrictions[] (Value):
+     * {@link GiftCardRestriction}. A restriction on a gift card, either a merchant freeze or a
+     * funding dispute, with its reason or dispute details. object.status (Required): string. Where
+     * the card is in its lifecycle. Only an `active` card can be spent. Value enum: "pending",
+     * "active", "frozen", "closed". object.supported_actions (Required): Array of string.
+     * Lifecycle actions accepted for the stored card state, independent of the caller's
+     * credentials. Empty when no action is available. [] enum: "adjust_balance", "cash_out",
+     * "close", "freeze", "unfreeze". object.supported_actions[] (Value): string. Value enum:
+     * "adjust_balance", "cash_out", "close", "freeze", "unfreeze". object.updated_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: int64.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.available_money (Optional): {@link MoneyValuePreviousAttributes} or
+     * null. The balance minus reserved value: what can be spent now.
      * previous_attributes.available_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * previous_attributes.available_money.anyOf[2] (Value): null.
      * previous_attributes.balance_money (Optional): {@link MoneyValuePreviousAttributes} or null.
@@ -3898,6 +4158,20 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * this gift card, prefixed `gc_`. previous_attributes.gift_card_id.anyOf[1] (Value): string.
      * Unique identifier for this gift card, prefixed `gc_`. Example:
      * "gc_01KEZF7C00RT1618WYBM1Y94CG". previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.last_loaded_at (Optional): string or null. RFC3339 timestamp. `null`
      * when no value has been loaded onto the card. previous_attributes.last_loaded_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. `null` when no value has been loaded onto the card.
@@ -3970,31 +4244,37 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * Caller-owned identifier for this resource in an external system. `null` when none is
          * set. minLength: 1. maxLength: 255. Example: "warehouse-1842". gift_card_id (Required):
          * string. Unique identifier for this gift card, prefixed `gc_`. Example:
-         * "gc_01KEZF7C00RT1618WYBM1Y94CG". last_loaded_at (Required): string or null. RFC3339
-         * timestamp. `null` when no value has been loaded onto the card. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". last_redeemed_at (Required): string or null. RFC3339
-         * timestamp. `null` when the card has never been redeemed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". last4 (Required): string. Last four characters of the card's
-         * current code. minLength: 4. maxLength: 4. merchant_id (Required): string. ID of the
-         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * reserved_money (Required): {@link MoneyValue}. Value held for redemptions in progress.
-         * It isn't available to other payments until the redemption succeeds or is released.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * restrictions (Required): Array of {@link GiftCardRestriction}. The restrictions that
-         * keep the card frozen. unfreeze is supported only when every restriction is
-         * merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding
-         * disposition. restrictions[] (Value): {@link GiftCardRestriction}. A restriction on a
-         * gift card, either a merchant freeze or a funding dispute, with its reason or dispute
-         * details. status (Required): string. Where the card is in its lifecycle. Only an `active`
-         * card can be spent. Value enum: "pending", "active", "frozen", "closed".
-         * supported_actions (Required): Array of string. Lifecycle actions accepted for the stored
-         * card state, independent of the caller's credentials. Empty when no action is available.
-         * [] enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
-         * supported_actions[] (Value): string. Value enum: "adjust_balance", "cash_out", "close",
-         * "freeze", "unfreeze". updated_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current version
-         * of this resource's owned state. Send it as `expected_version` when changing the resource
-         * to reject a stale write. Format: int64.
+         * "gc_01KEZF7C00RT1618WYBM1Y94CG". idempotency_key (Required): string or null. The
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource. last_loaded_at
+         * (Required): string or null. RFC3339 timestamp. `null` when no value has been loaded onto
+         * the card. Format: date-time. Example: "2026-08-02T16:00:00Z". last_redeemed_at
+         * (Required): string or null. RFC3339 timestamp. `null` when the card has never been
+         * redeemed. Format: date-time. Example: "2026-08-02T16:00:00Z". last4 (Required): string.
+         * Last four characters of the card's current code. minLength: 4. maxLength: 4. merchant_id
+         * (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". reserved_money (Required): {@link MoneyValue}. Value
+         * held for redemptions in progress. It isn't available to other payments until the
+         * redemption succeeds or is released. Monetary amount represented as integer minor units
+         * plus an ISO 4217 currency code. restrictions (Required): Array of {@link
+         * GiftCardRestriction}. The restrictions that keep the card frozen. unfreeze is supported
+         * only when every restriction is merchant_freeze. A funding_dispute with dispute_status
+         * lost needs a gift card funding disposition. restrictions[] (Value): {@link
+         * GiftCardRestriction}. A restriction on a gift card, either a merchant freeze or a
+         * funding dispute, with its reason or dispute details. status (Required): string. Where
+         * the card is in its lifecycle. Only an `active` card can be spent. Value enum: "pending",
+         * "active", "frozen", "closed". supported_actions (Required): Array of string. Lifecycle
+         * actions accepted for the stored card state, independent of the caller's credentials.
+         * Empty when no action is available. [] enum: "adjust_balance", "cash_out", "close",
+         * "freeze", "unfreeze". supported_actions[] (Value): string. Value enum: "adjust_balance",
+         * "cash_out", "close", "freeze", "unfreeze". updated_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Current version of this resource's owned state. Send it as `expected_version`
+         * when changing the resource to reject a stale write. Format: int64.
          */
         "object": {
             /**
@@ -4035,6 +4315,16 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * "gc_01KEZF7C00RT1618WYBM1Y94CG".
              */
             "gift_card_id": string;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
+             */
+            "idempotency_key": string | null;
             /**
              * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
              * date-time. Example: "2026-08-02T16:00:00Z".
@@ -4120,14 +4410,27 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * external_reference_id.anyOf[2] (Value): null. gift_card_id (Optional): string or null.
          * Unique identifier for this gift card, prefixed `gc_`. gift_card_id.anyOf[1] (Value):
          * string. Unique identifier for this gift card, prefixed `gc_`. Example:
-         * "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null. last_loaded_at
-         * (Optional): string or null. RFC3339 timestamp. `null` when no value has been loaded onto
-         * the card. last_loaded_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when no
-         * value has been loaded onto the card. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * last_loaded_at.anyOf[2] (Value): null. last_redeemed_at (Optional): string or null.
-         * RFC3339 timestamp. `null` when the card has never been redeemed.
-         * last_redeemed_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when the card has
-         * never been redeemed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null. idempotency_key
+         * (Optional): string or null. The Idempotency-Key of the request that created this
+         * resource. `null` when that request sent no key, Flint created the resource, the reader
+         * isn't the caller that created it (another app install, a buyer, or the merchant reading
+         * an app's or buyer's record), or the caller that created an older record is unknown.
+         * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+         * responses and webhook events, can return `null`. To find a key that a replay returns as
+         * `null`, read the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key
+         * of the request that created this resource. `null` when that request sent no key, Flint
+         * created the resource, the reader isn't the caller that created it (another app install,
+         * a buyer, or the merchant reading an app's or buyer's record), or the caller that created
+         * an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded
+         * payloads, including replayed responses and webhook events, can return `null`. To find a
+         * key that a replay returns as `null`, read the resource. idempotency_key.anyOf[2]
+         * (Value): null. last_loaded_at (Optional): string or null. RFC3339 timestamp. `null` when
+         * no value has been loaded onto the card. last_loaded_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. `null` when no value has been loaded onto the card. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". last_loaded_at.anyOf[2] (Value): null. last_redeemed_at
+         * (Optional): string or null. RFC3339 timestamp. `null` when the card has never been
+         * redeemed. last_redeemed_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when the
+         * card has never been redeemed. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * last_redeemed_at.anyOf[2] (Value): null. last4 (Optional): string or null. Last four
          * characters of the card's current code. last4.anyOf[1] (Value): string. Last four
          * characters of the card's current code. minLength: 4. maxLength: 4. last4.anyOf[2]
@@ -4220,6 +4523,23 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * "gc_01KEZF7C00RT1618WYBM1Y94CG". anyOf[2] (Value): null.
              */
             "gift_card_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * RFC3339 timestamp. `null` when no value has been loaded onto the card. anyOf[1]
              * (Value): string. RFC3339 timestamp. `null` when no value has been loaded onto the
@@ -4355,36 +4675,43 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * (Required): string or null. Caller-owned identifier for this resource in an external system.
      * `null` when none is set. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * object.gift_card_id (Required): string. Unique identifier for this gift card, prefixed
-     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.last_loaded_at (Required): string or
-     * null. RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.last_redeemed_at (Required): string or
-     * null. RFC3339 timestamp. `null` when the card has never been redeemed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.last4 (Required): string. Last four characters of
-     * the card's current code. minLength: 4. maxLength: 4. object.merchant_id (Required): string.
-     * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * object.reserved_money (Required): {@link MoneyValue}. Value held for redemptions in
-     * progress. It isn't available to other payments until the redemption succeeds or is released.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.restrictions (Required): Array of {@link GiftCardRestriction}. The restrictions that
-     * keep the card frozen. unfreeze is supported only when every restriction is merchant_freeze.
-     * A funding_dispute with dispute_status lost needs a gift card funding disposition.
-     * object.restrictions[] (Value): {@link GiftCardRestriction}. A restriction on a gift card,
-     * either a merchant freeze or a funding dispute, with its reason or dispute details.
-     * object.status (Required): string. Where the card is in its lifecycle. Only an `active` card
-     * can be spent. Value enum: "pending", "active", "frozen", "closed". object.supported_actions
-     * (Required): Array of string. Lifecycle actions accepted for the stored card state,
-     * independent of the caller's credentials. Empty when no action is available. [] enum:
-     * "adjust_balance", "cash_out", "close", "freeze", "unfreeze". object.supported_actions[]
-     * (Value): string. Value enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Current version of this
-     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
-     * stale write. Format: int64. previous_attributes (Optional): object. Previous values of
-     * changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.available_money (Optional): {@link MoneyValuePreviousAttributes}
-     * or null. The balance minus reserved value: what can be spent now.
+     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.idempotency_key (Required): string
+     * or null. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
+     * object.last_loaded_at (Required): string or null. RFC3339 timestamp. `null` when no value
+     * has been loaded onto the card. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.last_redeemed_at (Required): string or null. RFC3339 timestamp. `null` when the card
+     * has never been redeemed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.last4
+     * (Required): string. Last four characters of the card's current code. minLength: 4.
+     * maxLength: 4. object.merchant_id (Required): string. ID of the merchant this resource
+     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.reserved_money (Required):
+     * {@link MoneyValue}. Value held for redemptions in progress. It isn't available to other
+     * payments until the redemption succeeds or is released. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. object.restrictions (Required): Array of
+     * {@link GiftCardRestriction}. The restrictions that keep the card frozen. unfreeze is
+     * supported only when every restriction is merchant_freeze. A funding_dispute with
+     * dispute_status lost needs a gift card funding disposition. object.restrictions[] (Value):
+     * {@link GiftCardRestriction}. A restriction on a gift card, either a merchant freeze or a
+     * funding dispute, with its reason or dispute details. object.status (Required): string. Where
+     * the card is in its lifecycle. Only an `active` card can be spent. Value enum: "pending",
+     * "active", "frozen", "closed". object.supported_actions (Required): Array of string.
+     * Lifecycle actions accepted for the stored card state, independent of the caller's
+     * credentials. Empty when no action is available. [] enum: "adjust_balance", "cash_out",
+     * "close", "freeze", "unfreeze". object.supported_actions[] (Value): string. Value enum:
+     * "adjust_balance", "cash_out", "close", "freeze", "unfreeze". object.updated_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: int64.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.available_money (Optional): {@link MoneyValuePreviousAttributes} or
+     * null. The balance minus reserved value: what can be spent now.
      * previous_attributes.available_money.anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
      * previous_attributes.available_money.anyOf[2] (Value): null.
      * previous_attributes.balance_money (Optional): {@link MoneyValuePreviousAttributes} or null.
@@ -4418,6 +4745,20 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * this gift card, prefixed `gc_`. previous_attributes.gift_card_id.anyOf[1] (Value): string.
      * Unique identifier for this gift card, prefixed `gc_`. Example:
      * "gc_01KEZF7C00RT1618WYBM1Y94CG". previous_attributes.gift_card_id.anyOf[2] (Value): null.
+     * previous_attributes.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[1] (Value):
+     * string. The Idempotency-Key of the request that created this resource. `null` when that
+     * request sent no key, Flint created the resource, the reader isn't the caller that created it
+     * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
+     * caller that created an older record is unknown. Filter its list with `idempotency_key` to
+     * find it. Recorded payloads, including replayed responses and webhook events, can return
+     * `null`. To find a key that a replay returns as `null`, read the resource.
+     * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.last_loaded_at (Optional): string or null. RFC3339 timestamp. `null`
      * when no value has been loaded onto the card. previous_attributes.last_loaded_at.anyOf[1]
      * (Value): string. RFC3339 timestamp. `null` when no value has been loaded onto the card.
@@ -4490,31 +4831,37 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * Caller-owned identifier for this resource in an external system. `null` when none is
          * set. minLength: 1. maxLength: 255. Example: "warehouse-1842". gift_card_id (Required):
          * string. Unique identifier for this gift card, prefixed `gc_`. Example:
-         * "gc_01KEZF7C00RT1618WYBM1Y94CG". last_loaded_at (Required): string or null. RFC3339
-         * timestamp. `null` when no value has been loaded onto the card. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". last_redeemed_at (Required): string or null. RFC3339
-         * timestamp. `null` when the card has never been redeemed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". last4 (Required): string. Last four characters of the card's
-         * current code. minLength: 4. maxLength: 4. merchant_id (Required): string. ID of the
-         * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * reserved_money (Required): {@link MoneyValue}. Value held for redemptions in progress.
-         * It isn't available to other payments until the redemption succeeds or is released.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * restrictions (Required): Array of {@link GiftCardRestriction}. The restrictions that
-         * keep the card frozen. unfreeze is supported only when every restriction is
-         * merchant_freeze. A funding_dispute with dispute_status lost needs a gift card funding
-         * disposition. restrictions[] (Value): {@link GiftCardRestriction}. A restriction on a
-         * gift card, either a merchant freeze or a funding dispute, with its reason or dispute
-         * details. status (Required): string. Where the card is in its lifecycle. Only an `active`
-         * card can be spent. Value enum: "pending", "active", "frozen", "closed".
-         * supported_actions (Required): Array of string. Lifecycle actions accepted for the stored
-         * card state, independent of the caller's credentials. Empty when no action is available.
-         * [] enum: "adjust_balance", "cash_out", "close", "freeze", "unfreeze".
-         * supported_actions[] (Value): string. Value enum: "adjust_balance", "cash_out", "close",
-         * "freeze", "unfreeze". updated_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Current version
-         * of this resource's owned state. Send it as `expected_version` when changing the resource
-         * to reject a stale write. Format: int64.
+         * "gc_01KEZF7C00RT1618WYBM1Y94CG". idempotency_key (Required): string or null. The
+         * Idempotency-Key of the request that created this resource. `null` when that request sent
+         * no key, Flint created the resource, the reader isn't the caller that created it (another
+         * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+         * that created an older record is unknown. Filter its list with `idempotency_key` to find
+         * it. Recorded payloads, including replayed responses and webhook events, can return
+         * `null`. To find a key that a replay returns as `null`, read the resource. last_loaded_at
+         * (Required): string or null. RFC3339 timestamp. `null` when no value has been loaded onto
+         * the card. Format: date-time. Example: "2026-08-02T16:00:00Z". last_redeemed_at
+         * (Required): string or null. RFC3339 timestamp. `null` when the card has never been
+         * redeemed. Format: date-time. Example: "2026-08-02T16:00:00Z". last4 (Required): string.
+         * Last four characters of the card's current code. minLength: 4. maxLength: 4. merchant_id
+         * (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". reserved_money (Required): {@link MoneyValue}. Value
+         * held for redemptions in progress. It isn't available to other payments until the
+         * redemption succeeds or is released. Monetary amount represented as integer minor units
+         * plus an ISO 4217 currency code. restrictions (Required): Array of {@link
+         * GiftCardRestriction}. The restrictions that keep the card frozen. unfreeze is supported
+         * only when every restriction is merchant_freeze. A funding_dispute with dispute_status
+         * lost needs a gift card funding disposition. restrictions[] (Value): {@link
+         * GiftCardRestriction}. A restriction on a gift card, either a merchant freeze or a
+         * funding dispute, with its reason or dispute details. status (Required): string. Where
+         * the card is in its lifecycle. Only an `active` card can be spent. Value enum: "pending",
+         * "active", "frozen", "closed". supported_actions (Required): Array of string. Lifecycle
+         * actions accepted for the stored card state, independent of the caller's credentials.
+         * Empty when no action is available. [] enum: "adjust_balance", "cash_out", "close",
+         * "freeze", "unfreeze". supported_actions[] (Value): string. Value enum: "adjust_balance",
+         * "cash_out", "close", "freeze", "unfreeze". updated_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Current version of this resource's owned state. Send it as `expected_version`
+         * when changing the resource to reject a stale write. Format: int64.
          */
         "object": {
             /**
@@ -4555,6 +4902,16 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * "gc_01KEZF7C00RT1618WYBM1Y94CG".
              */
             "gift_card_id": string;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
+             */
+            "idempotency_key": string | null;
             /**
              * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
              * date-time. Example: "2026-08-02T16:00:00Z".
@@ -4640,14 +4997,27 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * external_reference_id.anyOf[2] (Value): null. gift_card_id (Optional): string or null.
          * Unique identifier for this gift card, prefixed `gc_`. gift_card_id.anyOf[1] (Value):
          * string. Unique identifier for this gift card, prefixed `gc_`. Example:
-         * "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null. last_loaded_at
-         * (Optional): string or null. RFC3339 timestamp. `null` when no value has been loaded onto
-         * the card. last_loaded_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when no
-         * value has been loaded onto the card. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * last_loaded_at.anyOf[2] (Value): null. last_redeemed_at (Optional): string or null.
-         * RFC3339 timestamp. `null` when the card has never been redeemed.
-         * last_redeemed_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when the card has
-         * never been redeemed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * "gc_01KEZF7C00RT1618WYBM1Y94CG". gift_card_id.anyOf[2] (Value): null. idempotency_key
+         * (Optional): string or null. The Idempotency-Key of the request that created this
+         * resource. `null` when that request sent no key, Flint created the resource, the reader
+         * isn't the caller that created it (another app install, a buyer, or the merchant reading
+         * an app's or buyer's record), or the caller that created an older record is unknown.
+         * Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed
+         * responses and webhook events, can return `null`. To find a key that a replay returns as
+         * `null`, read the resource. idempotency_key.anyOf[1] (Value): string. The Idempotency-Key
+         * of the request that created this resource. `null` when that request sent no key, Flint
+         * created the resource, the reader isn't the caller that created it (another app install,
+         * a buyer, or the merchant reading an app's or buyer's record), or the caller that created
+         * an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded
+         * payloads, including replayed responses and webhook events, can return `null`. To find a
+         * key that a replay returns as `null`, read the resource. idempotency_key.anyOf[2]
+         * (Value): null. last_loaded_at (Optional): string or null. RFC3339 timestamp. `null` when
+         * no value has been loaded onto the card. last_loaded_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. `null` when no value has been loaded onto the card. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". last_loaded_at.anyOf[2] (Value): null. last_redeemed_at
+         * (Optional): string or null. RFC3339 timestamp. `null` when the card has never been
+         * redeemed. last_redeemed_at.anyOf[1] (Value): string. RFC3339 timestamp. `null` when the
+         * card has never been redeemed. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * last_redeemed_at.anyOf[2] (Value): null. last4 (Optional): string or null. Last four
          * characters of the card's current code. last4.anyOf[1] (Value): string. Last four
          * characters of the card's current code. minLength: 4. maxLength: 4. last4.anyOf[2]
@@ -4740,6 +5110,23 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * "gc_01KEZF7C00RT1618WYBM1Y94CG". anyOf[2] (Value): null.
              */
             "gift_card_id"?: ((string) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
             /**
              * RFC3339 timestamp. `null` when no value has been loaded onto the card. anyOf[1]
              * (Value): string. RFC3339 timestamp. `null` when no value has been loaded onto the
@@ -4951,8 +5338,11 @@ export type GiftCardsListParams = {
      * exact and case-sensitive. Returns only resources created in your caller namespace, plus
      * resources created before caller scoping under the original key. Returns current authorized
      * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength:
-     * 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
     "idempotency_key"?: InputValue<string>;
     /**
@@ -5065,42 +5455,4 @@ export type GiftCardsUnfreezeParams = (InputValue<UnfreezeGiftCardRequestInput> 
      * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardsUpdateParams = (InputValue<UpdateGiftCardRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/**
- * Result of linking a guest's purchases to a customer, with the customer, the email, and the
- * number of orders linked.
- */
-export type GuestPurchaseLink = {
-    /**
-     * ID of the customer the guest purchases now belong to. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": string;
-    /** The verified email address whose guest purchases were linked. */
-    "email": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "linked_at": string;
-    /** Number of guest orders linked to the customer by this request. Format: int64. */
-    "linked_order_count": number;
 };

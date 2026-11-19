@@ -14,7 +14,7 @@ namespace Flint;
 final class AnalyticsOverviewInput extends Model {
     /** @param array{'currencies': list<string>, 'currency': string, 'gross_volume_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'new_customers_count': int, 'payments_count': int, 'period_end_at': string|\DateTimeInterface, 'period_start_at': string|\DateTimeInterface, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AnalyticsOverviewInput')); }
-    /** Currencies of succeeded payments selected by payment created_at or counted refunds selected by refund created_at in the period, regardless of the currency filter. Empty when neither has rows. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies. [] (Value): string.
+    /** Currencies of succeeded payments captured in the period and qualifying refunds that succeeded in the period, regardless of the currency filter. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies. [] (Value): string.
      * @return list<string>
      * @throws SdkError When currencies is omitted; use hasCurrencies() or valueOrDefault().
      */
@@ -26,7 +26,7 @@ final class AnalyticsOverviewInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Sum of succeeded payment amounts selected by payment created_at in the period, in currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Sum of captured amounts for succeeded payments captured in the period, in currency. Excludes gift card and store credit redemptions. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When gross_volume_money is omitted; use hasGrossVolumeMoney() or valueOrDefault().
      */
@@ -38,7 +38,7 @@ final class AnalyticsOverviewInput extends Model {
      */
     public function getNewCustomersCount(): int { return $this->get('new_customers_count'); }
     public function hasNewCustomersCount(): bool { return $this->has('new_customers_count'); }
-    /** Succeeded payments selected by payment created_at in the period, restricted to currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: int64.
+    /** Succeeded payments captured in the period, restricted to currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: int64.
      * @return int
      * @throws SdkError When payments_count is omitted; use hasPaymentsCount() or valueOrDefault().
      */
@@ -56,7 +56,7 @@ final class AnalyticsOverviewInput extends Model {
      */
     public function getPeriodStartAt(): string|\DateTimeInterface { return $this->get('period_start_at'); }
     public function hasPeriodStartAt(): bool { return $this->has('period_start_at'); }
-    /** Refund amounts selected by refund created_at in the period, excluding failed and canceled refunds. Parent refunds with child executions count through the children once, regardless of payment creation time. Uses currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount refunded to original payment methods, in currency, based on when the refund succeeded, regardless of when the payment was captured. Excludes amounts returned as gift card value or store credit. Each qualifying part of a split refund counts once. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
      */

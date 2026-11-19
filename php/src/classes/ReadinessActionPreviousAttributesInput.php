@@ -6,11 +6,12 @@ namespace Flint;
  * @property-read ReadinessMerchantAccountSessionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null $merchant_account_session
  * @property-read string|null $owner
  * @property-read list<string>|null $required_fields
+ * @property-read string|null $url
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReadinessActionPreviousAttributesInput extends Model {
-    /** @param array{'action_type'?: string|null, 'merchant_account_session'?: ReadinessMerchantAccountSessionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'owner'?: string|null, 'required_fields'?: list<string>|null, ...}|object $values */
+    /** @param array{'action_type'?: string|null, 'merchant_account_session'?: ReadinessMerchantAccountSessionPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'owner'?: string|null, 'required_fields'?: list<string>|null, 'url'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReadinessActionPreviousAttributesInput')); }
-    /** The kind of step to take. Each value says what the step is and who carries it out. Value enum: "advance_onboarding", "create_merchant_account_session", "wait_for_review", "settle_flint_balance", "set_tax_category", "update_payment_settings", "contact_support", "other". anyOf[1] (Value): string. The kind of step to take. Each value says what the step is and who carries it out. Value enum: "advance_onboarding", "create_merchant_account_session", "wait_for_review", "settle_flint_balance", "set_tax_category", "update_payment_settings", "contact_support", "other". anyOf[2] (Value): null.
+    /** The kind of step to take. Each value says what the step is and who carries it out. Value enum: "advance_onboarding", "create_merchant_account_session", "wait_for_review", "settle_flint_balance", "set_tax_category", "update_payment_settings", "replace_default_payout_destination", "contact_support", "other". anyOf[1] (Value): string. The kind of step to take. Each value says what the step is and who carries it out. Value enum: "advance_onboarding", "create_merchant_account_session", "wait_for_review", "settle_flint_balance", "set_tax_category", "update_payment_settings", "replace_default_payout_destination", "contact_support", "other". anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When action_type is omitted; use hasActionType() or valueOrDefault().
      */
@@ -34,4 +35,10 @@ final class ReadinessActionPreviousAttributesInput extends Model {
      */
     public function getRequiredFields(): mixed { return $this->get('required_fields'); }
     public function hasRequiredFields(): bool { return $this->has('required_fields'); }
+    /** The API endpoint for this step, when one applies. anyOf[1] (Value): string. The API endpoint for this step, when one applies. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
+     */
+    public function getUrl(): mixed { return $this->get('url'); }
+    public function hasUrl(): bool { return $this->has('url'); }
 }

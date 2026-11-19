@@ -5,9 +5,10 @@ namespace Flint;
  * @property-read string|null $email
  * @property-read string|null $message
  * @property-read string|null $name
+ * @property-read string|null $sender_name
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionGiftRecipientPreviousAttributesInput extends Model {
-    /** @param array{'email'?: string|null, 'message'?: string|null, 'name'?: string|null, ...}|object $values */
+    /** @param array{'email'?: string|null, 'message'?: string|null, 'name'?: string|null, 'sender_name'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionGiftRecipientPreviousAttributesInput')); }
     /** The recipient's email address. Flint sends the recipient's gift and final notices here, and shipment notices when delivery.recipient has no email. anyOf[1] (Value): string. The recipient's email address. Flint sends the recipient's gift and final notices here, and shipment notices when delivery.recipient has no email. Format: email. Example: "buyer@example.com". anyOf[2] (Value): null.
      * @return string|null
@@ -27,4 +28,10 @@ final class SubscriptionGiftRecipientPreviousAttributesInput extends Model {
      */
     public function getName(): mixed { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Name to show as the sender in gift emails, when provided. anyOf[1] (Value): string. Name to show as the sender in gift emails, when provided. maxLength: 255. anyOf[2] (Value): null.
+     * @return string|null
+     * @throws SdkError When sender_name is omitted; use hasSenderName() or valueOrDefault().
+     */
+    public function getSenderName(): mixed { return $this->get('sender_name'); }
+    public function hasSenderName(): bool { return $this->has('sender_name'); }
 }

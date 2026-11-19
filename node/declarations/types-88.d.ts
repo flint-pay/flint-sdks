@@ -1,10 +1,17 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    LookupTicketRequestInput,
+    ManualDiscountRequestInput,
+    MarkFulfillmentNoShowRequestInput,
+    MarkFulfillmentPackedRequestInput,
+    MarkFulfillmentPickedRequestInput,
+    MarkFulfillmentPreparingRequestInput,
+    MarkFulfillmentReadyRequestInput,
     MarkPackageDeliveredRequestInput,
-    MarkPackageDeliveryAttemptedRequestInput,
-    MarkPackageExceptionRequestInput
+    MarkPackageDeliveryAttemptedRequestInput
 } from './types-40.js';
 import type {
+    MarkPackageExceptionRequestInput,
     MarkPackageInTransitRequestInput,
     MarkPackageOutForDeliveryRequestInput,
     MarkPackagePackedRequestInput,
@@ -19,10 +26,10 @@ import type {
     MetadataPatchRequestInput,
     MetadataRequestInput,
     ModifierOverrideRequestInput,
-    ModifierRequestInput,
-    ModifierSetGroupInputExistingInput
+    ModifierRequestInput
 } from './types-43.js';
 import type {
+    ModifierSetGroupInputExistingInput,
     ModifierSetGroupInputInlineInput,
     ModifierSetGroupRequestInput,
     MoneyValueInput,
@@ -62,20 +69,20 @@ import type {
     OrderLineItemModifierInputCatalogRequestInput,
     OrderLineItemModifierInputTextRequestInput,
     OrderLineItemModifierRequestModelInput,
-    OrderLineItemTaxAssignmentInput,
-    OrderLineItemTaxRequestInput
+    OrderLineItemTaxAssignmentInput
 } from './types-46.js';
 import type {
+    OrderLineItemTaxRequestInput,
     OrderPaymentIntentSelectionInput,
-    OrderPaymentSourceCardSelectionInput,
-    OrderPaymentSourceSelectionInput,
-    OrderTaxCalculationInputAutomaticInput,
-    OrderTaxCalculationInputExternalInput,
-    OrderTaxCalculationRequestInput,
-    OrderTaxComponentRequestInput,
-    OrderTaxExemptionInputCustomerInput,
-    OrderTaxExemptionInputNoneInput
+    OrderPaymentSourceCardSelectionInput
 } from './types-47.js';
+export declare function makeLookupTicketRequest(value: InputValue<LookupTicketRequestInput>): Model<LookupTicketRequestInput>;
+export declare function makeManualDiscountRequest(value: InputValue<ManualDiscountRequestInput>): Model<ManualDiscountRequestInput>;
+export declare function makeMarkFulfillmentNoShowRequest(value: InputValue<MarkFulfillmentNoShowRequestInput>): Model<MarkFulfillmentNoShowRequestInput>;
+export declare function makeMarkFulfillmentPackedRequest(value: InputValue<MarkFulfillmentPackedRequestInput>): Model<MarkFulfillmentPackedRequestInput>;
+export declare function makeMarkFulfillmentPickedRequest(value: InputValue<MarkFulfillmentPickedRequestInput>): Model<MarkFulfillmentPickedRequestInput>;
+export declare function makeMarkFulfillmentPreparingRequest(value: InputValue<MarkFulfillmentPreparingRequestInput>): Model<MarkFulfillmentPreparingRequestInput>;
+export declare function makeMarkFulfillmentReadyRequest(value: InputValue<MarkFulfillmentReadyRequestInput>): Model<MarkFulfillmentReadyRequestInput>;
 export declare function makeMarkPackageDeliveredRequest(value: InputValue<MarkPackageDeliveredRequestInput>): Model<MarkPackageDeliveredRequestInput>;
 export declare function makeMarkPackageDeliveryAttemptedRequest(value: InputValue<MarkPackageDeliveryAttemptedRequestInput>): Model<MarkPackageDeliveryAttemptedRequestInput>;
 export declare function makeMarkPackageExceptionRequest(value: InputValue<MarkPackageExceptionRequestInput>): Model<MarkPackageExceptionRequestInput>;
@@ -133,10 +140,3 @@ export declare function makeOrderLineItemTaxAssignment(value: InputValue<OrderLi
 export declare function makeOrderLineItemTaxRequest(value: InputValue<OrderLineItemTaxRequestInput>): Model<OrderLineItemTaxRequestInput>;
 export declare function makeOrderPaymentIntentSelection(value: InputValue<OrderPaymentIntentSelectionInput>): Model<OrderPaymentIntentSelectionInput>;
 export declare function makeOrderPaymentSourceCardSelection(value: InputValue<OrderPaymentSourceCardSelectionInput>): Model<OrderPaymentSourceCardSelectionInput>;
-export declare function makeOrderPaymentSourceSelection(value: InputValue<OrderPaymentSourceSelectionInput>): Model<OrderPaymentSourceSelectionInput>;
-export declare function makeOrderTaxCalculationInputAutomatic(value: InputValue<OrderTaxCalculationInputAutomaticInput>): Model<OrderTaxCalculationInputAutomaticInput>;
-export declare function makeOrderTaxCalculationInputExternal(value: InputValue<OrderTaxCalculationInputExternalInput>): Model<OrderTaxCalculationInputExternalInput>;
-export declare function makeOrderTaxCalculationRequest(value: InputValue<OrderTaxCalculationRequestInput>): Model<OrderTaxCalculationRequestInput>;
-export declare function makeOrderTaxComponentRequest(value: InputValue<OrderTaxComponentRequestInput>): Model<OrderTaxComponentRequestInput>;
-export declare function makeOrderTaxExemptionInputCustomer(value: InputValue<OrderTaxExemptionInputCustomerInput>): Model<OrderTaxExemptionInputCustomerInput>;
-export declare function makeOrderTaxExemptionInputNone(value: InputValue<OrderTaxExemptionInputNoneInput>): Model<OrderTaxExemptionInputNoneInput>;

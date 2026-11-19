@@ -6,7 +6,7 @@ import type {
     DeliveryPreviewResponse,
     DeliveryPreviewsCreateParams
 } from '../declarations/types-20.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -39,7 +39,7 @@ export type {
     DeliveryPickupAvailabilityDiagnostic
 } from '../declarations/types-20.js';
 export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-79.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateDeliveryPreviewRequestInput,
@@ -113,7 +113,7 @@ export type {
     OrderLineItemModifierInputText
 } from '../declarations/types-46.js';
 export type { TextModifierRequestInput, TextModifierRequest, TaxJurisdiction } from '../declarations/types-74.js';
-export type { SubscribedLineRequestModelInput, SubscribedLineRequest } from '../declarations/types-68.js';
+export type { SubscribedLineRequestModelInput, SubscribedLineRequest } from '../declarations/types-69.js';
 export type { DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
@@ -132,13 +132,9 @@ export type { DeliveryQuoteExecutionLegResource, DeliveryQuoteLineItemResource }
 export type { DeliveryRecipientRequirement } from '../declarations/types-23.js';
 export type { TaxCalculationRequest, TaxComponentRequest } from '../declarations/types-73.js';
 export type { CreateOrderLineItemVariant } from '../declarations/types-12.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export {
-    makeCreateDeliveryOptionsPreviewRequest,
-    makeCreateDeliveryPickupLocationsPreviewRequest,
-    makeCreateDeliveryPreviewRequest
-} from '../declarations/types-81.js';
+export { makeCreateDeliveryOptionsPreviewRequest, makeCreateDeliveryPickupLocationsPreviewRequest } from '../declarations/types-81.js';
+export { makeCreateDeliveryPreviewRequest } from '../declarations/types-82.js';
 export {
     makeCreateOrderLineItemInputBundle,
     makeCreateOrderLineItemInputCustom,
@@ -149,10 +145,9 @@ export {
     makeDeliveryAddressRequest,
     makeDeliveryBuyerLocationInputAddress,
     makeDeliveryBuyerLocationInputCoordinate,
-    makeDeliveryBuyerLocationRequest,
-    makeDeliveryCoordinateRequest
+    makeDeliveryBuyerLocationRequest
 } from '../declarations/types-84.js';
-export { makeDeliveryPickupAvailabilityMaximumDistanceRequest } from '../declarations/types-85.js';
+export { makeDeliveryCoordinateRequest, makeDeliveryPickupAvailabilityMaximumDistanceRequest } from '../declarations/types-85.js';
 export {
     makeDeliveryWindowRequest,
     makeDimensionsRequest,

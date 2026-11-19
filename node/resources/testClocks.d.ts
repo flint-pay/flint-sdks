@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type {
     TestClock,
     TestClockListResponse,
@@ -36,16 +36,15 @@ export type {
     TestClocksListParams,
     TestClockListResponse
 } from '../declarations/types-74.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AdvanceTestClockRequestInput } from '../declarations/types-0.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials, CreateTestClockRequestInput } from '../declarations/types-14.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeAdvanceTestClockRequest } from '../declarations/types-79.js';
+export { makeAdvanceTestClockRequest } from '../declarations/types-80.js';
 export { makeCreateTestClockRequest } from '../declarations/types-84.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export interface TestClocksResource {

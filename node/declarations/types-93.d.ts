@@ -1,6 +1,16 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { TextModifierRequestInput, ThemeConfigRequestInput } from './types-74.js';
 import type {
+    TaxIdentityPatchInput,
+    TaxIdentityRequestInput,
+    TaxJurisdictionRequestInput,
+    TaxJurisdictionRequestModelInput,
+    TaxSettingsRequestInput,
+    TextModifierConfigPatchRequestInput,
+    TextModifierConfigRequestInput,
+    TextModifierRequestInput
+} from './types-74.js';
+import type {
+    ThemeConfigRequestInput,
     TicketVersionRequestInput,
     TippingSettingsPatchInput,
     UnfreezeGiftCardRequestInput,
@@ -15,13 +25,13 @@ import type {
     UpdateCustomerRequestInput,
     UpdateCustomerTaxExemptionRequestInput,
     UpdateDeliveryFulfillmentDetailsInput,
-    UpdateDeliveryLocationSetRequestInput,
+    UpdateDeliveryLocationSetRequestInput
+} from './types-75.js';
+import type {
     UpdateDeliveryMethodRequestInput,
     UpdateDeliveryProfileRequestInput,
     UpdateDeliveryRateCallbackRequestInput,
-    UpdateDeliveryZoneRequestInput
-} from './types-75.js';
-import type {
+    UpdateDeliveryZoneRequestInput,
     UpdateDeviceRequestInput,
     UpdateDigitalFulfillmentDetailsInput,
     UpdateFulfillmentRequestInput,
@@ -49,25 +59,25 @@ import type {
     UpdatePackageItemRequestInput,
     UpdatePackageRequestInput,
     UpdatePartnerAppRequestInput,
-    UpdatePaymentIntentRequestInput,
+    UpdatePaymentIntentRequestInput
+} from './types-76.js';
+import type {
     UpdatePaymentLinkRequestInput,
     UpdatePaymentMethodDomainRequestInput,
     UpdatePayoutDestinationRequestInput,
-    UpdatePayoutSettingsRequestInput
-} from './types-76.js';
-import type {
+    UpdatePayoutSettingsRequestInput,
     UpdatePickupFulfillmentDetailsInput,
     UpdatePriceListPriceRequestInput,
     UpdatePriceListRequestInput,
-    UpdateProductOptionRequestInput,
-    UpdateProductOptionValueRequestInput,
-    UpdateProductRequestInput,
-    UpdateProductVariantRequestInput,
-    UpdatePromotionCodeRequestInput,
-    UpdatePromotionRequestInput,
-    UpdateReaderRequestInput,
-    UpdateRefundRequestInput
+    UpdateProductOptionRequestInput
 } from './types-77.js';
+export declare function makeTaxIdentityPatch(value: InputValue<TaxIdentityPatchInput>): Model<TaxIdentityPatchInput>;
+export declare function makeTaxIdentityRequest(value: InputValue<TaxIdentityRequestInput>): Model<TaxIdentityRequestInput>;
+export declare function makeTaxJurisdictionRequest(value: InputValue<TaxJurisdictionRequestInput>): Model<TaxJurisdictionRequestInput>;
+export declare function makeTaxJurisdictionRequestModel(value: InputValue<TaxJurisdictionRequestModelInput>): Model<TaxJurisdictionRequestModelInput>;
+export declare function makeTaxSettingsRequest(value: InputValue<TaxSettingsRequestInput>): Model<TaxSettingsRequestInput>;
+export declare function makeTextModifierConfigPatchRequest(value: InputValue<TextModifierConfigPatchRequestInput>): Model<TextModifierConfigPatchRequestInput>;
+export declare function makeTextModifierConfigRequest(value: InputValue<TextModifierConfigRequestInput>): Model<TextModifierConfigRequestInput>;
 export declare function makeTextModifierRequest(value: InputValue<TextModifierRequestInput>): Model<TextModifierRequestInput>;
 export declare function makeThemeConfigRequest(value: InputValue<ThemeConfigRequestInput>): Model<ThemeConfigRequestInput>;
 export declare function makeTicketVersionRequest(value: InputValue<TicketVersionRequestInput>): Model<TicketVersionRequestInput>;
@@ -125,10 +135,3 @@ export declare function makeUpdatePickupFulfillmentDetails(value: InputValue<Upd
 export declare function makeUpdatePriceListPriceRequest(value: InputValue<UpdatePriceListPriceRequestInput>): Model<UpdatePriceListPriceRequestInput>;
 export declare function makeUpdatePriceListRequest(value: InputValue<UpdatePriceListRequestInput>): Model<UpdatePriceListRequestInput>;
 export declare function makeUpdateProductOptionRequest(value: InputValue<UpdateProductOptionRequestInput>): Model<UpdateProductOptionRequestInput>;
-export declare function makeUpdateProductOptionValueRequest(value: InputValue<UpdateProductOptionValueRequestInput>): Model<UpdateProductOptionValueRequestInput>;
-export declare function makeUpdateProductRequest(value: InputValue<UpdateProductRequestInput>): Model<UpdateProductRequestInput>;
-export declare function makeUpdateProductVariantRequest(value: InputValue<UpdateProductVariantRequestInput>): Model<UpdateProductVariantRequestInput>;
-export declare function makeUpdatePromotionCodeRequest(value: InputValue<UpdatePromotionCodeRequestInput>): Model<UpdatePromotionCodeRequestInput>;
-export declare function makeUpdatePromotionRequest(value: InputValue<UpdatePromotionRequestInput>): Model<UpdatePromotionRequestInput>;
-export declare function makeUpdateReaderRequest(value: InputValue<UpdateReaderRequestInput>): Model<UpdateReaderRequestInput>;
-export declare function makeUpdateRefundRequest(value: InputValue<UpdateRefundRequestInput>): Model<UpdateRefundRequestInput>;

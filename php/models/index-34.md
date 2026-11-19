@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# UpdateProductOptionValueRequestInput to WorkloadIdentityListResponseInput
+# UpdatePriceListRequestInput to WorkloadIdentityClaimConditionRequestInput
 
+- [UpdatePriceListRequestInput](UpdatePriceListRequestInput.md)
+- [UpdateProductOptionRequestInput](UpdateProductOptionRequestInput.md)
 - [UpdateProductOptionValueRequestInput](UpdateProductOptionValueRequestInput.md)
 - [UpdateProductRequestInput](UpdateProductRequestInput.md)
 - [UpdateProductVariantRequestInput](UpdateProductVariantRequestInput.md)
@@ -100,6 +102,4 @@
 - [WorkloadIdentityAuthContextInput](WorkloadIdentityAuthContextInput.md)
 - [WorkloadIdentityClaimConditionInput](WorkloadIdentityClaimConditionInput.md)
 - [WorkloadIdentityClaimConditionRequestInput](WorkloadIdentityClaimConditionRequestInput.md)
-- [WorkloadIdentityCreatorInput](WorkloadIdentityCreatorInput.md)
-- [WorkloadIdentityListResponseInput](WorkloadIdentityListResponseInput.md)
 

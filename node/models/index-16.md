@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# ExpandedPayoutDestinationSummary to GiftCardFundingSourceAdjustment
+# ExpandedPaymentMethodSummaryPreviousAttributes to GiftCardFundingSource
 
+- [ExpandedPaymentMethodSummaryPreviousAttributes](ExpandedPaymentMethodSummaryPreviousAttributes.md)
 - [ExpandedPayoutDestinationSummary](ExpandedPayoutDestinationSummary.md)
 - [ExpandedPayoutDestinationSummaryPreviousAttributes](ExpandedPayoutDestinationSummaryPreviousAttributes.md)
 - [ExpandedPayoutSummary](ExpandedPayoutSummary.md)
@@ -101,5 +102,4 @@
 - [GiftCardFundingLossResolution](GiftCardFundingLossResolution.md)
 - [GiftCardFundingLossResolutionPreviousAttributes](GiftCardFundingLossResolutionPreviousAttributes.md)
 - [GiftCardFundingSource](GiftCardFundingSource.md)
-- [GiftCardFundingSourceAdjustment](GiftCardFundingSourceAdjustment.md)
 

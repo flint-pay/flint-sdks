@@ -61,7 +61,7 @@ final class GiftCardRedemptionInput extends Model {
      */
     public function getGiftCardRedemptionId(): string { return $this->get('gift_card_redemption_id'); }
     public function hasGiftCardRedemptionId(): bool { return $this->has('gift_card_redemption_id'); }
-    /** Your Idempotency-Key for the command that created this record. `null` when Flint created it or no key was sent.
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Older records can return their key when the creating caller is unknown.
      * @return string|null
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -85,7 +85,7 @@ final class GiftCardRedemptionInput extends Model {
      */
     public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** Captured value not yet refunded. A refund allocation to this redemption can be at most this amount. Zero while the redemption is reserved, canceled, or expired. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Captured value available to refund to this redemption. Order redemption reads account for refunds and value reserved by exchanges or order edits. Zero while the redemption is reserved, canceled, or expired. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When remaining_refundable_money is omitted; use hasRemainingRefundableMoney() or valueOrDefault().
      */

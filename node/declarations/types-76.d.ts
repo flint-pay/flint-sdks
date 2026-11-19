@@ -1,4 +1,12 @@
-import type { MetadataPatchRequest, MetadataPatchRequestInput, ModifierRequest, ModifierRequestInput } from './types-43.js';
+import type { DeliveryMethodConfigurationPatchRequestInput } from './types-19.js';
+import type { MetadataPatchRequestInput, MetadataPatchRequest, ModifierRequest, ModifierRequestInput } from './types-43.js';
+import type { DeliveryProfileConfigurationRequest, DeliveryProfileConfigurationRequestInput } from './types-21.js';
+import type {
+    DeliveryRateCallbackConfigurationPatchRequest,
+    DeliveryRateCallbackConfigurationPatchRequestInput
+} from './types-22.js';
+import type { WebhookSigningMethod, WebhookSigningMethodInput, Weight, WeightRequestInput } from './types-79.js';
+import type { DeliveryZoneConfigurationRequest, DeliveryZoneConfigurationRequestInput } from './types-24.js';
 import type { FulfillmentRecipientRequest, FulfillmentRecipientRequestInput } from './types-28.js';
 import type { UpdateDeliveryFulfillmentDetails, UpdateDeliveryFulfillmentDetailsInput } from './types-75.js';
 import type {
@@ -16,12 +24,8 @@ import type {
     ImageRequestInput
 } from './types-31.js';
 import type { InventoryCountObservationRequest, InventoryCountObservationRequestInput } from './types-32.js';
-import type {
-    InventorySourceSystemRequest,
-    InventorySourceSystemRequestInput,
-    InventoryRoutingSourceRequest,
-    InventoryRoutingSourceRequestInput
-} from './types-33.js';
+import type { InventorySourceSystemRequest, InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
+import type { InventorySourceSystemRequestInput } from './types-34.js';
 import type {
     InvoiceLateFeePolicy,
     InvoiceLateFeePolicyRequestInput,
@@ -29,9 +33,9 @@ import type {
     InvoiceCollectionRequestInput
 } from './types-35.js';
 import type { InvoicePaymentTermCalculation, InvoicePaymentDueRequest, InvoicePaymentDueRequestInput } from './types-36.js';
-import type { InvoicePaymentTermCalculationRequestInput, InvoiceScheduleEntryWrite } from './types-37.js';
+import type { InvoicePaymentTermCalculationRequestInput } from './types-37.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { InvoiceScheduleEntryWriteInput, LegalSettingsRequest } from './types-38.js';
+import type { InvoiceScheduleEntryWrite, InvoiceScheduleEntryWriteInput, LegalSettingsRequest } from './types-38.js';
 import type { GiftCardPurchaseRecipientPatchRequest, GiftCardPurchaseRecipientPatchRequestInput } from './types-30.js';
 import type { MoneyValue, MoneyValueInput, ModifierSetGroupRequest, ModifierSetGroupRequestInput } from './types-44.js';
 import type {
@@ -50,14 +54,13 @@ import type {
     OrderHandover,
     OrderHandoverRequestInput
 } from './types-46.js';
-import type { SubscribedLineRequest, SubscribedLineRequestModelInput } from './types-68.js';
+import type { SubscribedLineRequest, SubscribedLineRequestModelInput } from './types-69.js';
 import type { LocationCoordinate, LocationCoordinateRequestInput } from './types-40.js';
 import type { SubscriptionDeliveryRequest, SubscriptionDeliveryRequestInput } from './types-70.js';
 import type { TextModifierConfigPatchRequest, TextModifierConfigPatchRequestInput } from './types-74.js';
 import type { CreateOrderTip, CreateOrderTipInput } from './types-12.js';
 import type { OrderTaxUpdateRequest, OrderTaxUpdateRequestInput } from './types-48.js';
 import type { Dimensions, DimensionsRequestInput } from './types-25.js';
-import type { Weight, WeightRequestInput } from './types-79.js';
 import type {
     PartnerAppPaymentSplits,
     PartnerAppPermissionManifestEntry,
@@ -65,38 +68,748 @@ import type {
     PartnerAppPermissionManifestEntryRequestInput
 } from './types-49.js';
 import type { PartnerAppPlatformProfile, PartnerAppPlatformProfileRequestInput } from './types-50.js';
-import type { PlatformFeeCap, PlatformFeeCapRequestInput } from './types-55.js';
-import type {
-    CheckoutBuyerFields,
-    CheckoutPromotionConfig,
-    CheckoutBuyerFieldsRequestInput,
-    CheckoutPromotionConfigRequestInput
-} from './types-6.js';
-import type {
-    CheckoutTaxConfig,
-    CheckoutTipConfig,
-    CheckoutTaxConfigRequestInput,
-    CheckoutTipConfigRequestInput
-} from './types-7.js';
+import type { PlatformFeeCap } from './types-55.js';
+import type { PlatformFeeCapRequestInput } from './types-56.js';
+import type { CheckoutBuyerFields, CheckoutPromotionConfig } from './types-6.js';
+import type { CheckoutTaxConfig, CheckoutTipConfig } from './types-7.js';
 import type {
     PaymentLinkCustomFieldPatchRequest,
     PaymentLinkCustomTextPatchRequest,
     PaymentLinkEventConfigPatchRequest,
-    PaymentLinkLineItemPatchRequest,
-    PaymentLinkPaymentPatchRequest,
-    PaymentLinkRedirectsPatchRequest,
-    PaymentLinkCustomFieldPatchRequestInput,
-    PaymentLinkCustomTextPatchRequestInput,
-    PaymentLinkEventConfigPatchRequestInput,
-    PaymentLinkLegalPatchRequestInput,
-    PaymentLinkLineItemPatchRequestInput,
-    PaymentLinkPaymentPatchRequestInput
+    PaymentLinkLineItemPatchRequest
 } from './types-52.js';
-import type {
-    PaymentLinkThemePatchRequest,
-    PaymentLinkRedirectsPatchRequestInput,
-    PaymentLinkThemePatchRequestInput
-} from './types-53.js';
+import type { PaymentLinkPaymentPatchRequest, PaymentLinkRedirectsPatchRequest, PaymentLinkThemePatchRequest } from './types-53.js';
+/** The request body for: Update delivery method. minProperties: 1. */
+export type UpdateDeliveryMethodRequestInput = ({
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Each key you send
+     * replaces that part of the configuration as a whole, so send every field you want to keep in
+     * pricing, origin, eligibility, and the other objects. Null removes an optional key, as each
+     * field describes. Arrays can't be null: send [] to clear recipient_requirements or
+     * quote_input_fields. pricing.rate_table.rates is an owned child collection: include
+     * delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to
+     * remove it. The result must be a configuration you could create, including pickup_mode for
+     * pickup methods. An empty configuration is invalid. Publishes a new immutable revision, even
+     * when the values are unchanged, and requires expected_version. Patch object: fields you send
+     * are applied, fields you omit are unchanged. Each key you send replaces that part of the
+     * configuration as a whole, so send every field you want to keep in pricing, origin,
+     * eligibility, and the other objects. Null removes an optional key, as each field describes.
+     * Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields.
+     * pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a
+     * rate, leave out the ID to create one, and leave out a rate to remove it. The result must be
+     * a configuration you could create, including pickup_mode for pickup methods. An empty
+     * configuration is invalid. Publishes a new immutable revision, even when the values are
+     * unchanged, and requires expected_version. minProperties: 1.
+     */
+    "configuration"?: DeliveryMethodConfigurationPatchRequestInput;
+    /** Delivery method description. Send null to clear it. minLength: 1. */
+    "description"?: string | null;
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
+    "display_position"?: number;
+    /**
+     * Current resource version. Required when the request carries a revision field: configuration,
+     * name, description, display_position, recommendation_priority. A revision field publishes a
+     * new immutable revision even when its value is unchanged. Optional for other fields, which
+     * advance version and keep the current revision. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * Name of the method. Buyers see it as the option name at checkout. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1.
+     */
+    "name"?: string;
+    /**
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Send null to clear it. Format: int32.
+     */
+    "recommendation_priority"?: number | null;
+    /**
+     * Whether the method is in use. Send it alone, with `expected_version`; combining it with
+     * another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Value
+     * enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active";
+})
+    & (({
+    /**
+     * Name of the method. Buyers see it as the option name at checkout. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1.
+     */
+    "name": string;
+})
+    | ({
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+})
+    | ({
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Each key you send
+     * replaces that part of the configuration as a whole, so send every field you want to keep in
+     * pricing, origin, eligibility, and the other objects. Null removes an optional key, as each
+     * field describes. Arrays can't be null: send [] to clear recipient_requirements or
+     * quote_input_fields. pricing.rate_table.rates is an owned child collection: include
+     * delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to
+     * remove it. The result must be a configuration you could create, including pickup_mode for
+     * pickup methods. An empty configuration is invalid. Publishes a new immutable revision, even
+     * when the values are unchanged, and requires expected_version. Patch object: fields you send
+     * are applied, fields you omit are unchanged. Each key you send replaces that part of the
+     * configuration as a whole, so send every field you want to keep in pricing, origin,
+     * eligibility, and the other objects. Null removes an optional key, as each field describes.
+     * Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields.
+     * pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a
+     * rate, leave out the ID to create one, and leave out a rate to remove it. The result must be
+     * a configuration you could create, including pickup_mode for pickup methods. An empty
+     * configuration is invalid. Publishes a new immutable revision, even when the values are
+     * unchanged, and requires expected_version. minProperties: 1.
+     */
+    "configuration": DeliveryMethodConfigurationPatchRequestInput;
+})
+    | ({
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata": ((MetadataPatchRequestInput) | (null));
+})
+    | ({
+    /** Delivery method description. Send null to clear it. minLength: 1. */
+    "description": string | null;
+})
+    | ({
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
+    "display_position": number;
+})
+    | ({
+    /**
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Send null to clear it. Format: int32.
+     */
+    "recommendation_priority": number | null;
+})
+    | ({
+    /**
+     * Whether the method is in use. Send it alone, with `expected_version`; combining it with
+     * another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Value
+     * enum: "inactive", "active".
+     */
+    "status": "inactive" | "active";
+}));
+/** The request body for: Update delivery profile. minProperties: 1. */
+export type UpdateDeliveryProfileRequest = ({
+    /**
+     * Replaced as a whole: send every field you want to keep. Send the whole profile
+     * configuration; leave configuration out to keep it. requirement none allows no other keys,
+     * and quote profiles require origin_policy, combination_policy, and splitting_policy. Null and
+     * an empty object are invalid. Publishes a new immutable revision, even when the values are
+     * unchanged, and requires expected_version. Delivery planning settings you supply when
+     * creating or updating a delivery profile. Which fields are allowed depends on `requirement`
+     * and `resolution_mode`.
+     */
+    "configuration"?: DeliveryProfileConfigurationRequest;
+    /**
+     * Current resource version. Required when the request carries a revision field: configuration.
+     * A revision field publishes a new immutable revision even when its value is unchanged.
+     * Optional for other fields, which advance version and keep the current revision. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Send true to make this active profile the physical catalog default. Can be combined with
+     * other mutable fields in one atomic update. Send expected_version to fence the update against
+     * this profile's current version. Sending only is_default true for the current default is a
+     * no-op: its version stays unchanged and no events are emitted. False is invalid; make another
+     * profile the default instead. Value enum: true.
+     */
+    "is_default"?: boolean;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
+     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
+     * key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name"?: string;
+})
+    & (({
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name": string;
+})
+    | ({
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+})
+    | ({
+    /**
+     * Replaced as a whole: send every field you want to keep. Send the whole profile
+     * configuration; leave configuration out to keep it. requirement none allows no other keys,
+     * and quote profiles require origin_policy, combination_policy, and splitting_policy. Null and
+     * an empty object are invalid. Publishes a new immutable revision, even when the values are
+     * unchanged, and requires expected_version. Delivery planning settings you supply when
+     * creating or updating a delivery profile. Which fields are allowed depends on `requirement`
+     * and `resolution_mode`.
+     */
+    "configuration": DeliveryProfileConfigurationRequest;
+})
+    | ({
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
+     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
+     * key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata": ((MetadataPatchRequest) | (null));
+})
+    | ({
+    /**
+     * Send true to make this active profile the physical catalog default. Can be combined with
+     * other mutable fields in one atomic update. Send expected_version to fence the update against
+     * this profile's current version. Sending only is_default true for the current default is a
+     * no-op: its version stays unchanged and no events are emitted. False is invalid; make another
+     * profile the default instead. Value enum: true.
+     */
+    "is_default": boolean;
+})
+    | (Record<string, unknown>));
+/** The request body for: Update delivery profile. minProperties: 1. */
+export type UpdateDeliveryProfileRequestInput = ({
+    /**
+     * Replaced as a whole: send every field you want to keep. Send the whole profile
+     * configuration; leave configuration out to keep it. requirement none allows no other keys,
+     * and quote profiles require origin_policy, combination_policy, and splitting_policy. Null and
+     * an empty object are invalid. Publishes a new immutable revision, even when the values are
+     * unchanged, and requires expected_version. Delivery planning settings you supply when
+     * creating or updating a delivery profile. Which fields are allowed depends on `requirement`
+     * and `resolution_mode`.
+     */
+    "configuration"?: DeliveryProfileConfigurationRequestInput;
+    /**
+     * Current resource version. Required when the request carries a revision field: configuration.
+     * A revision field publishes a new immutable revision even when its value is unchanged.
+     * Optional for other fields, which advance version and keep the current revision. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Send true to make this active profile the physical catalog default. Can be combined with
+     * other mutable fields in one atomic update. Send expected_version to fence the update against
+     * this profile's current version. Sending only is_default true for the current default is a
+     * no-op: its version stays unchanged and no events are emitted. False is invalid; make another
+     * profile the default instead. Value enum: true.
+     */
+    "is_default"?: true;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name"?: string;
+})
+    & (({
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name": string;
+})
+    | ({
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+})
+    | ({
+    /**
+     * Replaced as a whole: send every field you want to keep. Send the whole profile
+     * configuration; leave configuration out to keep it. requirement none allows no other keys,
+     * and quote profiles require origin_policy, combination_policy, and splitting_policy. Null and
+     * an empty object are invalid. Publishes a new immutable revision, even when the values are
+     * unchanged, and requires expected_version. Delivery planning settings you supply when
+     * creating or updating a delivery profile. Which fields are allowed depends on `requirement`
+     * and `resolution_mode`.
+     */
+    "configuration": DeliveryProfileConfigurationRequestInput;
+})
+    | ({
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata": ((MetadataPatchRequestInput) | (null));
+})
+    | ({
+    /**
+     * Send true to make this active profile the physical catalog default. Can be combined with
+     * other mutable fields in one atomic update. Send expected_version to fence the update against
+     * this profile's current version. Sending only is_default true for the current default is a
+     * no-op: its version stays unchanged and no events are emitted. False is invalid; make another
+     * profile the default instead. Value enum: true.
+     */
+    "is_default": true;
+}));
+/** The request body for: Update delivery rate callback. minProperties: 1. */
+export type UpdateDeliveryRateCallbackRequest = ({
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Null restores a
+     * key's default, as each field describes. The result must be a configuration you could create.
+     * An empty configuration is invalid. Publishes a new immutable revision, even when the values
+     * are unchanged, and requires expected_version. Patch object: fields you send are applied,
+     * fields you omit are unchanged. Null restores a key's default, as each field describes. The
+     * result must be a configuration you could create. An empty configuration is invalid.
+     * Publishes a new immutable revision, even when the values are unchanged, and requires
+     * expected_version. minProperties: 1.
+     */
+    "configuration"?: DeliveryRateCallbackConfigurationPatchRequest;
+    /**
+     * Current resource version. Required when the request carries a revision field: configuration,
+     * signing_methods. A revision field publishes a new immutable revision even when its value is
+     * unchanged. Optional for other fields, which advance version and keep the current revision.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name"?: string;
+    /**
+     * Replaces the signing methods. Adding hmac when the callback has no shared secret issues one
+     * and returns it once in this response. Removing hmac deletes all shared secrets. Omit to
+     * leave unchanged. Requires expected_version. minItems: 1. uniqueItems: true. [] enum: "jwt",
+     * "hmac". [] (Value): {@link WebhookSigningMethod}. How Flint signs requests to this endpoint.
+     * Value enum: "jwt", "hmac".
+     */
+    "signing_methods"?: Array<WebhookSigningMethod>;
+    /**
+     * Whether the resource is in use. Send it alone, with `expected_version`; combining it with
+     * another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Value
+     * enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active" | (string & {});
+})
+    & (({
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name": string;
+})
+    | ({
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+})
+    | ({
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Null restores a
+     * key's default, as each field describes. The result must be a configuration you could create.
+     * An empty configuration is invalid. Publishes a new immutable revision, even when the values
+     * are unchanged, and requires expected_version. Patch object: fields you send are applied,
+     * fields you omit are unchanged. Null restores a key's default, as each field describes. The
+     * result must be a configuration you could create. An empty configuration is invalid.
+     * Publishes a new immutable revision, even when the values are unchanged, and requires
+     * expected_version. minProperties: 1.
+     */
+    "configuration": DeliveryRateCallbackConfigurationPatchRequest;
+})
+    | ({
+    /**
+     * Replaces the signing methods. Adding hmac when the callback has no shared secret issues one
+     * and returns it once in this response. Removing hmac deletes all shared secrets. Omit to
+     * leave unchanged. Requires expected_version. minItems: 1. uniqueItems: true. [] enum: "jwt",
+     * "hmac". [] (Value): {@link WebhookSigningMethod}. How Flint signs requests to this endpoint.
+     * Value enum: "jwt", "hmac".
+     */
+    "signing_methods": Array<WebhookSigningMethod>;
+})
+    | ({
+    /**
+     * Whether the resource is in use. Send it alone, with `expected_version`; combining it with
+     * another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Value
+     * enum: "inactive", "active".
+     */
+    "status": "inactive" | "active" | (string & {});
+})
+    | (Record<string, unknown>));
+/** The request body for: Update delivery rate callback. minProperties: 1. */
+export type UpdateDeliveryRateCallbackRequestInput = ({
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Null restores a
+     * key's default, as each field describes. The result must be a configuration you could create.
+     * An empty configuration is invalid. Publishes a new immutable revision, even when the values
+     * are unchanged, and requires expected_version. Patch object: fields you send are applied,
+     * fields you omit are unchanged. Null restores a key's default, as each field describes. The
+     * result must be a configuration you could create. An empty configuration is invalid.
+     * Publishes a new immutable revision, even when the values are unchanged, and requires
+     * expected_version. minProperties: 1.
+     */
+    "configuration"?: DeliveryRateCallbackConfigurationPatchRequestInput;
+    /**
+     * Current resource version. Required when the request carries a revision field: configuration,
+     * signing_methods. A revision field publishes a new immutable revision even when its value is
+     * unchanged. Optional for other fields, which advance version and keep the current revision.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name"?: string;
+    /**
+     * Replaces the signing methods. Adding hmac when the callback has no shared secret issues one
+     * and returns it once in this response. Removing hmac deletes all shared secrets. Omit to
+     * leave unchanged. Requires expected_version. minItems: 1. uniqueItems: true. [] enum: "jwt",
+     * "hmac". [] (Value): {@link WebhookSigningMethodInput}. How Flint signs requests to this
+     * endpoint. Value enum: "jwt", "hmac".
+     */
+    "signing_methods"?: Array<WebhookSigningMethodInput>;
+    /**
+     * Whether the resource is in use. Send it alone, with `expected_version`; combining it with
+     * another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Value
+     * enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active";
+})
+    & (({
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name": string;
+})
+    | ({
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+})
+    | ({
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Null restores a
+     * key's default, as each field describes. The result must be a configuration you could create.
+     * An empty configuration is invalid. Publishes a new immutable revision, even when the values
+     * are unchanged, and requires expected_version. Patch object: fields you send are applied,
+     * fields you omit are unchanged. Null restores a key's default, as each field describes. The
+     * result must be a configuration you could create. An empty configuration is invalid.
+     * Publishes a new immutable revision, even when the values are unchanged, and requires
+     * expected_version. minProperties: 1.
+     */
+    "configuration": DeliveryRateCallbackConfigurationPatchRequestInput;
+})
+    | ({
+    /**
+     * Replaces the signing methods. Adding hmac when the callback has no shared secret issues one
+     * and returns it once in this response. Removing hmac deletes all shared secrets. Omit to
+     * leave unchanged. Requires expected_version. minItems: 1. uniqueItems: true. [] enum: "jwt",
+     * "hmac". [] (Value): {@link WebhookSigningMethodInput}. How Flint signs requests to this
+     * endpoint. Value enum: "jwt", "hmac".
+     */
+    "signing_methods": Array<WebhookSigningMethodInput>;
+})
+    | ({
+    /**
+     * Whether the resource is in use. Send it alone, with `expected_version`; combining it with
+     * another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Value
+     * enum: "inactive", "active".
+     */
+    "status": "inactive" | "active";
+}));
+/** The request body for: Update delivery zone. minProperties: 1. */
+export type UpdateDeliveryZoneRequest = ({
+    /**
+     * Replaced as a whole: send every field you want to keep. Send the whole geography; leave
+     * configuration out to keep it. Null and an empty object are invalid. Publishes a new
+     * immutable revision, even when the values are unchanged, and requires expected_version. A
+     * reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "configuration"?: DeliveryZoneConfigurationRequest;
+    /**
+     * Current resource version. Required when the request carries a revision field: configuration.
+     * A revision field publishes a new immutable revision even when its value is unchanged.
+     * Optional for other fields, which advance version and keep the current revision. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
+     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
+     * key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name"?: string;
+})
+    & (({
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name": string;
+})
+    | ({
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+})
+    | ({
+    /**
+     * Replaced as a whole: send every field you want to keep. Send the whole geography; leave
+     * configuration out to keep it. Null and an empty object are invalid. Publishes a new
+     * immutable revision, even when the values are unchanged, and requires expected_version. A
+     * reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "configuration": DeliveryZoneConfigurationRequest;
+})
+    | ({
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
+     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
+     * key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata": ((MetadataPatchRequest) | (null));
+})
+    | (Record<string, unknown>));
+/** The request body for: Update delivery zone. minProperties: 1. */
+export type UpdateDeliveryZoneRequestInput = ({
+    /**
+     * Replaced as a whole: send every field you want to keep. Send the whole geography; leave
+     * configuration out to keep it. Null and an empty object are invalid. Publishes a new
+     * immutable revision, even when the values are unchanged, and requires expected_version. A
+     * reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "configuration"?: DeliveryZoneConfigurationRequestInput;
+    /**
+     * Current resource version. Required when the request carries a revision field: configuration.
+     * A revision field publishes a new immutable revision even when its value is unchanged.
+     * Optional for other fields, which advance version and keep the current revision. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name"?: string;
+})
+    & (({
+    /**
+     * Merchant-facing name. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name": string;
+})
+    | ({
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+})
+    | ({
+    /**
+     * Replaced as a whole: send every field you want to keep. Send the whole geography; leave
+     * configuration out to keep it. Null and an empty object are invalid. Publishes a new
+     * immutable revision, even when the values are unchanged, and requires expected_version. A
+     * reusable geographic predicate containing only country, state, postal_code, and radius
+     * conditions.
+     */
+    "configuration": DeliveryZoneConfigurationRequestInput;
+})
+    | ({
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata": ((MetadataPatchRequestInput) | (null));
+}));
 /** The request body for: Update device. minProperties: 1. */
 export type UpdateDeviceRequest = {
     /**
@@ -3658,6 +4371,14 @@ export type UpdatePaymentLinkRequest = ({
      * null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
      */
     "sales_end_at"?: string | null;
+    /**
+     * RFC3339 timestamp when buyers can first start a checkout from this link. Stored to
+     * nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason
+     * sales_not_started. Must be earlier than the link’s sales end, including the event start when
+     * no explicit end is set. Send null to clear it. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "sales_start_at"?: string | null;
     /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
     "status"?: "active" | "inactive" | (string & {});
     /**
@@ -3675,396 +4396,4 @@ export type UpdatePaymentLinkRequest = ({
      * are enabled, the percent or fixed amount options, the default tip, and custom tips.
      */
     "tip"?: CheckoutTipConfig;
-});
-/** The request body for: Update payment link. minProperties: 1. */
-export type UpdatePaymentLinkRequestInput = ({
-    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
-    "buyer_fields"?: CheckoutBuyerFieldsRequestInput;
-    /**
-     * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use
-     * your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
-     * Format: int64. minimum: 60. maximum: 86400.
-     */
-    "checkout_session_expires_in_seconds"?: number;
-    /**
-     * Replaces all custom fields atomically. Include an existing payment_link_custom_field_id to
-     * retain that member, omit the ID to create a member, and omit a previous member to remove it.
-     * Send an empty array to clear all custom fields, omit custom_fields to leave it unchanged,
-     * and do not send null. maxItems: 20. [] (Value): {@link
-     * PaymentLinkCustomFieldPatchRequestInput}. A custom field in a payment link update. Include
-     * its ID to change an existing field, or omit the ID to add a new one.
-     */
-    "custom_fields"?: Array<PaymentLinkCustomFieldPatchRequestInput>;
-    /**
-     * Custom text for checkouts started from this link. Changes to a payment link's custom
-     * checkout text. Send null to clear a field.
-     */
-    "custom_text"?: PaymentLinkCustomTextPatchRequestInput;
-    /**
-     * Complete delivery method selection for the link. A link without delivery methods offers
-     * settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an
-     * empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null
-     * and duplicate IDs are not accepted. Create, activation, and edits to items, delivery
-     * methods, or inventory routing require explicit methods or checkout defaults to cover the
-     * items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is
-     * returned. maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. Example:
-     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "delivery_method_ids"?: Array<string>;
-    /**
-     * Text about what the link sells, returned to buyers when they open it. Send null to clear.
-     * minLength: 1. maxLength: 2048.
-     */
-    "description"?: string | null;
-    /**
-     * Maximum donation amount. Must be greater than zero and greater than or equal to
-     * donation_min_amount_money. Send null to clear the maximum. anyOf[1] (Value): {@link
-     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. anyOf[2] (Value): null.
-     */
-    "donation_max_amount_money"?: ((MoneyValueInput) | (null));
-    /**
-     * Minimum donation amount. Send null to clear the minimum. Send null to clear. anyOf[1]
-     * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code. anyOf[2] (Value): null.
-     */
-    "donation_min_amount_money"?: ((MoneyValueInput) | (null));
-    /**
-     * Suggested donation amounts. Send an empty array to clear suggested amounts. [] (Value):
-     * {@link MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "donation_suggested_amount_money_options"?: Array<MoneyValueInput>;
-    /**
-     * Event configuration patch. Omit to leave unchanged. The whole configuration cannot be
-     * cleared; null is not accepted. Changes to an event payment link's settings. Send null on a
-     * nullable field to clear it.
-     */
-    "event_config"?: PaymentLinkEventConfigPatchRequestInput;
-    /**
-     * Payment link version last read by the caller. Required when line_items, custom_fields, or
-     * delivery_method_ids is present. Required when any of these fields is present: line_items,
-     * custom_fields, delivery_method_ids. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Image shown to buyers with the link. Send null to clear. anyOf[1] (Value): {@link
-     * ImageRequestInput}. An image you supply by `source_url`, with optional `alt` text and
-     * external reference. anyOf[2] (Value): null.
-     */
-    "image"?: ((ImageRequestInput) | (null));
-    /**
-     * Message to show the buyer when the link is inactive. Send null to clear. minLength: 1.
-     * maxLength: 500.
-     */
-    "inactive_message"?: string | null;
-    /**
-     * Routing source for tracked demand. When omitted, Flint stores
-     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
-     * with inventory_allocation_enabled in the current environment supplies the demand; this
-     * implicit source is not stored and is resolved again on use. Zero or multiple eligible
-     * Locations require an explicit source or merchant default. Create, activation, and
-     * sellability edits require at least one active routing location with
-     * inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where
-     * you want inventory routed from: a fixed Location, an inventory allocation policy, or one
-     * policy revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
-    /**
-     * The terms and policy links checkouts started from this link show the buyer. Changes to a
-     * payment link's legal links and terms setting. Send null on a URL to clear it.
-     */
-    "legal"?: PaymentLinkLegalPatchRequestInput;
-    /**
-     * Replaces all line items atomically. Include an existing payment_link_line_item_id to retain
-     * that member, omit the ID to create a member, and omit a previous member to remove it. Omit
-     * line_items to leave it unchanged. Null is not accepted. minItems: 1. [] (Value): {@link
-     * PaymentLinkLineItemPatchRequestInput}. A line item in a payment link update. Include its ID
-     * to change an existing line item, or omit the ID to add a new one.
-     */
-    "line_items"?: Array<PaymentLinkLineItemPatchRequestInput>;
-    /**
-     * Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once
-     * the limit is reached, resolving the link fails with a request error. It can't be set below
-     * `completed_count`. Send null to clear. Format: int32.
-     */
-    "max_completions"?: number | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. Send null to clear. At most 44 pairs, because Flint reserves 6 of the order's 50
-     * metadata pairs. Metadata keys and values plus Flint's metadata must fit within 32768 UTF-8
-     * bytes. Custom fields don't count toward either limit. These limits apply to standard and
-     * plan links and are checked against the merged configuration on update. This operation also
-     * limits the metadata object you send, before merging: at most 50 keys, counting null
-     * deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus
-     * values. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned
-     * metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null
-     * value deletes the key, and an empty object makes no change; send null for the whole field to
-     * clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput:
-     * Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096
-     * Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
-     * that does not exist is allowed, so the number of operations is not itself the stored-map
-     * limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to leave metadata
-     * unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no
-     * change; send null for the whole field to clear all caller-owned metadata. The resulting map
-     * is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256
-     * Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at
-     * most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of
-     * operations is not itself the stored-map limit. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null. minLength:
-     * 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
-    /**
-     * Name of the payment link. Surrounding whitespace is trimmed before length validation. A
-     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
-     * maxLength: 255.
-     */
-    "name"?: string;
-    /**
-     * Whether to email existing ticket holders when event_at, timezone, or venue changes. Defaults
-     * to true for each update. Unchanged event details send no notice.
-     */
-    "notify_ticket_holders"?: boolean;
-    /**
-     * Payment options for checkouts started from this link. Changes to a payment link's payment
-     * settings. Send null on the payment note to clear it.
-     */
-    "payments"?: PaymentLinkPaymentPatchRequestInput;
-    /**
-     * Whether automatic promotions apply to checkouts started from this link and whether buyers
-     * can enter promotion codes. Promotion settings for a checkout: whether automatic promotions
-     * apply and whether the buyer can apply promotion codes.
-     */
-    "promotion_config"?: CheckoutPromotionConfigRequestInput;
-    /**
-     * Where checkout sessions started from this payment link send the buyer after payment,
-     * cancellation, or expiration. Changes to a payment link's hosted checkout destinations. Omit
-     * a URL to leave it unchanged, or send null to clear it.
-     */
-    "redirects"?: PaymentLinkRedirectsPatchRequestInput;
-    /**
-     * RFC3339 timestamp after which the link stops starting checkouts and resolve fails with
-     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
-     * except that an event link without sales_end_at stops selling at event_config.event_at. A
-     * checkout opened before the end can still start payment for up to 15 minutes after it. Send
-     * null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "sales_end_at"?: string | globalThis.Date | null;
-    /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-    /**
-     * Tax settings for checkouts started from this link. Whether tax is collected for a checkout
-     * session or payment link.
-     */
-    "tax"?: CheckoutTaxConfigRequestInput;
-    /**
-     * The title and colors for checkouts started from this link, over your branding settings.
-     * Changes to a payment link's checkout theme. Send null on a field to clear it.
-     */
-    "theme"?: PaymentLinkThemePatchRequestInput;
-    /**
-     * Tip options for checkouts started from this link. Tip settings for a checkout: whether tips
-     * are enabled, the percent or fixed amount options, the default tip, and custom tips.
-     */
-    "tip"?: CheckoutTipConfigRequestInput;
-});
-/** The request body for: Update payment method domain. minProperties: 1. */
-export type UpdatePaymentMethodDomainRequest = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Whether wallet buttons are on for the hostname. active registers it on your current payment
-     * account and checks it again; inactive turns wallet buttons off. Value enum: "active",
-     * "inactive".
-     */
-    "status": "active" | "inactive" | (string & {});
-};
-/** The request body for: Update payment method domain. minProperties: 1. */
-export type UpdatePaymentMethodDomainRequestInput = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Whether wallet buttons are on for the hostname. active registers it on your current payment
-     * account and checks it again; inactive turns wallet buttons off. Value enum: "active",
-     * "inactive".
-     */
-    "status": "active" | "inactive";
-};
-/** The request body for: Update payout destination metadata. minProperties: 1. */
-export type UpdatePayoutDestinationRequest = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
-     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
-     * key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequest) | (null));
-};
-/** The request body for: Update payout destination metadata. minProperties: 1. */
-export type UpdatePayoutDestinationRequestInput = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
-     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
-     * the key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequestInput) | (null));
-};
-/** The request body for: Update payout settings. minProperties: 1. */
-export type UpdatePayoutSettingsRequest = ({
-    /**
-     * Makes each listed destination the default for its currency, keyed by currency code.
-     * Currencies you leave out keep their default. Each destination must be `active` and in that
-     * currency. A currency's default can't be removed, only replaced, so values can't be null.
-     * Requires expected_version. maxProperties: 20. * (Value): string. minLength: 1. pattern:
-     * ^pdest_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_payout_destinations"?: Record<string, string>;
-    /**
-     * Days, 0 through 31, a payment stays pending before its funds become available, in place of
-     * the account's default. Send null to go back to the default. Format: int32.
-     */
-    "delay_days_override"?: number | null;
-    /**
-     * Expected version of the payout settings. Required when sending default_payout_destinations,
-     * minimum_balance_currency_options, monthly_payout_days, or weekly_payout_days, including
-     * empty collections and supported null clears. A stale value returns 409 VERSION_CONFLICT;
-     * retrieve the settings and rebuild the request before retrying. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * When Flint sends available funds: daily, weekly on weekly_payout_days, monthly on
-     * monthly_payout_days, or manual, which sends nothing until you create a payout. weekly and
-     * monthly need their day list in the same request. Value enum: "manual", "daily", "weekly",
-     * "monthly".
-     */
-    "interval"?: "manual" | "daily" | "weekly" | "monthly" | (string & {});
-    /**
-     * Amount to keep in your balance instead of paying it out, keyed by uppercase ISO 4217
-     * currency code, such as USD. Each value's currency must match its key and its amount can't be
-     * negative. Set a currency to null to remove its minimum. * (Value): {@link MoneyValue} or
-     * null. *.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. *.anyOf[2] (Value): null.
-     */
-    "minimum_balance_currency_options"?: Record<string, ((MoneyValue) | (null))>;
-    /**
-     * Days of the month, 1 through 31, on which monthly payouts are sent. Send it with interval
-     * monthly; it is rejected with any other interval. [] (Value): integer. Format: int32.
-     */
-    "monthly_payout_days"?: Array<number>;
-    /**
-     * Text shown on your bank statement for payouts, 22 characters or fewer. Send null to clear
-     * it. minLength: 1.
-     */
-    "statement_descriptor"?: string | null;
-    /**
-     * Weekdays on which weekly payouts are sent, monday through friday. Send it with interval
-     * weekly; it is rejected with any other interval. [] enum: "monday", "tuesday", "wednesday",
-     * "thursday", "friday". [] (Value): string. Value enum: "monday", "tuesday", "wednesday",
-     * "thursday", "friday".
-     */
-    "weekly_payout_days"?: Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday" | (string & {})>;
-});
-/** The request body for: Update payout settings. minProperties: 1. */
-export type UpdatePayoutSettingsRequestInput = ({
-    /**
-     * Makes each listed destination the default for its currency, keyed by currency code.
-     * Currencies you leave out keep their default. Each destination must be `active` and in that
-     * currency. A currency's default can't be removed, only replaced, so values can't be null.
-     * Requires expected_version. maxProperties: 20. * (Value): string. minLength: 1. pattern:
-     * ^pdest_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "default_payout_destinations"?: Record<string, string>;
-    /**
-     * Days, 0 through 31, a payment stays pending before its funds become available, in place of
-     * the account's default. Send null to go back to the default. Format: int32.
-     */
-    "delay_days_override"?: number | null;
-    /**
-     * Expected version of the payout settings. Required when sending default_payout_destinations,
-     * minimum_balance_currency_options, monthly_payout_days, or weekly_payout_days, including
-     * empty collections and supported null clears. A stale value returns 409 VERSION_CONFLICT;
-     * retrieve the settings and rebuild the request before retrying. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * When Flint sends available funds: daily, weekly on weekly_payout_days, monthly on
-     * monthly_payout_days, or manual, which sends nothing until you create a payout. weekly and
-     * monthly need their day list in the same request. Value enum: "manual", "daily", "weekly",
-     * "monthly".
-     */
-    "interval"?: "manual" | "daily" | "weekly" | "monthly";
-    /**
-     * Amount to keep in your balance instead of paying it out, keyed by uppercase ISO 4217
-     * currency code, such as USD. Each value's currency must match its key and its amount can't be
-     * negative. Set a currency to null to remove its minimum. * (Value): {@link MoneyValueInput}
-     * or null. *.anyOf[1] (Value): {@link MoneyValueInput}. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. *.anyOf[2] (Value): null.
-     */
-    "minimum_balance_currency_options"?: Record<string, ((MoneyValueInput) | (null))>;
-    /**
-     * Days of the month, 1 through 31, on which monthly payouts are sent. Send it with interval
-     * monthly; it is rejected with any other interval. [] (Value): integer. Format: int32.
-     */
-    "monthly_payout_days"?: Array<number>;
-    /**
-     * Text shown on your bank statement for payouts, 22 characters or fewer. Send null to clear
-     * it. minLength: 1.
-     */
-    "statement_descriptor"?: string | null;
-    /**
-     * Weekdays on which weekly payouts are sent, monday through friday. Send it with interval
-     * weekly; it is rejected with any other interval. [] enum: "monday", "tuesday", "wednesday",
-     * "thursday", "friday". [] (Value): string. Value enum: "monday", "tuesday", "wednesday",
-     * "thursday", "friday".
-     */
-    "weekly_payout_days"?: Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday">;
 });

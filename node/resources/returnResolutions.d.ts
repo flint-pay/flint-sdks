@@ -5,8 +5,8 @@ import type { ConfirmReturnResolutionResponse } from '../declarations/types-8.js
 import type { CreateReturnResolutionResponse } from '../declarations/types-13.js';
 import type { GetReturnResolutionResponse } from '../declarations/types-28.js';
 import type { ListReturnResolutionsResponse } from '../declarations/types-40.js';
-import type { ReleaseReturnResolutionResponse, RequestOptions } from '../declarations/types-61.js';
-import type { RetryReturnResolutionResponse } from '../declarations/types-62.js';
+import type { ReleaseReturnResolutionResponse } from '../declarations/types-61.js';
+import type { RequestOptions, RetryReturnResolutionResponse } from '../declarations/types-62.js';
 import type {
     ReturnResolution,
     ReturnResolutionsCancelParams,
@@ -59,10 +59,13 @@ export type {
 } from '../declarations/types-65.js';
 export type {
     RequestOptions,
-    ReleaseReturnResolutionResponse,
-    RefundUnissuedGiftCardRecovery,
-    ReleaseReturnResolutionRequestInput
-} from '../declarations/types-61.js';
+    RetryReturnResolutionResponse,
+    ReturnActor,
+    ResourceReference,
+    ResponseMeta,
+    ResponseWarning,
+    RetryReturnResolutionRequestInput
+} from '../declarations/types-62.js';
 export type {
     CancelReturnResolutionResponse,
     CancelReturnResolutionRequestInput,
@@ -84,13 +87,11 @@ export type {
     LineItemFulfillmentOriginRequestModelInput
 } from '../declarations/types-40.js';
 export type {
-    RetryReturnResolutionResponse,
-    ReturnActor,
-    ResourceReference,
-    ResponseMeta,
-    ResponseWarning,
-    RetryReturnResolutionRequestInput
-} from '../declarations/types-62.js';
+    ReleaseReturnResolutionResponse,
+    RefundTenderAllocation,
+    RefundUnissuedGiftCardRecovery,
+    ReleaseReturnResolutionRequestInput
+} from '../declarations/types-61.js';
 export type {
     UpdateReturnResolutionResponse,
     UpdateReturnResolutionRequestInput,
@@ -124,7 +125,6 @@ export type {
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation,
     RefundTaxBreakdownRefund,
-    RefundTenderAllocation,
     ReadinessMerchantAccountSession
 } from '../declarations/types-60.js';
 export type { SelectedProductOption } from '../declarations/types-67.js';
@@ -146,7 +146,7 @@ export {
     makeCreateReturnResolutionRequest,
     makeCreateReturnResolutionRequestCorrection,
     makeCreateReturnResolutionRequestStandard
-} from '../declarations/types-83.js';
+} from '../declarations/types-84.js';
 export { makeLineItemFulfillmentOriginRequestModel, makeLineItemFulfillmentRequestModel } from '../declarations/types-87.js';
 export {
     makeMetadataPatchRequest,

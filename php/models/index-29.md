@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# ReturnReplacementLineItemInput to SellerTaxAttestationRequestInput
+# ReturnReopenedInstalledMerchantsEventInput to SelectedProductOptionInput
 
+- [ReturnReopenedInstalledMerchantsEventInput](ReturnReopenedInstalledMerchantsEventInput.md)
+- [ReturnReopenedMerchantEventInput](ReturnReopenedMerchantEventInput.md)
 - [ReturnReplacementLineItemInput](ReturnReplacementLineItemInput.md)
 - [ReturnReplacementLineItemInputBundleInput](ReturnReplacementLineItemInputBundleInput.md)
 - [ReturnReplacementLineItemInputCustomInput](ReturnReplacementLineItemInputCustomInput.md)
@@ -100,6 +102,4 @@
 - [SelectableOrderPaymentIntentInput](SelectableOrderPaymentIntentInput.md)
 - [SelectableOrderPaymentIntentPreviousAttributesInput](SelectableOrderPaymentIntentPreviousAttributesInput.md)
 - [SelectedProductOptionInput](SelectedProductOptionInput.md)
-- [SelectedProductOptionPreviousAttributesInput](SelectedProductOptionPreviousAttributesInput.md)
-- [SellerTaxAttestationRequestInput](SellerTaxAttestationRequestInput.md)
 

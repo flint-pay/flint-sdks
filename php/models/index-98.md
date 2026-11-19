@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# SubscriptionRenewalUpcomingInstalledMerchantsEvent to TicketVoidedMerchantEventRequest
+# SubscriptionRenewalUpcomingMerchantEventRequest to TicketUpdatedInstalledMerchantsEventSource
 
+- [SubscriptionRenewalUpcomingMerchantEventRequest](SubscriptionRenewalUpcomingMerchantEventRequest.md)
+- [SubscriptionRenewalUpcomingMerchantEvent](SubscriptionRenewalUpcomingMerchantEvent.md)
+- [SubscriptionRenewalUpcomingInstalledMerchantsEventDataObject](SubscriptionRenewalUpcomingInstalledMerchantsEventDataObject.md)
+- [SubscriptionRenewalUpcomingInstalledMerchantsEventData](SubscriptionRenewalUpcomingInstalledMerchantsEventData.md)
+- [SubscriptionRenewalUpcomingInstalledMerchantsEventSource](SubscriptionRenewalUpcomingInstalledMerchantsEventSource.md)
 - [SubscriptionRenewalUpcomingInstalledMerchantsEvent](SubscriptionRenewalUpcomingInstalledMerchantsEvent.md)
 - [SubscriptionResumedMerchantEventDataObject](SubscriptionResumedMerchantEventDataObject.md)
 - [SubscriptionResumedMerchantEventDataPreviousAttributes](SubscriptionResumedMerchantEventDataPreviousAttributes.md)
@@ -97,9 +102,4 @@
 - [TicketUpdatedInstalledMerchantsEventDataPreviousAttributes](TicketUpdatedInstalledMerchantsEventDataPreviousAttributes.md)
 - [TicketUpdatedInstalledMerchantsEventData](TicketUpdatedInstalledMerchantsEventData.md)
 - [TicketUpdatedInstalledMerchantsEventSource](TicketUpdatedInstalledMerchantsEventSource.md)
-- [TicketUpdatedInstalledMerchantsEvent](TicketUpdatedInstalledMerchantsEvent.md)
-- [TicketVoidedMerchantEventDataObject](TicketVoidedMerchantEventDataObject.md)
-- [TicketVoidedMerchantEventDataPreviousAttributes](TicketVoidedMerchantEventDataPreviousAttributes.md)
-- [TicketVoidedMerchantEventData](TicketVoidedMerchantEventData.md)
-- [TicketVoidedMerchantEventRequest](TicketVoidedMerchantEventRequest.md)
 

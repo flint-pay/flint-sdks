@@ -4,7 +4,7 @@
 
 ### resourceTimelines.get
 
-Returns summary-only API request, webhook event, webhook delivery attempt, image mutation, and license key pool authorization entries for a single public API resource. The caller must have developer.resource_timelines.read and the matching read scope for the requested resource type. Default order: occurred_at descending, then resource_timeline_entry_id descending.
+Returns summary-only API request, webhook event, webhook delivery attempt, image mutation, license key restriction change, and license key pool authorization entries for a single public API resource. The caller must have developer.resource_timelines.read and the matching read scope for the requested resource type. License key timelines include entries for the key and its device activations. Default order: occurred_at descending, then resource_timeline_entry_id descending.
 
 `GET /v1/resource-timelines/{resource_id}`
 
@@ -15,8 +15,8 @@ Signature: `get(string|Model $resource_id, array|Model|null $params = null, ?Req
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Flint public API resource ID. |
-| `resource_type` | Optional | string | Optional resource type. Must match the resource_id prefix when present. Values: [53 declared values](#resourcetimelinesget-input-resource_type-values). |
-| `include` | Optional | Array of string | Timeline entry groups to include. Defaults to all applicable groups. Items values: `"requests"`, `"webhooks"`, `"attempts"`, `"image_mutations"`, `"license_key_pool_attestations"`. |
+| `resource_type` | Optional | string | Optional resource type. Must match the resource_id prefix when present. Values: [54 declared values](#resourcetimelinesget-input-resource_type-values). |
+| `include` | Optional | Array of string | Timeline entry groups to include. Defaults to all applicable groups. Items values: `"requests"`, `"webhooks"`, `"attempts"`, `"image_mutations"`, `"license_key_pool_attestations"`, `"license_key_restriction_changes"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `occurred_after` | Optional | string | Inclusive lower bound on occurred_at. Format: `date-time`. |
@@ -42,6 +42,7 @@ Signature: `get(string|Model $resource_id, array|Model|null $params = null, ?Req
 - `"inventory_transfer"`
 - `"invoice"`
 - `"invoice_payment_term"`
+- `"license_key"`
 - `"license_key_activation"`
 - `"license_key_pool"`
 - `"merchant_billing_balance"`

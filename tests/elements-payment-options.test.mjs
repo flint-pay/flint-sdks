@@ -22,6 +22,7 @@ const elements = {
 const envelope = {
   data: {
     amount_money: { amount: 100, currency: "USD" },
+    idempotency_key: null,
     metadata: {},
     payment_flow: "api",
     payment_intent_id: "pi_elements_test",

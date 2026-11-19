@@ -8,7 +8,7 @@ import type {
 } from './types-10.js';
 import type { InvoiceCollectionRequest, InvoiceCollectionRequestInput } from './types-35.js';
 import type { InvoicePaymentDueRequest, InvoicePaymentDueRequestInput } from './types-36.js';
-import type { InvoiceScheduleEntryWrite } from './types-37.js';
+import type { InvoiceScheduleEntryWrite, InvoiceScheduleEntryWriteInput } from './types-38.js';
 import type {
     MetadataMap,
     MetadataRequestInput,
@@ -17,7 +17,6 @@ import type {
     ModifierOverride,
     ModifierOverrideRequestInput
 } from './types-43.js';
-import type { InvoiceScheduleEntryWriteInput } from './types-38.js';
 import type {
     LocationCoordinate,
     LocationCoordinateRequestInput,
@@ -30,11 +29,16 @@ import type { CheckoutRedirects, CheckoutRedirectsRequestInput } from './types-6
 import type { CreateSubscriptionPreviewRequestQuantityChange } from './types-14.js';
 import type {
     SubscriptionServiceLocationRequest,
+    SubscriptionQuantityChangeLineItemRequest,
     SubscriptionSwapPreviewRequest,
-    SubscriptionSwapPreviewRequestInput,
-    SubscriptionQuantityChangeLineItemRequestInput
+    SubscriptionQuantityChangeLineItemRequestInput,
+    SubscriptionSwapPreviewRequestInput
 } from './types-72.js';
-import type { SubscriptionDeliveryDestinationRequestInput } from './types-69.js';
+import type {
+    SubscriptionDeliveryDestinationRequestInput,
+    SubscribedLineRequest,
+    SubscribedLineRequestModelInput
+} from './types-69.js';
 import type { SubscriptionDeliveryRequest, SubscriptionDeliveryRequestInput } from './types-70.js';
 import type { TextModifierConfigRequest } from './types-74.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
@@ -59,7 +63,6 @@ import type { CreateOrderLineItemVariant } from './types-12.js';
 import type { Dimensions, DimensionsRequestInput } from './types-25.js';
 import type { GiftCardPurchaseRequest, GiftCardPurchaseDetailsRequestInput } from './types-30.js';
 import type { ImageReferenceRequest, ImageReferenceRequestInput } from './types-31.js';
-import type { SubscribedLineRequest, SubscribedLineRequestModelInput } from './types-68.js';
 import type { Weight, WeightRequestInput } from './types-79.js';
 /** The `order` variant of `CreateInvoiceRequest`. */
 export type CreateInvoiceRequestOrder = ({
@@ -1340,6 +1343,17 @@ export type CreateMeSubscriptionPreviewRequestNextRenewal = ({
      * subscription: delivery method, type, destination, and recipient.
      */
     "delivery"?: SubscriptionDeliveryRequest;
+    /**
+     * Reject the quantity estimate if the subscription version has changed. Requires line_items.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Proposed quantities at the next renewal. Send line_items as in change-quantity. Omitted
+     * lines keep their quantities. minItems: 1. maxItems: 50. [] (Value): {@link
+     * SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription line.
+     */
+    "line_items"?: Array<SubscriptionQuantityChangeLineItemRequest>;
     /** Selects the next renewal preview. Value enum: "next_renewal". */
     "mode": "next_renewal" | (string & {});
     /**
@@ -1366,6 +1380,17 @@ export type CreateMeSubscriptionPreviewRequestNextRenewalInput = ({
      * subscription: delivery method, type, destination, and recipient.
      */
     "delivery"?: SubscriptionDeliveryRequestInput;
+    /**
+     * Reject the quantity estimate if the subscription version has changed. Requires line_items.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Proposed quantities at the next renewal. Send line_items as in change-quantity. Omitted
+     * lines keep their quantities. minItems: 1. maxItems: 50. [] (Value): {@link
+     * SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
+     */
+    "line_items"?: Array<SubscriptionQuantityChangeLineItemRequestInput>;
     /** Selects the next renewal preview. Value enum: "next_renewal". */
     "mode": "next_renewal";
     /**
@@ -1381,11 +1406,21 @@ export type CreateMeSubscriptionPreviewRequestNextRenewalInput = ({
      */
     "swap"?: SubscriptionSwapPreviewRequestInput;
 })
+    & (({
+    "delivery"?: never;
+} | {
+    "line_items"?: never;
+})
     & ({
     "swap"?: never;
 } | {
     "delivery"?: never;
-});
+})
+    & ({
+    "swap"?: never;
+} | {
+    "line_items"?: never;
+}));
 /** The `plan_change` variant of `CreateMeSubscriptionPreviewRequest`. */
 export type CreateMeSubscriptionPreviewRequestPlanChange = ({
     /**

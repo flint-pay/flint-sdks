@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# ProductVariantInventoryAvailability to PublicDownload
+# ProductUpdatedMerchantEvent to PromotionSchedulePreviousAttributes
 
+- [ProductUpdatedMerchantEvent](ProductUpdatedMerchantEvent.md)
+- [ProductVariant](ProductVariant.md)
+- [ProductVariantArchivedInstalledMerchantsEvent](ProductVariantArchivedInstalledMerchantsEvent.md)
+- [ProductVariantArchivedMerchantEvent](ProductVariantArchivedMerchantEvent.md)
+- [ProductVariantCreatedInstalledMerchantsEvent](ProductVariantCreatedInstalledMerchantsEvent.md)
+- [ProductVariantCreatedMerchantEvent](ProductVariantCreatedMerchantEvent.md)
 - [ProductVariantInventoryAvailability](ProductVariantInventoryAvailability.md)
 - [ProductVariantInventoryAvailabilityPreviousAttributes](ProductVariantInventoryAvailabilityPreviousAttributes.md)
 - [ProductVariantListResponse](ProductVariantListResponse.md)
@@ -96,10 +102,4 @@
 - [PromotionSchedulePatch](PromotionSchedulePatch.md)
 - [PromotionSchedulePatchInput](PromotionSchedulePatchInput.md)
 - [PromotionSchedulePreviousAttributes](PromotionSchedulePreviousAttributes.md)
-- [PromotionScheduleRequestInput](PromotionScheduleRequestInput.md)
-- [PromotionSettings](PromotionSettings.md)
-- [PromotionSettingsRequestInput](PromotionSettingsRequestInput.md)
-- [PromotionUpdatedInstalledMerchantsEvent](PromotionUpdatedInstalledMerchantsEvent.md)
-- [PromotionUpdatedMerchantEvent](PromotionUpdatedMerchantEvent.md)
-- [PublicDownload](PublicDownload.md)
 

@@ -1,7 +1,7 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { BalanceListResponse, BalancesListParams } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -19,11 +19,10 @@ export type {
 } from '../runtime.js';
 export type { BalancesListParams, BalanceListResponse, AuthMode, Balance } from '../declarations/types-1.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { MoneyValue, MoneyMovementListMeta, MoneyMovementHistoryMeta, NextAction } from '../declarations/types-44.js';
-export type { ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export interface BalancesResource {

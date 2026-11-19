@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# WaiveInvoiceLateFeeRequestInput to WorkloadIdentityResponse
+# VerifyReturnReceiptLineItemRequest to WorkloadIdentityResponse
 
+- [VerifyReturnReceiptLineItemRequest](VerifyReturnReceiptLineItemRequest.md)
+- [VerifyReturnReceiptLineItemRequestInput](VerifyReturnReceiptLineItemRequestInput.md)
+- [VoidPackageRequest](VoidPackageRequest.md)
+- [VoidPackageRequestInput](VoidPackageRequestInput.md)
+- [VoidShipmentRequestInput](VoidShipmentRequestInput.md)
+- [VoidShipmentResponse](VoidShipmentResponse.md)
+- [VoidShipmentResult](VoidShipmentResult.md)
+- [WaiveInvoiceLateFeeRequest](WaiveInvoiceLateFeeRequest.md)
 - [WaiveInvoiceLateFeeRequestInput](WaiveInvoiceLateFeeRequestInput.md)
 - [WaiveReturnLineInspectionRequest](WaiveReturnLineInspectionRequest.md)
 - [WaiveReturnLineInspectionRequestInput](WaiveReturnLineInspectionRequestInput.md)

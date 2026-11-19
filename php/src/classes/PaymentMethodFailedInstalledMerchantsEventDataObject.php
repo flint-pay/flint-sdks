@@ -10,6 +10,7 @@ namespace Flint;
  * @property-read bool $is_default
  * @property-read bool $is_removing
  * @property-read string $merchant_id
+ * @property-read ?string $origin
  * @property-read string $payment_method_id
  * @property-read ?string $saved_with
  * @property-read string $status
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read string $usage
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentMethodFailedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'card'?: mixed, 'created_at': string, 'customer'?: mixed, 'customer_id': string, 'fingerprint'?: string, 'is_default': bool, 'is_removing': bool, 'merchant_id': string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string, 'usage': string, ...}|object $values */
+    /** @param array{'card'?: mixed, 'created_at': string, 'customer'?: mixed, 'customer_id': string, 'fingerprint'?: string, 'is_default': bool, 'is_removing': bool, 'merchant_id': string, 'origin'?: string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string, 'usage': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodFailedInstalledMerchantsEventDataObject')); }
     /** Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
      * @return ?CardDetails
@@ -60,6 +61,11 @@ final class PaymentMethodFailedInstalledMerchantsEventDataObject extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
+    /** `imported` for a saved card that Flint migrated from another processor account. Omitted for other cards. Value enum: "imported".
+     * @return ?string
+     */
+    public function getOrigin(): ?string { return $this->get('origin'); }
+    public function hasOrigin(): bool { return $this->has('origin'); }
     /** Unique identifier for this payment method, prefixed `pm_`.
      * @return string
      */

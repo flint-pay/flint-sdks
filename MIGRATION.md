@@ -1,6 +1,6 @@
 # SDK 8.0.0
 
-This guide covers upgrading from `7.0.0` to the `8.0.0-beta.6` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.6` or `flintpay/flint:8.0.0-beta.6`. The API date is `2026-09-07`; this beta pins Flint `main` at `233935366aaa4351e5c38be959132e5281fa1f06`. Stable releases will pin the backend commit serving production.
+This guide covers upgrading from `7.0.0` to the `8.0.0-beta.8` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.8` or `flintpay/flint:8.0.0-beta.8`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
 
 TypeScript reports most of these changes as compile errors, so run `tsc` after upgrading and work through the output. PHP reports them when the call runs; use the search patterns in [Finding call sites](#finding-call-sites).
 
@@ -14,6 +14,16 @@ What changed, most common first:
 - [Results](#results-carry-lastresponse): results carry `lastResponse`, and the `*WithResponse` methods are removed.
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
+
+## Changes in 8.0.0-beta.8
+
+Check `idempotency_key` for `null` before using it. In PHP, `getIdempotencyKey()` can return `null` even when `hasIdempotencyKey()` returns `true`. This applies to affected response models and signed webhook snapshots, including `refund.succeeded`. Keep passing required request keys through the call's idempotency option.
+
+- Buyer refund responses omit `idempotency_key`. Remove reads of that field and calls to `BuyerRefund::getIdempotencyKey()`.
+- `paymentLinks.resolve` returns `ResolvedPaymentLinkCheckout` data. Update explicit result types and handle the session and optional checkout order fields in that model.
+- Use the current `ErrorDetail` declarations when branching on `code` and `current_resource`. If you construct buyer package item models yourself, supply `order_id` and `package_id`.
+
+Both SDKs still expose the same operations. Re-run TypeScript type checking or your PHP integration tests after upgrading, especially if you depend on model class names or declare webhook handler types.
 
 ## Changes in 8.0.0-beta.7
 

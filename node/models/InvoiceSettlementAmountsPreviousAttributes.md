@@ -16,7 +16,7 @@
 | `net_collected_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | paid_money minus refunded_money, never below zero. Dispute losses do not reduce this invoice amount. `net_collected_money`: [declared alternatives](../models/InvoiceSettlementAmountsPreviousAttributes.md#invoicesettlementamountspreviousattributesnet_collected_money). |
 | `outstanding_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Money still owed on the bill, never below zero. Refunds return money already collected and do not add to it. `outstanding_money`: [declared alternatives](../models/InvoiceSettlementAmountsPreviousAttributes.md#invoicesettlementamountspreviousattributesoutstanding_money). |
 | `paid_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Money collected toward the bill, net of reversed payments. Excludes written-off debt. On orders, dispute losses do not reduce this amount. `paid_money`: [declared alternatives](../models/InvoiceSettlementAmountsPreviousAttributes.md#invoicesettlementamountspreviousattributespaid_money). |
-| `refunded_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Money returned to the buyer from what was collected toward the bill. `refunded_money`: [declared alternatives](../models/InvoiceSettlementAmountsPreviousAttributes.md#invoicesettlementamountspreviousattributesrefunded_money). |
+| `refunded_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Money returned to the buyer from what was collected toward the bill. On orders, this counts successful refunds. `refunded_money`: [declared alternatives](../models/InvoiceSettlementAmountsPreviousAttributes.md#invoicesettlementamountspreviousattributesrefunded_money). |
 | `written_off_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Owed money waived as uncollectible. Reduces outstanding_money without increasing paid_money or net_collected_money. Cannot be refunded or used to fund an exchange. `written_off_money`: [declared alternatives](../models/InvoiceSettlementAmountsPreviousAttributes.md#invoicesettlementamountspreviousattributeswritten_off_money). |
 
 ### InvoiceSettlementAmountsPreviousAttributes.credited_money
@@ -183,7 +183,7 @@ Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_mon
 
 ### InvoiceSettlementAmountsPreviousAttributes.refunded_money
 
-Money returned to the buyer from what was collected toward the bill.
+Money returned to the buyer from what was collected toward the bill. On orders, this counts successful refunds.
 
 Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
@@ -198,7 +198,7 @@ anyOf MoneyValuePreviousAttributes.
 anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
-- Value shape: null. Money returned to the buyer from what was collected toward the bill. 
+- Value shape: null. Money returned to the buyer from what was collected toward the bill. On orders, this counts successful refunds. 
 
 ### InvoiceSettlementAmountsPreviousAttributes.refunded_money variant 1.amount
 

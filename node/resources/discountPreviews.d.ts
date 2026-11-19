@@ -1,7 +1,7 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { DiscountPreview, DiscountPreviewResponse, DiscountPreviewsCreateParams } from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -24,20 +24,19 @@ export type {
     DiscountPreviewRequestInput
 } from '../declarations/types-25.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     PromotionRefRequestInput,
     PromotionRefInputPromotionIDInput,
     PromotionRefInputPromotionCodeInput,
+    PromotionCandidate,
     PromotionCombinesWith,
     PromotionExclusivity
 } from '../declarations/types-58.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { PromotionCandidate } from '../declarations/types-57.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeDiscountPreviewRequest } from '../declarations/types-86.js';
 export { makeMoneyValue } from '../declarations/types-88.js';

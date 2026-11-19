@@ -1,20 +1,630 @@
-import type { LicenseKeyValidation, LicenseKeyRestriction } from './types-39.js';
-import type { ResponseMeta, ReturnActivity, ReturnDisposition } from './types-62.js';
-import type { ExpandedCustomerSummary, ExpandedOrderSummary, DisputesAcceptParams } from './types-26.js';
-import type { MetadataMap } from './types-43.js';
+import type {
+    ExpandedCustomerSummary,
+    ExpandedCustomerSummaryPreviousAttributes,
+    ExpandedOrderSummary,
+    ExpandedOrderSummaryPreviousAttributes,
+    DisputesAcceptParams
+} from './types-26.js';
+import type { LicenseKeyRestriction, LicenseKeyRestrictionPreviousAttributes } from './types-39.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { LicenseKeyActivation } from './types-38.js';
+import type { ResponseMeta, ResendLicenseKeyRequestInput, ReturnActivity } from './types-62.js';
 import type { InputValue } from '../runtime.js';
 import type { DisableLicenseKeyRequestInput } from './types-25.js';
-import type { ResendLicenseKeyRequestInput } from './types-61.js';
 import type { RevealLicenseKeyRequestInput } from './types-66.js';
 import type { UpdateLicenseKeyRequestInput, UpdateLocationRequestInput } from './types-76.js';
 import type { ValidateLicenseKeyRequestInput } from './types-78.js';
-import type { ReturnInspection, ReturnLineItem } from './types-63.js';
+import type { ReturnDisposition, ReturnInspection, ReturnLineItem } from './types-63.js';
 import type { ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-64.js';
 import type { ReturnResolution, ReturnResource } from './types-65.js';
 import type { Address, AcceptFulfillmentRequestInput } from './types-0.js';
 import type { CreateLocationRequestInput } from './types-11.js';
 import type { InventoryAllocationPoliciesDeleteParams } from './types-31.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
+/**
+ * The `license_key.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.activation_limit (Required): integer or null. Maximum active
+     * installations. Null when activations are unlimited. Format: int32.
+     * object.active_activation_count (Required): integer. Number of currently active
+     * installations. Format: int32. object.created_at (Required): string. When the license key was
+     * issued. Format: date-time. Example: "2026-08-02T16:00:00Z". object.customer (Optional):
+     * {@link ExpandedCustomerSummary}. Customer summary when requested with expand=customer. Null
+     * when the key has no customer. Omitted when no customer expansion is requested. A customer's
+     * summary fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer_id (Required): string or null. The current customer of the owning order or
+     * subscription. Null when the order has no linked customer. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.expires_at (Required): string or null. When the key
+     * expires. Null when no expiry is set. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.key_last4 (Required): string or null. Last four characters of the assigned key. Null
+     * when the key is awaiting assignment. object.license_key_id (Required): string. Unique
+     * license key ID with the lk_ prefix. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN".
+     * object.license_key_pool_id (Required): string or null. The source pool ID. Null when the key
+     * is generated. Example: "lkp_01KEZF7C00AQV1X2DPWG2NXS7H". object.metadata (Required): {@link
+     * MetadataMap}. Merchant-defined key-value pairs. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary}. Order summary
+     * when requested with expand=order. Null when the key has no order. Omitted when no order
+     * expansion is requested. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order_id (Required): string or null. The owning order or the order that started the
+     * subscription. Null when a subscription has no starting order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". object.order_line_item_id (Required): string or null. The
+     * owning order line. Null when the key belongs to a subscription line. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.product_id (Required): string. The product ID.
+     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". object.restrictions (Required): Array of {@link
+     * LicenseKeyRestriction}. Restrictions currently in force. object.restrictions[] (Value):
+     * {@link LicenseKeyRestriction}. One occurrence of a cause keeping the key disabled.
+     * object.source (Required): string. How the key was supplied. Value enum: "generated", "pool".
+     * object.status (Required): string. Whether the key is usable. Expiry takes effect at
+     * expires_at. Value enum: "pending", "active", "disabled", "expired". object.subscription_id
+     * (Required): string or null. The owning subscription. Null when the key belongs to an order
+     * line. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". object.subscription_line_item_id
+     * (Required): string or null. The owning subscription line. Null when the key belongs to an
+     * order line. Example: "sli_01KEZF7C00PPWVJ2N321V84ASA". object.supported_actions (Required):
+     * Array of string. Lifecycle actions currently available for this key. [] enum: "disable",
+     * "reinstate". object.supported_actions[] (Value): string. Value enum: "disable", "reinstate".
+     * object.unit_ordinal (Required): integer. The unit of the owning line, starting at 1. Format:
+     * int32. object.updated_at (Required): string. When the license key version last changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.variant_id (Required): string.
+     * The product variant ID. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". object.version
+     * (Required): integer. Persisted version of this resource's owned state. Expanded resources
+     * and external observations can change independently. Format: uint64. minimum: 1.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.activation_limit (Optional): integer or null. Maximum active
+     * installations. Null when activations are unlimited.
+     * previous_attributes.activation_limit.anyOf[1] (Value): integer. Maximum active
+     * installations. Null when activations are unlimited. Format: int32.
+     * previous_attributes.activation_limit.anyOf[2] (Value): null.
+     * previous_attributes.active_activation_count (Optional): integer or null. Number of currently
+     * active installations. previous_attributes.active_activation_count.anyOf[1] (Value): integer.
+     * Number of currently active installations. Format: int32.
+     * previous_attributes.active_activation_count.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When the license key was issued.
+     * previous_attributes.created_at.anyOf[1] (Value): string. When the license key was issued.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
+     * (Value): null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Customer summary when requested with
+     * expand=customer. Null when the key has no customer. Omitted when no customer expansion is
+     * requested. previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The current customer of
+     * the owning order or subscription. Null when the order has no linked customer.
+     * previous_attributes.customer_id.anyOf[1] (Value): string. The current customer of the owning
+     * order or subscription. Null when the order has no linked customer. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value): null.
+     * previous_attributes.expires_at (Optional): string or null. When the key expires. Null when
+     * no expiry is set. previous_attributes.expires_at.anyOf[1] (Value): string. When the key
+     * expires. Null when no expiry is set. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.expires_at.anyOf[2] (Value): null. previous_attributes.key_last4
+     * (Optional): string or null. Last four characters of the assigned key. Null when the key is
+     * awaiting assignment. previous_attributes.key_last4.anyOf[1] (Value): string. Last four
+     * characters of the assigned key. Null when the key is awaiting assignment.
+     * previous_attributes.key_last4.anyOf[2] (Value): null. previous_attributes.license_key_id
+     * (Optional): string or null. Unique license key ID with the lk_ prefix.
+     * previous_attributes.license_key_id.anyOf[1] (Value): string. Unique license key ID with the
+     * lk_ prefix. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN".
+     * previous_attributes.license_key_id.anyOf[2] (Value): null.
+     * previous_attributes.license_key_pool_id (Optional): string or null. The source pool ID. Null
+     * when the key is generated. previous_attributes.license_key_pool_id.anyOf[1] (Value): string.
+     * The source pool ID. Null when the key is generated. Example:
+     * "lkp_01KEZF7C00AQV1X2DPWG2NXS7H". previous_attributes.license_key_pool_id.anyOf[2] (Value):
+     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Merchant-defined
+     * key-value pairs. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary when requested with
+     * expand=order. Null when the key has no order. Omitted when no order expansion is requested.
+     * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+     * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
+     * string or null. The owning order or the order that started the subscription. Null when a
+     * subscription has no starting order. previous_attributes.order_id.anyOf[1] (Value): string.
+     * The owning order or the order that started the subscription. Null when a subscription has no
+     * starting order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * previous_attributes.order_id.anyOf[2] (Value): null. previous_attributes.order_line_item_id
+     * (Optional): string or null. The owning order line. Null when the key belongs to a
+     * subscription line. previous_attributes.order_line_item_id.anyOf[1] (Value): string. The
+     * owning order line. Null when the key belongs to a subscription line. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". previous_attributes.order_line_item_id.anyOf[2] (Value):
+     * null. previous_attributes.product_id (Optional): string or null. The product ID.
+     * previous_attributes.product_id.anyOf[1] (Value): string. The product ID. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66". previous_attributes.product_id.anyOf[2] (Value): null.
+     * previous_attributes.restrictions (Optional): Array of {@link
+     * LicenseKeyRestrictionPreviousAttributes} or null. Restrictions currently in force.
+     * previous_attributes.restrictions.anyOf[1] (Value): Array of {@link
+     * LicenseKeyRestrictionPreviousAttributes}. Restrictions currently in force.
+     * previous_attributes.restrictions.anyOf[1][] (Value): {@link
+     * LicenseKeyRestrictionPreviousAttributes}. previous_attributes.restrictions.anyOf[2] (Value):
+     * null. previous_attributes.source (Optional): string or null. How the key was supplied. Value
+     * enum: "generated", "pool". previous_attributes.source.anyOf[1] (Value): string. How the key
+     * was supplied. Value enum: "generated", "pool". previous_attributes.source.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Whether the key is usable.
+     * Expiry takes effect at expires_at. Value enum: "pending", "active", "disabled", "expired".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether the key is usable. Expiry takes
+     * effect at expires_at. Value enum: "pending", "active", "disabled", "expired".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_id
+     * (Optional): string or null. The owning subscription. Null when the key belongs to an order
+     * line. previous_attributes.subscription_id.anyOf[1] (Value): string. The owning subscription.
+     * Null when the key belongs to an order line. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * previous_attributes.subscription_id.anyOf[2] (Value): null.
+     * previous_attributes.subscription_line_item_id (Optional): string or null. The owning
+     * subscription line. Null when the key belongs to an order line.
+     * previous_attributes.subscription_line_item_id.anyOf[1] (Value): string. The owning
+     * subscription line. Null when the key belongs to an order line. Example:
+     * "sli_01KEZF7C00PPWVJ2N321V84ASA". previous_attributes.subscription_line_item_id.anyOf[2]
+     * (Value): null. previous_attributes.supported_actions (Optional): Array of string or null.
+     * Lifecycle actions currently available for this key. [] enum: "disable", "reinstate".
+     * previous_attributes.supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions
+     * currently available for this key. [] enum: "disable", "reinstate".
+     * previous_attributes.supported_actions.anyOf[1][] (Value): string. Value enum: "disable",
+     * "reinstate". previous_attributes.supported_actions.anyOf[2] (Value): null.
+     * previous_attributes.unit_ordinal (Optional): integer or null. The unit of the owning line,
+     * starting at 1. previous_attributes.unit_ordinal.anyOf[1] (Value): integer. The unit of the
+     * owning line, starting at 1. Format: int32. previous_attributes.unit_ordinal.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. When the license
+     * key version last changed. previous_attributes.updated_at.anyOf[1] (Value): string. When the
+     * license key version last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.variant_id
+     * (Optional): string or null. The product variant ID. previous_attributes.variant_id.anyOf[1]
+     * (Value): string. The product variant ID. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     * previous_attributes.variant_id.anyOf[2] (Value): null. previous_attributes.version
+     * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently.
+     * previous_attributes.version.anyOf[1] (Value): integer. Persisted version of this resource's
+     * owned state. Expanded resources and external observations can change independently. Format:
+     * uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * activation_limit (Required): integer or null. Maximum active installations. Null when
+         * activations are unlimited. Format: int32. active_activation_count (Required): integer.
+         * Number of currently active installations. Format: int32. created_at (Required): string.
+         * When the license key was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * customer (Optional): {@link ExpandedCustomerSummary}. Customer summary when requested
+         * with expand=customer. Null when the key has no customer. Omitted when no customer
+         * expansion is requested. A customer's summary fields, returned in place of a customer ID
+         * when the customer is expanded. customer_id (Required): string or null. The current
+         * customer of the owning order or subscription. Null when the order has no linked
+         * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". expires_at (Required): string or
+         * null. When the key expires. Null when no expiry is set. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". key_last4 (Required): string or null. Last four characters of
+         * the assigned key. Null when the key is awaiting assignment. license_key_id (Required):
+         * string. Unique license key ID with the lk_ prefix. Example:
+         * "lk_01KEZF7C000QD7VJ83G43V0NSN". license_key_pool_id (Required): string or null. The
+         * source pool ID. Null when the key is generated. Example:
+         * "lkp_01KEZF7C00AQV1X2DPWG2NXS7H". metadata (Required): {@link MetadataMap}.
+         * Merchant-defined key-value pairs. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. order (Optional): {@link ExpandedOrderSummary}. Order summary when
+         * requested with expand=order. Null when the key has no order. Omitted when no order
+         * expansion is requested. An order's summary fields, including status, payment and refund
+         * status, and pricing and settlement amounts, returned when the order is expanded.
+         * order_id (Required): string or null. The owning order or the order that started the
+         * subscription. Null when a subscription has no starting order. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string or null. The
+         * owning order line. Null when the key belongs to a subscription line. Example:
+         * "li_01KEZF7C008YPRCK7VDKTGWR31". product_id (Required): string. The product ID. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". restrictions (Required): Array of {@link
+         * LicenseKeyRestriction}. Restrictions currently in force. restrictions[] (Value): {@link
+         * LicenseKeyRestriction}. One occurrence of a cause keeping the key disabled. source
+         * (Required): string. How the key was supplied. Value enum: "generated", "pool". status
+         * (Required): string. Whether the key is usable. Expiry takes effect at expires_at. Value
+         * enum: "pending", "active", "disabled", "expired". subscription_id (Required): string or
+         * null. The owning subscription. Null when the key belongs to an order line. Example:
+         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_line_item_id (Required): string or null.
+         * The owning subscription line. Null when the key belongs to an order line. Example:
+         * "sli_01KEZF7C00PPWVJ2N321V84ASA". supported_actions (Required): Array of string.
+         * Lifecycle actions currently available for this key. [] enum: "disable", "reinstate".
+         * supported_actions[] (Value): string. Value enum: "disable", "reinstate". unit_ordinal
+         * (Required): integer. The unit of the owning line, starting at 1. Format: int32.
+         * updated_at (Required): string. When the license key version last changed. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". variant_id (Required): string. The product
+         * variant ID. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". version (Required): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /** Maximum active installations. Null when activations are unlimited. Format: int32. */
+            "activation_limit": number | null;
+            /** Number of currently active installations. Format: int32. */
+            "active_activation_count": number;
+            /**
+             * When the license key was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Customer summary when requested with expand=customer. Null when the key has no
+             * customer. Omitted when no customer expansion is requested. A customer's summary
+             * fields, returned in place of a customer ID when the customer is expanded.
+             */
+            "customer"?: ExpandedCustomerSummary;
+            /**
+             * The current customer of the owning order or subscription. Null when the order has no
+             * linked customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string | null;
+            /**
+             * When the key expires. Null when no expiry is set. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * Last four characters of the assigned key. Null when the key is awaiting assignment.
+             */
+            "key_last4": string | null;
+            /**
+             * Unique license key ID with the lk_ prefix. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN".
+             */
+            "license_key_id": string;
+            /**
+             * The source pool ID. Null when the key is generated. Example:
+             * "lkp_01KEZF7C00AQV1X2DPWG2NXS7H".
+             */
+            "license_key_pool_id": string | null;
+            /**
+             * Merchant-defined key-value pairs. Caller-owned key-value data stored on a resource.
+             * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow
+             * the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+             * may not satisfy them.
+             */
+            "metadata": MetadataMap;
+            /**
+             * Order summary when requested with expand=order. Null when the key has no order.
+             * Omitted when no order expansion is requested. An order's summary fields, including
+             * status, payment and refund status, and pricing and settlement amounts, returned when
+             * the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /**
+             * The owning order or the order that started the subscription. Null when a
+             * subscription has no starting order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id": string | null;
+            /**
+             * The owning order line. Null when the key belongs to a subscription line. Example:
+             * "li_01KEZF7C008YPRCK7VDKTGWR31".
+             */
+            "order_line_item_id": string | null;
+            /** The product ID. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+            "product_id": string;
+            /**
+             * Restrictions currently in force. [] (Value): {@link LicenseKeyRestriction}. One
+             * occurrence of a cause keeping the key disabled.
+             */
+            "restrictions": Array<LicenseKeyRestriction>;
+            /** How the key was supplied. Value enum: "generated", "pool". */
+            "source": "generated" | "pool" | (string & {});
+            /**
+             * Whether the key is usable. Expiry takes effect at expires_at. Value enum: "pending",
+             * "active", "disabled", "expired".
+             */
+            "status": "pending" | "active" | "disabled" | "expired" | (string & {});
+            /**
+             * The owning subscription. Null when the key belongs to an order line. Example:
+             * "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+             */
+            "subscription_id": string | null;
+            /**
+             * The owning subscription line. Null when the key belongs to an order line. Example:
+             * "sli_01KEZF7C00PPWVJ2N321V84ASA".
+             */
+            "subscription_line_item_id": string | null;
+            /**
+             * Lifecycle actions currently available for this key. [] enum: "disable", "reinstate".
+             * [] (Value): string. Value enum: "disable", "reinstate".
+             */
+            "supported_actions": Array<"disable" | "reinstate" | (string & {})>;
+            /** The unit of the owning line, starting at 1. Format: int32. */
+            "unit_ordinal": number;
+            /**
+             * When the license key version last changed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /** The product variant ID. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+            "variant_id": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. activation_limit (Optional): integer or null.
+         * Maximum active installations. Null when activations are unlimited.
+         * activation_limit.anyOf[1] (Value): integer. Maximum active installations. Null when
+         * activations are unlimited. Format: int32. activation_limit.anyOf[2] (Value): null.
+         * active_activation_count (Optional): integer or null. Number of currently active
+         * installations. active_activation_count.anyOf[1] (Value): integer. Number of currently
+         * active installations. Format: int32. active_activation_count.anyOf[2] (Value): null.
+         * created_at (Optional): string or null. When the license key was issued.
+         * created_at.anyOf[1] (Value): string. When the license key was issued. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional):
+         * {@link ExpandedCustomerSummaryPreviousAttributes} or null. Customer summary when
+         * requested with expand=customer. Null when the key has no customer. Omitted when no
+         * customer expansion is requested. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string or null. The current customer of the owning order or subscription.
+         * Null when the order has no linked customer. customer_id.anyOf[1] (Value): string. The
+         * current customer of the owning order or subscription. Null when the order has no linked
+         * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
+         * expires_at (Optional): string or null. When the key expires. Null when no expiry is set.
+         * expires_at.anyOf[1] (Value): string. When the key expires. Null when no expiry is set.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
+         * key_last4 (Optional): string or null. Last four characters of the assigned key. Null
+         * when the key is awaiting assignment. key_last4.anyOf[1] (Value): string. Last four
+         * characters of the assigned key. Null when the key is awaiting assignment.
+         * key_last4.anyOf[2] (Value): null. license_key_id (Optional): string or null. Unique
+         * license key ID with the lk_ prefix. license_key_id.anyOf[1] (Value): string. Unique
+         * license key ID with the lk_ prefix. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN".
+         * license_key_id.anyOf[2] (Value): null. license_key_pool_id (Optional): string or null.
+         * The source pool ID. Null when the key is generated. license_key_pool_id.anyOf[1]
+         * (Value): string. The source pool ID. Null when the key is generated. Example:
+         * "lkp_01KEZF7C00AQV1X2DPWG2NXS7H". license_key_pool_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Merchant-defined key-value pairs.
+         * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null. order
+         * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary when
+         * requested with expand=order. Null when the key has no order. Omitted when no order
+         * expansion is requested. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. The owning order or the order that started the subscription.
+         * Null when a subscription has no starting order. order_id.anyOf[1] (Value): string. The
+         * owning order or the order that started the subscription. Null when a subscription has no
+         * starting order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value):
+         * null. order_line_item_id (Optional): string or null. The owning order line. Null when
+         * the key belongs to a subscription line. order_line_item_id.anyOf[1] (Value): string. The
+         * owning order line. Null when the key belongs to a subscription line. Example:
+         * "li_01KEZF7C008YPRCK7VDKTGWR31". order_line_item_id.anyOf[2] (Value): null. product_id
+         * (Optional): string or null. The product ID. product_id.anyOf[1] (Value): string. The
+         * product ID. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value):
+         * null. restrictions (Optional): Array of {@link LicenseKeyRestrictionPreviousAttributes}
+         * or null. Restrictions currently in force. restrictions.anyOf[1] (Value): Array of {@link
+         * LicenseKeyRestrictionPreviousAttributes}. Restrictions currently in force.
+         * restrictions.anyOf[1][] (Value): {@link LicenseKeyRestrictionPreviousAttributes}.
+         * restrictions.anyOf[2] (Value): null. source (Optional): string or null. How the key was
+         * supplied. Value enum: "generated", "pool". source.anyOf[1] (Value): string. How the key
+         * was supplied. Value enum: "generated", "pool". source.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether the key is usable. Expiry takes effect at
+         * expires_at. Value enum: "pending", "active", "disabled", "expired". status.anyOf[1]
+         * (Value): string. Whether the key is usable. Expiry takes effect at expires_at. Value
+         * enum: "pending", "active", "disabled", "expired". status.anyOf[2] (Value): null.
+         * subscription_id (Optional): string or null. The owning subscription. Null when the key
+         * belongs to an order line. subscription_id.anyOf[1] (Value): string. The owning
+         * subscription. Null when the key belongs to an order line. Example:
+         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_id.anyOf[2] (Value): null.
+         * subscription_line_item_id (Optional): string or null. The owning subscription line. Null
+         * when the key belongs to an order line. subscription_line_item_id.anyOf[1] (Value):
+         * string. The owning subscription line. Null when the key belongs to an order line.
+         * Example: "sli_01KEZF7C00PPWVJ2N321V84ASA". subscription_line_item_id.anyOf[2] (Value):
+         * null. supported_actions (Optional): Array of string or null. Lifecycle actions currently
+         * available for this key. [] enum: "disable", "reinstate". supported_actions.anyOf[1]
+         * (Value): Array of string. Lifecycle actions currently available for this key. [] enum:
+         * "disable", "reinstate". supported_actions.anyOf[1][] (Value): string. Value enum:
+         * "disable", "reinstate". supported_actions.anyOf[2] (Value): null. unit_ordinal
+         * (Optional): integer or null. The unit of the owning line, starting at 1.
+         * unit_ordinal.anyOf[1] (Value): integer. The unit of the owning line, starting at 1.
+         * Format: int32. unit_ordinal.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. When the license key version last changed. updated_at.anyOf[1] (Value): string.
+         * When the license key version last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. variant_id (Optional): string
+         * or null. The product variant ID. variant_id.anyOf[1] (Value): string. The product
+         * variant ID. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". variant_id.anyOf[2] (Value):
+         * null. version (Optional): integer or null. Persisted version of this resource's owned
+         * state. Expanded resources and external observations can change independently.
+         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
+         * Expanded resources and external observations can change independently. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Maximum active installations. Null when activations are unlimited. anyOf[1] (Value):
+             * integer. Maximum active installations. Null when activations are unlimited. Format:
+             * int32. anyOf[2] (Value): null.
+             */
+            "activation_limit"?: ((number) | (null));
+            /**
+             * Number of currently active installations. anyOf[1] (Value): integer. Number of
+             * currently active installations. Format: int32. anyOf[2] (Value): null.
+             */
+            "active_activation_count"?: ((number) | (null));
+            /**
+             * When the license key was issued. anyOf[1] (Value): string. When the license key was
+             * issued. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Customer summary when requested with expand=customer. Null when the key has no
+             * customer. Omitted when no customer expansion is requested. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * The current customer of the owning order or subscription. Null when the order has no
+             * linked customer. anyOf[1] (Value): string. The current customer of the owning order
+             * or subscription. Null when the order has no linked customer. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * When the key expires. Null when no expiry is set. anyOf[1] (Value): string. When the
+             * key expires. Null when no expiry is set. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "expires_at"?: ((string) | (null));
+            /**
+             * Last four characters of the assigned key. Null when the key is awaiting assignment.
+             * anyOf[1] (Value): string. Last four characters of the assigned key. Null when the
+             * key is awaiting assignment. anyOf[2] (Value): null.
+             */
+            "key_last4"?: ((string) | (null));
+            /**
+             * Unique license key ID with the lk_ prefix. anyOf[1] (Value): string. Unique license
+             * key ID with the lk_ prefix. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". anyOf[2]
+             * (Value): null.
+             */
+            "license_key_id"?: ((string) | (null));
+            /**
+             * The source pool ID. Null when the key is generated. anyOf[1] (Value): string. The
+             * source pool ID. Null when the key is generated. Example:
+             * "lkp_01KEZF7C00AQV1X2DPWG2NXS7H". anyOf[2] (Value): null.
+             */
+            "license_key_pool_id"?: ((string) | (null));
+            /**
+             * Merchant-defined key-value pairs. anyOf[1] (Value): {@link MetadataMap}. anyOf[2]
+             * (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Order summary when requested with expand=order. Null when the key has no order.
+             * Omitted when no order expansion is requested. anyOf[1] (Value): {@link
+             * ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * The owning order or the order that started the subscription. Null when a
+             * subscription has no starting order. anyOf[1] (Value): string. The owning order or
+             * the order that started the subscription. Null when a subscription has no starting
+             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * The owning order line. Null when the key belongs to a subscription line. anyOf[1]
+             * (Value): string. The owning order line. Null when the key belongs to a subscription
+             * line. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". anyOf[2] (Value): null.
+             */
+            "order_line_item_id"?: ((string) | (null));
+            /**
+             * The product ID. anyOf[1] (Value): string. The product ID. Example:
+             * "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
+             */
+            "product_id"?: ((string) | (null));
+            /**
+             * Restrictions currently in force. anyOf[1] (Value): Array of {@link
+             * LicenseKeyRestrictionPreviousAttributes}. Restrictions currently in force.
+             * anyOf[1][] (Value): {@link LicenseKeyRestrictionPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "restrictions"?: ((Array<LicenseKeyRestrictionPreviousAttributes>) | (null));
+            /**
+             * How the key was supplied. Value enum: "generated", "pool". anyOf[1] (Value): string.
+             * How the key was supplied. Value enum: "generated", "pool". anyOf[2] (Value): null.
+             */
+            "source"?: (("generated" | "pool" | (string & {})) | (null));
+            /**
+             * Whether the key is usable. Expiry takes effect at expires_at. Value enum: "pending",
+             * "active", "disabled", "expired". anyOf[1] (Value): string. Whether the key is
+             * usable. Expiry takes effect at expires_at. Value enum: "pending", "active",
+             * "disabled", "expired". anyOf[2] (Value): null.
+             */
+            "status"?: (("pending" | "active" | "disabled" | "expired" | (string & {})) | (null));
+            /**
+             * The owning subscription. Null when the key belongs to an order line. anyOf[1]
+             * (Value): string. The owning subscription. Null when the key belongs to an order
+             * line. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+             */
+            "subscription_id"?: ((string) | (null));
+            /**
+             * The owning subscription line. Null when the key belongs to an order line. anyOf[1]
+             * (Value): string. The owning subscription line. Null when the key belongs to an order
+             * line. Example: "sli_01KEZF7C00PPWVJ2N321V84ASA". anyOf[2] (Value): null.
+             */
+            "subscription_line_item_id"?: ((string) | (null));
+            /**
+             * Lifecycle actions currently available for this key. [] enum: "disable", "reinstate".
+             * anyOf[1] (Value): Array of string. Lifecycle actions currently available for this
+             * key. [] enum: "disable", "reinstate". anyOf[1][] (Value): string. Value enum:
+             * "disable", "reinstate". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"disable" | "reinstate" | (string & {})>) | (null));
+            /**
+             * The unit of the owning line, starting at 1. anyOf[1] (Value): integer. The unit of
+             * the owning line, starting at 1. Format: int32. anyOf[2] (Value): null.
+             */
+            "unit_ordinal"?: ((number) | (null));
+            /**
+             * When the license key version last changed. anyOf[1] (Value): string. When the
+             * license key version last changed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * The product variant ID. anyOf[1] (Value): string. The product variant ID. Example:
+             * "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2] (Value): null.
+             */
+            "variant_id"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "license_key.updated". */
+    "event_type"?: "license_key.updated";
+});
+/** The result of checking a license key. */
+export type LicenseKeyValidation = {
+    /**
+     * Maximum active installations for the matched key. Null when unlimited. Omitted when no key
+     * matches. Format: int32.
+     */
+    "activation_limit"?: number | null;
+    /** The number of active installations for the matched key, when found. Format: int32. */
+    "active_activation_count"?: number;
+    /**
+     * The expiry of the matched key. Null when the key has no expiry. Omitted when no key matches.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string | null;
+    /**
+     * Why the key or activation could not be used. Value enum: "not_found", "disabled", "expired",
+     * "activation_not_found".
+     */
+    "invalid_reason"?: "not_found" | "disabled" | "expired" | "activation_not_found" | (string & {});
+    /** Whether the key and any supplied activation are active. */
+    "is_valid": boolean;
+    /**
+     * The active installation when the request supplied its ID and it belongs to this key. A
+     * top-level child of a license key representing an installation.
+     */
+    "license_key_activation"?: LicenseKeyActivation;
+    /** The matched license key ID, when found. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN". */
+    "license_key_id"?: string;
+    /**
+     * The listed product that the key belongs to, when found. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * The effective status of the matched key, when found. Value enum: "pending", "active",
+     * "disabled", "expired".
+     */
+    "status"?: "pending" | "active" | "disabled" | "expired" | (string & {});
+    /**
+     * The variant that the key belongs to, when found. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+};
 /** A response containing `LicenseKeyValidation` data. */
 export type LicenseKeyValidationResponse = {
     /**
@@ -263,10 +873,11 @@ export type LicenseKeysListParams = {
      * Include related objects in the response. Supported expansions: customer, order. Include the
      * requested related resources using scoped batch reads for this page. Each relationship
      * requires its existing target read scopes. Expansion changes the representation without
-     * changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum:
-     * "customer", "order". Value enum: "customer", "order". anyOf[1] (Value): Array of string. []
-     * enum: "customer", "order". anyOf[1][] (Value): string. Value enum: "customer", "order".
-     * anyOf[2] (Value): string. Value enum: "customer", "order".
+     * changing pagination tokens. Limits: at most 10 unique expand paths per request. Checkout
+     * session credentials cannot use expand on this route. [] enum: "customer", "order". Value
+     * enum: "customer", "order". anyOf[1] (Value): Array of string. [] enum: "customer", "order".
+     * anyOf[1][] (Value): string. Value enum: "customer", "order". anyOf[2] (Value): string. Value
+     * enum: "customer", "order".
      */
     "expand"?: InputValue<("customer" | "order") | readonly ("customer" | "order")[]>;
     /**
@@ -1170,31 +1781,3 @@ export type MarkPackageDeliveredRequestInput = {
 };
 /** Records the package action mark_delivery_attempted. */
 export type MarkPackageDeliveryAttemptedRequestInput = MarkPackageDeliveredRequestInput;
-/** Records the package action mark_exception. */
-export type MarkPackageExceptionRequestInput = MarkPackageDeliveredRequestInput;
-/** Records the package action mark_in_transit. */
-export type MarkPackageInTransitRequest = {
-    /**
-     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
-     * "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the carrier scan or package action occurred, as an RFC 3339 timestamp. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /**
-     * Your internal note explaining this transition. Not included in buyer emails. minLength: 1.
-     * maxLength: 500.
-     */
-    "reason_message"?: string;
-};

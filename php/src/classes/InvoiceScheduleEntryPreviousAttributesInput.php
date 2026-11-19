@@ -58,7 +58,7 @@ final class InvoiceScheduleEntryPreviousAttributesInput extends Model {
      */
     public function getPaidMoney(): mixed { return $this->get('paid_money'); }
     public function hasPaidMoney(): bool { return $this->has('paid_money'); }
-    /** The entry's payment status, computed when the invoice is read. It follows the entry's balance and due time, not the invoice's status. Value enum: "pending", "due", "partially_satisfied", "satisfied", "overdue". anyOf[1] (Value): string. The entry's payment status, computed when the invoice is read. It follows the entry's balance and due time, not the invoice's status. Value enum: "pending", "due", "partially_satisfied", "satisfied", "overdue". anyOf[2] (Value): null.
+    /** The entry's payment status, computed when the invoice is read. It follows the entry's balance and due time, not the invoice's status. Value enum: "pending", "due", "partially_satisfied", "satisfied", "overdue", "refunded". anyOf[1] (Value): string. The entry's payment status, computed when the invoice is read. It follows the entry's balance and due time, not the invoice's status. Value enum: "pending", "due", "partially_satisfied", "satisfied", "overdue", "refunded". anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

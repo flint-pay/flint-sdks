@@ -41,6 +41,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Full amount received, including any principal and late fees covered. `amount_money`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesamount_money). |
+| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. `idempotency_key`: [declared alternatives](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributesidempotency_key). |
 | `invoice_id` | Optional | string or null | The invoice this payment was recorded against. `invoice_id`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesinvoice_id). |
 | `invoice_manual_payment_id` | Optional | string or null | Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this value as source.order_manual_payment_id. `invoice_manual_payment_id`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesinvoice_manual_payment_id). |
 | `note` | Optional | string or null | Note about the offline payment, up to 4096 characters. `note`: [declared alternatives](../models/InvoiceManualPaymentReversedInstalledMerchantsEvent.md#invoicemanualpaymentreversedinstalledmerchantseventdataprevious_attributesnote). |
@@ -77,6 +78,10 @@ Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_mon
 ### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.amount_money variant 1.currency
 
 Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
+
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.idempotency_key
+
+Declared alternatives: [CreditNoteAllocationReversedInstalledMerchantsEvent.data.previous_attributes.idempotency_key](../models/CreditNoteAllocationReversedInstalledMerchantsEvent.md#creditnoteallocationreversedinstalledmerchantseventdataprevious_attributesidempotency_key).
 
 ### InvoiceManualPaymentReversedInstalledMerchantsEvent.data.previous_attributes.invoice_id
 

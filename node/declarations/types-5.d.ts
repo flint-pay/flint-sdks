@@ -3,8 +3,12 @@ import type { ResponseMeta } from './types-62.js';
 import type { Order, OrderEdit } from './types-45.js';
 import type { PayOrderResponse, PartnerWebhookEnvelope } from './types-50.js';
 import type { GetReturnDispositionResponse, GetReturnResponse, GetReturnResolutionResponse, GiftCard } from './types-28.js';
-import type { ReadinessAction, ReadinessActionPreviousAttributes } from './types-59.js';
-import type { ReadinessRequirements, ReadinessRequirementsPreviousAttributes } from './types-60.js';
+import type {
+    ReadinessAction,
+    ReadinessRequirements,
+    ReadinessActionPreviousAttributes,
+    ReadinessRequirementsPreviousAttributes
+} from './types-60.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-56.js';
 import type { SplitReversalRequest } from './types-68.js';

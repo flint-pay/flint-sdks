@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# BuyerShipmentResponse to BuyerGiftCardTransactionListResponse
+# BuyerRefundResponse to BuyerFulfillmentListResponse
 
+- [BuyerRefundResponse](BuyerRefundResponse.md)
+- [BuyerReturnResolutionResponse](BuyerReturnResolutionResponse.md)
 - [BuyerShipmentResponse](BuyerShipmentResponse.md)
 - [OpenapiGetSpecResponse](OpenapiGetSpecResponse.md)
 - [OrderEditResponse](OrderEditResponse.md)
@@ -100,6 +102,4 @@
 - [BuyerFlintWalletCardListResponse](BuyerFlintWalletCardListResponse.md)
 - [BuyerFulfillmentEventListResponse](BuyerFulfillmentEventListResponse.md)
 - [BuyerFulfillmentListResponse](BuyerFulfillmentListResponse.md)
-- [BuyerGiftCardListResponse](BuyerGiftCardListResponse.md)
-- [BuyerGiftCardTransactionListResponse](BuyerGiftCardTransactionListResponse.md)
 

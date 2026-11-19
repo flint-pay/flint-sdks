@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { RequestOptions } from '../declarations/types-61.js';
+import type { RequestOptions } from '../declarations/types-62.js';
 import type {
     Shipment,
     ShipmentListResponse,
@@ -38,9 +38,15 @@ export type {
     ShipmentsVoidParams,
     SettlementAmounts
 } from '../declarations/types-68.js';
-export type { RequestOptions } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-79.js';
-export type { VoidShipmentResult, VoidShipmentResponse, VoidShipmentRequestInput, VoidPackageRequestInput } from '../declarations/types-78.js';
+export type {
+    VoidShipmentResult,
+    VoidShipmentResponse,
+    UpdateShipmentRequestInput,
+    VoidShipmentRequestInput,
+    VoidPackageRequestInput
+} from '../declarations/types-78.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateShipmentRequestInput,
@@ -66,9 +72,7 @@ export type { PricingAmounts } from '../declarations/types-56.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { ReturnHandoffRequirementLineItem } from '../declarations/types-63.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { UpdateShipmentRequestInput } from '../declarations/types-77.js';
 export { makeCreatePackageItemRequest } from '../declarations/types-83.js';
 export { makeCreateShipmentRequest, makeCreateShipmentRequestOutbound, makeCreateShipmentRequestReturn } from '../declarations/types-84.js';
 export { makeDimensionsRequest } from '../declarations/types-86.js';

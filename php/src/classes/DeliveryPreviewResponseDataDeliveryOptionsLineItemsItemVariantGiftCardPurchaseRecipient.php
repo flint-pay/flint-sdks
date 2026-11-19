@@ -6,9 +6,10 @@ namespace Flint;
  * @property-read ?string $message
  * @property-read ?string $name
  * @property-read ?string $send_at
+ * @property-read ?string $sender_name
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseRecipient extends Model {
-    /** @param array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string, ...}|object $values */
+    /** @param array{'email': string, 'message'?: string, 'name'?: string, 'send_at'?: string, 'sender_name'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseRecipient')); }
     /** Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
      * @return string
@@ -30,4 +31,9 @@ final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCa
      */
     public function getSendAt(): ?string { return $this->get('send_at'); }
     public function hasSendAt(): bool { return $this->has('send_at'); }
+    /** Name to show as the sender in the gift card email, when provided. maxLength: 255.
+     * @return ?string
+     */
+    public function getSenderName(): ?string { return $this->get('sender_name'); }
+    public function hasSenderName(): bool { return $this->has('sender_name'); }
 }
