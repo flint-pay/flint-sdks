@@ -9,7 +9,7 @@ import type {
     PayoutSettingsUpdatedMerchantEvent
 } from '../declarations/types-55.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -32,7 +32,7 @@ export type {
     PayoutSettingsUpdatedInstalledMerchantsEvent,
     PayoutSettingsUpdatedMerchantEvent
 } from '../declarations/types-55.js';
-export type { _SdkWithoutIdempotency, WebhookEventSource } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     RequestOptions,
     ResourceReference,
@@ -55,10 +55,11 @@ export type {
 export type { ReadinessMerchantAccountSession, ReadinessMerchantAccountSessionPreviousAttributes } from '../declarations/types-60.js';
 export type { UpdatePayoutSettingsRequestInput } from '../declarations/types-77.js';
 export type { PartnerWebhookEnvelope } from '../declarations/types-50.js';
+export type { WebhookEventSource } from '../declarations/types-79.js';
 export type { MerchantWebhookEnvelope } from '../declarations/types-43.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdatePayoutSettingsRequest } from '../declarations/types-93.js';
+export { makeUpdatePayoutSettingsRequest } from '../declarations/types-94.js';
 export interface PayoutSettingsResource {
     /**
  * Returns payout settings that control default payout behavior for the authenticated merchant.

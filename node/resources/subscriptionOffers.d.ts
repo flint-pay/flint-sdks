@@ -7,10 +7,11 @@ import type {
     SubscriptionOfferResponse,
     SubscriptionOffersCreateParams,
     SubscriptionOffersDeleteParams,
-    SubscriptionOffersGetParams
+    SubscriptionOffersGetParams,
+    SubscriptionOffersListParams
 } from '../declarations/types-70.js';
-import type { SubscriptionOffersListParams, SubscriptionOffersUpdateParams } from '../declarations/types-71.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { SubscriptionOffersUpdateParams } from '../declarations/types-71.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,13 +32,14 @@ export type {
     SubscriptionOfferResponse,
     SubscriptionOffersDeleteParams,
     SubscriptionOffersGetParams,
+    SubscriptionOffersListParams,
     SubscriptionOfferListResponse,
     SubscriptionIntervalOptionRequestInput,
     SubscriptionIntervalOption
 } from '../declarations/types-70.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
-export type { SubscriptionOffersListParams, SubscriptionOffersUpdateParams } from '../declarations/types-71.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { SubscriptionOffersUpdateParams } from '../declarations/types-71.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateSubscriptionOfferRequestInput, Credentials } from '../declarations/types-14.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';

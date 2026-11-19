@@ -12,7 +12,7 @@ import type {
     DeliveryProfilesUpdateParams
 } from '../declarations/types-22.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -56,7 +56,7 @@ export type {
     DeliveryProfileConfigurationInputManualInput,
     DeliveryProfileConfiguration
 } from '../declarations/types-21.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AssignToUnconfiguredDeliveryProfileRequestInput, AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
@@ -68,8 +68,8 @@ export type { UpdateDeliveryProfileRequestInput } from '../declarations/types-76
 export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-19.js';
 export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../declarations/types-80.js';
 export { makeCreateDeliveryProfileRequest } from '../declarations/types-82.js';
+export { makeDeliveryProfileConfigurationInputManual } from '../declarations/types-85.js';
 export {
-    makeDeliveryProfileConfigurationInputManual,
     makeDeliveryProfileConfigurationInputNone,
     makeDeliveryProfileConfigurationInputQuote,
     makeDeliveryProfileConfigurationInputRequired,
@@ -78,7 +78,7 @@ export {
     makeDeliveryProfileOriginPolicyInputInventoryRouting,
     makeDeliveryProfileOriginPolicyInputMethodOrigin,
     makeDeliveryProfileOriginPolicyRequest
-} from '../declarations/types-85.js';
+} from '../declarations/types-86.js';
 export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeUpdateDeliveryProfileRequest } from '../declarations/types-93.js';
 export interface DeliveryProfilesResource {

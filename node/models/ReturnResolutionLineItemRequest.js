@@ -1,8 +1,8 @@
-import { d9666 as c0 } from '../descriptors/data/442.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
-import { d8976 as c1 } from '../descriptors/data/401.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
-import { d9666 as d9666 } from '../descriptors/data/442.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
+import { d9687 as c0 } from '../descriptors/data/448.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d8997 as c1 } from '../descriptors/data/407.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d9687 as d9687 } from '../descriptors/data/448.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d9666;
+const read = d9687;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["ReturnResolutionLineItemRequest"]:c0(),["ReturnShipmentLineItemAllocationRequest"]:c1()}); }
 export { codec as _validate };

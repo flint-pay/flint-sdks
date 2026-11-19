@@ -27,7 +27,7 @@ import type {
     OnboardingVerifyEmailResult
 } from '../declarations/types-45.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -71,7 +71,7 @@ export type {
     OnboardingVerifyEmailRequestInput
 } from '../declarations/types-45.js';
 export type { AccessLink, AccessLinkResponse, Address } from '../declarations/types-0.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';

@@ -1,8 +1,8 @@
-import { d8114 as c0, d8112 as c2, d8113 as c3 } from '../descriptors/data/353.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
-import { d8925 as c1 } from '../descriptors/data/398.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
-import { d8925 as d8925 } from '../descriptors/data/398.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
+import { d8135 as c0, d8133 as c2, d8134 as c3 } from '../descriptors/data/358.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d8946 as c1 } from '../descriptors/data/404.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d8946 as d8946 } from '../descriptors/data/404.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8925;
+const read = d8946;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["CreatePickupFulfillmentDetails"]:c1(),["SharedCodec2"]:c2(),["SharedCodec3"]:c3()}); }
 export { codec as _validate };

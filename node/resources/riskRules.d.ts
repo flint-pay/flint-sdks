@@ -13,7 +13,7 @@ import type {
     RiskRulesListParams,
     RiskRulesUpdateParams
 } from '../declarations/types-67.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -44,11 +44,10 @@ export type {
     RiskPredicateNodeIsMissingRequestInput,
     RiskRuleIssue,
     RiskPredicateNodeNot,
-    RiskPredicateNodeMoneyComparison,
-    RiskPredicateNodeIsMissing
+    RiskPredicateNodeMoneyComparison
 } from '../declarations/types-67.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     RiskAttributeRegistry,
     RiskAttributeRegistryResponse,
@@ -63,6 +62,7 @@ export type {
     RiskPredicateNodeComparison,
     RiskPredicateNodeIn,
     RiskPredicateNodeInList,
+    RiskPredicateNodeIsMissing,
     RiskAttribute
 } from '../declarations/types-66.js';
 export type { ClientOptions } from '../declarations/types-7.js';
@@ -84,7 +84,7 @@ export {
     makeRiskPredicateNodeMoneyComparisonRequest,
     makeRiskPredicateNodeNotRequest,
     makeRiskPredicateNodeRequest
-} from '../declarations/types-91.js';
+} from '../declarations/types-92.js';
 export { makeUpdateRiskRuleRequest } from '../declarations/types-94.js';
 export interface RiskRulesResource {
     /**

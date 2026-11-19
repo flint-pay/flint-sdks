@@ -49,8 +49,9 @@ import type { SubscriptionTaxPreviousAttributes } from './types-72.js';
 import type { ThemeConfig, ThemeConfigPreviousAttributes } from './types-74.js';
 import type { InputValue } from '../runtime.js';
 import type { CreatePaymentLinkRequestInput, CreatePaymentMethodDomainRequestInput } from './types-12.js';
-import type { UpdatePaymentLinkRequestInput, UpdatePaymentMethodDomainRequestInput } from './types-77.js';
+import type { UpdatePaymentLinkRequestInput } from './types-76.js';
 import type { CardDetails, CardDetailsPreviousAttributes } from './types-5.js';
+import type { UpdatePaymentMethodDomainRequestInput } from './types-77.js';
 import type { StripeClientSetup, SplitReversalReference, SplitReversalReferencePreviousAttributes } from './types-68.js';
 import type { SavePaymentMethodRequestInput } from './types-67.js';
 import type {
@@ -59,18 +60,6 @@ import type {
     PaymentReviewResolutionFailurePreviousAttributes,
     PaymentReviewRiskPreviousAttributes
 } from './types-54.js';
-/** Changes to a payment link's payment settings. Send null on the payment note to clear it. */
-export type PaymentLinkPaymentPatchRequest = {
-    /**
-     * Payment options for this payment link. Checkout offers only the options that are also
-     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
-     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
-     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
-    /** Send null to clear it. minLength: 1. maxLength: 500. */
-    "payment_note"?: string | null;
-};
 /** Changes to a payment link's payment settings. Send null on the payment note to clear it. */
 export type PaymentLinkPaymentPatchRequestInput = {
     /**
@@ -11580,3 +11569,207 @@ export type PaymentReviewPaymentSummaryPreviousAttributes = {
     "payment_method_brand"?: (("amex" | "discover" | "diners" | "jcb" | "mastercard" | "unionpay" | "visa" | (string & {}))
         | (null));
 };
+export type PaymentReviewReopenedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_at": string | null;
+            "closed_by": ((ResourceReference) | (null));
+            "closed_reason": "approved"
+                | "declined"
+                | "refunded"
+                | "disputed"
+                | "payment_canceled"
+                | "expired"
+                | null
+                | (string & {})
+                | null;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string | null;
+            "ip_address": string | null;
+            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
+            "matched_risk_rule_id": string;
+            "opened_at": string;
+            "opened_reason": "rule" | (string & {});
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string | null;
+            "payment_flow": "checkout"
+                | "payment_link"
+                | "invoice"
+                | "subscription_initial"
+                | "subscription_renewal"
+                | "virtual_terminal"
+                | "api"
+                | (string & {});
+            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
+            "payment_intent_id": string;
+            "payment_review_id": string;
+            "payment_summary": PaymentReviewPaymentSummary;
+            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
+            "refund_id": string | null;
+            "refunded_money": ((MoneyValue) | (null));
+            "resolution_started_at": string | null;
+            "resolution_started_by": ((ResourceReference) | (null));
+            "risk": PaymentReviewRisk;
+            "status": "open" | "resolving" | "closed" | (string & {});
+            "supported_actions": Array<"approve" | "decline" | (string & {})>;
+            "updated_at": string;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_at"?: ((string) | (null));
+            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
+            "closed_reason"?: (("approved"
+                | "declined"
+                | "refunded"
+                | "disputed"
+                | "payment_canceled"
+                | "expired"
+                | null
+                | (string & {}))
+                | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "ip_address"?: ((string) | (null));
+            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
+            "matched_risk_rule_id"?: ((string) | (null));
+            "opened_at"?: ((string) | (null));
+            "opened_reason"?: (("rule" | (string & {})) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "payment_flow"?: (("checkout"
+                | "payment_link"
+                | "invoice"
+                | "subscription_initial"
+                | "subscription_renewal"
+                | "virtual_terminal"
+                | "api"
+                | (string & {}))
+                | (null));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
+            "payment_intent_id"?: ((string) | (null));
+            "payment_review_id"?: ((string) | (null));
+            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
+            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
+            "refund_id"?: ((string) | (null));
+            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "resolution_started_at"?: ((string) | (null));
+            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
+            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
+            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payment_review.reopened";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_at": string | null;
+            "closed_by": ((ResourceReference) | (null));
+            "closed_reason": "approved"
+                | "declined"
+                | "refunded"
+                | "disputed"
+                | "payment_canceled"
+                | "expired"
+                | null
+                | (string & {})
+                | null;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string | null;
+            "ip_address": string | null;
+            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
+            "matched_risk_rule_id": string;
+            "opened_at": string;
+            "opened_reason": "rule" | (string & {});
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string | null;
+            "payment_flow": "checkout"
+                | "payment_link"
+                | "invoice"
+                | "subscription_initial"
+                | "subscription_renewal"
+                | "virtual_terminal"
+                | "api"
+                | (string & {});
+            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
+            "payment_intent_id": string;
+            "payment_review_id": string;
+            "payment_summary": PaymentReviewPaymentSummary;
+            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
+            "refund_id": string | null;
+            "refunded_money": ((MoneyValue) | (null));
+            "resolution_started_at": string | null;
+            "resolution_started_by": ((ResourceReference) | (null));
+            "risk": PaymentReviewRisk;
+            "status": "open" | "resolving" | "closed" | (string & {});
+            "supported_actions": Array<"approve" | "decline" | (string & {})>;
+            "updated_at": string;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_at"?: ((string) | (null));
+            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
+            "closed_reason"?: (("approved"
+                | "declined"
+                | "refunded"
+                | "disputed"
+                | "payment_canceled"
+                | "expired"
+                | null
+                | (string & {}))
+                | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "ip_address"?: ((string) | (null));
+            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
+            "matched_risk_rule_id"?: ((string) | (null));
+            "opened_at"?: ((string) | (null));
+            "opened_reason"?: (("rule" | (string & {})) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "payment_flow"?: (("checkout"
+                | "payment_link"
+                | "invoice"
+                | "subscription_initial"
+                | "subscription_renewal"
+                | "virtual_terminal"
+                | "api"
+                | (string & {}))
+                | (null));
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
+            "payment_intent_id"?: ((string) | (null));
+            "payment_review_id"?: ((string) | (null));
+            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
+            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
+            "refund_id"?: ((string) | (null));
+            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "resolution_started_at"?: ((string) | (null));
+            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
+            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
+            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payment_review.reopened";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payment_review.reopened";
+});

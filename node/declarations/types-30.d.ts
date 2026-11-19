@@ -3962,7 +3962,7 @@ export type GiftCardUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "customer_id": string | null;
             "external_reference_id": string | null;
             "gift_card_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "last_loaded_at": string | null;
             "last_redeemed_at": string | null;
             "last4": string;
@@ -4014,7 +4014,7 @@ export type GiftCardUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "customer_id": string | null;
             "external_reference_id": string | null;
             "gift_card_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "last_loaded_at": string | null;
             "last_redeemed_at": string | null;
             "last4": string;
@@ -4088,7 +4088,7 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * (Required): string or null. Caller-owned identifier for this resource in an external system.
      * `null` when none is set. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * object.gift_card_id (Required): string. Unique identifier for this gift card, prefixed
-     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.idempotency_key (Required): string
+     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.idempotency_key (Optional): string
      * or null. The Idempotency-Key of the request that created this resource. `null` when that
      * request sent no key, Flint created the resource, the reader isn't the caller that created it
      * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
@@ -4244,7 +4244,7 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * Caller-owned identifier for this resource in an external system. `null` when none is
          * set. minLength: 1. maxLength: 255. Example: "warehouse-1842". gift_card_id (Required):
          * string. Unique identifier for this gift card, prefixed `gc_`. Example:
-         * "gc_01KEZF7C00RT1618WYBM1Y94CG". idempotency_key (Required): string or null. The
+         * "gc_01KEZF7C00RT1618WYBM1Y94CG". idempotency_key (Optional): string or null. The
          * Idempotency-Key of the request that created this resource. `null` when that request sent
          * no key, Flint created the resource, the reader isn't the caller that created it (another
          * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
@@ -4324,7 +4324,7 @@ export type GiftCardUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
              * date-time. Example: "2026-08-02T16:00:00Z".
@@ -4675,7 +4675,7 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * (Required): string or null. Caller-owned identifier for this resource in an external system.
      * `null` when none is set. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * object.gift_card_id (Required): string. Unique identifier for this gift card, prefixed
-     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.idempotency_key (Required): string
+     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.idempotency_key (Optional): string
      * or null. The Idempotency-Key of the request that created this resource. `null` when that
      * request sent no key, Flint created the resource, the reader isn't the caller that created it
      * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
@@ -4831,7 +4831,7 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * Caller-owned identifier for this resource in an external system. `null` when none is
          * set. minLength: 1. maxLength: 255. Example: "warehouse-1842". gift_card_id (Required):
          * string. Unique identifier for this gift card, prefixed `gc_`. Example:
-         * "gc_01KEZF7C00RT1618WYBM1Y94CG". idempotency_key (Required): string or null. The
+         * "gc_01KEZF7C00RT1618WYBM1Y94CG". idempotency_key (Optional): string or null. The
          * Idempotency-Key of the request that created this resource. `null` when that request sent
          * no key, Flint created the resource, the reader isn't the caller that created it (another
          * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
@@ -4911,7 +4911,7 @@ export type GiftCardUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
              * date-time. Example: "2026-08-02T16:00:00Z".

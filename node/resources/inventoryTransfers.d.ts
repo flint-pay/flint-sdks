@@ -17,7 +17,7 @@ import type {
     InventoryTransfersUpdateParams
 } from '../declarations/types-34.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -52,7 +52,7 @@ export type {
     InventoryTransferLine
 } from '../declarations/types-34.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CancelInventoryTransferRequestInput } from '../declarations/types-5.js';
 export type { InventoryProvenanceRequestInput, InventoryLevel, InventoryItem } from '../declarations/types-32.js';
@@ -76,8 +76,8 @@ export {
     makeInventoryTransferLineRequest
 } from '../declarations/types-87.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeReceiveInventoryTransferRequest, makeReportInventoryTransferLossRequest } from '../declarations/types-90.js';
-export { makeReturnInventoryTransferToOriginRequest } from '../declarations/types-91.js';
+export { makeReceiveInventoryTransferRequest } from '../declarations/types-90.js';
+export { makeReportInventoryTransferLossRequest, makeReturnInventoryTransferToOriginRequest } from '../declarations/types-91.js';
 export { makeUpdateInventoryTransferRequest } from '../declarations/types-93.js';
 export interface InventoryTransfersResource {
     /**

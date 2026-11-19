@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PayoutDestinationCreatedInstalledMerchantsEvent to ProductUpdatedInstalledMerchantsEvent
+# PayoutDestinationCreatedMerchantEvent to ProductUpdatedMerchantEvent
 
-- [PayoutDestinationCreatedInstalledMerchantsEvent](PayoutDestinationCreatedInstalledMerchantsEvent.md)
 - [PayoutDestinationCreatedMerchantEvent](PayoutDestinationCreatedMerchantEvent.md)
 - [PayoutDestinationDisabledInstalledMerchantsEvent](PayoutDestinationDisabledInstalledMerchantsEvent.md)
 - [PayoutDestinationDisabledMerchantEvent](PayoutDestinationDisabledMerchantEvent.md)
@@ -102,4 +101,5 @@
 - [ProductPriceRangePreviousAttributes](ProductPriceRangePreviousAttributes.md)
 - [ProductResponse](ProductResponse.md)
 - [ProductUpdatedInstalledMerchantsEvent](ProductUpdatedInstalledMerchantsEvent.md)
+- [ProductUpdatedMerchantEvent](ProductUpdatedMerchantEvent.md)
 

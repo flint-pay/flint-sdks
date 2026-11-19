@@ -17,7 +17,7 @@ What changed, most common first:
 
 ## Changes in 8.0.0-beta.8
 
-Check `idempotency_key` for `null` before using it. In PHP, `getIdempotencyKey()` can return `null` even when `hasIdempotencyKey()` returns `true`. This applies to affected response models and signed webhook snapshots, including `refund.succeeded`. Keep passing required request keys through the call's idempotency option.
+Check `idempotency_key` for `null` before using it. In PHP, `getIdempotencyKey()` can return `null` even when `hasIdempotencyKey()` returns `true`. This applies to affected response models and signed webhook snapshots, including `refund.succeeded`. A retried or resent historical delivery can still omit the key altogether. Use the webhook snapshot type for event data rather than assuming it has the REST response shape. Keep passing required request keys through the call's idempotency option.
 
 - Buyer refund responses omit `idempotency_key`. Remove reads of that field and calls to `BuyerRefund::getIdempotencyKey()`.
 - `paymentLinks.resolve` returns `ResolvedPaymentLinkCheckout` data. Update explicit result types and handle the session and optional checkout order fields in that model.

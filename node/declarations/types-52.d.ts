@@ -1,6 +1,5 @@
-import type { InputValue } from '../runtime.js';
-import type { CreatePaymentIntentRequestInput } from './types-12.js';
 import type { PaymentIntentWithCollectionResponse } from './types-51.js';
+import type { InputValue } from '../runtime.js';
 import type { SendPaymentIntentReceiptRequestInput, SelectedProductOption } from './types-67.js';
 import type { UpdatePaymentIntentRequestInput } from './types-76.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
@@ -25,45 +24,6 @@ import type { OrderLineItemTax } from './types-46.js';
 import type { ProductPriceRange, ProductPriceRangePreviousAttributes } from './types-57.js';
 import type { OrderLineItemTaxPreviousAttributes, OrderLineItemTaxRequestInput } from './types-47.js';
 import type { ResponseMeta } from './types-62.js';
-export type PaymentIntentsCreateParams = (InputValue<CreatePaymentIntentRequestInput>
-    | {
-    "amount_money"?: never;
-    "capture_method"?: never;
-    "customer_id"?: never;
-    "expected_order_version"?: never;
-    "external_reference_id"?: never;
-    "metadata"?: never;
-    "order_id"?: never;
-    "payment_options"?: never;
-    "payment_return_url"?: never;
-    "payment_source_selection"?: never;
-    "platform_fee"?: never;
-    "receipt_email"?: never;
-    "request_overcapture"?: never;
-    "splits"?: never;
-    "tip_money"?: never;
-    "transaction_purpose"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
 export type PaymentIntentsCreateResponse = ({
     "data"?: {
         [key: string]: unknown;
@@ -7059,4 +7019,16 @@ export type PaymentLinkPaymentConfigInput = {
     "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
     /** A note shown to the buyer with the payment options. minLength: 1. maxLength: 500. */
     "payment_note"?: string;
+};
+/** Changes to a payment link's payment settings. Send null on the payment note to clear it. */
+export type PaymentLinkPaymentPatchRequest = {
+    /**
+     * Payment options for this payment link. Checkout offers only the options that are also
+     * enabled in settings.checkout.enabled_payment_options; omit the list to use that setting. []
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+     */
+    "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "payment_note"?: string | null;
 };

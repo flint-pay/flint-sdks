@@ -6,6 +6,7 @@ import type {
     RiskPredicateNodeComparison,
     RiskPredicateNodeIn,
     RiskPredicateNodeInList,
+    RiskPredicateNodeIsMissing,
     RiskPredicateNodeAllRequestInput,
     RiskPredicateNodeAnyRequestInput,
     RiskPredicateNodeComparisonRequestInput,
@@ -29,16 +30,6 @@ import type {
     PaymentCollectionPreviousAttributes,
     PaymentErrorSummaryPreviousAttributes
 } from './types-51.js';
-/** The `Is missing` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeIsMissing = {
-    /**
-     * The payment attribute to test. Read the attribute registry for the names a rule can use.
-     * minLength: 1. maxLength: 280.
-     */
-    "attribute": string;
-    /** How the attribute is compared. Value enum: "is_missing". */
-    "operator": "is_missing" | (string & {});
-};
 /** The `Is missing` variant of `RiskPredicateNode`. */
 export type RiskPredicateNodeIsMissingRequestInput = {
     /**
@@ -1404,4 +1395,29 @@ export type SendPaymentIntentReceiptRequestInput = {
      * maxLength: 254. Example: "buyer@example.com".
      */
     "email"?: string;
+};
+/**
+ * Details of a service fulfillment: the scheduled start and end, timezone, completion time, and
+ * notes.
+ */
+export type ServiceFulfillmentDetails = {
+    /**
+     * When the service was completed, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "completed_at"?: string;
+    /** Additional instructions or notes for performing the service. */
+    "notes"?: string;
+    /**
+     * Scheduled end of the service, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "scheduled_end_at"?: string;
+    /**
+     * Scheduled start of the service, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "scheduled_start_at"?: string;
+    /** Timezone used to display the service appointment. Uses an IANA time zone name. */
+    "timezone"?: string;
 };

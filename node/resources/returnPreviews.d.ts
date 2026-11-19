@@ -3,7 +3,7 @@ import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateReturnPreviewData, CreateReturnPreviewResponse } from '../declarations/types-13.js';
 import type { RequestOptions } from '../declarations/types-62.js';
 import type { ReturnPreviewsCreateParams } from '../declarations/types-64.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -25,7 +25,7 @@ export type {
     ReturnPolicyEvaluation,
     ReturnPolicyEvaluationLineItem
 } from '../declarations/types-64.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     CreateReturnPreviewData,
@@ -93,19 +93,16 @@ export {
     makeCreateReturnPreviewRequest,
     makeCreateReturnPreviewRequestEligibility,
     makeCreateReturnPreviewRequestResolution,
-    makeCreateReturnResolutionPreviewRequest
-} from '../declarations/types-83.js';
-export {
+    makeCreateReturnResolutionPreviewRequest,
     makeCreateReturnResolutionPreviewRequestCorrection,
     makeCreateReturnResolutionPreviewRequestStandard
 } from '../declarations/types-84.js';
-export { makeLineItemFulfillmentOriginRequestModel, makeLineItemFulfillmentRequestModel } from '../declarations/types-87.js';
+export { makeLineItemFulfillmentOriginRequestModel, makeLineItemFulfillmentRequestModel, makeMoneyValue } from '../declarations/types-88.js';
 export {
-    makeMoneyValue,
     makeOrderDraftLineItemTaxCalculationRequestModel,
     makeOrderDraftTaxComponentRequestModel,
     makeOrderDraftTaxJurisdictionRequestModel
-} from '../declarations/types-88.js';
+} from '../declarations/types-89.js';
 export {
     makeReturnEligibilityLineItemRequestModel,
     makeReturnEligibilitySelectionAllRemainingFulfilledRequest,

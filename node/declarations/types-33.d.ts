@@ -28,7 +28,7 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -185,7 +185,7 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -259,7 +259,7 @@ export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -612,7 +612,7 @@ export type InventoryReservationActionRequiredMerchantEvent = (Exclude<MerchantW
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -769,7 +769,7 @@ export type InventoryReservationActionRequiredMerchantEvent = (Exclude<MerchantW
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -843,7 +843,7 @@ export type InventoryReservationActionRequiredMerchantEvent = (Exclude<MerchantW
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -1159,7 +1159,7 @@ export type InventoryReservationAtRiskEvent = ((((Exclude<MerchantWebhookEnvelop
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -1212,7 +1212,7 @@ export type InventoryReservationAtRiskEvent = ((((Exclude<MerchantWebhookEnvelop
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -1278,7 +1278,7 @@ export type InventoryReservationAtRiskInstalledMerchantsEvent = (Exclude<Partner
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -1435,7 +1435,7 @@ export type InventoryReservationAtRiskInstalledMerchantsEvent = (Exclude<Partner
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -1509,7 +1509,7 @@ export type InventoryReservationAtRiskInstalledMerchantsEvent = (Exclude<Partner
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -1862,7 +1862,7 @@ export type InventoryReservationAtRiskMerchantEvent = (Exclude<MerchantWebhookEn
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -2019,7 +2019,7 @@ export type InventoryReservationAtRiskMerchantEvent = (Exclude<MerchantWebhookEn
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -2093,7 +2093,7 @@ export type InventoryReservationAtRiskMerchantEvent = (Exclude<MerchantWebhookEn
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -2409,7 +2409,7 @@ export type InventoryReservationClosedEvent = ((((Exclude<MerchantWebhookEnvelop
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -2462,7 +2462,7 @@ export type InventoryReservationClosedEvent = ((((Exclude<MerchantWebhookEnvelop
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -2528,7 +2528,7 @@ export type InventoryReservationClosedInstalledMerchantsEvent = (Exclude<Partner
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -2685,7 +2685,7 @@ export type InventoryReservationClosedInstalledMerchantsEvent = (Exclude<Partner
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -2759,7 +2759,7 @@ export type InventoryReservationClosedInstalledMerchantsEvent = (Exclude<Partner
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -3112,7 +3112,7 @@ export type InventoryReservationClosedMerchantEvent = (Exclude<MerchantWebhookEn
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -3269,7 +3269,7 @@ export type InventoryReservationClosedMerchantEvent = (Exclude<MerchantWebhookEn
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -3343,7 +3343,7 @@ export type InventoryReservationClosedMerchantEvent = (Exclude<MerchantWebhookEn
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -3659,7 +3659,7 @@ export type InventoryReservationCommittedEvent = ((((Exclude<MerchantWebhookEnve
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -3712,7 +3712,7 @@ export type InventoryReservationCommittedEvent = ((((Exclude<MerchantWebhookEnve
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -3778,7 +3778,7 @@ export type InventoryReservationCommittedInstalledMerchantsEvent = (Exclude<Part
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -3935,7 +3935,7 @@ export type InventoryReservationCommittedInstalledMerchantsEvent = (Exclude<Part
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -4009,7 +4009,7 @@ export type InventoryReservationCommittedInstalledMerchantsEvent = (Exclude<Part
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -4362,7 +4362,7 @@ export type InventoryReservationCommittedMerchantEvent = (Exclude<MerchantWebhoo
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -4519,7 +4519,7 @@ export type InventoryReservationCommittedMerchantEvent = (Exclude<MerchantWebhoo
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -4593,7 +4593,7 @@ export type InventoryReservationCommittedMerchantEvent = (Exclude<MerchantWebhoo
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -4909,7 +4909,7 @@ export type InventoryReservationConsumedEvent = ((((Exclude<MerchantWebhookEnvel
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -4962,7 +4962,7 @@ export type InventoryReservationConsumedEvent = ((((Exclude<MerchantWebhookEnvel
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -5028,7 +5028,7 @@ export type InventoryReservationConsumedInstalledMerchantsEvent = (Exclude<Partn
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -5185,7 +5185,7 @@ export type InventoryReservationConsumedInstalledMerchantsEvent = (Exclude<Partn
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -5259,7 +5259,7 @@ export type InventoryReservationConsumedInstalledMerchantsEvent = (Exclude<Partn
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -5612,7 +5612,7 @@ export type InventoryReservationConsumedMerchantEvent = (Exclude<MerchantWebhook
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -5769,7 +5769,7 @@ export type InventoryReservationConsumedMerchantEvent = (Exclude<MerchantWebhook
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -5843,7 +5843,7 @@ export type InventoryReservationConsumedMerchantEvent = (Exclude<MerchantWebhook
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -6159,7 +6159,7 @@ export type InventoryReservationCreatedEvent = ((((Exclude<MerchantWebhookEnvelo
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -6191,7 +6191,7 @@ export type InventoryReservationCreatedEvent = ((((Exclude<MerchantWebhookEnvelo
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -6236,7 +6236,7 @@ export type InventoryReservationCreatedInstalledMerchantsEvent = (Exclude<Partne
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -6288,7 +6288,7 @@ export type InventoryReservationCreatedInstalledMerchantsEvent = (Exclude<Partne
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -6362,7 +6362,7 @@ export type InventoryReservationCreatedInstalledMerchantsEvent = (Exclude<Partne
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -6484,7 +6484,7 @@ export type InventoryReservationCreatedMerchantEvent = (Exclude<MerchantWebhookE
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -6536,7 +6536,7 @@ export type InventoryReservationCreatedMerchantEvent = (Exclude<MerchantWebhookE
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -6610,7 +6610,7 @@ export type InventoryReservationCreatedMerchantEvent = (Exclude<MerchantWebhookE
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -6695,7 +6695,7 @@ export type InventoryReservationHoldExpiredEvent = ((((Exclude<MerchantWebhookEn
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -6748,7 +6748,7 @@ export type InventoryReservationHoldExpiredEvent = ((((Exclude<MerchantWebhookEn
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -6814,7 +6814,7 @@ export type InventoryReservationHoldExpiredInstalledMerchantsEvent = (Exclude<Pa
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -6971,7 +6971,7 @@ export type InventoryReservationHoldExpiredInstalledMerchantsEvent = (Exclude<Pa
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -7045,7 +7045,7 @@ export type InventoryReservationHoldExpiredInstalledMerchantsEvent = (Exclude<Pa
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -7398,7 +7398,7 @@ export type InventoryReservationHoldExpiredMerchantEvent = (Exclude<MerchantWebh
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -7555,7 +7555,7 @@ export type InventoryReservationHoldExpiredMerchantEvent = (Exclude<MerchantWebh
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -7629,7 +7629,7 @@ export type InventoryReservationHoldExpiredMerchantEvent = (Exclude<MerchantWebh
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -8205,7 +8205,7 @@ export type InventoryReservationReleasedEvent = ((((Exclude<MerchantWebhookEnvel
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -8258,7 +8258,7 @@ export type InventoryReservationReleasedEvent = ((((Exclude<MerchantWebhookEnvel
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -8324,7 +8324,7 @@ export type InventoryReservationReleasedInstalledMerchantsEvent = (Exclude<Partn
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -8481,7 +8481,7 @@ export type InventoryReservationReleasedInstalledMerchantsEvent = (Exclude<Partn
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -8555,7 +8555,7 @@ export type InventoryReservationReleasedInstalledMerchantsEvent = (Exclude<Partn
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -8908,7 +8908,7 @@ export type InventoryReservationReleasedMerchantEvent = (Exclude<MerchantWebhook
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -9065,7 +9065,7 @@ export type InventoryReservationReleasedMerchantEvent = (Exclude<MerchantWebhook
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -9139,7 +9139,7 @@ export type InventoryReservationReleasedMerchantEvent = (Exclude<MerchantWebhook
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -9509,7 +9509,7 @@ export type InventoryReservationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelo
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -9562,7 +9562,7 @@ export type InventoryReservationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelo
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -9628,7 +9628,7 @@ export type InventoryReservationUpdatedInstalledMerchantsEvent = (Exclude<Partne
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -9785,7 +9785,7 @@ export type InventoryReservationUpdatedInstalledMerchantsEvent = (Exclude<Partne
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -9859,7 +9859,7 @@ export type InventoryReservationUpdatedInstalledMerchantsEvent = (Exclude<Partne
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation
@@ -10212,7 +10212,7 @@ export type InventoryReservationUpdatedMerchantEvent = (Exclude<MerchantWebhookE
      * the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep
      * stock held while the payment outcome is uncertain. `null` when no line holds quantity or has
      * unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -10369,7 +10369,7 @@ export type InventoryReservationUpdatedMerchantEvent = (Exclude<MerchantWebhookE
          * stock hold deadline and the payment attempt deadline. Flint can keep stock held while
          * the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed
          * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -10443,7 +10443,7 @@ export type InventoryReservationUpdatedMerchantEvent = (Exclude<MerchantWebhookE
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Present when the claim needs a merchant action before commerce can continue. Says
              * that an inventory reservation needs action, with the `reason` and the reservation

@@ -57,7 +57,7 @@ import type {
 } from '../declarations/types-48.js';
 import type { PayOrderResponse, PayOrderResult } from '../declarations/types-50.js';
 import type { RequestOptions, RetryOrderEditRefundResponse, RetryOrderEditRefundResult } from '../declarations/types-62.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -121,7 +121,6 @@ export type {
     ResourceReference,
     ResponseMeta,
     ResponseWarning,
-    RepriceDiscountsRequestInput,
     ResolveOrderInventoryExceptionRequestInput,
     RetryOrderEditRefundRequestInput
 } from '../declarations/types-62.js';
@@ -187,7 +186,7 @@ export type {
     OrderPaymentIntentSelectionInput,
     OrderTaxLocationFullAddressRequest
 } from '../declarations/types-47.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-79.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     CancelOrderEditResult,
     CancelOrderEditResponse,
@@ -202,6 +201,7 @@ export type {
     PayOrderResponse,
     PaymentAttemptGiftCardRedemption,
     PaymentAttemptPaymentIntent,
+    PaymentClientAction,
     PaymentActivityActor,
     PayOrderRequestInput,
     PayOrderRequestPayInput,
@@ -327,7 +327,6 @@ export type { DeliveryFulfillmentDetails } from '../declarations/types-19.js';
 export type { PricingAmounts, PlatformFeeRequestInput, PlatformFeeMoneyInput } from '../declarations/types-56.js';
 export type {
     SettlementAmounts,
-    ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
     SetupCollection,
     SetupCollectionStripe,
@@ -346,6 +345,13 @@ export type {
     PendingPaymentActionSetupPaymentSourceSubject
 } from '../declarations/types-55.js';
 export type {
+    ServiceFulfillmentDetails,
+    SelectableOrderPaymentIntent,
+    SelectedProductOption,
+    SendOrderReceiptRequestInput,
+    SendOrderReceiptRequest
+} from '../declarations/types-67.js';
+export type {
     InventoryRoutingSource,
     InventoryRoutingSourceRequestInput,
     InventoryRoutingSourceInputFixedLocationInput,
@@ -357,16 +363,9 @@ export type {
     PaymentCollectionStripe,
     PaymentCollectionStripeElements,
     PaymentErrorSummary,
-    PaymentClientAction,
     PaymentClientActionURL,
     PaymentClientActionStripe
 } from '../declarations/types-51.js';
-export type {
-    SelectableOrderPaymentIntent,
-    SelectedProductOption,
-    SendOrderReceiptRequestInput,
-    SendOrderReceiptRequest
-} from '../declarations/types-67.js';
 export type {
     ReadinessMerchantAccountSession,
     RefundChargeInput,
@@ -435,23 +434,29 @@ export type {
     GiftCardPurchaseRecipient,
     GiftCardPurchaseRecipientPatchRequestInput
 } from '../declarations/types-30.js';
+export type { WeightRequestInput, Weight } from '../declarations/types-79.js';
 export type { PaymentRefund } from '../declarations/types-53.js';
-export type { RefundTenderAllocation, RefundUnissuedGiftCardRecovery, RemoveDiscountsRequestInput } from '../declarations/types-61.js';
+export type {
+    RefundTenderAllocation,
+    RefundUnissuedGiftCardRecovery,
+    RemoveDiscountsRequestInput,
+    RepriceDiscountsRequestInput
+} from '../declarations/types-61.js';
 export type { GiftCardProductConfiguration } from '../declarations/types-29.js';
 export type { PurchasedGiftCard, ReaderPaymentSourceTipInput, ReaderPaymentSourceTip } from '../declarations/types-59.js';
 export type { UpdateOrderRequestInput, UpdateOrderChargeRequestInput, UpdateLineItemRequestInput } from '../declarations/types-76.js';
-export { makeAddLineItemsRequest, makeAddOrderChargeRequest } from '../declarations/types-79.js';
 export {
+    makeAddLineItemsRequest,
+    makeAddOrderChargeRequest,
     makeAddressRequest,
     makeApplyDiscountRequest,
     makeApplyDiscountRequestManual,
     makeApplyDiscountRequestPromotion,
     makeApplyOrderGiftCardRequest,
     makeCancelOrderEditRequest,
-    makeCancelOrderPaymentAttemptRequest,
-    makeCheckoutBuyerContactRequest
+    makeCancelOrderPaymentAttemptRequest
 } from '../declarations/types-80.js';
-export { makeCloseOrderRequest } from '../declarations/types-81.js';
+export { makeCheckoutBuyerContactRequest, makeCloseOrderRequest } from '../declarations/types-81.js';
 export {
     makeCreateOrderDiscount,
     makeCreateOrderDiscountManual,
@@ -469,26 +474,23 @@ export {
 export {
     makeCustomerTaxExemptionCoverageAllStatesRequest,
     makeCustomerTaxExemptionCoverageRequest,
-    makeCustomerTaxExemptionCoverageStatesRequest
-} from '../declarations/types-84.js';
-export { makeDeliveryChargeTaxCalculationRequestModel } from '../declarations/types-85.js';
+    makeCustomerTaxExemptionCoverageStatesRequest,
+    makeDeliveryChargeTaxCalculationRequestModel
+} from '../declarations/types-85.js';
+export { makeDeliverySelectionRecipientRequest, makeDimensionsRequest } from '../declarations/types-86.js';
 export {
-    makeDeliverySelectionRecipientRequest,
-    makeDimensionsRequest,
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientPatchRequest,
     makeGiftCardPurchaseRecipientRequest,
-    makeImageReferenceRequest
-} from '../declarations/types-86.js';
-export {
+    makeImageReferenceRequest,
     makeInventoryRoutingSourceInputFixedLocation,
     makeInventoryRoutingSourceInputPolicy,
     makeInventoryRoutingSourceInputPolicyRevision,
-    makeInventoryRoutingSourceRequest,
-    makeLineItemFulfillmentOriginRequestModel,
-    makeLineItemFulfillmentRequestModel
+    makeInventoryRoutingSourceRequest
 } from '../declarations/types-87.js';
 export {
+    makeLineItemFulfillmentOriginRequestModel,
+    makeLineItemFulfillmentRequestModel,
     makeManualDiscountRequest,
     makeMetadataPatchRequest,
     makeMetadataRequest,
@@ -499,7 +501,9 @@ export {
     makeOrderChargeInputPercent,
     makeOrderChargeRequest,
     makeOrderChargeTaxAssignment,
-    makeOrderDeliveryDestinationRecipientRequest,
+    makeOrderDeliveryDestinationRecipientRequest
+} from '../declarations/types-88.js';
+export {
     makeOrderDeliveryDestinationRequest,
     makeOrderDeliveryRequest,
     makeOrderDraftLineItemInventoryDemandRequest,
@@ -514,9 +518,7 @@ export {
     makeOrderLineItemModifierInputTextRequest,
     makeOrderLineItemModifierRequestModel,
     makeOrderLineItemTaxAssignment,
-    makeOrderPaymentIntentSelection
-} from '../declarations/types-88.js';
-export {
+    makeOrderPaymentIntentSelection,
     makeOrderTaxCalculationInputAutomatic,
     makeOrderTaxCalculationInputExternal,
     makeOrderTaxCalculationRequest,
@@ -533,12 +535,6 @@ export {
     makeOrderTaxLocationRequest,
     makeOrderTaxRequest,
     makeOrderTaxUpdateRequest,
-    makePaymentSourceCredential,
-    makePaymentSourceCredentialPaymentMethod,
-    makePaymentSourceCredentialReader,
-    makePaymentSourceCredentialStripeConfirmationToken,
-    makePaymentSourceCredentialStripePaymentMethod,
-    makePaymentSplitRequest,
     makePayOrderRequest,
     makePayOrderRequestConfirmPaymentIntents,
     makePayOrderRequestPay,
@@ -546,6 +542,12 @@ export {
     makePayOrderRequestSetup
 } from '../declarations/types-89.js';
 export {
+    makePaymentSourceCredential,
+    makePaymentSourceCredentialPaymentMethod,
+    makePaymentSourceCredentialReader,
+    makePaymentSourceCredentialStripeConfirmationToken,
+    makePaymentSourceCredentialStripePaymentMethod,
+    makePaymentSplitRequest,
     makePlatformFeeMoney,
     makePlatformFeeRequest,
     makePromotionRefInputPromotionCode,
@@ -553,31 +555,32 @@ export {
     makePromotionRefRequest,
     makeReaderPaymentSourceTip,
     makeRefundCharge,
-    makeRefundDestinations,
-    makeRemoveDiscountsRequest,
-    makeRepriceDiscountsRequest
+    makeRefundDestinations
 } from '../declarations/types-90.js';
-export { makeResolveOrderInventoryExceptionRequest, makeRetryOrderEditRefundRequest } from '../declarations/types-91.js';
+export {
+    makeRemoveDiscountsRequest,
+    makeRepriceDiscountsRequest,
+    makeResolveOrderInventoryExceptionRequest,
+    makeRetryOrderEditRefundRequest
+} from '../declarations/types-91.js';
 export {
     makeSendOrderReceiptRequest,
     makeSubscribedLineRequestModel,
     makeSubscriptionDeliveryDestinationInputAddress,
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
-    makeSubscriptionDeliveryDestinationRequest,
+    makeSubscriptionDeliveryDestinationRequest
+} from '../declarations/types-92.js';
+export {
     makeTaxCalculationRequestModel,
     makeTaxCalculationRequestRequest,
     makeTaxComponentRequestModel,
-    makeTaxComponentRequestRequest
-} from '../declarations/types-92.js';
-export {
+    makeTaxComponentRequestRequest,
     makeTaxJurisdictionRequest,
     makeTaxJurisdictionRequestModel,
     makeTextModifierRequest,
-    makeUpdateLineItemRequest,
-    makeUpdateOrderChargeRequest,
-    makeUpdateOrderRequest
+    makeUpdateLineItemRequest
 } from '../declarations/types-93.js';
-export { makeWeightRequest } from '../declarations/types-94.js';
+export { makeUpdateOrderChargeRequest, makeUpdateOrderRequest, makeWeightRequest } from '../declarations/types-94.js';
 export interface OrdersResource {
     /**
  * Applies a promotion-backed or manual discount to an order. Checkout-authenticated buyers must

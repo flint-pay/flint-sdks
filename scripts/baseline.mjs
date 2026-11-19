@@ -105,6 +105,7 @@ const paths = run("git", [
   "--",
   "sdk.json",
   "sdk.lock.json",
+  "scripts/webhook-snapshots.mjs",
   "spec",
 ])
   .trim()
@@ -149,12 +150,16 @@ if (previous.generator.revision !== json("sdk.lock.json").generator.revision) {
 const stage = baselineOutput + ".stage-" + randomUUID();
 try {
   console.log(`Reconstructing compatibility baseline from ${tag} (${commit}).`);
+  const snapshotScript = "scripts/webhook-snapshots.mjs";
+  const configPath = paths.includes(snapshotScript)
+    ? (await import(pathToFileURL(join(source, snapshotScript)))).webhookConfigPath(source)
+    : join(source, "sdk.json");
   run(process.execPath, [
     "--max-old-space-size=8192",
     join(previousGenerator, "dist/cli.js"),
     "generate",
     join(source, "spec/openapi.json"),
-    join(source, "sdk.json"),
+    configPath,
     stage,
   ]);
   const { setCompatibilityBaseline } = await import(

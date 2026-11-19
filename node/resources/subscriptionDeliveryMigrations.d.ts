@@ -1,8 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-62.js';
+import type { SubscriptionDeliveryMigration } from '../declarations/types-69.js';
 import type {
-    SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailure,
     SubscriptionDeliveryMigrationFailureListResponse,
     SubscriptionDeliveryMigrationListResponse,
@@ -12,7 +12,7 @@ import type {
     SubscriptionDeliveryMigrationsListFailuresParams,
     SubscriptionDeliveryMigrationsListParams
 } from '../declarations/types-70.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,7 +29,6 @@ export type {
 } from '../runtime.js';
 export type {
     SubscriptionDeliveryMigrationsCreateParams,
-    SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationResponse,
     SubscriptionDeliveryMigrationsGetParams,
     SubscriptionDeliveryMigrationsListFailuresParams,
@@ -40,7 +39,8 @@ export type {
     SubscriptionDeliveryMigrationFailureReasonCount
 } from '../declarations/types-70.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { SubscriptionDeliveryMigration } from '../declarations/types-69.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateSubscriptionDeliveryMigrationRequestInput,

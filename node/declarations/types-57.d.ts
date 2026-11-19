@@ -1,4 +1,10 @@
-import type { MerchantWebhookEnvelope, MetadataMap, ModifierSet, MetadataRequestInput } from './types-43.js';
+import type { Product } from './types-56.js';
+import type { ResponseMeta } from './types-62.js';
+import type { MetadataMap, MerchantWebhookEnvelope, ModifierSet, MetadataRequestInput } from './types-43.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, ModifierSetPreviousAttributes, MoneyValueInput } from './types-44.js';
+import type { CategoryReferencePreviousAttributes } from './types-5.js';
+import type { ImageAttachmentPreviousAttributes, ImageAttachment, ImageRequest, ImageRequestInput } from './types-31.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 import type {
     WebhookProduct,
     Weight,
@@ -7,12 +13,6 @@ import type {
     WeightRequestInput,
     WebhookPromotion
 } from './types-79.js';
-import type { Product } from './types-56.js';
-import type { ResponseMeta } from './types-62.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, ModifierSetPreviousAttributes, MoneyValueInput } from './types-44.js';
-import type { CategoryReferencePreviousAttributes } from './types-5.js';
-import type { ImageAttachmentPreviousAttributes, ImageAttachment, ImageRequest, ImageRequestInput } from './types-31.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { Dimensions, DimensionsPreviousAttributes, DimensionsRequestInput } from './types-25.js';
 import type { GiftCardProductConfiguration } from './types-29.js';
 import type {
@@ -26,7 +26,6 @@ import type {
     QuantityPriceBreakPreviousAttributes,
     QuantityPriceBreakRequestInput,
     PromotionSchedule,
-    PromotionRuleGroupRequestInput,
     PromotionSchedulePreviousAttributes
 } from './types-59.js';
 import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-67.js';
@@ -49,6 +48,7 @@ import type {
     PromotionRuleGroupPreviousAttributes,
     PromotionRuleGroupRequest,
     PromotionRecurrenceRequestInput,
+    PromotionRuleGroupRequestInput,
     PromotionPercentOffMethod,
     PromotionPercentOffMethodPreviousAttributes,
     PromotionPercentOffMethodRequest,
@@ -57,28 +57,6 @@ import type {
     PromotionCombinesWithPreviousAttributes,
     PromotionExclusivityPreviousAttributes
 } from './types-58.js';
-/**
- * The `product.created` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type ProductCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookProduct}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
-         * `matched_variant`, `modifier_set`.
-         */
-        "object": WebhookProduct;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "product.created". */
-    "event_type"?: "product.created";
-});
 /** A page of `Product` objects. */
 export type ProductListResponse = {
     /**
@@ -7777,4 +7755,117 @@ export type PromotionBuyXGetYMethodRequestInput = {
      * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
      */
     "type": "buy_x_get_y";
+};
+/**
+ * A promotion considered for an order, with its discount amounts, its stacking rules, and why it
+ * was or was not applied.
+ */
+export type PromotionCandidate = {
+    /**
+     * Calculated discount amount for this promotion candidate before final application, when
+     * available. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "amount_money"?: MoneyValue;
+    /**
+     * Discount amount applied to the order for candidates in applied[]. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "applied_money"?: MoneyValue;
+    /**
+     * Which promotion discount classes this promotion may share an order with. Both promotions
+     * must allow each other's class. Which kinds of discounts a promotion can combine with: line
+     * item, order, and service charge discounts.
+     */
+    "combines_with"?: PromotionCombinesWith;
+    /**
+     * Current money amount counted toward threshold_money for available[] candidates. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "current_money"?: MoneyValue;
+    /**
+     * The name buyers see for the promotion: its `display_name`, or its `name` when it has no
+     * display name.
+     */
+    "customer_facing_name": string;
+    /**
+     * Whether the promotion discounts the order, individual line items, or service charges. Value
+     * enum: "order", "line_item", "service_charge".
+     */
+    "discount_class"?: "order" | "line_item" | "service_charge" | (string & {});
+    /**
+     * The promotion's exclusivity group and priority. Promotions in the same group compete, and
+     * only one of them applies. Only one promotion in an exclusivity group continues. See
+     * Promotion for the evaluation order.
+     */
+    "exclusivity"?: PromotionExclusivity;
+    /**
+     * Additional money amount needed to reach threshold_money for available[] candidates. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "gap_money"?: MoneyValue;
+    /**
+     * IDs of the order charges the discount applies to. Set for `service_charge` promotions. []
+     * (Value): string. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
+     */
+    "order_charge_ids"?: Array<string>;
+    /**
+     * IDs of the order line items the discount applies to. Omitted when it applies to none. []
+     * (Value): string. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_ids"?: Array<string>;
+    /** The code the buyer entered. Omitted when the promotion applies automatically. */
+    "promotion_code"?: string;
+    /**
+     * ID of the promotion code the buyer entered. Omitted when the promotion applies
+     * automatically. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
+     */
+    "promotion_code_id"?: string;
+    /**
+     * Why the promotion did not apply, or stopped applying. Omitted for a promotion that applies.
+     * Value enum: "already_applied", "automatic_disabled", "buy_item_missing", "code_invalid",
+     * "code_required", "codes_disabled", "currency_mismatch", "customer_limit_reached",
+     * "customer_mismatch", "customer_required", "exhausted", "expired", "inactive",
+     * "max_promotions_reached", "minimum_not_met", "no_discountable_balance", "not_combinable",
+     * "not_eligible", "not_yet_started", "recurrence_completed", "superseded",
+     * "superseded_by_better_offer", "superseded_by_higher_priority", "unknown_type".
+     */
+    "promotion_decline_reason"?: "already_applied"
+        | "automatic_disabled"
+        | "buy_item_missing"
+        | "code_invalid"
+        | "code_required"
+        | "codes_disabled"
+        | "currency_mismatch"
+        | "customer_limit_reached"
+        | "customer_mismatch"
+        | "customer_required"
+        | "exhausted"
+        | "expired"
+        | "inactive"
+        | "max_promotions_reached"
+        | "minimum_not_met"
+        | "no_discountable_balance"
+        | "not_combinable"
+        | "not_eligible"
+        | "not_yet_started"
+        | "recurrence_completed"
+        | "superseded"
+        | "superseded_by_better_offer"
+        | "superseded_by_higher_priority"
+        | "unknown_type"
+        | (string & {});
+    /** ID of the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". */
+    "promotion_id": string;
+    /**
+     * Minimum money amount required by a threshold rule for available[] candidates. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "threshold_money"?: MoneyValue;
+    /**
+     * Discount amount this candidate would have applied if it had been eligible and won conflict
+     * resolution. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "would_have_applied_money"?: MoneyValue;
 };

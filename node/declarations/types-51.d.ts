@@ -29,14 +29,7 @@ import type { PendingPaymentAction } from './types-55.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelPaymentIntentRequestInput, CapturePaymentIntentRequestInput } from './types-5.js';
 import type { ConfirmPaymentIntentRequestInput } from './types-8.js';
-/**
- * How to finish a payment step. Flint's API returns a Stripe client secret only for
- * client_action_type stripe. With url, Stripe's authentication page receives what it needs to run
- * the challenge, including the client secret for hosted 3DS2. If a payment is confirmed with a
- * payment method Flint didn't approve, Flint doesn't count the charge, returns it to the buyer,
- * and the payment intent ends canceled with cancellation_reason payment_returned.
- */
-export type PaymentClientAction = ((PaymentClientActionURL) | (PaymentClientActionStripe) | (Record<string, unknown>));
+import type { CreatePaymentIntentRequestInput } from './types-12.js';
 /**
  * How to finish a payment step. Flint's API returns a Stripe client secret only for
  * client_action_type stripe. With url, Stripe's authentication page receives what it needs to run
@@ -29239,6 +29232,45 @@ export type PaymentIntentsConfirmParams = (InputValue<ConfirmPaymentIntentReques
      * subsequent payments from the same device; it grants no access. pattern: ^[a-f0-9]{32}$.
      */
     "Flint-Buyer-Device"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PaymentIntentsCreateParams = (InputValue<CreatePaymentIntentRequestInput>
+    | {
+    "amount_money"?: never;
+    "capture_method"?: never;
+    "customer_id"?: never;
+    "expected_order_version"?: never;
+    "external_reference_id"?: never;
+    "metadata"?: never;
+    "order_id"?: never;
+    "payment_options"?: never;
+    "payment_return_url"?: never;
+    "payment_source_selection"?: never;
+    "platform_fee"?: never;
+    "receipt_email"?: never;
+    "request_overcapture"?: never;
+    "splits"?: never;
+    "tip_money"?: never;
+    "transaction_purpose"?: never;
+})
+    & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own

@@ -1,8 +1,8 @@
-import { d9259 as c0 } from '../descriptors/data/416.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
-import { d9278 as c1, d9279 as c2, d9280 as c3, d9281 as c4, d9282 as c5 } from '../descriptors/data/417.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
-import { d9259 as d9259 } from '../descriptors/data/416.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
+import { d9280 as c0 } from '../descriptors/data/422.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d9299 as c1, d9300 as c2, d9301 as c3, d9302 as c4, d9303 as c5 } from '../descriptors/data/423.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d9280 as d9280 } from '../descriptors/data/422.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d9259;
+const read = d9280;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["InvoiceScheduleDueWrite"]:c0(),["SharedCodec1686"]:c1(),["SharedCodec1687"]:c2(),["SharedCodec1688"]:c3(),["SharedCodec1689"]:c4(),["SharedCodec1690"]:c5()}); }
 export { codec as _validate };

@@ -181,7 +181,7 @@ export type InventoryCountUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
         "object": {
             "applied_at"?: string;
             "created_at": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_count_id": string;
             "lines": Array<InventoryCountLine>;
             "location_id": string;
@@ -217,7 +217,7 @@ export type InventoryCountUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
         "object": {
             "applied_at"?: string;
             "created_at": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_count_id": string;
             "lines": Array<InventoryCountLine>;
             "location_id": string;
@@ -268,7 +268,7 @@ export type InventoryCountUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * additional fields. object.applied_at (Optional): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339
      * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -363,7 +363,7 @@ export type InventoryCountUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
          * applied_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Required): string or null.
+         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -404,7 +404,7 @@ export type InventoryCountUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory count, prefixed `invc_`. Example:
              * "invc_01KEZF7C00B47NXRE3ET37QQ59".
@@ -642,7 +642,7 @@ export type InventoryCountUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * additional fields. object.applied_at (Optional): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339
      * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -737,7 +737,7 @@ export type InventoryCountUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
          * applied_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Required): string or null.
+         * date-time. Example: "2026-08-02T16:00:00Z". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -778,7 +778,7 @@ export type InventoryCountUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory count, prefixed `invc_`. Example:
              * "invc_01KEZF7C00B47NXRE3ET37QQ59".
@@ -4829,7 +4829,7 @@ export type InventoryReceiptCreatedEvent = ((((Exclude<MerchantWebhookEnvelope &
         "object": {
             "created_at": string;
             "external_actor_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_receipt_id": string;
             "lines": Array<InventoryReceiptLine>;
             "occurred_at": string;
@@ -4847,7 +4847,7 @@ export type InventoryReceiptCreatedEvent = ((((Exclude<MerchantWebhookEnvelope &
         "object": {
             "created_at": string;
             "external_actor_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_receipt_id": string;
             "lines": Array<InventoryReceiptLine>;
             "occurred_at": string;
@@ -4880,7 +4880,7 @@ export type InventoryReceiptCreatedInstalledMerchantsEvent = (Exclude<PartnerWeb
      * additional fields. object.created_at (Required): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". object.external_actor_id (Optional): string.
      * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * maxLength: 255. Example: "warehouse-1842". object.idempotency_key (Required): string or
+     * maxLength: 255. Example: "warehouse-1842". object.idempotency_key (Optional): string or
      * null. The Idempotency-Key of the request that created this resource. `null` when that
      * request sent no key, Flint created the resource, the reader isn't the caller that created it
      * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
@@ -4911,7 +4911,7 @@ export type InventoryReceiptCreatedInstalledMerchantsEvent = (Exclude<PartnerWeb
          * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". external_actor_id (Optional): string. Your identifier for the
          * actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example:
-         * "warehouse-1842". idempotency_key (Required): string or null. The Idempotency-Key of the
+         * "warehouse-1842". idempotency_key (Optional): string or null. The Idempotency-Key of the
          * request that created this resource. `null` when that request sent no key, Flint created
          * the resource, the reader isn't the caller that created it (another app install, a buyer,
          * or the merchant reading an app's or buyer's record), or the caller that created an older
@@ -4952,7 +4952,7 @@ export type InventoryReceiptCreatedInstalledMerchantsEvent = (Exclude<PartnerWeb
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory receipt, prefixed `invrec_`. Example:
              * "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
@@ -5036,7 +5036,7 @@ export type InventoryReceiptCreatedMerchantEvent = (Exclude<MerchantWebhookEnvel
      * additional fields. object.created_at (Required): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". object.external_actor_id (Optional): string.
      * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * maxLength: 255. Example: "warehouse-1842". object.idempotency_key (Required): string or
+     * maxLength: 255. Example: "warehouse-1842". object.idempotency_key (Optional): string or
      * null. The Idempotency-Key of the request that created this resource. `null` when that
      * request sent no key, Flint created the resource, the reader isn't the caller that created it
      * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
@@ -5067,7 +5067,7 @@ export type InventoryReceiptCreatedMerchantEvent = (Exclude<MerchantWebhookEnvel
          * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". external_actor_id (Optional): string. Your identifier for the
          * actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example:
-         * "warehouse-1842". idempotency_key (Required): string or null. The Idempotency-Key of the
+         * "warehouse-1842". idempotency_key (Optional): string or null. The Idempotency-Key of the
          * request that created this resource. `null` when that request sent no key, Flint created
          * the resource, the reader isn't the caller that created it (another app install, a buyer,
          * or the merchant reading an app's or buyer's record), or the caller that created an older
@@ -5108,7 +5108,7 @@ export type InventoryReceiptCreatedMerchantEvent = (Exclude<MerchantWebhookEnvel
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory receipt, prefixed `invrec_`. Example:
              * "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
@@ -5581,7 +5581,7 @@ export type InventoryReservationActionRequiredEvent = ((((Exclude<MerchantWebhoo
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;
@@ -5634,7 +5634,7 @@ export type InventoryReservationActionRequiredEvent = ((((Exclude<MerchantWebhoo
                 | null;
             "created_at": string;
             "expires_at": string | null;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_action_required"?: InventoryActionRequired;
             "inventory_reservation_id": string;
             "inventory_routing_source": InventoryRoutingSource;

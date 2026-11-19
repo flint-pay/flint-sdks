@@ -10,7 +10,7 @@ import type {
 } from '../declarations/types-16.js';
 import type { CustomerSessionsRevocation, CustomerSessionsRevocationResponse, CustomerSessionsRevokeParams } from '../declarations/types-17.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkRequiredIdempotency } from '../declarations/types-79.js';
+import type { _SdkRequiredIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,7 +34,7 @@ export type {
     CustomerSessionResponse
 } from '../declarations/types-16.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkRequiredIdempotency } from '../declarations/types-79.js';
+export type { _SdkRequiredIdempotency } from '../declarations/types-80.js';
 export type { CustomerSessionsRevokeParams, CustomerSessionsRevocation, CustomerSessionsRevocationResponse } from '../declarations/types-17.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateCustomerSessionRequestInput } from '../declarations/types-9.js';
@@ -46,7 +46,7 @@ export type {
     RefreshCustomerSessionRequestInput,
     RefreshCustomerSessionRequest
 } from '../declarations/types-60.js';
-export { makeCreateCustomerSessionRequest } from '../declarations/types-81.js';
+export { makeCreateCustomerSessionRequest } from '../declarations/types-82.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeRefreshCustomerSessionRequest } from '../declarations/types-90.js';
 export interface CustomerSessionsResource {

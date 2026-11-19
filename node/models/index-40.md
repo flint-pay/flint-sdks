@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# UpdatePackageItemRequest to VerifyMerchantSignupRequestInput
+# UpdatePackageItemRequestInput to VerifyReturnReceiptLineItemRequest
 
-- [UpdatePackageItemRequest](UpdatePackageItemRequest.md)
 - [UpdatePackageItemRequestInput](UpdatePackageItemRequestInput.md)
 - [UpdatePackageRequest](UpdatePackageRequest.md)
 - [UpdatePackageRequestInput](UpdatePackageRequestInput.md)
@@ -102,4 +101,5 @@
 - [ValidateLicenseKeyRequestInput](ValidateLicenseKeyRequestInput.md)
 - [VerifyMerchantSignupRequest](VerifyMerchantSignupRequest.md)
 - [VerifyMerchantSignupRequestInput](VerifyMerchantSignupRequestInput.md)
+- [VerifyReturnReceiptLineItemRequest](VerifyReturnReceiptLineItemRequest.md)
 

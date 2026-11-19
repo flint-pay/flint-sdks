@@ -3,7 +3,7 @@ import type { ClientOptions } from '../declarations/types-7.js';
 import type { PlatformFee } from '../declarations/types-55.js';
 import type { PlatformFeeListResponse, PlatformFeeResponse, PlatformFeesGetParams, PlatformFeesListParams } from '../declarations/types-56.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -19,7 +19,7 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { PlatformFeesGetParams, PlatformFeeResponse, PlatformFeesListParams, PlatformFeeListResponse } from '../declarations/types-56.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { PlatformFee } from '../declarations/types-55.js';
 export type { ClientOptions } from '../declarations/types-7.js';

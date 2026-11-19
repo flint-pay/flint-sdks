@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class GiftCardCreatedMerchantEventDataObject extends Model {
-    /** @param array{'available_money': mixed, 'balance_money': mixed, 'code_source': string, 'created_at': string, 'currency': string, 'customer_id': string|null, 'external_reference_id': string|null, 'gift_card_id': string, 'idempotency_key': string|null, 'last_loaded_at': string|null, 'last_redeemed_at': string|null, 'last4': string, 'merchant_id': string, 'reserved_money': mixed, 'restrictions': list<mixed>, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'available_money': mixed, 'balance_money': mixed, 'code_source': string, 'created_at': string, 'currency': string, 'customer_id': string|null, 'external_reference_id': string|null, 'gift_card_id': string, 'idempotency_key'?: string|null, 'last_loaded_at': string|null, 'last_redeemed_at': string|null, 'last4': string, 'merchant_id': string, 'reserved_money': mixed, 'restrictions': list<mixed>, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardCreatedMerchantEventDataObject')); }
     /** The balance minus reserved value: what can be spent now. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue

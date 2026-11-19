@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PaymentReviewReopenedMerchantEventInput to PlatformFeeMoneyInput
+# PaymentReviewResolutionFailureInput to PlatformFeePayoutInput
 
-- [PaymentReviewReopenedMerchantEventInput](PaymentReviewReopenedMerchantEventInput.md)
 - [PaymentReviewResolutionFailureInput](PaymentReviewResolutionFailureInput.md)
 - [PaymentReviewResolutionFailurePreviousAttributesInput](PaymentReviewResolutionFailurePreviousAttributesInput.md)
 - [PaymentReviewResponseInput](PaymentReviewResponseInput.md)
@@ -102,4 +101,5 @@
 - [PlatformFeeCreatedEventInput](PlatformFeeCreatedEventInput.md)
 - [PlatformFeeListResponseInput](PlatformFeeListResponseInput.md)
 - [PlatformFeeMoneyInput](PlatformFeeMoneyInput.md)
+- [PlatformFeePayoutInput](PlatformFeePayoutInput.md)
 

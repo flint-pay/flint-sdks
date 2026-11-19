@@ -12,7 +12,7 @@ import type {
     DeliverySelectionsReleaseParams
 } from '../declarations/types-24.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -47,7 +47,7 @@ export type {
     DeliverySelectionRecipientRequest
 } from '../declarations/types-24.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency, Weight } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     ClientOptions,
     CheckoutSessionPlatformFee,
@@ -100,10 +100,9 @@ export type {
     OrderTaxLocation
 } from '../declarations/types-47.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
-export type { PaymentAttemptGiftCardRedemption, PaymentAttemptPaymentIntent } from '../declarations/types-50.js';
+export type { PaymentAttemptGiftCardRedemption, PaymentAttemptPaymentIntent, PaymentClientAction } from '../declarations/types-50.js';
 export type {
     PaymentErrorSummary,
-    PaymentClientAction,
     PaymentClientActionURL,
     PaymentClientActionStripe,
     PaymentCollection,
@@ -147,7 +146,6 @@ export type {
     SettlementAmounts,
     SetupCollection,
     SetupCollectionStripe,
-    ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
     SubscribedLine
 } from '../declarations/types-68.js';
@@ -200,7 +198,7 @@ export type { PricingAmounts } from '../declarations/types-56.js';
 export type { InvoiceSettlementAmounts, LegalSettings } from '../declarations/types-38.js';
 export type { Image } from '../declarations/types-31.js';
 export type { MetadataMap } from '../declarations/types-43.js';
-export type { SelectableOrderPaymentIntent, SelectedProductOption } from '../declarations/types-67.js';
+export type { SelectableOrderPaymentIntent, SelectedProductOption, ServiceFulfillmentDetails } from '../declarations/types-67.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
@@ -259,6 +257,7 @@ export type {
     TaxBreakdownPercentage,
     TaxBreakdownFlatAmount
 } from '../declarations/types-73.js';
+export type { Weight } from '../declarations/types-79.js';
 export type {
     SubscriptionPlanLineItem,
     SubscriptionPlanSwapVariant,

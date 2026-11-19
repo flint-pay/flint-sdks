@@ -36,28 +36,12 @@ import type {
 } from './types-54.js';
 import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-56.js';
 import type { Order } from './types-45.js';
-import type { PaymentErrorSummary, PaymentErrorSummaryPreviousAttributes } from './types-51.js';
-/**
- * The current version of Flint's platform terms: the only version accept-platform-terms accepts.
- */
-export type PartnerAppPlatformCurrentTerms = {
-    /**
-     * When accepting this version becomes required. Until then an earlier accepted version keeps
-     * the platform_terms requirement met; from then the app needs this one. Absent when this
-     * version is already required. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "acceptance_due_at"?: string;
-    /**
-     * The current platform terms version. Send it as platform_terms_version to
-     * accept-platform-terms.
-     */
-    "platform_terms_version": string;
-    /**
-     * Where Flint publishes this version's text: the Flint Platform Agreement. `null` when the
-     * version has no published text. Format: uri. Example: "https://example.com/receipt".
-     */
-    "url": string | null;
-};
+import type {
+    PaymentErrorSummary,
+    PaymentErrorSummaryPreviousAttributes,
+    PaymentClientActionStripe,
+    PaymentClientActionURL
+} from './types-51.js';
 export type PartnerAppPlatformCurrentTermsPreviousAttributes = {
     /**
      * When accepting this version becomes required. Until then an earlier accepted version keeps
@@ -3122,3 +3106,11 @@ export type PaymentAttemptPaymentIntentPreviousAttributes = {
      */
     "tip_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
+/**
+ * How to finish a payment step. Flint's API returns a Stripe client secret only for
+ * client_action_type stripe. With url, Stripe's authentication page receives what it needs to run
+ * the challenge, including the client secret for hosted 3DS2. If a payment is confirmed with a
+ * payment method Flint didn't approve, Flint doesn't count the charge, returns it to the buyer,
+ * and the payment intent ends canceled with cancellation_reason payment_returned.
+ */
+export type PaymentClientAction = ((PaymentClientActionURL) | (PaymentClientActionStripe) | (Record<string, unknown>));

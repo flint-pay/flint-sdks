@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PromotionScheduleRequestInput to RefundTaxBreakdownRefundPreviousAttributes
+# PromotionSettings to RefundTenderAllocation
 
-- [PromotionScheduleRequestInput](PromotionScheduleRequestInput.md)
 - [PromotionSettings](PromotionSettings.md)
 - [PromotionSettingsRequestInput](PromotionSettingsRequestInput.md)
 - [PromotionUpdatedInstalledMerchantsEvent](PromotionUpdatedInstalledMerchantsEvent.md)
@@ -102,4 +101,5 @@
 - [RefundTaxBreakdownRefundIn](RefundTaxBreakdownRefundIn.md)
 - [RefundTaxBreakdownRefundInInput](RefundTaxBreakdownRefundInInput.md)
 - [RefundTaxBreakdownRefundPreviousAttributes](RefundTaxBreakdownRefundPreviousAttributes.md)
+- [RefundTenderAllocation](RefundTenderAllocation.md)
 

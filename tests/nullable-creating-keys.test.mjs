@@ -5,6 +5,7 @@ import { createServer } from "node:http";
 import test from "node:test";
 import { promisify } from "node:util";
 import { Client } from "../node/index.js";
+import { projectWebhookSnapshots } from "../scripts/webhook-snapshots.mjs";
 
 const api = JSON.parse(readFileSync(new URL("../spec/openapi.json", import.meta.url)));
 const timestamp = "2026-08-02T16:00:00Z";
@@ -49,13 +50,31 @@ const fixtures = {
   "GET /v1/inventory-movements/invm_fixture": movement,
 };
 
+test("historical creating-key projection is confined to webhook snapshot schemas", () => {
+  const schemas = api.components.schemas;
+  const projected = projectWebhookSnapshots(schemas);
+  for (const name of ["Refund", "OrderPaymentAttempt", "RefundWithGiftCardCodes"]) {
+    assert.ok(schemas[name].required.includes("idempotency_key"));
+    assert.equal(projected[name], schemas[name]);
+  }
+  const refund = projected.WebhookSnapshotRefund;
+  assert.deepEqual(refund.required, schemas.Refund.required.filter((field) => field !== "idempotency_key"));
+  assert.deepEqual(refund.properties, schemas.Refund.properties);
+  assert.ok(!projected.WebhookSnapshotOrderPaymentAttempt.required.includes("idempotency_key"));
+  assert.match(JSON.stringify(projected.WebhookCheckoutSession), /#\/components\/schemas\/WebhookSnapshotOrderPaymentAttempt/);
+  assert.equal(projected.Webhook_refund_succeeded_merchant.allOf[1].properties.data.properties.object.allOf[0].$ref,
+    "#/components/schemas/WebhookSnapshotRefund");
+});
+
 test("Node and PHP preserve explicit nulls in creating-key responses without matching webhooks", async (t) => {
   const server = createServer((request, response) => {
     const fixture = fixtures[`${request.method} ${request.url}`];
     request.resume();
     if (!fixture) return response.writeHead(404).end();
     response.writeHead(request.method === "POST" ? 201 : 200, { "content-type": "application/json" });
-    response.end(JSON.stringify({ data: { ...fixture, idempotency_key: null }, request_id: requestId }));
+    const data = { ...fixture, idempotency_key: null };
+    if (request.headers["x-test-omit-creating-key"]) delete data.idempotency_key;
+    response.end(JSON.stringify({ data, request_id: requestId }));
   });
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
   t.after(() => {
@@ -73,6 +92,10 @@ test("Node and PHP preserve explicit nulls in creating-key responses without mat
   ]) {
     assert.equal(value.idempotency_key, null);
   }
+  await assert.rejects(
+    client.refunds.create(refundRequest, { ...options, headers: { "x-test-omit-creating-key": "true" } }),
+    { code: "schema_mismatch", message: /idempotency_key/ },
+  );
   const php = String.raw`
 require 'php/src/autoload.php';
 $client = new \Flint\Client(new \Flint\ClientOptions(baseUrl: $argv[1], allowInsecureHttp: true, apiKey: 'nullable-key-fixture'));
@@ -86,6 +109,12 @@ try {
         if (!$value->hasIdempotencyKey() || $value->getIdempotencyKey() !== null) {
             throw new \RuntimeException(get_class($value) . ' lost explicit null');
         }
+    }
+    try {
+        $client->refunds->create(json_decode($argv[2], true, 512, JSON_THROW_ON_ERROR), new \Flint\RequestOptions(headers: ['x-test-omit-creating-key' => 'true'], idempotencyKey: 'synthetic-refund-key'));
+        throw new \RuntimeException('REST response accepted an omitted creating key');
+    } catch (\Flint\Errors\UnexpectedResponseError $error) {
+        if ($error->code !== 'schema_mismatch' || !str_contains($error->getMessage(), 'idempotency_key')) throw $error;
     }
 } finally { $client->close(); }
 `;

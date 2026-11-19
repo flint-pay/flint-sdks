@@ -1,38 +1,15 @@
-import type { CheckoutBuyerFieldsRequestInput, CheckoutPromotionConfigRequestInput } from './types-6.js';
-import type {
-    CheckoutTaxConfigRequestInput,
-    CheckoutTipConfigRequestInput,
-    CheckoutSettings,
-    CheckoutSettingsRequestInput
-} from './types-7.js';
-import type { ImageRequestInput, ImageRequest } from './types-31.js';
-import type { InventoryRoutingSourceRequestInput, InventorySettingsRequest, InventorySettingsRequestInput } from './types-33.js';
-import type { MetadataPatchRequestInput, MetadataPatchRequest } from './types-43.js';
-import type { MoneyValueInput, MoneyValue } from './types-44.js';
-import type {
-    PaymentLinkCustomFieldPatchRequestInput,
-    PaymentLinkCustomTextPatchRequestInput,
-    PaymentLinkEventConfigPatchRequestInput,
-    PaymentLinkLegalPatchRequestInput,
-    PaymentLinkLineItemPatchRequestInput,
-    PaymentLimitSettingsPatch,
-    PaymentLimitSettingsPatchInput
-} from './types-52.js';
-import type {
-    PaymentLinkPaymentPatchRequestInput,
-    PaymentLinkRedirectsPatchRequestInput,
-    PaymentLinkThemePatchRequestInput
-} from './types-53.js';
+import type { MetadataPatchRequest, MetadataPatchRequestInput } from './types-43.js';
+import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
 import type {
     QuantityPriceBreak,
     QuantityPriceBreakRequestInput,
     PromotionSchedulePatch,
-    PromotionRuleGroupRequestInput,
     PromotionSchedulePatchInput,
     PromotionSettings,
     PromotionSettingsRequestInput
 } from './types-59.js';
+import type { ImageRequest, ImageRequestInput } from './types-31.js';
 import type { Dimensions, DimensionsRequestInput } from './types-25.js';
 import type { GiftCardProductConfiguration } from './types-29.js';
 import type { InventoryItemCreateRequest, InventoryItemCreateRequestInput } from './types-32.js';
@@ -50,7 +27,8 @@ import type {
     PromotionExclusivityPatch,
     PromotionRuleGroupRequest,
     PromotionCombinesWithPatchInput,
-    PromotionExclusivityPatchInput
+    PromotionExclusivityPatchInput,
+    PromotionRuleGroupRequestInput
 } from './types-58.js';
 import type {
     GetReturnResponse,
@@ -64,228 +42,21 @@ import type { LineItemFulfillmentRequest, LineItemFulfillmentRequestModelInput }
 import type { ReturnReplacementTaxRequest, ReturnReplacementTaxRequestInput } from './types-65.js';
 import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-67.js';
 import type { BrandingSettingsRequest, BrandingSettingsRequestInput } from './types-1.js';
+import type { CheckoutSettings, CheckoutSettingsRequestInput } from './types-7.js';
 import type {
     CustomerAccountSettings,
     CustomerEmailDeliverySettings,
     CustomerAccountSettingsRequestInput,
     CustomerEmailDeliverySettingsRequestInput
 } from './types-16.js';
+import type { InventorySettingsRequest, InventorySettingsRequestInput } from './types-33.js';
 import type { InvoiceSettingsPatch, LegalSettingsRequest, InvoiceSettingsPatchInput, LegalSettingsRequestInput } from './types-38.js';
+import type { PaymentLimitSettingsPatch, PaymentLimitSettingsPatchInput } from './types-52.js';
 import type { PaymentSettingsPatch, PaymentSettingsPatchInput } from './types-54.js';
 import type { ReceiptSettingsPatch, ReceiptSettingsPatchInput } from './types-60.js';
 import type { SubscriptionSettings, SubscriptionSettingsRequestInput } from './types-72.js';
 import type { TaxIdentityPatch, TaxSettingsRequest, TaxIdentityPatchInput, TaxSettingsRequestInput } from './types-74.js';
 import type { TippingSettingsPatch, TippingSettingsPatchInput } from './types-75.js';
-/** The request body for: Update payment link. minProperties: 1. */
-export type UpdatePaymentLinkRequestInput = ({
-    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
-    "buyer_fields"?: CheckoutBuyerFieldsRequestInput;
-    /**
-     * Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use
-     * your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that.
-     * Format: int64. minimum: 60. maximum: 86400.
-     */
-    "checkout_session_expires_in_seconds"?: number;
-    /**
-     * Replaces all custom fields atomically. Include an existing payment_link_custom_field_id to
-     * retain that member, omit the ID to create a member, and omit a previous member to remove it.
-     * Send an empty array to clear all custom fields, omit custom_fields to leave it unchanged,
-     * and do not send null. maxItems: 20. [] (Value): {@link
-     * PaymentLinkCustomFieldPatchRequestInput}. A custom field in a payment link update. Include
-     * its ID to change an existing field, or omit the ID to add a new one.
-     */
-    "custom_fields"?: Array<PaymentLinkCustomFieldPatchRequestInput>;
-    /**
-     * Custom text for checkouts started from this link. Changes to a payment link's custom
-     * checkout text. Send null to clear a field.
-     */
-    "custom_text"?: PaymentLinkCustomTextPatchRequestInput;
-    /**
-     * Complete delivery method selection for the link. A link without delivery methods offers
-     * settings.checkout.default_delivery_method_ids when its order has items to deliver. Send an
-     * empty array to clear the selection. Omit it on PATCH to leave the selection unchanged. Null
-     * and duplicate IDs are not accepted. Create, activation, and edits to items, delivery
-     * methods, or inventory routing require explicit methods or checkout defaults to cover the
-     * items' delivery profiles; otherwise ACTION_NOT_ALLOWED with reason configuration_required is
-     * returned. maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. Example:
-     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "delivery_method_ids"?: Array<string>;
-    /**
-     * Text about what the link sells, returned to buyers when they open it. Send null to clear.
-     * minLength: 1. maxLength: 2048.
-     */
-    "description"?: string | null;
-    /**
-     * Maximum donation amount. Must be greater than zero and greater than or equal to
-     * donation_min_amount_money. Send null to clear the maximum. anyOf[1] (Value): {@link
-     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. anyOf[2] (Value): null.
-     */
-    "donation_max_amount_money"?: ((MoneyValueInput) | (null));
-    /**
-     * Minimum donation amount. Send null to clear the minimum. Send null to clear. anyOf[1]
-     * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code. anyOf[2] (Value): null.
-     */
-    "donation_min_amount_money"?: ((MoneyValueInput) | (null));
-    /**
-     * Suggested donation amounts. Send an empty array to clear suggested amounts. [] (Value):
-     * {@link MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "donation_suggested_amount_money_options"?: Array<MoneyValueInput>;
-    /**
-     * Event configuration patch. Omit to leave unchanged. The whole configuration cannot be
-     * cleared; null is not accepted. Changes to an event payment link's settings. Send null on a
-     * nullable field to clear it.
-     */
-    "event_config"?: PaymentLinkEventConfigPatchRequestInput;
-    /**
-     * Payment link version last read by the caller. Required when line_items, custom_fields, or
-     * delivery_method_ids is present. Required when any of these fields is present: line_items,
-     * custom_fields, delivery_method_ids. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Image shown to buyers with the link. Send null to clear. anyOf[1] (Value): {@link
-     * ImageRequestInput}. An image you supply by `source_url`, with optional `alt` text and
-     * external reference. anyOf[2] (Value): null.
-     */
-    "image"?: ((ImageRequestInput) | (null));
-    /**
-     * Message to show the buyer when the link is inactive. Send null to clear. minLength: 1.
-     * maxLength: 500.
-     */
-    "inactive_message"?: string | null;
-    /**
-     * Routing source for tracked demand. When omitted, Flint stores
-     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
-     * with inventory_allocation_enabled in the current environment supplies the demand; this
-     * implicit source is not stored and is resolved again on use. Zero or multiple eligible
-     * Locations require an explicit source or merchant default. Create, activation, and
-     * sellability edits require at least one active routing location with
-     * inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where
-     * you want inventory routed from: a fixed Location, an inventory allocation policy, or one
-     * policy revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
-    /**
-     * The terms and policy links checkouts started from this link show the buyer. Changes to a
-     * payment link's legal links and terms setting. Send null on a URL to clear it.
-     */
-    "legal"?: PaymentLinkLegalPatchRequestInput;
-    /**
-     * Replaces all line items atomically. Include an existing payment_link_line_item_id to retain
-     * that member, omit the ID to create a member, and omit a previous member to remove it. Omit
-     * line_items to leave it unchanged. Null is not accepted. minItems: 1. [] (Value): {@link
-     * PaymentLinkLineItemPatchRequestInput}. A line item in a payment link update. Include its ID
-     * to change an existing line item, or omit the ID to add a new one.
-     */
-    "line_items"?: Array<PaymentLinkLineItemPatchRequestInput>;
-    /**
-     * Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once
-     * the limit is reached, resolving the link fails with a request error. It can't be set below
-     * `completed_count`. Send null to clear. Format: int32.
-     */
-    "max_completions"?: number | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. Send null to clear. At most 44 pairs, because Flint reserves 6 of the order's 50
-     * metadata pairs. Metadata keys and values plus Flint's metadata must fit within 32768 UTF-8
-     * bytes. Custom fields don't count toward either limit. These limits apply to standard and
-     * plan links and are checked against the merged configuration on update. This operation also
-     * limits the metadata object you send, before merging: at most 50 keys, counting null
-     * deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus
-     * values. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned
-     * metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null
-     * value deletes the key, and an empty object makes no change; send null for the whole field to
-     * clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput:
-     * Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096
-     * Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
-     * that does not exist is allowed, so the number of operations is not itself the stored-map
-     * limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
-     * maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to leave metadata
-     * unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no
-     * change; send null for the whole field to clear all caller-owned metadata. The resulting map
-     * is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256
-     * Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at
-     * most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of
-     * operations is not itself the stored-map limit. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null. minLength:
-     * 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
-    /**
-     * Name of the payment link. Surrounding whitespace is trimmed before length validation. A
-     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
-     * maxLength: 255.
-     */
-    "name"?: string;
-    /**
-     * Whether to email existing ticket holders when event_at, timezone, or venue changes. Defaults
-     * to true for each update. Unchanged event details send no notice.
-     */
-    "notify_ticket_holders"?: boolean;
-    /**
-     * Payment options for checkouts started from this link. Changes to a payment link's payment
-     * settings. Send null on the payment note to clear it.
-     */
-    "payments"?: PaymentLinkPaymentPatchRequestInput;
-    /**
-     * Whether automatic promotions apply to checkouts started from this link and whether buyers
-     * can enter promotion codes. Promotion settings for a checkout: whether automatic promotions
-     * apply and whether the buyer can apply promotion codes.
-     */
-    "promotion_config"?: CheckoutPromotionConfigRequestInput;
-    /**
-     * Where checkout sessions started from this payment link send the buyer after payment,
-     * cancellation, or expiration. Changes to a payment link's hosted checkout destinations. Omit
-     * a URL to leave it unchanged, or send null to clear it.
-     */
-    "redirects"?: PaymentLinkRedirectsPatchRequestInput;
-    /**
-     * RFC3339 timestamp after which the link stops starting checkouts and resolve fails with
-     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
-     * except that an event link without sales_end_at stops selling at event_config.event_at. A
-     * checkout opened before the end can still start payment for up to 15 minutes after it. Send
-     * null to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "sales_end_at"?: string | globalThis.Date | null;
-    /**
-     * RFC3339 timestamp when buyers can first start a checkout from this link. Stored to
-     * nanosecond precision. Before it, resolve fails with ACTION_NOT_ALLOWED and reason
-     * sales_not_started. Must be earlier than the link’s sales end, including the event start when
-     * no explicit end is set. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "sales_start_at"?: string | globalThis.Date | null;
-    /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-    /**
-     * Tax settings for checkouts started from this link. Whether tax is collected for a checkout
-     * session or payment link.
-     */
-    "tax"?: CheckoutTaxConfigRequestInput;
-    /**
-     * The title and colors for checkouts started from this link, over your branding settings.
-     * Changes to a payment link's checkout theme. Send null on a field to clear it.
-     */
-    "theme"?: PaymentLinkThemePatchRequestInput;
-    /**
-     * Tip options for checkouts started from this link. Tip settings for a checkout: whether tips
-     * are enabled, the percent or fixed amount options, the default tip, and custom tips.
-     */
-    "tip"?: CheckoutTipConfigRequestInput;
-});
 /** The request body for: Update payment method domain. minProperties: 1. */
 export type UpdatePaymentMethodDomainRequest = {
     /**
@@ -3491,4 +3262,36 @@ export type UpdateShipmentRequest = {
      * (Value): null.
      */
     "metadata"?: ((MetadataPatchRequest) | (null));
+};
+/** The request body for: Update shipment. minProperties: 1. */
+export type UpdateShipmentRequestInput = {
+    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1.
+     */
+    "external_system"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
 };

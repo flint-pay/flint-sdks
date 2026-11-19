@@ -2,7 +2,7 @@ import type { WithResponseInfo } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-62.js';
 import type { RiskPreview, RiskPreviewResponse, RiskPreviewsCreateParams } from '../declarations/types-67.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,7 +28,7 @@ export type {
     RiskRuleAnalysis,
     RiskRuleIssue
 } from '../declarations/types-67.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ResponseWarning, ResourceReference, ResponseMeta } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateRiskPreviewRequestInput, CreateRiskPreviewRequestInlineInput } from '../declarations/types-13.js';
@@ -59,7 +59,7 @@ export {
     makeRiskPredicateNodeMoneyComparisonRequest,
     makeRiskPredicateNodeNotRequest,
     makeRiskPredicateNodeRequest
-} from '../declarations/types-91.js';
+} from '../declarations/types-92.js';
 export interface RiskPreviewsResource {
     /**
  * Validates a rule without saving anything. Send mode inline with action and predicate to check a

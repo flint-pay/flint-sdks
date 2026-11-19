@@ -4,7 +4,7 @@
 
 Both SDKs pin Flint `dd5da3f91d534012098dcfabc95deb4fd4256c96` with API date `2026-09-07`. This prerelease publishes to npm `next`; `latest` stays on `7.0.0`.
 
-Node and PHP now decode signed `refund.succeeded` webhooks when `data.object.idempotency_key` is `null`. Both SDKs also accept nullable creating keys in updated response models, including refunds with gift card codes, credit note allocations, gift card funding dispositions, subscription payment retries, and inventory records. Check for `null` before using a returned creating key. This change does not alter the `Idempotency-Key` request header.
+Node and PHP now decode signed `refund.succeeded` webhooks when `data.object.idempotency_key` is `null`. They also accept older signed snapshots that omit a creating key. Both SDKs accept nullable creating keys in updated REST response models, including refunds with gift card codes, credit note allocations, gift card funding dispositions, subscription payment retries, and inventory records. Check for `null` before using a returned creating key. This change does not alter the `Idempotency-Key` request header.
 
 The refreshed contract also changes buyer refund and payment link response types. See the [beta.8 migration notes](MIGRATION.md#changes-in-800-beta8) before upgrading.
 

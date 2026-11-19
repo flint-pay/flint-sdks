@@ -2,8 +2,8 @@ import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { DisconnectTaxConnectionResponse, DisconnectTaxConnectionResult } from '../declarations/types-25.js';
 import type { RequestOptions } from '../declarations/types-62.js';
+import type { TaxConnection } from '../declarations/types-73.js';
 import type {
-    TaxConnection,
     TaxConnectionConnectParams,
     TaxConnectionCreateRegistrationParams,
     TaxConnectionDeleteRegistrationParams,
@@ -21,7 +21,7 @@ import type {
     TaxRegistrationListResponse,
     TaxRegistrationResponse
 } from '../declarations/types-74.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,7 +38,6 @@ export type {
 } from '../runtime.js';
 export type {
     TaxConnectionConnectParams,
-    TaxConnection,
     TaxConnectionResponse,
     TaxConnectionCreateRegistrationParams,
     TaxRegistration,
@@ -62,12 +61,13 @@ export type {
     TaxDisclosureStatementPreviousAttributes
 } from '../declarations/types-74.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { TaxConnection } from '../declarations/types-73.js';
 export type {
     DisconnectTaxConnectionResult,
     DisconnectTaxConnectionResponse,
     DisconnectTaxConnectionRequestInput
 } from '../declarations/types-25.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions, CheckoutSettings } from '../declarations/types-7.js';
 export type { ConnectTaxConnectionRequestInput } from '../declarations/types-8.js';
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';

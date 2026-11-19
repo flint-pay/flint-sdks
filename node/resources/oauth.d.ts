@@ -13,7 +13,7 @@ import type {
 } from '../declarations/types-44.js';
 import type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-50.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -47,7 +47,7 @@ export type {
     NextAction,
     OAuthRevokeRequestInput
 } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     CLIDeviceResponse,

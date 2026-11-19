@@ -1,7 +1,7 @@
-import { d7582 as c0 } from '../descriptors/data/317.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
-import { d7582 as d7582 } from '../descriptors/data/317.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
+import { d7583 as c0 } from '../descriptors/data/318.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d7583 as d7583 } from '../descriptors/data/318.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7582;
+const read = d7583;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["SubscriptionGiftRecipientRequest"]:c0()}); }
 export { codec as _validate };

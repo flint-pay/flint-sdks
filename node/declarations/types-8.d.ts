@@ -44,8 +44,7 @@ import type {
 } from './types-7.js';
 import type { LegalSettings } from './types-38.js';
 import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-56.js';
-import type { ThemeConfig } from './types-74.js';
-import type { ThemeConfigRequestInput } from './types-75.js';
+import type { ThemeConfig, ThemeConfigRequestInput } from './types-74.js';
 import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-15.js';
 /** The request body for: Confirm an email change. */
 export type ConfirmEmailChangeRequest = {

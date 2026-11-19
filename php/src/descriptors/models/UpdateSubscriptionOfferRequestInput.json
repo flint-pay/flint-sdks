@@ -1,1 +1,1 @@
-{"shared":"UpdateSubscriptionOfferRequest","dependencies":["SharedCodec3072","SharedCodec3075","SubscriptionIntervalOptionRequest","UpdateSubscriptionOfferRequest"]}
+{"shared":"UpdateSubscriptionOfferRequest","dependencies":["SharedCodec3065","SharedCodec3068","SubscriptionIntervalOptionRequest","UpdateSubscriptionOfferRequest"]}

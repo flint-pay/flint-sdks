@@ -29,7 +29,7 @@ export type InvoiceManualPaymentReversedMerchantEvent = (Exclude<MerchantWebhook
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
      * additional fields. object.amount_money (Required): {@link MoneyValue}. Full amount received,
      * including any principal and late fees covered. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. object.idempotency_key (Required): string or null. The
+     * units plus an ISO 4217 currency code. object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -124,7 +124,7 @@ export type InvoiceManualPaymentReversedMerchantEvent = (Exclude<MerchantWebhook
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
          * amount_money (Required): {@link MoneyValue}. Full amount received, including any
          * principal and late fees covered. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. idempotency_key (Required): string or null. The
+         * an ISO 4217 currency code. idempotency_key (Optional): string or null. The
          * Idempotency-Key of the request that created this resource. `null` when that request sent
          * no key, Flint created the resource, the reader isn't the caller that created it (another
          * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
@@ -165,7 +165,7 @@ export type InvoiceManualPaymentReversedMerchantEvent = (Exclude<MerchantWebhook
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * The invoice this payment was recorded against. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
@@ -8682,7 +8682,7 @@ export type InvoicePaymentAttemptCanceledEvent = ((((Exclude<MerchantWebhookEnve
             "checkout_session_id"?: string;
             "expected_amount_money": MoneyValue;
             "expires_at"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_payment_attempt_id": string;
             "invoice_schedule_entry_id"?: string;
@@ -8730,7 +8730,7 @@ export type InvoicePaymentAttemptCanceledEvent = ((((Exclude<MerchantWebhookEnve
             "checkout_session_id"?: string;
             "expected_amount_money": MoneyValue;
             "expires_at"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_payment_attempt_id": string;
             "invoice_schedule_entry_id"?: string;
@@ -8800,7 +8800,7 @@ export type InvoicePaymentAttemptCanceledInstalledMerchantsEvent = (Exclude<Part
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * object.expires_at (Optional): string. When a checkout attempt expires, matching its checkout
      * session. Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -8953,7 +8953,7 @@ export type InvoicePaymentAttemptCanceledInstalledMerchantsEvent = (Exclude<Part
          * amount represented as integer minor units plus an ISO 4217 currency code. expires_at
          * (Optional): string. When a checkout attempt expires, matching its checkout session.
          * Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -9025,7 +9025,7 @@ export type InvoicePaymentAttemptCanceledInstalledMerchantsEvent = (Exclude<Part
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
             "invoice_id": string;
             /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
@@ -9371,7 +9371,7 @@ export type InvoicePaymentAttemptCanceledMerchantEvent = (Exclude<MerchantWebhoo
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * object.expires_at (Optional): string. When a checkout attempt expires, matching its checkout
      * session. Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -9524,7 +9524,7 @@ export type InvoicePaymentAttemptCanceledMerchantEvent = (Exclude<MerchantWebhoo
          * amount represented as integer minor units plus an ISO 4217 currency code. expires_at
          * (Optional): string. When a checkout attempt expires, matching its checkout session.
          * Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -9596,7 +9596,7 @@ export type InvoicePaymentAttemptCanceledMerchantEvent = (Exclude<MerchantWebhoo
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
             "invoice_id": string;
             /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
@@ -9896,7 +9896,7 @@ export type InvoicePaymentAttemptExpiredEvent = ((((Exclude<MerchantWebhookEnvel
             "checkout_session_id"?: string;
             "expected_amount_money": MoneyValue;
             "expires_at"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_payment_attempt_id": string;
             "invoice_schedule_entry_id"?: string;
@@ -9944,7 +9944,7 @@ export type InvoicePaymentAttemptExpiredEvent = ((((Exclude<MerchantWebhookEnvel
             "checkout_session_id"?: string;
             "expected_amount_money": MoneyValue;
             "expires_at"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_payment_attempt_id": string;
             "invoice_schedule_entry_id"?: string;
@@ -10014,7 +10014,7 @@ export type InvoicePaymentAttemptExpiredInstalledMerchantsEvent = (Exclude<Partn
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * object.expires_at (Optional): string. When a checkout attempt expires, matching its checkout
      * session. Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -10167,7 +10167,7 @@ export type InvoicePaymentAttemptExpiredInstalledMerchantsEvent = (Exclude<Partn
          * amount represented as integer minor units plus an ISO 4217 currency code. expires_at
          * (Optional): string. When a checkout attempt expires, matching its checkout session.
          * Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -10239,7 +10239,7 @@ export type InvoicePaymentAttemptExpiredInstalledMerchantsEvent = (Exclude<Partn
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
             "invoice_id": string;
             /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
@@ -10585,7 +10585,7 @@ export type InvoicePaymentAttemptExpiredMerchantEvent = (Exclude<MerchantWebhook
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * object.expires_at (Optional): string. When a checkout attempt expires, matching its checkout
      * session. Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -10738,7 +10738,7 @@ export type InvoicePaymentAttemptExpiredMerchantEvent = (Exclude<MerchantWebhook
          * amount represented as integer minor units plus an ISO 4217 currency code. expires_at
          * (Optional): string. When a checkout attempt expires, matching its checkout session.
          * Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -10810,7 +10810,7 @@ export type InvoicePaymentAttemptExpiredMerchantEvent = (Exclude<MerchantWebhook
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
             "invoice_id": string;
             /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
@@ -11110,7 +11110,7 @@ export type InvoicePaymentAttemptFailedEvent = ((((Exclude<MerchantWebhookEnvelo
             "checkout_session_id"?: string;
             "expected_amount_money": MoneyValue;
             "expires_at"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_payment_attempt_id": string;
             "invoice_schedule_entry_id"?: string;
@@ -11158,7 +11158,7 @@ export type InvoicePaymentAttemptFailedEvent = ((((Exclude<MerchantWebhookEnvelo
             "checkout_session_id"?: string;
             "expected_amount_money": MoneyValue;
             "expires_at"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_payment_attempt_id": string;
             "invoice_schedule_entry_id"?: string;
@@ -11228,7 +11228,7 @@ export type InvoicePaymentAttemptFailedInstalledMerchantsEvent = (Exclude<Partne
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * object.expires_at (Optional): string. When a checkout attempt expires, matching its checkout
      * session. Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -11381,7 +11381,7 @@ export type InvoicePaymentAttemptFailedInstalledMerchantsEvent = (Exclude<Partne
          * amount represented as integer minor units plus an ISO 4217 currency code. expires_at
          * (Optional): string. When a checkout attempt expires, matching its checkout session.
          * Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -11453,7 +11453,7 @@ export type InvoicePaymentAttemptFailedInstalledMerchantsEvent = (Exclude<Partne
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
             "invoice_id": string;
             /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
@@ -11799,7 +11799,7 @@ export type InvoicePaymentAttemptFailedMerchantEvent = (Exclude<MerchantWebhookE
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * object.expires_at (Optional): string. When a checkout attempt expires, matching its checkout
      * session. Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -11952,7 +11952,7 @@ export type InvoicePaymentAttemptFailedMerchantEvent = (Exclude<MerchantWebhookE
          * amount represented as integer minor units plus an ISO 4217 currency code. expires_at
          * (Optional): string. When a checkout attempt expires, matching its checkout session.
          * Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -12024,7 +12024,7 @@ export type InvoicePaymentAttemptFailedMerchantEvent = (Exclude<MerchantWebhookE
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
             "invoice_id": string;
             /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
@@ -12347,7 +12347,7 @@ export type InvoicePaymentAttemptProcessingEvent = ((((Exclude<MerchantWebhookEn
             "checkout_session_id"?: string;
             "expected_amount_money": MoneyValue;
             "expires_at"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_payment_attempt_id": string;
             "invoice_schedule_entry_id"?: string;
@@ -12395,7 +12395,7 @@ export type InvoicePaymentAttemptProcessingEvent = ((((Exclude<MerchantWebhookEn
             "checkout_session_id"?: string;
             "expected_amount_money": MoneyValue;
             "expires_at"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_payment_attempt_id": string;
             "invoice_schedule_entry_id"?: string;
@@ -12465,7 +12465,7 @@ export type InvoicePaymentAttemptProcessingInstalledMerchantsEvent = (Exclude<Pa
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * object.expires_at (Optional): string. When a checkout attempt expires, matching its checkout
      * session. Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -12618,7 +12618,7 @@ export type InvoicePaymentAttemptProcessingInstalledMerchantsEvent = (Exclude<Pa
          * amount represented as integer minor units plus an ISO 4217 currency code. expires_at
          * (Optional): string. When a checkout attempt expires, matching its checkout session.
          * Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -12690,7 +12690,7 @@ export type InvoicePaymentAttemptProcessingInstalledMerchantsEvent = (Exclude<Pa
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
             "invoice_id": string;
             /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
@@ -13036,7 +13036,7 @@ export type InvoicePaymentAttemptProcessingMerchantEvent = (Exclude<MerchantWebh
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * object.expires_at (Optional): string. When a checkout attempt expires, matching its checkout
      * session. Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -13189,7 +13189,7 @@ export type InvoicePaymentAttemptProcessingMerchantEvent = (Exclude<MerchantWebh
          * amount represented as integer minor units plus an ISO 4217 currency code. expires_at
          * (Optional): string. When a checkout attempt expires, matching its checkout session.
          * Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -13261,7 +13261,7 @@ export type InvoicePaymentAttemptProcessingMerchantEvent = (Exclude<MerchantWebh
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
             "invoice_id": string;
             /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
@@ -13579,7 +13579,7 @@ export type InvoicePaymentAttemptSucceededEvent = ((((Exclude<MerchantWebhookEnv
             "checkout_session_id"?: string;
             "expected_amount_money": MoneyValue;
             "expires_at"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_payment_attempt_id": string;
             "invoice_schedule_entry_id"?: string;
@@ -13627,7 +13627,7 @@ export type InvoicePaymentAttemptSucceededEvent = ((((Exclude<MerchantWebhookEnv
             "checkout_session_id"?: string;
             "expected_amount_money": MoneyValue;
             "expires_at"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_payment_attempt_id": string;
             "invoice_schedule_entry_id"?: string;
@@ -13697,7 +13697,7 @@ export type InvoicePaymentAttemptSucceededInstalledMerchantsEvent = (Exclude<Par
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * object.expires_at (Optional): string. When a checkout attempt expires, matching its checkout
      * session. Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -13850,7 +13850,7 @@ export type InvoicePaymentAttemptSucceededInstalledMerchantsEvent = (Exclude<Par
          * amount represented as integer minor units plus an ISO 4217 currency code. expires_at
          * (Optional): string. When a checkout attempt expires, matching its checkout session.
          * Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -13922,7 +13922,7 @@ export type InvoicePaymentAttemptSucceededInstalledMerchantsEvent = (Exclude<Par
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
             "invoice_id": string;
             /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
@@ -14268,7 +14268,7 @@ export type InvoicePaymentAttemptSucceededMerchantEvent = (Exclude<MerchantWebho
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * object.expires_at (Optional): string. When a checkout attempt expires, matching its checkout
      * session. Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -14421,7 +14421,7 @@ export type InvoicePaymentAttemptSucceededMerchantEvent = (Exclude<MerchantWebho
          * amount represented as integer minor units plus an ISO 4217 currency code. expires_at
          * (Optional): string. When a checkout attempt expires, matching its checkout session.
          * Absent for automatic charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -14493,7 +14493,7 @@ export type InvoicePaymentAttemptSucceededMerchantEvent = (Exclude<MerchantWebho
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
             "invoice_id": string;
             /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */

@@ -18,19 +18,27 @@ import type {
     ResourceReference
 } from './types-62.js';
 import type {
-    ReturnDisposition,
     ReturnDispositionPreviousAttributes,
     ReturnFinancialSummary,
     ReturnFinancialSummaryPreviousAttributes,
     ReturnHandoffRequirement,
     ReturnHandoffRequirementPreviousAttributes,
-    ReturnInspection,
     ReturnInspectionPreviousAttributes,
-    ReturnLineItem,
     ReturnLineItemPreviousAttributes
 } from './types-63.js';
-import type { ReturnPolicyEvaluation, ReturnPolicyEvaluationPreviousAttributes, ReturnReceipt } from './types-64.js';
-import type { ReturnReceiptPreviousAttributes, ReturnResolution, ReturnResolutionPreviousAttributes } from './types-65.js';
+import type {
+    ReturnPolicyEvaluation,
+    ReturnPolicyEvaluationPreviousAttributes,
+    ReturnReceiptPreviousAttributes
+} from './types-64.js';
+import type { ReturnResolutionPreviousAttributes } from './types-65.js';
+import type {
+    WebhookSnapshotReturnDisposition,
+    WebhookSnapshotReturnInspection,
+    WebhookSnapshotReturnLineItem,
+    WebhookSnapshotReturnReceipt,
+    WebhookSnapshotReturnResolution
+} from './types-79.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelReturnLineItemRequestInput, CancelReturnRequestInput } from './types-5.js';
 import type { CompleteReturnRequestInput } from './types-7.js';
@@ -43,34 +51,11 @@ import type { ReopenReturnRequestInput } from './types-61.js';
 import type { UpdateReturnLineItemRequestInput, UpdateReturnRequestInput, UpdateRiskListRequestInput } from './types-77.js';
 import type { WaiveReturnLineInspectionRequestInput } from './types-78.js';
 import type {
-    RiskPredicateNodeIsMissing,
     RiskPredicateNodeMoneyComparison,
     RiskPredicateNodeNot,
     RiskPredicateNodeRequest,
     RiskPredicateNodeRequestInput
 } from './types-67.js';
-export type ReturnSourceSystemPreviousAttributes = ({
-    /**
-     * Your source system's identifier. Required when source_system_type is pos, wms, erp, or
-     * other; not allowed when source_system_type is manual. Don't put secrets in this field.
-     * anyOf[1] (Value): string. Your source system's identifier. Required when source_system_type
-     * is pos, wms, erp, or other; not allowed when source_system_type is manual. Don't put secrets
-     * in this field. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value):
-     * null.
-     */
-    "external_source_id"?: ((string) | (null));
-    /**
-     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
-     * management system, erp for an enterprise resource planning system, or other for another
-     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
-     * "wms", "erp", "other", "flint". anyOf[1] (Value): string. Source of the event: manual for a
-     * manual entry, pos for a point of sale, wms for a warehouse management system, erp for an
-     * enterprise resource planning system, or other for another external system. Flint-authored
-     * events use flint in responses. Value enum: "manual", "pos", "wms", "erp", "other", "flint".
-     * anyOf[2] (Value): null.
-     */
-    "source_system_type"?: (("manual" | "pos" | "wms" | "erp" | "other" | "flint" | (string & {})) | (null));
-});
 /**
  * The system a return event came from, such as a point of sale or warehouse system, with its own
  * identifier.
@@ -178,9 +163,9 @@ export type ReturnUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "external_reference_id"?: string;
             "financial_summary": ReturnFinancialSummary;
             "handoff_requirements": Array<ReturnHandoffRequirement>;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
-            "line_items": Array<ReturnLineItem>;
+            "line_items": Array<WebhookSnapshotReturnLineItem>;
             "merchandise_status": "not_required"
                 | "awaiting_handoff"
                 | "in_transit"
@@ -204,15 +189,15 @@ export type ReturnUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
                 | "failed"
                 | (string & {});
             "return_disposition_ids": Array<string>;
-            "return_dispositions"?: Array<ReturnDisposition>;
+            "return_dispositions"?: Array<WebhookSnapshotReturnDisposition>;
             "return_id": string;
             "return_inspection_ids": Array<string>;
-            "return_inspections"?: Array<ReturnInspection>;
+            "return_inspections"?: Array<WebhookSnapshotReturnInspection>;
             "return_number": string;
             "return_receipt_ids": Array<string>;
-            "return_receipts"?: Array<ReturnReceipt>;
+            "return_receipts"?: Array<WebhookSnapshotReturnReceipt>;
             "return_resolution_ids": Array<string>;
-            "return_resolutions"?: Array<ReturnResolution>;
+            "return_resolutions"?: Array<WebhookSnapshotReturnResolution>;
             "shipment_ids": Array<string>;
             "shipments"?: Array<ExpandedShipmentSummary>;
             "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
@@ -326,9 +311,9 @@ export type ReturnUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "external_reference_id"?: string;
             "financial_summary": ReturnFinancialSummary;
             "handoff_requirements": Array<ReturnHandoffRequirement>;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
-            "line_items": Array<ReturnLineItem>;
+            "line_items": Array<WebhookSnapshotReturnLineItem>;
             "merchandise_status": "not_required"
                 | "awaiting_handoff"
                 | "in_transit"
@@ -352,15 +337,15 @@ export type ReturnUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
                 | "failed"
                 | (string & {});
             "return_disposition_ids": Array<string>;
-            "return_dispositions"?: Array<ReturnDisposition>;
+            "return_dispositions"?: Array<WebhookSnapshotReturnDisposition>;
             "return_id": string;
             "return_inspection_ids": Array<string>;
-            "return_inspections"?: Array<ReturnInspection>;
+            "return_inspections"?: Array<WebhookSnapshotReturnInspection>;
             "return_number": string;
             "return_receipt_ids": Array<string>;
-            "return_receipts"?: Array<ReturnReceipt>;
+            "return_receipts"?: Array<WebhookSnapshotReturnReceipt>;
             "return_resolution_ids": Array<string>;
-            "return_resolutions"?: Array<ReturnResolution>;
+            "return_resolutions"?: Array<WebhookSnapshotReturnResolution>;
             "shipment_ids": Array<string>;
             "shipments"?: Array<ExpandedShipmentSummary>;
             "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
@@ -507,7 +492,7 @@ export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * buyer still has to send back and where. Each entry leaves the list once it is satisfied, so
      * an empty list means nothing is waiting on the buyer. object.handoff_requirements[] (Value):
      * {@link ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
-     * destination, instructions, line items, and expiry. object.idempotency_key (Required): string
+     * destination, instructions, line items, and expiry. object.idempotency_key (Optional): string
      * or null. The Idempotency-Key of the request that created this resource. `null` when that
      * request sent no key, Flint created the resource, the reader isn't the caller that created it
      * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
@@ -518,11 +503,11 @@ export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * created the Return: buyer for a customer session on /v1/me or Flint's hosted account,
      * merchant for a Dashboard user, integration for an API key or partner app, or system for
      * Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration",
-     * "system". object.line_items (Required): Array of {@link ReturnLineItem}. The lines being
-     * returned. object.line_items[] (Value): {@link ReturnLineItem}. An item included in a return
-     * request. object.merchandise_status (Required): string. On the Return, the least-finished
-     * line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
-     * "partially_received", "inspection_required", "partially_inspected",
+     * "system". object.line_items (Required): Array of {@link WebhookSnapshotReturnLineItem}. The
+     * lines being returned. object.line_items[] (Value): {@link WebhookSnapshotReturnLineItem}. An
+     * item included in a return request. object.merchandise_status (Required): string. On the
+     * Return, the least-finished line's value. Value enum: "not_required", "awaiting_handoff",
+     * "in_transit", "partially_received", "inspection_required", "partially_inspected",
      * "inspection_review_required", "disposition_required", "resolved", "exception".
      * object.metadata (Required): {@link MetadataMap}. Stored caller-owned key-value data. See
      * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
@@ -545,37 +530,37 @@ export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline.
      * object.return_disposition_ids[] (Value): string. Example:
      * "retdsp_01KEZF7C007H87J66PH2EEK1VW". object.return_dispositions (Optional): Array of {@link
-     * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
-     * dispositions in `return_disposition_ids`, in the same order. object.return_dispositions[]
-     * (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
-     * handled. object.return_id (Required): string. Unique identifier for this return, prefixed
-     * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_ids (Required):
-     * Array of string. IDs of every inspection recorded for this Return, oldest first, including
-     * superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
-     * them inline. object.return_inspection_ids[] (Value): string. Example:
-     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_inspections (Optional): Array of {@link
-     * ReturnInspection}. Present only when `expand` includes `return_inspections`. The inspections
-     * in `return_inspection_ids`, in the same order. object.return_inspections[] (Value): {@link
-     * ReturnInspection}. An assessment of the condition of returned items. object.return_number
-     * (Required): string. Human-readable number for the Return. object.return_receipt_ids
-     * (Required): Array of string. IDs of every receipt recorded for this Return, oldest first,
-     * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to
-     * read them inline. object.return_receipt_ids[] (Value): string. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.return_receipts (Optional): Array of {@link
-     * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in
-     * `return_receipt_ids`, in the same order. object.return_receipts[] (Value): {@link
-     * ReturnReceipt}. A record of returned items arriving at a location.
-     * object.return_resolution_ids (Required): Array of string. IDs of every resolution created
-     * for this Return, oldest first, including failed and canceled resolutions. Expand
-     * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
-     * object.return_resolution_ids[] (Value): string. Example:
+     * WebhookSnapshotReturnDisposition}. Present only when `expand` includes
+     * `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order.
+     * object.return_dispositions[] (Value): {@link WebhookSnapshotReturnDisposition}. A decision
+     * about how returned merchandise will be handled. object.return_id (Required): string. Unique
+     * identifier for this return, prefixed `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * object.return_inspection_ids (Required): Array of string. IDs of every inspection recorded
+     * for this Return, oldest first, including superseded inspections. Expand `return_inspections`
+     * on `GET /v1/returns/{return_id}` to read them inline. object.return_inspection_ids[]
+     * (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_inspections
+     * (Optional): Array of {@link WebhookSnapshotReturnInspection}. Present only when `expand`
+     * includes `return_inspections`. The inspections in `return_inspection_ids`, in the same
+     * order. object.return_inspections[] (Value): {@link WebhookSnapshotReturnInspection}. An
+     * assessment of the condition of returned items. object.return_number (Required): string.
+     * Human-readable number for the Return. object.return_receipt_ids (Required): Array of string.
+     * IDs of every receipt recorded for this Return, oldest first, including superseded receipts.
+     * Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * object.return_receipt_ids[] (Value): string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * object.return_receipts (Optional): Array of {@link WebhookSnapshotReturnReceipt}. Present
+     * only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the
+     * same order. object.return_receipts[] (Value): {@link WebhookSnapshotReturnReceipt}. A record
+     * of returned items arriving at a location. object.return_resolution_ids (Required): Array of
+     * string. IDs of every resolution created for this Return, oldest first, including failed and
+     * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read
+     * them inline. object.return_resolution_ids[] (Value): string. Example:
      * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.return_resolutions (Optional): Array of {@link
-     * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The resolutions
-     * in `return_resolution_ids`, in the same order. object.return_resolutions[] (Value): {@link
-     * ReturnResolution}. The refund, exchange, or other outcome of a return. object.shipment_ids
-     * (Required): Array of string. IDs of every shipment raised to send this Return's items back,
-     * oldest first, including voided shipments. Expand `shipments` on `GET
-     * /v1/returns/{return_id}` to read them inline. object.shipment_ids[] (Value): string.
+     * WebhookSnapshotReturnResolution}. Present only when `expand` includes `return_resolutions`.
+     * The resolutions in `return_resolution_ids`, in the same order. object.return_resolutions[]
+     * (Value): {@link WebhookSnapshotReturnResolution}. The refund, exchange, or other outcome of
+     * a return. object.shipment_ids (Required): Array of string. IDs of every shipment raised to
+     * send this Return's items back, oldest first, including voided shipments. Expand `shipments`
+     * on `GET /v1/returns/{return_id}` to read them inline. object.shipment_ids[] (Value): string.
      * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipments (Optional): Array of {@link
      * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of the
      * shipments in `shipment_ids`, in the same order. object.shipments[] (Value): {@link
@@ -923,7 +908,7 @@ export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * buyer still has to send back and where. Each entry leaves the list once it is satisfied,
          * so an empty list means nothing is waiting on the buyer. handoff_requirements[] (Value):
          * {@link ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
-         * destination, instructions, line items, and expiry. idempotency_key (Required): string or
+         * destination, instructions, line items, and expiry. idempotency_key (Optional): string or
          * null. The Idempotency-Key of the request that created this resource. `null` when that
          * request sent no key, Flint created the resource, the reader isn't the caller that
          * created it (another app install, a buyer, or the merchant reading an app's or buyer's
@@ -935,83 +920,86 @@ export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * Flint's hosted account, merchant for a Dashboard user, integration for an API key or
          * partner app, or system for Flint automation. It cannot be sent. Value enum: "buyer",
          * "merchant", "integration", "system". line_items (Required): Array of {@link
-         * ReturnLineItem}. The lines being returned. line_items[] (Value): {@link ReturnLineItem}.
-         * An item included in a return request. merchandise_status (Required): string. On the
-         * Return, the least-finished line's value. Value enum: "not_required", "awaiting_handoff",
-         * "in_transit", "partially_received", "inspection_required", "partially_inspected",
-         * "inspection_review_required", "disposition_required", "resolved", "exception". metadata
-         * (Required): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
-         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
-         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. order (Optional): {@link ExpandedOrderSummary} or null. Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-         * including status, payment and refund status, and pricing and settlement amounts,
-         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string. ID of the Order the Return is against. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". policy_evaluation (Optional): {@link
-         * ReturnPolicyEvaluation}. How your return policies judged the request when the Return was
-         * created. How a return policy evaluated a return request: overall status and reason, the
-         * policy revision used, and per-line results. resolution_status (Required): string.
-         * Whether the buyer has received the value they are owed. Combines the Return's
-         * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
-         * "partially_completed", "requires_action", "completed", "failed". return_disposition_ids
-         * (Required): Array of string. IDs of every disposition recorded for this Return, oldest
-         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
-         * /v1/returns/{return_id}` to read them inline. return_disposition_ids[] (Value): string.
-         * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_dispositions (Optional): Array of
-         * {@link ReturnDisposition}. Present only when `expand` includes `return_dispositions`.
-         * The dispositions in `return_disposition_ids`, in the same order. return_dispositions[]
-         * (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
+         * WebhookSnapshotReturnLineItem}. The lines being returned. line_items[] (Value): {@link
+         * WebhookSnapshotReturnLineItem}. An item included in a return request. merchandise_status
+         * (Required): string. On the Return, the least-finished line's value. Value enum:
+         * "not_required", "awaiting_handoff", "in_transit", "partially_received",
+         * "inspection_required", "partially_inspected", "inspection_review_required",
+         * "disposition_required", "resolved", "exception". metadata (Required): {@link
+         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
+         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+         * them. order (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[2] (Value): null. order_id (Required): string. ID of the Order
+         * the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". policy_evaluation
+         * (Optional): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+         * when the Return was created. How a return policy evaluated a return request: overall
+         * status and reason, the policy revision used, and per-line results. resolution_status
+         * (Required): string. Whether the buyer has received the value they are owed. Combines the
+         * Return's resolutions and its unsettled corrections. Value enum: "not_selected",
+         * "pending", "partially_completed", "requires_action", "completed", "failed".
+         * return_disposition_ids (Required): Array of string. IDs of every disposition recorded
+         * for this Return, oldest first, including failed and canceled dispositions. Expand
+         * `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_disposition_ids[] (Value): string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+         * return_dispositions (Optional): Array of {@link WebhookSnapshotReturnDisposition}.
+         * Present only when `expand` includes `return_dispositions`. The dispositions in
+         * `return_disposition_ids`, in the same order. return_dispositions[] (Value): {@link
+         * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
          * handled. return_id (Required): string. Unique identifier for this return, prefixed
          * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_ids (Required):
          * Array of string. IDs of every inspection recorded for this Return, oldest first,
          * including superseded inspections. Expand `return_inspections` on `GET
          * /v1/returns/{return_id}` to read them inline. return_inspection_ids[] (Value): string.
          * Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspections (Optional): Array of
-         * {@link ReturnInspection}. Present only when `expand` includes `return_inspections`. The
-         * inspections in `return_inspection_ids`, in the same order. return_inspections[] (Value):
-         * {@link ReturnInspection}. An assessment of the condition of returned items.
-         * return_number (Required): string. Human-readable number for the Return.
-         * return_receipt_ids (Required): Array of string. IDs of every receipt recorded for this
-         * Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET
-         * /v1/returns/{return_id}` to read them inline. return_receipt_ids[] (Value): string.
-         * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipts (Optional): Array of {@link
-         * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in
-         * `return_receipt_ids`, in the same order. return_receipts[] (Value): {@link
-         * ReturnReceipt}. A record of returned items arriving at a location. return_resolution_ids
-         * (Required): Array of string. IDs of every resolution created for this Return, oldest
-         * first, including failed and canceled resolutions. Expand `return_resolutions` on `GET
-         * /v1/returns/{return_id}` to read them inline. return_resolution_ids[] (Value): string.
-         * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolutions (Optional): Array of
-         * {@link ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
-         * resolutions in `return_resolution_ids`, in the same order. return_resolutions[] (Value):
-         * {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
-         * shipment_ids (Required): Array of string. IDs of every shipment raised to send this
-         * Return's items back, oldest first, including voided shipments. Expand `shipments` on
-         * `GET /v1/returns/{return_id}` to read them inline. shipment_ids[] (Value): string.
-         * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipments (Optional): Array of {@link
-         * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of
-         * the shipments in `shipment_ids`, in the same order. shipments[] (Value): {@link
-         * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
-         * package count, returned when the shipment is expanded. status (Required): string. Where
-         * the whole Return stands. Read `decision_status`, `merchandise_status`, and
-         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
-         * "declined", "canceled". supported_actions (Required): Array of string. Actions that can
-         * succeed now. Actions the API key or token doesn't have the scope for are left out. A
-         * Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel`
-         * only while no units have been received, inspected, dispositioned, or resolved, and it
-         * has no current receipts or inspections, non-canceled dispositions or resolutions, or
-         * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
-         * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or
-         * canceled Return lists none. [] enum: "cancel", "complete", "decide", "process",
-         * "reopen". supported_actions[] (Value): string. Value enum: "cancel", "complete",
-         * "decide", "process", "reopen". updated_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Goes up with
-         * every change to the Return. Each activity's `return_version` is the version that
-         * activity produced. A write that takes `expected_version` or `expected_return_version`
-         * for this Return compares it with this value. Format: int64. minimum: 0.
+         * {@link WebhookSnapshotReturnInspection}. Present only when `expand` includes
+         * `return_inspections`. The inspections in `return_inspection_ids`, in the same order.
+         * return_inspections[] (Value): {@link WebhookSnapshotReturnInspection}. An assessment of
+         * the condition of returned items. return_number (Required): string. Human-readable number
+         * for the Return. return_receipt_ids (Required): Array of string. IDs of every receipt
+         * recorded for this Return, oldest first, including superseded receipts. Expand
+         * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_receipt_ids[] (Value): string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+         * return_receipts (Optional): Array of {@link WebhookSnapshotReturnReceipt}. Present only
+         * when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the
+         * same order. return_receipts[] (Value): {@link WebhookSnapshotReturnReceipt}. A record of
+         * returned items arriving at a location. return_resolution_ids (Required): Array of
+         * string. IDs of every resolution created for this Return, oldest first, including failed
+         * and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+         * to read them inline. return_resolution_ids[] (Value): string. Example:
+         * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolutions (Optional): Array of {@link
+         * WebhookSnapshotReturnResolution}. Present only when `expand` includes
+         * `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order.
+         * return_resolutions[] (Value): {@link WebhookSnapshotReturnResolution}. The refund,
+         * exchange, or other outcome of a return. shipment_ids (Required): Array of string. IDs of
+         * every shipment raised to send this Return's items back, oldest first, including voided
+         * shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+         * shipment_ids[] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipments
+         * (Optional): Array of {@link ExpandedShipmentSummary}. Present only when `expand`
+         * includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+         * shipments[] (Value): {@link ExpandedShipmentSummary}. A shipment's summary fields,
+         * including direction, status, and package count, returned when the shipment is expanded.
+         * status (Required): string. Where the whole Return stands. Read `decision_status`,
+         * `merchandise_status`, and `resolution_status` for the part you need. Value enum:
+         * "requested", "open", "completed", "declined", "canceled". supported_actions (Required):
+         * Array of string. Actions that can succeed now. Actions the API key or token doesn't have
+         * the scope for are left out. A Return waiting for a decision lists `decide` and `cancel`.
+         * An open Return lists `cancel` only while no units have been received, inspected,
+         * dispositioned, or resolved, and it has no current receipts or inspections, non-canceled
+         * dispositions or resolutions, or non-voided return shipments. It lists `complete` when
+         * `completion_mode` is `manual` and `completion_blockers` is empty. A completed Return
+         * lists `reopen`. A declined or canceled Return lists none. [] enum: "cancel", "complete",
+         * "decide", "process", "reopen". supported_actions[] (Value): string. Value enum:
+         * "cancel", "complete", "decide", "process", "reopen". updated_at (Required): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Goes up with every change to the Return. Each activity's
+         * `return_version` is the version that activity produced. A write that takes
+         * `expected_version` or `expected_return_version` for this Return compares it with this
+         * value. Format: int64. minimum: 0.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -1107,7 +1095,7 @@ export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * as `null`, read the resource. Buyer routes return only keys from the buyer's
              * namespace.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Who created the Return: buyer for a customer session on /v1/me or Flint's hosted
              * account, merchant for a Dashboard user, integration for an API key or partner app,
@@ -1116,10 +1104,10 @@ export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              */
             "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
             /**
-             * The lines being returned. [] (Value): {@link ReturnLineItem}. An item included in a
-             * return request.
+             * The lines being returned. [] (Value): {@link WebhookSnapshotReturnLineItem}. An item
+             * included in a return request.
              */
-            "line_items": Array<ReturnLineItem>;
+            "line_items": Array<WebhookSnapshotReturnLineItem>;
             /**
              * On the Return, the least-finished line's value. Value enum: "not_required",
              * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
@@ -1181,10 +1169,11 @@ export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
             "return_disposition_ids": Array<string>;
             /**
              * Present only when `expand` includes `return_dispositions`. The dispositions in
-             * `return_disposition_ids`, in the same order. [] (Value): {@link ReturnDisposition}.
-             * A decision about how returned merchandise will be handled.
+             * `return_disposition_ids`, in the same order. [] (Value): {@link
+             * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+             * handled.
              */
-            "return_dispositions"?: Array<ReturnDisposition>;
+            "return_dispositions"?: Array<WebhookSnapshotReturnDisposition>;
             /**
              * Unique identifier for this return, prefixed `ret_`. Example:
              * "ret_01KEZF7C00PG93650ZKVQNGF7X".
@@ -1198,10 +1187,10 @@ export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
             "return_inspection_ids": Array<string>;
             /**
              * Present only when `expand` includes `return_inspections`. The inspections in
-             * `return_inspection_ids`, in the same order. [] (Value): {@link ReturnInspection}. An
-             * assessment of the condition of returned items.
+             * `return_inspection_ids`, in the same order. [] (Value): {@link
+             * WebhookSnapshotReturnInspection}. An assessment of the condition of returned items.
              */
-            "return_inspections"?: Array<ReturnInspection>;
+            "return_inspections"?: Array<WebhookSnapshotReturnInspection>;
             /** Human-readable number for the Return. */
             "return_number": string;
             /**
@@ -1212,10 +1201,10 @@ export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
             "return_receipt_ids": Array<string>;
             /**
              * Present only when `expand` includes `return_receipts`. The receipts in
-             * `return_receipt_ids`, in the same order. [] (Value): {@link ReturnReceipt}. A record
-             * of returned items arriving at a location.
+             * `return_receipt_ids`, in the same order. [] (Value): {@link
+             * WebhookSnapshotReturnReceipt}. A record of returned items arriving at a location.
              */
-            "return_receipts"?: Array<ReturnReceipt>;
+            "return_receipts"?: Array<WebhookSnapshotReturnReceipt>;
             /**
              * IDs of every resolution created for this Return, oldest first, including failed and
              * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
@@ -1225,10 +1214,11 @@ export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
             "return_resolution_ids": Array<string>;
             /**
              * Present only when `expand` includes `return_resolutions`. The resolutions in
-             * `return_resolution_ids`, in the same order. [] (Value): {@link ReturnResolution}.
-             * The refund, exchange, or other outcome of a return.
+             * `return_resolution_ids`, in the same order. [] (Value): {@link
+             * WebhookSnapshotReturnResolution}. The refund, exchange, or other outcome of a
+             * return.
              */
-            "return_resolutions"?: Array<ReturnResolution>;
+            "return_resolutions"?: Array<WebhookSnapshotReturnResolution>;
             /**
              * IDs of every shipment raised to send this Return's items back, oldest first,
              * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
@@ -1971,7 +1961,7 @@ export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * buyer still has to send back and where. Each entry leaves the list once it is satisfied, so
      * an empty list means nothing is waiting on the buyer. object.handoff_requirements[] (Value):
      * {@link ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
-     * destination, instructions, line items, and expiry. object.idempotency_key (Required): string
+     * destination, instructions, line items, and expiry. object.idempotency_key (Optional): string
      * or null. The Idempotency-Key of the request that created this resource. `null` when that
      * request sent no key, Flint created the resource, the reader isn't the caller that created it
      * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
@@ -1982,11 +1972,11 @@ export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * created the Return: buyer for a customer session on /v1/me or Flint's hosted account,
      * merchant for a Dashboard user, integration for an API key or partner app, or system for
      * Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration",
-     * "system". object.line_items (Required): Array of {@link ReturnLineItem}. The lines being
-     * returned. object.line_items[] (Value): {@link ReturnLineItem}. An item included in a return
-     * request. object.merchandise_status (Required): string. On the Return, the least-finished
-     * line's value. Value enum: "not_required", "awaiting_handoff", "in_transit",
-     * "partially_received", "inspection_required", "partially_inspected",
+     * "system". object.line_items (Required): Array of {@link WebhookSnapshotReturnLineItem}. The
+     * lines being returned. object.line_items[] (Value): {@link WebhookSnapshotReturnLineItem}. An
+     * item included in a return request. object.merchandise_status (Required): string. On the
+     * Return, the least-finished line's value. Value enum: "not_required", "awaiting_handoff",
+     * "in_transit", "partially_received", "inspection_required", "partially_inspected",
      * "inspection_review_required", "disposition_required", "resolved", "exception".
      * object.metadata (Required): {@link MetadataMap}. Stored caller-owned key-value data. See
      * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
@@ -2009,37 +1999,37 @@ export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline.
      * object.return_disposition_ids[] (Value): string. Example:
      * "retdsp_01KEZF7C007H87J66PH2EEK1VW". object.return_dispositions (Optional): Array of {@link
-     * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
-     * dispositions in `return_disposition_ids`, in the same order. object.return_dispositions[]
-     * (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
-     * handled. object.return_id (Required): string. Unique identifier for this return, prefixed
-     * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_ids (Required):
-     * Array of string. IDs of every inspection recorded for this Return, oldest first, including
-     * superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
-     * them inline. object.return_inspection_ids[] (Value): string. Example:
-     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_inspections (Optional): Array of {@link
-     * ReturnInspection}. Present only when `expand` includes `return_inspections`. The inspections
-     * in `return_inspection_ids`, in the same order. object.return_inspections[] (Value): {@link
-     * ReturnInspection}. An assessment of the condition of returned items. object.return_number
-     * (Required): string. Human-readable number for the Return. object.return_receipt_ids
-     * (Required): Array of string. IDs of every receipt recorded for this Return, oldest first,
-     * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to
-     * read them inline. object.return_receipt_ids[] (Value): string. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.return_receipts (Optional): Array of {@link
-     * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in
-     * `return_receipt_ids`, in the same order. object.return_receipts[] (Value): {@link
-     * ReturnReceipt}. A record of returned items arriving at a location.
-     * object.return_resolution_ids (Required): Array of string. IDs of every resolution created
-     * for this Return, oldest first, including failed and canceled resolutions. Expand
-     * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
-     * object.return_resolution_ids[] (Value): string. Example:
+     * WebhookSnapshotReturnDisposition}. Present only when `expand` includes
+     * `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order.
+     * object.return_dispositions[] (Value): {@link WebhookSnapshotReturnDisposition}. A decision
+     * about how returned merchandise will be handled. object.return_id (Required): string. Unique
+     * identifier for this return, prefixed `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * object.return_inspection_ids (Required): Array of string. IDs of every inspection recorded
+     * for this Return, oldest first, including superseded inspections. Expand `return_inspections`
+     * on `GET /v1/returns/{return_id}` to read them inline. object.return_inspection_ids[]
+     * (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_inspections
+     * (Optional): Array of {@link WebhookSnapshotReturnInspection}. Present only when `expand`
+     * includes `return_inspections`. The inspections in `return_inspection_ids`, in the same
+     * order. object.return_inspections[] (Value): {@link WebhookSnapshotReturnInspection}. An
+     * assessment of the condition of returned items. object.return_number (Required): string.
+     * Human-readable number for the Return. object.return_receipt_ids (Required): Array of string.
+     * IDs of every receipt recorded for this Return, oldest first, including superseded receipts.
+     * Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+     * object.return_receipt_ids[] (Value): string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * object.return_receipts (Optional): Array of {@link WebhookSnapshotReturnReceipt}. Present
+     * only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the
+     * same order. object.return_receipts[] (Value): {@link WebhookSnapshotReturnReceipt}. A record
+     * of returned items arriving at a location. object.return_resolution_ids (Required): Array of
+     * string. IDs of every resolution created for this Return, oldest first, including failed and
+     * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read
+     * them inline. object.return_resolution_ids[] (Value): string. Example:
      * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.return_resolutions (Optional): Array of {@link
-     * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The resolutions
-     * in `return_resolution_ids`, in the same order. object.return_resolutions[] (Value): {@link
-     * ReturnResolution}. The refund, exchange, or other outcome of a return. object.shipment_ids
-     * (Required): Array of string. IDs of every shipment raised to send this Return's items back,
-     * oldest first, including voided shipments. Expand `shipments` on `GET
-     * /v1/returns/{return_id}` to read them inline. object.shipment_ids[] (Value): string.
+     * WebhookSnapshotReturnResolution}. Present only when `expand` includes `return_resolutions`.
+     * The resolutions in `return_resolution_ids`, in the same order. object.return_resolutions[]
+     * (Value): {@link WebhookSnapshotReturnResolution}. The refund, exchange, or other outcome of
+     * a return. object.shipment_ids (Required): Array of string. IDs of every shipment raised to
+     * send this Return's items back, oldest first, including voided shipments. Expand `shipments`
+     * on `GET /v1/returns/{return_id}` to read them inline. object.shipment_ids[] (Value): string.
      * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipments (Optional): Array of {@link
      * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of the
      * shipments in `shipment_ids`, in the same order. object.shipments[] (Value): {@link
@@ -2387,7 +2377,7 @@ export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * buyer still has to send back and where. Each entry leaves the list once it is satisfied,
          * so an empty list means nothing is waiting on the buyer. handoff_requirements[] (Value):
          * {@link ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the
-         * destination, instructions, line items, and expiry. idempotency_key (Required): string or
+         * destination, instructions, line items, and expiry. idempotency_key (Optional): string or
          * null. The Idempotency-Key of the request that created this resource. `null` when that
          * request sent no key, Flint created the resource, the reader isn't the caller that
          * created it (another app install, a buyer, or the merchant reading an app's or buyer's
@@ -2399,83 +2389,86 @@ export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * Flint's hosted account, merchant for a Dashboard user, integration for an API key or
          * partner app, or system for Flint automation. It cannot be sent. Value enum: "buyer",
          * "merchant", "integration", "system". line_items (Required): Array of {@link
-         * ReturnLineItem}. The lines being returned. line_items[] (Value): {@link ReturnLineItem}.
-         * An item included in a return request. merchandise_status (Required): string. On the
-         * Return, the least-finished line's value. Value enum: "not_required", "awaiting_handoff",
-         * "in_transit", "partially_received", "inspection_required", "partially_inspected",
-         * "inspection_review_required", "disposition_required", "resolved", "exception". metadata
-         * (Required): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
-         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
-         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. order (Optional): {@link ExpandedOrderSummary} or null. Present only when
-         * `expand` includes `order`; `null` when expanded and there is no related order.
-         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-         * including status, payment and refund status, and pricing and settlement amounts,
-         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string. ID of the Order the Return is against. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". policy_evaluation (Optional): {@link
-         * ReturnPolicyEvaluation}. How your return policies judged the request when the Return was
-         * created. How a return policy evaluated a return request: overall status and reason, the
-         * policy revision used, and per-line results. resolution_status (Required): string.
-         * Whether the buyer has received the value they are owed. Combines the Return's
-         * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
-         * "partially_completed", "requires_action", "completed", "failed". return_disposition_ids
-         * (Required): Array of string. IDs of every disposition recorded for this Return, oldest
-         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
-         * /v1/returns/{return_id}` to read them inline. return_disposition_ids[] (Value): string.
-         * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_dispositions (Optional): Array of
-         * {@link ReturnDisposition}. Present only when `expand` includes `return_dispositions`.
-         * The dispositions in `return_disposition_ids`, in the same order. return_dispositions[]
-         * (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
+         * WebhookSnapshotReturnLineItem}. The lines being returned. line_items[] (Value): {@link
+         * WebhookSnapshotReturnLineItem}. An item included in a return request. merchandise_status
+         * (Required): string. On the Return, the least-finished line's value. Value enum:
+         * "not_required", "awaiting_handoff", "in_transit", "partially_received",
+         * "inspection_required", "partially_inspected", "inspection_review_required",
+         * "disposition_required", "resolved", "exception". metadata (Required): {@link
+         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
+         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+         * them. order (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand`
+         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
+         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
+         * payment and refund status, and pricing and settlement amounts, returned when the order
+         * is expanded. order.anyOf[2] (Value): null. order_id (Required): string. ID of the Order
+         * the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". policy_evaluation
+         * (Optional): {@link ReturnPolicyEvaluation}. How your return policies judged the request
+         * when the Return was created. How a return policy evaluated a return request: overall
+         * status and reason, the policy revision used, and per-line results. resolution_status
+         * (Required): string. Whether the buyer has received the value they are owed. Combines the
+         * Return's resolutions and its unsettled corrections. Value enum: "not_selected",
+         * "pending", "partially_completed", "requires_action", "completed", "failed".
+         * return_disposition_ids (Required): Array of string. IDs of every disposition recorded
+         * for this Return, oldest first, including failed and canceled dispositions. Expand
+         * `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_disposition_ids[] (Value): string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+         * return_dispositions (Optional): Array of {@link WebhookSnapshotReturnDisposition}.
+         * Present only when `expand` includes `return_dispositions`. The dispositions in
+         * `return_disposition_ids`, in the same order. return_dispositions[] (Value): {@link
+         * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
          * handled. return_id (Required): string. Unique identifier for this return, prefixed
          * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_ids (Required):
          * Array of string. IDs of every inspection recorded for this Return, oldest first,
          * including superseded inspections. Expand `return_inspections` on `GET
          * /v1/returns/{return_id}` to read them inline. return_inspection_ids[] (Value): string.
          * Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspections (Optional): Array of
-         * {@link ReturnInspection}. Present only when `expand` includes `return_inspections`. The
-         * inspections in `return_inspection_ids`, in the same order. return_inspections[] (Value):
-         * {@link ReturnInspection}. An assessment of the condition of returned items.
-         * return_number (Required): string. Human-readable number for the Return.
-         * return_receipt_ids (Required): Array of string. IDs of every receipt recorded for this
-         * Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET
-         * /v1/returns/{return_id}` to read them inline. return_receipt_ids[] (Value): string.
-         * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipts (Optional): Array of {@link
-         * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in
-         * `return_receipt_ids`, in the same order. return_receipts[] (Value): {@link
-         * ReturnReceipt}. A record of returned items arriving at a location. return_resolution_ids
-         * (Required): Array of string. IDs of every resolution created for this Return, oldest
-         * first, including failed and canceled resolutions. Expand `return_resolutions` on `GET
-         * /v1/returns/{return_id}` to read them inline. return_resolution_ids[] (Value): string.
-         * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolutions (Optional): Array of
-         * {@link ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
-         * resolutions in `return_resolution_ids`, in the same order. return_resolutions[] (Value):
-         * {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
-         * shipment_ids (Required): Array of string. IDs of every shipment raised to send this
-         * Return's items back, oldest first, including voided shipments. Expand `shipments` on
-         * `GET /v1/returns/{return_id}` to read them inline. shipment_ids[] (Value): string.
-         * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipments (Optional): Array of {@link
-         * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of
-         * the shipments in `shipment_ids`, in the same order. shipments[] (Value): {@link
-         * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
-         * package count, returned when the shipment is expanded. status (Required): string. Where
-         * the whole Return stands. Read `decision_status`, `merchandise_status`, and
-         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
-         * "declined", "canceled". supported_actions (Required): Array of string. Actions that can
-         * succeed now. Actions the API key or token doesn't have the scope for are left out. A
-         * Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel`
-         * only while no units have been received, inspected, dispositioned, or resolved, and it
-         * has no current receipts or inspections, non-canceled dispositions or resolutions, or
-         * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
-         * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or
-         * canceled Return lists none. [] enum: "cancel", "complete", "decide", "process",
-         * "reopen". supported_actions[] (Value): string. Value enum: "cancel", "complete",
-         * "decide", "process", "reopen". updated_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer. Goes up with
-         * every change to the Return. Each activity's `return_version` is the version that
-         * activity produced. A write that takes `expected_version` or `expected_return_version`
-         * for this Return compares it with this value. Format: int64. minimum: 0.
+         * {@link WebhookSnapshotReturnInspection}. Present only when `expand` includes
+         * `return_inspections`. The inspections in `return_inspection_ids`, in the same order.
+         * return_inspections[] (Value): {@link WebhookSnapshotReturnInspection}. An assessment of
+         * the condition of returned items. return_number (Required): string. Human-readable number
+         * for the Return. return_receipt_ids (Required): Array of string. IDs of every receipt
+         * recorded for this Return, oldest first, including superseded receipts. Expand
+         * `return_receipts` on `GET /v1/returns/{return_id}` to read them inline.
+         * return_receipt_ids[] (Value): string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+         * return_receipts (Optional): Array of {@link WebhookSnapshotReturnReceipt}. Present only
+         * when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the
+         * same order. return_receipts[] (Value): {@link WebhookSnapshotReturnReceipt}. A record of
+         * returned items arriving at a location. return_resolution_ids (Required): Array of
+         * string. IDs of every resolution created for this Return, oldest first, including failed
+         * and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+         * to read them inline. return_resolution_ids[] (Value): string. Example:
+         * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolutions (Optional): Array of {@link
+         * WebhookSnapshotReturnResolution}. Present only when `expand` includes
+         * `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order.
+         * return_resolutions[] (Value): {@link WebhookSnapshotReturnResolution}. The refund,
+         * exchange, or other outcome of a return. shipment_ids (Required): Array of string. IDs of
+         * every shipment raised to send this Return's items back, oldest first, including voided
+         * shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+         * shipment_ids[] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipments
+         * (Optional): Array of {@link ExpandedShipmentSummary}. Present only when `expand`
+         * includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order.
+         * shipments[] (Value): {@link ExpandedShipmentSummary}. A shipment's summary fields,
+         * including direction, status, and package count, returned when the shipment is expanded.
+         * status (Required): string. Where the whole Return stands. Read `decision_status`,
+         * `merchandise_status`, and `resolution_status` for the part you need. Value enum:
+         * "requested", "open", "completed", "declined", "canceled". supported_actions (Required):
+         * Array of string. Actions that can succeed now. Actions the API key or token doesn't have
+         * the scope for are left out. A Return waiting for a decision lists `decide` and `cancel`.
+         * An open Return lists `cancel` only while no units have been received, inspected,
+         * dispositioned, or resolved, and it has no current receipts or inspections, non-canceled
+         * dispositions or resolutions, or non-voided return shipments. It lists `complete` when
+         * `completion_mode` is `manual` and `completion_blockers` is empty. A completed Return
+         * lists `reopen`. A declined or canceled Return lists none. [] enum: "cancel", "complete",
+         * "decide", "process", "reopen". supported_actions[] (Value): string. Value enum:
+         * "cancel", "complete", "decide", "process", "reopen". updated_at (Required): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Goes up with every change to the Return. Each activity's
+         * `return_version` is the version that activity produced. A write that takes
+         * `expected_version` or `expected_return_version` for this Return compares it with this
+         * value. Format: int64. minimum: 0.
          */
         "object": {
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -2571,7 +2564,7 @@ export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * as `null`, read the resource. Buyer routes return only keys from the buyer's
              * namespace.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Who created the Return: buyer for a customer session on /v1/me or Flint's hosted
              * account, merchant for a Dashboard user, integration for an API key or partner app,
@@ -2580,10 +2573,10 @@ export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              */
             "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
             /**
-             * The lines being returned. [] (Value): {@link ReturnLineItem}. An item included in a
-             * return request.
+             * The lines being returned. [] (Value): {@link WebhookSnapshotReturnLineItem}. An item
+             * included in a return request.
              */
-            "line_items": Array<ReturnLineItem>;
+            "line_items": Array<WebhookSnapshotReturnLineItem>;
             /**
              * On the Return, the least-finished line's value. Value enum: "not_required",
              * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
@@ -2645,10 +2638,11 @@ export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
             "return_disposition_ids": Array<string>;
             /**
              * Present only when `expand` includes `return_dispositions`. The dispositions in
-             * `return_disposition_ids`, in the same order. [] (Value): {@link ReturnDisposition}.
-             * A decision about how returned merchandise will be handled.
+             * `return_disposition_ids`, in the same order. [] (Value): {@link
+             * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+             * handled.
              */
-            "return_dispositions"?: Array<ReturnDisposition>;
+            "return_dispositions"?: Array<WebhookSnapshotReturnDisposition>;
             /**
              * Unique identifier for this return, prefixed `ret_`. Example:
              * "ret_01KEZF7C00PG93650ZKVQNGF7X".
@@ -2662,10 +2656,10 @@ export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
             "return_inspection_ids": Array<string>;
             /**
              * Present only when `expand` includes `return_inspections`. The inspections in
-             * `return_inspection_ids`, in the same order. [] (Value): {@link ReturnInspection}. An
-             * assessment of the condition of returned items.
+             * `return_inspection_ids`, in the same order. [] (Value): {@link
+             * WebhookSnapshotReturnInspection}. An assessment of the condition of returned items.
              */
-            "return_inspections"?: Array<ReturnInspection>;
+            "return_inspections"?: Array<WebhookSnapshotReturnInspection>;
             /** Human-readable number for the Return. */
             "return_number": string;
             /**
@@ -2676,10 +2670,10 @@ export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
             "return_receipt_ids": Array<string>;
             /**
              * Present only when `expand` includes `return_receipts`. The receipts in
-             * `return_receipt_ids`, in the same order. [] (Value): {@link ReturnReceipt}. A record
-             * of returned items arriving at a location.
+             * `return_receipt_ids`, in the same order. [] (Value): {@link
+             * WebhookSnapshotReturnReceipt}. A record of returned items arriving at a location.
              */
-            "return_receipts"?: Array<ReturnReceipt>;
+            "return_receipts"?: Array<WebhookSnapshotReturnReceipt>;
             /**
              * IDs of every resolution created for this Return, oldest first, including failed and
              * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
@@ -2689,10 +2683,11 @@ export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
             "return_resolution_ids": Array<string>;
             /**
              * Present only when `expand` includes `return_resolutions`. The resolutions in
-             * `return_resolution_ids`, in the same order. [] (Value): {@link ReturnResolution}.
-             * The refund, exchange, or other outcome of a return.
+             * `return_resolution_ids`, in the same order. [] (Value): {@link
+             * WebhookSnapshotReturnResolution}. The refund, exchange, or other outcome of a
+             * return.
              */
-            "return_resolutions"?: Array<ReturnResolution>;
+            "return_resolutions"?: Array<WebhookSnapshotReturnResolution>;
             /**
              * IDs of every shipment raised to send this Return's items back, oldest first,
              * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
@@ -4680,4 +4675,14 @@ export type RiskPredicateNodeInRequestInput = {
      * string. minLength: 1. [].oneOf[2] (Value): integer. [].oneOf[3] (Value): boolean.
      */
     "values": Array<((string) | (number) | (boolean))>;
+};
+/** The `Is missing` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeIsMissing = {
+    /**
+     * The payment attribute to test. Read the attribute registry for the names a rule can use.
+     * minLength: 1. maxLength: 280.
+     */
+    "attribute": string;
+    /** How the attribute is compared. Value enum: "is_missing". */
+    "operator": "is_missing" | (string & {});
 };

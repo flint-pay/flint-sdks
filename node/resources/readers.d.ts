@@ -10,11 +10,12 @@ import type {
     ReadersCreateParams,
     ReadersDeleteParams,
     ReadersGetParams,
-    ReadersListParams
+    ReadersListParams,
+    ReadersSimulateParams
 } from '../declarations/types-59.js';
-import type { ReadersSimulateParams, ReadersUpdateParams } from '../declarations/types-60.js';
+import type { ReadersUpdateParams } from '../declarations/types-60.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -40,13 +41,14 @@ export type {
     ReadersGetParams,
     ReadersListParams,
     ReaderListResponse,
+    ReadersSimulateParams,
     ReaderConnectivity,
     ReaderConnectionSessionClientSession,
     ReaderConnectionSessionStripe
 } from '../declarations/types-59.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
-export type { ReadersSimulateParams, ReadersUpdateParams, ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { ReadersUpdateParams, ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateReaderRequestInput } from '../declarations/types-12.js';
 export type { CreateSmartReaderRequestInput, CreateTapToPayReaderRequestInput, Credentials } from '../declarations/types-14.js';

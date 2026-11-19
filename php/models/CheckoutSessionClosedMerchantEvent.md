@@ -40,7 +40,7 @@ Field definitions: [shared fields](CheckoutSessionClosedMerchantEventData.md#che
 
 ### CheckoutSessionClosedMerchantEvent.data fields 1.object.active_payment_attempt
 
-Field definitions: [CheckoutSessionResponse.data.active_payment_attempt](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataactive_payment_attempt).
+Field definitions: [CheckoutSessionClosedMerchantEventDataObject.active_payment_attempt](../models/CheckoutSessionClosedMerchantEventDataObject.md#checkoutsessionclosedmerchanteventdataobjectactive_payment_attempt).
 
 ### CheckoutSessionClosedMerchantEvent.data fields 1.object.buyer_contact
 

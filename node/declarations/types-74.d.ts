@@ -1,3 +1,10 @@
+import type { InputValue } from '../runtime.js';
+import type { ConnectTaxConnectionRequestInput } from './types-8.js';
+import type { CreateTaxRegistrationRequestInput, CreateTestClockRequestInput } from './types-14.js';
+import type { DisconnectTaxConnectionRequestInput } from './types-25.js';
+import type { ResponseMeta } from './types-62.js';
+import type { TaxConnection } from './types-73.js';
+import type { UpdateTaxRegistrationRequestInput } from './types-78.js';
 import type {
     Address,
     AddressPreviousAttributes,
@@ -5,117 +12,10 @@ import type {
     AddressRequestInput,
     AdvanceTestClockRequestInput
 } from './types-0.js';
-import type { InputValue } from '../runtime.js';
-import type { ConnectTaxConnectionRequestInput } from './types-8.js';
-import type { CreateTaxRegistrationRequestInput, CreateTestClockRequestInput } from './types-14.js';
-import type { DisconnectTaxConnectionRequestInput } from './types-25.js';
-import type { ResponseMeta } from './types-62.js';
-import type { UpdateTaxRegistrationRequestInput } from './types-78.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { DocumentTaxID, DocumentTaxIDRequestInput, DocumentTaxIDPreviousAttributes } from './types-26.js';
 import type { CustomerTaxID, CustomerTaxIDPreviousAttributes } from './types-17.js';
-/**
- * The environment's automatic sales tax connection. Before a record exists, identity, version and
- * timestamps are omitted. Read-time business-detail changes and provider pauses do not advance
- * version or send webhooks. Status_reason and supported_actions can also change with the clock as
- * registrations end, without a version change or webhook.
- */
-export type TaxConnection = {
-    /**
-     * Current automatic-tax coverage, independent of the seller's registrations. Sorted by
-     * country. Unsupported countries or categories require external tax. [] (Value): {@link
-     * TaxCountryCoverage}. A country and the categories automatic tax can calculate there.
-     */
-    "coverage": Array<TaxCountryCoverage>;
-    /**
-     * When the connection record was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "created_at"?: string;
-    /**
-     * Current statements the seller must agree to before connecting. Ordered seller disclosure
-     * rendered with the merchant's effective automatic tax fee.
-     */
-    "disclosure": TaxConnectionDisclosure;
-    /**
-     * Legal business address used as the tax origin. In live mode, comes from processor-verified
-     * onboarding details before connect and the tax account snapshot once connected. In sandboxes,
-     * uses an explicit legal_address supplied at connect, otherwise verified live details or the
-     * merchant profile, and retains the attested snapshot for retries and reconnects. `null` when
-     * no legal address is available. anyOf[1] (Value): {@link Address}. A postal address. Every
-     * address has country. Addresses Flint checked as complete (customer and saved addresses,
-     * merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient
-     * and pickup addresses) always have line1 and city, and US ones always have state and
-     * postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold
-     * only what was provided, such as postal_code and country. anyOf[2] (Value): null.
-     */
-    "legal_address": ((Address) | (null));
-    /**
-     * Legal business name verified by the payment processor, which can differ from the
-     * merchant-entered Merchant.business_name. Before connect, comes from verified onboarding
-     * details; once connected, comes from the tax account snapshot. In sandboxes, uses verified
-     * live details when available, otherwise the merchant profile, and retains the connected
-     * snapshot. Omitted when no name is available.
-     */
-    "legal_business_name"?: string;
-    /**
-     * The seller's recorded agreement to the disclosure. `null` when no connect has recorded one.
-     * anyOf[1] (Value): {@link TaxConnectionSellerAttestation}. The disclosure the seller agreed
-     * to and when Flint recorded that agreement. anyOf[2] (Value): null.
-     */
-    "seller_attestation": ((TaxConnectionSellerAttestation) | (null));
-    /**
-     * Whether automatic tax is connected and can calculate tax. Value enum: "not_connected",
-     * "provisioning", "active", "attention_required", "disabled".
-     */
-    "status": "not_connected" | "provisioning" | "active" | "attention_required" | "disabled" | (string & {});
-    /**
-     * Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason
-     * applies. Unknown reasons normalize to `other`. Value enum: "not_offered",
-     * "business_address_required", "onboarding_required", "tax_category_required",
-     * "registration_required", "temporarily_unavailable", "setup_incomplete",
-     * "registration_rejected", "business_details_changed", "support_required", "disconnected",
-     * "other", null.
-     */
-    "status_reason": "not_offered"
-        | "business_address_required"
-        | "onboarding_required"
-        | "tax_category_required"
-        | "registration_required"
-        | "temporarily_unavailable"
-        | "setup_incomplete"
-        | "registration_rejected"
-        | "business_details_changed"
-        | "support_required"
-        | "disconnected"
-        | "other"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * Lists connect when setup can complete, including by supplying legal_address in test mode and
-     * disconnect when automatic tax can be turned off, based on the connection state for every
-     * credential. An empty array means neither action is available. Performing either action
-     * requires settings.write. [] enum: "connect", "disconnect". [] (Value): string. Value enum:
-     * "connect", "disconnect".
-     */
-    "supported_actions": Array<"connect" | "disconnect" | (string & {})>;
-    /**
-     * Flint tax connection ID. Present once the first registration or connection creates a record.
-     * Example: "tcn_01KEZF7C007Y42FMVNHV3P27QN".
-     */
-    "tax_connection_id"?: string;
-    /**
-     * When the connection record's public state last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "updated_at"?: string;
-    /**
-     * Current resource version. Send as expected_version to reject a write based on an older
-     * version. Format: uint64. minimum: 1.
-     */
-    "version"?: number;
-};
 export type TaxConnectionConnectParams = (InputValue<ConnectTaxConnectionRequestInput>);
 export type TaxConnectionCreateRegistrationParams = (InputValue<CreateTaxRegistrationRequestInput>);
 export type TaxConnectionDeleteRegistrationParams = {
@@ -1647,4 +1547,13 @@ export type ThemeConfigPreviousAttributes = {
      * in place of the merchant's business name. anyOf[2] (Value): null.
      */
     "title"?: ((string) | (null));
+};
+/** Colors and title to apply to a checkout session's page. */
+export type ThemeConfigRequestInput = {
+    /** Accent color of the checkout, such as #1A73E8. minLength: 1. */
+    "accent_color"?: string;
+    /** Primary color of the checkout, such as #1A73E8. minLength: 1. */
+    "primary_color"?: string;
+    /** Title shown in place of the merchant's business name. minLength: 1. */
+    "title"?: string;
 };

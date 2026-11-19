@@ -13607,7 +13607,7 @@ export type InvoiceManualPaymentCreatedEvent = ((((Exclude<MerchantWebhookEnvelo
     "data"?: {
         "object": {
             "amount_money": MoneyValue;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_manual_payment_id": string;
             "note"?: string;
@@ -13627,7 +13627,7 @@ export type InvoiceManualPaymentCreatedEvent = ((((Exclude<MerchantWebhookEnvelo
     "data"?: {
         "object": {
             "amount_money": MoneyValue;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_manual_payment_id": string;
             "note"?: string;
@@ -13662,7 +13662,7 @@ export type InvoiceManualPaymentCreatedInstalledMerchantsEvent = (Exclude<Partne
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
      * additional fields. object.amount_money (Required): {@link MoneyValue}. Full amount received,
      * including any principal and late fees covered. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. object.idempotency_key (Required): string or null. The
+     * units plus an ISO 4217 currency code. object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -13693,7 +13693,7 @@ export type InvoiceManualPaymentCreatedInstalledMerchantsEvent = (Exclude<Partne
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
          * amount_money (Required): {@link MoneyValue}. Full amount received, including any
          * principal and late fees covered. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. idempotency_key (Required): string or null. The
+         * an ISO 4217 currency code. idempotency_key (Optional): string or null. The
          * Idempotency-Key of the request that created this resource. `null` when that request sent
          * no key, Flint created the resource, the reader isn't the caller that created it (another
          * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
@@ -13734,7 +13734,7 @@ export type InvoiceManualPaymentCreatedInstalledMerchantsEvent = (Exclude<Partne
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * The invoice this payment was recorded against. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
@@ -13833,7 +13833,7 @@ export type InvoiceManualPaymentCreatedMerchantEvent = (Exclude<MerchantWebhookE
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
      * additional fields. object.amount_money (Required): {@link MoneyValue}. Full amount received,
      * including any principal and late fees covered. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. object.idempotency_key (Required): string or null. The
+     * units plus an ISO 4217 currency code. object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -13864,7 +13864,7 @@ export type InvoiceManualPaymentCreatedMerchantEvent = (Exclude<MerchantWebhookE
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
          * amount_money (Required): {@link MoneyValue}. Full amount received, including any
          * principal and late fees covered. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. idempotency_key (Required): string or null. The
+         * an ISO 4217 currency code. idempotency_key (Optional): string or null. The
          * Idempotency-Key of the request that created this resource. `null` when that request sent
          * no key, Flint created the resource, the reader isn't the caller that created it (another
          * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
@@ -13905,7 +13905,7 @@ export type InvoiceManualPaymentCreatedMerchantEvent = (Exclude<MerchantWebhookE
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * The invoice this payment was recorded against. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
@@ -14051,7 +14051,7 @@ export type InvoiceManualPaymentReversedEvent = ((((Exclude<MerchantWebhookEnvel
     "data"?: {
         "object": {
             "amount_money": MoneyValue;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_manual_payment_id": string;
             "note"?: string;
@@ -14087,7 +14087,7 @@ export type InvoiceManualPaymentReversedEvent = ((((Exclude<MerchantWebhookEnvel
     "data"?: {
         "object": {
             "amount_money": MoneyValue;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "invoice_id": string;
             "invoice_manual_payment_id": string;
             "note"?: string;
@@ -14138,7 +14138,7 @@ export type InvoiceManualPaymentReversedInstalledMerchantsEvent = (Exclude<Partn
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
      * additional fields. object.amount_money (Required): {@link MoneyValue}. Full amount received,
      * including any principal and late fees covered. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. object.idempotency_key (Required): string or null. The
+     * units plus an ISO 4217 currency code. object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -14233,7 +14233,7 @@ export type InvoiceManualPaymentReversedInstalledMerchantsEvent = (Exclude<Partn
          * The resource snapshot, without expansions. Webhooks omit no additional fields.
          * amount_money (Required): {@link MoneyValue}. Full amount received, including any
          * principal and late fees covered. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. idempotency_key (Required): string or null. The
+         * an ISO 4217 currency code. idempotency_key (Optional): string or null. The
          * Idempotency-Key of the request that created this resource. `null` when that request sent
          * no key, Flint created the resource, the reader isn't the caller that created it (another
          * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
@@ -14274,7 +14274,7 @@ export type InvoiceManualPaymentReversedInstalledMerchantsEvent = (Exclude<Partn
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * The invoice this payment was recorded against. Example:
              * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".

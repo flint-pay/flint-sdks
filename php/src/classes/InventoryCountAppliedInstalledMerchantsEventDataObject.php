@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryCountAppliedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'applied_at'?: string, 'created_at': string, 'idempotency_key': string|null, 'inventory_count_id': string, 'lines': list<mixed>, 'location_id': string, 'observation_provenance'?: mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'applied_at'?: string, 'created_at': string, 'idempotency_key'?: string|null, 'inventory_count_id': string, 'lines': list<mixed>, 'location_id': string, 'observation_provenance'?: mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryCountAppliedInstalledMerchantsEventDataObject')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return ?string

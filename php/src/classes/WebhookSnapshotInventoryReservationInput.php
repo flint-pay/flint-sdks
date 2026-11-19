@@ -1,0 +1,114 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string|null $closed_reason
+ * @property-read string|\DateTimeInterface $created_at
+ * @property-read string|\DateTimeInterface|null $expires_at
+ * @property-read string|null $idempotency_key
+ * @property-read InventoryActionRequiredInput|array<array-key, mixed>|\stdClass $inventory_action_required
+ * @property-read string $inventory_reservation_id
+ * @property-read InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass $inventory_routing_source
+ * @property-read list<InventoryReservationLineInput|array<array-key, mixed>|\stdClass> $lines
+ * @property-read InventoryReservationOwnerInput|array<array-key, mixed>|\stdClass $owner
+ * @property-read string $replacement_inventory_reservation_id
+ * @property-read string $source_inventory_reservation_id
+ * @property-read string $status
+ * @property-read list<string> $supported_actions
+ * @property-read string|\DateTimeInterface $updated_at
+ * @property-read int $version
+ * Presence-aware input; omitted fields throw when accessed. */
+final class WebhookSnapshotInventoryReservationInput extends Model {
+    /** @param array{'closed_reason'?: string|null, 'created_at': string|\DateTimeInterface, 'expires_at': string|\DateTimeInterface|null, 'idempotency_key'?: string|null, 'inventory_action_required'?: InventoryActionRequiredInput|array<array-key, mixed>|\stdClass, 'inventory_reservation_id': string, 'inventory_routing_source': InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'lines': list<InventoryReservationLineInput|array<array-key, mixed>|\stdClass>, 'owner': InventoryReservationOwnerInput|array<array-key, mixed>|\stdClass, 'replacement_inventory_reservation_id'?: string, 'source_inventory_reservation_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookSnapshotInventoryReservationInput')); }
+    /** How the reservation ended. adopted when its remaining held stock moved to a delivery selection. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * @return string|null
+     * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
+     */
+    public function getClosedReason(): string|null { return $this->get('closed_reason'); }
+    public function hasClosedReason(): bool { return $this->has('closed_reason'); }
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+     */
+    public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** Deadline for held or unconfirmed backordered quantity. While an order payment waits for a buyer action, this is the earlier of the stock hold deadline and the payment attempt deadline. Flint can keep stock held while the payment outcome is uncertain. `null` when no line holds quantity or has unconfirmed backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
+     */
+    public function getExpiresAt(): string|\DateTimeInterface|null { return $this->get('expires_at'); }
+    public function hasExpiresAt(): bool { return $this->has('expires_at'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource.
+     * @return string|null
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
+    /** Present when the claim needs a merchant action before commerce can continue. Says that an inventory reservation needs action, with the `reason` and the reservation lines affected.
+     * @return InventoryActionRequiredInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When inventory_action_required is omitted; use hasInventoryActionRequired() or valueOrDefault().
+     */
+    public function getInventoryActionRequired(): mixed { return $this->get('inventory_action_required'); }
+    public function hasInventoryActionRequired(): bool { return $this->has('inventory_action_required'); }
+    /** Unique identifier for this inventory reservation, prefixed `invr_`. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     * @return string
+     * @throws SdkError When inventory_reservation_id is omitted; use hasInventoryReservationId() or valueOrDefault().
+     */
+    public function getInventoryReservationId(): string { return $this->get('inventory_reservation_id'); }
+    public function hasInventoryReservationId(): bool { return $this->has('inventory_reservation_id'); }
+    /** How Flint chooses the Locations that serve the reservation: one fixed Location, an allocation policy, or a specific policy revision. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
+     * @return InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
+     */
+    public function getInventoryRoutingSource(): mixed { return $this->get('inventory_routing_source'); }
+    public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
+    /** Allocations of the reserved stock, one for each item and Location. [] (Value): {@see InventoryReservationLineInput}. One item's location allocation within a reservation.
+     * @return list<InventoryReservationLineInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When lines is omitted; use hasLines() or valueOrDefault().
+     */
+    public function getLines(): array { return $this->get('lines'); }
+    public function hasLines(): bool { return $this->has('lines'); }
+    /** Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who holds an inventory reservation: either a merchant claim identified by your `key`, or an order.
+     * @return InventoryReservationOwnerInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When owner is omitted; use hasOwner() or valueOrDefault().
+     */
+    public function getOwner(): mixed { return $this->get('owner'); }
+    public function hasOwner(): bool { return $this->has('owner'); }
+    /** Set on a reservation whose claim Flint moved when it rerouted an order: the replacement reservation that now holds the quantity named in this reservation's reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     * @return string
+     * @throws SdkError When replacement_inventory_reservation_id is omitted; use hasReplacementInventoryReservationId() or valueOrDefault().
+     */
+    public function getReplacementInventoryReservationId(): string { return $this->get('replacement_inventory_reservation_id'); }
+    public function hasReplacementInventoryReservationId(): bool { return $this->has('replacement_inventory_reservation_id'); }
+    /** Set on a replacement reservation: the reservation whose claim Flint moved here when it rerouted an order. This reservation holds the quantity that reservation reports as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     * @return string
+     * @throws SdkError When source_inventory_reservation_id is omitted; use hasSourceInventoryReservationId() or valueOrDefault().
+     */
+    public function getSourceInventoryReservationId(): string { return $this->get('source_inventory_reservation_id'); }
+    public function hasSourceInventoryReservationId(): bool { return $this->has('source_inventory_reservation_id'); }
+    /** active while any held, committed, or backordered quantity remains; closed once none does. Value enum: "active", "closed".
+     * @return string
+     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+     */
+    public function getStatus(): string { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** Actions that can change this reservation now. Empty for a closed reservation and for one Flint holds for an order. Resending targets already applied succeeds in any status. Computed when Flint produced this response or event, so replays and webhooks keep their original value. [] enum: "commit", "consume", "release". [] (Value): string.  Value enum: "commit", "consume", "release".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+     */
+    public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
+    public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** The reservation version. Send it as expected_version to reject a write if the reservation changed. Format: uint64. minimum: 1.
+     * @return int
+     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+     */
+    public function getVersion(): int { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
+}

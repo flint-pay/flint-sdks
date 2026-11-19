@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PackageCreateRequestInput to PaymentFulfillmentHold
+# PackageItem to PaymentFulfillmentHoldPreviousAttributes
 
-- [PackageCreateRequestInput](PackageCreateRequestInput.md)
 - [PackageItem](PackageItem.md)
 - [PackageItemListResponse](PackageItemListResponse.md)
 - [PackageItemResponse](PackageItemResponse.md)
@@ -102,4 +101,5 @@
 - [PaymentErrorSummary](PaymentErrorSummary.md)
 - [PaymentErrorSummaryPreviousAttributes](PaymentErrorSummaryPreviousAttributes.md)
 - [PaymentFulfillmentHold](PaymentFulfillmentHold.md)
+- [PaymentFulfillmentHoldPreviousAttributes](PaymentFulfillmentHoldPreviousAttributes.md)
 

@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $created_at
  * @property-read ?string $external_actor_id
  * @property-read ?string $external_reference_id
- * @property-read list<ReturnDisposition> $generated_dispositions
+ * @property-read list<WebhookSnapshotReturnDisposition> $generated_dispositions
  * @property-read string|null $idempotency_key
  * @property-read list<ReturnReceiptLineItem> $line_items
  * @property-read string $received_at
@@ -24,7 +24,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnReceiptSupersededInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<mixed>, 'idempotency_key': string|null, 'line_items': list<mixed>, 'received_at': string, 'receiving_location_id': string, 'return_id': string, 'return_receipt_id': string, 'shipment_id'?: string, 'source_system': mixed, 'status': string, 'superseded_at'?: string, 'superseded_by_return_receipt_id'?: string, 'supersedes_return_receipt_id'?: string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<mixed>, 'idempotency_key'?: string|null, 'line_items': list<mixed>, 'received_at': string, 'receiving_location_id': string, 'return_id': string, 'return_receipt_id': string, 'shipment_id'?: string, 'source_system': mixed, 'status': string, 'superseded_at'?: string, 'superseded_by_return_receipt_id'?: string, 'supersedes_return_receipt_id'?: string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReceiptSupersededInstalledMerchantsEventDataObject')); }
     /** Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other".
      * @return ?string
@@ -51,8 +51,8 @@ final class ReturnReceiptSupersededInstalledMerchantsEventDataObject extends Mod
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@see ReturnDisposition}. A decision about how returned merchandise will be handled.
-     * @return list<ReturnDisposition>
+    /** Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@see WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be handled.
+     * @return list<WebhookSnapshotReturnDisposition>
      */
     public function getGeneratedDispositions(): array { return $this->get('generated_dispositions'); }
     public function hasGeneratedDispositions(): bool { return $this->has('generated_dispositions'); }

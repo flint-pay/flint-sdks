@@ -16,17 +16,9 @@ import type { CustomerTaxExemptionCoverage, CustomerTaxExemptionCoverageRequestI
 import type {
     DeliveryLocationSetConfiguration,
     DeliveryLocationSetConfigurationInput,
-    DeliveryMethodConfigurationPatchRequest
+    DeliveryMethodConfigurationPatchRequest,
+    DeliveryMethodConfigurationPatchRequestInput
 } from './types-19.js';
-/** Colors and title to apply to a checkout session's page. */
-export type ThemeConfigRequestInput = {
-    /** Accent color of the checkout, such as #1A73E8. minLength: 1. */
-    "accent_color"?: string;
-    /** Primary color of the checkout, such as #1A73E8. minLength: 1. */
-    "primary_color"?: string;
-    /** Title shown in place of the merchant's business name. minLength: 1. */
-    "title"?: string;
-};
 /**
  * An individual admission, a top-level child of an order. Merchant reads and webhooks never
  * include the bearer admission code.
@@ -6693,3 +6685,163 @@ export type UpdateDeliveryMethodRequest = ({
     "status": "inactive" | "active" | (string & {});
 })
     | (Record<string, unknown>));
+/** The request body for: Update delivery method. minProperties: 1. */
+export type UpdateDeliveryMethodRequestInput = ({
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Each key you send
+     * replaces that part of the configuration as a whole, so send every field you want to keep in
+     * pricing, origin, eligibility, and the other objects. Null removes an optional key, as each
+     * field describes. Arrays can't be null: send [] to clear recipient_requirements or
+     * quote_input_fields. pricing.rate_table.rates is an owned child collection: include
+     * delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to
+     * remove it. The result must be a configuration you could create, including pickup_mode for
+     * pickup methods. An empty configuration is invalid. Publishes a new immutable revision, even
+     * when the values are unchanged, and requires expected_version. Patch object: fields you send
+     * are applied, fields you omit are unchanged. Each key you send replaces that part of the
+     * configuration as a whole, so send every field you want to keep in pricing, origin,
+     * eligibility, and the other objects. Null removes an optional key, as each field describes.
+     * Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields.
+     * pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a
+     * rate, leave out the ID to create one, and leave out a rate to remove it. The result must be
+     * a configuration you could create, including pickup_mode for pickup methods. An empty
+     * configuration is invalid. Publishes a new immutable revision, even when the values are
+     * unchanged, and requires expected_version. minProperties: 1.
+     */
+    "configuration"?: DeliveryMethodConfigurationPatchRequestInput;
+    /** Delivery method description. Send null to clear it. minLength: 1. */
+    "description"?: string | null;
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
+    "display_position"?: number;
+    /**
+     * Current resource version. Required when the request carries a revision field: configuration,
+     * name, description, display_position, recommendation_priority. A revision field publishes a
+     * new immutable revision even when its value is unchanged. Optional for other fields, which
+     * advance version and keep the current revision. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * Name of the method. Buyers see it as the option name at checkout. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1.
+     */
+    "name"?: string;
+    /**
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Send null to clear it. Format: int32.
+     */
+    "recommendation_priority"?: number | null;
+    /**
+     * Whether the method is in use. Send it alone, with `expected_version`; combining it with
+     * another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Value
+     * enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active";
+})
+    & (({
+    /**
+     * Name of the method. Buyers see it as the option name at checkout. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1.
+     */
+    "name": string;
+})
+    | ({
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+})
+    | ({
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Each key you send
+     * replaces that part of the configuration as a whole, so send every field you want to keep in
+     * pricing, origin, eligibility, and the other objects. Null removes an optional key, as each
+     * field describes. Arrays can't be null: send [] to clear recipient_requirements or
+     * quote_input_fields. pricing.rate_table.rates is an owned child collection: include
+     * delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to
+     * remove it. The result must be a configuration you could create, including pickup_mode for
+     * pickup methods. An empty configuration is invalid. Publishes a new immutable revision, even
+     * when the values are unchanged, and requires expected_version. Patch object: fields you send
+     * are applied, fields you omit are unchanged. Each key you send replaces that part of the
+     * configuration as a whole, so send every field you want to keep in pricing, origin,
+     * eligibility, and the other objects. Null removes an optional key, as each field describes.
+     * Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields.
+     * pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a
+     * rate, leave out the ID to create one, and leave out a rate to remove it. The result must be
+     * a configuration you could create, including pickup_mode for pickup methods. An empty
+     * configuration is invalid. Publishes a new immutable revision, even when the values are
+     * unchanged, and requires expected_version. minProperties: 1.
+     */
+    "configuration": DeliveryMethodConfigurationPatchRequestInput;
+})
+    | ({
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata": ((MetadataPatchRequestInput) | (null));
+})
+    | ({
+    /** Delivery method description. Send null to clear it. minLength: 1. */
+    "description": string | null;
+})
+    | ({
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
+    "display_position": number;
+})
+    | ({
+    /**
+     * Marks this method as recommended. Within each choice group, the available method with the
+     * lowest value is recommended and listed first. Ties go to the lower display_position, then
+     * the method ID. Null never recommends the method. Send null to clear it. Format: int32.
+     */
+    "recommendation_priority": number | null;
+})
+    | ({
+    /**
+     * Whether the method is in use. Send it alone, with `expected_version`; combining it with
+     * another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Value
+     * enum: "inactive", "active".
+     */
+    "status": "inactive" | "active";
+}));

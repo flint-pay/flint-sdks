@@ -12,7 +12,7 @@ import type {
     ReturnInspectionsGetParams,
     ReturnInspectionsListParams
 } from '../declarations/types-63.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,7 +37,7 @@ export type {
     ReturnDisposition,
     ReturnInspectionLineItem
 } from '../declarations/types-63.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { CreateReturnInspectionResponse, CreateReturnInspectionRequestInput } from '../declarations/types-13.js';
 export type { DecideReturnInspectionLineItemResponse, DecideReturnInspectionLineItemRequestInput } from '../declarations/types-17.js';
@@ -52,8 +52,8 @@ export type { ReturnSourceSystem } from '../declarations/types-65.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateReturnInspectionRequest } from '../declarations/types-83.js';
-export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-84.js';
+export { makeCreateReturnInspectionRequest } from '../declarations/types-84.js';
+export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-85.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeReturnInspectionLineItemRequest, makeReturnSourceSystemRequest } from '../declarations/types-91.js';
 export interface ReturnInspectionsResource {

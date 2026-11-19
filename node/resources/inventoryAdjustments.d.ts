@@ -11,7 +11,7 @@ import type {
     InventoryAdjustmentsListParams
 } from '../declarations/types-31.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -40,7 +40,7 @@ export type {
     InventoryAdjustmentSetLineRequestInput,
     InventoryAdjustmentLine
 } from '../declarations/types-31.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
@@ -69,9 +69,9 @@ export {
 export {
     makeInventoryAdjustmentConditionChangeLineRequest,
     makeInventoryAdjustmentQuantityLineRequest,
-    makeInventoryAdjustmentSetLineRequest
-} from '../declarations/types-86.js';
-export { makeInventorySourceSystemRequest } from '../declarations/types-87.js';
+    makeInventoryAdjustmentSetLineRequest,
+    makeInventorySourceSystemRequest
+} from '../declarations/types-87.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export interface InventoryAdjustmentsResource {
     /**

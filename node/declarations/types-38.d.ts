@@ -353,10 +353,10 @@ import type {
     PaymentMethodFailedEvent,
     PaymentMethodUpdatedEvent,
     PaymentReviewClosedEvent,
-    PaymentReviewOpenedEvent
+    PaymentReviewOpenedEvent,
+    PaymentReviewReopenedEvent
 } from './types-53.js';
 import type {
-    PaymentReviewReopenedEvent,
     PaymentSplitCanceledEvent,
     PaymentSplitCreatedEvent,
     PaymentSplitFailedEvent,
@@ -364,10 +364,10 @@ import type {
     PaymentSplitUpdatedEvent,
     PayoutCanceledEvent,
     PayoutCreatedEvent,
-    PayoutDestinationArchivedEvent
+    PayoutDestinationArchivedEvent,
+    PayoutDestinationCreatedEvent
 } from './types-54.js';
 import type {
-    PayoutDestinationCreatedEvent,
     PayoutDestinationDisabledEvent,
     PayoutDestinationUpdatedEvent,
     PayoutFailedEvent,

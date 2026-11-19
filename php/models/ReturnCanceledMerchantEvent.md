@@ -57,9 +57,9 @@ The affected public resource without expansions, client authority fields, or fie
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `financial_summary` | Required | [ReturnFinancialSummary](../models/ReturnFinancialSummary.md#returnfinancialsummary) | The Return's money in one place: the value of the returned lines, deductions and credits, and what has been refunded or collected. The money for a return: returned value, deductions, credits, replacement total, and amounts due to or from the buyer. |
 | `handoff_requirements` | Required | Array of [ReturnHandoffRequirement](../models/ReturnHandoffRequirement.md#returnhandoffrequirement) | What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. `handoff_requirements[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatahandoff_requirements). |
-| `idempotency_key` | Required | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer routes return only keys from the buyer's namespace. |
+| `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer routes return only keys from the buyer's namespace. |
 | `initiated_by` | Required | string | Who created the Return: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app, or system for Flint automation. It cannot be sent. Values: `"buyer"`, `"merchant"`, `"integration"`, `"system"`. |
-| `line_items` | Required | Array of [ReturnLineItem](../models/ReturnLineItem.md#returnlineitem) | The lines being returned. `line_items[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedataline_items). |
+| `line_items` | Required | Array of [WebhookSnapshotReturnLineItem](../models/WebhookSnapshotReturnLineItem.md#webhooksnapshotreturnlineitem) | The lines being returned. `line_items[]`: [field definitions](../models/ReturnCanceledMerchantEventDataObject.md#returncanceledmerchanteventdataobjectline_items). |
 | `merchandise_status` | Required | string | On the Return, the least-finished line's value. Values: [10 declared values](#returncanceledmerchanteventdata-fields-1object-merchandise_status-values). |
 | `metadata` | Required | Map of string | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/OrderResponse.md#orderresponsedatachargesmetadata). |
 | `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
@@ -67,15 +67,15 @@ The affected public resource without expansions, client authority fields, or fie
 | `policy_evaluation` | Optional | [ReturnPolicyEvaluation](../models/ReturnPolicyEvaluation.md#returnpolicyevaluation) | How your return policies judged the request when the Return was created. How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results. `policy_evaluation`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatapolicy_evaluation). |
 | `resolution_status` | Required | string | Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Values: `"not_selected"`, `"pending"`, `"partially_completed"`, `"requires_action"`, `"completed"`, `"failed"`. |
 | `return_disposition_ids` | Required | Array of string | IDs of every disposition recorded for this Return, oldest first, including failed and canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline. |
-| `return_dispositions` | Optional | Array of [ReturnDisposition](../models/ReturnDisposition.md#returndisposition) | Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. `return_dispositions[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_dispositions). |
+| `return_dispositions` | Optional | Array of [WebhookSnapshotReturnDisposition](../models/WebhookSnapshotReturnDisposition.md#webhooksnapshotreturndisposition) | Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. `return_dispositions[]`: [field definitions](../models/WebhookSnapshotReturnInspection.md#webhooksnapshotreturninspectiongenerated_dispositions). |
 | `return_id` | Required | string | Unique identifier for this return, prefixed `ret_`. |
 | `return_inspection_ids` | Required | Array of string | IDs of every inspection recorded for this Return, oldest first, including superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them inline. |
-| `return_inspections` | Optional | Array of [ReturnInspection](../models/ReturnInspection.md#returninspection) | Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. `return_inspections[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_inspections). |
+| `return_inspections` | Optional | Array of [WebhookSnapshotReturnInspection](../models/WebhookSnapshotReturnInspection.md#webhooksnapshotreturninspection) | Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. `return_inspections[]`: [field definitions](../models/ReturnCanceledMerchantEventDataObject.md#returncanceledmerchanteventdataobjectreturn_inspections). |
 | `return_number` | Required | string | Human-readable number for the Return. |
 | `return_receipt_ids` | Required | Array of string | IDs of every receipt recorded for this Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline. |
-| `return_receipts` | Optional | Array of [ReturnReceipt](../models/ReturnReceipt.md#returnreceipt) | Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. `return_receipts[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_receipts). |
+| `return_receipts` | Optional | Array of [WebhookSnapshotReturnReceipt](../models/WebhookSnapshotReturnReceipt.md#webhooksnapshotreturnreceipt) | Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. `return_receipts[]`: [field definitions](../models/ReturnCanceledMerchantEventDataObject.md#returncanceledmerchanteventdataobjectreturn_receipts). |
 | `return_resolution_ids` | Required | Array of string | IDs of every resolution created for this Return, oldest first, including failed and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline. |
-| `return_resolutions` | Optional | Array of [ReturnResolution](../models/ReturnResolution.md#returnresolution) | Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. `return_resolutions[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutions). |
+| `return_resolutions` | Optional | Array of [WebhookSnapshotReturnResolution](../models/WebhookSnapshotReturnResolution.md#webhooksnapshotreturnresolution) | Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. `return_resolutions[]`: [field definitions](../models/ReturnCanceledMerchantEventDataObject.md#returncanceledmerchanteventdataobjectreturn_resolutions). |
 | `shipment_ids` | Required | Array of string | IDs of every shipment raised to send this Return's items back, oldest first, including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline. |
 | `shipments` | Optional | Array of [ExpandedShipmentSummary](../models/ExpandedShipmentSummary.md#expandedshipmentsummary) | Present only when `expand` includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order. `shipments[]`: [field definitions](../models/FulfillmentResponse.md#fulfillmentresponsedatashipments). |
 | `status` | Required | string | Where the whole Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you need. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
@@ -114,7 +114,7 @@ Field definitions: [CancelReturnResponse.data.handoff_requirements[]](../models/
 
 ### ReturnCanceledMerchantEvent.data fields 1.object.line_items[]
 
-Field definitions: [CancelReturnResponse.data.line_items[]](../models/CancelReturnResponse.md#cancelreturnresponsedataline_items).
+Field definitions: [ReturnCanceledMerchantEventDataObject.line_items[]](../models/ReturnCanceledMerchantEventDataObject.md#returncanceledmerchanteventdataobjectline_items).
 
 ### ReturnCanceledMerchantEvent.data fields 1.object.metadata
 
@@ -126,19 +126,19 @@ Field definitions: [CancelReturnResponse.data.policy_evaluation](../models/Cance
 
 ### ReturnCanceledMerchantEvent.data fields 1.object.return_dispositions[]
 
-Field definitions: [CancelReturnResponse.data.return_dispositions[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_dispositions).
+Field definitions: [WebhookSnapshotReturnInspection.generated_dispositions[]](../models/WebhookSnapshotReturnInspection.md#webhooksnapshotreturninspectiongenerated_dispositions).
 
 ### ReturnCanceledMerchantEvent.data fields 1.object.return_inspections[]
 
-Field definitions: [CancelReturnResponse.data.return_inspections[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_inspections).
+Field definitions: [ReturnCanceledMerchantEventDataObject.return_inspections[]](../models/ReturnCanceledMerchantEventDataObject.md#returncanceledmerchanteventdataobjectreturn_inspections).
 
 ### ReturnCanceledMerchantEvent.data fields 1.object.return_receipts[]
 
-Field definitions: [CancelReturnResponse.data.return_receipts[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_receipts).
+Field definitions: [ReturnCanceledMerchantEventDataObject.return_receipts[]](../models/ReturnCanceledMerchantEventDataObject.md#returncanceledmerchanteventdataobjectreturn_receipts).
 
 ### ReturnCanceledMerchantEvent.data fields 1.object.return_resolutions[]
 
-Field definitions: [CancelReturnResponse.data.return_resolutions[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutions).
+Field definitions: [ReturnCanceledMerchantEventDataObject.return_resolutions[]](../models/ReturnCanceledMerchantEventDataObject.md#returncanceledmerchanteventdataobjectreturn_resolutions).
 
 ### ReturnCanceledMerchantEvent.data fields 1.object.shipments[]
 

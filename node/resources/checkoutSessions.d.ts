@@ -23,7 +23,7 @@ import type {
     ClientOptions
 } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -101,7 +101,7 @@ export type {
     CheckoutBuyerContactRequestInput,
     CheckoutBuyerContactRequest
 } from '../declarations/types-6.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type {
@@ -111,10 +111,9 @@ export type {
     OrderLineItemTaxRequestInput
 } from '../declarations/types-47.js';
 export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
-export type { PaymentAttemptGiftCardRedemption, PaymentAttemptPaymentIntent } from '../declarations/types-50.js';
+export type { PaymentAttemptGiftCardRedemption, PaymentAttemptPaymentIntent, PaymentClientAction } from '../declarations/types-50.js';
 export type {
     PaymentErrorSummary,
-    PaymentClientAction,
     PaymentClientActionURL,
     PaymentClientActionStripe,
     PaymentCollection,
@@ -228,9 +227,10 @@ export type {
 } from '../declarations/types-8.js';
 export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-58.js';
 export type { SubscriptionPlanChangeLineItemRequestInput, SubscriptionPlanChangeLineItemRequest } from '../declarations/types-71.js';
-export type { ThemeConfigRequestInput, UpdateCheckoutSessionRequestInput } from '../declarations/types-75.js';
+export type { ThemeConfigRequestInput } from '../declarations/types-74.js';
+export type { UpdateCheckoutSessionRequestInput } from '../declarations/types-75.js';
+export { makeAddressRequest } from '../declarations/types-80.js';
 export {
-    makeAddressRequest,
     makeCheckoutBuyerContactRequest,
     makeCheckoutBuyerFieldsRequest,
     makeCheckoutCustomTextWriteConfig,
@@ -238,9 +238,7 @@ export {
     makeCheckoutPaymentConfigRequest,
     makeCheckoutPrefillRequest,
     makeCheckoutPromotionConfigRequest,
-    makeCheckoutQuickPayItemRequest
-} from '../declarations/types-80.js';
-export {
+    makeCheckoutQuickPayItemRequest,
     makeCheckoutRedirectsRequest,
     makeCheckoutSubscriptionTermsRequest,
     makeCheckoutTaxCalculationRequest,
@@ -265,7 +263,8 @@ export {
     makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest
 } from '../declarations/types-81.js';
 export { makeDeliveryWindowRequest } from '../declarations/types-86.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-88.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeOrderLineItemTaxRequest } from '../declarations/types-89.js';
 export {
     makePlatformFeeMoney,
     makePlatformFeeRequest,

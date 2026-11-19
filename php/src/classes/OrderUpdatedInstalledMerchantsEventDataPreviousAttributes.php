@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read string|null $dispute_status
  * @property-read string|null $external_reference_id
  * @property-read string|null $fulfillment_status
- * @property-read list<FulfillmentPreviousAttributes>|null $fulfillments
+ * @property-read list<WebhookSnapshotFulfillmentPreviousAttributes>|null $fulfillments
  * @property-read OrderGiftCardEstimatePreviousAttributes|null $gift_card_estimate
  * @property-read list<OrderGiftCardSettlementPreviousAttributes>|null $gift_card_settlements
  * @property-read bool|null $gift_card_tender_enabled
@@ -179,8 +179,8 @@ final class OrderUpdatedInstalledMerchantsEventDataPreviousAttributes extends Mo
      */
     public function getFulfillmentStatus(): string|null { return $this->get('fulfillment_status'); }
     public function hasFulfillmentStatus(): bool { return $this->has('fulfillment_status'); }
-    /** Fulfillments created for the order, each covering a set of its line items. anyOf[1] (Value): Array of {@see FulfillmentPreviousAttributes}. Fulfillments created for the order, each covering a set of its line items. anyOf[1][] (Value): {@see FulfillmentPreviousAttributes}. anyOf[2] (Value): null.
-     * @return list<FulfillmentPreviousAttributes>|null
+    /** Fulfillments created for the order, each covering a set of its line items. anyOf[1] (Value): Array of {@see WebhookSnapshotFulfillmentPreviousAttributes}. Fulfillments created for the order, each covering a set of its line items. anyOf[1][] (Value): {@see WebhookSnapshotFulfillmentPreviousAttributes}. anyOf[2] (Value): null.
+     * @return list<WebhookSnapshotFulfillmentPreviousAttributes>|null
      */
     public function getFulfillments(): array|null { return $this->get('fulfillments'); }
     public function hasFulfillments(): bool { return $this->has('fulfillments'); }

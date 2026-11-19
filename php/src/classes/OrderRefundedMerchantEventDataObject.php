@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read ?string $dispute_status
  * @property-read ?string $external_reference_id
  * @property-read ?string $fulfillment_status
- * @property-read list<Fulfillment> $fulfillments
+ * @property-read list<WebhookSnapshotFulfillment> $fulfillments
  * @property-read ?OrderGiftCardEstimate $gift_card_estimate
  * @property-read list<OrderGiftCardSettlement> $gift_card_settlements
  * @property-read bool $gift_card_tender_enabled
@@ -179,8 +179,8 @@ final class OrderRefundedMerchantEventDataObject extends Model {
      */
     public function getFulfillmentStatus(): ?string { return $this->get('fulfillment_status'); }
     public function hasFulfillmentStatus(): bool { return $this->has('fulfillment_status'); }
-    /** Fulfillments created for the order, each covering a set of its line items. [] (Value): {@see Fulfillment}. Work required to deliver an order's items.
-     * @return list<Fulfillment>
+    /** Fulfillments created for the order, each covering a set of its line items. [] (Value): {@see WebhookSnapshotFulfillment}. Work required to deliver an order's items.
+     * @return list<WebhookSnapshotFulfillment>
      */
     public function getFulfillments(): array { return $this->get('fulfillments'); }
     public function hasFulfillments(): bool { return $this->has('fulfillments'); }

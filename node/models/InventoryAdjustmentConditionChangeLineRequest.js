@@ -1,7 +1,7 @@
-import { d9083 as c0, d9088 as c1, d9089 as c2, d9090 as c3, d9091 as c4, d9092 as c5 } from '../descriptors/data/407.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
-import { d9083 as d9083 } from '../descriptors/data/407.js?sdk=d3c76bf16b3cbedefee26daadf6e0346518a62c461a7867b1008aa91b458e940';
+import { d9104 as c0, d9109 as c1, d9110 as c2, d9111 as c3, d9112 as c4, d9113 as c5 } from '../descriptors/data/413.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d9104 as d9104 } from '../descriptors/data/413.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d9083;
+const read = d9104;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["InventoryAdjustmentConditionChangeLineRequest"]:c0(),["SharedCodec1388"]:c1(),["SharedCodec1389"]:c2(),["SharedCodec1390"]:c3(),["SharedCodec1391"]:c4(),["SharedCodec1392"]:c5()}); }
 export { codec as _validate };

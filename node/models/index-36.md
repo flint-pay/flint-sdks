@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# SubscriptionBillingHold to SubscriptionOfferTermsRequest
+# SubscriptionBillingHoldPreviousAttributes to SubscriptionOfferTermsRequestInput
 
-- [SubscriptionBillingHold](SubscriptionBillingHold.md)
 - [SubscriptionBillingHoldPreviousAttributes](SubscriptionBillingHoldPreviousAttributes.md)
 - [SubscriptionBillingScheduleInputExternal](SubscriptionBillingScheduleInputExternal.md)
 - [SubscriptionBillingScheduleInputExternalInput](SubscriptionBillingScheduleInputExternalInput.md)
@@ -102,4 +101,5 @@
 - [SubscriptionOfferListResponse](SubscriptionOfferListResponse.md)
 - [SubscriptionOfferResponse](SubscriptionOfferResponse.md)
 - [SubscriptionOfferTermsRequest](SubscriptionOfferTermsRequest.md)
+- [SubscriptionOfferTermsRequestInput](SubscriptionOfferTermsRequestInput.md)
 

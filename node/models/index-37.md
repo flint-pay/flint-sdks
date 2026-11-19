@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# SubscriptionOfferTermsRequestInput to SubscriptionTaxRequestInput
+# SubscriptionPastDueInstalledMerchantsEvent to SubscriptionTermsRequest
 
-- [SubscriptionOfferTermsRequestInput](SubscriptionOfferTermsRequestInput.md)
 - [SubscriptionPastDueInstalledMerchantsEvent](SubscriptionPastDueInstalledMerchantsEvent.md)
 - [SubscriptionPastDueMerchantEvent](SubscriptionPastDueMerchantEvent.md)
 - [SubscriptionPausedDeliveryHold](SubscriptionPausedDeliveryHold.md)
@@ -102,4 +101,5 @@
 - [SubscriptionTaxPreviousAttributes](SubscriptionTaxPreviousAttributes.md)
 - [SubscriptionTaxRequest](SubscriptionTaxRequest.md)
 - [SubscriptionTaxRequestInput](SubscriptionTaxRequestInput.md)
+- [SubscriptionTermsRequest](SubscriptionTermsRequest.md)
 

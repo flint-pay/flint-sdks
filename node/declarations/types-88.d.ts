@@ -1,5 +1,25 @@
 import type { InputValue, Model } from '../runtime.js';
+import type { InvoiceScheduleDueWriteInvoiceDueDateInput } from './types-37.js';
 import type {
+    InvoiceScheduleEntryWriteInput,
+    InvoiceScheduleEntryWriteBalanceInput,
+    InvoiceScheduleEntryWriteDepositInput,
+    InvoiceScheduleEntryWriteInstallmentInput,
+    InvoiceSettingsPatchInput,
+    IssueCreditNoteRequestInput,
+    IssueInvoiceRequestInput,
+    LegalSettingsRequestInput
+} from './types-38.js';
+import type { LicenseKeyConfigurationRequestInput } from './types-39.js';
+import type {
+    LicenseKeyVersionRequestInput,
+    LineItemFulfillmentOriginRequestModelInput,
+    LineItemFulfillmentRequestModelInput,
+    LinkCustomerGuestPurchasesRequestInput,
+    LocationCoordinateRequestInput,
+    LookupEmailPreferencesRequestInput,
+    LookupGiftCardRequestInput,
+    LookupLicenseKeyRequestInput,
     LookupTicketRequestInput,
     ManualDiscountRequestInput,
     MarkFulfillmentNoShowRequestInput,
@@ -52,30 +72,26 @@ import type {
     OrderChargeInputPercentInput,
     OrderChargeRequestInput,
     OrderChargeTaxAssignmentInput,
-    OrderDeliveryDestinationRecipientRequestInput,
-    OrderDeliveryDestinationRequestInput,
-    OrderDeliveryRequestInput,
-    OrderDraftLineItemInventoryDemandRequestInput,
-    OrderDraftLineItemTaxCalculationRequestModelInput,
-    OrderDraftLineItemTaxRequestModelInput,
-    OrderDraftTaxComponentRequestModelInput,
-    OrderDraftTaxJurisdictionRequestModelInput
+    OrderDeliveryDestinationRecipientRequestInput
 } from './types-45.js';
-import type {
-    OrderEditPreviewRequestInput,
-    OrderEditRemovalRequestInput,
-    OrderGiftCardAllocationAcceptanceInput,
-    OrderHandoverRequestInput,
-    OrderLineItemModifierInputCatalogRequestInput,
-    OrderLineItemModifierInputTextRequestInput,
-    OrderLineItemModifierRequestModelInput,
-    OrderLineItemTaxAssignmentInput
-} from './types-46.js';
-import type {
-    OrderLineItemTaxRequestInput,
-    OrderPaymentIntentSelectionInput,
-    OrderPaymentSourceCardSelectionInput
-} from './types-47.js';
+export declare function makeInvoiceScheduleDueWriteInvoiceDueDate(value: InputValue<InvoiceScheduleDueWriteInvoiceDueDateInput>): Model<InvoiceScheduleDueWriteInvoiceDueDateInput>;
+export declare function makeInvoiceScheduleEntryWrite(value: InputValue<InvoiceScheduleEntryWriteInput>): Model<InvoiceScheduleEntryWriteInput>;
+export declare function makeInvoiceScheduleEntryWriteBalance(value: InputValue<InvoiceScheduleEntryWriteBalanceInput>): Model<InvoiceScheduleEntryWriteBalanceInput>;
+export declare function makeInvoiceScheduleEntryWriteDeposit(value: InputValue<InvoiceScheduleEntryWriteDepositInput>): Model<InvoiceScheduleEntryWriteDepositInput>;
+export declare function makeInvoiceScheduleEntryWriteInstallment(value: InputValue<InvoiceScheduleEntryWriteInstallmentInput>): Model<InvoiceScheduleEntryWriteInstallmentInput>;
+export declare function makeInvoiceSettingsPatch(value: InputValue<InvoiceSettingsPatchInput>): Model<InvoiceSettingsPatchInput>;
+export declare function makeIssueCreditNoteRequest(value: InputValue<IssueCreditNoteRequestInput>): Model<IssueCreditNoteRequestInput>;
+export declare function makeIssueInvoiceRequest(value: InputValue<IssueInvoiceRequestInput>): Model<IssueInvoiceRequestInput>;
+export declare function makeLegalSettingsRequest(value: InputValue<LegalSettingsRequestInput>): Model<LegalSettingsRequestInput>;
+export declare function makeLicenseKeyConfigurationRequest(value: InputValue<LicenseKeyConfigurationRequestInput>): Model<LicenseKeyConfigurationRequestInput>;
+export declare function makeLicenseKeyVersionRequest(value: InputValue<LicenseKeyVersionRequestInput>): Model<LicenseKeyVersionRequestInput>;
+export declare function makeLineItemFulfillmentOriginRequestModel(value: InputValue<LineItemFulfillmentOriginRequestModelInput>): Model<LineItemFulfillmentOriginRequestModelInput>;
+export declare function makeLineItemFulfillmentRequestModel(value: InputValue<LineItemFulfillmentRequestModelInput>): Model<LineItemFulfillmentRequestModelInput>;
+export declare function makeLinkCustomerGuestPurchasesRequest(value: InputValue<LinkCustomerGuestPurchasesRequestInput>): Model<LinkCustomerGuestPurchasesRequestInput>;
+export declare function makeLocationCoordinateRequest(value: InputValue<LocationCoordinateRequestInput>): Model<LocationCoordinateRequestInput>;
+export declare function makeLookupEmailPreferencesRequest(value: InputValue<LookupEmailPreferencesRequestInput>): Model<LookupEmailPreferencesRequestInput>;
+export declare function makeLookupGiftCardRequest(value: InputValue<LookupGiftCardRequestInput>): Model<LookupGiftCardRequestInput>;
+export declare function makeLookupLicenseKeyRequest(value: InputValue<LookupLicenseKeyRequestInput>): Model<LookupLicenseKeyRequestInput>;
 export declare function makeLookupTicketRequest(value: InputValue<LookupTicketRequestInput>): Model<LookupTicketRequestInput>;
 export declare function makeManualDiscountRequest(value: InputValue<ManualDiscountRequestInput>): Model<ManualDiscountRequestInput>;
 export declare function makeMarkFulfillmentNoShowRequest(value: InputValue<MarkFulfillmentNoShowRequestInput>): Model<MarkFulfillmentNoShowRequestInput>;
@@ -122,21 +138,3 @@ export declare function makeOrderChargeInputPercent(value: InputValue<OrderCharg
 export declare function makeOrderChargeRequest(value: InputValue<OrderChargeRequestInput>): Model<OrderChargeRequestInput>;
 export declare function makeOrderChargeTaxAssignment(value: InputValue<OrderChargeTaxAssignmentInput>): Model<OrderChargeTaxAssignmentInput>;
 export declare function makeOrderDeliveryDestinationRecipientRequest(value: InputValue<OrderDeliveryDestinationRecipientRequestInput>): Model<OrderDeliveryDestinationRecipientRequestInput>;
-export declare function makeOrderDeliveryDestinationRequest(value: InputValue<OrderDeliveryDestinationRequestInput>): Model<OrderDeliveryDestinationRequestInput>;
-export declare function makeOrderDeliveryRequest(value: InputValue<OrderDeliveryRequestInput>): Model<OrderDeliveryRequestInput>;
-export declare function makeOrderDraftLineItemInventoryDemandRequest(value: InputValue<OrderDraftLineItemInventoryDemandRequestInput>): Model<OrderDraftLineItemInventoryDemandRequestInput>;
-export declare function makeOrderDraftLineItemTaxCalculationRequestModel(value: InputValue<OrderDraftLineItemTaxCalculationRequestModelInput>): Model<OrderDraftLineItemTaxCalculationRequestModelInput>;
-export declare function makeOrderDraftLineItemTaxRequestModel(value: InputValue<OrderDraftLineItemTaxRequestModelInput>): Model<OrderDraftLineItemTaxRequestModelInput>;
-export declare function makeOrderDraftTaxComponentRequestModel(value: InputValue<OrderDraftTaxComponentRequestModelInput>): Model<OrderDraftTaxComponentRequestModelInput>;
-export declare function makeOrderDraftTaxJurisdictionRequestModel(value: InputValue<OrderDraftTaxJurisdictionRequestModelInput>): Model<OrderDraftTaxJurisdictionRequestModelInput>;
-export declare function makeOrderEditPreviewRequest(value: InputValue<OrderEditPreviewRequestInput>): Model<OrderEditPreviewRequestInput>;
-export declare function makeOrderEditRemovalRequest(value: InputValue<OrderEditRemovalRequestInput>): Model<OrderEditRemovalRequestInput>;
-export declare function makeOrderGiftCardAllocationAcceptance(value: InputValue<OrderGiftCardAllocationAcceptanceInput>): Model<OrderGiftCardAllocationAcceptanceInput>;
-export declare function makeOrderHandoverRequest(value: InputValue<OrderHandoverRequestInput>): Model<OrderHandoverRequestInput>;
-export declare function makeOrderLineItemModifierInputCatalogRequest(value: InputValue<OrderLineItemModifierInputCatalogRequestInput>): Model<OrderLineItemModifierInputCatalogRequestInput>;
-export declare function makeOrderLineItemModifierInputTextRequest(value: InputValue<OrderLineItemModifierInputTextRequestInput>): Model<OrderLineItemModifierInputTextRequestInput>;
-export declare function makeOrderLineItemModifierRequestModel(value: InputValue<OrderLineItemModifierRequestModelInput>): Model<OrderLineItemModifierRequestModelInput>;
-export declare function makeOrderLineItemTaxAssignment(value: InputValue<OrderLineItemTaxAssignmentInput>): Model<OrderLineItemTaxAssignmentInput>;
-export declare function makeOrderLineItemTaxRequest(value: InputValue<OrderLineItemTaxRequestInput>): Model<OrderLineItemTaxRequestInput>;
-export declare function makeOrderPaymentIntentSelection(value: InputValue<OrderPaymentIntentSelectionInput>): Model<OrderPaymentIntentSelectionInput>;
-export declare function makeOrderPaymentSourceCardSelection(value: InputValue<OrderPaymentSourceCardSelectionInput>): Model<OrderPaymentSourceCardSelectionInput>;

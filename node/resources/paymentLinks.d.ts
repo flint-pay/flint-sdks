@@ -12,7 +12,7 @@ import type {
 } from '../declarations/types-53.js';
 import type { PublicPaymentLinkResponse, PublicPaymentLinkResult } from '../declarations/types-59.js';
 import type { RequestOptions, ResolvePaymentLinkResponse, ResolvedPaymentLinkCheckout } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -93,7 +93,7 @@ export type {
     PaymentLinkLineItemPatchInputCustomVariableInput,
     PaymentLinkCustomTextPatchRequest
 } from '../declarations/types-52.js';
-export type { _SdkWithoutIdempotency, Weight } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     PublicPaymentLinkResult,
     PublicPaymentLinkResponse,
@@ -200,7 +200,7 @@ export type {
     SubscriptionPlanChangeLineItemRequestInput,
     SubscriptionPlanChangeLineItemRequest
 } from '../declarations/types-71.js';
-export type { SelectedProductOption } from '../declarations/types-67.js';
+export type { SelectedProductOption, ServiceFulfillmentDetails } from '../declarations/types-67.js';
 export type { CategoryReference } from '../declarations/types-5.js';
 export type { TextModifierRequest, ThemeConfig, TextModifierConfigRequest, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-74.js';
 export type {
@@ -232,7 +232,7 @@ export type {
     BuyerOrderTaxExemption,
     BuyerOrderTaxLocation
 } from '../declarations/types-3.js';
-export type { PaymentAttemptGiftCardRedemption } from '../declarations/types-50.js';
+export type { PaymentAttemptGiftCardRedemption, PaymentClientAction } from '../declarations/types-50.js';
 export type {
     BuyerErrorRemediation,
     BuyerInstructionsConfig,
@@ -254,13 +254,12 @@ export type {
     PendingPaymentActionSetupPaymentSourceSubject,
     PickupFulfillmentDetails
 } from '../declarations/types-55.js';
-export type { PaymentClientAction, PaymentClientActionURL, PaymentClientActionStripe } from '../declarations/types-51.js';
+export type { PaymentClientActionURL, PaymentClientActionStripe } from '../declarations/types-51.js';
 export type {
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
     StripeTerminalPaymentIntentClientAction,
     SettlementAmounts,
-    ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
     SubscribedLine
 } from '../declarations/types-68.js';
@@ -329,10 +328,12 @@ export type {
     TaxBreakdownFlatAmount
 } from '../declarations/types-73.js';
 export type { Dimensions } from '../declarations/types-25.js';
+export type { Weight } from '../declarations/types-79.js';
 export type { TicketedEvent, TipPaymentIntentAllocation, TipValueSettlementAllocation } from '../declarations/types-75.js';
-export type { UpdatePaymentLinkRequestInput } from '../declarations/types-77.js';
-export { makeCheckoutBuyerFieldsRequest, makeCheckoutPromotionConfigRequest } from '../declarations/types-80.js';
+export type { UpdatePaymentLinkRequestInput } from '../declarations/types-76.js';
 export {
+    makeCheckoutBuyerFieldsRequest,
+    makeCheckoutPromotionConfigRequest,
     makeCheckoutRedirectsRequest,
     makeCheckoutSubscriptionTermsRequest,
     makeCheckoutTaxCalculationRequest,
@@ -340,15 +341,19 @@ export {
     makeCheckoutTipConfigRequest
 } from '../declarations/types-81.js';
 export { makeCreatePaymentLinkRequest } from '../declarations/types-83.js';
-export { makeDeliveryWindowRequest, makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-86.js';
+export { makeDeliveryWindowRequest } from '../declarations/types-86.js';
 export {
+    makeImageInputFile,
+    makeImageInputSourceURL,
+    makeImageRequest,
     makeInventoryRoutingSourceInputFixedLocation,
     makeInventoryRoutingSourceInputPolicy,
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest
 } from '../declarations/types-87.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-88.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export {
+    makeOrderLineItemTaxRequest,
     makePaymentLinkCustomFieldPatchRequest,
     makePaymentLinkCustomFieldRequest,
     makePaymentLinkCustomTextConfig,
@@ -361,7 +366,9 @@ export {
     makePaymentLinkLineItemInputCustomFixed,
     makePaymentLinkLineItemInputCustomVariable,
     makePaymentLinkLineItemInputVariant,
-    makePaymentLinkLineItemPatchInputBundle,
+    makePaymentLinkLineItemPatchInputBundle
+} from '../declarations/types-89.js';
+export {
     makePaymentLinkLineItemPatchInputCustomFixed,
     makePaymentLinkLineItemPatchInputCustomVariable,
     makePaymentLinkLineItemPatchInputVariant,
@@ -373,7 +380,7 @@ export {
     makePaymentLinkResolvePrefillRequest,
     makePaymentLinkThemeConfig,
     makePaymentLinkThemePatchRequest
-} from '../declarations/types-89.js';
+} from '../declarations/types-90.js';
 export {
     makeResolvePaymentLinkLineItemModifierInputCatalog,
     makeResolvePaymentLinkLineItemModifierInputText,
@@ -383,7 +390,8 @@ export {
     makeResolvePaymentLinkTextModifierRequest
 } from '../declarations/types-91.js';
 export { makeSubscriptionGiftRecipientRequest, makeSubscriptionPlanChangeLineItemRequest } from '../declarations/types-92.js';
-export { makeTextModifierConfigRequest, makeTextModifierRequest, makeUpdatePaymentLinkRequest } from '../declarations/types-93.js';
+export { makeTextModifierConfigRequest, makeTextModifierRequest } from '../declarations/types-93.js';
+export { makeUpdatePaymentLinkRequest } from '../declarations/types-94.js';
 export interface PaymentLinksResource {
     /**
  * Creates a payment link for the authenticated merchant. Line items may use fixed prices,

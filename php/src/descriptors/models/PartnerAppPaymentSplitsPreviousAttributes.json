@@ -1,1 +1,1 @@
-{"shared":"PartnerAppPaymentSplitsPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"seller_terms_url":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["PartnerAppPaymentSplitsPreviousAttributes","SharedCodec2038"]}
+{"shared":"PartnerAppPaymentSplitsPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"seller_terms_url":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["PartnerAppPaymentSplitsPreviousAttributes","SharedCodec2031"]}

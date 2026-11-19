@@ -20,7 +20,7 @@ import type {
     PriceListsUpdatePriceParams
 } from '../declarations/types-56.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -62,7 +62,7 @@ export type {
     CreatePriceListRequestInput,
     CreatePriceListPricesRequestInput
 } from '../declarations/types-12.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
@@ -75,7 +75,7 @@ export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreatePriceListPricesRequest, makeCreatePriceListRequest } from '../declarations/types-83.js';
 export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makePriceListPriceRequest, makeQuantityPriceBreakRequest } from '../declarations/types-90.js';
-export { makeUpdatePriceListPriceRequest, makeUpdatePriceListRequest } from '../declarations/types-93.js';
+export { makeUpdatePriceListPriceRequest, makeUpdatePriceListRequest } from '../declarations/types-94.js';
 export interface PriceListsResource {
     /**
  * Creates a merchant-only price list. Currency is immutable. A customer segment can belong to only

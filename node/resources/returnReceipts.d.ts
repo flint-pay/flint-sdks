@@ -12,7 +12,7 @@ import type {
     ReturnReceiptsVerifyLineItemParams
 } from '../declarations/types-65.js';
 import type { VerifyReturnReceiptLineItemResponse } from '../declarations/types-78.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,7 +34,7 @@ export type {
     ReturnReceiptsVerifyLineItemParams,
     ReturnSourceSystem
 } from '../declarations/types-65.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     ReturnReceipt,
@@ -57,16 +57,16 @@ export type { MetadataMap } from '../declarations/types-43.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateReturnReceiptRequest } from '../declarations/types-83.js';
+export { makeCreateReturnReceiptRequest } from '../declarations/types-84.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
 export {
     makeReturnReceiptLineItemInputExcess,
     makeReturnReceiptLineItemInputMatched,
     makeReturnReceiptLineItemInputUnverified,
     makeReturnReceiptLineItemRequest,
-    makeReturnSourceSystemRequest,
-    makeReturnUnverifiedItem
+    makeReturnSourceSystemRequest
 } from '../declarations/types-91.js';
+export { makeReturnUnverifiedItem } from '../declarations/types-92.js';
 export { makeVerifyReturnReceiptLineItemRequest } from '../declarations/types-94.js';
 export interface ReturnReceiptsResource {
     /**

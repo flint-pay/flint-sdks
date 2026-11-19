@@ -18,7 +18,6 @@ import type {
     SinglePackageCreateRequestInput,
     ServiceFulfillmentDetailsPreviousAttributes,
     ShipmentFulfillmentDetailsPreviousAttributes,
-    ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
     StartFulfillmentRequestInput
 } from './types-68.js';
@@ -47,6 +46,7 @@ import type {
 } from './types-0.js';
 import type { ResponseMeta } from './types-62.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { ServiceFulfillmentDetails, ScheduleFulfillmentRequestInput } from './types-67.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelFulfillmentRequestInput } from './types-4.js';
 import type { CompleteFulfillmentRequestInput } from './types-7.js';
@@ -60,7 +60,6 @@ import type {
     MarkFulfillmentReadyRequestInput
 } from './types-40.js';
 import type { ReleaseFulfillmentHoldRequestInput } from './types-61.js';
-import type { ScheduleFulfillmentRequestInput } from './types-67.js';
 import type { UpdateFulfillmentRequestInput } from './types-76.js';
 import type { ReturnDisposition, ReturnInspection, ReturnLineItem } from './types-63.js';
 import type { ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-64.js';
@@ -1021,7 +1020,7 @@ export type FulfillmentUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -1170,7 +1169,7 @@ export type FulfillmentUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -1356,7 +1355,7 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
      * (Required): string. Stable identifier of the fulfillment. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -1744,7 +1743,7 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Optional):
          * string or null. The Idempotency-Key of the request that created this resource. `null`
          * when that request sent no key, Flint created the resource, the reader isn't the caller
          * that created it (another app install, a buyer, or the merchant reading an app's or
@@ -1928,7 +1927,7 @@ export type FulfillmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -2787,7 +2786,7 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
      * (Required): string. Stable identifier of the fulfillment. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -3175,7 +3174,7 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Optional):
          * string or null. The Idempotency-Key of the request that created this resource. `null`
          * when that request sent no key, Flint created the resource, the reader isn't the caller
          * that created it (another app install, a buyer, or the merchant reading an app's or
@@ -3359,7 +3358,7 @@ export type FulfillmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -5097,7 +5096,7 @@ export type GiftCardCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "customer_id": string | null;
             "external_reference_id": string | null;
             "gift_card_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "last_loaded_at": string | null;
             "last_redeemed_at": string | null;
             "last4": string;
@@ -5125,7 +5124,7 @@ export type GiftCardCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "customer_id": string | null;
             "external_reference_id": string | null;
             "gift_card_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "last_loaded_at": string | null;
             "last_redeemed_at": string | null;
             "last4": string;
@@ -5175,7 +5174,7 @@ export type GiftCardCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * (Required): string or null. Caller-owned identifier for this resource in an external system.
      * `null` when none is set. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * object.gift_card_id (Required): string. Unique identifier for this gift card, prefixed
-     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.idempotency_key (Required): string
+     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.idempotency_key (Optional): string
      * or null. The Idempotency-Key of the request that created this resource. `null` when that
      * request sent no key, Flint created the resource, the reader isn't the caller that created it
      * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
@@ -5226,7 +5225,7 @@ export type GiftCardCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * Caller-owned identifier for this resource in an external system. `null` when none is
          * set. minLength: 1. maxLength: 255. Example: "warehouse-1842". gift_card_id (Required):
          * string. Unique identifier for this gift card, prefixed `gc_`. Example:
-         * "gc_01KEZF7C00RT1618WYBM1Y94CG". idempotency_key (Required): string or null. The
+         * "gc_01KEZF7C00RT1618WYBM1Y94CG". idempotency_key (Optional): string or null. The
          * Idempotency-Key of the request that created this resource. `null` when that request sent
          * no key, Flint created the resource, the reader isn't the caller that created it (another
          * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
@@ -5306,7 +5305,7 @@ export type GiftCardCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
              * date-time. Example: "2026-08-02T16:00:00Z".
@@ -5422,7 +5421,7 @@ export type GiftCardCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * (Required): string or null. Caller-owned identifier for this resource in an external system.
      * `null` when none is set. minLength: 1. maxLength: 255. Example: "warehouse-1842".
      * object.gift_card_id (Required): string. Unique identifier for this gift card, prefixed
-     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.idempotency_key (Required): string
+     * `gc_`. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". object.idempotency_key (Optional): string
      * or null. The Idempotency-Key of the request that created this resource. `null` when that
      * request sent no key, Flint created the resource, the reader isn't the caller that created it
      * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
@@ -5473,7 +5472,7 @@ export type GiftCardCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * Caller-owned identifier for this resource in an external system. `null` when none is
          * set. minLength: 1. maxLength: 255. Example: "warehouse-1842". gift_card_id (Required):
          * string. Unique identifier for this gift card, prefixed `gc_`. Example:
-         * "gc_01KEZF7C00RT1618WYBM1Y94CG". idempotency_key (Required): string or null. The
+         * "gc_01KEZF7C00RT1618WYBM1Y94CG". idempotency_key (Optional): string or null. The
          * Idempotency-Key of the request that created this resource. `null` when that request sent
          * no key, Flint created the resource, the reader isn't the caller that created it (another
          * app install, a buyer, or the merchant reading an app's or buyer's record), or the caller
@@ -5553,7 +5552,7 @@ export type GiftCardCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format:
              * date-time. Example: "2026-08-02T16:00:00Z".

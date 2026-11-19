@@ -26,10 +26,11 @@ import type { PaymentSourceSummary, PaymentSourceSummaryPreviousAttributes } fro
 import type { BuyerSubscriptionPlanLineItem, BuyerSetupCollection, BuyerTip } from './types-4.js';
 import type { SubscriptionIntervalOption } from './types-70.js';
 import type { CardDetails } from './types-5.js';
-import type { StripeClientSetup, ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from './types-68.js';
+import type { StripeClientSetup, ShipmentFulfillmentDetails } from './types-68.js';
 import type { FulfillmentChargeLink } from './types-27.js';
 import type { FulfillmentRecipient } from './types-28.js';
 import type { PickupFulfillmentDetails } from './types-55.js';
+import type { ServiceFulfillmentDetails } from './types-67.js';
 import type { BuyerAction } from './types-1.js';
 import type { CheckoutMerchantSupport, CheckoutBuyerContact } from './types-6.js';
 import type { CheckoutTheme } from './types-7.js';

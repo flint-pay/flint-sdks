@@ -1,5 +1,5 @@
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
+import type { PartnerWebhookEnvelope, PaymentClientAction } from './types-50.js';
 import type {
     MoneyMovementListMeta,
     MoneyValue,
@@ -7,7 +7,8 @@ import type {
     MoneyMovementBlockedReason,
     NextAction,
     MoneyMovementBlockedReasonPreviousAttributes,
-    NextActionPreviousAttributes
+    NextActionPreviousAttributes,
+    MoneyValueInput
 } from './types-44.js';
 import type { PayoutDestination, Payout } from './types-54.js';
 import type { ResponseMeta, ResourceReference } from './types-62.js';
@@ -22,84 +23,8 @@ import type {
 import type { UpdatePayoutDestinationRequestInput, UpdatePayoutSettingsRequestInput } from './types-77.js';
 import type { CancelPayoutRequestInput } from './types-5.js';
 import type { CreatePayoutRequestInput } from './types-12.js';
-import type { PaymentClientAction, PaymentClientActionPreviousAttributes } from './types-51.js';
+import type { PaymentClientActionPreviousAttributes } from './types-51.js';
 import type { Address, AddressPreviousAttributes } from './types-0.js';
-export type PayoutDestinationCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "available_payout_methods": Array<"standard" | (string & {})>;
-            "bank_name"?: string;
-            "country"?: string;
-            "created_at": string;
-            "currency": string;
-            "disabled_at"?: string;
-            "disabled_reason"?: "destination_disabled"
-                | "destination_removed"
-                | "destination_unavailable"
-                | "destination_rejected"
-                | "destination_under_review"
-                | "requirements_past_due"
-                | "requirements_pending_verification"
-                | (string & {});
-            "is_default_for_currency": boolean;
-            "last4"?: string;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "payout_destination_id": string;
-            "status": "pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {});
-            "status_updated_at"?: string;
-            "type": "bank_account" | "debit_card" | "other" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "payout_destination.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "available_payout_methods": Array<"standard" | (string & {})>;
-            "bank_name"?: string;
-            "country"?: string;
-            "created_at": string;
-            "currency": string;
-            "disabled_at"?: string;
-            "disabled_reason"?: "destination_disabled"
-                | "destination_removed"
-                | "destination_unavailable"
-                | "destination_rejected"
-                | "destination_under_review"
-                | "requirements_past_due"
-                | "requirements_pending_verification"
-                | (string & {});
-            "is_default_for_currency": boolean;
-            "last4"?: string;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "payout_destination_id": string;
-            "status": "pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {});
-            "status_updated_at"?: string;
-            "type": "bank_account" | "debit_card" | "other" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "payout_destination.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "payout_destination.created";
-});
 /**
  * The `payout_destination.created` webhook payload for the `installed_merchants` event source.
  * Fields shared by partner webhook payloads.
@@ -2877,7 +2802,7 @@ export type PayoutFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
             "failure_message"?: string;
             "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
             "fee_money": ((MoneyValue) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
             "merchant_id": string;
             "metadata"?: MetadataMap;
@@ -2986,7 +2911,7 @@ export type PayoutFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
             "failure_message"?: string;
             "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
             "fee_money": ((MoneyValue) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
             "merchant_id": string;
             "metadata"?: MetadataMap;
@@ -3111,7 +3036,7 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
      * no fee, so this is 0 once your processor records the payout. `null` when your processor
      * hasn't recorded the payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Required): string or null.
+     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Optional): string or null.
      * The Idempotency-Key of the request that created this resource. `null` when that request sent
      * no key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -3423,7 +3348,7 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
          * processor records the payout. `null` when your processor hasn't recorded the payout yet.
          * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
          * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -3590,7 +3515,7 @@ export type PayoutFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * What started the payout. Inbound payouts are always platform initiated. An outbound
              * payout imported from your processor follows the processor: scheduled when it sent
@@ -4247,7 +4172,7 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
      * no fee, so this is 0 once your processor records the payout. `null` when your processor
      * hasn't recorded the payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Required): string or null.
+     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Optional): string or null.
      * The Idempotency-Key of the request that created this resource. `null` when that request sent
      * no key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -4559,7 +4484,7 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
          * processor records the payout. `null` when your processor hasn't recorded the payout yet.
          * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
          * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -4726,7 +4651,7 @@ export type PayoutFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * What started the payout. Inbound payouts are always platform initiated. An outbound
              * payout imported from your processor follows the processor: scheduled when it sent
@@ -5384,7 +5309,7 @@ export type PayoutReversedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "failure_message"?: string;
             "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
             "fee_money": ((MoneyValue) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
             "merchant_id": string;
             "metadata"?: MetadataMap;
@@ -5493,7 +5418,7 @@ export type PayoutReversedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "failure_message"?: string;
             "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
             "fee_money": ((MoneyValue) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
             "merchant_id": string;
             "metadata"?: MetadataMap;
@@ -5618,7 +5543,7 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * no fee, so this is 0 once your processor records the payout. `null` when your processor
      * hasn't recorded the payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Required): string or null.
+     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Optional): string or null.
      * The Idempotency-Key of the request that created this resource. `null` when that request sent
      * no key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -5930,7 +5855,7 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * processor records the payout. `null` when your processor hasn't recorded the payout yet.
          * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
          * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -6097,7 +6022,7 @@ export type PayoutReversedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * What started the payout. Inbound payouts are always platform initiated. An outbound
              * payout imported from your processor follows the processor: scheduled when it sent
@@ -6754,7 +6679,7 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * no fee, so this is 0 once your processor records the payout. `null` when your processor
      * hasn't recorded the payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Required): string or null.
+     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Optional): string or null.
      * The Idempotency-Key of the request that created this resource. `null` when that request sent
      * no key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -7066,7 +6991,7 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * processor records the payout. `null` when your processor hasn't recorded the payout yet.
          * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
          * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -7233,7 +7158,7 @@ export type PayoutReversedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * What started the payout. Inbound payouts are always platform initiated. An outbound
              * payout imported from your processor follows the processor: scheduled when it sent
@@ -9156,7 +9081,7 @@ export type PayoutSucceededEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "failure_message"?: string;
             "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
             "fee_money": ((MoneyValue) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
             "merchant_id": string;
             "metadata"?: MetadataMap;
@@ -9265,7 +9190,7 @@ export type PayoutSucceededEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "failure_message"?: string;
             "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
             "fee_money": ((MoneyValue) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
             "merchant_id": string;
             "metadata"?: MetadataMap;
@@ -9390,7 +9315,7 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * no fee, so this is 0 once your processor records the payout. `null` when your processor
      * hasn't recorded the payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Required): string or null.
+     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Optional): string or null.
      * The Idempotency-Key of the request that created this resource. `null` when that request sent
      * no key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -9702,7 +9627,7 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * processor records the payout. `null` when your processor hasn't recorded the payout yet.
          * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
          * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -9869,7 +9794,7 @@ export type PayoutSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * What started the payout. Inbound payouts are always platform initiated. An outbound
              * payout imported from your processor follows the processor: scheduled when it sent
@@ -10526,7 +10451,7 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * no fee, so this is 0 once your processor records the payout. `null` when your processor
      * hasn't recorded the payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Required): string or null.
+     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Optional): string or null.
      * The Idempotency-Key of the request that created this resource. `null` when that request sent
      * no key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -10838,7 +10763,7 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * processor records the payout. `null` when your processor hasn't recorded the payout yet.
          * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
          * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -11005,7 +10930,7 @@ export type PayoutSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * What started the payout. Inbound payouts are always platform initiated. An outbound
              * payout imported from your processor follows the processor: scheduled when it sent
@@ -11646,7 +11571,7 @@ export type PayoutUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "failure_message"?: string;
             "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
             "fee_money": ((MoneyValue) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
             "merchant_id": string;
             "metadata"?: MetadataMap;
@@ -11755,7 +11680,7 @@ export type PayoutUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "failure_message"?: string;
             "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
             "fee_money": ((MoneyValue) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
             "merchant_id": string;
             "metadata"?: MetadataMap;
@@ -11880,7 +11805,7 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * no fee, so this is 0 once your processor records the payout. `null` when your processor
      * hasn't recorded the payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Required): string or null.
+     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Optional): string or null.
      * The Idempotency-Key of the request that created this resource. `null` when that request sent
      * no key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -12192,7 +12117,7 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * processor records the payout. `null` when your processor hasn't recorded the payout yet.
          * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
          * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -12359,7 +12284,7 @@ export type PayoutUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * What started the payout. Inbound payouts are always platform initiated. An outbound
              * payout imported from your processor follows the processor: scheduled when it sent
@@ -13016,7 +12941,7 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * no fee, so this is 0 once your processor records the payout. `null` when your processor
      * hasn't recorded the payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Required): string or null.
+     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Optional): string or null.
      * The Idempotency-Key of the request that created this resource. `null` when that request sent
      * no key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -13328,7 +13253,7 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * processor records the payout. `null` when your processor hasn't recorded the payout yet.
          * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
          * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -13495,7 +13420,7 @@ export type PayoutUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * What started the payout. Inbound payouts are always platform initiated. An outbound
              * payout imported from your processor follows the processor: scheduled when it sent
@@ -15039,4 +14964,37 @@ export type PlatformFeeCapPreviousAttributes = {
      * (Value): null.
      */
     "percent"?: ((number) | (null));
+};
+/**
+ * The whole platform fee cap. The largest platform fee on a payment is percent of the amount it
+ * collects, rounded half up to the minor unit, plus the currency's fixed part if it has one, and
+ * never more than the currency's maximum: a cap of 1% + 0.30 USD with a 5.00 USD maximum allows up
+ * to 1.30 USD on a 100.00 USD payment. percent and maximum_fee_currency_options are required. A
+ * write replaces the cap whole, so a cap sent without fixed_fee_currency_options has no fixed
+ * part.
+ */
+export type PlatformFeeCapRequestInput = {
+    /**
+     * The fixed part of the cap per payment, keyed by currency code, added to the percentage part:
+     * 30 USD minor units with percent 1 is 1% + 0.30 USD. Optional. Each is from 1 minor unit to
+     * the same currency's maximum, and a currency needs a maximum to have one; otherwise
+     * INVALID_REQUEST with INVALID_VALUE on the entry. Each key must equal its Money's currency.
+     * Only USD today. * (Value): {@link MoneyValueInput}. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "fixed_fee_currency_options"?: Record<string, MoneyValueInput>;
+    /**
+     * The maximum fee on one payment, keyed by currency code: from 1 to 1,000,000 minor units
+     * ($0.01 to $10,000.00). Each key must equal its Money's currency. Only USD today.
+     * minProperties: 1. * (Value): {@link MoneyValueInput}. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "maximum_fee_currency_options": Record<string, MoneyValueInput>;
+    /**
+     * The percentage part of the cap, in percent: from 0 to 25, with up to four decimal places.
+     * 2.5 means 2.5%. 0 needs a fixed part in every currency with a maximum, so the cap is a flat
+     * fee per payment; otherwise INVALID_REQUEST with INVALID_VALUE on the maximum of the currency
+     * without one. minimum: 0. maximum: 25. multipleOf: 0.0001.
+     */
+    "percent": number;
 };

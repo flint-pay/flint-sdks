@@ -20,7 +20,8 @@ import type {
     SubscriptionGiftRecipientPreviousAttributes,
     SubscriptionIntervalOptionPreviousAttributes,
     SubscriptionInventoryWaitPreviousAttributes,
-    SubscriptionLineItemPreviousAttributes
+    SubscriptionLineItemPreviousAttributes,
+    SubscriptionDeliveryMigrationFailureReasonCount
 } from './types-70.js';
 import type { SubscriptionPausedDeliveryHold, SubscriptionPausedDeliveryHoldPreviousAttributes } from './types-71.js';
 import type {
@@ -44,27 +45,6 @@ import type { ReturnActor, ResponseMeta } from './types-62.js';
 import type { SubscriptionWindowMetrics } from './types-73.js';
 import type { DeliveryRecipientResource } from './types-23.js';
 import type { Address, AddressRequestInput } from './types-0.js';
-/**
- * Makes an order line a subscription purchase, with the subscription offer and billing interval.
- */
-export type SubscribedLineRequest = {
-    /**
-     * Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the
-     * pair must be one of the offer's billing interval options. Value enum: "daily", "weekly",
-     * "monthly", "yearly".
-     */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Number of billing_interval units between charges, from 1 to 365. Format: int32. minimum: 1.
-     * maximum: 365.
-     */
-    "billing_interval_count": number;
-    /**
-     * Active subscription offer for this catalog variant. minLength: 1. Example:
-     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
-     */
-    "subscription_offer_id": string;
-};
 /**
  * Makes an order line a subscription purchase, with the subscription offer and billing interval.
  */
@@ -603,7 +583,7 @@ export type SubscriptionActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "expires_at": string | null;
             "external_reference_id"?: string;
             "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_wait"?: SubscriptionInventoryWait;
             "is_awaiting_billing_schedule"?: boolean;
             "last_payment_error"?: PaymentErrorSummary;
@@ -807,7 +787,7 @@ export type SubscriptionActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "expires_at": string | null;
             "external_reference_id"?: string;
             "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_wait"?: SubscriptionInventoryWait;
             "is_awaiting_billing_schedule"?: boolean;
             "last_payment_error"?: PaymentErrorSummary;
@@ -1101,7 +1081,7 @@ export type SubscriptionActivatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
      * purchaser, who pays, gets receipts and reminders, and manages the subscription.
      * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -1931,7 +1911,7 @@ export type SubscriptionActivatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
          * purchaser, who pays, gets receipts and reminders, and manages the subscription.
          * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -2311,7 +2291,7 @@ export type SubscriptionActivatedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
              * renewal is waiting for inventory, with the order and invoice involved and when the
@@ -3928,7 +3908,7 @@ export type SubscriptionActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
      * purchaser, who pays, gets receipts and reminders, and manages the subscription.
      * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -4758,7 +4738,7 @@ export type SubscriptionActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
          * purchaser, who pays, gets receipts and reminders, and manages the subscription.
          * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -5138,7 +5118,7 @@ export type SubscriptionActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
              * renewal is waiting for inventory, with the order and invoice involved and when the
@@ -6958,7 +6938,7 @@ export type SubscriptionCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "expires_at": string | null;
             "external_reference_id"?: string;
             "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_wait"?: SubscriptionInventoryWait;
             "is_awaiting_billing_schedule"?: boolean;
             "last_payment_error"?: PaymentErrorSummary;
@@ -7162,7 +7142,7 @@ export type SubscriptionCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "expires_at": string | null;
             "external_reference_id"?: string;
             "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_wait"?: SubscriptionInventoryWait;
             "is_awaiting_billing_schedule"?: boolean;
             "last_payment_error"?: PaymentErrorSummary;
@@ -7456,7 +7436,7 @@ export type SubscriptionCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
      * purchaser, who pays, gets receipts and reminders, and manages the subscription.
      * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -8286,7 +8266,7 @@ export type SubscriptionCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
          * purchaser, who pays, gets receipts and reminders, and manages the subscription.
          * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -8666,7 +8646,7 @@ export type SubscriptionCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
              * renewal is waiting for inventory, with the order and invoice involved and when the
@@ -10283,7 +10263,7 @@ export type SubscriptionCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
      * purchaser, who pays, gets receipts and reminders, and manages the subscription.
      * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -11113,7 +11093,7 @@ export type SubscriptionCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
          * purchaser, who pays, gets receipts and reminders, and manages the subscription.
          * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -11493,7 +11473,7 @@ export type SubscriptionCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
              * renewal is waiting for inventory, with the order and invoice involved and when the
@@ -13067,7 +13047,7 @@ export type SubscriptionCancellationScheduledEvent = ((((Exclude<MerchantWebhook
             "expires_at": string | null;
             "external_reference_id"?: string;
             "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_wait"?: SubscriptionInventoryWait;
             "is_awaiting_billing_schedule"?: boolean;
             "last_payment_error"?: PaymentErrorSummary;
@@ -13271,7 +13251,7 @@ export type SubscriptionCancellationScheduledEvent = ((((Exclude<MerchantWebhook
             "expires_at": string | null;
             "external_reference_id"?: string;
             "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_wait"?: SubscriptionInventoryWait;
             "is_awaiting_billing_schedule"?: boolean;
             "last_payment_error"?: PaymentErrorSummary;
@@ -13565,7 +13545,7 @@ export type SubscriptionCancellationScheduledInstalledMerchantsEvent = (Exclude<
      * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
      * purchaser, who pays, gets receipts and reminders, and manages the subscription.
      * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -14395,7 +14375,7 @@ export type SubscriptionCancellationScheduledInstalledMerchantsEvent = (Exclude<
          * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
          * purchaser, who pays, gets receipts and reminders, and manages the subscription.
          * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -14775,7 +14755,7 @@ export type SubscriptionCancellationScheduledInstalledMerchantsEvent = (Exclude<
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
              * renewal is waiting for inventory, with the order and invoice involved and when the
@@ -16392,7 +16372,7 @@ export type SubscriptionCancellationScheduledMerchantEvent = (Exclude<MerchantWe
      * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
      * purchaser, who pays, gets receipts and reminders, and manages the subscription.
      * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -17222,7 +17202,7 @@ export type SubscriptionCancellationScheduledMerchantEvent = (Exclude<MerchantWe
          * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
          * purchaser, who pays, gets receipts and reminders, and manages the subscription.
          * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -17602,7 +17582,7 @@ export type SubscriptionCancellationScheduledMerchantEvent = (Exclude<MerchantWe
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
              * renewal is waiting for inventory, with the order and invoice involved and when the
@@ -19247,7 +19227,7 @@ export type SubscriptionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "expires_at": string | null;
             "external_reference_id"?: string;
             "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_wait"?: SubscriptionInventoryWait;
             "is_awaiting_billing_schedule"?: boolean;
             "last_payment_error"?: PaymentErrorSummary;
@@ -19350,7 +19330,7 @@ export type SubscriptionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "expires_at": string | null;
             "external_reference_id"?: string;
             "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_wait"?: SubscriptionInventoryWait;
             "is_awaiting_billing_schedule"?: boolean;
             "last_payment_error"?: PaymentErrorSummary;
@@ -19543,7 +19523,7 @@ export type SubscriptionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
      * purchaser, who pays, gets receipts and reminders, and manages the subscription.
      * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -19838,7 +19818,7 @@ export type SubscriptionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
          * purchaser, who pays, gets receipts and reminders, and manages the subscription.
          * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -20218,7 +20198,7 @@ export type SubscriptionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
              * renewal is waiting for inventory, with the order and invoice involved and when the
@@ -20679,7 +20659,7 @@ export type SubscriptionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
      * purchaser, who pays, gets receipts and reminders, and manages the subscription.
      * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -20974,7 +20954,7 @@ export type SubscriptionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
          * purchaser, who pays, gets receipts and reminders, and manages the subscription.
          * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -21354,7 +21334,7 @@ export type SubscriptionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
              * renewal is waiting for inventory, with the order and invoice involved and when the
@@ -21701,7 +21681,7 @@ export type SubscriptionCycleSkippedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "expires_at": string | null;
             "external_reference_id"?: string;
             "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_wait"?: SubscriptionInventoryWait;
             "is_awaiting_billing_schedule"?: boolean;
             "last_payment_error"?: PaymentErrorSummary;
@@ -21905,7 +21885,7 @@ export type SubscriptionCycleSkippedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "expires_at": string | null;
             "external_reference_id"?: string;
             "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_wait"?: SubscriptionInventoryWait;
             "is_awaiting_billing_schedule"?: boolean;
             "last_payment_error"?: PaymentErrorSummary;
@@ -22199,7 +22179,7 @@ export type SubscriptionCycleSkippedInstalledMerchantsEvent = (Exclude<PartnerWe
      * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
      * purchaser, who pays, gets receipts and reminders, and manages the subscription.
      * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -23029,7 +23009,7 @@ export type SubscriptionCycleSkippedInstalledMerchantsEvent = (Exclude<PartnerWe
          * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
          * purchaser, who pays, gets receipts and reminders, and manages the subscription.
          * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -23409,7 +23389,7 @@ export type SubscriptionCycleSkippedInstalledMerchantsEvent = (Exclude<PartnerWe
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
              * renewal is waiting for inventory, with the order and invoice involved and when the
@@ -25026,7 +25006,7 @@ export type SubscriptionCycleSkippedMerchantEvent = (Exclude<MerchantWebhookEnve
      * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
      * purchaser, who pays, gets receipts and reminders, and manages the subscription.
      * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -25856,7 +25836,7 @@ export type SubscriptionCycleSkippedMerchantEvent = (Exclude<MerchantWebhookEnve
          * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
          * purchaser, who pays, gets receipts and reminders, and manages the subscription.
          * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -26236,7 +26216,7 @@ export type SubscriptionCycleSkippedMerchantEvent = (Exclude<MerchantWebhookEnve
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
              * renewal is waiting for inventory, with the order and invoice involved and when the
@@ -27789,7 +27769,7 @@ export type SubscriptionDeliveryActionRequiredEvent = ((((Exclude<MerchantWebhoo
             "expires_at": string | null;
             "external_reference_id"?: string;
             "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_wait"?: SubscriptionInventoryWait;
             "is_awaiting_billing_schedule"?: boolean;
             "last_payment_error"?: PaymentErrorSummary;
@@ -27993,7 +27973,7 @@ export type SubscriptionDeliveryActionRequiredEvent = ((((Exclude<MerchantWebhoo
             "expires_at": string | null;
             "external_reference_id"?: string;
             "gift_recipient": ((SubscriptionGiftRecipient) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_wait"?: SubscriptionInventoryWait;
             "is_awaiting_billing_schedule"?: boolean;
             "last_payment_error"?: PaymentErrorSummary;
@@ -28287,7 +28267,7 @@ export type SubscriptionDeliveryActionRequiredInstalledMerchantsEvent = (Exclude
      * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
      * purchaser, who pays, gets receipts and reminders, and manages the subscription.
      * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -29117,7 +29097,7 @@ export type SubscriptionDeliveryActionRequiredInstalledMerchantsEvent = (Exclude
          * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
          * purchaser, who pays, gets receipts and reminders, and manages the subscription.
          * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -29497,7 +29477,7 @@ export type SubscriptionDeliveryActionRequiredInstalledMerchantsEvent = (Exclude
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
              * renewal is waiting for inventory, with the order and invoice involved and when the
@@ -31114,7 +31094,7 @@ export type SubscriptionDeliveryActionRequiredMerchantEvent = (Exclude<MerchantW
      * {@link SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
      * purchaser, who pays, gets receipts and reminders, and manages the subscription.
      * delivery.recipient stays the ship-to address. object.gift_recipient.anyOf[2] (Value): null.
-     * object.idempotency_key (Required): string or null. The Idempotency-Key of the request that
+     * object.idempotency_key (Optional): string or null. The Idempotency-Key of the request that
      * created this resource. `null` when that request sent no key, Flint created the resource, the
      * reader isn't the caller that created it (another app install, a buyer, or the merchant
      * reading an app's or buyer's record), or the caller that created an older record is unknown.
@@ -31944,7 +31924,7 @@ export type SubscriptionDeliveryActionRequiredMerchantEvent = (Exclude<MerchantW
          * SubscriptionGiftRecipient}. Who receives a gift subscription. The customer stays the
          * purchaser, who pays, gets receipts and reminders, and manages the subscription.
          * delivery.recipient stays the ship-to address. gift_recipient.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -32324,7 +32304,7 @@ export type SubscriptionDeliveryActionRequiredMerchantEvent = (Exclude<MerchantW
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
              * renewal is waiting for inventory, with the order and invoice involved and when the
@@ -33979,4 +33959,58 @@ export type SubscriptionDeliveryMethodSummaryPreviousAttributes = {
      * "local_delivery". anyOf[2] (Value): null.
      */
     "type"?: (("shipment" | "local_delivery" | (string & {})) | (null));
+};
+/** A move of subscribers from one delivery method to another. */
+export type SubscriptionDeliveryMigration = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "completed_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Subscriptions that could not be moved. See `failure_reason_counts`, or list the failures for
+     * each subscription. Format: int64.
+     */
+    "failed_count": number;
+    /**
+     * Failed subscriptions grouped by reason. Empty when none failed. [] (Value): {@link
+     * SubscriptionDeliveryMigrationFailureReasonCount}. The number of subscriptions that failed a
+     * delivery method migration for one reason.
+     */
+    "failure_reason_counts": Array<SubscriptionDeliveryMigrationFailureReasonCount>;
+    /**
+     * ID of the delivery method the subscriptions moved away from. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "from_delivery_method_id": string;
+    /** Subscriptions now using the new method. Format: int64. */
+    "moved_count": number;
+    /** Subscriptions not yet moved or failed, including ones Flint is retrying. Format: int64. */
+    "pending_count": number;
+    /**
+     * Progress of the delivery method migration across its subscriptions. Value enum: "pending",
+     * "processing", "completed".
+     */
+    "status": "pending" | "processing" | "completed" | (string & {});
+    /**
+     * Unique identifier for this subscription delivery migration, prefixed `sdmig_`. Example:
+     * "sdmig_01KEZF7C00H8KGVKXANJWJVDH7".
+     */
+    "subscription_delivery_migration_id": string;
+    /**
+     * Plan the migration was limited to. Omitted when it covered every plan. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id"?: string;
+    /**
+     * ID of the delivery method the subscriptions move to. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "to_delivery_method_id": string;
+    /**
+     * Number of active, paused, and past due subscriptions on the original method when the
+     * migration started. Format: int64.
+     */
+    "total_count": number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
 };

@@ -30,7 +30,7 @@ namespace Flint;
  * @property-read ?list<ExpandedPaymentIntentSummary> $payment_intents
  * @property-read ?string $pricing_basis
  * @property-read list<string> $refund_ids
- * @property-read ?list<Refund> $refunds
+ * @property-read ?list<WebhookSnapshotRefund> $refunds
  * @property-read list<ReturnReplacementLineItem> $replacement_line_items
  * @property-read ExpandedOrderSummary|null $replacement_order
  * @property-read ?string $replacement_order_id
@@ -189,8 +189,8 @@ final class ReturnResolutionCreatedInstalledMerchantsEventDataObject extends Mod
      */
     public function getRefundIds(): array { return $this->get('refund_ids'); }
     public function hasRefundIds(): bool { return $this->has('refund_ids'); }
-    /** Present only when `expand` includes `refunds`. The refunds in `refund_ids`, in the same order. [] (Value): {@see Refund}. Money returned against a collected payment.
-     * @return ?list<Refund>
+    /** Present only when `expand` includes `refunds`. The refunds in `refund_ids`, in the same order. [] (Value): {@see WebhookSnapshotRefund}. Money returned against a collected payment.
+     * @return ?list<WebhookSnapshotRefund>
      */
     public function getRefunds(): ?array { return $this->get('refunds'); }
     public function hasRefunds(): bool { return $this->has('refunds'); }

@@ -26,49 +26,7 @@ import type { BundleComponentVariantSummary } from './types-1.js';
 import type { SelectedProductOption } from './types-67.js';
 import type { ReturnPolicyRevisionRequest, ReturnPolicyRevisionRequestInput } from './types-64.js';
 import type { GetReturnPolicyResponse } from './types-28.js';
-/**
- * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
- * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
- * or send null where the field is clearable. Responses list rules before nested groups. Under any,
- * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
- * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
- * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
- * line_item.* rules in the same all group, including its nested groups.
- */
-export type PromotionRuleGroupRequestInput = (({
-    /**
-     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link
-     * PromotionRuleRequestInput} or {@link PromotionRuleGroupRequestInput}. [].oneOf[1] (Value):
-     * {@link PromotionRuleRequestInput}. One condition you set in a promotion rule group, which
-     * tests an attribute with an operator and values. [].oneOf[2] (Value): {@link
-     * PromotionRuleGroupRequestInput}. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "all": Array<((PromotionRuleRequestInput) | (PromotionRuleGroupRequestInput))>;
-})
-    | ({
-    /**
-     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
-     * PromotionRuleRequestInput} or {@link PromotionRuleGroupRequestInput}. [].oneOf[1] (Value):
-     * {@link PromotionRuleRequestInput}. One condition you set in a promotion rule group, which
-     * tests an attribute with an operator and values. [].oneOf[2] (Value): {@link
-     * PromotionRuleGroupRequestInput}. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "any": Array<((PromotionRuleRequestInput) | (PromotionRuleGroupRequestInput))>;
-}));
+import type { SimulateReaderRequestInput } from './types-68.js';
 export type PromotionRulePreviousAttributes = {
     /**
      * Field the rule tests. The attribute fixes the value type and the operators that are legal
@@ -3735,6 +3693,27 @@ export type ReadersListParams = {
      * string. Value enum: "smart_reader", "tap_to_pay".
      */
     "type"?: InputValue<("smart_reader" | "tap_to_pay") | readonly ("smart_reader" | "tap_to_pay")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReadersSimulateParams = (InputValue<SimulateReaderRequestInput>)
+    & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own

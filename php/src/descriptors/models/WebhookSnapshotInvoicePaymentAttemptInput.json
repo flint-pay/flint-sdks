@@ -1,0 +1,1 @@
+{"shared":"WebhookSnapshotInvoicePaymentAttempt","dependencies":["ErrorRemediation","MoneyValue","NextAction","PaymentErrorSummary","ReadinessMerchantAccountSession","ResourceReference","ResourceType","SharedCodec136","SharedCodec1780","SharedCodec1838","SharedCodec2520","SharedCodec5","WebhookSnapshotInvoicePaymentAttempt"]}

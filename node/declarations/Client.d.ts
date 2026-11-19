@@ -2,7 +2,7 @@ import type { Result, WithResponseInfo, InputValue, WebhookHeaders as _SdkWebhoo
 import type { ClientOptions } from './types-7.js';
 import type { VerifiedWebhook } from './types-78.js';
 import type { WebhookVerificationOptions } from './types-79.js';
-import type { verifyWebhook, verifyWebhookAsync } from './types-94.js';
+import type { verifyWebhook, verifyWebhookAsync } from './types-95.js';
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {
     constructor(options?: ClientOptions);

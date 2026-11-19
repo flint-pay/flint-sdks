@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# RefundTenderAllocation to ReturnCompletionBlocker
+# RefundTenderAllocationInputGiftCardRedemption to ReturnCompletionBlockerPreviousAttributes
 
-- [RefundTenderAllocation](RefundTenderAllocation.md)
 - [RefundTenderAllocationInputGiftCardRedemption](RefundTenderAllocationInputGiftCardRedemption.md)
 - [RefundTenderAllocationInputGiftCardRedemptionInput](RefundTenderAllocationInputGiftCardRedemptionInput.md)
 - [RefundTenderAllocationInputPaymentIntent](RefundTenderAllocationInputPaymentIntent.md)
@@ -102,4 +101,5 @@
 - [ReturnCompletedInstalledMerchantsEvent](ReturnCompletedInstalledMerchantsEvent.md)
 - [ReturnCompletedMerchantEvent](ReturnCompletedMerchantEvent.md)
 - [ReturnCompletionBlocker](ReturnCompletionBlocker.md)
+- [ReturnCompletionBlockerPreviousAttributes](ReturnCompletionBlockerPreviousAttributes.md)
 

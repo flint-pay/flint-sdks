@@ -11,7 +11,7 @@ import type {
     ModifierSetsUpdateParams
 } from '../declarations/types-44.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -55,7 +55,7 @@ export type {
     ModifierRequestInput,
     MetadataPatchRequest
 } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateModifierSetRequestInput,
@@ -80,7 +80,7 @@ export {
     makeCreateModifierSetGroupRequest,
     makeCreateModifierSetRequest
 } from '../declarations/types-83.js';
-export { makeInlineModifierGroupRequest } from '../declarations/types-86.js';
+export { makeInlineModifierGroupRequest } from '../declarations/types-87.js';
 export {
     makeMetadataPatchRequest,
     makeMetadataRequest,
@@ -91,7 +91,8 @@ export {
     makeModifierSetGroupRequest,
     makeMoneyValue
 } from '../declarations/types-88.js';
-export { makeTextModifierConfigRequest, makeUpdateModifierSetRequest } from '../declarations/types-93.js';
+export { makeTextModifierConfigRequest } from '../declarations/types-93.js';
+export { makeUpdateModifierSetRequest } from '../declarations/types-94.js';
 export interface ModifierSetsResource {
     /**
  * Creates a modifier set, a reusable collection of modifier groups that you attach to products,

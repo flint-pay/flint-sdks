@@ -24,7 +24,7 @@ import type {
     ProductsUpdateVariantParams
 } from '../declarations/types-57.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -70,7 +70,7 @@ export type {
 } from '../declarations/types-57.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { Product, PoolLicenseKeyConfigurationRequestInput, PoolLicenseKeyConfiguration } from '../declarations/types-56.js';
-export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateProductRequestInput,
@@ -103,6 +103,7 @@ export type {
 export type { LicenseKeyConfigurationRequestInput, LicenseKeyConfiguration } from '../declarations/types-39.js';
 export type { QuantityPriceBreakRequestInput, QuantityPriceBreak } from '../declarations/types-59.js';
 export type { DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
+export type { WeightRequestInput, Weight } from '../declarations/types-79.js';
 export type { AuthMode, BundlesGetParams } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { CategoryReference } from '../declarations/types-5.js';
@@ -128,22 +129,29 @@ export {
 export {
     makeDimensionsRequest,
     makeGeneratedLicenseKeyConfigurationRequest,
-    makeGiftCardCustomAmountBoundsRequest,
+    makeGiftCardCustomAmountBoundsRequest
+} from '../declarations/types-86.js';
+export {
     makeGiftCardProductConfigurationRequest,
     makeImageInputFile,
     makeImageInputSourceURL,
-    makeImageRequest
-} from '../declarations/types-86.js';
-export { makeInventoryItemCreateRequest, makeLicenseKeyConfigurationRequest } from '../declarations/types-87.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+    makeImageRequest,
+    makeInventoryItemCreateRequest
+} from '../declarations/types-87.js';
+export {
+    makeLicenseKeyConfigurationRequest,
+    makeMetadataPatchRequest,
+    makeMetadataRequest,
+    makeMoneyValue
+} from '../declarations/types-88.js';
 export {
     makePoolLicenseKeyConfigurationRequest,
     makeProductVariantRequest,
     makeProductVariantSelectedOptionRequest,
     makeQuantityPriceBreakRequest
 } from '../declarations/types-90.js';
-export { makeUpdateProductOptionRequest } from '../declarations/types-93.js';
 export {
+    makeUpdateProductOptionRequest,
     makeUpdateProductOptionValueRequest,
     makeUpdateProductRequest,
     makeUpdateProductVariantRequest,

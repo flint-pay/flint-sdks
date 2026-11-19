@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# ProductUpdatedMerchantEvent to PromotionSchedulePreviousAttributes
+# ProductVariant to PromotionScheduleRequestInput
 
-- [ProductUpdatedMerchantEvent](ProductUpdatedMerchantEvent.md)
 - [ProductVariant](ProductVariant.md)
 - [ProductVariantArchivedInstalledMerchantsEvent](ProductVariantArchivedInstalledMerchantsEvent.md)
 - [ProductVariantArchivedMerchantEvent](ProductVariantArchivedMerchantEvent.md)
@@ -102,4 +101,5 @@
 - [PromotionSchedulePatch](PromotionSchedulePatch.md)
 - [PromotionSchedulePatchInput](PromotionSchedulePatchInput.md)
 - [PromotionSchedulePreviousAttributes](PromotionSchedulePreviousAttributes.md)
+- [PromotionScheduleRequestInput](PromotionScheduleRequestInput.md)
 

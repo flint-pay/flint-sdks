@@ -6,7 +6,8 @@ import type {
     RefundChargeInput,
     RefundLineItemInput,
     RefundCharge,
-    RefundLineItem
+    RefundLineItem,
+    RefundTaxBreakdownRefundIn
 } from './types-60.js';
 import type { SplitReversalRequest, SplitReversalRequestInput } from './types-68.js';
 import type {
@@ -14,12 +15,7 @@ import type {
     CreateReceivablesAgingReportRequest,
     CreateReceivablesAgingReportRequestInput
 } from './types-12.js';
-import type {
-    RefundTaxBreakdownRefundInInput,
-    RefundTenderAllocationRequestInput,
-    RefundTaxBreakdownRefundIn,
-    RefundWithGiftCardCodes
-} from './types-61.js';
+import type { RefundTaxBreakdownRefundInInput, RefundTenderAllocationRequestInput, RefundWithGiftCardCodes } from './types-61.js';
 import type { ResponseMeta } from './types-62.js';
 import type { CreateIntervalReportRequest, CreateIntervalReportRequestInput } from './types-10.js';
 import type {

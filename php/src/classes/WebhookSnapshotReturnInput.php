@@ -1,0 +1,310 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string|\DateTimeInterface $canceled_at
+ * @property-read ReturnActorInput|array<array-key, mixed>|\stdClass $canceled_by
+ * @property-read string $cancellation_reason
+ * @property-read string $cancellation_reason_message
+ * @property-read string|\DateTimeInterface $completed_at
+ * @property-read ReturnActorInput|array<array-key, mixed>|\stdClass $completed_by
+ * @property-read list<ReturnCompletionBlockerInput|array<array-key, mixed>|\stdClass> $completion_blockers
+ * @property-read string $completion_mode
+ * @property-read string $completion_reason
+ * @property-read string $completion_reason_message
+ * @property-read string|\DateTimeInterface $created_at
+ * @property-read array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $customer
+ * @property-read string $customer_id
+ * @property-read string|\DateTimeInterface $decision_at
+ * @property-read string $decision_status
+ * @property-read string $external_reference_id
+ * @property-read ReturnFinancialSummaryInput|array<array-key, mixed>|\stdClass $financial_summary
+ * @property-read list<ReturnHandoffRequirementInput|array<array-key, mixed>|\stdClass> $handoff_requirements
+ * @property-read string|null $idempotency_key
+ * @property-read string $initiated_by
+ * @property-read list<WebhookSnapshotReturnLineItemInput|array<array-key, mixed>|\stdClass> $line_items
+ * @property-read string $merchandise_status
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
+ * @property-read array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions'?: list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $order
+ * @property-read string $order_id
+ * @property-read ReturnPolicyEvaluationInput|array<array-key, mixed>|\stdClass $policy_evaluation
+ * @property-read string $resolution_status
+ * @property-read list<string> $return_disposition_ids
+ * @property-read list<WebhookSnapshotReturnDispositionInput|array<array-key, mixed>|\stdClass> $return_dispositions
+ * @property-read string $return_id
+ * @property-read list<string> $return_inspection_ids
+ * @property-read list<WebhookSnapshotReturnInspectionInput|array<array-key, mixed>|\stdClass> $return_inspections
+ * @property-read string $return_number
+ * @property-read list<string> $return_receipt_ids
+ * @property-read list<WebhookSnapshotReturnReceiptInput|array<array-key, mixed>|\stdClass> $return_receipts
+ * @property-read list<string> $return_resolution_ids
+ * @property-read list<WebhookSnapshotReturnResolutionInput|array<array-key, mixed>|\stdClass> $return_resolutions
+ * @property-read list<string> $shipment_ids
+ * @property-read list<ExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass> $shipments
+ * @property-read string $status
+ * @property-read list<string> $supported_actions
+ * @property-read string|\DateTimeInterface $updated_at
+ * @property-read int $version
+ * Presence-aware input; omitted fields throw when accessed. */
+final class WebhookSnapshotReturnInput extends Model {
+    /** @param array{'canceled_at'?: string|\DateTimeInterface, 'canceled_by'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'cancellation_reason'?: string, 'cancellation_reason_message'?: string, 'completed_at'?: string|\DateTimeInterface, 'completed_by'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'completion_blockers': list<ReturnCompletionBlockerInput|array<array-key, mixed>|\stdClass>, 'completion_mode'?: string, 'completion_reason'?: string, 'completion_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id'?: string, 'decision_at'?: string|\DateTimeInterface, 'decision_status': string, 'external_reference_id'?: string, 'financial_summary': ReturnFinancialSummaryInput|array<array-key, mixed>|\stdClass, 'handoff_requirements': list<ReturnHandoffRequirementInput|array<array-key, mixed>|\stdClass>, 'idempotency_key'?: string|null, 'initiated_by': string, 'line_items': list<WebhookSnapshotReturnLineItemInput|array<array-key, mixed>|\stdClass>, 'merchandise_status': string, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions'?: list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id': string, 'policy_evaluation'?: ReturnPolicyEvaluationInput|array<array-key, mixed>|\stdClass, 'resolution_status': string, 'return_disposition_ids': list<string>, 'return_dispositions'?: list<WebhookSnapshotReturnDispositionInput|array<array-key, mixed>|\stdClass>, 'return_id': string, 'return_inspection_ids': list<string>, 'return_inspections'?: list<WebhookSnapshotReturnInspectionInput|array<array-key, mixed>|\stdClass>, 'return_number': string, 'return_receipt_ids': list<string>, 'return_receipts'?: list<WebhookSnapshotReturnReceiptInput|array<array-key, mixed>|\stdClass>, 'return_resolution_ids': list<string>, 'return_resolutions'?: list<WebhookSnapshotReturnResolutionInput|array<array-key, mixed>|\stdClass>, 'shipment_ids': list<string>, 'shipments'?: list<ExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass>, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookSnapshotReturnInput')); }
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When canceled_at is omitted; use hasCanceledAt() or valueOrDefault().
+     */
+    public function getCanceledAt(): string|\DateTimeInterface { return $this->get('canceled_at'); }
+    public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
+    /** Who canceled the Return. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+     * @return ReturnActorInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When canceled_by is omitted; use hasCanceledBy() or valueOrDefault().
+     */
+    public function getCanceledBy(): mixed { return $this->get('canceled_by'); }
+    public function hasCanceledBy(): bool { return $this->has('canceled_by'); }
+    /** Why the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other".
+     * @return string
+     * @throws SdkError When cancellation_reason is omitted; use hasCancellationReason() or valueOrDefault().
+     */
+    public function getCancellationReason(): string { return $this->get('cancellation_reason'); }
+    public function hasCancellationReason(): bool { return $this->has('cancellation_reason'); }
+    /** Detail sent with the cancellation. Merchant reads only.
+     * @return string
+     * @throws SdkError When cancellation_reason_message is omitted; use hasCancellationReasonMessage() or valueOrDefault().
+     */
+    public function getCancellationReasonMessage(): string { return $this->get('cancellation_reason_message'); }
+    public function hasCancellationReasonMessage(): bool { return $this->has('cancellation_reason_message'); }
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
+     */
+    public function getCompletedAt(): string|\DateTimeInterface { return $this->get('completed_at'); }
+    public function hasCompletedAt(): bool { return $this->has('completed_at'); }
+    /** Who completed the Return. `system` when Flint completed it automatically. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+     * @return ReturnActorInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When completed_by is omitted; use hasCompletedBy() or valueOrDefault().
+     */
+    public function getCompletedBy(): mixed { return $this->get('completed_by'); }
+    public function hasCompletedBy(): bool { return $this->has('completed_by'); }
+    /** What is still owed before the Return can complete. Empty when nothing is. [] (Value): {@see ReturnCompletionBlockerInput}. Something still owed before a return can complete, with the return line or record it concerns.
+     * @return list<ReturnCompletionBlockerInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When completion_blockers is omitted; use hasCompletionBlockers() or valueOrDefault().
+     */
+    public function getCompletionBlockers(): array { return $this->get('completion_blockers'); }
+    public function hasCompletionBlockers(): bool { return $this->has('completion_blockers'); }
+    /** automatic completes the Return when the last completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum: "manual", "automatic".
+     * @return string
+     * @throws SdkError When completion_mode is omitted; use hasCompletionMode() or valueOrDefault().
+     */
+    public function getCompletionMode(): string { return $this->get('completion_mode'); }
+    public function hasCompletionMode(): bool { return $this->has('completion_mode'); }
+    /** Why the Return was completed by hand. Absent when Flint completed it automatically. Value enum: "manual_completion", "exception_waived", "other".
+     * @return string
+     * @throws SdkError When completion_reason is omitted; use hasCompletionReason() or valueOrDefault().
+     */
+    public function getCompletionReason(): string { return $this->get('completion_reason'); }
+    public function hasCompletionReason(): bool { return $this->has('completion_reason'); }
+    /** Detail sent when the Return was completed by hand.
+     * @return string
+     * @throws SdkError When completion_reason_message is omitted; use hasCompletionReasonMessage() or valueOrDefault().
+     */
+    public function getCompletionReasonMessage(): string { return $this->get('completion_reason_message'); }
+    public function hasCompletionReasonMessage(): bool { return $this->has('completion_reason_message'); }
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+     */
+    public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummaryInput}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
+     * @return array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
+     * @throws SdkError When customer is omitted; use hasCustomer() or valueOrDefault().
+     */
+    public function getCustomer(): mixed { return $this->get('customer'); }
+    public function hasCustomer(): bool { return $this->has('customer'); }
+    /** The customer the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * @return string
+     * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
+     */
+    public function getCustomerId(): string { return $this->get('customer_id'); }
+    public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When decision_at is omitted; use hasDecisionAt() or valueOrDefault().
+     */
+    public function getDecisionAt(): string|\DateTimeInterface { return $this->get('decision_at'); }
+    public function hasDecisionAt(): bool { return $this->has('decision_at'); }
+    /** Whether the requested units were approved. `pending` until one decision covers every line. Value enum: "pending", "approved", "partially_approved", "declined".
+     * @return string
+     * @throws SdkError When decision_status is omitted; use hasDecisionStatus() or valueOrDefault().
+     */
+    public function getDecisionStatus(): string { return $this->get('decision_status'); }
+    public function hasDecisionStatus(): bool { return $this->has('decision_status'); }
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * @return string
+     * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
+     */
+    public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
+    public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** The Return's money in one place: the value of the returned lines, deductions and credits, and what has been refunded or collected. The money for a return: returned value, deductions, credits, replacement total, and amounts due to or from the buyer.
+     * @return ReturnFinancialSummaryInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When financial_summary is omitted; use hasFinancialSummary() or valueOrDefault().
+     */
+    public function getFinancialSummary(): mixed { return $this->get('financial_summary'); }
+    public function hasFinancialSummary(): bool { return $this->has('financial_summary'); }
+    /** What the buyer still has to send back and where. Each entry leaves the list once it is satisfied, so an empty list means nothing is waiting on the buyer. [] (Value): {@see ReturnHandoffRequirementInput}. What the buyer must do to hand merchandise back: the destination, instructions, line items, and expiry.
+     * @return list<ReturnHandoffRequirementInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When handoff_requirements is omitted; use hasHandoffRequirements() or valueOrDefault().
+     */
+    public function getHandoffRequirements(): array { return $this->get('handoff_requirements'); }
+    public function hasHandoffRequirements(): bool { return $this->has('handoff_requirements'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer routes return only keys from the buyer's namespace.
+     * @return string|null
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
+    /** Who created the Return: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app, or system for Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration", "system".
+     * @return string
+     * @throws SdkError When initiated_by is omitted; use hasInitiatedBy() or valueOrDefault().
+     */
+    public function getInitiatedBy(): string { return $this->get('initiated_by'); }
+    public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
+    /** The lines being returned. [] (Value): {@see WebhookSnapshotReturnLineItemInput}. An item included in a return request.
+     * @return list<WebhookSnapshotReturnLineItemInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
+     */
+    public function getLineItems(): array { return $this->get('line_items'); }
+    public function hasLineItems(): bool { return $this->has('line_items'); }
+    /** On the Return, the least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception".
+     * @return string
+     * @throws SdkError When merchandise_status is omitted; use hasMerchandiseStatus() or valueOrDefault().
+     */
+    public function getMerchandiseStatus(): string { return $this->get('merchandise_status'); }
+    public function hasMerchandiseStatus(): bool { return $this->has('merchandise_status'); }
+    /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
+     */
+    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function hasMetadata(): bool { return $this->has('metadata'); }
+    /** Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryInput}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
+     * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions'?: list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
+     * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
+     */
+    public function getOrder(): mixed { return $this->get('order'); }
+    public function hasOrder(): bool { return $this->has('order'); }
+    /** ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * @return string
+     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
+    /** How your return policies judged the request when the Return was created. How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results.
+     * @return ReturnPolicyEvaluationInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When policy_evaluation is omitted; use hasPolicyEvaluation() or valueOrDefault().
+     */
+    public function getPolicyEvaluation(): mixed { return $this->get('policy_evaluation'); }
+    public function hasPolicyEvaluation(): bool { return $this->has('policy_evaluation'); }
+    /** Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_completed", "requires_action", "completed", "failed".
+     * @return string
+     * @throws SdkError When resolution_status is omitted; use hasResolutionStatus() or valueOrDefault().
+     */
+    public function getResolutionStatus(): string { return $this->get('resolution_status'); }
+    public function hasResolutionStatus(): bool { return $this->has('resolution_status'); }
+    /** IDs of every disposition recorded for this Return, oldest first, including failed and canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline. [] (Value): string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     * @return list<string>
+     * @throws SdkError When return_disposition_ids is omitted; use hasReturnDispositionIds() or valueOrDefault().
+     */
+    public function getReturnDispositionIds(): array { return $this->get('return_disposition_ids'); }
+    public function hasReturnDispositionIds(): bool { return $this->has('return_disposition_ids'); }
+    /** Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. [] (Value): {@see WebhookSnapshotReturnDispositionInput}. A decision about how returned merchandise will be handled.
+     * @return list<WebhookSnapshotReturnDispositionInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When return_dispositions is omitted; use hasReturnDispositions() or valueOrDefault().
+     */
+    public function getReturnDispositions(): array { return $this->get('return_dispositions'); }
+    public function hasReturnDispositions(): bool { return $this->has('return_dispositions'); }
+    /** Unique identifier for this return, prefixed `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
+    /** IDs of every inspection recorded for this Return, oldest first, including superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them inline. [] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * @return list<string>
+     * @throws SdkError When return_inspection_ids is omitted; use hasReturnInspectionIds() or valueOrDefault().
+     */
+    public function getReturnInspectionIds(): array { return $this->get('return_inspection_ids'); }
+    public function hasReturnInspectionIds(): bool { return $this->has('return_inspection_ids'); }
+    /** Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. [] (Value): {@see WebhookSnapshotReturnInspectionInput}. An assessment of the condition of returned items.
+     * @return list<WebhookSnapshotReturnInspectionInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When return_inspections is omitted; use hasReturnInspections() or valueOrDefault().
+     */
+    public function getReturnInspections(): array { return $this->get('return_inspections'); }
+    public function hasReturnInspections(): bool { return $this->has('return_inspections'); }
+    /** Human-readable number for the Return.
+     * @return string
+     * @throws SdkError When return_number is omitted; use hasReturnNumber() or valueOrDefault().
+     */
+    public function getReturnNumber(): string { return $this->get('return_number'); }
+    public function hasReturnNumber(): bool { return $this->has('return_number'); }
+    /** IDs of every receipt recorded for this Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline. [] (Value): string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * @return list<string>
+     * @throws SdkError When return_receipt_ids is omitted; use hasReturnReceiptIds() or valueOrDefault().
+     */
+    public function getReturnReceiptIds(): array { return $this->get('return_receipt_ids'); }
+    public function hasReturnReceiptIds(): bool { return $this->has('return_receipt_ids'); }
+    /** Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. [] (Value): {@see WebhookSnapshotReturnReceiptInput}. A record of returned items arriving at a location.
+     * @return list<WebhookSnapshotReturnReceiptInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When return_receipts is omitted; use hasReturnReceipts() or valueOrDefault().
+     */
+    public function getReturnReceipts(): array { return $this->get('return_receipts'); }
+    public function hasReturnReceipts(): bool { return $this->has('return_receipts'); }
+    /** IDs of every resolution created for this Return, oldest first, including failed and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline. [] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     * @return list<string>
+     * @throws SdkError When return_resolution_ids is omitted; use hasReturnResolutionIds() or valueOrDefault().
+     */
+    public function getReturnResolutionIds(): array { return $this->get('return_resolution_ids'); }
+    public function hasReturnResolutionIds(): bool { return $this->has('return_resolution_ids'); }
+    /** Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. [] (Value): {@see WebhookSnapshotReturnResolutionInput}. The refund, exchange, or other outcome of a return.
+     * @return list<WebhookSnapshotReturnResolutionInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When return_resolutions is omitted; use hasReturnResolutions() or valueOrDefault().
+     */
+    public function getReturnResolutions(): array { return $this->get('return_resolutions'); }
+    public function hasReturnResolutions(): bool { return $this->has('return_resolutions'); }
+    /** IDs of every shipment raised to send this Return's items back, oldest first, including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline. [] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+     * @return list<string>
+     * @throws SdkError When shipment_ids is omitted; use hasShipmentIds() or valueOrDefault().
+     */
+    public function getShipmentIds(): array { return $this->get('shipment_ids'); }
+    public function hasShipmentIds(): bool { return $this->has('shipment_ids'); }
+    /** Present only when `expand` includes `shipments`. Summaries of the shipments in `shipment_ids`, in the same order. [] (Value): {@see ExpandedShipmentSummaryInput}. A shipment's summary fields, including direction, status, and package count, returned when the shipment is expanded.
+     * @return list<ExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When shipments is omitted; use hasShipments() or valueOrDefault().
+     */
+    public function getShipments(): array { return $this->get('shipments'); }
+    public function hasShipments(): bool { return $this->has('shipments'); }
+    /** Where the whole Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you need. Value enum: "requested", "open", "completed", "declined", "canceled".
+     * @return string
+     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+     */
+    public function getStatus(): string { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** Actions that can succeed now. Actions the API key or token doesn't have the scope for are left out. A Return waiting for a decision lists `decide` and `cancel`. An open Return lists `cancel` only while no units have been received, inspected, dispositioned, or resolved, and it has no current receipts or inspections, non-canceled dispositions or resolutions, or non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and `completion_blockers` is empty. A completed Return lists `reopen`. A declined or canceled Return lists none. [] enum: "cancel", "complete", "decide", "process", "reopen". [] (Value): string.  Value enum: "cancel", "complete", "decide", "process", "reopen".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+     */
+    public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
+    public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Goes up with every change to the Return. Each activity's `return_version` is the version that activity produced. A write that takes `expected_version` or `expected_return_version` for this Return compares it with this value. Format: int64. minimum: 0.
+     * @return int
+     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+     */
+    public function getVersion(): int { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
+}

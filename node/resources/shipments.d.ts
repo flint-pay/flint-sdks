@@ -12,7 +12,7 @@ import type {
     ShipmentsVoidParams
 } from '../declarations/types-68.js';
 import type { VoidShipmentResponse, VoidShipmentResult } from '../declarations/types-78.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -39,14 +39,8 @@ export type {
     SettlementAmounts
 } from '../declarations/types-68.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-79.js';
-export type {
-    VoidShipmentResult,
-    VoidShipmentResponse,
-    UpdateShipmentRequestInput,
-    VoidShipmentRequestInput,
-    VoidPackageRequestInput
-} from '../declarations/types-78.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { VoidShipmentResult, VoidShipmentResponse, VoidShipmentRequestInput, VoidPackageRequestInput } from '../declarations/types-78.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateShipmentRequestInput,
@@ -64,6 +58,7 @@ export type {
 export type { DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
 export type { CreatePackageItemRequestInput } from '../declarations/types-12.js';
 export type { ReturnShipmentLineItemAllocationRequestInput } from '../declarations/types-65.js';
+export type { WeightRequestInput, Weight } from '../declarations/types-79.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { ExpandedOrderSummary, ExpandedPackageSummary } from '../declarations/types-26.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
@@ -73,6 +68,7 @@ export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { ReturnHandoffRequirementLineItem } from '../declarations/types-63.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { UpdateShipmentRequestInput } from '../declarations/types-77.js';
 export { makeCreatePackageItemRequest } from '../declarations/types-83.js';
 export { makeCreateShipmentRequest, makeCreateShipmentRequestOutbound, makeCreateShipmentRequestReturn } from '../declarations/types-84.js';
 export { makeDimensionsRequest } from '../declarations/types-86.js';

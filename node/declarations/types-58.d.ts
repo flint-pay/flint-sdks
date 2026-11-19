@@ -1,4 +1,3 @@
-import type { MoneyValue } from './types-44.js';
 import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-43.js';
 import type { Promotion } from './types-57.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
@@ -9,120 +8,8 @@ import type { CreatePromotionCodeRequestInput } from './types-12.js';
 import type { CategoriesDeleteParams } from './types-5.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { UpdatePromotionCodeRequestInput } from './types-77.js';
-import type { PromotionRuleGroupRequestInput, PromotionRuleValue, PromotionRulePreviousAttributes } from './types-59.js';
-/**
- * A promotion considered for an order, with its discount amounts, its stacking rules, and why it
- * was or was not applied.
- */
-export type PromotionCandidate = {
-    /**
-     * Calculated discount amount for this promotion candidate before final application, when
-     * available. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Discount amount applied to the order for candidates in applied[]. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "applied_money"?: MoneyValue;
-    /**
-     * Which promotion discount classes this promotion may share an order with. Both promotions
-     * must allow each other's class. Which kinds of discounts a promotion can combine with: line
-     * item, order, and service charge discounts.
-     */
-    "combines_with"?: PromotionCombinesWith;
-    /**
-     * Current money amount counted toward threshold_money for available[] candidates. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "current_money"?: MoneyValue;
-    /**
-     * The name buyers see for the promotion: its `display_name`, or its `name` when it has no
-     * display name.
-     */
-    "customer_facing_name": string;
-    /**
-     * Whether the promotion discounts the order, individual line items, or service charges. Value
-     * enum: "order", "line_item", "service_charge".
-     */
-    "discount_class"?: "order" | "line_item" | "service_charge" | (string & {});
-    /**
-     * The promotion's exclusivity group and priority. Promotions in the same group compete, and
-     * only one of them applies. Only one promotion in an exclusivity group continues. See
-     * Promotion for the evaluation order.
-     */
-    "exclusivity"?: PromotionExclusivity;
-    /**
-     * Additional money amount needed to reach threshold_money for available[] candidates. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "gap_money"?: MoneyValue;
-    /**
-     * IDs of the order charges the discount applies to. Set for `service_charge` promotions. []
-     * (Value): string. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
-     */
-    "order_charge_ids"?: Array<string>;
-    /**
-     * IDs of the order line items the discount applies to. Omitted when it applies to none. []
-     * (Value): string. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
-     */
-    "order_line_item_ids"?: Array<string>;
-    /** The code the buyer entered. Omitted when the promotion applies automatically. */
-    "promotion_code"?: string;
-    /**
-     * ID of the promotion code the buyer entered. Omitted when the promotion applies
-     * automatically. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
-     */
-    "promotion_code_id"?: string;
-    /**
-     * Why the promotion did not apply, or stopped applying. Omitted for a promotion that applies.
-     * Value enum: "already_applied", "automatic_disabled", "buy_item_missing", "code_invalid",
-     * "code_required", "codes_disabled", "currency_mismatch", "customer_limit_reached",
-     * "customer_mismatch", "customer_required", "exhausted", "expired", "inactive",
-     * "max_promotions_reached", "minimum_not_met", "no_discountable_balance", "not_combinable",
-     * "not_eligible", "not_yet_started", "recurrence_completed", "superseded",
-     * "superseded_by_better_offer", "superseded_by_higher_priority", "unknown_type".
-     */
-    "promotion_decline_reason"?: "already_applied"
-        | "automatic_disabled"
-        | "buy_item_missing"
-        | "code_invalid"
-        | "code_required"
-        | "codes_disabled"
-        | "currency_mismatch"
-        | "customer_limit_reached"
-        | "customer_mismatch"
-        | "customer_required"
-        | "exhausted"
-        | "expired"
-        | "inactive"
-        | "max_promotions_reached"
-        | "minimum_not_met"
-        | "no_discountable_balance"
-        | "not_combinable"
-        | "not_eligible"
-        | "not_yet_started"
-        | "recurrence_completed"
-        | "superseded"
-        | "superseded_by_better_offer"
-        | "superseded_by_higher_priority"
-        | "unknown_type"
-        | (string & {});
-    /** ID of the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". */
-    "promotion_id": string;
-    /**
-     * Minimum money amount required by a threshold rule for available[] candidates. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "threshold_money"?: MoneyValue;
-    /**
-     * Discount amount this candidate would have applied if it had been eligible and won conflict
-     * resolution. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "would_have_applied_money"?: MoneyValue;
-};
+import type { MoneyValue } from './types-44.js';
+import type { PromotionRuleValue, PromotionRulePreviousAttributes, PromotionRuleRequestInput } from './types-59.js';
 /** A code a buyer enters to claim a promotion. */
 export type PromotionCode = {
     /**
@@ -3004,3 +2891,46 @@ export type PromotionRuleGroupRequest = (({
     "any": Array<((PromotionRule) | (PromotionRuleGroupRequest) | (unknown))>;
 })
     | (Record<string, unknown>));
+/**
+ * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
+ * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
+ * or send null where the field is clearable. Responses list rules before nested groups. Under any,
+ * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
+ * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
+ * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
+ * line_item.* rules in the same all group, including its nested groups.
+ */
+export type PromotionRuleGroupRequestInput = (({
+    /**
+     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link
+     * PromotionRuleRequestInput} or {@link PromotionRuleGroupRequestInput}. [].oneOf[1] (Value):
+     * {@link PromotionRuleRequestInput}. One condition you set in a promotion rule group, which
+     * tests an attribute with an operator and values. [].oneOf[2] (Value): {@link
+     * PromotionRuleGroupRequestInput}. A rule group is an object with exactly one nonempty all
+     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
+     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
+     * list rules before nested groups. Under any, a nested group containing only one rule reads
+     * back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups.
+     */
+    "all": Array<((PromotionRuleRequestInput) | (PromotionRuleGroupRequestInput))>;
+})
+    | ({
+    /**
+     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
+     * PromotionRuleRequestInput} or {@link PromotionRuleGroupRequestInput}. [].oneOf[1] (Value):
+     * {@link PromotionRuleRequestInput}. One condition you set in a promotion rule group, which
+     * tests an attribute with an operator and values. [].oneOf[2] (Value): {@link
+     * PromotionRuleGroupRequestInput}. A rule group is an object with exactly one nonempty all
+     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
+     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
+     * list rules before nested groups. Under any, a nested group containing only one rule reads
+     * back as that rule. Under all, nested groups keep their boundaries to preserve
+     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
+     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
+     * same all group, including its nested groups.
+     */
+    "any": Array<((PromotionRuleRequestInput) | (PromotionRuleGroupRequestInput))>;
+}));

@@ -29,8 +29,8 @@ import type {
     FulfillmentRecipientPreviousAttributes
 } from './types-28.js';
 import type { PickupFulfillmentDetails, PickupFulfillmentDetailsPreviousAttributes } from './types-55.js';
+import type { ServiceFulfillmentDetails } from './types-67.js';
 import type {
-    ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
     ServiceFulfillmentDetailsPreviousAttributes,
     ShipmentFulfillmentDetailsPreviousAttributes,
@@ -2128,7 +2128,7 @@ export type FulfillmentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -2277,7 +2277,7 @@ export type FulfillmentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -2463,7 +2463,7 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
      * (Required): string. Stable identifier of the fulfillment. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -2851,7 +2851,7 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Optional):
          * string or null. The Idempotency-Key of the request that created this resource. `null`
          * when that request sent no key, Flint created the resource, the reader isn't the caller
          * that created it (another app install, a buyer, or the merchant reading an app's or
@@ -3035,7 +3035,7 @@ export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -3894,7 +3894,7 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
      * (Required): string. Stable identifier of the fulfillment. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -4282,7 +4282,7 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Optional):
          * string or null. The Idempotency-Key of the request that created this resource. `null`
          * when that request sent no key, Flint created the resource, the reader isn't the caller
          * that created it (another app install, a buyer, or the merchant reading an app's or
@@ -4466,7 +4466,7 @@ export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -5284,7 +5284,7 @@ export type FulfillmentCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -5433,7 +5433,7 @@ export type FulfillmentCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -5619,7 +5619,7 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
      * (Required): string. Stable identifier of the fulfillment. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -6007,7 +6007,7 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Optional):
          * string or null. The Idempotency-Key of the request that created this resource. `null`
          * when that request sent no key, Flint created the resource, the reader isn't the caller
          * that created it (another app install, a buyer, or the merchant reading an app's or
@@ -6191,7 +6191,7 @@ export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhoo
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -7050,7 +7050,7 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
      * (Required): string. Stable identifier of the fulfillment. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -7438,7 +7438,7 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Optional):
          * string or null. The Idempotency-Key of the request that created this resource. `null`
          * when that request sent no key, Flint created the resource, the reader isn't the caller
          * that created it (another app install, a buyer, or the merchant reading an app's or
@@ -7622,7 +7622,7 @@ export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -8420,7 +8420,7 @@ export type FulfillmentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -8495,7 +8495,7 @@ export type FulfillmentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -8607,7 +8607,7 @@ export type FulfillmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
      * (Required): string. Stable identifier of the fulfillment. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -8743,7 +8743,7 @@ export type FulfillmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Optional):
          * string or null. The Idempotency-Key of the request that created this resource. `null`
          * when that request sent no key, Flint created the resource, the reader isn't the caller
          * that created it (another app install, a buyer, or the merchant reading an app's or
@@ -8927,7 +8927,7 @@ export type FulfillmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -9200,7 +9200,7 @@ export type FulfillmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
      * (Required): string. Stable identifier of the fulfillment. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -9336,7 +9336,7 @@ export type FulfillmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Optional):
          * string or null. The Idempotency-Key of the request that created this resource. `null`
          * when that request sent no key, Flint created the resource, the reader isn't the caller
          * that created it (another app install, a buyer, or the merchant reading an app's or
@@ -9520,7 +9520,7 @@ export type FulfillmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -10956,7 +10956,7 @@ export type FulfillmentFailedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -11105,7 +11105,7 @@ export type FulfillmentFailedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
             "dispatched_at"?: string;
             "external_reference_id"?: string;
             "fulfillment_id": string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "line_items": Array<FulfillmentLineItem>;
             "local_delivery_details"?: DeliveryFulfillmentDetails;
             "location_id"?: string;
@@ -11291,7 +11291,7 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
      * (Required): string. Stable identifier of the fulfillment. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -11679,7 +11679,7 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Optional):
          * string or null. The Idempotency-Key of the request that created this resource. `null`
          * when that request sent no key, Flint created the resource, the reader isn't the caller
          * that created it (another app install, a buyer, or the merchant reading an app's or
@@ -11863,7 +11863,7 @@ export type FulfillmentFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
@@ -12722,7 +12722,7 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.fulfillment_id
      * (Required): string. Stable identifier of the fulfillment. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Required): string or null. The
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.idempotency_key (Optional): string or null. The
      * Idempotency-Key of the request that created this resource. `null` when that request sent no
      * key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -13110,7 +13110,7 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
          * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
          * identifier for this resource in an external system. maxLength: 255. Example:
          * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
-         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Required):
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". idempotency_key (Optional):
          * string or null. The Idempotency-Key of the request that created this resource. `null`
          * when that request sent no key, Flint created the resource, the reader isn't the caller
          * that created it (another app install, a buyer, or the merchant reading an app's or
@@ -13294,7 +13294,7 @@ export type FulfillmentFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              * as `null`, read the resource. Buyer sessions on routes shared with merchants get
              * `null`. `/v1/me` responses do not include this field.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
              * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,

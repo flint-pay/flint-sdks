@@ -1,6 +1,6 @@
 import type {
-    OrderTaxLocationFullAddressRequest,
     OrderTaxLocationFullAddressRequestInput,
+    OrderTaxLocationInputFullAddress,
     OrderTaxAttentionPreviousAttributes,
     OrderTaxCallbackEvaluationPreviousAttributes,
     OrderTaxExemptionPreviousAttributes,
@@ -66,39 +66,13 @@ import type { CancelOrderEditRequestInput, CancelOrderPaymentAttemptRequestInput
 import type { CloseOrderRequestInput } from './types-7.js';
 import type { CreateOrderEditRequestInput } from './types-11.js';
 import type { CreateOrderRequestInput, CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-12.js';
-import type { RemoveDiscountsRequestInput } from './types-61.js';
-import type {
-    RepriceDiscountsRequestInput,
-    ResolveOrderInventoryExceptionRequestInput,
-    RetryOrderEditRefundRequestInput,
-    ResponseMeta
-} from './types-62.js';
+import type { RemoveDiscountsRequestInput, RepriceDiscountsRequestInput } from './types-61.js';
+import type { ResolveOrderInventoryExceptionRequestInput, RetryOrderEditRefundRequestInput, ResponseMeta } from './types-62.js';
 import type { SendOrderReceiptRequestInput } from './types-67.js';
 import type { UpdateOrderChargeRequestInput, UpdateLineItemRequestInput, UpdateOrderRequestInput } from './types-76.js';
 import type { Dimensions, DimensionsRequestInput } from './types-25.js';
 import type { ReturnHandoffRequirementLineItem } from './types-63.js';
 import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-65.js';
-/**
- * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
- * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
- */
-export type OrderTaxLocationInputFullAddress = {
-    /**
-     * The address to calculate tax from. A full street address you supply as an order's tax
-     * location.
-     */
-    "address": OrderTaxLocationFullAddressRequest;
-    /**
-     * Where the tax address comes from. The only accepted value is provided, which is the default.
-     * Default: "provided". Value enum: "provided".
-     */
-    "address_source"?: "provided" | (string & {});
-    /**
-     * The kind of address you are sending. Value enum: "tax_address", "billing_address",
-     * "shipping_address".
-     */
-    "address_type": "tax_address" | "billing_address" | "shipping_address" | (string & {});
-};
 /**
  * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
  * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
@@ -6429,6 +6403,24 @@ export type PackageListResponse = {
      * next page.
      */
     "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `Package` data. */
+export type PackageResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A package within a
+     * shipment.
+     */
+    "data": Package;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
     /**
      * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".

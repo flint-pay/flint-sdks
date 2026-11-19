@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# TaxJurisdictionRequestModelInput to UpdatePriceListPriceRequestInput
+# TaxRegistrationInput to UpdatePriceListRequestInput
 
-- [TaxJurisdictionRequestModelInput](TaxJurisdictionRequestModelInput.md)
 - [TaxRegistrationInput](TaxRegistrationInput.md)
 - [TaxRegistrationListResponseInput](TaxRegistrationListResponseInput.md)
 - [TaxRegistrationResponseInput](TaxRegistrationResponseInput.md)
@@ -102,4 +101,5 @@
 - [UpdatePayoutSettingsRequestInput](UpdatePayoutSettingsRequestInput.md)
 - [UpdatePickupFulfillmentDetailsInput](UpdatePickupFulfillmentDetailsInput.md)
 - [UpdatePriceListPriceRequestInput](UpdatePriceListPriceRequestInput.md)
+- [UpdatePriceListRequestInput](UpdatePriceListRequestInput.md)
 

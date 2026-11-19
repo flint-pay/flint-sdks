@@ -1,4 +1,4 @@
-import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-44.js';
+import type { MoneyValueInput, MoneyValuePreviousAttributes, MoneyValue } from './types-44.js';
 import type { OrderGiftCardAllocation, OrderGiftCardAllocationPreviousAttributes } from './types-46.js';
 import type {
     ExpandedCustomerSummary,
@@ -28,22 +28,6 @@ import type { ResponseMeta } from './types-62.js';
 import type { ConfigurationVersionRequestInput } from './types-7.js';
 import type { PublicDownload, PublicDownloadPreviousAttributes } from './types-59.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
-/**
- * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
- * refunds explicitly.
- */
-export type RefundTaxBreakdownRefundIn = {
-    /**
-     * ID of the tax breakdown (one jurisdiction's tax) to refund. minLength: 1. Example:
-     * "txb_01KEZF7C00SHMN8QWCA8PT1HSB".
-     */
-    "tax_breakdown_id": string;
-    /**
-     * Tax to refund for this breakdown. Used when you set the tax refund yourself. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tax_money"?: MoneyValue;
-};
 /**
  * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
  * refunds explicitly.
@@ -768,7 +752,7 @@ export type RefundUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
                 | "payment_refund_not_attempted"
                 | "refund_failed"
                 | (string & {});
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "merchant" | "flint" | (string & {});
             "invoice_id"?: string;
             "line_item_allocations"?: Array<RefundLineItemAllocation>;
@@ -917,7 +901,7 @@ export type RefundUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
                 | "payment_refund_not_attempted"
                 | "refund_failed"
                 | (string & {});
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "merchant" | "flint" | (string & {});
             "invoice_id"?: string;
             "line_item_allocations"?: Array<RefundLineItemAllocation>;
@@ -1091,7 +1075,7 @@ export type RefundUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
      * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
      * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Required): string
+     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string
      * or null. The Idempotency-Key of the request that created this resource. `null` when that
      * request sent no key, Flint created the resource, the reader isn't the caller that created it
      * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
@@ -1531,7 +1515,7 @@ export type RefundUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
          * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
          * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Required): string or
+         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string or
          * null. The Idempotency-Key of the request that created this resource. `null` when that
          * request sent no key, Flint created the resource, the reader isn't the caller that
          * created it (another app install, a buyer, or the merchant reading an app's or buyer's
@@ -1721,7 +1705,7 @@ export type RefundUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Who decided to make this refund: `merchant` for you or your integration, `flint` for
              * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
@@ -2669,7 +2653,7 @@ export type RefundUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
      * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
      * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Required): string
+     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string
      * or null. The Idempotency-Key of the request that created this resource. `null` when that
      * request sent no key, Flint created the resource, the reader isn't the caller that created it
      * (another app install, a buyer, or the merchant reading an app's or buyer's record), or the
@@ -3109,7 +3093,7 @@ export type RefundUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
          * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
          * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Required): string or
+         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string or
          * null. The Idempotency-Key of the request that created this resource. `null` when that
          * request sent no key, Flint created the resource, the reader isn't the caller that
          * created it (another app install, a buyer, or the merchant reading an app's or buyer's
@@ -3299,7 +3283,7 @@ export type RefundUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Who decided to make this refund: `merchant` for you or your integration, `flint` for
              * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
@@ -6155,4 +6139,12 @@ export type ReportsListParams = {
      * "failed". anyOf[2] (Value): string. Value enum: "pending", "succeeded", "failed".
      */
     "status"?: InputValue<("pending" | "succeeded" | "failed") | readonly ("pending" | "succeeded" | "failed")[]>;
+};
+/** The request body for: Reprice discounts. */
+export type RepriceDiscountsRequestInput = {
+    /**
+     * Optional order version from the last order read. The mutation fails if the order changed.
+     * Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
 };

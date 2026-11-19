@@ -1,5 +1,3 @@
-import type { Package } from './types-48.js';
-import type { ResponseMeta } from './types-62.js';
 import type { Dimensions, DimensionsPreviousAttributes } from './types-25.js';
 import type { ExpandedOrderSummary, ExpandedOrderSummaryPreviousAttributes } from './types-26.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
@@ -8,7 +6,6 @@ import type {
     PartnerAppPlatformProfile,
     PartnerEnvironmentGrant,
     PartnerEnvironmentGrantPreviousAttributes,
-    PartnerAppPlatformCurrentTerms,
     PartnerAppPlatformLimits,
     PartnerAppPlatformReserve,
     PartnerAppPlatformTermsAcceptance,
@@ -16,14 +13,7 @@ import type {
     PartnerAppPlatformProfilePreviousAttributes
 } from './types-50.js';
 import type { ReturnHandoffRequirementLineItem, ReturnHandoffRequirementLineItemPreviousAttributes } from './types-63.js';
-import type {
-    Weight,
-    WeightPreviousAttributes,
-    WorkloadIdentityClaimCondition,
-    WorkloadIdentityClaimConditionRequest,
-    WorkloadIdentityClaimConditionRequestInput,
-    WebhookPartnerAppInstall
-} from './types-79.js';
+import type { Weight, WeightPreviousAttributes, WebhookPartnerAppInstall } from './types-79.js';
 import type { InputValue } from '../runtime.js';
 import type { CreatePackageItemRequestInput, CreatePackageRequestInput } from './types-12.js';
 import type { FulfillmentEventsGetParams } from './types-27.js';
@@ -39,24 +29,12 @@ import type {
 import type { UpdatePackageItemRequestInput, UpdatePackageRequestInput } from './types-76.js';
 import type { VoidPackageRequestInput } from './types-78.js';
 import type { PlatformFeeCap, PlatformFeeCapPreviousAttributes } from './types-55.js';
-/** A response containing `Package` data. */
-export type PackageResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A package within a
-     * shipment.
-     */
-    "data": Package;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
+import type { ResponseMeta } from './types-62.js';
+import type {
+    WorkloadIdentityClaimCondition,
+    WorkloadIdentityClaimConditionRequest,
+    WorkloadIdentityClaimConditionRequestInput
+} from './types-80.js';
 export type PackageUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -3637,4 +3615,25 @@ export type PartnerAppPlatformContact = {
      * "https://example.com/receipt".
      */
     "website_url": string;
+};
+/**
+ * The current version of Flint's platform terms: the only version accept-platform-terms accepts.
+ */
+export type PartnerAppPlatformCurrentTerms = {
+    /**
+     * When accepting this version becomes required. Until then an earlier accepted version keeps
+     * the platform_terms requirement met; from then the app needs this one. Absent when this
+     * version is already required. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "acceptance_due_at"?: string;
+    /**
+     * The current platform terms version. Send it as platform_terms_version to
+     * accept-platform-terms.
+     */
+    "platform_terms_version": string;
+    /**
+     * Where Flint publishes this version's text: the Flint Platform Agreement. `null` when the
+     * version has no published text. Format: uri. Example: "https://example.com/receipt".
+     */
+    "url": string | null;
 };

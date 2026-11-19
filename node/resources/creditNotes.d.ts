@@ -24,7 +24,7 @@ import type {
 } from '../declarations/types-15.js';
 import type { IssueCreditNoteResponse, IssueCreditNoteResult } from '../declarations/types-38.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -72,7 +72,7 @@ export type {
     CreditNoteRefundRequestInput
 } from '../declarations/types-15.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResourceVersionRequestInput } from '../declarations/types-62.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     IssueCreditNoteResult,
     IssueCreditNoteResponse,
@@ -181,11 +181,8 @@ export type {
 export type { PaymentRefund } from '../declarations/types-53.js';
 export type { RefundTenderAllocation, RefundUnissuedGiftCardRecovery } from '../declarations/types-61.js';
 export type { UpdateCreditNoteRequestInput } from '../declarations/types-75.js';
-export {
-    makeConfirmReturnResolutionRequest,
-    makeCreateCreditNoteAllocationRequest,
-    makeCreateCreditNoteRequest
-} from '../declarations/types-81.js';
+export { makeConfirmReturnResolutionRequest } from '../declarations/types-81.js';
+export { makeCreateCreditNoteAllocationRequest, makeCreateCreditNoteRequest } from '../declarations/types-82.js';
 export {
     makeCreditNoteCorrectionRequestAmountRequest,
     makeCreditNoteCorrectionRequestModel,
@@ -194,8 +191,7 @@ export {
     makeCreditNoteLineItemRequest,
     makeCreditNoteRefundRequest
 } from '../declarations/types-84.js';
-export { makeIssueCreditNoteRequest } from '../declarations/types-87.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeIssueCreditNoteRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeResourceVersionRequest } from '../declarations/types-91.js';
 export { makeTextModifierRequest, makeUpdateCreditNoteRequest } from '../declarations/types-93.js';
 export interface CreditNotesResource {

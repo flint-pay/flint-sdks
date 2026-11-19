@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# ReturnReceiptLineItemRequest to RiskRuleListResponse
+# ReturnReceiptLineItemRequestInput to RiskRuleResponse
 
-- [ReturnReceiptLineItemRequest](ReturnReceiptLineItemRequest.md)
 - [ReturnReceiptLineItemRequestInput](ReturnReceiptLineItemRequestInput.md)
 - [ReturnReceiptPreviousAttributes](ReturnReceiptPreviousAttributes.md)
 - [ReturnReceiptSupersededInstalledMerchantsEvent](ReturnReceiptSupersededInstalledMerchantsEvent.md)
@@ -102,4 +101,5 @@
 - [RiskRuleAnalysis](RiskRuleAnalysis.md)
 - [RiskRuleIssue](RiskRuleIssue.md)
 - [RiskRuleListResponse](RiskRuleListResponse.md)
+- [RiskRuleResponse](RiskRuleResponse.md)
 

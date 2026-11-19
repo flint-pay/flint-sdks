@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# RefundGiftCardDestinationInput to ReturnActorPreviousAttributesInput
+# RefundGiftCardDestinationPreviousAttributesInput to ReturnCanceledInstalledMerchantsEventInput
 
-- [RefundGiftCardDestinationInput](RefundGiftCardDestinationInput.md)
 - [RefundGiftCardDestinationPreviousAttributesInput](RefundGiftCardDestinationPreviousAttributesInput.md)
 - [RefundLineItemInput](RefundLineItemInput.md)
 - [RefundLineItemAdjustmentInput](RefundLineItemAdjustmentInput.md)
@@ -102,4 +101,5 @@
 - [ReturnActivityInput](ReturnActivityInput.md)
 - [ReturnActorInput](ReturnActorInput.md)
 - [ReturnActorPreviousAttributesInput](ReturnActorPreviousAttributesInput.md)
+- [ReturnCanceledInstalledMerchantsEventInput](ReturnCanceledInstalledMerchantsEventInput.md)
 

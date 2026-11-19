@@ -17,8 +17,9 @@ import type {
 import type { UpdateDeliveryZoneRequestInput, UpdateDeviceRequestInput } from './types-76.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
 import type { Settings, SplitReversalReference, SplitReversalReferencePreviousAttributes } from './types-68.js';
-import type { TaxConnection } from './types-74.js';
-import type { PromotionCandidate, PromotionRefRequest, PromotionRefRequestInput } from './types-58.js';
+import type { TaxConnection } from './types-73.js';
+import type { PromotionCandidate } from './types-57.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-58.js';
 import type { AcceptFulfillmentRequestInput } from './types-0.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 export type DeliveryZoneCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)

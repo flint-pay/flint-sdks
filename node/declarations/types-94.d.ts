@@ -1,11 +1,25 @@
+import type { InputValue, Model } from '../runtime.js';
 import type {
-    InputValue,
-    Model,
-    WebhookHeaders as _SdkWebhookHeaders,
-    CredentialProvider,
-    WorkloadIdentityOptions
-} from '../runtime.js';
+    UpdateMeSubscriptionRequestInput,
+    UpdateMerchantRequestInput,
+    UpdateModifierGroupRequestInput,
+    UpdateModifierSetRequestInput,
+    UpdateOrderChargeRequestInput,
+    UpdateOrderRequestInput,
+    UpdatePackageItemRequestInput,
+    UpdatePackageRequestInput,
+    UpdatePartnerAppRequestInput,
+    UpdatePaymentIntentRequestInput,
+    UpdatePaymentLinkRequestInput
+} from './types-76.js';
 import type {
+    UpdatePaymentMethodDomainRequestInput,
+    UpdatePayoutDestinationRequestInput,
+    UpdatePayoutSettingsRequestInput,
+    UpdatePickupFulfillmentDetailsInput,
+    UpdatePriceListPriceRequestInput,
+    UpdatePriceListRequestInput,
+    UpdateProductOptionRequestInput,
     UpdateProductOptionValueRequestInput,
     UpdateProductRequestInput,
     UpdateProductVariantRequestInput,
@@ -27,10 +41,10 @@ import type {
     UpdateRiskListRequestInput,
     UpdateRiskRuleRequestInput,
     UpdateServiceFulfillmentDetailsInput,
-    UpdateSettingsRequestInput
+    UpdateSettingsRequestInput,
+    UpdateShipmentRequestInput
 } from './types-77.js';
 import type {
-    UpdateShipmentRequestInput,
     UpdateSubscriptionLineItemRequestInput,
     UpdateSubscriptionOfferRequestInput,
     UpdateSubscriptionPlanLineItemInputBundleInput,
@@ -50,15 +64,28 @@ import type {
     VoidPackageRequestInput,
     VoidShipmentRequestInput,
     WaiveInvoiceLateFeeRequestInput,
-    WaiveReturnLineInspectionRequestInput,
-    VerifiedWebhook
+    WaiveReturnLineInspectionRequestInput
 } from './types-78.js';
-import type {
-    WebhookSigningMethodInput,
-    WeightRequestInput,
-    WorkloadIdentityClaimConditionRequestInput,
-    WebhookVerificationOptions
-} from './types-79.js';
+import type { WebhookSigningMethodInput, WeightRequestInput } from './types-79.js';
+import type { WorkloadIdentityClaimConditionRequestInput } from './types-80.js';
+export declare function makeUpdateMeSubscriptionRequest(value: InputValue<UpdateMeSubscriptionRequestInput>): Model<UpdateMeSubscriptionRequestInput>;
+export declare function makeUpdateMerchantRequest(value: InputValue<UpdateMerchantRequestInput>): Model<UpdateMerchantRequestInput>;
+export declare function makeUpdateModifierGroupRequest(value: InputValue<UpdateModifierGroupRequestInput>): Model<UpdateModifierGroupRequestInput>;
+export declare function makeUpdateModifierSetRequest(value: InputValue<UpdateModifierSetRequestInput>): Model<UpdateModifierSetRequestInput>;
+export declare function makeUpdateOrderChargeRequest(value: InputValue<UpdateOrderChargeRequestInput>): Model<UpdateOrderChargeRequestInput>;
+export declare function makeUpdateOrderRequest(value: InputValue<UpdateOrderRequestInput>): Model<UpdateOrderRequestInput>;
+export declare function makeUpdatePackageItemRequest(value: InputValue<UpdatePackageItemRequestInput>): Model<UpdatePackageItemRequestInput>;
+export declare function makeUpdatePackageRequest(value: InputValue<UpdatePackageRequestInput>): Model<UpdatePackageRequestInput>;
+export declare function makeUpdatePartnerAppRequest(value: InputValue<UpdatePartnerAppRequestInput>): Model<UpdatePartnerAppRequestInput>;
+export declare function makeUpdatePaymentIntentRequest(value: InputValue<UpdatePaymentIntentRequestInput>): Model<UpdatePaymentIntentRequestInput>;
+export declare function makeUpdatePaymentLinkRequest(value: InputValue<UpdatePaymentLinkRequestInput>): Model<UpdatePaymentLinkRequestInput>;
+export declare function makeUpdatePaymentMethodDomainRequest(value: InputValue<UpdatePaymentMethodDomainRequestInput>): Model<UpdatePaymentMethodDomainRequestInput>;
+export declare function makeUpdatePayoutDestinationRequest(value: InputValue<UpdatePayoutDestinationRequestInput>): Model<UpdatePayoutDestinationRequestInput>;
+export declare function makeUpdatePayoutSettingsRequest(value: InputValue<UpdatePayoutSettingsRequestInput>): Model<UpdatePayoutSettingsRequestInput>;
+export declare function makeUpdatePickupFulfillmentDetails(value: InputValue<UpdatePickupFulfillmentDetailsInput>): Model<UpdatePickupFulfillmentDetailsInput>;
+export declare function makeUpdatePriceListPriceRequest(value: InputValue<UpdatePriceListPriceRequestInput>): Model<UpdatePriceListPriceRequestInput>;
+export declare function makeUpdatePriceListRequest(value: InputValue<UpdatePriceListRequestInput>): Model<UpdatePriceListRequestInput>;
+export declare function makeUpdateProductOptionRequest(value: InputValue<UpdateProductOptionRequestInput>): Model<UpdateProductOptionRequestInput>;
 export declare function makeUpdateProductOptionValueRequest(value: InputValue<UpdateProductOptionValueRequestInput>): Model<UpdateProductOptionValueRequestInput>;
 export declare function makeUpdateProductRequest(value: InputValue<UpdateProductRequestInput>): Model<UpdateProductRequestInput>;
 export declare function makeUpdateProductVariantRequest(value: InputValue<UpdateProductVariantRequestInput>): Model<UpdateProductVariantRequestInput>;
@@ -105,8 +132,3 @@ export declare function makeWaiveReturnLineInspectionRequest(value: InputValue<W
 export declare function makeWebhookSigningMethod(value: InputValue<WebhookSigningMethodInput>): Model<WebhookSigningMethodInput>;
 export declare function makeWeightRequest(value: InputValue<WeightRequestInput>): Model<WeightRequestInput>;
 export declare function makeWorkloadIdentityClaimConditionRequest(value: InputValue<WorkloadIdentityClaimConditionRequestInput>): Model<WorkloadIdentityClaimConditionRequestInput>;
-export declare function verifyWebhook(rawBody: Uint8Array | ArrayBuffer, headers: _SdkWebhookHeaders, secrets: string | readonly string[], nowSeconds?: number): VerifiedWebhook;
-export declare function verifyWebhookAsync(rawBody: Uint8Array | ArrayBuffer, headers: _SdkWebhookHeaders, options: WebhookVerificationOptions): Promise<VerifiedWebhook & {
-    signingMethod: 'jwt' | 'hmac';
-}>;
-export declare function workloadIdentityCredentials(options: WorkloadIdentityOptions): CredentialProvider;

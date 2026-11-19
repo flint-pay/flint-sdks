@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# SubscriptionTermsRequest to TicketedEvent
+# SubscriptionTermsRequestInput to TicketedEventPreviousAttributes
 
-- [SubscriptionTermsRequest](SubscriptionTermsRequest.md)
 - [SubscriptionTermsRequestInput](SubscriptionTermsRequestInput.md)
 - [SubscriptionTrialEndingInstalledMerchantsEvent](SubscriptionTrialEndingInstalledMerchantsEvent.md)
 - [SubscriptionTrialEndingMerchantEvent](SubscriptionTrialEndingMerchantEvent.md)
@@ -102,4 +101,5 @@
 - [TicketCreatedInstalledMerchantsEvent](TicketCreatedInstalledMerchantsEvent.md)
 - [TicketCreatedMerchantEvent](TicketCreatedMerchantEvent.md)
 - [TicketedEvent](TicketedEvent.md)
+- [TicketedEventPreviousAttributes](TicketedEventPreviousAttributes.md)
 

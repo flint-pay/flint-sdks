@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# TicketedEventPreviousAttributes to UpdateOrderRequestInput
+# TicketListResponse to UpdatePackageItemRequest
 
-- [TicketedEventPreviousAttributes](TicketedEventPreviousAttributes.md)
 - [TicketListResponse](TicketListResponse.md)
 - [TicketResponse](TicketResponse.md)
 - [TicketUpdatedInstalledMerchantsEvent](TicketUpdatedInstalledMerchantsEvent.md)
@@ -102,4 +101,5 @@
 - [UpdateOrderChargeRequestInput](UpdateOrderChargeRequestInput.md)
 - [UpdateOrderRequest](UpdateOrderRequest.md)
 - [UpdateOrderRequestInput](UpdateOrderRequestInput.md)
+- [UpdatePackageItemRequest](UpdatePackageItemRequest.md)
 

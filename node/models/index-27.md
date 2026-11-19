@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PaymentFulfillmentHoldPreviousAttributes to PaymentLinkSalesSummary
+# PaymentIntent to PaymentLinkSalesSummaryPreviousAttributes
 
-- [PaymentFulfillmentHoldPreviousAttributes](PaymentFulfillmentHoldPreviousAttributes.md)
 - [PaymentIntent](PaymentIntent.md)
 - [PaymentIntentActivity](PaymentIntentActivity.md)
 - [PaymentIntentActivityListResponse](PaymentIntentActivityListResponse.md)
@@ -102,4 +101,5 @@
 - [PaymentLinkResolvePrefillRequestInput](PaymentLinkResolvePrefillRequestInput.md)
 - [PaymentLinkResponse](PaymentLinkResponse.md)
 - [PaymentLinkSalesSummary](PaymentLinkSalesSummary.md)
+- [PaymentLinkSalesSummaryPreviousAttributes](PaymentLinkSalesSummaryPreviousAttributes.md)
 

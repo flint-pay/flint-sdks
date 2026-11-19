@@ -13,7 +13,7 @@ import type {
     ReturnDispositionsListParams,
     ReturnDispositionsRetryParams
 } from '../declarations/types-63.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -46,7 +46,7 @@ export type {
     RetryReturnDispositionRequestInput
 } from '../declarations/types-62.js';
 export type { CancelReturnDispositionResponse, CancelReturnDispositionRequestInput } from '../declarations/types-5.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     CreateReturnDispositionResponse,
     CreateReturnDispositionRequestInput,
@@ -67,7 +67,7 @@ export {
     makeCreateReturnDispositionRequest,
     makeCreateReturnDispositionRequestInspectionLine,
     makeCreateReturnDispositionRequestReceiptLine
-} from '../declarations/types-83.js';
+} from '../declarations/types-84.js';
 export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeRetryReturnDispositionRequest } from '../declarations/types-91.js';
 export interface ReturnDispositionsResource {

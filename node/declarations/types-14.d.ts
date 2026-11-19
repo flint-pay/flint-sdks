@@ -25,8 +25,7 @@ import type {
     SubscriptionPlanChangeLineItemRequest,
     SubscriptionPlanChangeLineItemRequestInput
 } from './types-71.js';
-import type { UpdateDeliveryMethodRequest } from './types-75.js';
-import type { UpdateDeliveryMethodRequestInput } from './types-76.js';
+import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-75.js';
 import type {
     SubscriptionServiceLocationRequest,
     SubscriptionQuantityChangeLineItemRequest,
@@ -48,12 +47,8 @@ import type {
 } from './types-69.js';
 import type { PromotionRefRequest, PromotionRefRequestInput } from './types-58.js';
 import type { TaxCalculationCallbackConfiguration, TaxCalculationCallbackConfigurationRequestInput } from './types-73.js';
-import type {
-    WebhookSigningMethod,
-    WebhookSigningMethodInput,
-    WorkloadIdentityClaimConditionRequest,
-    WorkloadIdentityClaimConditionRequestInput
-} from './types-79.js';
+import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-79.js';
+import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-80.js';
 import type { CredentialProvider } from '../runtime.js';
 /** The `stored_rule` variant of `CreateRiskPreviewRequest`. */
 export type CreateRiskPreviewRequestStoredRuleInput = ({

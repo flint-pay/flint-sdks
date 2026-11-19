@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# UpdatePriceListRequestInput to WorkloadIdentityClaimConditionRequestInput
+# UpdateProductOptionRequestInput to WebhookSnapshotPayoutInput
 
-- [UpdatePriceListRequestInput](UpdatePriceListRequestInput.md)
 - [UpdateProductOptionRequestInput](UpdateProductOptionRequestInput.md)
 - [UpdateProductOptionValueRequestInput](UpdateProductOptionValueRequestInput.md)
 - [UpdateProductRequestInput](UpdateProductRequestInput.md)
@@ -91,15 +90,16 @@
 - [WebhookPromotionCodeInput](WebhookPromotionCodeInput.md)
 - [WebhookReaderInput](WebhookReaderInput.md)
 - [WebhookSigningMethodInput](WebhookSigningMethodInput.md)
-- [WebhookStreamDisconnectInput](WebhookStreamDisconnectInput.md)
-- [WebhookStreamGapInput](WebhookStreamGapInput.md)
-- [WebhookStreamReadyInput](WebhookStreamReadyInput.md)
-- [WebhookStreamWithheldInput](WebhookStreamWithheldInput.md)
-- [WeightInput](WeightInput.md)
-- [WeightPreviousAttributesInput](WeightPreviousAttributesInput.md)
-- [WeightRequestInput](WeightRequestInput.md)
-- [WorkloadIdentityInput](WorkloadIdentityInput.md)
-- [WorkloadIdentityAuthContextInput](WorkloadIdentityAuthContextInput.md)
-- [WorkloadIdentityClaimConditionInput](WorkloadIdentityClaimConditionInput.md)
-- [WorkloadIdentityClaimConditionRequestInput](WorkloadIdentityClaimConditionRequestInput.md)
+- [WebhookSnapshotFulfillmentInput](WebhookSnapshotFulfillmentInput.md)
+- [WebhookSnapshotFulfillmentPreviousAttributesInput](WebhookSnapshotFulfillmentPreviousAttributesInput.md)
+- [WebhookSnapshotGiftCardInput](WebhookSnapshotGiftCardInput.md)
+- [WebhookSnapshotInventoryCountInput](WebhookSnapshotInventoryCountInput.md)
+- [WebhookSnapshotInventoryReceiptInput](WebhookSnapshotInventoryReceiptInput.md)
+- [WebhookSnapshotInventoryReservationInput](WebhookSnapshotInventoryReservationInput.md)
+- [WebhookSnapshotInventoryTransferInput](WebhookSnapshotInventoryTransferInput.md)
+- [WebhookSnapshotInvoiceManualPaymentInput](WebhookSnapshotInvoiceManualPaymentInput.md)
+- [WebhookSnapshotInvoicePaymentAttemptInput](WebhookSnapshotInvoicePaymentAttemptInput.md)
+- [WebhookSnapshotOrderPaymentAttemptInput](WebhookSnapshotOrderPaymentAttemptInput.md)
+- [WebhookSnapshotOrderPaymentAttemptPreviousAttributesInput](WebhookSnapshotOrderPaymentAttemptPreviousAttributesInput.md)
+- [WebhookSnapshotPayoutInput](WebhookSnapshotPayoutInput.md)
 

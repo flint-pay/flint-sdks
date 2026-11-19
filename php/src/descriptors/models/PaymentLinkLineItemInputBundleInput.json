@@ -1,1 +1,1 @@
-{"shared":"PaymentLinkLineItemInputBundle","dependencies":["MoneyValue","OrderLineItemTaxRequest","PaymentLinkLineItemInputBundle","PlatformFeeMoney","SharedCodec2148","SharedCodec2172","SharedCodec2173"]}
+{"shared":"PaymentLinkLineItemInputBundle","dependencies":["MoneyValue","OrderLineItemTaxRequest","PaymentLinkLineItemInputBundle","PlatformFeeMoney","SharedCodec2141","SharedCodec2165","SharedCodec2166"]}

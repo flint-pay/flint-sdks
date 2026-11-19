@@ -10,7 +10,7 @@ import type {
     GiftCardLoadsListParams
 } from '../declarations/types-29.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -51,7 +51,7 @@ export type {
     GiftCardFundingSourceGiftCardPurchaseRefundRecovery,
     GiftCardFundingSourceStoreCredit
 } from '../declarations/types-29.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type { CreateGiftCardLoadResult, CreateGiftCardLoadResultResponse, CreateGiftCardLoadRequestInput } from '../declarations/types-10.js';
 export type { ClientOptions } from '../declarations/types-7.js';

@@ -50,10 +50,14 @@ test("clean checkouts reconstruct the latest earlier release from Git, preservin
       `import fs from 'node:fs';
 import path from 'node:path';
 const [action,api,config,out] = process.argv.slice(2);
-const version = JSON.parse(fs.readFileSync(path.join(path.dirname(config),'spec/profiles/full-common-sdk.json'))).version;
+const configText = fs.readFileSync(config,'utf8');
+const profiles = JSON.parse(configText).profiles;
+const profile = profiles.find(profile => profile.endsWith('/full-common-sdk.json'));
+const version = JSON.parse(fs.readFileSync(path.join(path.dirname(config),profile))).version;
+const overlay = profiles.find(profile => profile === 'webhook-schemas.json');
 const record = {
   api: fs.readFileSync(api,'utf8'),
-  config: fs.readFileSync(config,'utf8'),
+  overlay: overlay ? JSON.parse(fs.readFileSync(path.join(path.dirname(config),overlay))) : null,
   interface: { version },
   compiled: { version, synthetic: true },
   baseline: { kind: 'draft' },
@@ -90,11 +94,14 @@ export function setCompatibilityBaseline(output, mode) {
     run("git", ["add", "."]);
     run("git", ["commit", "-qm", "first beta"]);
     run("git", ["tag", "v0.2.0-beta.1"]);
-    put("spec/openapi.json", '{"original":"second"}\n');
+    cpSync(join(root, "scripts/webhook-snapshots.mjs"), join(dir, "scripts/webhook-snapshots.mjs"));
+    const secondApi = '{"original":"second","components":{"schemas":{}}}\n';
+    put("spec/openapi.json", secondApi);
     put("spec/profiles/full-common-sdk.json", { version: "0.2.0-beta.2" });
     run("git", ["add", "."]);
     run("git", ["commit", "-qm", "second beta"]);
     run("git", ["tag", "v0.2.0-beta.2"]);
+    put("scripts/webhook-snapshots.mjs", 'throw new Error("Use the tagged projection, not the candidate");');
     put("spec/profiles/full-common-sdk.json", { version: "0.2.0" });
     run(process.execPath, ["scripts/baseline.mjs"]);
     const marker = JSON.parse(
@@ -105,7 +112,8 @@ export function setCompatibilityBaseline(output, mode) {
     const record = JSON.parse(
       readFileSync(join(dir, ".generated/sdk/.sdk-generator.json")),
     );
-    assert.equal(record.api, '{"original":"second"}\n');
+    assert.equal(record.api, secondApi);
+    assert.deepEqual(record.overlay, { include: [], overrides: { "/components/schemas": {} } });
     assert.deepEqual(record.interface, { version: "0.2.0-beta.2" });
     assert.deepEqual(record.baseline, {
       kind: "released",

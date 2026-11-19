@@ -21,7 +21,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class InvoicePaymentAttemptFailedMerchantEventDataObject extends Model {
-    /** @param array{'canceled_at'?: string, 'cancellation_requested_at'?: string, 'checkout_session_id'?: string, 'expected_amount_money': mixed, 'expires_at'?: string, 'idempotency_key': string|null, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: mixed, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string, 'started_at'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
+    /** @param array{'canceled_at'?: string, 'cancellation_requested_at'?: string, 'checkout_session_id'?: string, 'expected_amount_money': mixed, 'expires_at'?: string, 'idempotency_key'?: string|null, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: mixed, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string, 'started_at'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentAttemptFailedMerchantEventDataObject')); }
     /** When the attempt was canceled. An attempt canceled with its checkout session before payment started may not have it. Format: date-time.
      * @return ?string

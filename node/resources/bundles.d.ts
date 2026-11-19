@@ -14,7 +14,7 @@ import type {
 } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -45,7 +45,7 @@ export type {
     BundleComponentVariantSummary
 } from '../declarations/types-1.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateBundleRequestInput, CreateBundleComponentRequestInput, CreateBundleComponentRequest } from '../declarations/types-8.js';
 export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-31.js';
@@ -68,7 +68,7 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export type { SelectedProductOption } from '../declarations/types-67.js';
 export type { UpdateBundleRequestInput, UpdateBundleComponentRequestInput, UpdateBundleComponentRequest } from '../declarations/types-75.js';
 export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-81.js';
-export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-86.js';
+export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-87.js';
 export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-93.js';
 export interface BundlesResource {

@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read list<string> $supported_actions
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceManualPaymentCreatedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'amount_money': mixed, 'idempotency_key': string|null, 'invoice_id': string, 'invoice_manual_payment_id': string, 'note'?: string, 'payment_reference'?: string, 'received_at': string, 'reversal_note'?: string, 'reversed_at'?: string, 'status': string, 'supported_actions': list<string>, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'idempotency_key'?: string|null, 'invoice_id': string, 'invoice_manual_payment_id': string, 'note'?: string, 'payment_reference'?: string, 'received_at': string, 'reversal_note'?: string, 'reversed_at'?: string, 'status': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceManualPaymentCreatedInstalledMerchantsEventDataObject')); }
     /** Full amount received, including any principal and late fees covered. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue

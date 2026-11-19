@@ -36,6 +36,7 @@ import type {
     ReturnHandoffRequirementLineItem,
     ReturnFinancialSummary,
     ReturnEligibilitySelection,
+    ReturnLineItemValue,
     ReturnLineItemDecisionProposal
 } from './types-63.js';
 import type { BuyerSelectableOrderPaymentIntent, BuyerReturnResolutionPreview } from './types-4.js';
@@ -48,7 +49,7 @@ import type {
     RefundTaxBreakdownRefundPreviousAttributes,
     RefundTenderAllocationPreviousAttributes
 } from './types-61.js';
-import type { ReturnReasonSummary, ReturnLineItemValue, ReturnPolicyAdjustmentProposal } from './types-64.js';
+import type { ReturnReasonSummary, ReturnPolicyAdjustmentProposal } from './types-64.js';
 import type { ReturnRefundTenderEstimate } from './types-65.js';
 /** An additional charge applied to an order. */
 export type BuyerOrderCharge = {

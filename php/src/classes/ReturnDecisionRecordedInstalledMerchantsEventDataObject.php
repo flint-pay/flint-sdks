@@ -22,7 +22,7 @@ namespace Flint;
  * @property-read list<ReturnHandoffRequirement> $handoff_requirements
  * @property-read string|null $idempotency_key
  * @property-read string $initiated_by
- * @property-read list<ReturnLineItem> $line_items
+ * @property-read list<WebhookSnapshotReturnLineItem> $line_items
  * @property-read string $merchandise_status
  * @property-read array<array-key, string> $metadata
  * @property-read ExpandedOrderSummary|null $order
@@ -30,15 +30,15 @@ namespace Flint;
  * @property-read ?ReturnPolicyEvaluation $policy_evaluation
  * @property-read string $resolution_status
  * @property-read list<string> $return_disposition_ids
- * @property-read ?list<ReturnDisposition> $return_dispositions
+ * @property-read ?list<WebhookSnapshotReturnDisposition> $return_dispositions
  * @property-read string $return_id
  * @property-read list<string> $return_inspection_ids
- * @property-read ?list<ReturnInspection> $return_inspections
+ * @property-read ?list<WebhookSnapshotReturnInspection> $return_inspections
  * @property-read string $return_number
  * @property-read list<string> $return_receipt_ids
- * @property-read ?list<ReturnReceipt> $return_receipts
+ * @property-read ?list<WebhookSnapshotReturnReceipt> $return_receipts
  * @property-read list<string> $return_resolution_ids
- * @property-read ?list<ReturnResolution> $return_resolutions
+ * @property-read ?list<WebhookSnapshotReturnResolution> $return_resolutions
  * @property-read list<string> $shipment_ids
  * @property-read ?list<ExpandedShipmentSummary> $shipments
  * @property-read string $status
@@ -47,7 +47,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'canceled_at'?: string, 'canceled_by'?: mixed, 'cancellation_reason'?: string, 'cancellation_reason_message'?: string, 'completed_at'?: string, 'completed_by'?: mixed, 'completion_blockers': list<mixed>, 'completion_mode'?: string, 'completion_reason'?: string, 'completion_reason_message'?: string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'decision_at'?: string, 'decision_status': string, 'external_reference_id'?: string, 'financial_summary': mixed, 'handoff_requirements': list<mixed>, 'idempotency_key': string|null, 'initiated_by': string, 'line_items': list<mixed>, 'merchandise_status': string, 'metadata': mixed, 'order'?: mixed, 'order_id': string, 'policy_evaluation'?: mixed, 'resolution_status': string, 'return_disposition_ids': list<string>, 'return_dispositions'?: list<mixed>, 'return_id': string, 'return_inspection_ids': list<string>, 'return_inspections'?: list<mixed>, 'return_number': string, 'return_receipt_ids': list<string>, 'return_receipts'?: list<mixed>, 'return_resolution_ids': list<string>, 'return_resolutions'?: list<mixed>, 'shipment_ids': list<string>, 'shipments'?: list<mixed>, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'canceled_at'?: string, 'canceled_by'?: mixed, 'cancellation_reason'?: string, 'cancellation_reason_message'?: string, 'completed_at'?: string, 'completed_by'?: mixed, 'completion_blockers': list<mixed>, 'completion_mode'?: string, 'completion_reason'?: string, 'completion_reason_message'?: string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'decision_at'?: string, 'decision_status': string, 'external_reference_id'?: string, 'financial_summary': mixed, 'handoff_requirements': list<mixed>, 'idempotency_key'?: string|null, 'initiated_by': string, 'line_items': list<mixed>, 'merchandise_status': string, 'metadata': mixed, 'order'?: mixed, 'order_id': string, 'policy_evaluation'?: mixed, 'resolution_status': string, 'return_disposition_ids': list<string>, 'return_dispositions'?: list<mixed>, 'return_id': string, 'return_inspection_ids': list<string>, 'return_inspections'?: list<mixed>, 'return_number': string, 'return_receipt_ids': list<string>, 'return_receipts'?: list<mixed>, 'return_resolution_ids': list<string>, 'return_resolutions'?: list<mixed>, 'shipment_ids': list<string>, 'shipments'?: list<mixed>, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnDecisionRecordedInstalledMerchantsEventDataObject')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return ?string
@@ -149,8 +149,8 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getInitiatedBy(): string { return $this->get('initiated_by'); }
     public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
-    /** The lines being returned. [] (Value): {@see ReturnLineItem}. An item included in a return request.
-     * @return list<ReturnLineItem>
+    /** The lines being returned. [] (Value): {@see WebhookSnapshotReturnLineItem}. An item included in a return request.
+     * @return list<WebhookSnapshotReturnLineItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
@@ -189,8 +189,8 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getReturnDispositionIds(): array { return $this->get('return_disposition_ids'); }
     public function hasReturnDispositionIds(): bool { return $this->has('return_disposition_ids'); }
-    /** Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. [] (Value): {@see ReturnDisposition}. A decision about how returned merchandise will be handled.
-     * @return ?list<ReturnDisposition>
+    /** Present only when `expand` includes `return_dispositions`. The dispositions in `return_disposition_ids`, in the same order. [] (Value): {@see WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be handled.
+     * @return ?list<WebhookSnapshotReturnDisposition>
      */
     public function getReturnDispositions(): ?array { return $this->get('return_dispositions'); }
     public function hasReturnDispositions(): bool { return $this->has('return_dispositions'); }
@@ -204,8 +204,8 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getReturnInspectionIds(): array { return $this->get('return_inspection_ids'); }
     public function hasReturnInspectionIds(): bool { return $this->has('return_inspection_ids'); }
-    /** Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. [] (Value): {@see ReturnInspection}. An assessment of the condition of returned items.
-     * @return ?list<ReturnInspection>
+    /** Present only when `expand` includes `return_inspections`. The inspections in `return_inspection_ids`, in the same order. [] (Value): {@see WebhookSnapshotReturnInspection}. An assessment of the condition of returned items.
+     * @return ?list<WebhookSnapshotReturnInspection>
      */
     public function getReturnInspections(): ?array { return $this->get('return_inspections'); }
     public function hasReturnInspections(): bool { return $this->has('return_inspections'); }
@@ -219,8 +219,8 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getReturnReceiptIds(): array { return $this->get('return_receipt_ids'); }
     public function hasReturnReceiptIds(): bool { return $this->has('return_receipt_ids'); }
-    /** Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. [] (Value): {@see ReturnReceipt}. A record of returned items arriving at a location.
-     * @return ?list<ReturnReceipt>
+    /** Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`, in the same order. [] (Value): {@see WebhookSnapshotReturnReceipt}. A record of returned items arriving at a location.
+     * @return ?list<WebhookSnapshotReturnReceipt>
      */
     public function getReturnReceipts(): ?array { return $this->get('return_receipts'); }
     public function hasReturnReceipts(): bool { return $this->has('return_receipts'); }
@@ -229,8 +229,8 @@ final class ReturnDecisionRecordedInstalledMerchantsEventDataObject extends Mode
      */
     public function getReturnResolutionIds(): array { return $this->get('return_resolution_ids'); }
     public function hasReturnResolutionIds(): bool { return $this->has('return_resolution_ids'); }
-    /** Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. [] (Value): {@see ReturnResolution}. The refund, exchange, or other outcome of a return.
-     * @return ?list<ReturnResolution>
+    /** Present only when `expand` includes `return_resolutions`. The resolutions in `return_resolution_ids`, in the same order. [] (Value): {@see WebhookSnapshotReturnResolution}. The refund, exchange, or other outcome of a return.
+     * @return ?list<WebhookSnapshotReturnResolution>
      */
     public function getReturnResolutions(): ?array { return $this->get('return_resolutions'); }
     public function hasReturnResolutions(): bool { return $this->has('return_resolutions'); }

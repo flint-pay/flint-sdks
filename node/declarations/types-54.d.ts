@@ -11,220 +11,16 @@ import type {
     ExpandedPayoutDestinationSummaryPreviousAttributes,
     ExpandedPayoutSummaryPreviousAttributes
 } from './types-26.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { PaymentReviewPaymentSummary, PaymentReviewPaymentSummaryPreviousAttributes, PaymentReview } from './types-53.js';
 import type { ResourceReference, ResourceReferencePreviousAttributes, ResponseMeta } from './types-62.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { InputValue } from '../runtime.js';
 import type { DeclinePaymentReviewRequestInput } from './types-17.js';
 import type { StatementDescriptorStatus } from './types-68.js';
 import type { ReaderPaymentSourceTip, ReaderPaymentSourceTipInput } from './types-59.js';
 import type { PayoutTraceID, PayoutTraceIDPreviousAttributes } from './types-55.js';
-export type PaymentReviewReopenedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at": string | null;
-            "closed_by": ((ResourceReference) | (null));
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string | null;
-            "ip_address": string | null;
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string;
-            "opened_at": string;
-            "opened_reason": "rule" | (string & {});
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string | null;
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            "payment_intent_id": string;
-            "payment_review_id": string;
-            "payment_summary": PaymentReviewPaymentSummary;
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            "refund_id": string | null;
-            "refunded_money": ((MoneyValue) | (null));
-            "resolution_started_at": string | null;
-            "resolution_started_by": ((ResourceReference) | (null));
-            "risk": PaymentReviewRisk;
-            "status": "open" | "resolving" | "closed" | (string & {});
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "closed_at"?: ((string) | (null));
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "ip_address"?: ((string) | (null));
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            "matched_risk_rule_id"?: ((string) | (null));
-            "opened_at"?: ((string) | (null));
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "payment_review_id"?: ((string) | (null));
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            "refund_id"?: ((string) | (null));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "resolution_started_at"?: ((string) | (null));
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "payment_review.reopened";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at": string | null;
-            "closed_by": ((ResourceReference) | (null));
-            "closed_reason": "approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {})
-                | null;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string | null;
-            "ip_address": string | null;
-            "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string;
-            "opened_at": string;
-            "opened_reason": "rule" | (string & {});
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string | null;
-            "payment_flow": "checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {});
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            "payment_intent_id": string;
-            "payment_review_id": string;
-            "payment_summary": PaymentReviewPaymentSummary;
-            "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
-            "refund_id": string | null;
-            "refunded_money": ((MoneyValue) | (null));
-            "resolution_started_at": string | null;
-            "resolution_started_by": ((ResourceReference) | (null));
-            "risk": PaymentReviewRisk;
-            "status": "open" | "resolving" | "closed" | (string & {});
-            "supported_actions": Array<"approve" | "decline" | (string & {})>;
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "closed_at"?: ((string) | (null));
-            "closed_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "closed_reason"?: (("approved"
-                | "declined"
-                | "refunded"
-                | "disputed"
-                | "payment_canceled"
-                | "expired"
-                | null
-                | (string & {}))
-                | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "ip_address"?: ((string) | (null));
-            "last_resolution_failure"?: ((PaymentReviewResolutionFailurePreviousAttributes) | (null));
-            "matched_risk_rule_id"?: ((string) | (null));
-            "opened_at"?: ((string) | (null));
-            "opened_reason"?: (("rule" | (string & {})) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "payment_flow"?: (("checkout"
-                | "payment_link"
-                | "invoice"
-                | "subscription_initial"
-                | "subscription_renewal"
-                | "virtual_terminal"
-                | "api"
-                | (string & {}))
-                | (null));
-            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
-            "payment_intent_id"?: ((string) | (null));
-            "payment_review_id"?: ((string) | (null));
-            "payment_summary"?: ((PaymentReviewPaymentSummaryPreviousAttributes) | (null));
-            "pending_action"?: (("approve" | "decline" | "expire" | null | (string & {})) | (null));
-            "refund_id"?: ((string) | (null));
-            "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "resolution_started_at"?: ((string) | (null));
-            "resolution_started_by"?: ((ResourceReferencePreviousAttributes) | (null));
-            "risk"?: ((PaymentReviewRiskPreviousAttributes) | (null));
-            "status"?: (("open" | "resolving" | "closed" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"approve" | "decline" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "payment_review.reopened";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "payment_review.reopened";
-});
 /**
  * The `payment_review.reopened` webhook payload for the `installed_merchants` event source. Fields
  * shared by partner webhook payloads.
@@ -3623,7 +3419,7 @@ export type PayoutCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "failure_message"?: string;
             "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
             "fee_money": ((MoneyValue) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
             "merchant_id": string;
             "metadata"?: MetadataMap;
@@ -3732,7 +3528,7 @@ export type PayoutCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
             "failure_message"?: string;
             "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
             "fee_money": ((MoneyValue) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
             "merchant_id": string;
             "metadata"?: MetadataMap;
@@ -3857,7 +3653,7 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
      * no fee, so this is 0 once your processor records the payout. `null` when your processor
      * hasn't recorded the payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Required): string or null.
+     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Optional): string or null.
      * The Idempotency-Key of the request that created this resource. `null` when that request sent
      * no key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -4169,7 +3965,7 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
          * processor records the payout. `null` when your processor hasn't recorded the payout yet.
          * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
          * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -4336,7 +4132,7 @@ export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * What started the payout. Inbound payouts are always platform initiated. An outbound
              * payout imported from your processor follows the processor: scheduled when it sent
@@ -4993,7 +4789,7 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
      * no fee, so this is 0 once your processor records the payout. `null` when your processor
      * hasn't recorded the payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Required): string or null.
+     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Optional): string or null.
      * The Idempotency-Key of the request that created this resource. `null` when that request sent
      * no key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -5305,7 +5101,7 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
          * processor records the payout. `null` when your processor hasn't recorded the payout yet.
          * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
          * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -5472,7 +5268,7 @@ export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * What started the payout. Inbound payouts are always platform initiated. An outbound
              * payout imported from your processor follows the processor: scheduled when it sent
@@ -6089,7 +5885,7 @@ export type PayoutCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "failure_message"?: string;
             "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
             "fee_money": ((MoneyValue) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
             "merchant_id": string;
             "metadata"?: MetadataMap;
@@ -6145,7 +5941,7 @@ export type PayoutCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "failure_message"?: string;
             "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
             "fee_money": ((MoneyValue) | (null));
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
             "merchant_id": string;
             "metadata"?: MetadataMap;
@@ -6217,7 +6013,7 @@ export type PayoutCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * no fee, so this is 0 once your processor records the payout. `null` when your processor
      * hasn't recorded the payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Required): string or null.
+     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Optional): string or null.
      * The Idempotency-Key of the request that created this resource. `null` when that request sent
      * no key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -6328,7 +6124,7 @@ export type PayoutCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * processor records the payout. `null` when your processor hasn't recorded the payout yet.
          * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
          * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -6495,7 +6291,7 @@ export type PayoutCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * What started the payout. Inbound payouts are always platform initiated. An outbound
              * payout imported from your processor follows the processor: scheduled when it sent
@@ -6690,7 +6486,7 @@ export type PayoutCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * no fee, so this is 0 once your processor records the payout. `null` when your processor
      * hasn't recorded the payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Required): string or null.
+     * object.fee_money.anyOf[2] (Value): null. object.idempotency_key (Optional): string or null.
      * The Idempotency-Key of the request that created this resource. `null` when that request sent
      * no key, Flint created the resource, the reader isn't the caller that created it (another app
      * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
@@ -6801,7 +6597,7 @@ export type PayoutCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * processor records the payout. `null` when your processor hasn't recorded the payout yet.
          * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
          * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * idempotency_key (Required): string or null. The Idempotency-Key of the request that
+         * idempotency_key (Optional): string or null. The Idempotency-Key of the request that
          * created this resource. `null` when that request sent no key, Flint created the resource,
          * the reader isn't the caller that created it (another app install, a buyer, or the
          * merchant reading an app's or buyer's record), or the caller that created an older record
@@ -6968,7 +6764,7 @@ export type PayoutCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * What started the payout. Inbound payouts are always platform initiated. An outbound
              * payout imported from your processor follows the processor: scheduled when it sent
@@ -8285,4 +8081,80 @@ export type PayoutDestinationArchivedMerchantEvent = (Exclude<MerchantWebhookEnv
     "event_source"?: "merchant" | (string & {});
     /** Value enum: "payout_destination.archived". */
     "event_type"?: "payout_destination.archived";
+});
+export type PayoutDestinationCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "available_payout_methods": Array<"standard" | (string & {})>;
+            "bank_name"?: string;
+            "country"?: string;
+            "created_at": string;
+            "currency": string;
+            "disabled_at"?: string;
+            "disabled_reason"?: "destination_disabled"
+                | "destination_removed"
+                | "destination_unavailable"
+                | "destination_rejected"
+                | "destination_under_review"
+                | "requirements_past_due"
+                | "requirements_pending_verification"
+                | (string & {});
+            "is_default_for_currency": boolean;
+            "last4"?: string;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "payout_destination_id": string;
+            "status": "pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {});
+            "status_updated_at"?: string;
+            "type": "bank_account" | "debit_card" | "other" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payout_destination.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "available_payout_methods": Array<"standard" | (string & {})>;
+            "bank_name"?: string;
+            "country"?: string;
+            "created_at": string;
+            "currency": string;
+            "disabled_at"?: string;
+            "disabled_reason"?: "destination_disabled"
+                | "destination_removed"
+                | "destination_unavailable"
+                | "destination_rejected"
+                | "destination_under_review"
+                | "requirements_past_due"
+                | "requirements_pending_verification"
+                | (string & {});
+            "is_default_for_currency": boolean;
+            "last4"?: string;
+            "merchant_id": string;
+            "metadata"?: MetadataMap;
+            "payout_destination_id": string;
+            "status": "pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {});
+            "status_updated_at"?: string;
+            "type": "bank_account" | "debit_card" | "other" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payout_destination.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payout_destination.created";
 });

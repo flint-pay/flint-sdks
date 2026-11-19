@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# PaymentLinkSalesSummaryPreviousAttributes to PayoutDestinationArchivedMerchantEvent
+# PaymentLinkSubscriptionPreview to PayoutDestinationCreatedInstalledMerchantsEvent
 
-- [PaymentLinkSalesSummaryPreviousAttributes](PaymentLinkSalesSummaryPreviousAttributes.md)
 - [PaymentLinkSubscriptionPreview](PaymentLinkSubscriptionPreview.md)
 - [PaymentLinkThemeConfigInput](PaymentLinkThemeConfigInput.md)
 - [PaymentLinkThemePatchRequest](PaymentLinkThemePatchRequest.md)
@@ -102,4 +101,5 @@
 - [PayoutDestination](PayoutDestination.md)
 - [PayoutDestinationArchivedInstalledMerchantsEvent](PayoutDestinationArchivedInstalledMerchantsEvent.md)
 - [PayoutDestinationArchivedMerchantEvent](PayoutDestinationArchivedMerchantEvent.md)
+- [PayoutDestinationCreatedInstalledMerchantsEvent](PayoutDestinationCreatedInstalledMerchantsEvent.md)
 

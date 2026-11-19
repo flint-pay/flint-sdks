@@ -1,5 +1,5 @@
 export { parseExact } from './runtime.js';
-export { verifyWebhook, verifyWebhookAsync } from './declarations/types-94.js';
+export { verifyWebhook, verifyWebhookAsync } from './declarations/types-95.js';
 export type { WebhookVerificationOptions } from './declarations/types-79.js';
 export type {
     KnownWebhookEvent,
@@ -227,21 +227,21 @@ export type {
     PaymentMethodFailedEvent,
     PaymentMethodUpdatedEvent,
     PaymentReviewClosedEvent,
-    PaymentReviewOpenedEvent
+    PaymentReviewOpenedEvent,
+    PaymentReviewReopenedEvent
 } from './declarations/types-53.js';
 export type {
-    PaymentReviewReopenedEvent,
     PaymentSplitCanceledEvent,
     PaymentSplitCreatedEvent,
     PaymentSplitFailedEvent,
     PaymentSplitSucceededEvent,
     PaymentSplitUpdatedEvent,
     PayoutDestinationArchivedEvent,
+    PayoutDestinationCreatedEvent,
     PayoutCanceledEvent,
     PayoutCreatedEvent
 } from './declarations/types-54.js';
 export type {
-    PayoutDestinationCreatedEvent,
     PayoutDestinationDisabledEvent,
     PayoutDestinationUpdatedEvent,
     PayoutSettingsUpdatedEvent,

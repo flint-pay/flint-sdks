@@ -1,0 +1,149 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string $correction_reason
+ * @property-read string $correction_reason_message
+ * @property-read string|\DateTimeInterface $created_at
+ * @property-read string $external_actor_id
+ * @property-read string $external_reference_id
+ * @property-read list<WebhookSnapshotReturnDispositionInput|array<array-key, mixed>|\stdClass> $generated_dispositions
+ * @property-read string|null $idempotency_key
+ * @property-read string|\DateTimeInterface $inspected_at
+ * @property-read string $inspection_location_id
+ * @property-read list<ReturnInspectionLineItemInput|array<array-key, mixed>|\stdClass> $line_items
+ * @property-read string $return_id
+ * @property-read string $return_inspection_id
+ * @property-read string $return_receipt_id
+ * @property-read array{'external_source_id'?: string, 'source_system_type': string}|object|null $source_system
+ * @property-read string $status
+ * @property-read string|\DateTimeInterface $superseded_at
+ * @property-read string $superseded_by_return_inspection_id
+ * @property-read string $supersedes_return_inspection_id
+ * @property-read string|\DateTimeInterface $updated_at
+ * @property-read int $version
+ * Presence-aware input; omitted fields throw when accessed. */
+final class WebhookSnapshotReturnInspectionInput extends Model {
+    /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'external_reference_id'?: string, 'generated_dispositions': list<WebhookSnapshotReturnDispositionInput|array<array-key, mixed>|\stdClass>, 'idempotency_key'?: string|null, 'inspected_at': string|\DateTimeInterface, 'inspection_location_id': string, 'line_items': list<ReturnInspectionLineItemInput|array<array-key, mixed>|\stdClass>, 'return_id': string, 'return_inspection_id': string, 'return_receipt_id': string, 'source_system': array{'external_source_id'?: string, 'source_system_type': string}|object|null, 'status': string, 'superseded_at'?: string|\DateTimeInterface, 'superseded_by_return_inspection_id'?: string, 'supersedes_return_inspection_id'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookSnapshotReturnInspectionInput')); }
+    /** Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+     * @return string
+     * @throws SdkError When correction_reason is omitted; use hasCorrectionReason() or valueOrDefault().
+     */
+    public function getCorrectionReason(): string { return $this->get('correction_reason'); }
+    public function hasCorrectionReason(): bool { return $this->has('correction_reason'); }
+    /** Detail about `correction_reason`.
+     * @return string
+     * @throws SdkError When correction_reason_message is omitted; use hasCorrectionReasonMessage() or valueOrDefault().
+     */
+    public function getCorrectionReasonMessage(): string { return $this->get('correction_reason_message'); }
+    public function hasCorrectionReasonMessage(): bool { return $this->has('correction_reason_message'); }
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+     */
+    public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+     * @return string
+     * @throws SdkError When external_actor_id is omitted; use hasExternalActorId() or valueOrDefault().
+     */
+    public function getExternalActorId(): string { return $this->get('external_actor_id'); }
+    public function hasExternalActorId(): bool { return $this->has('external_actor_id'); }
+    /** Caller-owned identifier for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * @return string
+     * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
+     */
+    public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
+    public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Dispositions Flint created when it recorded this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@see WebhookSnapshotReturnDispositionInput}. A decision about how returned merchandise will be handled.
+     * @return list<WebhookSnapshotReturnDispositionInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When generated_dispositions is omitted; use hasGeneratedDispositions() or valueOrDefault().
+     */
+    public function getGeneratedDispositions(): array { return $this->get('generated_dispositions'); }
+    public function hasGeneratedDispositions(): bool { return $this->has('generated_dispositions'); }
+    /** The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource.
+     * @return string|null
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When inspected_at is omitted; use hasInspectedAt() or valueOrDefault().
+     */
+    public function getInspectedAt(): string|\DateTimeInterface { return $this->get('inspected_at'); }
+    public function hasInspectedAt(): bool { return $this->has('inspected_at'); }
+    /** Location where the returned merchandise was inspected. Must match the receipt receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * @return string
+     * @throws SdkError When inspection_location_id is omitted; use hasInspectionLocationId() or valueOrDefault().
+     */
+    public function getInspectionLocationId(): string { return $this->get('inspection_location_id'); }
+    public function hasInspectionLocationId(): bool { return $this->has('inspection_location_id'); }
+    /** The lines recorded. [] (Value): {@see ReturnInspectionLineItemInput}. The inspection result for a returned item.
+     * @return list<ReturnInspectionLineItemInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
+     */
+    public function getLineItems(): array { return $this->get('line_items'); }
+    public function hasLineItems(): bool { return $this->has('line_items'); }
+    /** ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
+    /** Unique identifier for this return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * @return string
+     * @throws SdkError When return_inspection_id is omitted; use hasReturnInspectionId() or valueOrDefault().
+     */
+    public function getReturnInspectionId(): string { return $this->get('return_inspection_id'); }
+    public function hasReturnInspectionId(): bool { return $this->has('return_inspection_id'); }
+    /** ID of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * @return string
+     * @throws SdkError When return_receipt_id is omitted; use hasReturnReceiptId() or valueOrDefault().
+     */
+    public function getReturnReceiptId(): string { return $this->get('return_receipt_id'); }
+    public function hasReturnReceiptId(): bool { return $this->has('return_receipt_id'); }
+    /** System that recorded the observation. `null` when no source system was recorded. anyOf[1] (Value): {@see ReturnSourceSystemInput}. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. anyOf[2] (Value): null.
+     * @return array{'external_source_id'?: string, 'source_system_type': string}|object|null
+     * @throws SdkError When source_system is omitted; use hasSourceSystem() or valueOrDefault().
+     */
+    public function getSourceSystem(): mixed { return $this->get('source_system'); }
+    public function hasSourceSystem(): bool { return $this->has('source_system'); }
+    /** Whether this is the current observation of these units or a correction replaced it. Value enum: "current", "superseded".
+     * @return string
+     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+     */
+    public function getStatus(): string { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When superseded_at is omitted; use hasSupersededAt() or valueOrDefault().
+     */
+    public function getSupersededAt(): string|\DateTimeInterface { return $this->get('superseded_at'); }
+    public function hasSupersededAt(): bool { return $this->has('superseded_at'); }
+    /** ID of the inspection that corrected this one. Absent while it is current. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * @return string
+     * @throws SdkError When superseded_by_return_inspection_id is omitted; use hasSupersededByReturnInspectionId() or valueOrDefault().
+     */
+    public function getSupersededByReturnInspectionId(): string { return $this->get('superseded_by_return_inspection_id'); }
+    public function hasSupersededByReturnInspectionId(): bool { return $this->has('superseded_by_return_inspection_id'); }
+    /** ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * @return string
+     * @throws SdkError When supersedes_return_inspection_id is omitted; use hasSupersedesReturnInspectionId() or valueOrDefault().
+     */
+    public function getSupersedesReturnInspectionId(): string { return $this->get('supersedes_return_inspection_id'); }
+    public function hasSupersedesReturnInspectionId(): bool { return $this->has('supersedes_return_inspection_id'); }
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+     */
+    public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
+    public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: int64. minimum: 1.
+     * @return int
+     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+     */
+    public function getVersion(): int { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
+}

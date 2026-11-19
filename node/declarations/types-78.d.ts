@@ -1,6 +1,6 @@
 import type {
-    MetadataPatchRequestInput,
     MetadataPatchRequest,
+    MetadataPatchRequestInput,
     MerchantSignupTermsAcceptanceRequest,
     MerchantSignupTermsAcceptanceRequestInput,
     MetadataMap
@@ -19,7 +19,7 @@ import type {
 } from './types-70.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type { OrderLineItemModifierRequest, OrderLineItemTax, OrderLineItemModifierRequestModelInput } from './types-46.js';
-import type { OrderLineItemTaxRequestInput, OrderPaymentAttempt } from './types-47.js';
+import type { OrderLineItemTaxRequestInput } from './types-47.js';
 import type { ImageRequest, ImageRequestInput, ImageAttachment } from './types-31.js';
 import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-33.js';
 import type { SubscriptionPlanChangeOption, SubscriptionPlanChangeOptionRequestInput } from './types-71.js';
@@ -29,12 +29,8 @@ import type {
     TaxCalculationCallbackConfigurationPatchRequest,
     TaxCalculationCallbackConfigurationPatchRequestInput
 } from './types-73.js';
-import type {
-    WebhookSigningMethod,
-    WebhookSigningMethodInput,
-    WorkloadIdentityClaimConditionRequest,
-    WorkloadIdentityClaimConditionRequestInput
-} from './types-79.js';
+import type { WebhookSigningMethod, WebhookSigningMethodInput, WebhookSnapshotOrderPaymentAttempt } from './types-79.js';
+import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-80.js';
 import type { KnownWebhookEvent, LegalSettings } from './types-38.js';
 import type { GetReturnReceiptResponse, GetReturnResponse } from './types-28.js';
 import type { ResponseMeta, ResendWebhookDeliveryRequestInput, ResourceReference } from './types-62.js';
@@ -70,38 +66,6 @@ import type { InputValue } from '../runtime.js';
 import type { CreateWebhookDeliveryRequestInput } from './types-14.js';
 import type { CustomersListAddressesParams } from './types-17.js';
 import type { DeliveryProfileConfiguration } from './types-21.js';
-/** The request body for: Update shipment. minProperties: 1. */
-export type UpdateShipmentRequestInput = {
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1.
-     */
-    "external_system"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
-     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
-     * the key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequestInput) | (null));
-};
 /** The request body for: Update subscription line item. minProperties: 1. */
 export type UpdateSubscriptionLineItemRequest = {
     /**
@@ -3119,7 +3083,7 @@ export type WebhookCheckoutSession = ({
      * when is_resumable is true. Omitted when no attempt is active. Pending actions that open a
      * URL are left out; the pay response carries them. An attempt to pay an order.
      */
-    "active_payment_attempt"?: OrderPaymentAttempt;
+    "active_payment_attempt"?: WebhookSnapshotOrderPaymentAttempt;
     /**
      * Contact the buyer entered in checkout before paying, saved with the session's checkout
      * credential. Separate from merchant-supplied prefill and customer_prefill from the customer
@@ -4072,3 +4036,17 @@ export type WebhookEndpointResponse = {
      */
     "request_id": string;
 };
+/**
+ * A webhook endpoint with its one-time signing secret, returned on create with hmac, when PATCH
+ * first enables hmac, or when its secret is rotated. A merchant webhook endpoint belongs to the
+ * live mode or sandbox of the credential that created it and receives only that environment's
+ * events. Partner endpoints select sources with event_sources and installed_merchant_modes.
+ */
+export type WebhookEndpointWithSecret = (Exclude<WebhookEndpoint & object, readonly unknown[]>)
+    & ({
+    /**
+     * One-time signing secret. Present on create when hmac is enabled, on PATCH when hmac is first
+     * enabled, and on rotation; omitted on an idempotent replay after the secret retention period.
+     */
+    "secret"?: string;
+});

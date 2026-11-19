@@ -250,7 +250,7 @@ import type { OrderActivity, OrderActivityListResponse } from '../declarations/t
 import type { RequestOptions } from '../declarations/types-62.js';
 import type { SubscriptionPlanChangePreview } from '../declarations/types-71.js';
 import type { SubscriptionPreview, SubscriptionQuantityChangePreview, SubscriptionRenewalPreview } from '../declarations/types-72.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -423,7 +423,7 @@ export type {
     BuyerReturnResolutionExecutionBlocker,
     BuyerTicketEvent
 } from '../declarations/types-4.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight, WebhookEventSource, WebhookMerchant } from '../declarations/types-79.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     BuyerEmailChangeRequest,
     BuyerEmailChangeRequestResponse,
@@ -644,6 +644,7 @@ export type {
     ReturnFinancialSummary,
     ReturnHandoffRequirementLineItem,
     ReturnLineItemDecisionProposal,
+    ReturnLineItemValue,
     ReturnLineItemRequestInput,
     ReturnEligibilitySelectionRequestInput,
     ReturnEligibilityLineItemRequestModelInput,
@@ -659,11 +660,12 @@ export type { Address, AddressRequestInput, AddressPreviousAttributes, AddressRe
 export type {
     SelectedProductOption,
     SaveMePaymentMethodRequestInput,
+    ServiceFulfillmentDetails,
     SaveMeGiftCardRequestInput,
     SaveMeGiftCardRequestCodeInput,
     SaveMeGiftCardRequestRecipientAccessInput
 } from '../declarations/types-67.js';
-export type { ReturnPolicyAdjustmentProposal, ReturnLineItemValue, ReturnReasonSummary } from '../declarations/types-64.js';
+export type { ReturnPolicyAdjustmentProposal, ReturnReasonSummary } from '../declarations/types-64.js';
 export type {
     Image,
     ImageAttachment,
@@ -743,6 +745,7 @@ export type {
 } from '../declarations/types-58.js';
 export type {
     PaymentAttemptGiftCardRedemption,
+    PaymentClientAction,
     PaymentActivityActor,
     PauseSubscriptionRequestInput,
     PartnerWebhookEnvelope,
@@ -763,13 +766,7 @@ export type {
     PickupFulfillmentDetails,
     PlatformFeeCap
 } from '../declarations/types-55.js';
-export type {
-    PaymentClientAction,
-    PaymentClientActionURL,
-    PaymentClientActionStripe,
-    PaymentErrorSummary,
-    PaymentFulfillmentHold
-} from '../declarations/types-51.js';
+export type { PaymentClientActionURL, PaymentClientActionStripe, PaymentErrorSummary, PaymentFulfillmentHold } from '../declarations/types-51.js';
 export type {
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
@@ -777,7 +774,6 @@ export type {
     StripeClientSetup,
     StripeClientSetupStripe,
     StripeClientAuthority,
-    ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
     SettlementAmounts,
     SubscribedLine,
@@ -917,6 +913,7 @@ export type { GiftCardProductConfiguration } from '../declarations/types-29.js';
 export type { LineItemInventorySnapshot, LineItemInventoryDemand, LicenseKeyVersionRequestInput } from '../declarations/types-40.js';
 export type { PurchasedGiftCard } from '../declarations/types-59.js';
 export type { Dimensions } from '../declarations/types-25.js';
+export type { Weight, WebhookEventSource, WebhookMerchant } from '../declarations/types-79.js';
 export type {
     TicketedEvent,
     TipPaymentIntentAllocation,
@@ -952,38 +949,33 @@ export {
     makeBuyerReturnReplacementLineItemInputBundle,
     makeBuyerReturnReplacementLineItemInputVariant,
     makeBuyerReturnReplacementLineItemRequest,
-    makeCancelMeSubscriptionRequest,
-    makeChangeMeSubscriptionPlanRequest,
-    makeChangeMeSubscriptionQuantityRequest
+    makeCancelMeSubscriptionRequest
 } from '../declarations/types-80.js';
 export {
+    makeChangeMeSubscriptionPlanRequest,
+    makeChangeMeSubscriptionQuantityRequest,
     makeCheckoutRedirectsRequest,
     makeConfigurationVersionRequest,
     makeConfirmEmailChangeRequest,
-    makeConfirmReturnResolutionRequest,
-    makeCreateCustomerAddressRequest
+    makeConfirmReturnResolutionRequest
 } from '../declarations/types-81.js';
+export { makeCreateCustomerAddressRequest, makeCreateEmailChangeRequest } from '../declarations/types-82.js';
 export {
-    makeCreateEmailChangeRequest,
     makeCreateMeCheckoutSessionInvoice,
     makeCreateMeCheckoutSessionRequest,
     makeCreateMeCheckoutSessionReturnResolution,
+    makeCreateMerchantSignupRequest,
     makeCreateMeSubscriptionPreviewRequest,
     makeCreateMeSubscriptionPreviewRequestDeliveryOptions,
     makeCreateMeSubscriptionPreviewRequestNextRenewal,
     makeCreateMeSubscriptionPreviewRequestPlanChange,
     makeCreateMeSubscriptionPreviewRequestQuantityChange
-} from '../declarations/types-82.js';
-export { makeCreateMerchantSignupRequest, makeCreateReturnEligibilityPreviewRequest } from '../declarations/types-83.js';
+} from '../declarations/types-83.js';
+export { makeCreateReturnEligibilityPreviewRequest } from '../declarations/types-84.js';
+export { makeDeliverySelectionRecipientRequest, makeDeliveryWindowRequest } from '../declarations/types-86.js';
+export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-87.js';
 export {
-    makeDeliverySelectionRecipientRequest,
-    makeDeliveryWindowRequest,
-    makeImageInputFile,
-    makeImageInputSourceURL,
-    makeImageRequest
-} from '../declarations/types-86.js';
-export { makeLicenseKeyVersionRequest } from '../declarations/types-87.js';
-export {
+    makeLicenseKeyVersionRequest,
     makeMerchantAccountSessionCreateRequest,
     makeMerchantAccountSessionRefreshRequest,
     makeMerchantSignupOwnerRequest,
@@ -994,39 +986,37 @@ export {
     makeMoneyValue
 } from '../declarations/types-88.js';
 export { makePauseSubscriptionRequest } from '../declarations/types-89.js';
-export { makeRenewSubscriptionRequest } from '../declarations/types-90.js';
 export {
+    makeRenewSubscriptionRequest,
     makeResourceVersionRequest,
     makeReturnEligibilityLineItemRequestModel,
     makeReturnEligibilitySelectionAllRemainingFulfilledRequest,
     makeReturnEligibilitySelectionLineItemsRequest,
     makeReturnEligibilitySelectionRequest,
     makeReturnLineItemRequest,
-    makeReturnResolutionLineItemRequest,
-    makeSaveMeGiftCardRequest,
-    makeSaveMeGiftCardRequestCode
+    makeReturnResolutionLineItemRequest
 } from '../declarations/types-91.js';
 export {
+    makeSaveMeGiftCardRequest,
+    makeSaveMeGiftCardRequestCode,
     makeSaveMeGiftCardRequestRecipientAccess,
     makeSaveMePaymentMethodRequest,
     makeSkipMeSubscriptionCycleRequest,
     makeSubscriptionDeliveryDestinationInputAddress,
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
     makeSubscriptionDeliveryDestinationRequest,
-    makeSubscriptionDeliveryRequest,
-    makeSubscriptionQuantityChangeLineItemRequest,
-    makeSubscriptionSwapPreviewRequest
+    makeSubscriptionDeliveryRequest
 } from '../declarations/types-92.js';
 export {
+    makeSubscriptionQuantityChangeLineItemRequest,
+    makeSubscriptionSwapPreviewRequest,
     makeTextModifierRequest,
     makeUpdateCustomerAddressRequest,
     makeUpdateCustomerEmailPreferencesRequest,
-    makeUpdateMerchantRequest,
     makeUpdateMeRequest,
-    makeUpdateMeSubscriptionLineItemRequest,
-    makeUpdateMeSubscriptionRequest
+    makeUpdateMeSubscriptionLineItemRequest
 } from '../declarations/types-93.js';
-export { makeVerifyMerchantSignupRequest } from '../declarations/types-94.js';
+export { makeUpdateMerchantRequest, makeUpdateMeSubscriptionRequest, makeVerifyMerchantSignupRequest } from '../declarations/types-94.js';
 export interface MeResource {
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a

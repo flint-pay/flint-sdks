@@ -2,7 +2,7 @@ import type { WithResponseInfo } from '../runtime.js';
 import type { AuthContext, AuthContextGetParams, AuthContextResponse } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -18,7 +18,7 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { AuthContextGetParams, AuthContext, AuthContextResponse, AuthMode } from '../declarations/types-1.js';
-export type { _SdkWithoutIdempotency, WorkloadIdentityAuthContext } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency, WorkloadIdentityAuthContext } from '../declarations/types-80.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { Credentials } from '../declarations/types-14.js';

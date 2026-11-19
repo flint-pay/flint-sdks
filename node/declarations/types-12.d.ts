@@ -13,7 +13,7 @@ import type {
     OrderDeliveryRequestInput
 } from './types-45.js';
 import type { OrderLineItemModifierRequest, OrderHandover, OrderHandoverRequestInput } from './types-46.js';
-import type { SubscribedLineRequest } from './types-69.js';
+import type { SubscribedLineRequest, SplitReversalRequest, SplitReversalRequestInput } from './types-68.js';
 import type { Weight, WeightRequestInput } from './types-79.js';
 import type {
     CreateOrderDiscount,
@@ -47,9 +47,10 @@ import type {
     PartnerAppPermissionManifestEntryRequestInput
 } from './types-49.js';
 import type { PartnerAppPlatformProfile, PartnerAppPlatformProfileRequestInput } from './types-50.js';
-import type { PlatformFeeCap } from './types-55.js';
+import type { PlatformFeeCap, PlatformFeeCapRequestInput } from './types-55.js';
+import type { OrderPaymentSourceSelection, OrderPaymentSourceSelectionInput } from './types-47.js';
+import type { PaymentSplitRequest, PaymentSplitRequestInput } from './types-54.js';
 import type {
-    PlatformFeeCapRequestInput,
     PlatformFeeRequest,
     PlatformFeeRequestInput,
     PriceListPriceRequest,
@@ -57,8 +58,6 @@ import type {
     PriceList,
     PriceListPriceAddition
 } from './types-56.js';
-import type { OrderPaymentSourceSelection, OrderPaymentSourceSelectionInput } from './types-47.js';
-import type { PaymentSplitRequest, PaymentSplitRequestInput } from './types-54.js';
 import type {
     CheckoutTaxConfig,
     CheckoutTipConfig,
@@ -94,9 +93,10 @@ import type {
     PromotionRuleGroupRequest,
     PromotionCodeRequestInput,
     PromotionCombinesWithRequestInput,
-    PromotionExclusivityRequestInput
+    PromotionExclusivityRequestInput,
+    PromotionRuleGroupRequestInput
 } from './types-58.js';
-import type { PromotionSchedule, PromotionRuleGroupRequestInput, PromotionScheduleRequestInput } from './types-59.js';
+import type { PromotionSchedule, PromotionScheduleRequestInput } from './types-59.js';
 import type {
     CreateSmartReaderRequest,
     CreateTapToPayReaderRequest,
@@ -108,17 +108,16 @@ import type {
     RefundCharge,
     RefundDestinations,
     RefundLineItem,
+    RefundTaxBreakdownRefundIn,
     RefundChargeInput,
     RefundDestinationsInput,
     RefundLineItemInput
 } from './types-60.js';
 import type {
-    RefundTaxBreakdownRefundIn,
     RefundTenderAllocationRequest,
     RefundTaxBreakdownRefundInInput,
     RefundTenderAllocationRequestInput
 } from './types-61.js';
-import type { SplitReversalRequest, SplitReversalRequestInput } from './types-68.js';
 /** The `variant` variant of `CreateOrderLineItem`. */
 export type CreateOrderLineItemVariant = ({
     /**

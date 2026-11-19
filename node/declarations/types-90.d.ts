@@ -1,6 +1,30 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    PlatformFeeCapRequestInput,
+    PaymentLinkLineItemPatchInputCustomFixedInput,
+    PaymentLinkLineItemPatchInputCustomVariableInput,
+    PaymentLinkLineItemPatchInputVariantInput,
+    PaymentLinkLineItemPatchRequestInput,
+    PaymentLinkLineItemRequestInput,
+    PaymentLinkPaymentConfigInput
+} from './types-52.js';
+import type {
+    PaymentLinkPaymentPatchRequestInput,
+    PaymentLinkRedirectsPatchRequestInput,
+    PaymentLinkResolvePrefillRequestInput,
+    PaymentLinkThemeConfigInput,
+    PaymentLinkThemePatchRequestInput
+} from './types-53.js';
+import type {
+    PaymentSettingsPatchInput,
+    PaymentSourceCredentialInput,
+    PaymentSourceCredentialPaymentMethodInput,
+    PaymentSourceCredentialReaderInput,
+    PaymentSourceCredentialStripeConfirmationTokenInput,
+    PaymentSourceCredentialStripePaymentMethodInput,
+    PaymentSplitRequestInput
+} from './types-54.js';
+import type { PlatformFeeCapRequestInput } from './types-55.js';
+import type {
     PlatformFeeMoneyInput,
     PlatformFeeRequestInput,
     PoolLicenseKeyConfigurationRequestInput,
@@ -29,10 +53,10 @@ import type {
     PromotionRecurrenceRequestInput,
     PromotionRefInputPromotionCodeInput,
     PromotionRefInputPromotionIDInput,
-    PromotionRefRequestInput
+    PromotionRefRequestInput,
+    PromotionRuleGroupRequestInput
 } from './types-58.js';
 import type {
-    PromotionRuleGroupRequestInput,
     PromotionRuleRequestInput,
     PromotionRuleValueRequestInput,
     PromotionSchedulePatchInput,
@@ -54,29 +78,26 @@ import type {
     RefundLineItemAdjustmentInInput,
     RefundLineItemAdjustmentRefundInInput
 } from './types-60.js';
-import type {
-    RefundTaxBreakdownRefundInInput,
-    RefundTenderAllocationInputGiftCardRedemptionInput,
-    RefundTenderAllocationInputPaymentIntentInput,
-    RefundTenderAllocationRequestInput,
-    ReleaseFulfillmentHoldRequestInput,
-    ReleaseInventoryReservationRequestInput,
-    ReleaseLicenseKeyActivationRequestInput,
-    ReleaseReturnResolutionRequestInput,
-    RememberedBuyerTokenRequestInput,
-    RemoveDiscountsRequestInput,
-    RemoveLicenseKeyPoolKeysRequestInput,
-    RemoveSubscriptionPromotionsRequestInput,
-    RenewSubscriptionRequestInput,
-    ReopenReturnRequestInput,
-    ReportInventoryTransferLossRequestInput
-} from './types-61.js';
-import type {
-    RepriceDiscountsRequestInput,
-    ResendLicenseKeyRequestInput,
-    ResendWebhookDeliveryRequestInput,
-    ResetDemoSessionRequestInput
-} from './types-62.js';
+import type { RefundTaxBreakdownRefundInInput } from './types-61.js';
+export declare function makePaymentLinkLineItemPatchInputCustomFixed(value: InputValue<PaymentLinkLineItemPatchInputCustomFixedInput>): Model<PaymentLinkLineItemPatchInputCustomFixedInput>;
+export declare function makePaymentLinkLineItemPatchInputCustomVariable(value: InputValue<PaymentLinkLineItemPatchInputCustomVariableInput>): Model<PaymentLinkLineItemPatchInputCustomVariableInput>;
+export declare function makePaymentLinkLineItemPatchInputVariant(value: InputValue<PaymentLinkLineItemPatchInputVariantInput>): Model<PaymentLinkLineItemPatchInputVariantInput>;
+export declare function makePaymentLinkLineItemPatchRequest(value: InputValue<PaymentLinkLineItemPatchRequestInput>): Model<PaymentLinkLineItemPatchRequestInput>;
+export declare function makePaymentLinkLineItemRequest(value: InputValue<PaymentLinkLineItemRequestInput>): Model<PaymentLinkLineItemRequestInput>;
+export declare function makePaymentLinkPaymentConfig(value: InputValue<PaymentLinkPaymentConfigInput>): Model<PaymentLinkPaymentConfigInput>;
+export declare function makePaymentLinkPaymentPatchRequest(value: InputValue<PaymentLinkPaymentPatchRequestInput>): Model<PaymentLinkPaymentPatchRequestInput>;
+export declare function makePaymentLinkRedirectsPatchRequest(value: InputValue<PaymentLinkRedirectsPatchRequestInput>): Model<PaymentLinkRedirectsPatchRequestInput>;
+export declare function makePaymentLinkResolvePrefillRequest(value: InputValue<PaymentLinkResolvePrefillRequestInput>): Model<PaymentLinkResolvePrefillRequestInput>;
+export declare function makePaymentLinkThemeConfig(value: InputValue<PaymentLinkThemeConfigInput>): Model<PaymentLinkThemeConfigInput>;
+export declare function makePaymentLinkThemePatchRequest(value: InputValue<PaymentLinkThemePatchRequestInput>): Model<PaymentLinkThemePatchRequestInput>;
+export declare function makePaymentSettingsPatch(value: InputValue<PaymentSettingsPatchInput>): Model<PaymentSettingsPatchInput>;
+export declare function makePaymentSourceCredential(value: InputValue<Exclude<PaymentSourceCredentialInput & object, readonly unknown[]>>): Model<Exclude<PaymentSourceCredentialInput & object, readonly unknown[]>>;
+export declare function makePaymentSourceCredential(value: InputValue<PaymentSourceCredentialInput>): Model<PaymentSourceCredentialInput>;
+export declare function makePaymentSourceCredentialPaymentMethod(value: InputValue<PaymentSourceCredentialPaymentMethodInput>): Model<PaymentSourceCredentialPaymentMethodInput>;
+export declare function makePaymentSourceCredentialReader(value: InputValue<PaymentSourceCredentialReaderInput>): Model<PaymentSourceCredentialReaderInput>;
+export declare function makePaymentSourceCredentialStripeConfirmationToken(value: InputValue<PaymentSourceCredentialStripeConfirmationTokenInput>): Model<PaymentSourceCredentialStripeConfirmationTokenInput>;
+export declare function makePaymentSourceCredentialStripePaymentMethod(value: InputValue<PaymentSourceCredentialStripePaymentMethodInput>): Model<PaymentSourceCredentialStripePaymentMethodInput>;
+export declare function makePaymentSplitRequest(value: InputValue<PaymentSplitRequestInput>): Model<PaymentSplitRequestInput>;
 export declare function makePlatformFeeCapRequest(value: InputValue<PlatformFeeCapRequestInput>): Model<PlatformFeeCapRequestInput>;
 export declare function makePlatformFeeMoney(value: InputValue<PlatformFeeMoneyInput>): Model<PlatformFeeMoneyInput>;
 export declare function makePlatformFeeRequest(value: InputValue<PlatformFeeRequestInput>): Model<PlatformFeeRequestInput>;
@@ -126,22 +147,3 @@ export declare function makeRefundLineItem(value: InputValue<RefundLineItemInput
 export declare function makeRefundLineItemAdjustmentIn(value: InputValue<RefundLineItemAdjustmentInInput>): Model<RefundLineItemAdjustmentInInput>;
 export declare function makeRefundLineItemAdjustmentRefundIn(value: InputValue<RefundLineItemAdjustmentRefundInInput>): Model<RefundLineItemAdjustmentRefundInInput>;
 export declare function makeRefundTaxBreakdownRefundIn(value: InputValue<RefundTaxBreakdownRefundInInput>): Model<RefundTaxBreakdownRefundInInput>;
-export declare function makeRefundTenderAllocationInputGiftCardRedemption(value: InputValue<RefundTenderAllocationInputGiftCardRedemptionInput>): Model<RefundTenderAllocationInputGiftCardRedemptionInput>;
-export declare function makeRefundTenderAllocationInputPaymentIntent(value: InputValue<RefundTenderAllocationInputPaymentIntentInput>): Model<RefundTenderAllocationInputPaymentIntentInput>;
-export declare function makeRefundTenderAllocationRequest(value: InputValue<RefundTenderAllocationRequestInput>): Model<RefundTenderAllocationRequestInput>;
-export declare function makeReleaseFulfillmentHoldRequest(value: InputValue<ReleaseFulfillmentHoldRequestInput>): Model<ReleaseFulfillmentHoldRequestInput>;
-export declare function makeReleaseInventoryReservationRequest(value: InputValue<ReleaseInventoryReservationRequestInput>): Model<ReleaseInventoryReservationRequestInput>;
-export declare function makeReleaseLicenseKeyActivationRequest(value: InputValue<ReleaseLicenseKeyActivationRequestInput>): Model<ReleaseLicenseKeyActivationRequestInput>;
-export declare function makeReleaseReturnResolutionRequest(value: InputValue<ReleaseReturnResolutionRequestInput>): Model<ReleaseReturnResolutionRequestInput>;
-export declare function makeRememberedBuyerTokenRequest(value: InputValue<RememberedBuyerTokenRequestInput>): Model<RememberedBuyerTokenRequestInput>;
-export declare function makeRemoveDiscountsRequest(value: InputValue<RemoveDiscountsRequestInput>): Model<RemoveDiscountsRequestInput>;
-export declare function makeRemoveLicenseKeyPoolKeysRequest(value: InputValue<Exclude<RemoveLicenseKeyPoolKeysRequestInput & object, readonly unknown[]>>): Model<Exclude<RemoveLicenseKeyPoolKeysRequestInput & object, readonly unknown[]>>;
-export declare function makeRemoveLicenseKeyPoolKeysRequest(value: InputValue<RemoveLicenseKeyPoolKeysRequestInput>): Model<RemoveLicenseKeyPoolKeysRequestInput>;
-export declare function makeRemoveSubscriptionPromotionsRequest(value: InputValue<RemoveSubscriptionPromotionsRequestInput>): Model<RemoveSubscriptionPromotionsRequestInput>;
-export declare function makeRenewSubscriptionRequest(value: InputValue<RenewSubscriptionRequestInput>): Model<RenewSubscriptionRequestInput>;
-export declare function makeReopenReturnRequest(value: InputValue<ReopenReturnRequestInput>): Model<ReopenReturnRequestInput>;
-export declare function makeReportInventoryTransferLossRequest(value: InputValue<ReportInventoryTransferLossRequestInput>): Model<ReportInventoryTransferLossRequestInput>;
-export declare function makeRepriceDiscountsRequest(value: InputValue<RepriceDiscountsRequestInput>): Model<RepriceDiscountsRequestInput>;
-export declare function makeResendLicenseKeyRequest(value: InputValue<ResendLicenseKeyRequestInput>): Model<ResendLicenseKeyRequestInput>;
-export declare function makeResendWebhookDeliveryRequest(value: InputValue<ResendWebhookDeliveryRequestInput>): Model<ResendWebhookDeliveryRequestInput>;
-export declare function makeResetDemoSessionRequest(value: InputValue<ResetDemoSessionRequestInput>): Model<ResetDemoSessionRequestInput>;

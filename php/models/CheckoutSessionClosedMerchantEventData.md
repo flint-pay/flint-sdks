@@ -17,7 +17,7 @@ The affected public resource without expansions, client authority fields, or fie
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `active_payment_attempt` | Optional | [OrderPaymentAttempt](../models/OrderPaymentAttempt.md#orderpaymentattempt) | The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. An attempt to pay an order. `active_payment_attempt`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataactive_payment_attempt). |
+| `active_payment_attempt` | Optional | [WebhookSnapshotOrderPaymentAttempt](../models/WebhookSnapshotOrderPaymentAttempt.md#webhooksnapshotorderpaymentattempt) | The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. An attempt to pay an order. `active_payment_attempt`: [field definitions](../models/CheckoutSessionClosedMerchantEventDataObject.md#checkoutsessionclosedmerchanteventdataobjectactive_payment_attempt). |
 | `buyer_contact` | Optional | [CheckoutBuyerContact](../models/CheckoutBuyerContact.md#checkoutbuyercontact) | Contact the buyer entered in checkout before paying, saved with the session's checkout credential. Separate from merchant-supplied prefill and customer_prefill from the customer record. Omitted until the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the session ends, and when a customer linked to the session is deleted. Buyer contact supplied with payment or saved during checkout. `buyer_contact`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatabuyer_contact). |
 | `buyer_fields` | Optional | [CheckoutBuyerFields](../models/CheckoutBuyerFields.md#checkoutbuyerfields) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. |
 | `can_apply_promotion_code` | Required | boolean | Whether to offer promotion-code entry now. True only while the session is open, is not in recovery, and merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins; null offers entry only when this merchant has an active code promotion whose schedule includes now, in the session's environment. Recomputed on each read. This hint does not change code admission: checkout lifecycle, promotion_config, and merchant policy still apply. |
@@ -75,7 +75,7 @@ The affected public resource without expansions, client authority fields, or fie
 
 ### CheckoutSessionClosedMerchantEventData.object fields 1.active_payment_attempt
 
-Field definitions: [CheckoutSessionResponse.data.active_payment_attempt](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataactive_payment_attempt).
+Field definitions: [CheckoutSessionClosedMerchantEventDataObject.active_payment_attempt](../models/CheckoutSessionClosedMerchantEventDataObject.md#checkoutsessionclosedmerchanteventdataobjectactive_payment_attempt).
 
 ### CheckoutSessionClosedMerchantEventData.object fields 1.buyer_contact
 

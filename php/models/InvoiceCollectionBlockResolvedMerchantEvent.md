@@ -130,7 +130,7 @@ Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousA
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.idempotency_key
 
-Declared alternatives: [OrderPaymentAttemptPreviousAttributes.idempotency_key](../models/OrderPaymentAttemptPreviousAttributes.md#orderpaymentattemptpreviousattributesidempotency_key).
+Declared alternatives: [WebhookSnapshotOrderPaymentAttemptPreviousAttributes.idempotency_key](../models/WebhookSnapshotOrderPaymentAttemptPreviousAttributes.md#webhooksnapshotorderpaymentattemptpreviousattributesidempotency_key).
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.invoice_id
 

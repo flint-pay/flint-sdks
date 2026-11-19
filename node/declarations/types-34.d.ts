@@ -722,7 +722,7 @@ export type InventoryTransferClosedEvent = ((((Exclude<MerchantWebhookEnvelope &
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -785,7 +785,7 @@ export type InventoryTransferClosedEvent = ((((Exclude<MerchantWebhookEnvelope &
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -858,7 +858,7 @@ export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWeb
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -988,7 +988,7 @@ export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWeb
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Required): string or null.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -1054,7 +1054,7 @@ export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWeb
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -1363,7 +1363,7 @@ export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvel
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -1493,7 +1493,7 @@ export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvel
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Required): string or null.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -1559,7 +1559,7 @@ export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvel
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -1834,7 +1834,7 @@ export type InventoryTransferDepartedEvent = ((((Exclude<MerchantWebhookEnvelope
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -1897,7 +1897,7 @@ export type InventoryTransferDepartedEvent = ((((Exclude<MerchantWebhookEnvelope
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -1970,7 +1970,7 @@ export type InventoryTransferDepartedInstalledMerchantsEvent = (Exclude<PartnerW
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -2100,7 +2100,7 @@ export type InventoryTransferDepartedInstalledMerchantsEvent = (Exclude<PartnerW
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Required): string or null.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -2166,7 +2166,7 @@ export type InventoryTransferDepartedInstalledMerchantsEvent = (Exclude<PartnerW
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -2475,7 +2475,7 @@ export type InventoryTransferDepartedMerchantEvent = (Exclude<MerchantWebhookEnv
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -2605,7 +2605,7 @@ export type InventoryTransferDepartedMerchantEvent = (Exclude<MerchantWebhookEnv
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Required): string or null.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -2671,7 +2671,7 @@ export type InventoryTransferDepartedMerchantEvent = (Exclude<MerchantWebhookEnv
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -3115,7 +3115,7 @@ export type InventoryTransferLostEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -3178,7 +3178,7 @@ export type InventoryTransferLostEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -3251,7 +3251,7 @@ export type InventoryTransferLostInstalledMerchantsEvent = (Exclude<PartnerWebho
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -3381,7 +3381,7 @@ export type InventoryTransferLostInstalledMerchantsEvent = (Exclude<PartnerWebho
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Required): string or null.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -3447,7 +3447,7 @@ export type InventoryTransferLostInstalledMerchantsEvent = (Exclude<PartnerWebho
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -3756,7 +3756,7 @@ export type InventoryTransferLostMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -3886,7 +3886,7 @@ export type InventoryTransferLostMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Required): string or null.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -3952,7 +3952,7 @@ export type InventoryTransferLostMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -4227,7 +4227,7 @@ export type InventoryTransferReceivedEvent = ((((Exclude<MerchantWebhookEnvelope
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -4290,7 +4290,7 @@ export type InventoryTransferReceivedEvent = ((((Exclude<MerchantWebhookEnvelope
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -4363,7 +4363,7 @@ export type InventoryTransferReceivedInstalledMerchantsEvent = (Exclude<PartnerW
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -4493,7 +4493,7 @@ export type InventoryTransferReceivedInstalledMerchantsEvent = (Exclude<PartnerW
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Required): string or null.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -4559,7 +4559,7 @@ export type InventoryTransferReceivedInstalledMerchantsEvent = (Exclude<PartnerW
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -4868,7 +4868,7 @@ export type InventoryTransferReceivedMerchantEvent = (Exclude<MerchantWebhookEnv
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -4998,7 +4998,7 @@ export type InventoryTransferReceivedMerchantEvent = (Exclude<MerchantWebhookEnv
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Required): string or null.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -5064,7 +5064,7 @@ export type InventoryTransferReceivedMerchantEvent = (Exclude<MerchantWebhookEnv
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -5390,7 +5390,7 @@ export type InventoryTransferReturnedEvent = ((((Exclude<MerchantWebhookEnvelope
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -5453,7 +5453,7 @@ export type InventoryTransferReturnedEvent = ((((Exclude<MerchantWebhookEnvelope
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -5526,7 +5526,7 @@ export type InventoryTransferReturnedInstalledMerchantsEvent = (Exclude<PartnerW
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -5656,7 +5656,7 @@ export type InventoryTransferReturnedInstalledMerchantsEvent = (Exclude<PartnerW
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Required): string or null.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -5722,7 +5722,7 @@ export type InventoryTransferReturnedInstalledMerchantsEvent = (Exclude<PartnerW
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -6031,7 +6031,7 @@ export type InventoryTransferReturnedMerchantEvent = (Exclude<MerchantWebhookEnv
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -6161,7 +6161,7 @@ export type InventoryTransferReturnedMerchantEvent = (Exclude<MerchantWebhookEnv
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Required): string or null.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -6227,7 +6227,7 @@ export type InventoryTransferReturnedMerchantEvent = (Exclude<MerchantWebhookEnv
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -6502,7 +6502,7 @@ export type InventoryTransferUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -6565,7 +6565,7 @@ export type InventoryTransferUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope 
             "departed_at"?: string;
             "destination_location_id": string;
             "external_reference_id"?: string;
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             "inventory_transfer_id": string;
             "lines": Array<InventoryTransferLine>;
             "note"?: string;
@@ -6638,7 +6638,7 @@ export type InventoryTransferUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -6768,7 +6768,7 @@ export type InventoryTransferUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Required): string or null.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -6834,7 +6834,7 @@ export type InventoryTransferUpdatedInstalledMerchantsEvent = (Exclude<PartnerWe
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
@@ -7143,7 +7143,7 @@ export type InventoryTransferUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
      * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
      * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Required): string or null. The Idempotency-Key of the request that created this resource.
+     * (Optional): string or null. The Idempotency-Key of the request that created this resource.
      * `null` when that request sent no key, Flint created the resource, the reader isn't the
      * caller that created it (another app install, a buyer, or the merchant reading an app's or
      * buyer's record), or the caller that created an older record is unknown. Filter its list with
@@ -7273,7 +7273,7 @@ export type InventoryTransferUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
          * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
          * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
          * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Required): string or null.
+         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string or null.
          * The Idempotency-Key of the request that created this resource. `null` when that request
          * sent no key, Flint created the resource, the reader isn't the caller that created it
          * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
@@ -7339,7 +7339,7 @@ export type InventoryTransferUpdatedMerchantEvent = (Exclude<MerchantWebhookEnve
              * responses and webhook events, can return `null`. To find a key that a replay returns
              * as `null`, read the resource.
              */
-            "idempotency_key": string | null;
+            "idempotency_key"?: string | null;
             /**
              * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
              * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".

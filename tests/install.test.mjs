@@ -116,7 +116,7 @@ test(
       const webhookSecret = "whsec_" + webhookKey.toString("base64");
       const webhookTimestamp = 1700000000;
       const webhookId = "msg_nullable_creating_key_fixture";
-      const signedWebhooks = [
+      const nullEvents = [
         "refund.succeeded",
         "credit_note_allocation.created",
         "subscription_payment_retry.succeeded",
@@ -124,14 +124,32 @@ test(
         "inventory_receipt.created",
         "inventory_reservation.created",
         "inventory_transfer.received",
-      ].map((type) => {
-        const sample = api.webhooks[type].post.requestBody.content["application/json"].examples.merchant.value;
-        const body = JSON.stringify({ ...sample, data: { object: { ...sample.data.object, idempotency_key: null } } });
+      ];
+      const historicalEvents = [
+        "refund.succeeded",
+        "payment_intent.created",
+        "payment_intent.succeeded",
+        "invoice.paid",
+        "subscription.created",
+      ];
+      const signedWebhooks = [
+        ...nullEvents.map((type) => ({ type, keyState: "null" })),
+        ...historicalEvents.map((type) => ({ type, keyState: "omitted" })),
+        { type: "refund.succeeded", keyState: "omitted", audience: "installed_merchants" },
+        { type: "refund.succeeded", keyState: "present" },
+        { type: "refund.succeeded", keyState: "invalid" },
+      ].map(({ type, keyState, audience = "merchant" }) => {
+        const sample = api.webhooks[type].post.requestBody.content["application/json"].examples[audience].value;
+        const object = { ...sample.data.object };
+        if (keyState === "omitted") delete object.idempotency_key;
+        else object.idempotency_key = { null: null, present: "synthetic-creating-key", invalid: 42 }[keyState];
+        const body = JSON.stringify({ ...sample, data: { object } });
         const signature = createHmac("sha256", webhookKey)
           .update(`${webhookId}.${webhookTimestamp}.${body}`)
           .digest("base64");
         return {
           type,
+          keyState,
           body,
           headers: {
             "webhook-id": webhookId,
@@ -188,14 +206,21 @@ for (const scenario of ${JSON.stringify(cases)}) {
   if (scenario.valid) make(); else assert.throws(make, scenario.name);
 }
 const webhookOptions = { secrets: '${webhookSecret}', nowSeconds: ${webhookTimestamp}, baseUrl: 'https://api.example.invalid' };
-for (const { type, body, headers } of JSON.parse(readFileSync('webhooks.json', 'utf8'))) {
+for (const { type, keyState, body, headers } of JSON.parse(readFileSync('webhooks.json', 'utf8'))) {
   const raw = Buffer.from(body);
+  await assert.rejects(verifyWebhookAsync(Buffer.from(body + ' '), headers, webhookOptions), { code: 'webhook_invalid_signature' });
+  if (keyState === 'invalid') {
+    await assert.rejects(verifyWebhookAsync(raw, headers, webhookOptions), /idempotency_key/);
+    assert.throws(() => verifyWebhook(raw, headers, webhookOptions.secrets, webhookOptions.nowSeconds), /idempotency_key/);
+    continue;
+  }
   for (const verified of [await verifyWebhookAsync(raw, headers, webhookOptions), verifyWebhook(raw, headers, webhookOptions.secrets, webhookOptions.nowSeconds)]) {
     assert.equal(verified.known, true, type);
     assert.equal(verified.event.event_type, type);
-    assert.equal(verified.event.data.object.idempotency_key, null, type);
+    const object = verified.event.data.object;
+    assert.equal(Object.hasOwn(object, 'idempotency_key'), keyState !== 'omitted', type);
+    if (keyState !== 'omitted') assert.equal(object.idempotency_key, keyState === 'null' ? null : 'synthetic-creating-key', type);
   }
-  await assert.rejects(verifyWebhookAsync(Buffer.from(body + ' '), headers, webhookOptions), { code: 'webhook_invalid_signature' });
 }
 const oauth = await import('@flintpay/node/custom/partner-oauth.js');
 assert.equal(oauth.codeChallenge('dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk'), 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM');
@@ -286,16 +311,24 @@ if (\\Flint\\Partner\\OAuth::codeChallenge('dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gF
 if (!in_array(\\Flint\\Partner\\ClientAssertionProvider::class, class_implements(\\Flint\\Partner\\PrivateKeyJwt::class), true)) throw new \\RuntimeException('Missing client assertion provider');
 $webhookOptions = ['secrets' => '${webhookSecret}', 'now_seconds' => ${webhookTimestamp}, 'base_url' => 'https://api.example.invalid'];
 foreach (json_decode(file_get_contents('webhooks.json'), true, 512, JSON_THROW_ON_ERROR) as $case) {
-  $verified = \\Flint\\Webhooks::verifyDelivery($case['body'], $case['headers'], $webhookOptions);
-  if (!$verified['known'] || $verified['event']->event_type !== $case['type']) throw new \\RuntimeException('Unrecognized webhook: ' . $case['type']);
-  $object = $verified['event']->data->object;
-  if (!property_exists($object, 'idempotency_key') || $object->idempotency_key !== null) throw new \\RuntimeException('Nullable key not preserved: ' . $case['type']);
   try {
     \\Flint\\Webhooks::verifyDelivery($case['body'] . ' ', $case['headers'], $webhookOptions);
     throw new \\RuntimeException('Accepted tampered webhook: ' . $case['type']);
   } catch (\\Flint\\Errors\\WebhookVerificationError $error) {
     if ($error->code !== 'webhook_invalid_signature') throw $error;
   }
+  $keyState = $case['keyState'];
+  try {
+    $verified = \\Flint\\Webhooks::verifyDelivery($case['body'], $case['headers'], $webhookOptions);
+  } catch (\\Flint\\Errors\\WebhookVerificationError $error) {
+    if ($keyState === 'invalid' && str_contains($error->getMessage(), 'idempotency_key')) continue;
+    throw $error;
+  }
+  if ($keyState === 'invalid') throw new \\RuntimeException('Accepted an invalid creating key');
+  if (!$verified['known'] || $verified['event']->event_type !== $case['type']) throw new \\RuntimeException('Unrecognized webhook: ' . $case['type']);
+  $object = $verified['event']->data->object;
+  if (property_exists($object, 'idempotency_key') !== ($keyState !== 'omitted')) throw new \\RuntimeException('Key presence not preserved: ' . $case['type']);
+  if ($keyState !== 'omitted' && $object->idempotency_key !== ($keyState === 'null' ? null : 'synthetic-creating-key')) throw new \\RuntimeException('Key value not preserved: ' . $case['type']);
 }
 echo "Installed root Composer package: all operations and partner OAuth helpers passed.\\n";
 `,

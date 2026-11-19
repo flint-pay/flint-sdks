@@ -2,7 +2,7 @@ import type { APIKeyAuthContext } from './types-0.js';
 import type { CLILoginAuthContext, BuyerSkipCapability, BuyerSkipCapabilityInput, BuyerSetupCollection } from './types-4.js';
 import type { OnboardingSessionAuthContext, MoneyValue, MoneyMovementListMeta, MoneyValuePreviousAttributes } from './types-44.js';
 import type { PartnerAppAuthContext } from './types-49.js';
-import type { WorkloadIdentityAuthContext } from './types-79.js';
+import type { WorkloadIdentityAuthContext } from './types-80.js';
 import type { InputValue } from '../runtime.js';
 import type { DisputesAcceptParams, ExpandedOrderSummary, ExpandedOrderSummaryPreviousAttributes } from './types-26.js';
 import type { ResponseMeta, ResourceReference, ResourceReferencePreviousAttributes } from './types-62.js';

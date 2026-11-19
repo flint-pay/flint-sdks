@@ -21,41 +21,16 @@ import type {
     ExpandedPackageSummaryPreviousAttributes
 } from './types-26.js';
 import type { ResponseMeta } from './types-62.js';
-import type { UpdateSettingsRequestInput } from './types-77.js';
+import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput } from './types-77.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { PaymentCollectionStripeElements, PaymentCollectionStripeElementsPreviousAttributes } from './types-51.js';
 import type { ReturnHandoffRequirementLineItem, ReturnHandoffRequirementLineItemPreviousAttributes } from './types-63.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { CreateShipmentRequestInput } from './types-14.js';
-import type { UpdateShipmentRequestInput, VoidShipmentRequestInput } from './types-78.js';
+import type { VoidShipmentRequestInput } from './types-78.js';
 import type { Dimensions, DimensionsRequestInput } from './types-25.js';
 import type { Weight, WeightRequestInput } from './types-79.js';
 import type { AcceptFulfillmentRequestInput } from './types-0.js';
-/**
- * Details of a service fulfillment: the scheduled start and end, timezone, completion time, and
- * notes.
- */
-export type ServiceFulfillmentDetails = {
-    /**
-     * When the service was completed, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "completed_at"?: string;
-    /** Additional instructions or notes for performing the service. */
-    "notes"?: string;
-    /**
-     * Scheduled end of the service, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_end_at"?: string;
-    /**
-     * Scheduled start of the service, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_start_at"?: string;
-    /** Timezone used to display the service appointment. Uses an IANA time zone name. */
-    "timezone"?: string;
-};
 export type ServiceFulfillmentDetailsPreviousAttributes = {
     /**
      * When the service was completed, in RFC3339 format. anyOf[1] (Value): string. When the
@@ -3943,4 +3918,25 @@ export type SubscribedLinePreviousAttributes = {
      * anyOf[2] (Value): null.
      */
     "subscription_offer_id"?: ((string) | (null));
+};
+/**
+ * Makes an order line a subscription purchase, with the subscription offer and billing interval.
+ */
+export type SubscribedLineRequest = {
+    /**
+     * Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the
+     * pair must be one of the offer's billing interval options. Value enum: "daily", "weekly",
+     * "monthly", "yearly".
+     */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /**
+     * Number of billing_interval units between charges, from 1 to 365. Format: int32. minimum: 1.
+     * maximum: 365.
+     */
+    "billing_interval_count": number;
+    /**
+     * Active subscription offer for this catalog variant. minLength: 1. Example:
+     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
+     */
+    "subscription_offer_id": string;
 };

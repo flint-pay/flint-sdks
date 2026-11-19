@@ -7,10 +7,10 @@ import type {
     WebhookDeliveryActionResponse,
     WebhookEndpoint,
     WebhookEndpointListResponse,
-    WebhookEndpointResponse
+    WebhookEndpointResponse,
+    WebhookEndpointWithSecret
 } from '../declarations/types-78.js';
 import type {
-    WebhookEndpointWithSecret,
     WebhookEndpointWithSecretResponse,
     WebhookEndpointsCreateParams,
     WebhookEndpointsCreateTestEventParams,
@@ -19,9 +19,9 @@ import type {
     WebhookEndpointsListParams,
     WebhookEndpointsRotateSecretParams,
     WebhookEndpointsSignDeliveryParams,
-    WebhookEndpointsUpdateParams,
-    _SdkWithoutIdempotency
+    WebhookEndpointsUpdateParams
 } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,12 +38,10 @@ export type {
 } from '../runtime.js';
 export type {
     WebhookEndpointsCreateParams,
-    WebhookEndpointWithSecret,
     WebhookEndpointWithSecretResponse,
     WebhookEndpointsCreateTestEventParams,
     WebhookEndpointsDeleteParams,
     WebhookEndpointsGetParams,
-    _SdkWithoutIdempotency,
     WebhookEndpointsListParams,
     WebhookEndpointsRotateSecretParams,
     WebhookEndpointsSignDeliveryParams,
@@ -52,6 +50,7 @@ export type {
 } from '../declarations/types-79.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
+    WebhookEndpointWithSecret,
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse,
     WebhookEndpoint,
@@ -59,6 +58,7 @@ export type {
     WebhookEndpointListResponse,
     UpdateWebhookEndpointRequestInput
 } from '../declarations/types-78.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     SignedWebhookEndpointDelivery,
     SignedWebhookEndpointDeliveryResponse,
@@ -74,8 +74,7 @@ export type { RotateWebhookSecretRequestInput } from '../declarations/types-67.j
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-84.js';
 export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeRotateWebhookSecretRequest } from '../declarations/types-91.js';
-export { makeSignWebhookEndpointDeliveryRequest } from '../declarations/types-92.js';
+export { makeRotateWebhookSecretRequest, makeSignWebhookEndpointDeliveryRequest } from '../declarations/types-92.js';
 export { makeUpdateWebhookEndpointRequest, makeWebhookSigningMethod } from '../declarations/types-94.js';
 export interface WebhookEndpointsResource {
     /**

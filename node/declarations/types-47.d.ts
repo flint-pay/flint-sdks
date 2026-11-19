@@ -35,18 +35,12 @@ import type { FulfillmentPreviousAttributes } from './types-28.js';
 import type { InventoryRoutingSourcePreviousAttributes } from './types-33.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { OrderTaxPreviousAttributes } from './types-48.js';
-import type {
-    PartnerWebhookEnvelope,
-    PaymentAttemptGiftCardRedemption,
-    PaymentAttemptPaymentIntent,
-    PaymentAttemptGiftCardRedemptionPreviousAttributes,
-    PaymentAttemptPaymentIntentPreviousAttributes
-} from './types-50.js';
+import type { PartnerWebhookEnvelope, PaymentAttemptGiftCardRedemption, PaymentAttemptPaymentIntent } from './types-50.js';
 import type { PricingAmountsPreviousAttributes } from './types-56.js';
 import type { TicketedEventPreviousAttributes, TipPreviousAttributes } from './types-75.js';
 import type { WebhookOrder } from './types-79.js';
-import type { PaymentErrorSummary, PaymentErrorSummaryPreviousAttributes } from './types-51.js';
-import type { PendingPaymentAction, PendingPaymentActionPreviousAttributes } from './types-55.js';
+import type { PaymentErrorSummary } from './types-51.js';
+import type { PendingPaymentAction } from './types-55.js';
 import type { PaymentSourceCredential, PaymentSourceCredentialInput } from './types-54.js';
 import type { SettlementAmounts, SettlementAmountsPreviousAttributes } from './types-68.js';
 import type { DeliveryChargeTaxCalculationRequest } from './types-18.js';
@@ -10319,215 +10313,6 @@ export type OrderPaymentAttemptPaymentMethodSavePreviousAttributes = {
      */
     "status"?: (("not_saved" | (string & {})) | (null));
 };
-export type OrderPaymentAttemptPreviousAttributes = {
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "completed_at"?: ((string) | (null));
-    /**
-     * The outstanding balance this attempt was started to collect, fixed when it started. For an
-     * order that gift cards partly cover, it includes the gift card part. Later changes to the
-     * order's balance don't change it, and a resume request that sends
-     * `expected_outstanding_money` is compared with this amount. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "expected_outstanding_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Gift cards this attempt holds or has redeemed, one entry per card. Each amount is reserved
-     * while the attempt is open and is taken from the card when the attempt succeeds. A failed or
-     * canceled attempt releases it. Empty when no gift card is used. anyOf[1] (Value): Array of
-     * {@link PaymentAttemptGiftCardRedemptionPreviousAttributes}. Gift cards this attempt holds or
-     * has redeemed, one entry per card. Each amount is reserved while the attempt is open and is
-     * taken from the card when the attempt succeeds. A failed or canceled attempt releases it.
-     * Empty when no gift card is used. anyOf[1][] (Value): {@link
-     * PaymentAttemptGiftCardRedemptionPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "gift_card_redemptions"?: ((Array<PaymentAttemptGiftCardRedemptionPreviousAttributes>) | (null));
-    /**
-     * The Idempotency-Key of the request that created this resource. `null` when that request sent
-     * no key, Flint created the resource, the reader isn't the caller that created it (another app
-     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
-     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
-     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
-     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
-     * shared with merchants get `null`. `/v1/me` responses do not include this field. anyOf[1]
-     * (Value): string. The Idempotency-Key of the request that created this resource. `null` when
-     * that request sent no key, Flint created the resource, the reader isn't the caller that
-     * created it (another app install, a buyer, or the merchant reading an app's or buyer's
-     * record), or the caller that created an older record is unknown. Filter its list with
-     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
-     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
-     * Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include
-     * this field. anyOf[2] (Value): null.
-     */
-    "idempotency_key"?: ((string) | (null));
-    /**
-     * Whether the attempt can continue through PayOrder with action: resume and this
-     * order_payment_attempt_id after any pending client action is complete. If false, check status
-     * before starting another payment; the attempt may still be in progress. anyOf[1] (Value):
-     * boolean. Whether the attempt can continue through PayOrder with action: resume and this
-     * order_payment_attempt_id after any pending client action is complete. If false, check status
-     * before starting another payment; the attempt may still be in progress. anyOf[2] (Value):
-     * null.
-     */
-    "is_resumable"?: ((boolean) | (null));
-    /**
-     * The concluded failure of a payment leg that failed this attempt. Absent for non-payment
-     * failures. anyOf[1] (Value): {@link PaymentErrorSummaryPreviousAttributes}. anyOf[2] (Value):
-     * null.
-     */
-    "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
-    /**
-     * Whether the attempt collects the order's balance, saves a payment method without charging
-     * it, or settles the order without a processor payment. Value enum: "payment", "setup",
-     * "settlement". anyOf[1] (Value): string. Whether the attempt collects the order's balance,
-     * saves a payment method without charging it, or settles the order without a processor
-     * payment. Value enum: "payment", "setup", "settlement". anyOf[2] (Value): null.
-     */
-    "mode"?: (("payment" | "setup" | "settlement" | (string & {})) | (null));
-    /**
-     * The order this payment attempt collects money for or saves a payment method for. anyOf[1]
-     * (Value): string. The order this payment attempt collects money for or saves a payment method
-     * for. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-     */
-    "order_id"?: ((string) | (null));
-    /**
-     * Unique identifier for this order payment attempt, prefixed `opat_`. anyOf[1] (Value):
-     * string. Unique identifier for this order payment attempt, prefixed `opat_`. Example:
-     * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". anyOf[2] (Value): null.
-     */
-    "order_payment_attempt_id"?: ((string) | (null));
-    /**
-     * The payment intents this attempt collects through, each with its amount, status, tip, and
-     * latest error. Empty for an attempt that collects no processor payment, such as a setup, or
-     * an order that gift cards or return credit settle alone. anyOf[1] (Value): Array of {@link
-     * PaymentAttemptPaymentIntentPreviousAttributes}. The payment intents this attempt collects
-     * through, each with its amount, status, tip, and latest error. Empty for an attempt that
-     * collects no processor payment, such as a setup, or an order that gift cards or return credit
-     * settle alone. anyOf[1][] (Value): {@link PaymentAttemptPaymentIntentPreviousAttributes}.
-     * anyOf[2] (Value): null.
-     */
-    "payment_intents"?: ((Array<PaymentAttemptPaymentIntentPreviousAttributes>) | (null));
-    /**
-     * Reports only a checkout buyer's skipped save when the pay request sent save_payment_method:
-     * true and the attempt paid without saving the payment method. A merchant save has no entry
-     * here; read payment_source.card.payment_method_id on the payment intent. A card typed into
-     * checkout and saved has no entry here; read payment_method_save on the checkout session for a
-     * card waiting for confirmation. anyOf[1] (Value): {@link
-     * OrderPaymentAttemptPaymentMethodSavePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "payment_method_save"?: ((OrderPaymentAttemptPaymentMethodSavePreviousAttributes) | (null));
-    /**
-     * Steps the buyer must finish in your client before the attempt can continue, such as
-     * authentication. Empty when none is pending. Complete them, then resume the attempt. anyOf[1]
-     * (Value): Array of {@link PendingPaymentActionPreviousAttributes}. Steps the buyer must
-     * finish in your client before the attempt can continue, such as authentication. Empty when
-     * none is pending. Complete them, then resume the attempt. anyOf[1][] (Value): {@link
-     * PendingPaymentActionPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "pending_actions"?: ((Array<PendingPaymentActionPreviousAttributes>) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "started_at"?: ((string) | (null));
-    /**
-     * Where the attempt is in collecting payment or saving a payment method.
-     * `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Value
-     * enum: "processing", "requires_action", "requires_capture", "partially_succeeded",
-     * "succeeded", "failed", "expired", "canceled". anyOf[1] (Value): string. Where the attempt is
-     * in collecting payment or saving a payment method. `partially_succeeded`, `succeeded`,
-     * `failed`, `canceled`, and `expired` are final. Value enum: "processing", "requires_action",
-     * "requires_capture", "partially_succeeded", "succeeded", "failed", "expired", "canceled".
-     * anyOf[2] (Value): null.
-     */
-    "status"?: (("processing"
-        | "requires_action"
-        | "requires_capture"
-        | "partially_succeeded"
-        | "succeeded"
-        | "failed"
-        | "expired"
-        | "canceled"
-        | (string & {}))
-        | (null));
-    /**
-     * Non-payment reason an attempt failed, was canceled, or expired. Failed attempts with an
-     * unmapped non-payment reason report other. Canceled and expired attempts include a reason
-     * only when it adds information beyond status. New values may be added. Value enum:
-     * "authorization_canceled", "canceled_on_reader", "reader_unavailable",
-     * "coupon_reservation_failed", "gift_card_hold_acquisition_failed", "invalid_payment_source",
-     * "inventory_unavailable", "order_changed_before_payment", "order_payment_customer_mismatch",
-     * "other", "payment_authorization_canceled", "payment_authorization_expired",
-     * "payment_confirmation_rejected", "payment_link_capacity_claim_failed",
-     * "payment_link_capacity_validation_failed", "payment_method_activation_pending",
-     * "payment_method_required", "payment_option_not_allowed", "payment_option_unavailable",
-     * "payment_returned", "payment_source_binding_failed", "payment_source_conflict",
-     * "payment_source_not_updatable", "payment_source_ownership_mismatch", "rate_limit_exceeded",
-     * "resource_guarantee_failed", "setup_action_unavailable", "setup_hold_acquisition_failed",
-     * "setup_result_incomplete", "tip_allocation_sync_failed",
-     * "zero_balance_hold_acquisition_failed". anyOf[1] (Value): string. Non-payment reason an
-     * attempt failed, was canceled, or expired. Failed attempts with an unmapped non-payment
-     * reason report other. Canceled and expired attempts include a reason only when it adds
-     * information beyond status. New values may be added. Value enum: "authorization_canceled",
-     * "canceled_on_reader", "reader_unavailable", "coupon_reservation_failed",
-     * "gift_card_hold_acquisition_failed", "invalid_payment_source", "inventory_unavailable",
-     * "order_changed_before_payment", "order_payment_customer_mismatch", "other",
-     * "payment_authorization_canceled", "payment_authorization_expired",
-     * "payment_confirmation_rejected", "payment_link_capacity_claim_failed",
-     * "payment_link_capacity_validation_failed", "payment_method_activation_pending",
-     * "payment_method_required", "payment_option_not_allowed", "payment_option_unavailable",
-     * "payment_returned", "payment_source_binding_failed", "payment_source_conflict",
-     * "payment_source_not_updatable", "payment_source_ownership_mismatch", "rate_limit_exceeded",
-     * "resource_guarantee_failed", "setup_action_unavailable", "setup_hold_acquisition_failed",
-     * "setup_result_incomplete", "tip_allocation_sync_failed",
-     * "zero_balance_hold_acquisition_failed". anyOf[2] (Value): null.
-     */
-    "status_reason"?: (("authorization_canceled"
-        | "canceled_on_reader"
-        | "reader_unavailable"
-        | "coupon_reservation_failed"
-        | "gift_card_hold_acquisition_failed"
-        | "invalid_payment_source"
-        | "inventory_unavailable"
-        | "order_changed_before_payment"
-        | "order_payment_customer_mismatch"
-        | "other"
-        | "payment_authorization_canceled"
-        | "payment_authorization_expired"
-        | "payment_confirmation_rejected"
-        | "payment_link_capacity_claim_failed"
-        | "payment_link_capacity_validation_failed"
-        | "payment_method_activation_pending"
-        | "payment_method_required"
-        | "payment_option_not_allowed"
-        | "payment_option_unavailable"
-        | "payment_returned"
-        | "payment_source_binding_failed"
-        | "payment_source_conflict"
-        | "payment_source_not_updatable"
-        | "payment_source_ownership_mismatch"
-        | "rate_limit_exceeded"
-        | "resource_guarantee_failed"
-        | "setup_action_unavailable"
-        | "setup_hold_acquisition_failed"
-        | "setup_result_incomplete"
-        | "tip_allocation_sync_failed"
-        | "zero_balance_hold_acquisition_failed"
-        | (string & {}))
-        | (null));
-    /**
-     * Lifecycle actions accepted now. Cancel is available during collection until a payment leg
-     * succeeds. Attempts applying their outcome to the order and terminal attempts list no
-     * actions. Always present with merchant credentials. [] enum: "cancel". anyOf[1] (Value):
-     * Array of string. Lifecycle actions accepted now. Cancel is available during collection until
-     * a payment leg succeeds. Attempts applying their outcome to the order and terminal attempts
-     * list no actions. Always present with merchant credentials. [] enum: "cancel". anyOf[1][]
-     * (Value): string. Value enum: "cancel". anyOf[2] (Value): null.
-     */
-    "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-};
 /** A response containing `OrderPaymentAttempt` data. */
 export type OrderPaymentAttemptResponse = {
     /**
@@ -15096,3 +14881,24 @@ export type OrderTaxLocationFullAddressRequest = ({
 });
 /** A full street address you supply as an order's tax location. */
 export type OrderTaxLocationFullAddressRequestInput = OrderTaxLocationFullAddressRequest;
+/**
+ * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
+ * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
+ */
+export type OrderTaxLocationInputFullAddress = {
+    /**
+     * The address to calculate tax from. A full street address you supply as an order's tax
+     * location.
+     */
+    "address": OrderTaxLocationFullAddressRequest;
+    /**
+     * Where the tax address comes from. The only accepted value is provided, which is the default.
+     * Default: "provided". Value enum: "provided".
+     */
+    "address_source"?: "provided" | (string & {});
+    /**
+     * The kind of address you are sending. Value enum: "tax_address", "billing_address",
+     * "shipping_address".
+     */
+    "address_type": "tax_address" | "billing_address" | "shipping_address" | (string & {});
+};

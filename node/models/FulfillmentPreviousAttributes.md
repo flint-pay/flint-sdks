@@ -2,7 +2,9 @@
 
 ## FulfillmentPreviousAttributes
 
+Declared schema FulfillmentPreviousAttributes: 
 
+Declared schema WebhookSnapshotFulfillmentPreviousAttributes: 
 
 
 

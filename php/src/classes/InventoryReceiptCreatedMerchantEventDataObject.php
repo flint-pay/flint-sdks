@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read InventorySourceSystem|null $source_system
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryReceiptCreatedMerchantEventDataObject extends Model {
-    /** @param array{'created_at': string, 'external_actor_id'?: string, 'idempotency_key': string|null, 'inventory_receipt_id': string, 'lines': list<mixed>, 'occurred_at': string, 'return_disposition_id'?: string, 'return_id'?: string, 'source_system': mixed, ...}|object $values */
+    /** @param array{'created_at': string, 'external_actor_id'?: string, 'idempotency_key'?: string|null, 'inventory_receipt_id': string, 'lines': list<mixed>, 'occurred_at': string, 'return_disposition_id'?: string, 'return_id'?: string, 'source_system': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReceiptCreatedMerchantEventDataObject')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string

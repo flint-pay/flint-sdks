@@ -1,12 +1,6 @@
-import type { WebhookEndpoint, UpdateWebhookEndpointRequestInput, UpdateWorkloadIdentityRequestInput } from './types-78.js';
-import type { ResponseMeta, ResourceReference } from './types-62.js';
-import type {
-    InputValue,
-    EventStream,
-    WebhookVerificationOptions as _SdkWebhookVerificationOptions,
-    CredentialProvider,
-    Model
-} from '../runtime.js';
+import type { ResponseMeta, ReturnActor, ReturnCompletionBlocker } from './types-62.js';
+import type { WebhookEndpointWithSecret, UpdateWebhookEndpointRequestInput } from './types-78.js';
+import type { InputValue, EventStream, WebhookVerificationOptions as _SdkWebhookVerificationOptions } from '../runtime.js';
 import type {
     CreateWebhookEndpointRequestInput,
     CreateWebhookTestEventRequestInput,
@@ -19,33 +13,34 @@ import type {
     ExpandedPaymentIntentSummary,
     ExpandedSubscriptionPlanSummary,
     ExpandedSubscriptionSummary,
-    ExpandedInvoiceSummary
+    ExpandedInvoiceSummary,
+    ExpandedPackageSummary,
+    ExpandedShipmentSummary,
+    ExpandedPayoutDestinationSummary,
+    ExpandedPayoutSummary,
+    ExpandedPaymentMethodSummary
 } from './types-26.js';
-import type { RotateWebhookSecretRequestInput, SelectedProductOption } from './types-67.js';
-import type { SignWebhookEndpointDeliveryRequestInput } from './types-68.js';
-import type {
-    Address,
-    AcceptFulfillmentRequestInput,
-    AcceptPartnerAppPlatformTermsRequestInput,
-    AddLineItemsRequestInput,
-    AddOrderChargeRequestInput,
-    AddReturnLineItemRequestInput,
-    AddRiskListItemsRequestInput
-} from './types-0.js';
-import type { InvoiceCollection } from './types-34.js';
+import type { RotateWebhookSecretRequestInput, SelectedProductOption, ServiceFulfillmentDetails } from './types-67.js';
+import type { SignWebhookEndpointDeliveryRequestInput, ShipmentFulfillmentDetails } from './types-68.js';
+import type { Address } from './types-0.js';
+import type { InvoiceCollection, InventoryTransferLine } from './types-34.js';
 import type { InvoiceLateFee } from './types-35.js';
 import type { InvoicePaymentDue } from './types-36.js';
 import type { InvoicePaymentTermsSnapshot, InvoiceScheduleEntry } from './types-37.js';
 import type { InvoiceSettlementAmounts, InvoiceSnapshot } from './types-38.js';
 import type { MetadataMap } from './types-43.js';
 import type { PricingAmounts } from './types-56.js';
-import type { ImageAttachment } from './types-31.js';
+import type { ImageAttachment, InventoryCountLine, InventoryActionRequired, Image } from './types-31.js';
 import type { MerchantReadiness } from './types-42.js';
 import type { CheckoutBuyerContact } from './types-6.js';
 import type { CustomFieldAnswer } from './types-16.js';
 import type { DeferredPromotion } from './types-17.js';
-import type { Fulfillment, FailedPaymentAttempt } from './types-27.js';
-import type { InventoryRoutingSource } from './types-33.js';
+import type {
+    InventoryRoutingSource,
+    InventorySourceSystem,
+    InventoryReservationLine,
+    InventoryReservationOwner
+} from './types-33.js';
 import type {
     OrderAuthorizationAmounts,
     OrderCharge,
@@ -61,35 +56,91 @@ import type {
     OrderHandover,
     OrderLineItem,
     OrderEditLineAddition,
-    OrderEditLineRemoval
+    OrderEditLineRemoval,
+    OrderLineItemModifier
 } from './types-46.js';
-import type { OrderReturnCreditSettlement, OrderSettlementAmounts, OrderTax } from './types-47.js';
+import type {
+    OrderReturnCreditSettlement,
+    OrderSettlementAmounts,
+    OrderTax,
+    OrderPaymentAttemptPaymentMethodSave,
+    OrderPaymentAttemptPaymentMethodSavePreviousAttributes
+} from './types-47.js';
 import type { TicketedEvent, Tip } from './types-75.js';
-import type { MoneyValue } from './types-44.js';
-import type { PartnerEnvironmentGrant } from './types-50.js';
-import type { PaymentErrorSummary, PaymentFulfillmentHold, PaymentIntentOvercapture, PaymentIntentPlatformFee } from './types-51.js';
+import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+import type {
+    PartnerEnvironmentGrant,
+    PaymentAttemptGiftCardRedemption,
+    PaymentAttemptPaymentIntent,
+    PaymentAttemptGiftCardRedemptionPreviousAttributes,
+    PaymentAttemptPaymentIntentPreviousAttributes
+} from './types-50.js';
+import type { FailedPaymentAttempt, FulfillmentChargeLink, FulfillmentHold, FulfillmentLineItem } from './types-27.js';
+import type {
+    PaymentErrorSummary,
+    PaymentFulfillmentHold,
+    PaymentIntentOvercapture,
+    PaymentIntentPlatformFee,
+    PaymentErrorSummaryPreviousAttributes
+} from './types-51.js';
 import type { PaymentRisk, PaymentSourceSummary, PaymentSplit } from './types-54.js';
 import type { CategoryReference } from './types-5.js';
 import type { ProductOption, ProductPriceRange, ProductVariant, PromotionApplicationMethod } from './types-57.js';
-import type { Dimensions } from './types-25.js';
+import type { Dimensions, DigitalFulfillmentDetails } from './types-25.js';
 import type { GiftCardProductConfiguration } from './types-29.js';
 import type { LicenseKeyConfiguration } from './types-39.js';
 import type { QuantityPriceBreak, PromotionSchedule, ReaderConnectivity } from './types-59.js';
 import type { PromotionCodesSummary, PromotionCombinesWith, PromotionExclusivity, PromotionRuleGroup } from './types-58.js';
-/**
- * A webhook endpoint with its one-time signing secret, returned on create with hmac, when PATCH
- * first enables hmac, or when its secret is rotated. A merchant webhook endpoint belongs to the
- * live mode or sandbox of the credential that created it and receives only that environment's
- * events. Partner endpoints select sources with event_sources and installed_merchant_modes.
- */
-export type WebhookEndpointWithSecret = (Exclude<WebhookEndpoint & object, readonly unknown[]>)
-    & ({
-    /**
-     * One-time signing secret. Present on create when hmac is enabled, on PATCH when hmac is first
-     * enabled, and on rotation; omitted on an idempotent replay after the secret retention period.
-     */
-    "secret"?: string;
-});
+import type { DeliveryFulfillmentDetails } from './types-19.js';
+import type { FulfillmentOutcome, FulfillmentRecipient } from './types-28.js';
+import type {
+    PickupFulfillmentDetails,
+    PendingPaymentAction,
+    PendingPaymentActionPreviousAttributes,
+    PayoutTraceID
+} from './types-55.js';
+import type { GiftCardRestriction } from './types-30.js';
+import type { InventoryCountObservationProvenance, InventoryReceiptLine } from './types-32.js';
+import type { PaymentRefund } from './types-53.js';
+import type { RefundChargeAllocation, RefundLineItemAllocation, RefundTaxBreakdownRefund } from './types-60.js';
+import type { RefundTenderAllocation, RefundUnissuedGiftCardRecovery } from './types-61.js';
+import type {
+    ReturnFinancialSummary,
+    ReturnHandoffRequirement,
+    ReturnInspectionLineItem,
+    ReturnLineItemEligibility,
+    ReturnLineItemValue
+} from './types-63.js';
+import type { ReturnPolicyEvaluation, ReturnReason, ReturnReceiptLineItem } from './types-64.js';
+import type {
+    ReturnSourceSystem,
+    ReturnReplacementLineItem,
+    ReturnResolutionAdjustment,
+    ReturnResolutionExecutionBlocker,
+    ReturnResolutionLineItem
+} from './types-65.js';
+import type { BundleComponent } from './types-1.js';
+import type {
+    SubscriptionBillingHold,
+    SubscriptionCancellationDetails,
+    SubscriptionDelivery,
+    SubscriptionDeliveryHold
+} from './types-69.js';
+import type {
+    SubscriptionEndAfter,
+    SubscriptionGiftRecipient,
+    SubscriptionIntervalOption,
+    SubscriptionInventoryWait,
+    SubscriptionLineItem
+} from './types-70.js';
+import type { SubscriptionPausedDeliveryHold } from './types-71.js';
+import type {
+    SubscriptionPromotion,
+    SubscriptionScheduledPlanChange,
+    SubscriptionServiceLocation,
+    SubscriptionTax,
+    SubscriptionUpcomingDeliveryHold
+} from './types-72.js';
 /** A response containing `WebhookEndpointWithSecret` data. */
 export type WebhookEndpointWithSecretResponse = {
     /**
@@ -4371,7 +4422,7 @@ export type WebhookInvoice = ({
      * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
      * shared with merchants get `null`. `/v1/me` responses do not include this field.
      */
-    "idempotency_key": string | null;
+    "idempotency_key"?: string | null;
     /** Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
     "invoice_id": string;
     /**
@@ -4852,9 +4903,9 @@ export type WebhookOrder = ({
         | (string & {});
     /**
      * Fulfillments created for the order, each covering a set of its line items. [] (Value):
-     * {@link Fulfillment}. Work required to deliver an order's items.
+     * {@link WebhookSnapshotFulfillment}. Work required to deliver an order's items.
      */
-    "fulfillments": Array<Fulfillment>;
+    "fulfillments": Array<WebhookSnapshotFulfillment>;
     /**
      * An estimate of how the order balance splits between gift cards and the payment processor. An
      * estimate of how an order total splits between gift cards and the payment processor, and
@@ -5501,7 +5552,7 @@ export type WebhookPaymentIntent = ({
      * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
      * shared with merchants get `null`. `/v1/me` responses do not include this field.
      */
-    "idempotency_key": string | null;
+    "idempotency_key"?: string | null;
     /**
      * The linked invoice. Returned only with expand=invoice. Present only when `expand` includes
      * `invoice`; `null` when expanded and there is no related invoice. anyOf[1] (Value): {@link
@@ -6339,6 +6390,3259 @@ export type WebhookReader = ({
 export type WebhookSigningMethod = "jwt" | "hmac" | (string & {});
 /** How Flint signs requests to this endpoint. Value enum: "jwt", "hmac". */
 export type WebhookSigningMethodInput = "jwt" | "hmac";
+/** Work required to deliver an order's items. */
+export type WebhookSnapshotFulfillment = {
+    /**
+     * Current hold details. Present exactly when status is on_hold. A hold on a fulfillment, with
+     * its reason, who placed it, and when it became active.
+     */
+    "active_hold"?: FulfillmentHold;
+    /**
+     * Order charges associated with this fulfillment. [] (Value): {@link FulfillmentChargeLink}.
+     * Links a fulfillment to an order charge by `order_charge_id`.
+     */
+    "charges"?: Array<FulfillmentChargeLink>;
+    /**
+     * When the fulfillment was completed. Mirrors the completion time for its type: delivered_at
+     * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup,
+     * service_details.completed_at for service fulfillments, and the order's paid_at for handovers
+     * completed at payment. Omitted until a completion time is recorded. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "completed_at"?: string;
+    /**
+     * When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at": string;
+    /**
+     * Customer receiving this fulfillment, when one is set. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Delivery choice group that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Always present with merchant
+     * credentials. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
+    "delivery_choice_group_id"?: string | null;
+    /**
+     * Execution leg of the selected delivery option that created this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Always
+     * present with merchant credentials. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+     */
+    "delivery_execution_leg_id"?: string | null;
+    /**
+     * Delivery method chosen for this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Also `null` when it was created
+     * before this field was added. Always present with merchant credentials. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id"?: string | null;
+    /**
+     * Delivery selection that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Always present with merchant
+     * credentials. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     */
+    "delivery_selection_id"?: string | null;
+    /**
+     * Device associated with the fulfillment, when one is recorded. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * Delivery URL and completion time for a digital fulfillment. Details of a digital
+     * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
+     */
+    "digital_details"?: DigitalFulfillmentDetails;
+    /**
+     * First time this fulfillment reached dispatched. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "dispatched_at"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
+    "fulfillment_id": string;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
+     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
+     * modifiers applied to it.
+     */
+    "line_items": Array<FulfillmentLineItem>;
+    /**
+     * Courier, delivery window, and handoff details for a local delivery fulfillment. Details of a
+     * local delivery fulfillment: courier, timing window, instructions, and tracking. Some fields
+     * are omitted for credentials that don't act for the verified customer.
+     */
+    "local_delivery_details"?: DeliveryFulfillmentDetails;
+    /**
+     * Merchant location responsible for this fulfillment. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Order summary returned when the order relationship is expanded. Present only when `expand`
+     * includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value):
+     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
+     * refund status, and pricing and settlement amounts, returned when the order is expanded.
+     * anyOf[2] (Value): null.
+     */
+    "order"?: ((ExpandedOrderSummary) | (null));
+    /** Order whose items this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /**
+     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
+     * no number.
+     */
+    "order_number"?: string;
+    /**
+     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
+     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
+     */
+    "outcome"?: FulfillmentOutcome;
+    /**
+     * Packages associated with this fulfillment. [] (Value): {@link ExpandedPackageSummary}. A
+     * package's summary fields, including carrier, tracking, status, and supported actions,
+     * returned when the package is expanded.
+     */
+    "packages"?: Array<ExpandedPackageSummary>;
+    /**
+     * First time this fulfillment reached packed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "packed_at"?: string;
+    /**
+     * First time this fulfillment reached picked. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "picked_at"?: string;
+    /**
+     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
+     * a pickup that checkout creates, location_name, address, and instructions name the store the
+     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
+     * store is in recipient.instructions.
+     */
+    "pickup_details"?: PickupFulfillmentDetails;
+    /**
+     * Omitted for a checkout session credential that doesn't act for the customer the buyer
+     * verified. The recipient of a fulfillment, with name, email, phone, address, and handling
+     * instructions.
+     */
+    "recipient"?: FulfillmentRecipient;
+    /**
+     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
+     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
+     * schedule inputs. Sorting by scheduled_start_at puts nulls first ascending and last
+     * descending. Sorting by due_at compares this same value with nulls last ascending and first
+     * descending. Ties use fulfillment_id in the same direction. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "scheduled_start_at": string | null;
+    /**
+     * Schedule and completion details for a service fulfillment. Details of a service fulfillment:
+     * the scheduled start and end, timezone, completion time, and notes.
+     */
+    "service_details"?: ServiceFulfillmentDetails;
+    /**
+     * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+     * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
+     * window, timezone, and when the shipment was handed to the carrier.
+     */
+    "shipment_details"?: ShipmentFulfillmentDetails;
+    /**
+     * Shipments associated with this fulfillment. [] (Value): {@link ExpandedShipmentSummary}. A
+     * shipment's summary fields, including direction, status, and package count, returned when the
+     * shipment is expanded.
+     */
+    "shipments"?: Array<ExpandedShipmentSummary>;
+    /**
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show".
+     */
+    "status": "pending"
+        | "accepted"
+        | "on_hold"
+        | "in_progress"
+        | "ready"
+        | "completed"
+        | "canceled"
+        | "failed"
+        | "scheduled"
+        | "preparing"
+        | "picked"
+        | "packed"
+        | "dispatched"
+        | "no_show"
+        | (string & {});
+    /**
+     * Read-only lifecycle actions accepted now, based on the fulfillment, its order payment
+     * status, holds, and shipment progress. Empty when none are available. Values name the verb
+     * route with hyphens replaced by underscores. Always present with merchant credentials. []
+     * enum: "accept", "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show",
+     * "mark_packed", "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule",
+     * "start". [] (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail",
+     * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start".
+     */
+    "supported_actions"?: Array<"accept"
+        | "cancel"
+        | "complete"
+        | "dispatch"
+        | "fail"
+        | "hold"
+        | "mark_no_show"
+        | "mark_packed"
+        | "mark_picked"
+        | "mark_preparing"
+        | "mark_ready"
+        | "release_hold"
+        | "schedule"
+        | "start"
+        | (string & {})>;
+    /**
+     * When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+     * records the state transition; completed_at records completion evidence supplied for the
+     * fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "terminal_at"?: string;
+    /**
+     * How the items are delivered: shipment, pickup, local delivery, digital delivery, or service.
+     * Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+     */
+    "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+    /**
+     * When the fulfillment was last updated, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+    /** Monotonic fulfillment version for expected_version checks. Format: uint64. minimum: 1. */
+    "version": number;
+};
+/**
+ * Merchant-issued purchased gift card. Posted balance includes reserved value; available value is
+ * balance minus reservations. Frozen value remains part of outstanding liability. Gift cards are
+ * independent resources and cannot be transferred across merchants or currencies.
+ */
+export type WebhookSnapshotGiftCard = {
+    /**
+     * The balance minus reserved value: what can be spent now. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "available_money": MoneyValue;
+    /**
+     * The posted balance, including value reserved for redemptions in progress. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "balance_money": MoneyValue;
+    /**
+     * Origin of the current code: generated means Flint issued a random code; imported means the
+     * merchant supplied an existing code during import. Rotating the code resets this to
+     * generated. Value enum: "generated", "imported".
+     */
+    "code_source": "generated" | "imported" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * Value enum: "USD".
+     */
+    "currency": "USD" | (string & {});
+    /**
+     * ID of the customer associated with the card. `null` when no customer is associated. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. `null` when none is set.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+    /**
+     * Unique identifier for this gift card, prefixed `gc_`. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_id": string;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * RFC3339 timestamp. `null` when no value has been loaded onto the card. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "last_loaded_at": string | null;
+    /**
+     * RFC3339 timestamp. `null` when the card has never been redeemed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "last_redeemed_at": string | null;
+    /** Last four characters of the card's current code. minLength: 4. maxLength: 4. */
+    "last4": string;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Value held for redemptions in progress. It isn't available to other payments until the
+     * redemption succeeds or is released. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "reserved_money": MoneyValue;
+    /**
+     * The restrictions that keep the card frozen. unfreeze is supported only when every
+     * restriction is merchant_freeze. A funding_dispute with dispute_status lost needs a gift card
+     * funding disposition. [] (Value): {@link GiftCardRestriction}. A restriction on a gift card,
+     * either a merchant freeze or a funding dispute, with its reason or dispute details.
+     */
+    "restrictions": Array<GiftCardRestriction>;
+    /**
+     * Where the card is in its lifecycle. Only an `active` card can be spent. Value enum:
+     * "pending", "active", "frozen", "closed".
+     */
+    "status": "pending" | "active" | "frozen" | "closed" | (string & {});
+    /**
+     * Lifecycle actions accepted for the stored card state, independent of the caller's
+     * credentials. Empty when no action is available. [] enum: "adjust_balance", "cash_out",
+     * "close", "freeze", "unfreeze". [] (Value): string. Value enum: "adjust_balance", "cash_out",
+     * "close", "freeze", "unfreeze".
+     */
+    "supported_actions": Array<"adjust_balance" | "cash_out" | "close" | "freeze" | "unfreeze" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
+     */
+    "version": number;
+};
+/** A physical count used to reconcile stock. */
+export type WebhookSnapshotInventoryCount = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "applied_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * Unique identifier for this inventory count, prefixed `invc_`. Example:
+     * "invc_01KEZF7C00B47NXRE3ET37QQ59".
+     */
+    "inventory_count_id": string;
+    /**
+     * Count lines, one for each inventory item being counted. [] (Value): {@link
+     * InventoryCountLine}. One item's line in an inventory count, with the quantities Flint
+     * expected, the quantities counted, and the variance applied.
+     */
+    "lines": Array<InventoryCountLine>;
+    /** ID of the Location whose stock is counted. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "location_id": string;
+    /**
+     * Source system, actor, and time reported with the count's observations. Where an inventory
+     * count came from: the source system, an external actor ID, and when the event occurred.
+     */
+    "observation_provenance"?: InventoryCountObservationProvenance;
+    /**
+     * Whether the count is still open. Applying or canceling a `draft` count ends it. Value enum:
+     * "draft", "applied", "canceled".
+     */
+    "status": "draft" | "applied" | "canceled" | (string & {});
+    /**
+     * Actions that can change this count now. A draft can be canceled, and applied once every line
+     * has an observation. Empty after the count is applied or canceled. [] enum: "apply",
+     * "cancel". [] (Value): string. Value enum: "apply", "cancel".
+     */
+    "supported_actions": Array<"apply" | "cancel" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/**
+ * Returned units received into Inventory, from a Return disposition or against the reservation
+ * line that consumed them. For supplier deliveries, use POST /v1/inventory-adjustments with
+ * reason: received.
+ */
+export type WebhookSnapshotInventoryReceipt = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * Unique identifier for this inventory receipt, prefixed `invrec_`. Example:
+     * "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
+     */
+    "inventory_receipt_id": string;
+    /**
+     * Received lines, each with the item, receiving Location, quantity, and disposition. []
+     * (Value): {@link InventoryReceiptLine}. One line of an inventory receipt: a quantity of an
+     * item received at a Location with its disposition.
+     */
+    "lines": Array<InventoryReceiptLine>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string;
+    /**
+     * ID of the Return disposition this receipt records. Absent when the receipt isn't linked to a
+     * Return. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "return_disposition_id"?: string;
+    /**
+     * ID of the Return these units came back on. Absent when the receipt isn't linked to a Return.
+     * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id"?: string;
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. `null` when the
+     * request named no source system. anyOf[1] (Value): {@link InventorySourceSystem}. The system
+     * an inventory event came from, such as manual entry, a point of sale, a warehouse system, or
+     * Flint, with your source identifier when it applies. anyOf[2] (Value): null.
+     */
+    "source_system": ((InventorySourceSystem) | (null));
+};
+/**
+ * A claim on stock. Quantity moves from held to committed to consumed, and can be released or
+ * reallocated.
+ */
+export type WebhookSnapshotInventoryReservation = {
+    /**
+     * How the reservation ended. adopted when its remaining held stock moved to a delivery
+     * selection. mixed when more than one terminal outcome applied. `null` when the reservation
+     * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
+     * "mixed", null.
+     */
+    "closed_reason"?: "consumed"
+        | "released"
+        | "expired"
+        | "reallocated"
+        | "adopted"
+        | "mixed"
+        | null
+        | (string & {})
+        | null;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Deadline for held or unconfirmed backordered quantity. While an order payment waits for a
+     * buyer action, this is the earlier of the stock hold deadline and the payment attempt
+     * deadline. Flint can keep stock held while the payment outcome is uncertain. `null` when no
+     * line holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string | null;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * Present when the claim needs a merchant action before commerce can continue. Says that an
+     * inventory reservation needs action, with the `reason` and the reservation lines affected.
+     */
+    "inventory_action_required"?: InventoryActionRequired;
+    /**
+     * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "inventory_reservation_id": string;
+    /**
+     * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+     * allocation policy, or a specific policy revision. Where an order, payment link, or
+     * reservation routes inventory from: a fixed Location, an inventory allocation policy, or one
+     * policy revision.
+     */
+    "inventory_routing_source": InventoryRoutingSource;
+    /**
+     * Allocations of the reserved stock, one for each item and Location. [] (Value): {@link
+     * InventoryReservationLine}. One item's location allocation within a reservation.
+     */
+    "lines": Array<InventoryReservationLine>;
+    /**
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order.
+     */
+    "owner": InventoryReservationOwner;
+    /**
+     * Set on a reservation whose claim Flint moved when it rerouted an order: the replacement
+     * reservation that now holds the quantity named in this reservation's reallocated_quantity.
+     * Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "replacement_inventory_reservation_id"?: string;
+    /**
+     * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+     * rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "source_inventory_reservation_id"?: string;
+    /**
+     * active while any held, committed, or backordered quantity remains; closed once none does.
+     * Value enum: "active", "closed".
+     */
+    "status": "active" | "closed" | (string & {});
+    /**
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". [] (Value): string. Value enum: "commit",
+     * "consume", "release".
+     */
+    "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * The reservation version. Send it as expected_version to reject a write if the reservation
+     * changed. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** Stock moving between locations. */
+export type WebhookSnapshotInventoryTransfer = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "closed_at"?: string;
+    /**
+     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
+     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
+     */
+    "closed_reason"?: "received"
+        | "canceled"
+        | "received_with_cancellation"
+        | "returned"
+        | "lost"
+        | "mixed"
+        | null
+        | (string & {})
+        | null;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "departed_at"?: string;
+    /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "destination_location_id": string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
+     * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
+     */
+    "inventory_transfer_id": string;
+    /**
+     * Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH
+     * replaces the full collection. [] (Value): {@link InventoryTransferLine}. One line of an
+     * inventory transfer, with its quantities.
+     */
+    "lines": Array<InventoryTransferLine>;
+    /** Free-text note about the transfer. */
+    "note"?: string;
+    /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "origin_location_id": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "received_at"?: string;
+    /**
+     * Where the transfer stands, worked out from the quantities that have left the origin and have
+     * since been received, returned, or reported lost. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed".
+     */
+    "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
+    /**
+     * Actions that can change this transfer now. `depart` and `cancel` need units that haven't
+     * left the origin. `receive`, `return_to_origin`, and `report_loss` need units in transit.
+     * Empty once the transfer is closed. [] enum: "depart", "receive", "return_to_origin",
+     * "report_loss", "cancel". [] (Value): string. Value enum: "depart", "receive",
+     * "return_to_origin", "report_loss", "cancel".
+     */
+    "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/**
+ * A recorded offline payment against an invoice. Its amount contributes to invoice paid_money
+ * while recorded. Reversing it restores outstanding_money, or written_off_money if the invoice was
+ * written off. A payment can cover principal and late fees. Manual payments are separate from
+ * online payment attempts.
+ */
+export type WebhookSnapshotInvoiceManualPayment = {
+    /**
+     * Full amount received, including any principal and late fees covered. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key"?: string | null;
+    /** The invoice this payment was recorded against. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
+    "invoice_id": string;
+    /**
+     * Stable payment ID. IDs begin with omp_. Gift card loads funded by this payment expose this
+     * value as source.order_manual_payment_id. Example: "omp_01KEZF7C007J18203RBJKB9TYE".
+     */
+    "invoice_manual_payment_id": string;
+    /** Note about the offline payment, up to 4096 characters. minLength: 1. maxLength: 4096. */
+    "note"?: string;
+    /**
+     * Caller-owned check, wire, or bank reference, stored unmodified. minLength: 1. maxLength:
+     * 255.
+     */
+    "payment_reference"?: string;
+    /** When the payment was received. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "received_at": string;
+    /**
+     * Note supplied when reversing the payment. Present only when reversed and a note was
+     * supplied. minLength: 1. maxLength: 4096.
+     */
+    "reversal_note"?: string;
+    /**
+     * When the payment was reversed. Present only when reversed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "reversed_at"?: string;
+    /**
+     * Whether the payment is recorded or has been reversed in full. Value enum: "recorded",
+     * "reversed".
+     */
+    "status": "recorded" | "reversed" | (string & {});
+    /**
+     * Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of
+     * the caller's permissions; each action still requires its route's scope. Always [] when no
+     * action is available. [] enum: "reverse". [] (Value): string. Value enum: "reverse".
+     */
+    "supported_actions": Array<"reverse" | (string & {})>;
+};
+/** An attempt to collect payment for an invoice. */
+export type WebhookSnapshotInvoicePaymentAttempt = {
+    /**
+     * When the attempt was canceled. An attempt canceled with its checkout session before payment
+     * started may not have it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "canceled_at"?: string;
+    /**
+     * When cancellation of this attempt was last requested. It stays set when the payment
+     * processor refuses the cancellation or the payment settles first, so read status and
+     * canceled_at for the outcome. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "cancellation_requested_at"?: string;
+    /**
+     * The hosted or headless checkout session the buyer pays through. Absent for automatic
+     * charges. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
+    "checkout_session_id"?: string;
+    /**
+     * The amount this attempt collects: the outstanding balance, or the targeted schedule entry's
+     * outstanding amount. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "expected_amount_money": MoneyValue;
+    /**
+     * When a checkout attempt expires, matching its checkout session. Absent for automatic
+     * charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     */
+    "idempotency_key"?: string | null;
+    /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
+    "invoice_id": string;
+    /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
+    "invoice_payment_attempt_id": string;
+    /**
+     * The schedule entry this attempt collects. Absent when the attempt collects the invoice
+     * balance. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
+     */
+    "invoice_schedule_entry_id"?: string;
+    /**
+     * Why the payment failed. Present only when status is failed. A summary of why a payment
+     * attempt failed, with a normalized error code, a message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /**
+     * The payment intent behind this attempt. Absent until payment starts, such as a hosted
+     * attempt the buyer hasn't paid yet. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * How the attempt collects: card, including Apple Pay, Google Pay, and Affirm, or ACH debit.
+     * Value enum: "card", "ach_debit".
+     */
+    "rail": "card" | "ach_debit" | (string & {});
+    /**
+     * When this attempt first settled successfully. Duplicate payment notifications preserve this
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "settled_at"?: string;
+    /** When the attempt was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "started_at"?: string;
+    /**
+     * Current payment attempt status. succeeded means this attempt completed successfully, even if
+     * the invoice still has an outstanding balance. invoice_payment_attempt.succeeded reports that
+     * completion. Value enum: "open", "succeeded", "failed", "canceled", "expired", "processing".
+     */
+    "status": "open" | "succeeded" | "failed" | "canceled" | "expired" | "processing" | (string & {});
+    /**
+     * Lifecycle actions accepted now. An open or processing attempt can be canceled; the payment
+     * processor can still refuse cancellation. [] enum: "cancel". [] (Value): string. Value enum:
+     * "cancel".
+     */
+    "supported_actions": Array<"cancel" | (string & {})>;
+    /**
+     * When this attempt last changed. Duplicate payment notifications preserve this timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+};
+/** An attempt to pay an order. */
+export type WebhookSnapshotOrderPaymentAttempt = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "completed_at"?: string;
+    /**
+     * The outstanding balance this attempt was started to collect, fixed when it started. For an
+     * order that gift cards partly cover, it includes the gift card part. Later changes to the
+     * order's balance don't change it, and a resume request that sends
+     * `expected_outstanding_money` is compared with this amount. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "expected_outstanding_money": MoneyValue;
+    /**
+     * Gift cards this attempt holds or has redeemed, one entry per card. Each amount is reserved
+     * while the attempt is open and is taken from the card when the attempt succeeds. A failed or
+     * canceled attempt releases it. Empty when no gift card is used. [] (Value): {@link
+     * PaymentAttemptGiftCardRedemption}. A gift card redemption made as part of an order payment
+     * attempt, with the amount, tip, and gift card.
+     */
+    "gift_card_redemptions": Array<PaymentAttemptGiftCardRedemption>;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * Whether the attempt can continue through PayOrder with action: resume and this
+     * order_payment_attempt_id after any pending client action is complete. If false, check status
+     * before starting another payment; the attempt may still be in progress.
+     */
+    "is_resumable": boolean;
+    /**
+     * The concluded failure of a payment leg that failed this attempt. Absent for non-payment
+     * failures. A summary of why a payment attempt failed, with a normalized error code, a
+     * message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /**
+     * Whether the attempt collects the order's balance, saves a payment method without charging
+     * it, or settles the order without a processor payment. Value enum: "payment", "setup",
+     * "settlement".
+     */
+    "mode": "payment" | "setup" | "settlement" | (string & {});
+    /**
+     * The order this payment attempt collects money for or saves a payment method for. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Unique identifier for this order payment attempt, prefixed `opat_`. Example:
+     * "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
+     */
+    "order_payment_attempt_id": string;
+    /**
+     * The payment intents this attempt collects through, each with its amount, status, tip, and
+     * latest error. Empty for an attempt that collects no processor payment, such as a setup, or
+     * an order that gift cards or return credit settle alone. [] (Value): {@link
+     * PaymentAttemptPaymentIntent}. A payment intent used as one leg of an order payment attempt,
+     * with its amount, status, tip, and latest error.
+     */
+    "payment_intents": Array<PaymentAttemptPaymentIntent>;
+    /**
+     * Reports only a checkout buyer's skipped save when the pay request sent save_payment_method:
+     * true and the attempt paid without saving the payment method. A merchant save has no entry
+     * here; read payment_source.card.payment_method_id on the payment intent. A card typed into
+     * checkout and saved has no entry here; read payment_method_save on the checkout session for a
+     * card waiting for confirmation. What became of the buyer's save_payment_method. The payment
+     * does not depend on it.
+     */
+    "payment_method_save"?: OrderPaymentAttemptPaymentMethodSave;
+    /**
+     * Steps the buyer must finish in your client before the attempt can continue, such as
+     * authentication. Empty when none is pending. Complete them, then resume the attempt. []
+     * (Value): {@link PendingPaymentAction}. Client-side action required before continuing a
+     * payment. Resume an order through PayOrder with order_payment_attempt_id, or continue a
+     * standalone PaymentIntent through its confirm endpoint without a replacement credential.
+     */
+    "pending_actions": Array<PendingPaymentAction>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "started_at"?: string;
+    /**
+     * Where the attempt is in collecting payment or saving a payment method.
+     * `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Value
+     * enum: "processing", "requires_action", "requires_capture", "partially_succeeded",
+     * "succeeded", "failed", "expired", "canceled".
+     */
+    "status": "processing"
+        | "requires_action"
+        | "requires_capture"
+        | "partially_succeeded"
+        | "succeeded"
+        | "failed"
+        | "expired"
+        | "canceled"
+        | (string & {});
+    /**
+     * Non-payment reason an attempt failed, was canceled, or expired. Failed attempts with an
+     * unmapped non-payment reason report other. Canceled and expired attempts include a reason
+     * only when it adds information beyond status. New values may be added. Value enum:
+     * "authorization_canceled", "canceled_on_reader", "reader_unavailable",
+     * "coupon_reservation_failed", "gift_card_hold_acquisition_failed", "invalid_payment_source",
+     * "inventory_unavailable", "order_changed_before_payment", "order_payment_customer_mismatch",
+     * "other", "payment_authorization_canceled", "payment_authorization_expired",
+     * "payment_confirmation_rejected", "payment_link_capacity_claim_failed",
+     * "payment_link_capacity_validation_failed", "payment_method_activation_pending",
+     * "payment_method_required", "payment_option_not_allowed", "payment_option_unavailable",
+     * "payment_returned", "payment_source_binding_failed", "payment_source_conflict",
+     * "payment_source_not_updatable", "payment_source_ownership_mismatch", "rate_limit_exceeded",
+     * "resource_guarantee_failed", "setup_action_unavailable", "setup_hold_acquisition_failed",
+     * "setup_result_incomplete", "tip_allocation_sync_failed",
+     * "zero_balance_hold_acquisition_failed".
+     */
+    "status_reason"?: "authorization_canceled"
+        | "canceled_on_reader"
+        | "reader_unavailable"
+        | "coupon_reservation_failed"
+        | "gift_card_hold_acquisition_failed"
+        | "invalid_payment_source"
+        | "inventory_unavailable"
+        | "order_changed_before_payment"
+        | "order_payment_customer_mismatch"
+        | "other"
+        | "payment_authorization_canceled"
+        | "payment_authorization_expired"
+        | "payment_confirmation_rejected"
+        | "payment_link_capacity_claim_failed"
+        | "payment_link_capacity_validation_failed"
+        | "payment_method_activation_pending"
+        | "payment_method_required"
+        | "payment_option_not_allowed"
+        | "payment_option_unavailable"
+        | "payment_returned"
+        | "payment_source_binding_failed"
+        | "payment_source_conflict"
+        | "payment_source_not_updatable"
+        | "payment_source_ownership_mismatch"
+        | "rate_limit_exceeded"
+        | "resource_guarantee_failed"
+        | "setup_action_unavailable"
+        | "setup_hold_acquisition_failed"
+        | "setup_result_incomplete"
+        | "tip_allocation_sync_failed"
+        | "zero_balance_hold_acquisition_failed"
+        | (string & {});
+    /**
+     * Lifecycle actions accepted now. Cancel is available during collection until a payment leg
+     * succeeds. Attempts applying their outcome to the order and terminal attempts list no
+     * actions. Always present with merchant credentials. [] enum: "cancel". [] (Value): string.
+     * Value enum: "cancel".
+     */
+    "supported_actions"?: Array<"cancel" | (string & {})>;
+};
+export type WebhookSnapshotOrderPaymentAttemptPreviousAttributes = {
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "completed_at"?: ((string) | (null));
+    /**
+     * The outstanding balance this attempt was started to collect, fixed when it started. For an
+     * order that gift cards partly cover, it includes the gift card part. Later changes to the
+     * order's balance don't change it, and a resume request that sends
+     * `expected_outstanding_money` is compared with this amount. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "expected_outstanding_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Gift cards this attempt holds or has redeemed, one entry per card. Each amount is reserved
+     * while the attempt is open and is taken from the card when the attempt succeeds. A failed or
+     * canceled attempt releases it. Empty when no gift card is used. anyOf[1] (Value): Array of
+     * {@link PaymentAttemptGiftCardRedemptionPreviousAttributes}. Gift cards this attempt holds or
+     * has redeemed, one entry per card. Each amount is reserved while the attempt is open and is
+     * taken from the card when the attempt succeeds. A failed or canceled attempt releases it.
+     * Empty when no gift card is used. anyOf[1][] (Value): {@link
+     * PaymentAttemptGiftCardRedemptionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "gift_card_redemptions"?: ((Array<PaymentAttemptGiftCardRedemptionPreviousAttributes>) | (null));
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field. anyOf[1]
+     * (Value): string. The Idempotency-Key of the request that created this resource. `null` when
+     * that request sent no key, Flint created the resource, the reader isn't the caller that
+     * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+     * record), or the caller that created an older record is unknown. Filter its list with
+     * `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook
+     * events, can return `null`. To find a key that a replay returns as `null`, read the resource.
+     * Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include
+     * this field. anyOf[2] (Value): null.
+     */
+    "idempotency_key"?: ((string) | (null));
+    /**
+     * Whether the attempt can continue through PayOrder with action: resume and this
+     * order_payment_attempt_id after any pending client action is complete. If false, check status
+     * before starting another payment; the attempt may still be in progress. anyOf[1] (Value):
+     * boolean. Whether the attempt can continue through PayOrder with action: resume and this
+     * order_payment_attempt_id after any pending client action is complete. If false, check status
+     * before starting another payment; the attempt may still be in progress. anyOf[2] (Value):
+     * null.
+     */
+    "is_resumable"?: ((boolean) | (null));
+    /**
+     * The concluded failure of a payment leg that failed this attempt. Absent for non-payment
+     * failures. anyOf[1] (Value): {@link PaymentErrorSummaryPreviousAttributes}. anyOf[2] (Value):
+     * null.
+     */
+    "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
+    /**
+     * Whether the attempt collects the order's balance, saves a payment method without charging
+     * it, or settles the order without a processor payment. Value enum: "payment", "setup",
+     * "settlement". anyOf[1] (Value): string. Whether the attempt collects the order's balance,
+     * saves a payment method without charging it, or settles the order without a processor
+     * payment. Value enum: "payment", "setup", "settlement". anyOf[2] (Value): null.
+     */
+    "mode"?: (("payment" | "setup" | "settlement" | (string & {})) | (null));
+    /**
+     * The order this payment attempt collects money for or saves a payment method for. anyOf[1]
+     * (Value): string. The order this payment attempt collects money for or saves a payment method
+     * for. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * Unique identifier for this order payment attempt, prefixed `opat_`. anyOf[1] (Value):
+     * string. Unique identifier for this order payment attempt, prefixed `opat_`. Example:
+     * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". anyOf[2] (Value): null.
+     */
+    "order_payment_attempt_id"?: ((string) | (null));
+    /**
+     * The payment intents this attempt collects through, each with its amount, status, tip, and
+     * latest error. Empty for an attempt that collects no processor payment, such as a setup, or
+     * an order that gift cards or return credit settle alone. anyOf[1] (Value): Array of {@link
+     * PaymentAttemptPaymentIntentPreviousAttributes}. The payment intents this attempt collects
+     * through, each with its amount, status, tip, and latest error. Empty for an attempt that
+     * collects no processor payment, such as a setup, or an order that gift cards or return credit
+     * settle alone. anyOf[1][] (Value): {@link PaymentAttemptPaymentIntentPreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "payment_intents"?: ((Array<PaymentAttemptPaymentIntentPreviousAttributes>) | (null));
+    /**
+     * Reports only a checkout buyer's skipped save when the pay request sent save_payment_method:
+     * true and the attempt paid without saving the payment method. A merchant save has no entry
+     * here; read payment_source.card.payment_method_id on the payment intent. A card typed into
+     * checkout and saved has no entry here; read payment_method_save on the checkout session for a
+     * card waiting for confirmation. anyOf[1] (Value): {@link
+     * OrderPaymentAttemptPaymentMethodSavePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "payment_method_save"?: ((OrderPaymentAttemptPaymentMethodSavePreviousAttributes) | (null));
+    /**
+     * Steps the buyer must finish in your client before the attempt can continue, such as
+     * authentication. Empty when none is pending. Complete them, then resume the attempt. anyOf[1]
+     * (Value): Array of {@link PendingPaymentActionPreviousAttributes}. Steps the buyer must
+     * finish in your client before the attempt can continue, such as authentication. Empty when
+     * none is pending. Complete them, then resume the attempt. anyOf[1][] (Value): {@link
+     * PendingPaymentActionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "pending_actions"?: ((Array<PendingPaymentActionPreviousAttributes>) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "started_at"?: ((string) | (null));
+    /**
+     * Where the attempt is in collecting payment or saving a payment method.
+     * `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Value
+     * enum: "processing", "requires_action", "requires_capture", "partially_succeeded",
+     * "succeeded", "failed", "expired", "canceled". anyOf[1] (Value): string. Where the attempt is
+     * in collecting payment or saving a payment method. `partially_succeeded`, `succeeded`,
+     * `failed`, `canceled`, and `expired` are final. Value enum: "processing", "requires_action",
+     * "requires_capture", "partially_succeeded", "succeeded", "failed", "expired", "canceled".
+     * anyOf[2] (Value): null.
+     */
+    "status"?: (("processing"
+        | "requires_action"
+        | "requires_capture"
+        | "partially_succeeded"
+        | "succeeded"
+        | "failed"
+        | "expired"
+        | "canceled"
+        | (string & {}))
+        | (null));
+    /**
+     * Non-payment reason an attempt failed, was canceled, or expired. Failed attempts with an
+     * unmapped non-payment reason report other. Canceled and expired attempts include a reason
+     * only when it adds information beyond status. New values may be added. Value enum:
+     * "authorization_canceled", "canceled_on_reader", "reader_unavailable",
+     * "coupon_reservation_failed", "gift_card_hold_acquisition_failed", "invalid_payment_source",
+     * "inventory_unavailable", "order_changed_before_payment", "order_payment_customer_mismatch",
+     * "other", "payment_authorization_canceled", "payment_authorization_expired",
+     * "payment_confirmation_rejected", "payment_link_capacity_claim_failed",
+     * "payment_link_capacity_validation_failed", "payment_method_activation_pending",
+     * "payment_method_required", "payment_option_not_allowed", "payment_option_unavailable",
+     * "payment_returned", "payment_source_binding_failed", "payment_source_conflict",
+     * "payment_source_not_updatable", "payment_source_ownership_mismatch", "rate_limit_exceeded",
+     * "resource_guarantee_failed", "setup_action_unavailable", "setup_hold_acquisition_failed",
+     * "setup_result_incomplete", "tip_allocation_sync_failed",
+     * "zero_balance_hold_acquisition_failed". anyOf[1] (Value): string. Non-payment reason an
+     * attempt failed, was canceled, or expired. Failed attempts with an unmapped non-payment
+     * reason report other. Canceled and expired attempts include a reason only when it adds
+     * information beyond status. New values may be added. Value enum: "authorization_canceled",
+     * "canceled_on_reader", "reader_unavailable", "coupon_reservation_failed",
+     * "gift_card_hold_acquisition_failed", "invalid_payment_source", "inventory_unavailable",
+     * "order_changed_before_payment", "order_payment_customer_mismatch", "other",
+     * "payment_authorization_canceled", "payment_authorization_expired",
+     * "payment_confirmation_rejected", "payment_link_capacity_claim_failed",
+     * "payment_link_capacity_validation_failed", "payment_method_activation_pending",
+     * "payment_method_required", "payment_option_not_allowed", "payment_option_unavailable",
+     * "payment_returned", "payment_source_binding_failed", "payment_source_conflict",
+     * "payment_source_not_updatable", "payment_source_ownership_mismatch", "rate_limit_exceeded",
+     * "resource_guarantee_failed", "setup_action_unavailable", "setup_hold_acquisition_failed",
+     * "setup_result_incomplete", "tip_allocation_sync_failed",
+     * "zero_balance_hold_acquisition_failed". anyOf[2] (Value): null.
+     */
+    "status_reason"?: (("authorization_canceled"
+        | "canceled_on_reader"
+        | "reader_unavailable"
+        | "coupon_reservation_failed"
+        | "gift_card_hold_acquisition_failed"
+        | "invalid_payment_source"
+        | "inventory_unavailable"
+        | "order_changed_before_payment"
+        | "order_payment_customer_mismatch"
+        | "other"
+        | "payment_authorization_canceled"
+        | "payment_authorization_expired"
+        | "payment_confirmation_rejected"
+        | "payment_link_capacity_claim_failed"
+        | "payment_link_capacity_validation_failed"
+        | "payment_method_activation_pending"
+        | "payment_method_required"
+        | "payment_option_not_allowed"
+        | "payment_option_unavailable"
+        | "payment_returned"
+        | "payment_source_binding_failed"
+        | "payment_source_conflict"
+        | "payment_source_not_updatable"
+        | "payment_source_ownership_mismatch"
+        | "rate_limit_exceeded"
+        | "resource_guarantee_failed"
+        | "setup_action_unavailable"
+        | "setup_hold_acquisition_failed"
+        | "setup_result_incomplete"
+        | "tip_allocation_sync_failed"
+        | "zero_balance_hold_acquisition_failed"
+        | (string & {}))
+        | (null));
+    /**
+     * Lifecycle actions accepted now. Cancel is available during collection until a payment leg
+     * succeeds. Attempts applying their outcome to the order and terminal attempts list no
+     * actions. Always present with merchant credentials. [] enum: "cancel". anyOf[1] (Value):
+     * Array of string. Lifecycle actions accepted now. Cancel is available during collection until
+     * a payment leg succeeds. Attempts applying their outcome to the order and terminal attempts
+     * list no actions. Always present with merchant credentials. [] enum: "cancel". anyOf[1][]
+     * (Value): string. Value enum: "cancel". anyOf[2] (Value): null.
+     */
+    "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
+};
+/** Funds sent from a merchant balance to a payout destination. */
+export type WebhookSnapshotPayout = {
+    /**
+     * Amount moved between your bank and Flint. Always positive. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the
+     * expected arrival. Format: date. Example: "2026-08-02".
+     */
+    "arrival_date"?: string;
+    /**
+     * Balance source this payout draws from. Flint chooses the source when balance_source_type is
+     * omitted at create. Clients must accept source types added in future releases. Value enum:
+     * "card", "bank_account".
+     */
+    "balance_source_type": "card" | "bank_account" | (string & {});
+    /** When the payout was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /** Description sent when the payout was created. Absent when there is none. */
+    "description"?: string;
+    /**
+     * Direction of the money movement. Outbound payouts deposit funds in your bank; inbound
+     * payouts withdraw funds to cover a negative Flint balance. Value enum: "outbound", "inbound".
+     */
+    "direction": "outbound" | "inbound" | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Flint-normalized payout failure code. Unknown provider values are returned as payout_failed.
+     * Value enum: "account_closed", "account_frozen", "bank_account_restricted",
+     * "bank_ownership_changed", "could_not_process", "debit_not_authorized", "declined",
+     * "insufficient_funds", "invalid_account_number", "incorrect_account_holder_name",
+     * "incorrect_account_holder_address", "incorrect_account_holder_tax_id", "invalid_currency",
+     * "no_account", "unsupported_card", "payout_failed".
+     */
+    "failure_code"?: "account_closed"
+        | "account_frozen"
+        | "bank_account_restricted"
+        | "bank_ownership_changed"
+        | "could_not_process"
+        | "debit_not_authorized"
+        | "declined"
+        | "insufficient_funds"
+        | "invalid_account_number"
+        | "incorrect_account_holder_name"
+        | "incorrect_account_holder_address"
+        | "incorrect_account_holder_tax_id"
+        | "invalid_currency"
+        | "no_account"
+        | "unsupported_card"
+        | "payout_failed"
+        | (string & {});
+    /**
+     * Flint-authored payout failure message. This is stable explanatory text, not a raw provider
+     * message.
+     */
+    "failure_message"?: string;
+    /**
+     * Whether the payout fee is estimated or final. not_applicable means no applicable fee status
+     * is known, including unmapped fee states. Value enum: "estimated", "final", "not_applicable".
+     */
+    "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
+    /**
+     * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your processor
+     * records the payout. `null` when your processor hasn't recorded the payout yet. anyOf[1]
+     * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. anyOf[2] (Value): null.
+     */
+    "fee_money": ((MoneyValue) | (null));
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * What started the payout. Inbound payouts are always platform initiated. An outbound payout
+     * imported from your processor follows the processor: scheduled when it sent the payout
+     * automatically, otherwise manual. Only scheduled outbound payouts list their balance
+     * transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with
+     * reason not_itemized. Unmapped sources are returned as other. Value enum: "manual",
+     * "scheduled", "platform", "other".
+     */
+    "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
+    /** Merchant whose balance the payout changes. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears
+     * only on a payout Flint recorded from the processor that was sent outside Flint. `other` is a
+     * method Flint doesn't map. Value enum: "standard", "instant", "other".
+     */
+    "method": "standard" | "instant" | "other" | (string & {});
+    /**
+     * Signed effect of this payout on your Flint balance. Negative for outbound payouts and
+     * positive for inbound payouts. `null` when your processor hasn't recorded the payout yet.
+     * anyOf[1] (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     */
+    "net_money": ((MoneyValue) | (null));
+    /**
+     * The payout this one reverses, inlined when you request expand=original_payout. null when
+     * expanded and original_payout_id is absent. Present only when `expand` includes
+     * `original_payout`; `null` when expanded and there is no related payout. anyOf[1] (Value):
+     * {@link ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status,
+     * and arrival date, returned when the payout is expanded. anyOf[2] (Value): null.
+     */
+    "original_payout"?: ((ExpandedPayoutSummary) | (null));
+    /**
+     * On a payout that reverses another payout, the payout it reverses. Present only when Flint
+     * has the matching original payout. A payout has at most one of original_payout_id and
+     * reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     */
+    "original_payout_id"?: string;
+    /**
+     * The payout destination, inlined when you request expand=payout_destination. null when
+     * expanded and payout_destination_id is absent. Present only when `expand` includes
+     * `payout_destination`; `null` when expanded and there is no related payout destination.
+     * anyOf[1] (Value): {@link ExpandedPayoutDestinationSummary}. A payout destination's summary
+     * fields, such as type, bank name, last four digits, and status, returned when the destination
+     * is expanded. anyOf[2] (Value): null.
+     */
+    "payout_destination"?: ((ExpandedPayoutDestinationSummary) | (null));
+    /**
+     * Bank account or debit card used for the payout. Absent when Flint can't match your
+     * processor's destination to a payout destination. Example:
+     * "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
+     */
+    "payout_destination_id"?: string;
+    /** Stable identifier of the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". */
+    "payout_id": string;
+    /**
+     * Whether Flint has pulled a paid payout back from your bank: none until the reversal
+     * completes, then reversed. A payout_reversal balance transaction returns the money, and
+     * status stays succeeded. Value enum: "none", "reversed".
+     */
+    "reversal_status": "none" | "reversed" | (string & {});
+    /**
+     * The payout reversing this one, inlined when you request expand=reversed_by_payout. null when
+     * expanded and reversed_by_payout_id is absent. Present only when `expand` includes
+     * `reversed_by_payout`; `null` when expanded and there is no related payout. anyOf[1] (Value):
+     * {@link ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status,
+     * and arrival date, returned when the payout is expanded. anyOf[2] (Value): null.
+     */
+    "reversed_by_payout"?: ((ExpandedPayoutSummary) | (null));
+    /**
+     * The separate payout reversing this one, when Flint has the matching payout. Its presence
+     * does not mean the reversal has completed; read reversal_status. A payout has at most one of
+     * original_payout_id and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     */
+    "reversed_by_payout_id"?: string;
+    /** Text shown on your bank statement for the transfer, when one was set. */
+    "statement_descriptor"?: string;
+    /**
+     * Where the payout is: pending until it is sent, in_transit moving between Flint and your
+     * bank, then succeeded or failed. A succeeded payout can still become failed if the bank
+     * returns the transfer, and canceled means a manual payout was canceled while pending. Value
+     * enum: "pending", "in_transit", "succeeded", "failed", "canceled".
+     */
+    "status": "pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {});
+    /**
+     * Lifecycle actions Flint accepts now. cancel is offered while an outbound payout is pending
+     * unless it was scheduled automatically. Inbound payouts offer no actions. [] enum: "cancel".
+     * [] (Value): string. Value enum: "cancel".
+     */
+    "supported_actions": Array<"cancel" | (string & {})>;
+    /**
+     * The bank's trace number for the transfer, which your bank can use to locate it. Its status
+     * says whether the number is pending, available, or unsupported, and value holds the number
+     * when Flint has it. Absent when Flint has no trace information. A payout's bank trace ID,
+     * with whether it is pending, available, or unsupported.
+     */
+    "trace_id"?: PayoutTraceID;
+    /** When the payout last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+};
+/** Money returned against a collected payment. */
+export type WebhookSnapshotRefund = {
+    /**
+     * Total refunded across all tenders, including `refunded_tip_money`. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Money returned for each order charge, including subtotal, discount, and tax, combined across
+     * payment refunds. [] (Value): {@link RefundChargeAllocation}. Money returned for one order
+     * charge, including subtotal, discount, and tax.
+     */
+    "charge_allocations"?: Array<RefundChargeAllocation>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Money paid for Return resolution credits, included in amount_money. It carries no
+     * merchandise, shipping, tax, or tip allocation. Zero for refunds without credits. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "credit_adjustment_money": MoneyValue;
+    /**
+     * ID of the credit note this refund paid out. Present only on refunds issued through a credit
+     * note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
+     */
+    "credit_note_id"?: string;
+    /**
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
+     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
+     */
+    "customer"?: ((ExpandedCustomerSummary) | (null));
+    /**
+     * ID of the customer on the refunded order or payment. Absent when neither has one. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
+     * refundable again, except a refund with reason payment_returned that failed with
+     * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
+     * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed".
+     */
+    "failure_reason"?: "expired_or_canceled_card"
+        | "lost_or_stolen_card"
+        | "insufficient_funds"
+        | "insufficient_available_balance"
+        | "declined"
+        | "merchant_request"
+        | "payment_disputed"
+        | "refund_abandoned"
+        | "payment_refund_failed"
+        | "payment_refund_not_attempted"
+        | "refund_failed"
+        | (string & {});
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * Who decided to make this refund: `merchant` for you or your integration, `flint` for a
+     * refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint".
+     */
+    "initiated_by": "merchant" | "flint" | (string & {});
+    /**
+     * ID of the invoice whose credit note this refund paid out. Present only on refunds issued
+     * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     */
+    "invoice_id"?: string;
+    /**
+     * How the refund applied to each order line item it covered, with quantity, tax, and
+     * adjustments. [] (Value): {@link RefundLineItemAllocation}. How a refund applied to one order
+     * line item: quantity, refunded amount, tax, adjustments, and modifier allocations.
+     */
+    "line_item_allocations"?: Array<RefundLineItemAllocation>;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Present only when `expand` includes `order`; `null` when expanded and there is no related
+     * order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+     * status, payment and refund status, and pricing and settlement amounts, returned when the
+     * order is expanded. anyOf[2] (Value): null.
+     */
+    "order"?: ((ExpandedOrderSummary) | (null));
+    /**
+     * ID of the paid-order edit that created this refund. Present only on refunds issued through
+     * an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     */
+    "order_edit_id"?: string;
+    /**
+     * ID of the order the refund was issued against. For a refund with `reason`
+     * `payment_returned`, the order the returned payment was for; the order never received this
+     * money. Absent for a refund of a payment that has no order, and for a standalone gift card
+     * refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * Present only when `expand` includes `payment_intent`; `null` when expanded and there is no
+     * related payment intent. anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
+     * intent's summary fields, including amount, status, and capture method, returned when the
+     * payment intent is expanded. anyOf[2] (Value): null.
+     */
+    "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
+    /**
+     * ID of the payment the refund was issued against, when it targeted one payment.
+     * `payment_refunds` lists every payment it returned money through. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * The part of the refund returned through each payment, with its own status. Absent when the
+     * refund was all gift card credit or store credit. [] (Value): {@link PaymentRefund}. The part
+     * of a refund returned through one payment, with the amount, tip, status, and any failure
+     * reason.
+     */
+    "payment_refunds"?: Array<PaymentRefund>;
+    /**
+     * ID of the payment review whose decline created this refund. Present only on refunds issued
+     * for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+     */
+    "payment_review_id"?: string;
+    /**
+     * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is
+     * on its way without review. Value enum: "manual_review", null.
+     */
+    "pending_reason": "manual_review" | null | (string & {}) | null;
+    /**
+     * Who moved or is moving the money for this refund. Flint processes refunds through a
+     * processor or a gift card; merchant means the merchant returned the money outside Flint and
+     * recorded it here. Existing refunds are processed by Flint. Value enum: "flint", "merchant".
+     */
+    "processed_by": "flint" | "merchant" | (string & {});
+    /**
+     * Why the refund was issued. It never changes how the money moves. The buyer's refund receipt
+     * shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
+     * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
+     * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't be
+     * sent in requests. `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", "out_of_stock", "payment_returned", null.
+     */
+    "reason": "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | "out_of_stock"
+        | "payment_returned"
+        | null
+        | (string & {})
+        | null;
+    /** Note explaining the refund, up to 1,024 characters. */
+    "reason_message"?: string;
+    /**
+     * Unique identifier for this refund, prefixed `ref_`. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_id": string;
+    /**
+     * Whether the request asked to return the platform fee on the payments this refund refunds
+     * (refund_platform_fee). Each payment refund's refunded_platform_fee_money is what it returns.
+     */
+    "refund_platform_fee": boolean;
+    /**
+     * The merchant's opaque check, wire, or other reference for money returned outside Flint,
+     * preserved exactly. Present only when processed_by is merchant and a reference was supplied.
+     * external_reference_id is the merchant's own refund ID. minLength: 1. maxLength: 255.
+     */
+    "refund_reference"?: string;
+    /**
+     * When the merchant reports that the money was returned outside Flint. Present only when
+     * processed_by is merchant. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "refunded_at"?: string;
+    /**
+     * Share of `amount_money` that refunds tips. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "refunded_tip_money": MoneyValue;
+    /**
+     * ID of the return this refund paid out. Present only on refunds issued by a return. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id"?: string;
+    /**
+     * ID of the return resolution that issued this refund. Present only on refunds issued by a
+     * return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_id"?: string;
+    /**
+     * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and
+     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
+     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
+     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
+     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
+     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed".
+     */
+    "status": "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
+    /**
+     * When `status` first became `succeeded`. For a refund with `payment_refunds` or
+     * `tender_allocations`, it's when the last of them first succeeded, so it equals the latest
+     * `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded the
+     * outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
+     * `status` is `succeeded`; absent for every other status, including `partially_succeeded` and
+     * a refund that failed after it succeeded. A refund that succeeds again shows its first
+     * success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "succeeded_at"?: string;
+    /**
+     * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
+     * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`. [] (Value):
+     * {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
+     */
+    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefund>;
+    /**
+     * Every tender the refund drew from, payment or gift card, with its amount, tip share, status,
+     * and destination. [] (Value): {@link RefundTenderAllocation}. One tender's share of a refund,
+     * listed in the refund's tender allocations.
+     */
+    "tender_allocations"?: Array<RefundTenderAllocation>;
+    /**
+     * Cash returned after an unissued gift card purchase refund failed. Return it through a new
+     * refund against payment_intent_id and order_line_item_id. It does not issue another card.
+     * Source remaining and pending amounts describe the entire original settlement allocation;
+     * repeated entries for that source are not additive. [] (Value): {@link
+     * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the card
+     * was issued, including the amounts recovered.
+     */
+    "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** A request to send purchased items back. */
+export type WebhookSnapshotReturn = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "canceled_at"?: string;
+    /**
+     * Who canceled the Return. Who performed a return action: a buyer, merchant, integration, or
+     * the system, with an optional ID.
+     */
+    "canceled_by"?: ReturnActor;
+    /**
+     * Why the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate",
+     * "expired", "created_in_error", "other".
+     */
+    "cancellation_reason"?: "buyer_request"
+        | "merchant_request"
+        | "duplicate"
+        | "expired"
+        | "created_in_error"
+        | "other"
+        | (string & {});
+    /** Detail sent with the cancellation. Merchant reads only. */
+    "cancellation_reason_message"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "completed_at"?: string;
+    /**
+     * Who completed the Return. `system` when Flint completed it automatically. Who performed a
+     * return action: a buyer, merchant, integration, or the system, with an optional ID.
+     */
+    "completed_by"?: ReturnActor;
+    /**
+     * What is still owed before the Return can complete. Empty when nothing is. [] (Value): {@link
+     * ReturnCompletionBlocker}. Something still owed before a return can complete, with the return
+     * line or record it concerns.
+     */
+    "completion_blockers": Array<ReturnCompletionBlocker>;
+    /**
+     * automatic completes the Return when the last completion blocker clears; manual waits for
+     * POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic".
+     */
+    "completion_mode"?: "manual" | "automatic" | (string & {});
+    /**
+     * Why the Return was completed by hand. Absent when Flint completed it automatically. Value
+     * enum: "manual_completion", "exception_waived", "other".
+     */
+    "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
+    /** Detail sent when the Return was completed by hand. */
+    "completion_reason_message"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
+     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
+     */
+    "customer"?: ((ExpandedCustomerSummary) | (null));
+    /** The customer the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "decision_at"?: string;
+    /**
+     * Whether the requested units were approved. `pending` until one decision covers every line.
+     * Value enum: "pending", "approved", "partially_approved", "declined".
+     */
+    "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The Return's money in one place: the value of the returned lines, deductions and credits,
+     * and what has been refunded or collected. The money for a return: returned value, deductions,
+     * credits, replacement total, and amounts due to or from the buyer.
+     */
+    "financial_summary": ReturnFinancialSummary;
+    /**
+     * What the buyer still has to send back and where. Each entry leaves the list once it is
+     * satisfied, so an empty list means nothing is waiting on the buyer. [] (Value): {@link
+     * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination,
+     * instructions, line items, and expiry.
+     */
+    "handoff_requirements": Array<ReturnHandoffRequirement>;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer routes return only keys
+     * from the buyer's namespace.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * Who created the Return: buyer for a customer session on /v1/me or Flint's hosted account,
+     * merchant for a Dashboard user, integration for an API key or partner app, or system for
+     * Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration",
+     * "system".
+     */
+    "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
+    /**
+     * The lines being returned. [] (Value): {@link WebhookSnapshotReturnLineItem}. An item
+     * included in a return request.
+     */
+    "line_items": Array<WebhookSnapshotReturnLineItem>;
+    /**
+     * On the Return, the least-finished line's value. Value enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception".
+     */
+    "merchandise_status": "not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception"
+        | (string & {});
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata": MetadataMap;
+    /**
+     * Present only when `expand` includes `order`; `null` when expanded and there is no related
+     * order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+     * status, payment and refund status, and pricing and settlement amounts, returned when the
+     * order is expanded. anyOf[2] (Value): null.
+     */
+    "order"?: ((ExpandedOrderSummary) | (null));
+    /** ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /**
+     * How your return policies judged the request when the Return was created. How a return policy
+     * evaluated a return request: overall status and reason, the policy revision used, and
+     * per-line results.
+     */
+    "policy_evaluation"?: ReturnPolicyEvaluation;
+    /**
+     * Whether the buyer has received the value they are owed. Combines the Return's resolutions
+     * and its unsettled corrections. Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed".
+     */
+    "resolution_status": "not_selected"
+        | "pending"
+        | "partially_completed"
+        | "requires_action"
+        | "completed"
+        | "failed"
+        | (string & {});
+    /**
+     * IDs of every disposition recorded for this Return, oldest first, including failed and
+     * canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read
+     * them inline. [] (Value): string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "return_disposition_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `return_dispositions`. The dispositions in
+     * `return_disposition_ids`, in the same order. [] (Value): {@link
+     * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+     * handled.
+     */
+    "return_dispositions"?: Array<WebhookSnapshotReturnDisposition>;
+    /**
+     * Unique identifier for this return, prefixed `ret_`. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * IDs of every inspection recorded for this Return, oldest first, including superseded
+     * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them
+     * inline. [] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     */
+    "return_inspection_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `return_inspections`. The inspections in
+     * `return_inspection_ids`, in the same order. [] (Value): {@link
+     * WebhookSnapshotReturnInspection}. An assessment of the condition of returned items.
+     */
+    "return_inspections"?: Array<WebhookSnapshotReturnInspection>;
+    /** Human-readable number for the Return. */
+    "return_number": string;
+    /**
+     * IDs of every receipt recorded for this Return, oldest first, including superseded receipts.
+     * Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline. [] (Value):
+     * string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     */
+    "return_receipt_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`,
+     * in the same order. [] (Value): {@link WebhookSnapshotReturnReceipt}. A record of returned
+     * items arriving at a location.
+     */
+    "return_receipts"?: Array<WebhookSnapshotReturnReceipt>;
+    /**
+     * IDs of every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. [] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `return_resolutions`. The resolutions in
+     * `return_resolution_ids`, in the same order. [] (Value): {@link
+     * WebhookSnapshotReturnResolution}. The refund, exchange, or other outcome of a return.
+     */
+    "return_resolutions"?: Array<WebhookSnapshotReturnResolution>;
+    /**
+     * IDs of every shipment raised to send this Return's items back, oldest first, including
+     * voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * [] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+     */
+    "shipment_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `shipments`. Summaries of the shipments in
+     * `shipment_ids`, in the same order. [] (Value): {@link ExpandedShipmentSummary}. A shipment's
+     * summary fields, including direction, status, and package count, returned when the shipment
+     * is expanded.
+     */
+    "shipments"?: Array<ExpandedShipmentSummary>;
+    /**
+     * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+     * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+     * "declined", "canceled".
+     */
+    "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+    /**
+     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
+     * left out. A Return waiting for a decision lists `decide` and `cancel`. An open Return lists
+     * `cancel` only while no units have been received, inspected, dispositioned, or resolved, and
+     * it has no current receipts or inspections, non-canceled dispositions or resolutions, or
+     * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
+     * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or canceled
+     * Return lists none. [] enum: "cancel", "complete", "decide", "process", "reopen". [] (Value):
+     * string. Value enum: "cancel", "complete", "decide", "process", "reopen".
+     */
+    "supported_actions": Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Goes up with every change to the Return. Each activity's `return_version` is the version
+     * that activity produced. A write that takes `expected_version` or `expected_return_version`
+     * for this Return compares it with this value. Format: int64. minimum: 0.
+     */
+    "version": number;
+};
+/** A decision about how returned merchandise will be handled. */
+export type WebhookSnapshotReturnDisposition = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "canceled_at"?: string;
+    /**
+     * Who canceled the disposition. Merchant reads only. Who performed a return action: a buyer,
+     * merchant, integration, or the system, with an optional ID.
+     */
+    "canceled_by"?: ReturnActor;
+    /**
+     * Why the disposition was canceled. Value enum: "created_in_error", "changed_disposition",
+     * "duplicate", "other".
+     */
+    "cancellation_reason"?: "created_in_error" | "changed_disposition" | "duplicate" | "other" | (string & {});
+    /** Detail sent with the cancellation. Merchant reads only. */
+    "cancellation_reason_message"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Who created the disposition. Who performed a return action: a buyer, merchant, integration,
+     * or the system, with an optional ID.
+     */
+    "created_by": ReturnActor;
+    /**
+     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost"
+        | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Reason code for a failed merchandise disposition, when available. Value enum:
+     * "inventory_effect_failed", "inventory_item_unmapped".
+     */
+    "failure_code"?: "inventory_effect_failed" | "inventory_item_unmapped" | (string & {});
+    /** Explanation of a failed merchandise disposition, when available. */
+    "failure_message"?: string;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * ID of the Location whose stock the disposition changes. Required for `sellable`,
+     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
+     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inventory_location_id"?: string;
+    /**
+     * IDs of the inventory movements the disposition wrote. Empty when it moved no stock. []
+     * (Value): string. Example: "invm_01KEZF7C00DYPFT9PS0NZY805Z".
+     */
+    "inventory_movement_ids": Array<string>;
+    /**
+     * ID of the inventory receipt the disposition recorded. Absent when it recorded none. Example:
+     * "invrec_01KEZF7C00JXXCYA06SH8RCM2N".
+     */
+    "inventory_receipt_id"?: string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata": MetadataMap;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result"
+        | "return_policy"
+        | "warehouse_override"
+        | "safety_requirement"
+        | "other"
+        | (string & {});
+    /** Optional detail about `reason`, kept with the record. */
+    "reason_message"?: string;
+    /**
+     * ID of the disposition that took over this one. Present when a replacement canceled it.
+     * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "replaced_by_return_disposition_id"?: string;
+    /**
+     * ID of the `failed` or `canceled` disposition this one replaces. It takes over that
+     * disposition's unused capacity. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "replaces_return_disposition_id"?: string;
+    /**
+     * Unique identifier for this return disposition, prefixed `retdsp_`. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "return_disposition_id": string;
+    /** ID of the Return the disposition belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+    "return_id": string;
+    /**
+     * Inspection that owns return_inspection_line_item_id. `null` when
+     * return_inspection_line_item_id is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     */
+    "return_inspection_id": string | null;
+    /**
+     * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
+     * Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+     */
+    "return_inspection_line_item_id"?: string;
+    /** ID of the Return line the units belong to. Example: "retli_01KEZF7C00R813VR7ECXS062QG". */
+    "return_line_item_id"?: string;
+    /**
+     * Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is
+     * null. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     */
+    "return_receipt_id": string | null;
+    /**
+     * ID of the receipt line the disposition covers. Absent when it covers an inspection line.
+     * Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id"?: string;
+    /**
+     * Whether inventory has applied the disposition. Value enum: "pending", "succeeded", "failed",
+     * "canceled".
+     */
+    "status": "pending" | "succeeded" | "failed" | "canceled" | (string & {});
+    /**
+     * Actions that can succeed now. Empty unless the parent Return is open. cancel is listed only
+     * before the inventory effect starts. [] enum: "cancel", "retry". [] (Value): string. Value
+     * enum: "cancel", "retry".
+     */
+    "supported_actions": Array<"cancel" | "retry" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64. minimum: 0.
+     */
+    "version": number;
+};
+/** An assessment of the condition of returned items. */
+export type WebhookSnapshotReturnInspection = {
+    /**
+     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     */
+    "correction_reason"?: "entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other"
+        | (string & {});
+    /** Detail about `correction_reason`. */
+    "correction_reason_message"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+     * `receipt_disposition_mode` is `automatic`. [] (Value): {@link
+     * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+     * handled.
+     */
+    "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key"?: string | null;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "inspected_at": string;
+    /**
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inspection_location_id": string;
+    /**
+     * The lines recorded. [] (Value): {@link ReturnInspectionLineItem}. The inspection result for
+     * a returned item.
+     */
+    "line_items": Array<ReturnInspectionLineItem>;
+    /** ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+    "return_id": string;
+    /**
+     * Unique identifier for this return inspection, prefixed `retins_`. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     */
+    "return_inspection_id": string;
+    /** ID of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
+    "return_receipt_id": string;
+    /**
+     * System that recorded the observation. `null` when no source system was recorded. anyOf[1]
+     * (Value): {@link ReturnSourceSystem}. The system a return event came from, such as a point of
+     * sale or warehouse system, with its own identifier. anyOf[2] (Value): null.
+     */
+    "source_system": ((ReturnSourceSystem) | (null));
+    /**
+     * Whether this is the current observation of these units or a correction replaced it. Value
+     * enum: "current", "superseded".
+     */
+    "status": "current" | "superseded" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "superseded_at"?: string;
+    /**
+     * ID of the inspection that corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     */
+    "superseded_by_return_inspection_id"?: string;
+    /** ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". */
+    "supersedes_return_inspection_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64. minimum: 1.
+     */
+    "version": number;
+};
+/** An item included in a return request. */
+export type WebhookSnapshotReturnLineItem = {
+    /**
+     * Inspected units that were accepted. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "accepted_quantity": number;
+    /**
+     * Resolution types that can settle this line's approved quantity. [] enum: "refund",
+     * "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string. Value
+     * enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     */
+    "allowed_resolution_types": Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>;
+    /**
+     * Units the decision approved. Whole-number quantity; fractional quantities are not supported.
+     * Format: int64.
+     */
+    "approved_quantity": number;
+    /**
+     * The refund, store_credit, or no_monetary_action resolution Flint creates and confirms
+     * automatically. Absent when the merchant resolves manually. Example: "refund". Value enum:
+     * "refund", "store_credit", "no_monetary_action".
+     */
+    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | (string & {});
+    /**
+     * Approved quantity that can still be assigned to a new resolution. Every non-canceled
+     * resolution reserves its line quantity, including proposed, pending, action-required, failed,
+     * and completed resolutions. Whole-number quantity; fractional quantities are not supported.
+     * Format: int64.
+     */
+    "available_resolution_quantity": number;
+    /**
+     * Components of the bundle the line was sold from. [] (Value): {@link BundleComponent}. An
+     * item included in a bundle.
+     */
+    "bundle_components": Array<BundleComponent>;
+    /** ID of the bundle the line was sold from. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+    "bundle_id"?: string;
+    /** Note the buyer gave about this line. Some return reasons require one. */
+    "buyer_note"?: string;
+    /**
+     * Approved units canceled later. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "canceled_quantity": number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Who recorded the decision on this line. Who performed a return action: a buyer, merchant,
+     * integration, or the system, with an optional ID.
+     */
+    "decided_by"?: ReturnActor;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "decision_at"?: string;
+    /**
+     * Why the line's declined quantity was declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason"?: "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /** Detail sent with the decline. */
+    "decline_reason_message"?: string;
+    /**
+     * Units the decision declined. Whole-number quantity; fractional quantities are not supported.
+     * Format: int64.
+     */
+    "declined_quantity": number;
+    /** Description of the item as sold. */
+    "description"?: string;
+    /**
+     * Units with a successful disposition. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "dispositioned_quantity": number;
+    /**
+     * How the pinned return policy judged this line when the Return was created, with the policy
+     * revision it used. Whether a return line is eligible under policy, with the eligible
+     * quantity, allowed resolution types, and any policy adjustments.
+     */
+    "eligibility": ReturnLineItemEligibility;
+    /**
+     * Present only when `expand` includes `line_items.fulfillment`; `null` when expanded and there
+     * is no related fulfillment. anyOf[1] (Value): {@link WebhookSnapshotFulfillment}. Work
+     * required to deliver an order's items. anyOf[2] (Value): null.
+     */
+    "fulfillment"?: ((WebhookSnapshotFulfillment) | (null));
+    /**
+     * ID of the fulfillment the units were delivered in. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id": string;
+    /**
+     * Units the buyer handed off for the trip back. Whole-number quantity; fractional quantities
+     * are not supported. Format: int64.
+     */
+    "handed_off_quantity": number;
+    /** Image of the item as sold. An image with its URL, size, and alt text. */
+    "image"?: Image;
+    /**
+     * Units that have been inspected. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "inspected_quantity": number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "inspection_waived_at"?: string;
+    /**
+     * Who waived inspection for this line. Who performed a return action: a buyer, merchant,
+     * integration, or the system, with an optional ID.
+     */
+    "inspection_waived_by"?: ReturnActor;
+    /**
+     * Why inspection was waived for this line. Value enum: "policy_override",
+     * "trusted_in_store_handoff", "merchant_review", "other".
+     */
+    "inspection_waiver_reason"?: "policy_override" | "trusted_in_store_handoff" | "merchant_review" | "other" | (string & {});
+    /** Detail sent when inspection was waived. */
+    "inspection_waiver_reason_message"?: string;
+    /** Whether returned units of this line must be inspected. */
+    "is_inspection_required"?: boolean;
+    /**
+     * Whether the decision overrode the pinned return policy's proposal. `override_reason` says
+     * why.
+     */
+    "is_policy_overridden": boolean;
+    /**
+     * Where this line's merchandise stands, from handoff through disposition. Value enum:
+     * "not_required", "awaiting_handoff", "in_transit", "partially_received",
+     * "inspection_required", "partially_inspected", "inspection_review_required",
+     * "disposition_required", "resolved".
+     */
+    "merchandise_status": "not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | (string & {});
+    /**
+     * Modifiers selected on the order line, with their prices. [] (Value): {@link
+     * OrderLineItemModifier}. A modifier selected on an order line item.
+     */
+    "modifiers": Array<OrderLineItemModifier>;
+    /** Name of the item as sold. */
+    "name": string;
+    /** Order that owns order_line_item_id. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /** ID of the order line item the units come from. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+    "order_line_item_id": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "overridden_at"?: string;
+    /**
+     * Who recorded the override. Who performed a return action: a buyer, merchant, integration, or
+     * the system, with an optional ID.
+     */
+    "overridden_by"?: ReturnActor;
+    /**
+     * Why the decision overrode the pinned return policy's proposal. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason"?: "customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /** Detail sent with the override. */
+    "override_reason_message"?: string;
+    /**
+     * ID of the catalog product the item was sold from. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * Units that arrived. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64.
+     */
+    "received_quantity": number;
+    /**
+     * ID of the Location the buyer sends the merchandise to. Absent when none has to come back.
+     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id"?: string;
+    /**
+     * Inspected units that were rejected. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "rejected_quantity": number;
+    /**
+     * Committed resolution execution gate, filled for every approved line: after_inspection when
+     * merchandise and inspection are required, after_receipt when merchandise is required without
+     * inspection, or after_approval when merchandise is not required, unless the policy or
+     * decision sets a timing explicitly. Applies to every resolution type, including exchanges and
+     * replacements. manual is held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual".
+     */
+    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
+    /**
+     * Units the request asked to return. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "requested_quantity": number;
+    /**
+     * Outcome requested for this line when it was created. Absent when none was requested. Value
+     * enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     */
+    "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
+    /**
+     * Whether the value for this line's approved quantity has been delivered. Value enum:
+     * "not_selected", "pending", "requires_action", "completed", "failed".
+     */
+    "resolution_status": "not_selected" | "pending" | "requires_action" | "completed" | "failed" | (string & {});
+    /**
+     * Units whose resolution has finished. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "resolved_quantity": number;
+    /** ID of the Return this line belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+    "return_id": string;
+    /**
+     * Unique identifier for this return line item, prefixed `retli_`. Example:
+     * "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * Present only when `expand` includes `line_items.return_reason`; `null` when expanded and
+     * there is no related return reason. anyOf[1] (Value): {@link ReturnReason}. A reason
+     * customers can select when requesting a return. anyOf[2] (Value): null.
+     */
+    "return_reason"?: ((ReturnReason) | (null));
+    /**
+     * Handle of the chosen reason, captured when the line is created or its reason changes. Later
+     * renames, deactivation or archiving don't change it.
+     */
+    "return_reason_handle": string;
+    /** ID of the reason chosen for this line. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E". */
+    "return_reason_id": string;
+    /**
+     * Name of the chosen reason, captured when the line is created or its reason changes. Later
+     * renames, deactivation or archiving don't change it.
+     */
+    "return_reason_name": string;
+    /**
+     * How much of the approved quantity the buyer must physically send back; fractional quantities
+     * are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and
+     * the Return still settles the money. Format: int64.
+     */
+    "return_required_quantity": number;
+    /**
+     * IDs of the resolutions that include this line, oldest first, including failed and canceled
+     * resolutions. [] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_ids": Array<string>;
+    /**
+     * Value of the line's units, fixed when the line was created: what the buyer paid for them,
+     * less what was already refunded or returned. The value of a return line: unit price,
+     * subtotal, discount, tax, and total.
+     */
+    "return_value": ReturnLineItemValue;
+    /**
+     * Inspected units still waiting for an acceptance decision. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64.
+     */
+    "review_required_quantity": number;
+    /**
+     * Variant options selected for the item, such as size and color. [] (Value): {@link
+     * SelectedProductOption}. An option and value chosen for a product variant, such as size
+     * Large.
+     */
+    "selected_options": Array<SelectedProductOption>;
+    /** SKU of the item as sold. */
+    "sku"?: string;
+    /**
+     * Where this line stands. Same values and meanings as the Return's `status`, applied to the
+     * line. Value enum: "requested", "open", "completed", "declined", "canceled".
+     */
+    "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+    /**
+     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
+     * left out. For an open line with uncanceled approved quantity, `cancel` is listed while
+     * approved quantity remains after accounting for handoff, receipt, inspection, disposition,
+     * non-canceled resolutions, and non-voided return shipment allocations. `waive_inspection` is
+     * listed while inspection is required and no unit has been inspected. [] enum: "cancel",
+     * "waive_inspection". [] (Value): string. Value enum: "cancel", "waive_inspection".
+     */
+    "supported_actions": Array<"cancel" | "waive_inspection" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * ID of the catalog variant the item was sold from. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+};
+/** A record of returned items arriving at a location. */
+export type WebhookSnapshotReturnReceipt = {
+    /**
+     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     */
+    "correction_reason"?: "entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other"
+        | (string & {});
+    /** Detail about `correction_reason`. */
+    "correction_reason_message"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+     * `receipt_disposition_mode` is `automatic`. [] (Value): {@link
+     * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+     * handled.
+     */
+    "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * The lines recorded. [] (Value): {@link ReturnReceiptLineItem}. A returned item recorded as
+     * received.
+     */
+    "line_items": Array<ReturnReceiptLineItem>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "received_at": string;
+    /** ID of the Location that received the goods. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    "receiving_location_id": string;
+    /** ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+    "return_id": string;
+    /**
+     * Unique identifier for this return receipt, prefixed `retrc_`. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     */
+    "return_receipt_id": string;
+    /**
+     * ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a
+     * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+     */
+    "shipment_id"?: string;
+    /**
+     * System that recorded the observation. `null` when no source system was recorded. anyOf[1]
+     * (Value): {@link ReturnSourceSystem}. The system a return event came from, such as a point of
+     * sale or warehouse system, with its own identifier. anyOf[2] (Value): null.
+     */
+    "source_system": ((ReturnSourceSystem) | (null));
+    /**
+     * Whether this is the current observation of these units or a correction replaced it. Value
+     * enum: "current", "superseded".
+     */
+    "status": "current" | "superseded" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "superseded_at"?: string;
+    /**
+     * ID of the receipt that corrected this one. Absent while it is current. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     */
+    "superseded_by_return_receipt_id"?: string;
+    /** ID of the receipt this one corrects. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
+    "supersedes_return_receipt_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64. minimum: 1.
+     */
+    "version": number;
+};
+/** The refund, exchange, or other outcome of a return. */
+export type WebhookSnapshotReturnResolution = {
+    /**
+     * Why a requires_action resolution is waiting. buyer_payment means the buyer must pay the
+     * exchange balance; manual_release means the merchant must release the resolution. Value enum:
+     * "buyer_payment", "manual_release".
+     */
+    "action_reason"?: "buyer_payment" | "manual_release" | (string & {});
+    /**
+     * Who has to act while the resolution's status is `requires_action`. Value enum: "buyer",
+     * "merchant".
+     */
+    "action_required_by"?: "buyer" | "merchant" | (string & {});
+    /**
+     * Fees and credits applied to the resolution's amounts. [] (Value): {@link
+     * ReturnResolutionAdjustment}. A fee or credit applied to a return resolution, such as a
+     * restocking fee, with the assessed and applied amounts and any waiver.
+     */
+    "adjustments": Array<ReturnResolutionAdjustment>;
+    /**
+     * Amount the buyer owes when deduction_money and replacement_total_money exceed
+     * returned_total_money plus credit_adjustment_money. Zero when the buyer is owed a refund and
+     * for no_monetary_action. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "buyer_payment_amount_money": MoneyValue;
+    /**
+     * Value returned to the buyer: returned_total_money plus credit_adjustment_money, minus
+     * deduction_money and replacement_total_money, when that balance is zero or more. For
+     * store_credit, the value issued on new gift cards. Zero for no_monetary_action. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "buyer_refund_amount_money": MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "canceled_at"?: string;
+    /**
+     * Who canceled the resolution. Merchant reads only. Who performed a return action: a buyer,
+     * merchant, integration, or the system, with an optional ID.
+     */
+    "canceled_by"?: ReturnActor;
+    /**
+     * Why the resolution was canceled. Value enum: "buyer_request", "merchant_request",
+     * "duplicate", "expired", "created_in_error", "other".
+     */
+    "cancellation_reason"?: "buyer_request"
+        | "merchant_request"
+        | "duplicate"
+        | "expired"
+        | "created_in_error"
+        | "other"
+        | (string & {});
+    /** Detail sent with the cancellation. Merchant reads only. */
+    "cancellation_reason_message"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "confirmed_at"?: string;
+    /**
+     * Who confirmed the resolution. Who performed a return action: a buyer, merchant, integration,
+     * or the system, with an optional ID.
+     */
+    "confirmed_by"?: ReturnActor;
+    /**
+     * ID of the settled resolution this correction adjusts. Present only when `resolution_type` is
+     * `correction`. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "corrects_return_resolution_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Who created the resolution. Who performed a return action: a buyer, merchant, integration,
+     * or the system, with an optional ID.
+     */
+    "created_by": ReturnActor;
+    /**
+     * Credits added by the resolution's adjustments. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "credit_adjustment_money": MoneyValue;
+    /**
+     * Deductions taken by the resolution's adjustments, such as a restocking fee. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "deduction_money": MoneyValue;
+    /**
+     * What a confirmed resolution is still waiting for. Empty when nothing is. [] (Value): {@link
+     * ReturnResolutionExecutionBlocker}. Work that must complete before a Return resolution can
+     * finish.
+     */
+    "execution_blockers": Array<ReturnResolutionExecutionBlocker>;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Reason code for a failed Return resolution, when available.
+     * refund_payment_balance_unavailable means the original payments cannot fund the resolution;
+     * cancel it, then add an explicit deduction or settle the shortfall outside Flint.
+     * refund_line_value_unavailable means another refund already returned part of an order line,
+     * so retrying cannot succeed; cancel the resolution and resolve the line for fewer units or
+     * without a refund. replacement_fulfillment_canceled means the replacement Order's fulfillment
+     * was canceled, so it won't be sent. gift_card_refund_destination_required means the original
+     * gift card cannot accept the refund; retry with gift_card_refund_destination set to
+     * new_gift_card. store_credit_unavailable means the original payment cannot fund store credit;
+     * cancel the resolution and create a refund resolution. Value enum:
+     * "refund_payment_balance_unavailable", "gift_card_refund_destination_required",
+     * "store_credit_unavailable", "refund_creation_failed", "refund_failed",
+     * "refund_line_value_unavailable", "payment_intent_creation_failed", "payment_failed",
+     * "replacement_order_creation_failed", "replacement_fulfillment_canceled",
+     * "resolution_effect_failed".
+     */
+    "failure_code"?: "refund_payment_balance_unavailable"
+        | "gift_card_refund_destination_required"
+        | "store_credit_unavailable"
+        | "refund_creation_failed"
+        | "refund_failed"
+        | "refund_line_value_unavailable"
+        | "payment_intent_creation_failed"
+        | "payment_failed"
+        | "replacement_order_creation_failed"
+        | "replacement_fulfillment_canceled"
+        | "resolution_effect_failed"
+        | (string & {});
+    /** Explanation of a failed Return resolution, when available. */
+    "failure_message"?: string;
+    /** When the resolution completed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "fulfilled_at"?: string;
+    /**
+     * Where the gift-card-paid portion is refunded. original credits the original gift card;
+     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
+     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
+     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination
+     * and conflicting_fields naming resolution_type. Store credit and its corrections always issue
+     * new gift cards. PATCH can change it only while proposed. Retry persists the chosen
+     * destination before starting the new attempt. Default: "original". Value enum: "original",
+     * "new_gift_card".
+     */
+    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
+    /**
+     * Return lines and quantities the resolution covers. Absent on a correction. [] (Value):
+     * {@link ReturnResolutionLineItem}. A return line included in a resolution, with its quantity
+     * and returned total.
+     */
+    "line_items": Array<ReturnResolutionLineItem>;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata": MetadataMap;
+    /**
+     * IDs of the payment intents that collect the buyer's balance for this resolution, in the
+     * order Flint linked them. Empty until a payment exists. [] (Value): string. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `payment_intents`. Summaries of the payment intents in
+     * `payment_intent_ids`, in the same order. [] (Value): {@link ExpandedPaymentIntentSummary}. A
+     * payment intent's summary fields, including amount, status, and capture method, returned when
+     * the payment intent is expanded.
+     */
+    "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
+    /**
+     * How replacement lines are priced. Present on exchanges and replacements. Value enum:
+     * "original_price", "current_price", "merchant_agreed_price".
+     */
+    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
+    /**
+     * IDs of the Refunds that pay the buyer for this resolution, in the order Flint linked them.
+     * Empty until a Refund exists. [] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `refunds`. The refunds in `refund_ids`, in the same
+     * order. [] (Value): {@link WebhookSnapshotRefund}. Money returned against a collected
+     * payment.
+     */
+    "refunds"?: Array<WebhookSnapshotRefund>;
+    /**
+     * Merchandise the buyer receives instead, for an exchange or replacement. [] (Value): {@link
+     * ReturnReplacementLineItem}. A replacement item added to a return resolution, with its
+     * quantity and price totals.
+     */
+    "replacement_line_items": Array<ReturnReplacementLineItem>;
+    /**
+     * Present only when `expand` includes `replacement_order`; `null` when expanded and there is
+     * no related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. anyOf[2] (Value): null.
+     */
+    "replacement_order"?: ((ExpandedOrderSummary) | (null));
+    /**
+     * ID of the replacement Order Flint created for an exchange or replacement. Absent until it
+     * exists. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "replacement_order_id"?: string;
+    /**
+     * Total of the replacement items the buyer receives. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "replacement_total_money": MoneyValue;
+    /**
+     * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
+     * "replacement", "store_credit", "no_monetary_action", "correction".
+     */
+    "resolution_type": "refund"
+        | "exchange"
+        | "replacement"
+        | "store_credit"
+        | "no_monetary_action"
+        | "correction"
+        | (string & {});
+    /** ID of the Return the resolution belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+    "return_id": string;
+    /**
+     * Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null.
+     * Example: "rpol_01KEZF7C00H8C042BEK6HBRANX".
+     */
+    "return_policy_id": string | null;
+    /**
+     * ID of the return policy revision that judged the lines. Set only when Flint created the
+     * resolution itself and no merchant decision overrode the policy. Absent otherwise, including
+     * on resolutions you create and on corrections. Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC".
+     */
+    "return_policy_revision_id"?: string;
+    /**
+     * Unique identifier for this return resolution, prefixed `retres_`. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_id": string;
+    /**
+     * Value of the returned units this resolution covers. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "returned_total_money": MoneyValue;
+    /**
+     * completed means the buyer has the value: every linked Refund succeeded, any balance was
+     * collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable.
+     * Value enum: "proposed", "pending", "requires_action", "completed", "failed", "canceled".
+     */
+    "status": "proposed" | "pending" | "requires_action" | "completed" | "failed" | "canceled" | (string & {});
+    /**
+     * Actions that can succeed now. checkout_session is listed while a replacement Order needs a
+     * buyer payment, including when the parent Return is not open. Other actions require an open
+     * Return. A failed resolution lists retry while it has a failed effect and its failure code
+     * permits retry. It lists cancel when it never created a Refund, PaymentIntent, or Order. []
+     * enum: "cancel", "checkout_session", "confirm", "release", "retry". [] (Value): string. Value
+     * enum: "cancel", "checkout_session", "confirm", "release", "retry".
+     */
+    "supported_actions": Array<"cancel" | "checkout_session" | "confirm" | "release" | "retry" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64. minimum: 0.
+     */
+    "version": number;
+};
+/** A customer's recurring purchase. */
+export type WebhookSnapshotSubscription = {
+    /**
+     * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
+     * schedules. Format: int32. minimum: 1. maximum: 31.
+     */
+    "billing_anchor_day"?: number;
+    /**
+     * Configuration issue or automatic retry delaying billing, with the first detection time.
+     * Flint retries automatically without starting payment recovery. Cleared when billing
+     * succeeds, the schedule is replaced, the subscription is paused or canceled, or a card
+     * decline starts payment recovery. Included only in merchant responses. Why subscription
+     * billing is delayed, with the time Flint first detected it. A billing hold does not mean the
+     * card was declined.
+     */
+    "billing_hold"?: SubscriptionBillingHold;
+    /**
+     * How often the subscription bills now. Read with billing_interval_count: monthly with a count
+     * of 3 bills quarterly. A change applies from the next renewal that has not been paid;
+     * next_billing_at does not move. Value enum: "daily", "weekly", "monthly", "yearly".
+     */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /**
+     * Number of billing_interval units between charges. Changes with billing_interval. Format:
+     * int32.
+     */
+    "billing_interval_count": number;
+    /**
+     * Billing interval and count pairs the subscription can switch to. For a subscription on a
+     * plan, they follow the plan's current billing_interval_options. A subscription that came from
+     * an offer keeps the pairs the offer had at signup. Prices of lines that ship are per
+     * delivery. Each option charges for all deliveries in its period. Changing the interval does
+     * not change the per-delivery price. maxItems: 12. uniqueItems: true. [] (Value): {@link
+     * SubscriptionIntervalOption}. A billing interval, such as every 2 months, that a plan, offer,
+     * or subscription lets buyers choose. Prices of lines that ship are per delivery, and each
+     * option charges for all deliveries in its period. Without a delivery cadence there is one
+     * delivery per period, so every option bills the same line prices once per period. With a
+     * delivery cadence, a longer period bills more deliveries of the lines that ship; other lines
+     * bill once per period. For a different price per interval with no delivery cadence, create
+     * separate plans.
+     */
+    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
+    /**
+     * Who supplies billing dates: flint advances the schedule after each paid renewal; external
+     * uses dates you supply. Change it with billing_schedule on PATCH
+     * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
+     */
+    "billing_schedule_owner": "flint" | "external" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "billing_schedule_waiting_started_at"?: string;
+    /**
+     * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST
+     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
+     */
+    "cancel_at_period_end": boolean;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "canceled_at"?: string;
+    /**
+     * Who asked to cancel, when, and why. Present once a cancellation is requested, whether it
+     * takes effect at the end of the billing period or right away. Omitted when no one asked, and
+     * removed when a scheduled cancellation is undone. See cancellation_reason for voluntary and
+     * payment-related cancellations. The cancellation request behind a scheduled or completed
+     * cancellation.
+     */
+    "cancellation_details"?: SubscriptionCancellationDetails;
+    /**
+     * Why the subscription is canceled or scheduled to cancel. Uses signup_order_refunded when an
+     * automatic inventory refund fully refunds the signup order, end_after_reached when the
+     * automatic ending agreement is reached, cancellation_details.requested_by when recorded,
+     * payment_failed for other canceled subscriptions without a requester, and other for a
+     * scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer",
+     * "merchant", "integration", "payment_failed", "other", "end_after_reached",
+     * "signup_order_refunded".
+     */
+    "cancellation_reason"?: "buyer"
+        | "merchant"
+        | "integration"
+        | "payment_failed"
+        | "other"
+        | "end_after_reached"
+        | "signup_order_refunded"
+        | (string & {});
+    /**
+     * Billing cycles charged so far, including cycles imported with
+     * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
+     * number plus one. Format: uint64. minimum: 0.
+     */
+    "completed_cycles": number;
+    /**
+     * When the recorded contract term ends. Does not move when the subscription pauses or changes
+     * plan. Flint does not stop the buyer from canceling earlier. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "contract_end_at"?: string;
+    /**
+     * When the recorded contract term started. Does not move when the subscription pauses or
+     * changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "contract_start_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "current_period_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "current_period_start_at"?: string;
+    /**
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
+     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
+     */
+    "customer"?: ((ExpandedCustomerSummary) | (null));
+    /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id": string;
+    /**
+     * Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery
+     * cadence is set. Prices of lines that ship are per delivery. Format: int32. minimum: 1.
+     * maximum: 24.
+     */
+    "deliveries_per_period": number;
+    /**
+     * Saved delivery preference with the current delivery method display. Write responses use the
+     * same display as GET: fixed shipping reflects the current method configuration, and quoted
+     * shipping shows the last paid shipping amount when available. A subscription's saved delivery
+     * preference: method, destination, recipient, shipping cost, and who last changed it.
+     */
+    "delivery"?: SubscriptionDelivery;
+    /**
+     * Current delivery issue that blocks collection. Mutually exclusive with
+     * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery method or
+     * destination no longer works, and who can fix it.
+     */
+    "delivery_hold"?: SubscriptionDeliveryHold;
+    /**
+     * Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one
+     * delivery is made per billing period. Value enum: "daily", "weekly", "monthly", "yearly",
+     * null.
+     */
+    "delivery_interval": "daily" | "weekly" | "monthly" | "yearly" | null | (string & {}) | null;
+    /**
+     * Number of delivery intervals between deliveries. Null when no separate delivery cadence is
+     * set. Format: int32. minimum: 1.
+     */
+    "delivery_interval_count": number | null;
+    /**
+     * The fee in the recorded contract terms. Present whenever those terms include a fee. It
+     * applies only to a cancellation before contract_end_at. Flint never charges it. Later plan
+     * changes do not change this fee. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "early_termination_fee_money"?: MoneyValue;
+    /**
+     * Recorded automatic end condition. Null when no automatic end is set. Cycles count charged
+     * billing periods, including imported completed_cycles. Pauses and skips do not use cycles.
+     * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date,
+     * and cancellation waits for the last remaining delivery. Skipping defers a delivery without
+     * consuming its entitlement. Ending never refunds. anyOf[1] (Value): {@link
+     * SubscriptionEndAfter}. The subscription's automatic end condition, measured by charged
+     * billing cycles or a saved local calendar date. anyOf[2] (Value): null.
+     */
+    "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
+    /**
+     * Projected end under the current schedule and committed plan changes, including an earlier
+     * scheduled cancellation. A date limit preserves already-paid entitlement without requiring a
+     * future charge schedule. A reached cycle limit uses the last paid period end, or
+     * current_period_end_at when no paid history exists; that fallback includes any skip or pause
+     * extension. A cycle limit with cycles left needs a future charge schedule unless a known
+     * scheduled cancellation determines the end. Paid deliveries extend the end to the last paid
+     * delivery when it is later. An indefinite pause with paid deliveries owed makes the end
+     * unknown. Null when the end cannot be determined or the subscription is canceled. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Who receives the gift, when this is a gift subscription. customer_id stays the purchaser.
+     * Flint clears it when the subscription ends and when the purchaser's data is erased. Null
+     * when the subscription isn't a gift. anyOf[1] (Value): {@link SubscriptionGiftRecipient}. Who
+     * receives a gift subscription. The customer stays the purchaser, who pays, gets receipts and
+     * reminders, and manages the subscription. delivery.recipient stays the ship-to address.
+     * anyOf[2] (Value): null.
+     */
+    "gift_recipient": ((SubscriptionGiftRecipient) | (null));
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer sessions on routes
+     * shared with merchants get `null`. `/v1/me` responses do not include this field.
+     */
+    "idempotency_key"?: string | null;
+    /**
+     * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription renewal
+     * is waiting for inventory, with the order and invoice involved and when the wait started.
+     */
+    "inventory_wait"?: SubscriptionInventoryWait;
+    /**
+     * True while an active or trialing subscription on an external billing schedule has no next
+     * billing date.
+     */
+    "is_awaiting_billing_schedule"?: boolean;
+    /**
+     * Latest renewal payment failure, present only while status is past_due and the latest payment
+     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
+     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
+     * and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /**
+     * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a line
+     * takes that variant's current catalog price, which then stays until the line changes again.
+     * [] (Value): {@link SubscriptionLineItem}. An item included in a customer's recurring
+     * purchase.
+     */
+    "line_items": Array<SubscriptionLineItem>;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * The billing date whose payment failed, as an RFC3339 timestamp. Present only while status is
+     * past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "missed_billing_at"?: string;
+    /**
+     * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
+     * while a trialing or active subscription has a billing date and isn't set to cancel at the
+     * end of its period. Absent when no renewal is scheduled: a subscription in its final billing
+     * cycle ends at expires_at, a paused subscription resumes at scheduled_resume_at, a past_due
+     * one reports the failed billing date in missed_billing_at and retries at next_retry_at, an
+     * incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one set to
+     * cancel ends at scheduled_cancel_at, and an external schedule awaiting a date reports
+     * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "next_billing_at"?: string;
+    /**
+     * When the next prepaid delivery order is due, shifted by a timed pause. Null when the
+     * subscription has an indefinite pause, no delivery is scheduled, or the subscription is
+     * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "next_delivery_at": string | null;
+    /**
+     * Recorded automatic payment retry time. Null when no retry time is available. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "next_retry_at": string | null;
+    /**
+     * ID of the paid renewal order whose shipment has not been dispatched. It keeps its committed
+     * delivery destination after preference changes and cancellation. Absent when no such renewal
+     * order exists. Only renewal orders count; the signup order is not included. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "open_renewal_order_id"?: string;
+    /**
+     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
+     * payments and credits. Present only while status is past_due and a positive balance remains.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "outstanding_money"?: MoneyValue;
+    /**
+     * Why the subscription is paused: merchant for a pause made with your API key or dashboard,
+     * buyer for the buyer's own pause, delivery_action_required for a pause during or after a
+     * delivery hold, and payment_failed when renewal payment retries ran out and your dunning
+     * settings pause the subscription. Omitted when the subscription is not paused. Value enum:
+     * "buyer", "delivery_action_required", "merchant", "payment_failed".
+     */
+    "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "paused_at"?: string;
+    /**
+     * The delivery hold that expired and paused the subscription. Null when no stored expiry
+     * reason exists, including a manual pause during an active hold, or the subscription is no
+     * longer paused for delivery action. anyOf[1] (Value): {@link SubscriptionPausedDeliveryHold}.
+     * The delivery hold that expired and paused this subscription. A manual pause during an active
+     * hold is not an expiry. This field does not imply a refund. anyOf[2] (Value): null.
+     */
+    "paused_delivery_hold": ((SubscriptionPausedDeliveryHold) | (null));
+    /**
+     * Present only when `expand` includes `payment_method`; `null` when expanded and there is no
+     * related payment method. anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
+     * method's summary fields, including type, status, and card details, returned when the payment
+     * method is expanded. anyOf[2] (Value): null.
+     */
+    "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
+    /**
+     * First charge boundary while no card is bound: the later of trial_end_at and next_billing_at
+     * during a trial, or the next billing date for an imported period, even when that cycle's
+     * charge is zero. Recomputed when the schedule changes. A trial still without a card at its
+     * boundary cancels without an order or payment attempt. At that boundary, an imported
+     * subscription with a positive charge that still has no card enters its normal dunning
+     * schedule without a payment attempt. For an imported subscription, a zero charge completes
+     * the renewal without a card and the deadline advances to the following boundary. Null when a
+     * card is bound, collection is not scheduled (paused, canceled, or set to cancel at period
+     * end), an active or trialing subscription is in its final end_after cycle, or an external
+     * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "payment_method_due_at": string | null;
+    /**
+     * Saved payment method used for renewal charges. Null when no card is bound. Bind a card to
+     * this subscription with PATCH; changing the customer's default alone does not bind it.
+     * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     */
+    "payment_method_id": string | null;
+    /**
+     * Recurring promotions applying to the next charged cycle. Scheduled attachments are listed in
+     * scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are
+     * excluded. [] (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
+     * subscription, including its recurrence and remaining discounted cycles.
+     */
+    "promotions": Array<SubscriptionPromotion>;
+    /**
+     * Whether this subscription was created to prorate its first anchored paid period. Set at
+     * creation and never changes; starting on the anchor day still bills a normal full period.
+     */
+    "prorate_first_period": boolean;
+    /**
+     * What one billing period's items cost before discounts, shipping, and tax: each line's price
+     * with modifiers, times quantity. It changes when items, quantity, or the plan change; editing
+     * the plan doesn't change it. For the next charge, use a subscription preview in next_renewal
+     * mode. `null` when a cancellation succeeds but Flint couldn't load the billing snapshot
+     * afterward, so the cancel response returns it as null. Retrieve the subscription again to get
+     * it. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     */
+    "recurring_subtotal_money": ((MoneyValue) | (null));
+    /**
+     * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null when
+     * there is no cycle limit or the subscription is canceled. Format: uint64. minimum: 0.
+     */
+    "remaining_cycles": number | null;
+    /**
+     * Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts with
+     * deliveries_per_period minus one. When delivery_hold is present and this count is positive,
+     * fixing delivery releases an already-paid delivery with shipping waived and no new charge. A
+     * next_renewal preview still estimates the next paid billing cycle. Skips, holds, and pauses
+     * consume none. Frozen on cancellation for manual refunds. Format: int32. minimum: 0. maximum:
+     * 23.
+     */
+    "remaining_prepaid_deliveries": number;
+    /**
+     * When Flint accepted a pending resume request. Set only while paused with a resume Flint has
+     * not applied yet. Clears when Flint resumes the subscription or refuses the request. `null`
+     * when the subscription isn't paused or no resume request is pending. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "resume_requested_at": string | null;
+    /**
+     * When the scheduled cancellation takes effect: trial_end_at while trialing,
+     * current_period_end_at while active, or next_retry_at while past_due. Paid deliveries extend
+     * it to the last paid delivery when it is later. Null when cancel_at_period_end is false or no
+     * cancellation time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "scheduled_cancel_at": string | null;
+    /**
+     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
+     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan. anyOf[1]
+     * (Value): {@link SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next
+     * charged renewal. anyOf[2] (Value): null.
+     */
+    "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
+    /**
+     * Attached promotions whose first_cycle is after the next charged cycle, completed_cycles + 1.
+     * Always present; empty when no promotions are scheduled. [] (Value): {@link
+     * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
+     * recurrence and remaining discounted cycles.
+     */
+    "scheduled_promotions": Array<SubscriptionPromotion>;
+    /**
+     * When a pause with a length (pause_duration_cycles) resumes on its own: that many delivery
+     * intervals after paused_at on a prepaid subscription, or billing intervals otherwise. Null
+     * when the subscription is not paused or the pause has no length, such as a pause until you
+     * resume it or the pause Flint starts when a delivery hold runs out. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "scheduled_resume_at": string | null;
+    /**
+     * Omitted for a checkout session credential that doesn't act for the customer the buyer
+     * verified. The address where a subscription's service is delivered, with the saved customer
+     * address it came from.
+     */
+    "service_location"?: SubscriptionServiceLocation;
+    /**
+     * When a scheduled start's first billing period begins. Present only until that first payment
+     * succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "starts_at"?: string;
+    /**
+     * Where the subscription is in its lifecycle. Each value says what it means. Value enum:
+     * "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
+     */
+    "status": "trialing"
+        | "active"
+        | "paused"
+        | "past_due"
+        | "canceled"
+        | "incomplete"
+        | "scheduled"
+        | (string & {});
+    /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
+    "subscription_id": string;
+    /**
+     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
+     * no related subscription plan. anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
+     * subscription plan's summary fields, including name, billing interval, currency, and status,
+     * returned when the plan is expanded. anyOf[2] (Value): null.
+     */
+    "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
+    /**
+     * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id"?: string;
+    /**
+     * Merchant actions allowed by the subscription's state. A route can still refuse a listed
+     * action for a transient reason, such as a renewal already in progress, with its own error.
+     * Always present with merchant credentials. [] enum: "cancel", "pause", "resume",
+     * "skip_cycle", "renew", "change_plan", "change_quantity". [] (Value): string. Value enum:
+     * "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
+     */
+    "supported_actions"?: Array<"cancel"
+        | "pause"
+        | "resume"
+        | "skip_cycle"
+        | "renew"
+        | "change_plan"
+        | "change_quantity"
+        | (string & {})>;
+    /**
+     * The tax the subscription's renewal, setup fee and plan change orders use. `null` when they
+     * follow `tax.default_enabled` and `tax.default_calculation` from your settings. Returned only
+     * to merchant credentials; omitted for buyer credentials. Always present with merchant
+     * credentials. anyOf[1] (Value): {@link SubscriptionTax}. The tax the subscription's renewal,
+     * setup fee and plan change orders use. Returned only to merchant credentials; omitted for
+     * buyer credentials. anyOf[2] (Value): null.
+     */
+    "tax"?: ((SubscriptionTax) | (null));
+    /**
+     * Terms come from the subscription plan in subscription_plan_id, or from subscription offers
+     * identified on each offer line by subscription_offer_id. Value enum: "subscription_plan",
+     * "subscription_offer".
+     */
+    "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
+    /**
+     * ID of the test clock the subscription's customer was created on. The subscription bills at
+     * the clock's time. Present only when the customer is on a test clock. Included only in
+     * merchant responses and omitted from buyer responses. Example:
+     * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
+     */
+    "test_clock_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "trial_end_at"?: string;
+    /**
+     * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
+     * delivery_hold. A delivery problem detected for an upcoming renewal that will hold the
+     * subscription's delivery, and who can fix it.
+     */
+    "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Goes up with every change to the subscription, including renewals and other changes Flint
+     * makes. Send it as `expected_version` to apply an update only if nothing changed. Format:
+     * uint64. minimum: 0.
+     */
+    "version": number;
+};
 /**
  * Sent on the webhook event stream before the server closes it, with the `reason`. After a
  * backpressure disconnect, resume from `resume_cursor`.
@@ -7078,278 +10382,3 @@ export type WorkloadIdentitiesDeleteParams = {
     "expected_version"?: InputValue<number>;
 };
 export type WorkloadIdentitiesGetParams = {};
-export type WorkloadIdentitiesListParams = {
-    /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
-     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
-     * "active", "inactive", "archived".
-     */
-    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by workload_identity_id. Default:
-     * "created_at". Value enum: "created_at", "last_used_at", "name".
-     */
-    "sort_by"?: InputValue<"created_at" | "last_used_at" | "name">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-};
-export type WorkloadIdentitiesUpdateParams = (InputValue<UpdateWorkloadIdentityRequestInput>);
-/** A policy that grants API access to a workload authenticated by an external identity provider. */
-export type WorkloadIdentity = {
-    /**
-     * Time the identity was archived. Omitted before archival. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "archived_at"?: string;
-    /**
-     * Audience (`aud`) a token must carry to match this identity. Set at creation and never
-     * changes.
-     */
-    "audience": string;
-    /**
-     * Bounded value array of top-level scalar claim conditions. Replaced as a whole on PATCH; []
-     * clears it when the remaining policy is valid. [] (Value): {@link
-     * WorkloadIdentityClaimCondition}. A condition matching one top-level scalar claim in the
-     * workload's identity token.
-     */
-    "claim_conditions": Array<WorkloadIdentityClaimCondition>;
-    /** Time the identity was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * The user, API key, or workload identity whose request created this identity. The user or
-     * credential that created a workload identity, identified by resource type and ID.
-     */
-    "created_by": ResourceReference;
-    /**
-     * Issuer (`iss`) of the external identity provider whose tokens this identity accepts. Set at
-     * creation and never changes.
-     */
-    "issuer": string;
-    /**
-     * Most recent use. Omitted before the first use. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "last_used_at"?: string;
-    /** Environment used for this resource or request. Value enum: "test", "live". */
-    "mode": "test" | "live" | (string & {});
-    /** A label that helps you tell workload identities apart, 1 to 100 characters. */
-    "name": string;
-    /**
-     * Computed from the issuer. New platform values may be added. Value enum: "generic",
-     * "github_actions", "gitlab_ci", "google_cloud", "aws", "azure", "kubernetes", "circleci",
-     * "buildkite", "vercel", "fly_io".
-     */
-    "platform": "generic"
-        | "github_actions"
-        | "gitlab_ci"
-        | "google_cloud"
-        | "aws"
-        | "azure"
-        | "kubernetes"
-        | "circleci"
-        | "buildkite"
-        | "vercel"
-        | "fly_io"
-        | (string & {});
-    /**
-     * The sandbox containing this identity. Present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "sandbox_id"?: string;
-    /**
-     * Complete scope set granted to this identity. Replaced as a whole on PATCH. [] (Value):
-     * string.
-     */
-    "scopes": Array<string>;
-    /**
-     * Whether the identity currently accepts token exchanges. Only active identities do. Value
-     * enum: "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** Subject (`sub`) a token must carry, compared as subject_match says. */
-    "subject": string;
-    /** How `subject` is compared with a token's `sub` claim. Value enum: "exact", "glob". */
-    "subject_match": "exact" | "glob" | (string & {});
-    /** Time the identity last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Positive concurrency version. Increases on policy and lifecycle changes. Format: int64.
-     * minimum: 1.
-     */
-    "version": number;
-    /**
-     * Unique identifier for this workload identity, prefixed `wid_`. Example:
-     * "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id": string;
-};
-/** Non-secret metadata for the calling credential, selected by auth_type. */
-export type WorkloadIdentityAuthContext = ({
-    /**
-     * Access level; scoped tokens always have restricted access. Value enum: "full", "read_only",
-     * "restricted".
-     */
-    "access": "full" | "read_only" | "restricted" | (string & {});
-    /** Credential type that selects this object's fields. Value enum: "workload_identity". */
-    "auth_type": "workload_identity" | (string & {});
-    /**
-     * Time the credential expires; absent for keys without an expiry. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string;
-    /** Merchant the credential acts for. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "merchant_id": string;
-    /** Whether the credential acts in test or live mode. Value enum: "test", "live". */
-    "mode": "test" | "live" | (string & {});
-    /** Name of the key, CLI context, or workload identity. */
-    "name": string;
-    /**
-     * Sandbox the credential is bound to, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "sandbox_id"?: string;
-    /**
-     * Current granted API scopes, resolved at request time for full and read_only keys. []
-     * (Value): string.
-     */
-    "scopes": Array<string>;
-    /** ID of the workload identity. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP". */
-    "workload_identity_id": string;
-})
-    & ({
-    /** Value enum: "restricted". */
-    "access"?: unknown;
-});
-/** A condition matching one top-level scalar claim in the workload's identity token. */
-export type WorkloadIdentityClaimCondition = {
-    /** Literal top-level scalar claim name. Registered JWT claims are reserved. */
-    "claim": string;
-    /**
-     * How `value` is compared with the claim. Defaults to exact. Default: "exact". Value enum:
-     * "exact", "glob".
-     */
-    "match": "exact" | "glob" | (string & {});
-    /**
-     * The value the claim must have, not empty. Strings compare as sent, booleans as `true` or
-     * `false`, and numbers as canonical decimal text. A claim that is missing, `null`, an array,
-     * or an object never matches.
-     */
-    "value": string;
-};
-/**
- * A condition to match one top-level scalar claim in the workload's identity token. Omitted match
- * defaults to exact.
- */
-export type WorkloadIdentityClaimConditionRequest = {
-    /** Literal top-level scalar claim name. Registered JWT claims are reserved. minLength: 1. */
-    "claim": string;
-    /**
-     * How `value` is compared with the claim. Defaults to exact. Default: "exact". Value enum:
-     * "exact", "glob".
-     */
-    "match"?: "exact" | "glob" | (string & {});
-    /**
-     * The value the claim must have, not empty. Strings compare as sent, booleans as `true` or
-     * `false`, and numbers as canonical decimal text. A claim that is missing, `null`, an array,
-     * or an object never matches. minLength: 1.
-     */
-    "value": string;
-};
-/**
- * A condition to match one top-level scalar claim in the workload's identity token. Omitted match
- * defaults to exact.
- */
-export type WorkloadIdentityClaimConditionRequestInput = {
-    /** Literal top-level scalar claim name. Registered JWT claims are reserved. minLength: 1. */
-    "claim": string;
-    /**
-     * How `value` is compared with the claim. Defaults to exact. Default: "exact". Value enum:
-     * "exact", "glob".
-     */
-    "match"?: "exact" | "glob";
-    /**
-     * The value the claim must have, not empty. Strings compare as sent, booleans as `true` or
-     * `false`, and numbers as canonical decimal text. A claim that is missing, `null`, an array,
-     * or an object never matches. minLength: 1.
-     */
-    "value": string;
-};
-/** A page of `WorkloadIdentity` objects. */
-export type WorkloadIdentityListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * WorkloadIdentity}. A policy that grants API access to a workload authenticated by an
-     * external identity provider.
-     */
-    "data": Array<WorkloadIdentity>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `WorkloadIdentity` data. */
-export type WorkloadIdentityResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A policy that grants API
-     * access to a workload authenticated by an external identity provider.
-     */
-    "data": WorkloadIdentity;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type _SdkRequiredIdempotency<T> = T extends unknown ? Omit<T, 'idempotencyKey'> & {
-    idempotencyKey: string;
-} : never;
-export type _SdkWithoutIdempotency<T> = T extends unknown ? Omit<T, 'idempotencyKey'> & {
-    idempotencyKey?: never;
-} : never;
-export declare function defaultCredentials(): CredentialProvider;
-export declare function makeAcceptFulfillmentRequest(value: InputValue<AcceptFulfillmentRequestInput>): Model<AcceptFulfillmentRequestInput>;
-export declare function makeAcceptPartnerAppPlatformTermsRequest(value: InputValue<AcceptPartnerAppPlatformTermsRequestInput>): Model<AcceptPartnerAppPlatformTermsRequestInput>;
-export declare function makeAddLineItemsRequest(value: InputValue<AddLineItemsRequestInput>): Model<AddLineItemsRequestInput>;
-export declare function makeAddOrderChargeRequest(value: InputValue<AddOrderChargeRequestInput>): Model<AddOrderChargeRequestInput>;
-export declare function makeAddReturnLineItemRequest(value: InputValue<AddReturnLineItemRequestInput>): Model<AddReturnLineItemRequestInput>;
-export declare function makeAddRiskListItemsRequest(value: InputValue<AddRiskListItemsRequestInput>): Model<AddRiskListItemsRequestInput>;

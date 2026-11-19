@@ -34,7 +34,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
-Field definitions: [shared fields](InventoryReservation.md#inventoryreservation).
+Field definitions: [shared fields](WebhookSnapshotInventoryReservation.md#webhooksnapshotinventoryreservation).
 
 ### InventoryReservationActionRequiredInstalledMerchantsEvent.data.previous_attributes
 

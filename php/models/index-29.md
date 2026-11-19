@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# ReturnReopenedInstalledMerchantsEventInput to SelectedProductOptionInput
+# ReturnReopenedMerchantEventInput to SelectedProductOptionPreviousAttributesInput
 
-- [ReturnReopenedInstalledMerchantsEventInput](ReturnReopenedInstalledMerchantsEventInput.md)
 - [ReturnReopenedMerchantEventInput](ReturnReopenedMerchantEventInput.md)
 - [ReturnReplacementLineItemInput](ReturnReplacementLineItemInput.md)
 - [ReturnReplacementLineItemInputBundleInput](ReturnReplacementLineItemInputBundleInput.md)
@@ -102,4 +101,5 @@
 - [SelectableOrderPaymentIntentInput](SelectableOrderPaymentIntentInput.md)
 - [SelectableOrderPaymentIntentPreviousAttributesInput](SelectableOrderPaymentIntentPreviousAttributesInput.md)
 - [SelectedProductOptionInput](SelectedProductOptionInput.md)
+- [SelectedProductOptionPreviousAttributesInput](SelectedProductOptionPreviousAttributesInput.md)
 

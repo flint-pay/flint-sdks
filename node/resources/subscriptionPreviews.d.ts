@@ -11,7 +11,7 @@ import type {
     SubscriptionQuantityChangePreview,
     SubscriptionRenewalPreview
 } from '../declarations/types-72.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -47,7 +47,7 @@ export type {
     SubscriptionPromotion,
     SubscriptionQuantityChangeLineItemRequest
 } from '../declarations/types-72.js';
-export type { _SdkWithoutIdempotency, Weight } from '../declarations/types-79.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type {
     SubscriptionCreatePreview,
@@ -124,7 +124,7 @@ export type {
     PromotionRecurrenceRepeating,
     PromotionRecurrenceForever
 } from '../declarations/types-58.js';
-export type { UpdateDeliveryMethodRequestInput } from '../declarations/types-76.js';
+export type { UpdateDeliveryMethodRequestInput } from '../declarations/types-75.js';
 export type {
     DeliveryMethodConfigurationPatchRequestInput,
     DeliveryEligibilityExpressionRequestInput,
@@ -201,16 +201,22 @@ export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
-export type { SettlementAmounts, ServiceFulfillmentDetails, ShipmentFulfillmentDetails, Shipment } from '../declarations/types-68.js';
+export type { SettlementAmounts, ShipmentFulfillmentDetails, Shipment } from '../declarations/types-68.js';
 export type { FulfillmentOutcome, FulfillmentRecipient } from '../declarations/types-28.js';
 export type { PickupFulfillmentDetails } from '../declarations/types-55.js';
+export type {
+    ServiceFulfillmentDetails,
+    ScopeRequirement,
+    SelectableErrorResource,
+    SelectableOrderPaymentIntent
+} from '../declarations/types-67.js';
 export type { ReturnHandoffRequirementLineItem } from '../declarations/types-63.js';
 export type { Package } from '../declarations/types-48.js';
+export type { Weight } from '../declarations/types-79.js';
 export type { CustomDomain, CustomDomainDNSRecord } from '../declarations/types-15.js';
 export type { QuotaDetails } from '../declarations/types-59.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { GiftCardRestriction } from '../declarations/types-30.js';
-export type { ScopeRequirement, SelectableErrorResource, SelectableOrderPaymentIntent } from '../declarations/types-67.js';
 export type { PaymentErrorSummary, PaymentCollection, PaymentCollectionStripe, PaymentCollectionStripeElements } from '../declarations/types-51.js';
 export { makeAddressRequest } from '../declarations/types-80.js';
 export {
@@ -222,13 +228,13 @@ export {
     makeCreateSubscriptionPreviewRequestPlanChange,
     makeCreateSubscriptionPreviewRequestPromotionApply,
     makeCreateSubscriptionPreviewRequestQuantityChange,
-    makeCreateSubscriptionRequest,
+    makeCreateSubscriptionRequest
+} from '../declarations/types-84.js';
+export {
     makeDeliveryAvailabilityRequest,
     makeDeliveryBlackoutIntervalRequest,
     makeDeliveryBusinessDayRangeRequest,
-    makeDeliveryCalculatedPricingStrategyRequest
-} from '../declarations/types-84.js';
-export {
+    makeDeliveryCalculatedPricingStrategyRequest,
     makeDeliveryCallbackPricingStrategyRequest,
     makeDeliveryCallerSuppliedPricingStrategyRequest,
     makeDeliveryCountryConditionRequest,
@@ -257,11 +263,11 @@ export {
     makeDeliveryPricingStrategyInputRateTable,
     makeDeliveryPricingStrategyInputTiered,
     makeDeliveryPricingStrategyRequest,
-    makeDeliveryPricingTierBandRequest,
-    makeDeliveryRadiusConditionRequest,
-    makeDeliveryRadiusOrigin
+    makeDeliveryPricingTierBandRequest
 } from '../declarations/types-85.js';
 export {
+    makeDeliveryRadiusConditionRequest,
+    makeDeliveryRadiusOrigin,
     makeDeliveryRateTablePricingStrategyRequest,
     makeDeliveryRecipientRequirementRequest,
     makeDeliveryScheduleWindowRuleRequest,
@@ -296,7 +302,9 @@ export {
     makeSubscriptionGiftRecipientRequest,
     makeSubscriptionOfferLineItemRequest,
     makeSubscriptionOfferTermsRequest,
-    makeSubscriptionPlanChangeLineItemRequest,
+    makeSubscriptionPlanChangeLineItemRequest
+} from '../declarations/types-92.js';
+export {
     makeSubscriptionPlanTermsRequest,
     makeSubscriptionPromotionRequest,
     makeSubscriptionQuantityChangeLineItemRequest,
@@ -305,9 +313,10 @@ export {
     makeSubscriptionServiceLocationRequest,
     makeSubscriptionTaxCalculationRequest,
     makeSubscriptionTaxRequest,
-    makeSubscriptionTermsRequest
-} from '../declarations/types-92.js';
-export { makeTextModifierRequest, makeUpdateDeliveryMethodRequest } from '../declarations/types-93.js';
+    makeSubscriptionTermsRequest,
+    makeTextModifierRequest,
+    makeUpdateDeliveryMethodRequest
+} from '../declarations/types-93.js';
 export interface SubscriptionPreviewsResource {
     /**
  * Estimates the next renewal, a plan change, or a promotion attachment, or evaluates a proposed

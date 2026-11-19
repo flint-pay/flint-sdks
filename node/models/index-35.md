@@ -1,8 +1,7 @@
 [Model index](../MODELS.md)
 
-# RiskRuleResponse to SubscriptionAnalyticsResponse
+# RotateGiftCardCodeRequest to SubscriptionBillingHold
 
-- [RiskRuleResponse](RiskRuleResponse.md)
 - [RotateGiftCardCodeRequest](RotateGiftCardCodeRequest.md)
 - [RotateGiftCardCodeRequestInput](RotateGiftCardCodeRequestInput.md)
 - [RotateGiftCardCodeResult](RotateGiftCardCodeResult.md)
@@ -102,4 +101,5 @@
 - [SubscriptionAddressVerificationPreviousAttributes](SubscriptionAddressVerificationPreviousAttributes.md)
 - [SubscriptionAnalytics](SubscriptionAnalytics.md)
 - [SubscriptionAnalyticsResponse](SubscriptionAnalyticsResponse.md)
+- [SubscriptionBillingHold](SubscriptionBillingHold.md)
 

@@ -10,7 +10,7 @@ import type {
     RefundsUpdateParams
 } from '../declarations/types-61.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,7 +38,7 @@ export type {
     RefundTenderAllocation,
     RefundUnissuedGiftCardRecovery
 } from '../declarations/types-61.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-79.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     CreateRefundResponse,
@@ -92,13 +92,13 @@ export type {
 export type { PaymentRefund } from '../declarations/types-53.js';
 export type { OrderGiftCardAllocation } from '../declarations/types-46.js';
 export type { UpdateRefundRequestInput } from '../declarations/types-77.js';
+export { makeCreateRefundRequest } from '../declarations/types-83.js';
 export {
-    makeCreateRefundRequest,
     makeCreateRefundRequestAmount,
     makeCreateRefundRequestCreditNote,
     makeCreateRefundRequestFull,
     makeCreateRefundRequestTargets
-} from '../declarations/types-83.js';
+} from '../declarations/types-84.js';
 export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export {
     makeRefundAdjustmentAudit,
@@ -108,11 +108,13 @@ export {
     makeRefundLineItem,
     makeRefundLineItemAdjustmentIn,
     makeRefundLineItemAdjustmentRefundIn,
-    makeRefundTaxBreakdownRefundIn,
+    makeRefundTaxBreakdownRefundIn
+} from '../declarations/types-90.js';
+export {
     makeRefundTenderAllocationInputGiftCardRedemption,
     makeRefundTenderAllocationInputPaymentIntent,
     makeRefundTenderAllocationRequest
-} from '../declarations/types-90.js';
+} from '../declarations/types-91.js';
 export { makeSplitReversalRequest } from '../declarations/types-92.js';
 export { makeUpdateRefundRequest } from '../declarations/types-94.js';
 export interface RefundsResource {
