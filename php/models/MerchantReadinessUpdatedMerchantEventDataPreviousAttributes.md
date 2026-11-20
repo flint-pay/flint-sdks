@@ -28,7 +28,7 @@ Response model.
 | `support_email` | Optional | string or null | Support email address shown to buyers, for example on receipts and checkout. `support_email`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributessupport_email). |
 | `support_phone` | Optional | string or null | Support phone number shown to buyers, in international format such as +12125551234. `support_phone`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributessupport_phone). |
 | `support_url` | Optional | string or null | Support page shown to buyers. `support_url`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributessupport_url). |
-| `timezone` | Optional | string or null | Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. `timezone`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributestimezone). |
+| `timezone` | Optional | string or null | Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone. `timezone`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributestimezone). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `version` | Optional | integer or null | Merchant version. Profile, status, and API version changes advance this version, including business name and business type changes synced from the payment provider. Readiness updates alone do not. `version`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributesversion). |
 | `website_url` | Optional | string or null | The business's website. `website_url`: [declared alternatives](../models/MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.md#merchantreadinessupdatedmerchanteventdatapreviousattributeswebsite_url). |
@@ -296,21 +296,22 @@ Whether the merchant can accept payments and receive payouts, and what is still 
 | --- | --- | --- | --- |
 | `capabilities` | Conditional | Array of [CapabilityReadinessPreviousAttributes](../models/CapabilityReadinessPreviousAttributes.md#capabilityreadinesspreviousattributes) or null | Readiness of each payment and money movement capability, with its own status, requirements, and next actions. `capabilities`: [declared alternatives](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributescapabilities). |
 | `observed_at` | Conditional | string or null | RFC3339 timestamp. `observed_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
-| `payments` | Conditional | [ReadinessAxisPreviousAttributes](../models/ReadinessAxisPreviousAttributes.md#readinessaxispreviousattributes) or null | Readiness to accept payments. |
-| `payouts` | Conditional | [ReadinessAxisPreviousAttributes](../models/ReadinessAxisPreviousAttributes.md#readinessaxispreviousattributes) or null | Readiness to receive payouts. |
+| `payments` | Conditional | [ReadinessAxisPreviousAttributes](../models/ReadinessAxisPreviousAttributes.md#readinessaxispreviousattributes) or null | Readiness to accept payments. `payments`: [declared alternatives](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributespayments). |
+| `payouts` | Conditional | [ReadinessAxisPreviousAttributes](../models/ReadinessAxisPreviousAttributes.md#readinessaxispreviousattributes) or null | Readiness to receive payouts. `payouts`: [declared alternatives](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributespayouts). |
 | `requirements` | Conditional | [ReadinessRequirementsPreviousAttributes](../models/ReadinessRequirementsPreviousAttributes.md#readinessrequirementspreviousattributes) or null | Account information still needed, grouped by when it is due. Each capability also lists the requirements that affect it. `requirements`: [declared alternatives](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributesrequirements). |
+| `review_blocks_captures` | Conditional | boolean or null | `review_blocks_captures`: [declared alternatives](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributesreview_blocks_captures). |
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness variant 1
 
 anyOf MerchantReadinessPreviousAttributes.
 
-- Optional: `capabilities`, `observed_at`, `payments`, `payouts`, `requirements`.
+- Optional: `capabilities`, `observed_at`, `payments`, `payouts`, `requirements`, `review_blocks_captures`.
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness variant 2
 
 anyOf variant 2.
 
-- Undeclared: `capabilities`, `observed_at`, `payments`, `payouts`, `requirements`.
+- Undeclared: `capabilities`, `observed_at`, `payments`, `payouts`, `requirements`, `review_blocks_captures`.
 - Value shape: null. Whether the merchant can accept payments and receive payouts, and what is still needed. 
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness variant 1.capabilities
@@ -321,9 +322,21 @@ Declared alternatives: [MerchantReadinessPreviousAttributes.capabilities](../mod
 
 Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.previous_attributes.environment_grants variant 1.[] fields 1.created_at](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at).
 
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness variant 1.payments
+
+Declared alternatives: [MerchantReadinessPreviousAttributes.payments](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributespayments).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness variant 1.payouts
+
+Declared alternatives: [MerchantReadinessPreviousAttributes.payouts](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributespayouts).
+
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness variant 1.requirements
 
 Declared alternatives: [MerchantReadinessPreviousAttributes.requirements](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributesrequirements).
+
+### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.readiness variant 1.review_blocks_captures
+
+Declared alternatives: [MerchantReadinessPreviousAttributes.review_blocks_captures](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributesreview_blocks_captures).
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.status
 
@@ -385,15 +398,15 @@ anyOf variant 2.
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.timezone variant 1
 
-anyOf variant 1: Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone..
+anyOf variant 1: Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone..
 
-- Value shape: string. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. 
+- Value shape: string. Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone. 
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.timezone variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. 
+- Value shape: null. Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone. 
 
 ### MerchantReadinessUpdatedMerchantEventDataPreviousAttributes.updated_at
 

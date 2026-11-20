@@ -57,7 +57,7 @@ export type { ClientOptions } from '../declarations/types-7.js';
 export type { CancelInventoryTransferRequestInput } from '../declarations/types-5.js';
 export type { InventoryProvenanceRequestInput, InventoryLevel, InventoryItem } from '../declarations/types-32.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession, ReceiveInventoryTransferRequestInput } from '../declarations/types-60.js';
@@ -67,18 +67,22 @@ export type { ReportInventoryTransferLossRequestInput } from '../declarations/ty
 export type { ReturnInventoryTransferToOriginRequestInput } from '../declarations/types-63.js';
 export type { UpdateInventoryTransferRequestInput } from '../declarations/types-76.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCancelInventoryTransferRequest } from '../declarations/types-80.js';
-export { makeCreateInventoryTransferRequest } from '../declarations/types-82.js';
+export { makeCancelInventoryTransferRequest } from '../declarations/types-81.js';
+export { makeCreateInventoryTransferRequest } from '../declarations/types-83.js';
 export { makeDepartInventoryTransferRequest } from '../declarations/types-86.js';
 export {
     makeInventoryProvenanceRequest,
     makeInventorySourceSystemRequest,
     makeInventoryTransferLineRequest
 } from '../declarations/types-87.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeReceiveInventoryTransferRequest } from '../declarations/types-90.js';
-export { makeReportInventoryTransferLossRequest, makeReturnInventoryTransferToOriginRequest } from '../declarations/types-91.js';
-export { makeUpdateInventoryTransferRequest } from '../declarations/types-93.js';
+export { makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export {
+    makeReceiveInventoryTransferRequest,
+    makeReportInventoryTransferLossRequest,
+    makeReturnInventoryTransferToOriginRequest
+} from '../declarations/types-91.js';
+export { makeUpdateInventoryTransferRequest } from '../declarations/types-94.js';
 export interface InventoryTransfersResource {
     /**
  * Cancels requested quantity that hasn't departed. Call it only when cancel is in

@@ -1,26 +1,1135 @@
-import type { InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-31.js';
 import type {
+    MetadataMap,
+    MerchantWebhookEnvelope,
+    ModifierGroup,
     ModifierOverride,
     ModifierOverrideRequestInput,
     ModifierGroupPreviousAttributes,
-    ModifierOverridePreviousAttributes,
-    ModifierSet,
-    MetadataMap,
-    MerchantWebhookEnvelope,
-    ModifierSetGroup
+    ModifierOverridePreviousAttributes
 } from './types-43.js';
-import type { ResponseMeta, ResponseWarning, ResourceReference, ResourceReferencePreviousAttributes } from './types-62.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-31.js';
+import type { ResponseMeta, ResponseWarning, ResourceReference, ResourceReferencePreviousAttributes } from './types-62.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateModifierSetRequestInput, CreateOnboardingAccessLinkRequestInput } from './types-11.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { UpdateModifierSetRequestInput } from './types-76.js';
-import type {
-    ReadinessMerchantAccountSession,
-    ReadinessMerchantAccountSessionPreviousAttributes,
-    ReadinessAction
-} from './types-60.js';
+import type { ReadinessMerchantAccountSession, ReadinessMerchantAccountSessionPreviousAttributes } from './types-60.js';
 import type { CLIDeviceRequestInput, CLIContextsRequestInput, CLIReauthorizeRequestInput } from './types-4.js';
+import type { OnboardingProfileRequestInput } from './types-45.js';
+/** A reusable collection of customization groups. */
+export type ModifierSet = {
+    /**
+     * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Ordered group entries in this set, including the full content of reusable groups and groups
+     * owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as it appears in a
+     * modifier set, with its selection limits, display options, and per-modifier overrides.
+     */
+    "modifier_groups": Array<ModifierSetGroup>;
+    /**
+     * Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id": string;
+    /** Name used to identify this modifier set. */
+    "name": string;
+    /**
+     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
+     * sets remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * When the modifier set or any group it contains last changed, as an RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "updated_at"?: string;
+    /**
+     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+export type ModifierSetArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_groups": Array<ModifierSetGroup>;
+            "modifier_set_id": string;
+            "name": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+            "modifier_set_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "modifier_set.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_groups": Array<ModifierSetGroup>;
+            "modifier_set_id": string;
+            "name": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+            "modifier_set_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "modifier_set.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "modifier_set.archived";
+});
+/**
+ * The `modifier_set.archived` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type ModifierSetArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Optional): string. When the modifier set was created,
+     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
+     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
+     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
+     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
+     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
+     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
+     * string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
+     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
+     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes (Optional): object and {@link ModifierSetPreviousAttributes}. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.created_at (Optional): string or null. When the
+     * modifier set was created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. When the modifier set was created, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this modifier set. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
+     * of the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_groups (Optional): Array of {@link
+     * ModifierSetGroupPreviousAttributes} or null. Ordered group entries in this set, including
+     * the full content of reusable groups and groups owned by the set.
+     * previous_attributes.modifier_groups.anyOf[1] (Value): Array of {@link
+     * ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including the full
+     * content of reusable groups and groups owned by the set.
+     * previous_attributes.modifier_groups.anyOf[1][] (Value): {@link
+     * ModifierSetGroupPreviousAttributes}. previous_attributes.modifier_groups.anyOf[2] (Value):
+     * null. previous_attributes.modifier_set_id (Optional): string or null. Stable identifier of
+     * the modifier set assigned to catalog items. previous_attributes.modifier_set_id.anyOf[1]
+     * (Value): string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[1] (Value): string. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Lifecycle status of the modifier set. Only active sets can be offered to
+     * buyers; archived sets remain readable and cannot be edited. Value enum: "active",
+     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Lifecycle
+     * status of the modifier set. Only active sets can be offered to buyers; archived sets remain
+     * readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the modifier set or any group it contains last changed, as
+     * an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Version of the modifier set,
+     * including the groups it contains. previous_attributes.version.anyOf[1] (Value): integer.
+     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Optional): string. When the modifier set was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
+         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
+         * group entries in this set, including the full content of reusable groups and groups
+         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
+         * as it appears in a modifier set, with its selection limits, display options, and
+         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
+         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
+         * (Required): string. Name used to identify this modifier set. status (Required): string.
+         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". updated_at (Optional): string. When the modifier set or any group it
+         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
+         * including the groups it contains. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
+             * it appears in a modifier set, with its selection limits, display options, and
+             * per-modifier overrides.
+             */
+            "modifier_groups": Array<ModifierSetGroup>;
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string;
+            /** Name used to identify this modifier set. */
+            "name": string;
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Version of the modifier set, including the groups it contains. Format: uint64.
+             * minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. created_at (Optional): string or null. When the
+         * modifier set was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. external_reference_id
+         * (Optional): string or null. Caller-owned identifier for this resource in an external
+         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this modifier set. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this modifier set. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * metadata.anyOf[2] (Value): null. modifier_groups (Optional): Array of {@link
+         * ModifierSetGroupPreviousAttributes} or null. Ordered group entries in this set,
+         * including the full content of reusable groups and groups owned by the set.
+         * modifier_groups.anyOf[1] (Value): Array of {@link ModifierSetGroupPreviousAttributes}.
+         * Ordered group entries in this set, including the full content of reusable groups and
+         * groups owned by the set. modifier_groups.anyOf[1][] (Value): {@link
+         * ModifierSetGroupPreviousAttributes}. modifier_groups.anyOf[2] (Value): null.
+         * modifier_set_id (Optional): string or null. Stable identifier of the modifier set
+         * assigned to catalog items. modifier_set_id.anyOf[1] (Value): string. Stable identifier
+         * of the modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+         * modifier_set_id.anyOf[2] (Value): null. name (Optional): string or null. Name used to
+         * identify this modifier set. name.anyOf[1] (Value): string. Name used to identify this
+         * modifier set. name.anyOf[2] (Value): null. status (Optional): string or null. Lifecycle
+         * status of the modifier set. Only active sets can be offered to buyers; archived sets
+         * remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Lifecycle status of the modifier set. Only active sets
+         * can be offered to buyers; archived sets remain readable and cannot be edited. Value
+         * enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. When the modifier set or any group it contains last changed,
+         * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When the modifier set or
+         * any group it contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Version of the modifier set, including the groups it contains. version.anyOf[1]
+         * (Value): integer. Version of the modifier set, including the groups it contains. Format:
+         * uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the modifier set was created, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this modifier set. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. anyOf[1] (Value): Array of {@link
+             * ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including
+             * the full content of reusable groups and groups owned by the set. anyOf[1][] (Value):
+             * {@link ModifierSetGroupPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. anyOf[1] (Value):
+             * string. Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string) | (null));
+            /**
+             * Name used to identify this modifier set. anyOf[1] (Value): string. Name used to
+             * identify this modifier set. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status of the modifier
+             * set. Only active sets can be offered to buyers; archived sets remain readable and
+             * cannot be edited. Value enum: "active", "inactive", "archived". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. anyOf[1] (Value): string. When the modifier set or any group it contains
+             * last changed, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Version of the modifier set, including the groups it contains. anyOf[1] (Value):
+             * integer. Version of the modifier set, including the groups it contains. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "modifier_set.archived". */
+    "event_type"?: "modifier_set.archived";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `modifier_set.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ModifierSetArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Optional): string. When the modifier set was created,
+     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
+     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
+     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
+     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
+     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
+     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
+     * string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
+     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
+     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes (Optional): object and {@link ModifierSetPreviousAttributes}. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.created_at (Optional): string or null. When the
+     * modifier set was created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1]
+     * (Value): string. When the modifier set was created, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this modifier set. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier
+     * of the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. previous_attributes.metadata.anyOf[1] (Value): {@link
+     * MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.modifier_groups (Optional): Array of {@link
+     * ModifierSetGroupPreviousAttributes} or null. Ordered group entries in this set, including
+     * the full content of reusable groups and groups owned by the set.
+     * previous_attributes.modifier_groups.anyOf[1] (Value): Array of {@link
+     * ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including the full
+     * content of reusable groups and groups owned by the set.
+     * previous_attributes.modifier_groups.anyOf[1][] (Value): {@link
+     * ModifierSetGroupPreviousAttributes}. previous_attributes.modifier_groups.anyOf[2] (Value):
+     * null. previous_attributes.modifier_set_id (Optional): string or null. Stable identifier of
+     * the modifier set assigned to catalog items. previous_attributes.modifier_set_id.anyOf[1]
+     * (Value): string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[1] (Value): string. Name used to identify this modifier
+     * set. previous_attributes.name.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Lifecycle status of the modifier set. Only active sets can be offered to
+     * buyers; archived sets remain readable and cannot be edited. Value enum: "active",
+     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Lifecycle
+     * status of the modifier set. Only active sets can be offered to buyers; archived sets remain
+     * readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When the modifier set or any group it contains last changed, as
+     * an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Version of the modifier set,
+     * including the groups it contains. previous_attributes.version.anyOf[1] (Value): integer.
+     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Optional): string. When the modifier set was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
+         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
+         * group entries in this set, including the full content of reusable groups and groups
+         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
+         * as it appears in a modifier set, with its selection limits, display options, and
+         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
+         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
+         * (Required): string. Name used to identify this modifier set. status (Required): string.
+         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". updated_at (Optional): string. When the modifier set or any group it
+         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
+         * including the groups it contains. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
+             * it appears in a modifier set, with its selection limits, display options, and
+             * per-modifier overrides.
+             */
+            "modifier_groups": Array<ModifierSetGroup>;
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string;
+            /** Name used to identify this modifier set. */
+            "name": string;
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Version of the modifier set, including the groups it contains. Format: uint64.
+             * minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. created_at (Optional): string or null. When the
+         * modifier set was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. external_reference_id
+         * (Optional): string or null. Caller-owned identifier for this resource in an external
+         * system. external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. merchant_id (Optional): string or null.
+         * Identifier of the merchant that owns this modifier set. merchant_id.anyOf[1] (Value):
+         * string. Identifier of the merchant that owns this modifier set. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. metadata.anyOf[1] (Value): {@link MetadataMap}.
+         * metadata.anyOf[2] (Value): null. modifier_groups (Optional): Array of {@link
+         * ModifierSetGroupPreviousAttributes} or null. Ordered group entries in this set,
+         * including the full content of reusable groups and groups owned by the set.
+         * modifier_groups.anyOf[1] (Value): Array of {@link ModifierSetGroupPreviousAttributes}.
+         * Ordered group entries in this set, including the full content of reusable groups and
+         * groups owned by the set. modifier_groups.anyOf[1][] (Value): {@link
+         * ModifierSetGroupPreviousAttributes}. modifier_groups.anyOf[2] (Value): null.
+         * modifier_set_id (Optional): string or null. Stable identifier of the modifier set
+         * assigned to catalog items. modifier_set_id.anyOf[1] (Value): string. Stable identifier
+         * of the modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+         * modifier_set_id.anyOf[2] (Value): null. name (Optional): string or null. Name used to
+         * identify this modifier set. name.anyOf[1] (Value): string. Name used to identify this
+         * modifier set. name.anyOf[2] (Value): null. status (Optional): string or null. Lifecycle
+         * status of the modifier set. Only active sets can be offered to buyers; archived sets
+         * remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Lifecycle status of the modifier set. Only active sets
+         * can be offered to buyers; archived sets remain readable and cannot be edited. Value
+         * enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. updated_at
+         * (Optional): string or null. When the modifier set or any group it contains last changed,
+         * as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When the modifier set or
+         * any group it contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
+         * or null. Version of the modifier set, including the groups it contains. version.anyOf[1]
+         * (Value): integer. Version of the modifier set, including the groups it contains. Format:
+         * uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. anyOf[1] (Value):
+             * string. When the modifier set was created, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Identifier of the merchant that owns this modifier set. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. anyOf[1] (Value): Array of {@link
+             * ModifierSetGroupPreviousAttributes}. Ordered group entries in this set, including
+             * the full content of reusable groups and groups owned by the set. anyOf[1][] (Value):
+             * {@link ModifierSetGroupPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "modifier_groups"?: ((Array<ModifierSetGroupPreviousAttributes>) | (null));
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. anyOf[1] (Value):
+             * string. Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR". anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string) | (null));
+            /**
+             * Name used to identify this modifier set. anyOf[1] (Value): string. Name used to
+             * identify this modifier set. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status of the modifier
+             * set. Only active sets can be offered to buyers; archived sets remain readable and
+             * cannot be edited. Value enum: "active", "inactive", "archived". anyOf[2] (Value):
+             * null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. anyOf[1] (Value): string. When the modifier set or any group it contains
+             * last changed, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Version of the modifier set, including the groups it contains. anyOf[1] (Value):
+             * integer. Version of the modifier set, including the groups it contains. Format:
+             * uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "modifier_set.archived". */
+    "event_type"?: "modifier_set.archived";
+});
+export type ModifierSetCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_groups": Array<ModifierSetGroup>;
+            "modifier_set_id": string;
+            "name": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "modifier_set.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at"?: string;
+            "external_reference_id"?: string;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_groups": Array<ModifierSetGroup>;
+            "modifier_set_id": string;
+            "name": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "modifier_set.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "modifier_set.created";
+});
+/**
+ * The `modifier_set.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type ModifierSetCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Optional): string. When the modifier set was created,
+     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
+     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
+     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
+     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
+     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
+     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
+     * string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
+     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
+     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Optional): string. When the modifier set was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
+         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
+         * group entries in this set, including the full content of reusable groups and groups
+         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
+         * as it appears in a modifier set, with its selection limits, display options, and
+         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
+         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
+         * (Required): string. Name used to identify this modifier set. status (Required): string.
+         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". updated_at (Optional): string. When the modifier set or any group it
+         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
+         * including the groups it contains. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
+             * it appears in a modifier set, with its selection limits, display options, and
+             * per-modifier overrides.
+             */
+            "modifier_groups": Array<ModifierSetGroup>;
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string;
+            /** Name used to identify this modifier set. */
+            "name": string;
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Version of the modifier set, including the groups it contains. Format: uint64.
+             * minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "modifier_set.created". */
+    "event_type"?: "modifier_set.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `modifier_set.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ModifierSetCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Optional): string. When the modifier set was created,
+     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
+     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
+     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
+     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
+     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
+     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
+     * string. Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
+     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
+     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
+     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
+     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Optional): string. When the modifier set was created, as an RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
+         * (Optional): string. Caller-owned identifier for this resource in an external system.
+         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
+         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
+         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
+         * be written through the public API. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
+         * group entries in this set, including the full content of reusable groups and groups
+         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
+         * as it appears in a modifier set, with its selection limits, display options, and
+         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
+         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
+         * (Required): string. Name used to identify this modifier set. status (Required): string.
+         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
+         * "archived". updated_at (Optional): string. When the modifier set or any group it
+         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
+         * including the groups it contains. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Identifier of the merchant that owns this modifier set. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
+             * reserved for Flint, are not returned, and cannot be written through the public API.
+             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
+             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
+             * and MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Ordered group entries in this set, including the full content of reusable groups and
+             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
+             * it appears in a modifier set, with its selection limits, display options, and
+             * per-modifier overrides.
+             */
+            "modifier_groups": Array<ModifierSetGroup>;
+            /**
+             * Stable identifier of the modifier set assigned to catalog items. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string;
+            /** Name used to identify this modifier set. */
+            "name": string;
+            /**
+             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
+             * archived sets remain readable and cannot be edited. Value enum: "active",
+             * "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When the modifier set or any group it contains last changed, as an RFC3339
+             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /**
+             * Version of the modifier set, including the groups it contains. Format: uint64.
+             * minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "modifier_set.created". */
+    "event_type"?: "modifier_set.created";
+});
+/**
+ * A modifier group as it appears in a modifier set, with its selection limits, display options,
+ * and per-modifier overrides.
+ */
+export type ModifierSetGroup = {
+    /** Overrides the group's name for this set. Omit it to use the group's name. */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Full modifier group for this entry, with the same representation as GET
+     * /v1/modifier-groups/{modifier_group_id}. Archived modifiers are excluded for either source,
+     * including when the group is archived. A group of choices that customize an item.
+     */
+    "modifier_group": ModifierGroup;
+    /**
+     * Stable identifier of the group contained in this entry, for either source. Example:
+     * "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
+     * overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverride>;
+    /**
+     * Stable identifier of this group entry within the set. In a replacement request, include it
+     * to retain an entry or omit it to create one. Example: "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
+     */
+    "modifier_set_group_id": string;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position": number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Inline groups are owned by this modifier set. Existing groups are independent resources
+     * referenced by this set. Value enum: "existing", "inline".
+     */
+    "source": "existing" | "inline" | (string & {});
+};
 /** The `existing` variant of `ModifierSetGroupInput`. */
 export type ModifierSetGroupInputExisting = ({
     /**
@@ -1551,7 +2660,10 @@ export type MoneyValue = {
      * digits), not a floating-point number. Format: int64. minimum: 0.
      */
     "amount": `${bigint}`;
-    /** ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. */
+    /**
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
     "currency": string;
 };
 /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
@@ -1561,7 +2673,10 @@ export type MoneyValueInput = {
      * digits), not a floating-point number. Format: int64. minimum: 0.
      */
     "amount": `${bigint}` | bigint;
-    /** ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. */
+    /**
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
     "currency": string;
 };
 export type MoneyValuePreviousAttributes = {
@@ -1573,8 +2688,9 @@ export type MoneyValuePreviousAttributes = {
      */
     "amount"?: ((`${bigint}`) | (null));
     /**
-     * ISO 4217 currency code for this amount. anyOf[1] (Value): string. ISO 4217 currency code for
-     * this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. anyOf[1]
+     * (Value): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
      */
     "currency"?: ((string) | (null));
 };
@@ -4047,161 +5163,4 @@ export type OnboardingProfileRequest = {
     "support_url"?: string | null;
     /** Send null to clear it. minLength: 1. */
     "website_url"?: string | null;
-};
-/**
- * Contact and website details you submit for a merchant during onboarding. Send null to clear a
- * field.
- */
-export type OnboardingProfileRequestInput = OnboardingProfileRequest;
-/** Non-secret metadata for the calling credential, selected by auth_type. */
-export type OnboardingSessionAuthContext = ({
-    /** Credential type that selects this object's fields. Value enum: "onboarding_session". */
-    "auth_type": "onboarding_session" | (string & {});
-    /** Whether the onboarding user's role permits managing API keys. */
-    "can_manage_api_keys": boolean;
-    /**
-     * Time the credential expires; absent for keys without an expiry. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string;
-    /**
-     * Time fresh identity verification expires; it may be in the past. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "fresh_verification_expires_at": string;
-    /**
-     * Merchant the credential acts for. Null when an onboarding session has no merchant yet.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id": string | null;
-    /** Whether the credential acts in test or live mode. Value enum: "test", "live". */
-    "mode": "test" | "live" | (string & {});
-    /**
-     * Public sandbox ID in test mode. Null when an onboarding session has no sandbox yet. Omitted
-     * when mode is live. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "sandbox_id": string | null;
-    /** User the session acts for. Example: "usr_01KEZF7C00YC8757ZYP9727JM0". */
-    "user_id": string;
-})
-    & ({
-    /** Value enum: "test". */
-    "mode"?: unknown;
-});
-export type OnboardingStartParams = (InputValue<OnboardingStartRequestInput>);
-/** The request body for: Start onboarding flow. */
-export type OnboardingStartRequest = {
-    /**
-     * Business name buyers see. Applied only when verification creates a merchant; existing
-     * merchants keep their profile. Surrounding whitespace is trimmed. minLength: 1. maxLength:
-     * 120.
-     */
-    "business_name"?: string;
-    /** Email address to verify. Flint emails a verification code to it. minLength: 1. */
-    "email": string;
-    /** First name of the person signing up. minLength: 1. */
-    "first_name": string;
-    /** Last name of the person signing up. minLength: 1. */
-    "last_name": string;
-    /** Support email shown to buyers. Applied only to a newly created merchant. minLength: 1. */
-    "support_email"?: string;
-    /**
-     * Support phone shown to buyers, in E.164 format. Applied only to a newly created merchant.
-     * minLength: 1. maxLength: 16. pattern: ^\+[1-9][0-9]{6,14}$.
-     */
-    "support_phone"?: string;
-    /** Support URL shown to buyers. Applied only to a newly created merchant. minLength: 1. */
-    "support_url"?: string;
-    /**
-     * IANA business time zone for a newly created merchant, such as America/Chicago. Used for
-     * reports and business dates. Omit to leave it unset. Existing merchants keep their time zone.
-     * minLength: 1.
-     */
-    "timezone"?: string;
-    /** Public business website URL. Applied only to a newly created merchant. minLength: 1. */
-    "website_url"?: string;
-};
-/** The request body for: Start onboarding flow. */
-export type OnboardingStartRequestInput = OnboardingStartRequest;
-/** A response containing `OnboardingStartResult` data. */
-export type OnboardingStartResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The verification token
-     * and expiry returned after the verification email is accepted for asynchronous delivery.
-     * Success does not confirm email delivery.
-     */
-    "data": OnboardingStartResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * The verification token and expiry returned after the verification email is accepted for
- * asynchronous delivery. Success does not confirm email delivery.
- */
-export type OnboardingStartResult = {
-    /**
-     * Time the email verification expires. Start onboarding again to request a new code after this
-     * time. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string;
-    /**
-     * Token identifying the email verification. Send it with the emailed code to POST
-     * /v1/onboarding/verify-email.
-     */
-    "verification_token": string;
-};
-/**
- * A merchant's onboarding status, profile, next step, requested capabilities, and whether an API
- * key can be issued.
- */
-export type OnboardingState = {
-    /**
-     * Business country Flint uses in the selected environment. Before account setup, this is the
-     * selected country or the country Flint would use if advance omits it. Omitted when Flint
-     * cannot determine a country. Once account setup selects a country, it cannot change. Uses ISO
-     * 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US". Value enum: "US".
-     */
-    "country"?: "US" | (string & {});
-    /**
-     * ID of the merchant's default sandbox. Omitted when the merchant has no default sandbox.
-     * Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "default_sandbox_id"?: string;
-    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "merchant_id": string;
-    /**
-     * The step to take next. Omitted when no step is pending, such as while Flint prepares the
-     * sandbox. A step that moves a merchant capability or readiness axis forward, with the party
-     * that must do it (`owner`) and any required fields.
-     */
-    "next_step"?: ReadinessAction;
-    /**
-     * Contact and website details recorded for onboarding. Contact and website details recorded
-     * for a merchant during onboarding.
-     */
-    "profile": OnboardingProfile;
-    /**
-     * Canonical Flint capability intent persisted on the selected stable provider-account target.
-     * The initial merchant-account configuration always includes accept_card_payments and
-     * receive_payouts and may also include accept_ach_debit_payments. minItems: 2. maxItems: 3.
-     * uniqueItems: true. [] enum: "accept_card_payments", "receive_payouts",
-     * "accept_ach_debit_payments". [] (Value): string. Value enum: "accept_card_payments",
-     * "receive_payouts", "accept_ach_debit_payments".
-     */
-    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments" | (string & {})>);
-    /**
-     * Onboarding workflow status for activation and remediation, not a durable account-readiness
-     * boolean. Value enum: "complete", "waiting_for_review", "needs_external_action",
-     * "needs_input".
-     */
-    "status": "complete" | "waiting_for_review" | "needs_external_action" | "needs_input" | (string & {});
 };

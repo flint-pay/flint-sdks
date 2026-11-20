@@ -11,7 +11,7 @@ namespace Flint;
 final class GiftCardPurchaseRecipientPreviousAttributes extends Model {
     /** @param array{'email'?: mixed, 'message'?: mixed, 'name'?: mixed, 'send_at'?: mixed, 'sender_name'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRecipientPreviousAttributes')); }
-    /** Email address the gift card is delivered to. anyOf[1] (Value): string. Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254. anyOf[2] (Value): null.
+    /** Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). anyOf[1] (Value): string. Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getEmail(): string|null { return $this->get('email'); }
@@ -21,7 +21,7 @@ final class GiftCardPurchaseRecipientPreviousAttributes extends Model {
      */
     public function getMessage(): string|null { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** Name of the person receiving the gift card. anyOf[1] (Value): string. Name of the person receiving the gift card. maxLength: 255. anyOf[2] (Value): null.
+    /** Name of the person receiving the gift card. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. anyOf[1] (Value): string. Name of the person receiving the gift card. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. maxLength: 255. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getName(): string|null { return $this->get('name'); }

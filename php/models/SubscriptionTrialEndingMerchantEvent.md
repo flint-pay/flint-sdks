@@ -29,11 +29,11 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](SubscriptionCreatedMerchantEvent.md#subscriptioncreatedmerchanteventdata-fields-1).
 
+### SubscriptionTrialEndingMerchantEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### SubscriptionTrialEndingMerchantEvent.data fields 1.object
 
 Field definitions: [SubscriptionActivatedMerchantEvent.data fields 1.object](../models/SubscriptionActivatedMerchantEvent.md#subscriptionactivatedmerchanteventdata-fields-1object).
-
-### SubscriptionTrialEndingMerchantEvent.data fields 1.actor
-
-Field definitions: [ReturnCanceledMerchantEventData.actor](../models/ReturnCanceledMerchantEventData.md#returncanceledmerchanteventdataactor).
 

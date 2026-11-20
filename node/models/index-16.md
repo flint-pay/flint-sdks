@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# ExpandedPaymentMethodSummaryPreviousAttributes to GiftCardFundingSource
+# ExpandedPaymentIntentSummary to GiftCardFundingDispositionResponse
 
+- [ExpandedPaymentIntentSummary](ExpandedPaymentIntentSummary.md)
+- [ExpandedPaymentIntentSummaryPreviousAttributes](ExpandedPaymentIntentSummaryPreviousAttributes.md)
+- [ExpandedPaymentLinkSummary](ExpandedPaymentLinkSummary.md)
+- [ExpandedPaymentLinkSummaryPreviousAttributes](ExpandedPaymentLinkSummaryPreviousAttributes.md)
+- [ExpandedPaymentMethodSummary](ExpandedPaymentMethodSummary.md)
 - [ExpandedPaymentMethodSummaryPreviousAttributes](ExpandedPaymentMethodSummaryPreviousAttributes.md)
 - [ExpandedPayoutDestinationSummary](ExpandedPayoutDestinationSummary.md)
 - [ExpandedPayoutDestinationSummaryPreviousAttributes](ExpandedPayoutDestinationSummaryPreviousAttributes.md)
@@ -97,9 +102,4 @@
 - [GiftCardFundingDisposition](GiftCardFundingDisposition.md)
 - [GiftCardFundingDispositionListResponse](GiftCardFundingDispositionListResponse.md)
 - [GiftCardFundingDispositionResponse](GiftCardFundingDispositionResponse.md)
-- [GiftCardFundingDispute](GiftCardFundingDispute.md)
-- [GiftCardFundingDisputePreviousAttributes](GiftCardFundingDisputePreviousAttributes.md)
-- [GiftCardFundingLossResolution](GiftCardFundingLossResolution.md)
-- [GiftCardFundingLossResolutionPreviousAttributes](GiftCardFundingLossResolutionPreviousAttributes.md)
-- [GiftCardFundingSource](GiftCardFundingSource.md)
 

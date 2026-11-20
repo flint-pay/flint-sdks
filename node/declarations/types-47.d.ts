@@ -1,15 +1,33 @@
+import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-43.js';
 import type {
+    OrderLineItemModifierInputCatalog,
+    OrderLineItemModifierInputText,
+    OrderLineItemModifierInputCatalogRequestInput,
+    OrderLineItemModifierInputTextRequestInput,
+    OrderLineItemFulfillmentQuantitiesPreviousAttributes,
+    OrderLineItemFulfillmentRequirementsPreviousAttributes,
+    OrderLineItemModifierPreviousAttributes,
     OrderLineItem,
     OrderGiftCardEstimatePreviousAttributes,
     OrderGiftCardSelectionPreviousAttributes,
     OrderGiftCardSettlementPreviousAttributes,
-    OrderHandoverPreviousAttributes,
-    OrderLineItemPreviousAttributes
+    OrderHandoverPreviousAttributes
 } from './types-46.js';
-import type { ResponseMeta } from './types-62.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
-import type { SubscriptionIntervalOption, SubscriptionIntervalOptionPreviousAttributes } from './types-70.js';
 import type {
+    TextModifierRequest,
+    TextModifierRequestInput,
+    TicketedEventPreviousAttributes,
+    TipPreviousAttributes
+} from './types-75.js';
+import type { BundleComponentPreviousAttributes } from './types-1.js';
+import type { CatalogPricingPreviousAttributes, CategoryReferencePreviousAttributes } from './types-5.js';
+import type { DimensionsPreviousAttributes } from './types-25.js';
+import type { GiftCardPurchaseSnapshotPreviousAttributes } from './types-30.js';
+import type { ImagePreviousAttributes } from './types-31.js';
+import type { LineItemInventorySnapshotPreviousAttributes } from './types-40.js';
+import type { MoneyValuePreviousAttributes, MoneyValue, MoneyValueInput } from './types-44.js';
+import type {
+    OrderCalculatedLineItemTaxPreviousAttributes,
     Order,
     OrderAuthorizationAmountsPreviousAttributes,
     OrderChargePreviousAttributes,
@@ -17,36 +35,555 @@ import type {
     OrderDeliverySummaryPreviousAttributes,
     OrderDiscountPreviousAttributes
 } from './types-45.js';
-import type { CheckoutBuyerContactPreviousAttributes } from './types-6.js';
+import type { PurchasedGiftCardPreviousAttributes } from './types-59.js';
+import type { SelectedProductOptionPreviousAttributes, SettlementAmounts, SettlementAmountsPreviousAttributes } from './types-68.js';
+import type { SubscribedLinePreviousAttributes } from './types-69.js';
+import type { WeightPreviousAttributes } from './types-80.js';
+import type { TaxCalculationRequest, TaxCalculationRequestModelInput, TaxReverseCharge, TaxJurisdiction } from './types-74.js';
+import type { ResponseMeta } from './types-62.js';
+import type { SubscriptionIntervalOption, SubscriptionIntervalOptionPreviousAttributes } from './types-70.js';
+import type { CheckoutBillingContactPreviousAttributes, CheckoutBuyerContactPreviousAttributes } from './types-6.js';
 import type { CustomFieldAnswerPreviousAttributes } from './types-16.js';
 import type {
     DeferredPromotionPreviousAttributes,
     CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageRequestInput,
-    CustomerTaxExemptionCoveragePreviousAttributes
+    CustomerTaxExemptionCoverageRequestInput
 } from './types-17.js';
-import type {
-    ExpandedCustomerSummaryPreviousAttributes,
-    ExpandedPaymentIntentSummaryPreviousAttributes,
-    ExpandedSubscriptionPlanSummaryPreviousAttributes
-} from './types-26.js';
-import type { ExpandedSubscriptionSummaryPreviousAttributes } from './types-27.js';
+import type { ExpandedCustomerSummaryPreviousAttributes, ExpandedPaymentIntentSummaryPreviousAttributes } from './types-26.js';
+import type { ExpandedSubscriptionPlanSummaryPreviousAttributes, ExpandedSubscriptionSummaryPreviousAttributes } from './types-27.js';
 import type { FulfillmentPreviousAttributes } from './types-28.js';
 import type { InventoryRoutingSourcePreviousAttributes } from './types-33.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
-import type { OrderTaxPreviousAttributes } from './types-48.js';
-import type { PartnerWebhookEnvelope, PaymentAttemptGiftCardRedemption, PaymentAttemptPaymentIntent } from './types-50.js';
+import type { OrderTaxPreviousAttributes, OrderTaxLocation, OrderTaxJurisdictionRequestInput } from './types-48.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { PricingAmountsPreviousAttributes } from './types-56.js';
-import type { TicketedEventPreviousAttributes, TipPreviousAttributes } from './types-75.js';
 import type { WebhookOrder } from './types-79.js';
-import type { PaymentErrorSummary } from './types-51.js';
+import type { PaymentAttemptGiftCardRedemption, PaymentAttemptPaymentIntent, PaymentErrorSummary } from './types-51.js';
 import type { PendingPaymentAction } from './types-55.js';
 import type { PaymentSourceCredential, PaymentSourceCredentialInput } from './types-54.js';
-import type { SettlementAmounts, SettlementAmountsPreviousAttributes } from './types-68.js';
 import type { DeliveryChargeTaxCalculationRequest } from './types-18.js';
 import type { TaxBreakdown } from './types-73.js';
-import type { TaxReverseCharge, TaxJurisdiction } from './types-74.js';
-import type { Address } from './types-0.js';
+/**
+ * A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier,
+ * with a quantity.
+ */
+export type OrderLineItemModifierRequest = ({
+    /**
+     * Caller-owned metadata for this selection, returned on the order line item's modifier. Values
+     * can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned,
+     * and cannot be written through the public API. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * ID of the existing modifier. Treated as an opaque resource reference; accepted spellings
+     * follow resource ID validation. Its resolved price and the resulting line subtotal must
+     * satisfy the order money ceiling. The amount and every computed order amount must not exceed
+     * 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this
+     * ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower
+     * payment option limits can apply. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id"?: string;
+    /**
+     * Existing selection ID to retain during replacement. minLength: 1. pattern:
+     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z".
+     */
+    "order_line_item_modifier_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+    /**
+     * The text to use. Send it with a `text` modifier. Text a buyer entered for a text modifier
+     * group on an order line item.
+     */
+    "text"?: TextModifierRequest;
+    /** Selects the type branch. Value enum: "catalog", "text". */
+    "type": "catalog" | "text" | (string & {});
+})
+    & ((Exclude<OrderLineItemModifierInputCatalog & object, readonly unknown[]>)
+    | (Exclude<OrderLineItemModifierInputText & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier,
+ * with a quantity.
+ */
+export type OrderLineItemModifierRequestModelInput = ({
+    /**
+     * Caller-owned metadata for this selection, returned on the order line item's modifier. Values
+     * can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned,
+     * and cannot be written through the public API. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * ID of the existing modifier. Treated as an opaque resource reference; accepted spellings
+     * follow resource ID validation. Its resolved price and the resulting line subtotal must
+     * satisfy the order money ceiling. The amount and every computed order amount must not exceed
+     * 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this
+     * ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower
+     * payment option limits can apply. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id"?: string;
+    /**
+     * Existing selection ID to retain during replacement. minLength: 1. pattern:
+     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z".
+     */
+    "order_line_item_modifier_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+    /**
+     * The text to use. Send it with a `text` modifier. Text a buyer entered for a text modifier
+     * group on an order line item.
+     */
+    "text"?: TextModifierRequestInput;
+    /** Selects the type branch. Value enum: "catalog", "text". */
+    "type": "catalog" | "text";
+})
+    & ((Exclude<OrderLineItemModifierInputCatalogRequestInput & object, readonly unknown[]>)
+    | (Exclude<OrderLineItemModifierInputTextRequestInput & object, readonly unknown[]>));
+export type OrderLineItemPreviousAttributes = ({
+    /**
+     * Tracked line units waiting for stock. Always 0 when none are backordered. Whole-number
+     * quantity; fractional quantities are not supported. anyOf[1] (Value): integer. Tracked line
+     * units waiting for stock. Always 0 when none are backordered. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64. minimum: 0. anyOf[2] (Value): null.
+     */
+    "backordered_quantity"?: ((number) | (null));
+    /**
+     * Unit price multiplied by quantity, before modifiers, discounts, and tax. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "base_subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Components fixed when the bundle line was added. The line takes their shared taxability and
+     * tax category; all component variants must share both stored values. An unset category equals
+     * only another unset category. anyOf[1] (Value): Array of {@link
+     * BundleComponentPreviousAttributes}. Components fixed when the bundle line was added. The
+     * line takes their shared taxability and tax category; all component variants must share both
+     * stored values. An unset category equals only another unset category. anyOf[1][] (Value):
+     * {@link BundleComponentPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "bundle_components"?: ((Array<BundleComponentPreviousAttributes>) | (null));
+    /**
+     * ID of the bundle the line was sold from. anyOf[1] (Value): string. ID of the bundle the line
+     * was sold from. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value): null.
+     */
+    "bundle_id"?: ((string) | (null));
+    /**
+     * Price source and applied quantity break frozen for a catalog variant line. Omitted for older
+     * lines, custom lines, and bundles. anyOf[1] (Value): {@link
+     * CatalogPricingPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "catalog_pricing"?: ((CatalogPricingPreviousAttributes) | (null));
+    /**
+     * Catalog categories of the item. anyOf[1] (Value): Array of {@link
+     * CategoryReferencePreviousAttributes}. Catalog categories of the item. anyOf[1][] (Value):
+     * {@link CategoryReferencePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "categories"?: ((Array<CategoryReferencePreviousAttributes>) | (null));
+    /**
+     * Description of the item as sold. anyOf[1] (Value): string. Description of the item as sold.
+     * anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * Discount value allocated to this line item. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "discount_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Expected calendar ship date in YYYY-MM-DD format, shown once a delivery or payment hold
+     * exists. Null when no hold exists yet, or when neither a future copied release_date nor the
+     * inventory item supplies an applicable date. A future copied release_date takes precedence
+     * even when physical stock covers every unit; otherwise the inventory item's expected ship
+     * date applies only to backordered units when it is today or later in the merchant's timezone.
+     * Past item dates are omitted and never frozen. The estimate may change before payment and
+     * freezes at settlement. Thereafter only a paid-line PATCH changes or clears it; allocation
+     * preserves it. Null or past dates add no delay. Earlier fulfillment is permitted. anyOf[1]
+     * (Value): string. Expected calendar ship date in YYYY-MM-DD format, shown once a delivery or
+     * payment hold exists. Null when no hold exists yet, or when neither a future copied
+     * release_date nor the inventory item supplies an applicable date. A future copied
+     * release_date takes precedence even when physical stock covers every unit; otherwise the
+     * inventory item's expected ship date applies only to backordered units when it is today or
+     * later in the merchant's timezone. Past item dates are omitted and never frozen. The estimate
+     * may change before payment and freezes at settlement. Thereafter only a paid-line PATCH
+     * changes or clears it; allocation preserves it. Null or past dates add no delay. Earlier
+     * fulfillment is permitted. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+     */
+    "expected_ship_date"?: ((string) | (null));
+    /**
+     * Current quantities for each required fulfillment obligation: one entry for a single item or
+     * one per bundle component that requires fulfillment. Quantities use line units for single
+     * items and component units for bundles. required_quantity equals unassigned_quantity +
+     * assigned_quantity + fulfilled_quantity + canceled_quantity + failed_quantity +
+     * removed_quantity. Omitted when the line needs no fulfillment or the order's obligations
+     * cannot be computed, including older lines without recorded requirements. anyOf[1] (Value):
+     * Array of {@link OrderLineItemFulfillmentQuantitiesPreviousAttributes}. Current quantities
+     * for each required fulfillment obligation: one entry for a single item or one per bundle
+     * component that requires fulfillment. Quantities use line units for single items and
+     * component units for bundles. required_quantity equals unassigned_quantity +
+     * assigned_quantity + fulfilled_quantity + canceled_quantity + failed_quantity +
+     * removed_quantity. Omitted when the line needs no fulfillment or the order's obligations
+     * cannot be computed, including older lines without recorded requirements. anyOf[1][] (Value):
+     * {@link OrderLineItemFulfillmentQuantitiesPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "fulfillment_quantities"?: ((Array<OrderLineItemFulfillmentQuantitiesPreviousAttributes>) | (null));
+    /**
+     * Fulfillment requirements fixed when the line item was created. direct describes a single
+     * item; components describes each bundle component. Omitted for older line items without
+     * recorded requirements. anyOf[1] (Value): {@link
+     * OrderLineItemFulfillmentRequirementsPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "fulfillment_requirements"?: ((OrderLineItemFulfillmentRequirementsPreviousAttributes) | (null));
+    /**
+     * Gift card details for a gift card purchase line. anyOf[1] (Value): {@link
+     * GiftCardPurchaseSnapshotPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "gift_card_purchase"?: ((GiftCardPurchaseSnapshotPreviousAttributes) | (null));
+    /**
+     * Image of the item as sold. anyOf[1] (Value): {@link ImagePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "image"?: ((ImagePreviousAttributes) | (null));
+    /**
+     * Whether the line tracks inventory, and the inventory demands fixed when the line was added.
+     * `null` when no inventory snapshot was recorded for the line. anyOf[1] (Value): {@link
+     * LineItemInventorySnapshotPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "inventory_snapshot"?: ((LineItemInventorySnapshotPreviousAttributes) | (null));
+    /**
+     * Number of license keys promised by this line: quantity when its frozen catalog setting
+     * issues keys, otherwise 0. Includes keys for a subscription started by this line; renewal
+     * lines report 0. Refunds do not reduce this count. Keys arrive asynchronously after payment,
+     * so they may not exist yet when order.paid arrives. Whole-number quantity; fractional
+     * quantities are not supported. anyOf[1] (Value): integer. Number of license keys promised by
+     * this line: quantity when its frozen catalog setting issues keys, otherwise 0. Includes keys
+     * for a subscription started by this line; renewal lines report 0. Refunds do not reduce this
+     * count. Keys arrive asynchronously after payment, so they may not exist yet when order.paid
+     * arrives. Whole-number quantity; fractional quantities are not supported. Format: int64.
+     * minimum: 0. anyOf[2] (Value): null.
+     */
+    "license_key_quantity"?: ((number) | (null));
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataMap) | (null));
+    /**
+     * Sum of the line item's modifier totals. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "modifier_total_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Modifiers selected on the line, with their prices. anyOf[1] (Value): Array of {@link
+     * OrderLineItemModifierPreviousAttributes}. Modifiers selected on the line, with their prices.
+     * anyOf[1][] (Value): {@link OrderLineItemModifierPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "modifiers"?: ((Array<OrderLineItemModifierPreviousAttributes>) | (null));
+    /**
+     * Name of the item as sold. anyOf[1] (Value): string. Name of the item as sold. anyOf[2]
+     * (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * The edit that added this line. Null when the line was not added by an order edit. anyOf[1]
+     * (Value): string. The edit that added this line. Null when the line was not added by an order
+     * edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". anyOf[2] (Value): null.
+     */
+    "order_edit_id"?: ((string) | (null));
+    /**
+     * Order that owns this record or its referenced line item and charge. anyOf[1] (Value):
+     * string. Order that owns this record or its referenced line item and charge. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * Unique identifier for this order line item, prefixed `li_`. anyOf[1] (Value): string. Unique
+     * identifier for this order line item, prefixed `li_`. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". anyOf[2] (Value): null.
+     */
+    "order_line_item_id"?: ((string) | (null));
+    /**
+     * The `key` of the payment link line item this line was created from. Match order lines to the
+     * link's line items with it instead of by name. Flint sets it when checkout starts and it
+     * never changes; metadata updates don't affect it. `null` when the line didn't come from a
+     * payment link line item: the order didn't come from a payment link, the line was added to the
+     * order later, or the line came from a subscription plan through a subscription signup link.
+     * anyOf[1] (Value): string. The `key` of the payment link line item this line was created
+     * from. Match order lines to the link's line items with it instead of by name. Flint sets it
+     * when checkout starts and it never changes; metadata updates don't affect it. `null` when the
+     * line didn't come from a payment link line item: the order didn't come from a payment link,
+     * the line was added to the order later, or the line came from a subscription plan through a
+     * subscription signup link. minLength: 1. maxLength: 100. anyOf[2] (Value): null.
+     */
+    "payment_link_line_item_key"?: ((string) | (null));
+    /**
+     * ID of the catalog product the item was sold from. Required whenever variant_id is present.
+     * Absent on bundle and custom lines, which have no parent product. anyOf[1] (Value): string.
+     * ID of the catalog product the item was sold from. Required whenever variant_id is present.
+     * Absent on bundle and custom lines, which have no parent product. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
+     */
+    "product_id"?: ((string) | (null));
+    /**
+     * Product classification frozen on this line. Null when the line is unclassified. Custom lines
+     * accept physical, digital, service, or fee; catalog lines use the product's type when added.
+     * Unclassified non-goods lines keep ACH debit unavailable. Issued invoices retain their frozen
+     * classification; void and reissue to change it. Value enum: "physical", "service", "fee",
+     * "digital", "gift_card", null. anyOf[1] (Value): string. Product classification frozen on
+     * this line. Null when the line is unclassified. Custom lines accept physical, digital,
+     * service, or fee; catalog lines use the product's type when added. Unclassified non-goods
+     * lines keep ACH debit unavailable. Issued invoices retain their frozen classification; void
+     * and reissue to change it. Value enum: "physical", "service", "fee", "digital", "gift_card",
+     * null. anyOf[2] (Value): null.
+     */
+    "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {})) | (null));
+    /**
+     * Masked card identities for fully funded units of this purchase line. Partial consideration
+     * does not issue a card. anyOf[1] (Value): Array of {@link
+     * PurchasedGiftCardPreviousAttributes}. Masked card identities for fully funded units of this
+     * purchase line. Partial consideration does not issue a card. anyOf[1][] (Value): {@link
+     * PurchasedGiftCardPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "purchased_gift_cards"?: ((Array<PurchasedGiftCardPreviousAttributes>) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
+     * (Value): null.
+     */
+    "quantity"?: ((number) | (null));
+    /**
+     * Remaining quantity and components for an ID-only line refund target. Accounts for
+     * original-tender capacity, reversals, accepted refunds, and whole-value edit reservations,
+     * including credit transferred to added lines and pending or retryable failed edit refunds.
+     * All values are zero when exhausted. Refund eligibility is checked again on submission.
+     * anyOf[1] (Value): {@link OrderLineItemRefundablePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "refundable"?: ((OrderLineItemRefundablePreviousAttributes) | (null));
+    /**
+     * Amount of this line already refunded. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
+     * (Value): null.
+     */
+    "refunded_quantity"?: ((number) | (null));
+    /**
+     * Future release date copied when the line was created, in YYYY-MM-DD format. Null when the
+     * line is not a pre-order. Earlier fulfillment is permitted. anyOf[1] (Value): string. Future
+     * release date copied when the line was created, in YYYY-MM-DD format. Null when the line is
+     * not a pre-order. Earlier fulfillment is permitted. Format: date. Example: "2026-08-02".
+     * anyOf[2] (Value): null.
+     */
+    "release_date"?: ((string) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Whole line units removed by
+     * paid-order edits. For bundles, each removed line unit removes all of its component units.
+     * The original quantity and pricing remain the sale record; refunds are tracked separately.
+     * anyOf[1] (Value): integer. Whole-number quantity; fractional quantities are not supported.
+     * Whole line units removed by paid-order edits. For bundles, each removed line unit removes
+     * all of its component units. The original quantity and pricing remain the sale record;
+     * refunds are tracked separately. Format: int64. anyOf[2] (Value): null.
+     */
+    "removed_quantity"?: ((number) | (null));
+    /**
+     * Variant options selected for the item, such as size and color. anyOf[1] (Value): Array of
+     * {@link SelectedProductOptionPreviousAttributes}. Variant options selected for the item, such
+     * as size and color. anyOf[1][] (Value): {@link SelectedProductOptionPreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "selected_options"?: ((Array<SelectedProductOptionPreviousAttributes>) | (null));
+    /**
+     * SKU of the item as sold. anyOf[1] (Value): string. SKU of the item as sold. anyOf[2]
+     * (Value): null.
+     */
+    "sku"?: ((string) | (null));
+    /**
+     * Recurring offer and cadence frozen for this line at signup. anyOf[1] (Value): {@link
+     * SubscribedLinePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "subscription"?: ((SubscribedLinePreviousAttributes) | (null));
+    /**
+     * Subscription created for this line after the order is paid. anyOf[1] (Value): string.
+     * Subscription created for this line after the order is paid. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". anyOf[2] (Value): null.
+     */
+    "subscription_id"?: ((string) | (null));
+    /**
+     * Applicable active offer for a one-time line, or the offer terms frozen for a subscribed
+     * line. anyOf[1] (Value): {@link OrderLineSubscriptionOfferSummaryPreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "subscription_offer"?: ((OrderLineSubscriptionOfferSummaryPreviousAttributes) | (null));
+    /**
+     * Base subtotal plus modifier total, before discounts and tax. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * How tax was calculated for this line item. anyOf[1] (Value): {@link
+     * OrderCalculatedLineItemTaxPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tax"?: ((OrderCalculatedLineItemTaxPreviousAttributes) | (null));
+    /**
+     * Tax calculated for this line item, including any tax already included in its price. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tax_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Subtotal minus discounts, plus tax that is not already included in the price. anyOf[1]
+     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "total_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Whether the line was sold from a catalog variant, a bundle, or a custom item. Value enum:
+     * "variant", "bundle", "custom". anyOf[1] (Value): string. Whether the line was sold from a
+     * catalog variant, a bundle, or a custom item. Value enum: "variant", "bundle", "custom".
+     * anyOf[2] (Value): null.
+     */
+    "type"?: (("variant" | "bundle" | "custom" | (string & {})) | (null));
+    /**
+     * Dimensions of one unit fixed when the line was created. Omitted when unknown and for bundle
+     * lines. anyOf[1] (Value): {@link DimensionsPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "unit_dimensions"?: ((DimensionsPreviousAttributes) | (null));
+    /**
+     * Price of one unit before modifiers, discounts, and tax. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Weight of one unit fixed when the line was created. Omitted when unknown and for bundle
+     * lines. anyOf[1] (Value): {@link WeightPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "unit_weight"?: ((WeightPreviousAttributes) | (null));
+    /**
+     * ID of the catalog variant the item was sold from. anyOf[1] (Value): string. ID of the
+     * catalog variant the item was sold from. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+     * (Value): null.
+     */
+    "variant_id"?: ((string) | (null));
+});
+/**
+ * Remaining refundable quantity and value of an order line, after prior refunds and order edit
+ * reservations.
+ */
+export type OrderLineItemRefundable = {
+    /**
+     * Remaining discount component. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "discount_money": MoneyValue;
+    /**
+     * Remaining subtotal before discounts and tax. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "gross_money": MoneyValue;
+    /**
+     * Whole-number units remaining for a quantity refund target; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "quantity": number;
+    /**
+     * Remaining tax component. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * Remaining target total after discounts and tax. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+};
+export type OrderLineItemRefundablePreviousAttributes = {
+    /**
+     * Remaining discount component. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "discount_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Remaining subtotal before discounts and tax. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "gross_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Whole-number units remaining for a quantity refund target; fractional quantities are not
+     * supported. anyOf[1] (Value): integer. Whole-number units remaining for a quantity refund
+     * target; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "quantity"?: ((number) | (null));
+    /**
+     * Remaining tax component. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "tax_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Remaining target total after discounts and tax. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "total_money"?: ((MoneyValuePreviousAttributes) | (null));
+};
+/** A line item's tax category and whether it is taxable. */
+export type OrderLineItemTax = {
+    /**
+     * Flint line-item tax category. A bundle line takes the stored category shared by all
+     * component variants when added; all must also share taxability. Unset uses the merchant
+     * default and equals only another unset category. Value enum: "general", "physical_goods",
+     * "digital_goods", "software", "saas", "services", "professional_services", "food",
+     * "prepared_food", "clothing", "medical_goods", "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {});
+    /**
+     * Whether the line is subject to tax. A bundle line takes the taxability shared by all
+     * component variants when added; they must also share their stored tax category.
+     */
+    "taxable"?: boolean;
+};
+/** An externally calculated tax you assign to one order line item. */
+export type OrderLineItemTaxAssignment = {
+    /**
+     * The tax you supply for this line item. Tax you calculated yourself for a line or charge:
+     * whether prices include tax, and the tax components.
+     */
+    "calculation": TaxCalculationRequest;
+    /**
+     * ID of the order line item this tax applies to. minLength: 1. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id": string;
+};
+/** An externally calculated tax you assign to one order line item. */
+export type OrderLineItemTaxAssignmentInput = {
+    /**
+     * The tax you supply for this line item. Tax you calculated yourself for a line or charge:
+     * whether prices include tax, and the tax components.
+     */
+    "calculation": TaxCalculationRequestModelInput;
+    /**
+     * ID of the order line item this tax applies to. minLength: 1. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id": string;
+};
 export type OrderLineItemTaxPreviousAttributes = {
     /**
      * Flint line-item tax category. A bundle line takes the stored category shared by all
@@ -264,6 +801,7 @@ export type OrderPaidEvent = ((((Exclude<MerchantWebhookEnvelope & object, reado
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_note"?: ((string) | (null));
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             "checkout_session_ids"?: ((Array<string>) | (null));
             "client_reference"?: ((string) | (null));
             "closed_at"?: ((string) | (null));
@@ -386,6 +924,7 @@ export type OrderPaidEvent = ((((Exclude<MerchantWebhookEnvelope & object, reado
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_note"?: ((string) | (null));
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             "checkout_session_ids"?: ((Array<string>) | (null));
             "client_reference"?: ((string) | (null));
             "closed_at"?: ((string) | (null));
@@ -546,17 +1085,23 @@ export type OrderPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope &
      * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
      * fees, each with its applied amount, tax, and refunded amount.
      * previous_attributes.charges.anyOf[1][] (Value): {@link OrderChargePreviousAttributes}.
-     * previous_attributes.charges.anyOf[2] (Value): null. previous_attributes.checkout_session_ids
-     * (Optional): Array of string or null. IDs of the checkout sessions opened for this order.
-     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
-     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
-     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
-     * previous_attributes.client_reference (Optional): string or null. The reference the payment
-     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
-     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
-     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
-     * identity. Always present with merchant credentials.
+     * previous_attributes.charges.anyOf[2] (Value): null.
+     * previous_attributes.checkout_billing_contact (Optional): {@link
+     * CheckoutBillingContactPreviousAttributes} or null. Billing name and address collected in
+     * Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not
+     * collect the details. previous_attributes.checkout_billing_contact.anyOf[1] (Value): {@link
+     * CheckoutBillingContactPreviousAttributes}.
+     * previous_attributes.checkout_billing_contact.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_ids (Optional): Array of string or null. IDs of the
+     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1]
+     * (Value): Array of string. IDs of the checkout sessions opened for this order.
+     * previous_attributes.checkout_session_ids.anyOf[1][] (Value): string. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_ids.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
      * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
      * link URL or resolve request carried, such as your user ID. `null` when none was sent or
      * checkout did not start from a payment link. Returned only to merchant credentials; omitted
@@ -819,13 +1364,13 @@ export type OrderPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope &
      * when `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1][]
      * (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
      * previous_attributes.payment_intents.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * previous_attributes.payment_link_id (Optional): string or null. Payment link that created
+     * this order or started the subscription it renews. Absent for other orders. Filter GET
      * /v1/orders by payment_link_id to list a link's orders.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link that created this
+     * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
+     * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * previous_attributes.payment_link_id.anyOf[2] (Value): null.
      * previous_attributes.payment_status (Optional): string or null. Collection progress. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
@@ -1009,22 +1554,27 @@ export type OrderPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope &
          * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
          * fees, each with its applied amount, tax, and refunded amount. charges.anyOf[1][]
          * (Value): {@link OrderChargePreviousAttributes}. charges.anyOf[2] (Value): null.
-         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
-         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
-         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
-         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
-         * null. client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
-         * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null. closed_at
-         * (Optional): string or null. When the order closed. Present exactly when status is
-         * closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
+         * checkout_billing_contact (Optional): {@link CheckoutBillingContactPreviousAttributes} or
+         * null. Billing name and address collected in Checkout for a successful payment. Omitted
+         * for buyer credentials and when Checkout did not collect the details.
+         * checkout_billing_contact.anyOf[1] (Value): {@link
+         * CheckoutBillingContactPreviousAttributes}. checkout_billing_contact.anyOf[2] (Value):
+         * null. checkout_session_ids (Optional): Array of string or null. IDs of the checkout
+         * sessions opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string.
+         * IDs of the checkout sessions opened for this order. checkout_session_ids.anyOf[1][]
+         * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2]
+         * (Value): null. client_reference (Optional): string or null. The reference the payment
+         * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+         * checkout did not start from a payment link. Returned only to merchant credentials;
+         * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not
+         * proof of identity. Always present with merchant credentials. client_reference.anyOf[1]
+         * (Value): string. The reference the payment link URL or resolve request carried, such as
+         * your user ID. `null` when none was sent or checkout did not start from a payment link.
+         * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+         * browser, so treat it as a claim, not proof of identity. Always present with merchant
+         * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the order closed. Present exactly when status
+         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
          * string. When the order closed. Present exactly when status is closed. Set once at the
          * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
@@ -1253,54 +1803,53 @@ export type OrderPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope &
          * ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand`
          * names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
          * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
-         * payment_link_id (Optional): string or null. Payment link whose checkout created this
-         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+         * payment_link_id (Optional): string or null. Payment link that created this order or
+         * started the subscription it renews. Absent for other orders. Filter GET /v1/orders by
          * payment_link_id to list a link's orders. payment_link_id.anyOf[1] (Value): string.
-         * Payment link whose checkout created this order. Absent for orders that did not come from
-         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-         * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * payment_status (Optional): string or null. Collection progress. An invoice write-off
-         * also completes collection without receiving the written-off amount. Value enum:
-         * "unpaid", "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection
-         * progress. An invoice write-off also completes collection without receiving the
-         * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-         * payment_status.anyOf[2] (Value): null. pending_order_edit_id (Optional): string or null.
-         * The order edit waiting for its balance payment. While it is set, the units that edit
-         * removes can't join a fulfillment and the order refuses another edit. `null` when there
-         * is none. Omitted for buyer credentials. Always present with merchant credentials.
-         * pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting for its balance
+         * Payment link that created this order or started the subscription it renews. Absent for
+         * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
+         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * collection without receiving the written-off amount. Value enum: "unpaid",
+         * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
+         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
+         * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
          * order refuses another edit. `null` when there is none. Omitted for buyer credentials.
-         * Always present with merchant credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * pending_order_edit_id.anyOf[2] (Value): null. prepayment_order_id (Optional): string or
-         * null. Order that paid for this prepaid delivery. Null when this is not a prepaid
-         * delivery order. prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
-         * prepaid delivery. Null when this is not a prepaid delivery order. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". prepayment_order_id.anyOf[2] (Value): null.
-         * pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or null. The
-         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
-         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
-         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
-         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
-         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
-         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
-         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
-         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
-         * with `reason` `payment_returned` return money the order never received and don't count.
-         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
-         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
-         * return money the order never received and don't count. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
-         * return_credit_settlements (Optional): Array of {@link
-         * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value): Array of
-         * {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
+         * Always present with merchant credentials. pending_order_edit_id.anyOf[1] (Value):
+         * string. The order edit waiting for its balance payment. While it is set, the units that
+         * edit removes can't join a fulfillment and the order refuses another edit. `null` when
+         * there is none. Omitted for buyer credentials. Always present with merchant credentials.
+         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". pending_order_edit_id.anyOf[2] (Value): null.
+         * prepayment_order_id (Optional): string or null. Order that paid for this prepaid
+         * delivery. Null when this is not a prepaid delivery order. prepayment_order_id.anyOf[1]
+         * (Value): string. Order that paid for this prepaid delivery. Null when this is not a
+         * prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * prepayment_order_id.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The order's money totals: subtotal,
+         * discounts, charges, tax, requested tip, and total. pricing_amounts.anyOf[1] (Value):
+         * {@link PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * refund_ids (Optional): Array of string or null. IDs of the refunds that name this order.
+         * This includes refunds Flint makes to return a payment it couldn't accept (`reason`
+         * `payment_returned`), which never count toward `refund_status` or the order's refunded
+         * amounts. refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that name this
+         * order. This includes refunds Flint makes to return a payment it couldn't accept
+         * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
+         * refunded amounts. refund_ids.anyOf[1][] (Value): string. Example:
+         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. Refund progress for collected money. Refunds with `reason`
+         * `payment_returned` return money the order never received and don't count. Value enum:
+         * "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value): string. Refund
+         * progress for collected money. Refunds with `reason` `payment_returned` return money the
+         * order never received and don't count. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. return_credit_settlements (Optional):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to
+         * this order from items the buyer returned, such as an exchange's replacement order.
+         * Included in settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this
+         * order from items the buyer returned, such as an exchange's replacement order. Included
+         * in settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
          * OrderReturnCreditSettlementPreviousAttributes}. return_credit_settlements.anyOf[2]
          * (Value): null. return_resolution_id (Optional): string or null. ID of the return
          * resolution that created this order as a replacement. Omitted for orders a return did not
@@ -1429,6 +1978,12 @@ export type OrderPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope &
              * (Value): {@link OrderChargePreviousAttributes}. anyOf[2] (Value): null.
              */
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            /**
+             * Billing name and address collected in Checkout for a successful payment. Omitted for
+             * buyer credentials and when Checkout did not collect the details. anyOf[1] (Value):
+             * {@link CheckoutBillingContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             /**
              * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
              * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
@@ -1802,10 +2357,10 @@ export type OrderPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope &
              */
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             /**
-             * Payment link whose checkout created this order. Absent for orders that did not come
-             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
-             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
-             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+             * Payment link that created this order or started the subscription it renews. Absent
+             * for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders.
+             * anyOf[1] (Value): string. Payment link that created this order or started the
+             * subscription it renews. Absent for other orders. Filter GET /v1/orders by
              * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
              * anyOf[2] (Value): null.
              */
@@ -2077,17 +2632,23 @@ export type OrderPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, 
      * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
      * fees, each with its applied amount, tax, and refunded amount.
      * previous_attributes.charges.anyOf[1][] (Value): {@link OrderChargePreviousAttributes}.
-     * previous_attributes.charges.anyOf[2] (Value): null. previous_attributes.checkout_session_ids
-     * (Optional): Array of string or null. IDs of the checkout sessions opened for this order.
-     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
-     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
-     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
-     * previous_attributes.client_reference (Optional): string or null. The reference the payment
-     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
-     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
-     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
-     * identity. Always present with merchant credentials.
+     * previous_attributes.charges.anyOf[2] (Value): null.
+     * previous_attributes.checkout_billing_contact (Optional): {@link
+     * CheckoutBillingContactPreviousAttributes} or null. Billing name and address collected in
+     * Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not
+     * collect the details. previous_attributes.checkout_billing_contact.anyOf[1] (Value): {@link
+     * CheckoutBillingContactPreviousAttributes}.
+     * previous_attributes.checkout_billing_contact.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_ids (Optional): Array of string or null. IDs of the
+     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1]
+     * (Value): Array of string. IDs of the checkout sessions opened for this order.
+     * previous_attributes.checkout_session_ids.anyOf[1][] (Value): string. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_ids.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
      * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
      * link URL or resolve request carried, such as your user ID. `null` when none was sent or
      * checkout did not start from a payment link. Returned only to merchant credentials; omitted
@@ -2350,13 +2911,13 @@ export type OrderPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, 
      * when `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1][]
      * (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
      * previous_attributes.payment_intents.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * previous_attributes.payment_link_id (Optional): string or null. Payment link that created
+     * this order or started the subscription it renews. Absent for other orders. Filter GET
      * /v1/orders by payment_link_id to list a link's orders.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link that created this
+     * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
+     * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * previous_attributes.payment_link_id.anyOf[2] (Value): null.
      * previous_attributes.payment_status (Optional): string or null. Collection progress. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
@@ -2540,22 +3101,27 @@ export type OrderPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, 
          * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
          * fees, each with its applied amount, tax, and refunded amount. charges.anyOf[1][]
          * (Value): {@link OrderChargePreviousAttributes}. charges.anyOf[2] (Value): null.
-         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
-         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
-         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
-         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
-         * null. client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
-         * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null. closed_at
-         * (Optional): string or null. When the order closed. Present exactly when status is
-         * closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
+         * checkout_billing_contact (Optional): {@link CheckoutBillingContactPreviousAttributes} or
+         * null. Billing name and address collected in Checkout for a successful payment. Omitted
+         * for buyer credentials and when Checkout did not collect the details.
+         * checkout_billing_contact.anyOf[1] (Value): {@link
+         * CheckoutBillingContactPreviousAttributes}. checkout_billing_contact.anyOf[2] (Value):
+         * null. checkout_session_ids (Optional): Array of string or null. IDs of the checkout
+         * sessions opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string.
+         * IDs of the checkout sessions opened for this order. checkout_session_ids.anyOf[1][]
+         * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2]
+         * (Value): null. client_reference (Optional): string or null. The reference the payment
+         * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+         * checkout did not start from a payment link. Returned only to merchant credentials;
+         * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not
+         * proof of identity. Always present with merchant credentials. client_reference.anyOf[1]
+         * (Value): string. The reference the payment link URL or resolve request carried, such as
+         * your user ID. `null` when none was sent or checkout did not start from a payment link.
+         * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+         * browser, so treat it as a claim, not proof of identity. Always present with merchant
+         * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the order closed. Present exactly when status
+         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
          * string. When the order closed. Present exactly when status is closed. Set once at the
          * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
@@ -2784,54 +3350,53 @@ export type OrderPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, 
          * ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand`
          * names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
          * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
-         * payment_link_id (Optional): string or null. Payment link whose checkout created this
-         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+         * payment_link_id (Optional): string or null. Payment link that created this order or
+         * started the subscription it renews. Absent for other orders. Filter GET /v1/orders by
          * payment_link_id to list a link's orders. payment_link_id.anyOf[1] (Value): string.
-         * Payment link whose checkout created this order. Absent for orders that did not come from
-         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-         * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * payment_status (Optional): string or null. Collection progress. An invoice write-off
-         * also completes collection without receiving the written-off amount. Value enum:
-         * "unpaid", "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection
-         * progress. An invoice write-off also completes collection without receiving the
-         * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-         * payment_status.anyOf[2] (Value): null. pending_order_edit_id (Optional): string or null.
-         * The order edit waiting for its balance payment. While it is set, the units that edit
-         * removes can't join a fulfillment and the order refuses another edit. `null` when there
-         * is none. Omitted for buyer credentials. Always present with merchant credentials.
-         * pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting for its balance
+         * Payment link that created this order or started the subscription it renews. Absent for
+         * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
+         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * collection without receiving the written-off amount. Value enum: "unpaid",
+         * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
+         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
+         * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
          * order refuses another edit. `null` when there is none. Omitted for buyer credentials.
-         * Always present with merchant credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * pending_order_edit_id.anyOf[2] (Value): null. prepayment_order_id (Optional): string or
-         * null. Order that paid for this prepaid delivery. Null when this is not a prepaid
-         * delivery order. prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
-         * prepaid delivery. Null when this is not a prepaid delivery order. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". prepayment_order_id.anyOf[2] (Value): null.
-         * pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or null. The
-         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
-         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
-         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
-         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
-         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
-         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
-         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
-         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
-         * with `reason` `payment_returned` return money the order never received and don't count.
-         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
-         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
-         * return money the order never received and don't count. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
-         * return_credit_settlements (Optional): Array of {@link
-         * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value): Array of
-         * {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
+         * Always present with merchant credentials. pending_order_edit_id.anyOf[1] (Value):
+         * string. The order edit waiting for its balance payment. While it is set, the units that
+         * edit removes can't join a fulfillment and the order refuses another edit. `null` when
+         * there is none. Omitted for buyer credentials. Always present with merchant credentials.
+         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". pending_order_edit_id.anyOf[2] (Value): null.
+         * prepayment_order_id (Optional): string or null. Order that paid for this prepaid
+         * delivery. Null when this is not a prepaid delivery order. prepayment_order_id.anyOf[1]
+         * (Value): string. Order that paid for this prepaid delivery. Null when this is not a
+         * prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * prepayment_order_id.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The order's money totals: subtotal,
+         * discounts, charges, tax, requested tip, and total. pricing_amounts.anyOf[1] (Value):
+         * {@link PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * refund_ids (Optional): Array of string or null. IDs of the refunds that name this order.
+         * This includes refunds Flint makes to return a payment it couldn't accept (`reason`
+         * `payment_returned`), which never count toward `refund_status` or the order's refunded
+         * amounts. refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that name this
+         * order. This includes refunds Flint makes to return a payment it couldn't accept
+         * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
+         * refunded amounts. refund_ids.anyOf[1][] (Value): string. Example:
+         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. Refund progress for collected money. Refunds with `reason`
+         * `payment_returned` return money the order never received and don't count. Value enum:
+         * "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value): string. Refund
+         * progress for collected money. Refunds with `reason` `payment_returned` return money the
+         * order never received and don't count. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. return_credit_settlements (Optional):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to
+         * this order from items the buyer returned, such as an exchange's replacement order.
+         * Included in settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this
+         * order from items the buyer returned, such as an exchange's replacement order. Included
+         * in settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
          * OrderReturnCreditSettlementPreviousAttributes}. return_credit_settlements.anyOf[2]
          * (Value): null. return_resolution_id (Optional): string or null. ID of the return
          * resolution that created this order as a replacement. Omitted for orders a return did not
@@ -2960,6 +3525,12 @@ export type OrderPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, 
              * (Value): {@link OrderChargePreviousAttributes}. anyOf[2] (Value): null.
              */
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            /**
+             * Billing name and address collected in Checkout for a successful payment. Omitted for
+             * buyer credentials and when Checkout did not collect the details. anyOf[1] (Value):
+             * {@link CheckoutBillingContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             /**
              * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
              * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
@@ -3333,10 +3904,10 @@ export type OrderPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, 
              */
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             /**
-             * Payment link whose checkout created this order. Absent for orders that did not come
-             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
-             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
-             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+             * Payment link that created this order or started the subscription it renews. Absent
+             * for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders.
+             * anyOf[1] (Value): string. Payment link that created this order or started the
+             * subscription it renews. Absent for other orders. Filter GET /v1/orders by
              * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
              * anyOf[2] (Value): null.
              */
@@ -3546,6 +4117,7 @@ export type OrderPartiallyPaidEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_note"?: ((string) | (null));
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             "checkout_session_ids"?: ((Array<string>) | (null));
             "client_reference"?: ((string) | (null));
             "closed_at"?: ((string) | (null));
@@ -3668,6 +4240,7 @@ export type OrderPartiallyPaidEvent = ((((Exclude<MerchantWebhookEnvelope & obje
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_note"?: ((string) | (null));
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             "checkout_session_ids"?: ((Array<string>) | (null));
             "client_reference"?: ((string) | (null));
             "closed_at"?: ((string) | (null));
@@ -3828,17 +4401,23 @@ export type OrderPartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookE
      * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
      * fees, each with its applied amount, tax, and refunded amount.
      * previous_attributes.charges.anyOf[1][] (Value): {@link OrderChargePreviousAttributes}.
-     * previous_attributes.charges.anyOf[2] (Value): null. previous_attributes.checkout_session_ids
-     * (Optional): Array of string or null. IDs of the checkout sessions opened for this order.
-     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
-     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
-     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
-     * previous_attributes.client_reference (Optional): string or null. The reference the payment
-     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
-     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
-     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
-     * identity. Always present with merchant credentials.
+     * previous_attributes.charges.anyOf[2] (Value): null.
+     * previous_attributes.checkout_billing_contact (Optional): {@link
+     * CheckoutBillingContactPreviousAttributes} or null. Billing name and address collected in
+     * Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not
+     * collect the details. previous_attributes.checkout_billing_contact.anyOf[1] (Value): {@link
+     * CheckoutBillingContactPreviousAttributes}.
+     * previous_attributes.checkout_billing_contact.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_ids (Optional): Array of string or null. IDs of the
+     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1]
+     * (Value): Array of string. IDs of the checkout sessions opened for this order.
+     * previous_attributes.checkout_session_ids.anyOf[1][] (Value): string. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_ids.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
      * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
      * link URL or resolve request carried, such as your user ID. `null` when none was sent or
      * checkout did not start from a payment link. Returned only to merchant credentials; omitted
@@ -4101,13 +4680,13 @@ export type OrderPartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookE
      * when `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1][]
      * (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
      * previous_attributes.payment_intents.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * previous_attributes.payment_link_id (Optional): string or null. Payment link that created
+     * this order or started the subscription it renews. Absent for other orders. Filter GET
      * /v1/orders by payment_link_id to list a link's orders.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link that created this
+     * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
+     * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * previous_attributes.payment_link_id.anyOf[2] (Value): null.
      * previous_attributes.payment_status (Optional): string or null. Collection progress. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
@@ -4291,22 +4870,27 @@ export type OrderPartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookE
          * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
          * fees, each with its applied amount, tax, and refunded amount. charges.anyOf[1][]
          * (Value): {@link OrderChargePreviousAttributes}. charges.anyOf[2] (Value): null.
-         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
-         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
-         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
-         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
-         * null. client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
-         * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null. closed_at
-         * (Optional): string or null. When the order closed. Present exactly when status is
-         * closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
+         * checkout_billing_contact (Optional): {@link CheckoutBillingContactPreviousAttributes} or
+         * null. Billing name and address collected in Checkout for a successful payment. Omitted
+         * for buyer credentials and when Checkout did not collect the details.
+         * checkout_billing_contact.anyOf[1] (Value): {@link
+         * CheckoutBillingContactPreviousAttributes}. checkout_billing_contact.anyOf[2] (Value):
+         * null. checkout_session_ids (Optional): Array of string or null. IDs of the checkout
+         * sessions opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string.
+         * IDs of the checkout sessions opened for this order. checkout_session_ids.anyOf[1][]
+         * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2]
+         * (Value): null. client_reference (Optional): string or null. The reference the payment
+         * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+         * checkout did not start from a payment link. Returned only to merchant credentials;
+         * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not
+         * proof of identity. Always present with merchant credentials. client_reference.anyOf[1]
+         * (Value): string. The reference the payment link URL or resolve request carried, such as
+         * your user ID. `null` when none was sent or checkout did not start from a payment link.
+         * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+         * browser, so treat it as a claim, not proof of identity. Always present with merchant
+         * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the order closed. Present exactly when status
+         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
          * string. When the order closed. Present exactly when status is closed. Set once at the
          * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
@@ -4535,54 +5119,53 @@ export type OrderPartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookE
          * ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand`
          * names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
          * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
-         * payment_link_id (Optional): string or null. Payment link whose checkout created this
-         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+         * payment_link_id (Optional): string or null. Payment link that created this order or
+         * started the subscription it renews. Absent for other orders. Filter GET /v1/orders by
          * payment_link_id to list a link's orders. payment_link_id.anyOf[1] (Value): string.
-         * Payment link whose checkout created this order. Absent for orders that did not come from
-         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-         * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * payment_status (Optional): string or null. Collection progress. An invoice write-off
-         * also completes collection without receiving the written-off amount. Value enum:
-         * "unpaid", "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection
-         * progress. An invoice write-off also completes collection without receiving the
-         * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-         * payment_status.anyOf[2] (Value): null. pending_order_edit_id (Optional): string or null.
-         * The order edit waiting for its balance payment. While it is set, the units that edit
-         * removes can't join a fulfillment and the order refuses another edit. `null` when there
-         * is none. Omitted for buyer credentials. Always present with merchant credentials.
-         * pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting for its balance
+         * Payment link that created this order or started the subscription it renews. Absent for
+         * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
+         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * collection without receiving the written-off amount. Value enum: "unpaid",
+         * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
+         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
+         * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
          * order refuses another edit. `null` when there is none. Omitted for buyer credentials.
-         * Always present with merchant credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * pending_order_edit_id.anyOf[2] (Value): null. prepayment_order_id (Optional): string or
-         * null. Order that paid for this prepaid delivery. Null when this is not a prepaid
-         * delivery order. prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
-         * prepaid delivery. Null when this is not a prepaid delivery order. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". prepayment_order_id.anyOf[2] (Value): null.
-         * pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or null. The
-         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
-         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
-         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
-         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
-         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
-         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
-         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
-         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
-         * with `reason` `payment_returned` return money the order never received and don't count.
-         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
-         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
-         * return money the order never received and don't count. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
-         * return_credit_settlements (Optional): Array of {@link
-         * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value): Array of
-         * {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
+         * Always present with merchant credentials. pending_order_edit_id.anyOf[1] (Value):
+         * string. The order edit waiting for its balance payment. While it is set, the units that
+         * edit removes can't join a fulfillment and the order refuses another edit. `null` when
+         * there is none. Omitted for buyer credentials. Always present with merchant credentials.
+         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". pending_order_edit_id.anyOf[2] (Value): null.
+         * prepayment_order_id (Optional): string or null. Order that paid for this prepaid
+         * delivery. Null when this is not a prepaid delivery order. prepayment_order_id.anyOf[1]
+         * (Value): string. Order that paid for this prepaid delivery. Null when this is not a
+         * prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * prepayment_order_id.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The order's money totals: subtotal,
+         * discounts, charges, tax, requested tip, and total. pricing_amounts.anyOf[1] (Value):
+         * {@link PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * refund_ids (Optional): Array of string or null. IDs of the refunds that name this order.
+         * This includes refunds Flint makes to return a payment it couldn't accept (`reason`
+         * `payment_returned`), which never count toward `refund_status` or the order's refunded
+         * amounts. refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that name this
+         * order. This includes refunds Flint makes to return a payment it couldn't accept
+         * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
+         * refunded amounts. refund_ids.anyOf[1][] (Value): string. Example:
+         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. Refund progress for collected money. Refunds with `reason`
+         * `payment_returned` return money the order never received and don't count. Value enum:
+         * "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value): string. Refund
+         * progress for collected money. Refunds with `reason` `payment_returned` return money the
+         * order never received and don't count. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. return_credit_settlements (Optional):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to
+         * this order from items the buyer returned, such as an exchange's replacement order.
+         * Included in settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this
+         * order from items the buyer returned, such as an exchange's replacement order. Included
+         * in settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
          * OrderReturnCreditSettlementPreviousAttributes}. return_credit_settlements.anyOf[2]
          * (Value): null. return_resolution_id (Optional): string or null. ID of the return
          * resolution that created this order as a replacement. Omitted for orders a return did not
@@ -4711,6 +5294,12 @@ export type OrderPartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              * (Value): {@link OrderChargePreviousAttributes}. anyOf[2] (Value): null.
              */
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            /**
+             * Billing name and address collected in Checkout for a successful payment. Omitted for
+             * buyer credentials and when Checkout did not collect the details. anyOf[1] (Value):
+             * {@link CheckoutBillingContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             /**
              * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
              * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
@@ -5084,10 +5673,10 @@ export type OrderPartiallyPaidInstalledMerchantsEvent = (Exclude<PartnerWebhookE
              */
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             /**
-             * Payment link whose checkout created this order. Absent for orders that did not come
-             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
-             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
-             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+             * Payment link that created this order or started the subscription it renews. Absent
+             * for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders.
+             * anyOf[1] (Value): string. Payment link that created this order or started the
+             * subscription it renews. Absent for other orders. Filter GET /v1/orders by
              * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
              * anyOf[2] (Value): null.
              */
@@ -5359,17 +5948,23 @@ export type OrderPartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope &
      * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
      * fees, each with its applied amount, tax, and refunded amount.
      * previous_attributes.charges.anyOf[1][] (Value): {@link OrderChargePreviousAttributes}.
-     * previous_attributes.charges.anyOf[2] (Value): null. previous_attributes.checkout_session_ids
-     * (Optional): Array of string or null. IDs of the checkout sessions opened for this order.
-     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
-     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
-     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
-     * previous_attributes.client_reference (Optional): string or null. The reference the payment
-     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
-     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
-     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
-     * identity. Always present with merchant credentials.
+     * previous_attributes.charges.anyOf[2] (Value): null.
+     * previous_attributes.checkout_billing_contact (Optional): {@link
+     * CheckoutBillingContactPreviousAttributes} or null. Billing name and address collected in
+     * Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not
+     * collect the details. previous_attributes.checkout_billing_contact.anyOf[1] (Value): {@link
+     * CheckoutBillingContactPreviousAttributes}.
+     * previous_attributes.checkout_billing_contact.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_ids (Optional): Array of string or null. IDs of the
+     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1]
+     * (Value): Array of string. IDs of the checkout sessions opened for this order.
+     * previous_attributes.checkout_session_ids.anyOf[1][] (Value): string. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_ids.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
      * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
      * link URL or resolve request carried, such as your user ID. `null` when none was sent or
      * checkout did not start from a payment link. Returned only to merchant credentials; omitted
@@ -5632,13 +6227,13 @@ export type OrderPartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope &
      * when `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1][]
      * (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
      * previous_attributes.payment_intents.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * previous_attributes.payment_link_id (Optional): string or null. Payment link that created
+     * this order or started the subscription it renews. Absent for other orders. Filter GET
      * /v1/orders by payment_link_id to list a link's orders.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link that created this
+     * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
+     * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * previous_attributes.payment_link_id.anyOf[2] (Value): null.
      * previous_attributes.payment_status (Optional): string or null. Collection progress. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
@@ -5822,22 +6417,27 @@ export type OrderPartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope &
          * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
          * fees, each with its applied amount, tax, and refunded amount. charges.anyOf[1][]
          * (Value): {@link OrderChargePreviousAttributes}. charges.anyOf[2] (Value): null.
-         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
-         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
-         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
-         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
-         * null. client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
-         * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null. closed_at
-         * (Optional): string or null. When the order closed. Present exactly when status is
-         * closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
+         * checkout_billing_contact (Optional): {@link CheckoutBillingContactPreviousAttributes} or
+         * null. Billing name and address collected in Checkout for a successful payment. Omitted
+         * for buyer credentials and when Checkout did not collect the details.
+         * checkout_billing_contact.anyOf[1] (Value): {@link
+         * CheckoutBillingContactPreviousAttributes}. checkout_billing_contact.anyOf[2] (Value):
+         * null. checkout_session_ids (Optional): Array of string or null. IDs of the checkout
+         * sessions opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string.
+         * IDs of the checkout sessions opened for this order. checkout_session_ids.anyOf[1][]
+         * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2]
+         * (Value): null. client_reference (Optional): string or null. The reference the payment
+         * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+         * checkout did not start from a payment link. Returned only to merchant credentials;
+         * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not
+         * proof of identity. Always present with merchant credentials. client_reference.anyOf[1]
+         * (Value): string. The reference the payment link URL or resolve request carried, such as
+         * your user ID. `null` when none was sent or checkout did not start from a payment link.
+         * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+         * browser, so treat it as a claim, not proof of identity. Always present with merchant
+         * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the order closed. Present exactly when status
+         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
          * string. When the order closed. Present exactly when status is closed. Set once at the
          * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
@@ -6066,54 +6666,53 @@ export type OrderPartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope &
          * ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand`
          * names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
          * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
-         * payment_link_id (Optional): string or null. Payment link whose checkout created this
-         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+         * payment_link_id (Optional): string or null. Payment link that created this order or
+         * started the subscription it renews. Absent for other orders. Filter GET /v1/orders by
          * payment_link_id to list a link's orders. payment_link_id.anyOf[1] (Value): string.
-         * Payment link whose checkout created this order. Absent for orders that did not come from
-         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-         * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * payment_status (Optional): string or null. Collection progress. An invoice write-off
-         * also completes collection without receiving the written-off amount. Value enum:
-         * "unpaid", "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection
-         * progress. An invoice write-off also completes collection without receiving the
-         * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-         * payment_status.anyOf[2] (Value): null. pending_order_edit_id (Optional): string or null.
-         * The order edit waiting for its balance payment. While it is set, the units that edit
-         * removes can't join a fulfillment and the order refuses another edit. `null` when there
-         * is none. Omitted for buyer credentials. Always present with merchant credentials.
-         * pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting for its balance
+         * Payment link that created this order or started the subscription it renews. Absent for
+         * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
+         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * collection without receiving the written-off amount. Value enum: "unpaid",
+         * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
+         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
+         * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
          * order refuses another edit. `null` when there is none. Omitted for buyer credentials.
-         * Always present with merchant credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * pending_order_edit_id.anyOf[2] (Value): null. prepayment_order_id (Optional): string or
-         * null. Order that paid for this prepaid delivery. Null when this is not a prepaid
-         * delivery order. prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
-         * prepaid delivery. Null when this is not a prepaid delivery order. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". prepayment_order_id.anyOf[2] (Value): null.
-         * pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or null. The
-         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
-         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
-         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
-         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
-         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
-         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
-         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
-         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
-         * with `reason` `payment_returned` return money the order never received and don't count.
-         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
-         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
-         * return money the order never received and don't count. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
-         * return_credit_settlements (Optional): Array of {@link
-         * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value): Array of
-         * {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
+         * Always present with merchant credentials. pending_order_edit_id.anyOf[1] (Value):
+         * string. The order edit waiting for its balance payment. While it is set, the units that
+         * edit removes can't join a fulfillment and the order refuses another edit. `null` when
+         * there is none. Omitted for buyer credentials. Always present with merchant credentials.
+         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". pending_order_edit_id.anyOf[2] (Value): null.
+         * prepayment_order_id (Optional): string or null. Order that paid for this prepaid
+         * delivery. Null when this is not a prepaid delivery order. prepayment_order_id.anyOf[1]
+         * (Value): string. Order that paid for this prepaid delivery. Null when this is not a
+         * prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * prepayment_order_id.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The order's money totals: subtotal,
+         * discounts, charges, tax, requested tip, and total. pricing_amounts.anyOf[1] (Value):
+         * {@link PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * refund_ids (Optional): Array of string or null. IDs of the refunds that name this order.
+         * This includes refunds Flint makes to return a payment it couldn't accept (`reason`
+         * `payment_returned`), which never count toward `refund_status` or the order's refunded
+         * amounts. refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that name this
+         * order. This includes refunds Flint makes to return a payment it couldn't accept
+         * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
+         * refunded amounts. refund_ids.anyOf[1][] (Value): string. Example:
+         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. Refund progress for collected money. Refunds with `reason`
+         * `payment_returned` return money the order never received and don't count. Value enum:
+         * "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value): string. Refund
+         * progress for collected money. Refunds with `reason` `payment_returned` return money the
+         * order never received and don't count. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. return_credit_settlements (Optional):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to
+         * this order from items the buyer returned, such as an exchange's replacement order.
+         * Included in settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this
+         * order from items the buyer returned, such as an exchange's replacement order. Included
+         * in settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
          * OrderReturnCreditSettlementPreviousAttributes}. return_credit_settlements.anyOf[2]
          * (Value): null. return_resolution_id (Optional): string or null. ID of the return
          * resolution that created this order as a replacement. Omitted for orders a return did not
@@ -6242,6 +6841,12 @@ export type OrderPartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              * (Value): {@link OrderChargePreviousAttributes}. anyOf[2] (Value): null.
              */
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            /**
+             * Billing name and address collected in Checkout for a successful payment. Omitted for
+             * buyer credentials and when Checkout did not collect the details. anyOf[1] (Value):
+             * {@link CheckoutBillingContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             /**
              * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
              * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
@@ -6615,10 +7220,10 @@ export type OrderPartiallyPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope &
              */
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             /**
-             * Payment link whose checkout created this order. Absent for orders that did not come
-             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
-             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
-             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+             * Payment link that created this order or started the subscription it renews. Absent
+             * for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders.
+             * anyOf[1] (Value): string. Payment link that created this order or started the
+             * subscription it renews. Absent for other orders. Filter GET /v1/orders by
              * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
              * anyOf[2] (Value): null.
              */
@@ -6828,6 +7433,7 @@ export type OrderPartiallyRefundedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_note"?: ((string) | (null));
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             "checkout_session_ids"?: ((Array<string>) | (null));
             "client_reference"?: ((string) | (null));
             "closed_at"?: ((string) | (null));
@@ -6950,6 +7556,7 @@ export type OrderPartiallyRefundedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_note"?: ((string) | (null));
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             "checkout_session_ids"?: ((Array<string>) | (null));
             "client_reference"?: ((string) | (null));
             "closed_at"?: ((string) | (null));
@@ -7110,17 +7717,23 @@ export type OrderPartiallyRefundedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
      * fees, each with its applied amount, tax, and refunded amount.
      * previous_attributes.charges.anyOf[1][] (Value): {@link OrderChargePreviousAttributes}.
-     * previous_attributes.charges.anyOf[2] (Value): null. previous_attributes.checkout_session_ids
-     * (Optional): Array of string or null. IDs of the checkout sessions opened for this order.
-     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
-     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
-     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
-     * previous_attributes.client_reference (Optional): string or null. The reference the payment
-     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
-     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
-     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
-     * identity. Always present with merchant credentials.
+     * previous_attributes.charges.anyOf[2] (Value): null.
+     * previous_attributes.checkout_billing_contact (Optional): {@link
+     * CheckoutBillingContactPreviousAttributes} or null. Billing name and address collected in
+     * Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not
+     * collect the details. previous_attributes.checkout_billing_contact.anyOf[1] (Value): {@link
+     * CheckoutBillingContactPreviousAttributes}.
+     * previous_attributes.checkout_billing_contact.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_ids (Optional): Array of string or null. IDs of the
+     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1]
+     * (Value): Array of string. IDs of the checkout sessions opened for this order.
+     * previous_attributes.checkout_session_ids.anyOf[1][] (Value): string. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_ids.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
      * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
      * link URL or resolve request carried, such as your user ID. `null` when none was sent or
      * checkout did not start from a payment link. Returned only to merchant credentials; omitted
@@ -7383,13 +7996,13 @@ export type OrderPartiallyRefundedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * when `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1][]
      * (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
      * previous_attributes.payment_intents.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * previous_attributes.payment_link_id (Optional): string or null. Payment link that created
+     * this order or started the subscription it renews. Absent for other orders. Filter GET
      * /v1/orders by payment_link_id to list a link's orders.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link that created this
+     * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
+     * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * previous_attributes.payment_link_id.anyOf[2] (Value): null.
      * previous_attributes.payment_status (Optional): string or null. Collection progress. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
@@ -7573,22 +8186,27 @@ export type OrderPartiallyRefundedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
          * fees, each with its applied amount, tax, and refunded amount. charges.anyOf[1][]
          * (Value): {@link OrderChargePreviousAttributes}. charges.anyOf[2] (Value): null.
-         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
-         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
-         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
-         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
-         * null. client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
-         * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null. closed_at
-         * (Optional): string or null. When the order closed. Present exactly when status is
-         * closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
+         * checkout_billing_contact (Optional): {@link CheckoutBillingContactPreviousAttributes} or
+         * null. Billing name and address collected in Checkout for a successful payment. Omitted
+         * for buyer credentials and when Checkout did not collect the details.
+         * checkout_billing_contact.anyOf[1] (Value): {@link
+         * CheckoutBillingContactPreviousAttributes}. checkout_billing_contact.anyOf[2] (Value):
+         * null. checkout_session_ids (Optional): Array of string or null. IDs of the checkout
+         * sessions opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string.
+         * IDs of the checkout sessions opened for this order. checkout_session_ids.anyOf[1][]
+         * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2]
+         * (Value): null. client_reference (Optional): string or null. The reference the payment
+         * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+         * checkout did not start from a payment link. Returned only to merchant credentials;
+         * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not
+         * proof of identity. Always present with merchant credentials. client_reference.anyOf[1]
+         * (Value): string. The reference the payment link URL or resolve request carried, such as
+         * your user ID. `null` when none was sent or checkout did not start from a payment link.
+         * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+         * browser, so treat it as a claim, not proof of identity. Always present with merchant
+         * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the order closed. Present exactly when status
+         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
          * string. When the order closed. Present exactly when status is closed. Set once at the
          * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
@@ -7817,54 +8435,53 @@ export type OrderPartiallyRefundedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand`
          * names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
          * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
-         * payment_link_id (Optional): string or null. Payment link whose checkout created this
-         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+         * payment_link_id (Optional): string or null. Payment link that created this order or
+         * started the subscription it renews. Absent for other orders. Filter GET /v1/orders by
          * payment_link_id to list a link's orders. payment_link_id.anyOf[1] (Value): string.
-         * Payment link whose checkout created this order. Absent for orders that did not come from
-         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-         * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * payment_status (Optional): string or null. Collection progress. An invoice write-off
-         * also completes collection without receiving the written-off amount. Value enum:
-         * "unpaid", "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection
-         * progress. An invoice write-off also completes collection without receiving the
-         * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-         * payment_status.anyOf[2] (Value): null. pending_order_edit_id (Optional): string or null.
-         * The order edit waiting for its balance payment. While it is set, the units that edit
-         * removes can't join a fulfillment and the order refuses another edit. `null` when there
-         * is none. Omitted for buyer credentials. Always present with merchant credentials.
-         * pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting for its balance
+         * Payment link that created this order or started the subscription it renews. Absent for
+         * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
+         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * collection without receiving the written-off amount. Value enum: "unpaid",
+         * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
+         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
+         * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
          * order refuses another edit. `null` when there is none. Omitted for buyer credentials.
-         * Always present with merchant credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * pending_order_edit_id.anyOf[2] (Value): null. prepayment_order_id (Optional): string or
-         * null. Order that paid for this prepaid delivery. Null when this is not a prepaid
-         * delivery order. prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
-         * prepaid delivery. Null when this is not a prepaid delivery order. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". prepayment_order_id.anyOf[2] (Value): null.
-         * pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or null. The
-         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
-         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
-         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
-         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
-         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
-         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
-         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
-         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
-         * with `reason` `payment_returned` return money the order never received and don't count.
-         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
-         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
-         * return money the order never received and don't count. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
-         * return_credit_settlements (Optional): Array of {@link
-         * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value): Array of
-         * {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
+         * Always present with merchant credentials. pending_order_edit_id.anyOf[1] (Value):
+         * string. The order edit waiting for its balance payment. While it is set, the units that
+         * edit removes can't join a fulfillment and the order refuses another edit. `null` when
+         * there is none. Omitted for buyer credentials. Always present with merchant credentials.
+         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". pending_order_edit_id.anyOf[2] (Value): null.
+         * prepayment_order_id (Optional): string or null. Order that paid for this prepaid
+         * delivery. Null when this is not a prepaid delivery order. prepayment_order_id.anyOf[1]
+         * (Value): string. Order that paid for this prepaid delivery. Null when this is not a
+         * prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * prepayment_order_id.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The order's money totals: subtotal,
+         * discounts, charges, tax, requested tip, and total. pricing_amounts.anyOf[1] (Value):
+         * {@link PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * refund_ids (Optional): Array of string or null. IDs of the refunds that name this order.
+         * This includes refunds Flint makes to return a payment it couldn't accept (`reason`
+         * `payment_returned`), which never count toward `refund_status` or the order's refunded
+         * amounts. refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that name this
+         * order. This includes refunds Flint makes to return a payment it couldn't accept
+         * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
+         * refunded amounts. refund_ids.anyOf[1][] (Value): string. Example:
+         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. Refund progress for collected money. Refunds with `reason`
+         * `payment_returned` return money the order never received and don't count. Value enum:
+         * "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value): string. Refund
+         * progress for collected money. Refunds with `reason` `payment_returned` return money the
+         * order never received and don't count. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. return_credit_settlements (Optional):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to
+         * this order from items the buyer returned, such as an exchange's replacement order.
+         * Included in settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this
+         * order from items the buyer returned, such as an exchange's replacement order. Included
+         * in settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
          * OrderReturnCreditSettlementPreviousAttributes}. return_credit_settlements.anyOf[2]
          * (Value): null. return_resolution_id (Optional): string or null. ID of the return
          * resolution that created this order as a replacement. Omitted for orders a return did not
@@ -7993,6 +8610,12 @@ export type OrderPartiallyRefundedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * (Value): {@link OrderChargePreviousAttributes}. anyOf[2] (Value): null.
              */
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            /**
+             * Billing name and address collected in Checkout for a successful payment. Omitted for
+             * buyer credentials and when Checkout did not collect the details. anyOf[1] (Value):
+             * {@link CheckoutBillingContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             /**
              * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
              * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
@@ -8366,10 +8989,10 @@ export type OrderPartiallyRefundedInstalledMerchantsEvent = (Exclude<PartnerWebh
              */
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             /**
-             * Payment link whose checkout created this order. Absent for orders that did not come
-             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
-             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
-             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+             * Payment link that created this order or started the subscription it renews. Absent
+             * for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders.
+             * anyOf[1] (Value): string. Payment link that created this order or started the
+             * subscription it renews. Absent for other orders. Filter GET /v1/orders by
              * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
              * anyOf[2] (Value): null.
              */
@@ -8641,17 +9264,23 @@ export type OrderPartiallyRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
      * fees, each with its applied amount, tax, and refunded amount.
      * previous_attributes.charges.anyOf[1][] (Value): {@link OrderChargePreviousAttributes}.
-     * previous_attributes.charges.anyOf[2] (Value): null. previous_attributes.checkout_session_ids
-     * (Optional): Array of string or null. IDs of the checkout sessions opened for this order.
-     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
-     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
-     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
-     * previous_attributes.client_reference (Optional): string or null. The reference the payment
-     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
-     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
-     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
-     * identity. Always present with merchant credentials.
+     * previous_attributes.charges.anyOf[2] (Value): null.
+     * previous_attributes.checkout_billing_contact (Optional): {@link
+     * CheckoutBillingContactPreviousAttributes} or null. Billing name and address collected in
+     * Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not
+     * collect the details. previous_attributes.checkout_billing_contact.anyOf[1] (Value): {@link
+     * CheckoutBillingContactPreviousAttributes}.
+     * previous_attributes.checkout_billing_contact.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_ids (Optional): Array of string or null. IDs of the
+     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1]
+     * (Value): Array of string. IDs of the checkout sessions opened for this order.
+     * previous_attributes.checkout_session_ids.anyOf[1][] (Value): string. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_ids.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
      * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
      * link URL or resolve request carried, such as your user ID. `null` when none was sent or
      * checkout did not start from a payment link. Returned only to merchant credentials; omitted
@@ -8914,13 +9543,13 @@ export type OrderPartiallyRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * when `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1][]
      * (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
      * previous_attributes.payment_intents.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * previous_attributes.payment_link_id (Optional): string or null. Payment link that created
+     * this order or started the subscription it renews. Absent for other orders. Filter GET
      * /v1/orders by payment_link_id to list a link's orders.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link that created this
+     * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
+     * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * previous_attributes.payment_link_id.anyOf[2] (Value): null.
      * previous_attributes.payment_status (Optional): string or null. Collection progress. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
@@ -9104,22 +9733,27 @@ export type OrderPartiallyRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
          * fees, each with its applied amount, tax, and refunded amount. charges.anyOf[1][]
          * (Value): {@link OrderChargePreviousAttributes}. charges.anyOf[2] (Value): null.
-         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
-         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
-         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
-         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
-         * null. client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
-         * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null. closed_at
-         * (Optional): string or null. When the order closed. Present exactly when status is
-         * closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
+         * checkout_billing_contact (Optional): {@link CheckoutBillingContactPreviousAttributes} or
+         * null. Billing name and address collected in Checkout for a successful payment. Omitted
+         * for buyer credentials and when Checkout did not collect the details.
+         * checkout_billing_contact.anyOf[1] (Value): {@link
+         * CheckoutBillingContactPreviousAttributes}. checkout_billing_contact.anyOf[2] (Value):
+         * null. checkout_session_ids (Optional): Array of string or null. IDs of the checkout
+         * sessions opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string.
+         * IDs of the checkout sessions opened for this order. checkout_session_ids.anyOf[1][]
+         * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2]
+         * (Value): null. client_reference (Optional): string or null. The reference the payment
+         * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+         * checkout did not start from a payment link. Returned only to merchant credentials;
+         * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not
+         * proof of identity. Always present with merchant credentials. client_reference.anyOf[1]
+         * (Value): string. The reference the payment link URL or resolve request carried, such as
+         * your user ID. `null` when none was sent or checkout did not start from a payment link.
+         * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+         * browser, so treat it as a claim, not proof of identity. Always present with merchant
+         * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the order closed. Present exactly when status
+         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
          * string. When the order closed. Present exactly when status is closed. Set once at the
          * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
@@ -9348,54 +9982,53 @@ export type OrderPartiallyRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand`
          * names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
          * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
-         * payment_link_id (Optional): string or null. Payment link whose checkout created this
-         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+         * payment_link_id (Optional): string or null. Payment link that created this order or
+         * started the subscription it renews. Absent for other orders. Filter GET /v1/orders by
          * payment_link_id to list a link's orders. payment_link_id.anyOf[1] (Value): string.
-         * Payment link whose checkout created this order. Absent for orders that did not come from
-         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-         * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * payment_status (Optional): string or null. Collection progress. An invoice write-off
-         * also completes collection without receiving the written-off amount. Value enum:
-         * "unpaid", "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection
-         * progress. An invoice write-off also completes collection without receiving the
-         * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-         * payment_status.anyOf[2] (Value): null. pending_order_edit_id (Optional): string or null.
-         * The order edit waiting for its balance payment. While it is set, the units that edit
-         * removes can't join a fulfillment and the order refuses another edit. `null` when there
-         * is none. Omitted for buyer credentials. Always present with merchant credentials.
-         * pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting for its balance
+         * Payment link that created this order or started the subscription it renews. Absent for
+         * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
+         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * collection without receiving the written-off amount. Value enum: "unpaid",
+         * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
+         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
+         * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
          * order refuses another edit. `null` when there is none. Omitted for buyer credentials.
-         * Always present with merchant credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * pending_order_edit_id.anyOf[2] (Value): null. prepayment_order_id (Optional): string or
-         * null. Order that paid for this prepaid delivery. Null when this is not a prepaid
-         * delivery order. prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
-         * prepaid delivery. Null when this is not a prepaid delivery order. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". prepayment_order_id.anyOf[2] (Value): null.
-         * pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or null. The
-         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
-         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
-         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
-         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
-         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
-         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
-         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
-         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
-         * with `reason` `payment_returned` return money the order never received and don't count.
-         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
-         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
-         * return money the order never received and don't count. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
-         * return_credit_settlements (Optional): Array of {@link
-         * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value): Array of
-         * {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
+         * Always present with merchant credentials. pending_order_edit_id.anyOf[1] (Value):
+         * string. The order edit waiting for its balance payment. While it is set, the units that
+         * edit removes can't join a fulfillment and the order refuses another edit. `null` when
+         * there is none. Omitted for buyer credentials. Always present with merchant credentials.
+         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". pending_order_edit_id.anyOf[2] (Value): null.
+         * prepayment_order_id (Optional): string or null. Order that paid for this prepaid
+         * delivery. Null when this is not a prepaid delivery order. prepayment_order_id.anyOf[1]
+         * (Value): string. Order that paid for this prepaid delivery. Null when this is not a
+         * prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * prepayment_order_id.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The order's money totals: subtotal,
+         * discounts, charges, tax, requested tip, and total. pricing_amounts.anyOf[1] (Value):
+         * {@link PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * refund_ids (Optional): Array of string or null. IDs of the refunds that name this order.
+         * This includes refunds Flint makes to return a payment it couldn't accept (`reason`
+         * `payment_returned`), which never count toward `refund_status` or the order's refunded
+         * amounts. refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that name this
+         * order. This includes refunds Flint makes to return a payment it couldn't accept
+         * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
+         * refunded amounts. refund_ids.anyOf[1][] (Value): string. Example:
+         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. Refund progress for collected money. Refunds with `reason`
+         * `payment_returned` return money the order never received and don't count. Value enum:
+         * "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value): string. Refund
+         * progress for collected money. Refunds with `reason` `payment_returned` return money the
+         * order never received and don't count. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. return_credit_settlements (Optional):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to
+         * this order from items the buyer returned, such as an exchange's replacement order.
+         * Included in settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this
+         * order from items the buyer returned, such as an exchange's replacement order. Included
+         * in settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
          * OrderReturnCreditSettlementPreviousAttributes}. return_credit_settlements.anyOf[2]
          * (Value): null. return_resolution_id (Optional): string or null. ID of the return
          * resolution that created this order as a replacement. Omitted for orders a return did not
@@ -9524,6 +10157,12 @@ export type OrderPartiallyRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * (Value): {@link OrderChargePreviousAttributes}. anyOf[2] (Value): null.
              */
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            /**
+             * Billing name and address collected in Checkout for a successful payment. Omitted for
+             * buyer credentials and when Checkout did not collect the details. anyOf[1] (Value):
+             * {@link CheckoutBillingContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             /**
              * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
              * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
@@ -9897,10 +10536,10 @@ export type OrderPartiallyRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              */
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             /**
-             * Payment link whose checkout created this order. Absent for orders that did not come
-             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
-             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
-             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+             * Payment link that created this order or started the subscription it renews. Absent
+             * for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders.
+             * anyOf[1] (Value): string. Payment link that created this order or started the
+             * subscription it renews. Absent for other orders. Filter GET /v1/orders by
              * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
              * anyOf[2] (Value): null.
              */
@@ -10406,6 +11045,7 @@ export type OrderRefundedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_note"?: ((string) | (null));
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             "checkout_session_ids"?: ((Array<string>) | (null));
             "client_reference"?: ((string) | (null));
             "closed_at"?: ((string) | (null));
@@ -10528,6 +11168,7 @@ export type OrderRefundedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "buyer_contact"?: ((CheckoutBuyerContactPreviousAttributes) | (null));
             "buyer_note"?: ((string) | (null));
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             "checkout_session_ids"?: ((Array<string>) | (null));
             "client_reference"?: ((string) | (null));
             "closed_at"?: ((string) | (null));
@@ -10688,17 +11329,23 @@ export type OrderRefundedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
      * fees, each with its applied amount, tax, and refunded amount.
      * previous_attributes.charges.anyOf[1][] (Value): {@link OrderChargePreviousAttributes}.
-     * previous_attributes.charges.anyOf[2] (Value): null. previous_attributes.checkout_session_ids
-     * (Optional): Array of string or null. IDs of the checkout sessions opened for this order.
-     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
-     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
-     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
-     * previous_attributes.client_reference (Optional): string or null. The reference the payment
-     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
-     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
-     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
-     * identity. Always present with merchant credentials.
+     * previous_attributes.charges.anyOf[2] (Value): null.
+     * previous_attributes.checkout_billing_contact (Optional): {@link
+     * CheckoutBillingContactPreviousAttributes} or null. Billing name and address collected in
+     * Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not
+     * collect the details. previous_attributes.checkout_billing_contact.anyOf[1] (Value): {@link
+     * CheckoutBillingContactPreviousAttributes}.
+     * previous_attributes.checkout_billing_contact.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_ids (Optional): Array of string or null. IDs of the
+     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1]
+     * (Value): Array of string. IDs of the checkout sessions opened for this order.
+     * previous_attributes.checkout_session_ids.anyOf[1][] (Value): string. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_ids.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
      * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
      * link URL or resolve request carried, such as your user ID. `null` when none was sent or
      * checkout did not start from a payment link. Returned only to merchant credentials; omitted
@@ -10961,13 +11608,13 @@ export type OrderRefundedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * when `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1][]
      * (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
      * previous_attributes.payment_intents.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * previous_attributes.payment_link_id (Optional): string or null. Payment link that created
+     * this order or started the subscription it renews. Absent for other orders. Filter GET
      * /v1/orders by payment_link_id to list a link's orders.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link that created this
+     * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
+     * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * previous_attributes.payment_link_id.anyOf[2] (Value): null.
      * previous_attributes.payment_status (Optional): string or null. Collection progress. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
@@ -11151,22 +11798,27 @@ export type OrderRefundedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
          * fees, each with its applied amount, tax, and refunded amount. charges.anyOf[1][]
          * (Value): {@link OrderChargePreviousAttributes}. charges.anyOf[2] (Value): null.
-         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
-         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
-         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
-         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
-         * null. client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
-         * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null. closed_at
-         * (Optional): string or null. When the order closed. Present exactly when status is
-         * closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
+         * checkout_billing_contact (Optional): {@link CheckoutBillingContactPreviousAttributes} or
+         * null. Billing name and address collected in Checkout for a successful payment. Omitted
+         * for buyer credentials and when Checkout did not collect the details.
+         * checkout_billing_contact.anyOf[1] (Value): {@link
+         * CheckoutBillingContactPreviousAttributes}. checkout_billing_contact.anyOf[2] (Value):
+         * null. checkout_session_ids (Optional): Array of string or null. IDs of the checkout
+         * sessions opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string.
+         * IDs of the checkout sessions opened for this order. checkout_session_ids.anyOf[1][]
+         * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2]
+         * (Value): null. client_reference (Optional): string or null. The reference the payment
+         * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+         * checkout did not start from a payment link. Returned only to merchant credentials;
+         * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not
+         * proof of identity. Always present with merchant credentials. client_reference.anyOf[1]
+         * (Value): string. The reference the payment link URL or resolve request carried, such as
+         * your user ID. `null` when none was sent or checkout did not start from a payment link.
+         * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+         * browser, so treat it as a claim, not proof of identity. Always present with merchant
+         * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the order closed. Present exactly when status
+         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
          * string. When the order closed. Present exactly when status is closed. Set once at the
          * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
@@ -11395,54 +12047,53 @@ export type OrderRefundedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand`
          * names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
          * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
-         * payment_link_id (Optional): string or null. Payment link whose checkout created this
-         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+         * payment_link_id (Optional): string or null. Payment link that created this order or
+         * started the subscription it renews. Absent for other orders. Filter GET /v1/orders by
          * payment_link_id to list a link's orders. payment_link_id.anyOf[1] (Value): string.
-         * Payment link whose checkout created this order. Absent for orders that did not come from
-         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-         * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * payment_status (Optional): string or null. Collection progress. An invoice write-off
-         * also completes collection without receiving the written-off amount. Value enum:
-         * "unpaid", "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection
-         * progress. An invoice write-off also completes collection without receiving the
-         * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-         * payment_status.anyOf[2] (Value): null. pending_order_edit_id (Optional): string or null.
-         * The order edit waiting for its balance payment. While it is set, the units that edit
-         * removes can't join a fulfillment and the order refuses another edit. `null` when there
-         * is none. Omitted for buyer credentials. Always present with merchant credentials.
-         * pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting for its balance
+         * Payment link that created this order or started the subscription it renews. Absent for
+         * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
+         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * collection without receiving the written-off amount. Value enum: "unpaid",
+         * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
+         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
+         * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
          * order refuses another edit. `null` when there is none. Omitted for buyer credentials.
-         * Always present with merchant credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * pending_order_edit_id.anyOf[2] (Value): null. prepayment_order_id (Optional): string or
-         * null. Order that paid for this prepaid delivery. Null when this is not a prepaid
-         * delivery order. prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
-         * prepaid delivery. Null when this is not a prepaid delivery order. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". prepayment_order_id.anyOf[2] (Value): null.
-         * pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or null. The
-         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
-         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
-         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
-         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
-         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
-         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
-         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
-         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
-         * with `reason` `payment_returned` return money the order never received and don't count.
-         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
-         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
-         * return money the order never received and don't count. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
-         * return_credit_settlements (Optional): Array of {@link
-         * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value): Array of
-         * {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
+         * Always present with merchant credentials. pending_order_edit_id.anyOf[1] (Value):
+         * string. The order edit waiting for its balance payment. While it is set, the units that
+         * edit removes can't join a fulfillment and the order refuses another edit. `null` when
+         * there is none. Omitted for buyer credentials. Always present with merchant credentials.
+         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". pending_order_edit_id.anyOf[2] (Value): null.
+         * prepayment_order_id (Optional): string or null. Order that paid for this prepaid
+         * delivery. Null when this is not a prepaid delivery order. prepayment_order_id.anyOf[1]
+         * (Value): string. Order that paid for this prepaid delivery. Null when this is not a
+         * prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * prepayment_order_id.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The order's money totals: subtotal,
+         * discounts, charges, tax, requested tip, and total. pricing_amounts.anyOf[1] (Value):
+         * {@link PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * refund_ids (Optional): Array of string or null. IDs of the refunds that name this order.
+         * This includes refunds Flint makes to return a payment it couldn't accept (`reason`
+         * `payment_returned`), which never count toward `refund_status` or the order's refunded
+         * amounts. refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that name this
+         * order. This includes refunds Flint makes to return a payment it couldn't accept
+         * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
+         * refunded amounts. refund_ids.anyOf[1][] (Value): string. Example:
+         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. Refund progress for collected money. Refunds with `reason`
+         * `payment_returned` return money the order never received and don't count. Value enum:
+         * "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value): string. Refund
+         * progress for collected money. Refunds with `reason` `payment_returned` return money the
+         * order never received and don't count. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. return_credit_settlements (Optional):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to
+         * this order from items the buyer returned, such as an exchange's replacement order.
+         * Included in settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this
+         * order from items the buyer returned, such as an exchange's replacement order. Included
+         * in settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
          * OrderReturnCreditSettlementPreviousAttributes}. return_credit_settlements.anyOf[2]
          * (Value): null. return_resolution_id (Optional): string or null. ID of the return
          * resolution that created this order as a replacement. Omitted for orders a return did not
@@ -11571,6 +12222,12 @@ export type OrderRefundedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * (Value): {@link OrderChargePreviousAttributes}. anyOf[2] (Value): null.
              */
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            /**
+             * Billing name and address collected in Checkout for a successful payment. Omitted for
+             * buyer credentials and when Checkout did not collect the details. anyOf[1] (Value):
+             * {@link CheckoutBillingContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             /**
              * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
              * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
@@ -11944,10 +12601,10 @@ export type OrderRefundedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              */
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             /**
-             * Payment link whose checkout created this order. Absent for orders that did not come
-             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
-             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
-             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+             * Payment link that created this order or started the subscription it renews. Absent
+             * for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders.
+             * anyOf[1] (Value): string. Payment link that created this order or started the
+             * subscription it renews. Absent for other orders. Filter GET /v1/orders by
              * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
              * anyOf[2] (Value): null.
              */
@@ -12219,17 +12876,23 @@ export type OrderRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
      * fees, each with its applied amount, tax, and refunded amount.
      * previous_attributes.charges.anyOf[1][] (Value): {@link OrderChargePreviousAttributes}.
-     * previous_attributes.charges.anyOf[2] (Value): null. previous_attributes.checkout_session_ids
-     * (Optional): Array of string or null. IDs of the checkout sessions opened for this order.
-     * previous_attributes.checkout_session_ids.anyOf[1] (Value): Array of string. IDs of the
-     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1][]
-     * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
-     * previous_attributes.checkout_session_ids.anyOf[2] (Value): null.
-     * previous_attributes.client_reference (Optional): string or null. The reference the payment
-     * link URL or resolve request carried, such as your user ID. `null` when none was sent or
-     * checkout did not start from a payment link. Returned only to merchant credentials; omitted
-     * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
-     * identity. Always present with merchant credentials.
+     * previous_attributes.charges.anyOf[2] (Value): null.
+     * previous_attributes.checkout_billing_contact (Optional): {@link
+     * CheckoutBillingContactPreviousAttributes} or null. Billing name and address collected in
+     * Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not
+     * collect the details. previous_attributes.checkout_billing_contact.anyOf[1] (Value): {@link
+     * CheckoutBillingContactPreviousAttributes}.
+     * previous_attributes.checkout_billing_contact.anyOf[2] (Value): null.
+     * previous_attributes.checkout_session_ids (Optional): Array of string or null. IDs of the
+     * checkout sessions opened for this order. previous_attributes.checkout_session_ids.anyOf[1]
+     * (Value): Array of string. IDs of the checkout sessions opened for this order.
+     * previous_attributes.checkout_session_ids.anyOf[1][] (Value): string. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN". previous_attributes.checkout_session_ids.anyOf[2] (Value):
+     * null. previous_attributes.client_reference (Optional): string or null. The reference the
+     * payment link URL or resolve request carried, such as your user ID. `null` when none was sent
+     * or checkout did not start from a payment link. Returned only to merchant credentials;
+     * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof
+     * of identity. Always present with merchant credentials.
      * previous_attributes.client_reference.anyOf[1] (Value): string. The reference the payment
      * link URL or resolve request carried, such as your user ID. `null` when none was sent or
      * checkout did not start from a payment link. Returned only to merchant credentials; omitted
@@ -12492,13 +13155,13 @@ export type OrderRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * when `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1][]
      * (Value): {@link ExpandedPaymentIntentSummaryPreviousAttributes}.
      * previous_attributes.payment_intents.anyOf[2] (Value): null.
-     * previous_attributes.payment_link_id (Optional): string or null. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
+     * previous_attributes.payment_link_id (Optional): string or null. Payment link that created
+     * this order or started the subscription it renews. Absent for other orders. Filter GET
      * /v1/orders by payment_link_id to list a link's orders.
-     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link whose checkout
-     * created this order. Absent for orders that did not come from a payment link. Filter GET
-     * /v1/orders by payment_link_id to list a link's orders. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_link_id.anyOf[1] (Value): string. Payment link that created this
+     * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
+     * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * previous_attributes.payment_link_id.anyOf[2] (Value): null.
      * previous_attributes.payment_status (Optional): string or null. Collection progress. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
@@ -12682,22 +13345,27 @@ export type OrderRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * OrderChargePreviousAttributes}. Charges added to the order, such as delivery or service
          * fees, each with its applied amount, tax, and refunded amount. charges.anyOf[1][]
          * (Value): {@link OrderChargePreviousAttributes}. charges.anyOf[2] (Value): null.
-         * checkout_session_ids (Optional): Array of string or null. IDs of the checkout sessions
-         * opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string. IDs of
-         * the checkout sessions opened for this order. checkout_session_ids.anyOf[1][] (Value):
-         * string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2] (Value):
-         * null. client_reference (Optional): string or null. The reference the payment link URL or
-         * resolve request carried, such as your user ID. `null` when none was sent or checkout did
-         * not start from a payment link. Returned only to merchant credentials; omitted for buyer
-         * credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity.
-         * Always present with merchant credentials. client_reference.anyOf[1] (Value): string. The
-         * reference the payment link URL or resolve request carried, such as your user ID. `null`
-         * when none was sent or checkout did not start from a payment link. Returned only to
-         * merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so
-         * treat it as a claim, not proof of identity. Always present with merchant credentials.
-         * minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null. closed_at
-         * (Optional): string or null. When the order closed. Present exactly when status is
-         * closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
+         * checkout_billing_contact (Optional): {@link CheckoutBillingContactPreviousAttributes} or
+         * null. Billing name and address collected in Checkout for a successful payment. Omitted
+         * for buyer credentials and when Checkout did not collect the details.
+         * checkout_billing_contact.anyOf[1] (Value): {@link
+         * CheckoutBillingContactPreviousAttributes}. checkout_billing_contact.anyOf[2] (Value):
+         * null. checkout_session_ids (Optional): Array of string or null. IDs of the checkout
+         * sessions opened for this order. checkout_session_ids.anyOf[1] (Value): Array of string.
+         * IDs of the checkout sessions opened for this order. checkout_session_ids.anyOf[1][]
+         * (Value): string. Example: "cs_01KEZF7C004JRWFW43H037MQRN". checkout_session_ids.anyOf[2]
+         * (Value): null. client_reference (Optional): string or null. The reference the payment
+         * link URL or resolve request carried, such as your user ID. `null` when none was sent or
+         * checkout did not start from a payment link. Returned only to merchant credentials;
+         * omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not
+         * proof of identity. Always present with merchant credentials. client_reference.anyOf[1]
+         * (Value): string. The reference the payment link URL or resolve request carried, such as
+         * your user ID. `null` when none was sent or checkout did not start from a payment link.
+         * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
+         * browser, so treat it as a claim, not proof of identity. Always present with merchant
+         * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
+         * closed_at (Optional): string or null. When the order closed. Present exactly when status
+         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
          * string. When the order closed. Present exactly when status is closed. Set once at the
          * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
          * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
@@ -12926,54 +13594,53 @@ export type OrderRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included when `expand`
          * names `payment_intents`. payment_intents.anyOf[1][] (Value): {@link
          * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intents.anyOf[2] (Value): null.
-         * payment_link_id (Optional): string or null. Payment link whose checkout created this
-         * order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+         * payment_link_id (Optional): string or null. Payment link that created this order or
+         * started the subscription it renews. Absent for other orders. Filter GET /v1/orders by
          * payment_link_id to list a link's orders. payment_link_id.anyOf[1] (Value): string.
-         * Payment link whose checkout created this order. Absent for orders that did not come from
-         * a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
-         * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * payment_status (Optional): string or null. Collection progress. An invoice write-off
-         * also completes collection without receiving the written-off amount. Value enum:
-         * "unpaid", "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection
-         * progress. An invoice write-off also completes collection without receiving the
-         * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-         * payment_status.anyOf[2] (Value): null. pending_order_edit_id (Optional): string or null.
-         * The order edit waiting for its balance payment. While it is set, the units that edit
-         * removes can't join a fulfillment and the order refuses another edit. `null` when there
-         * is none. Omitted for buyer credentials. Always present with merchant credentials.
-         * pending_order_edit_id.anyOf[1] (Value): string. The order edit waiting for its balance
+         * Payment link that created this order or started the subscription it renews. Absent for
+         * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
+         * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
+         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * collection without receiving the written-off amount. Value enum: "unpaid",
+         * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
+         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
+         * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
          * order refuses another edit. `null` when there is none. Omitted for buyer credentials.
-         * Always present with merchant credentials. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-         * pending_order_edit_id.anyOf[2] (Value): null. prepayment_order_id (Optional): string or
-         * null. Order that paid for this prepaid delivery. Null when this is not a prepaid
-         * delivery order. prepayment_order_id.anyOf[1] (Value): string. Order that paid for this
-         * prepaid delivery. Null when this is not a prepaid delivery order. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". prepayment_order_id.anyOf[2] (Value): null.
-         * pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or null. The
-         * order's money totals: subtotal, discounts, charges, tax, requested tip, and total.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. refund_ids (Optional): Array of string or null.
-         * IDs of the refunds that name this order. This includes refunds Flint makes to return a
-         * payment it couldn't accept (`reason` `payment_returned`), which never count toward
-         * `refund_status` or the order's refunded amounts. refund_ids.anyOf[1] (Value): Array of
-         * string. IDs of the refunds that name this order. This includes refunds Flint makes to
-         * return a payment it couldn't accept (`reason` `payment_returned`), which never count
-         * toward `refund_status` or the order's refunded amounts. refund_ids.anyOf[1][] (Value):
-         * string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null.
-         * refund_status (Optional): string or null. Refund progress for collected money. Refunds
-         * with `reason` `payment_returned` return money the order never received and don't count.
-         * Value enum: "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value):
-         * string. Refund progress for collected money. Refunds with `reason` `payment_returned`
-         * return money the order never received and don't count. Value enum: "none",
-         * "partially_refunded", "refunded". refund_status.anyOf[2] (Value): null.
-         * return_credit_settlements (Optional): Array of {@link
-         * OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value): Array of
-         * {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this order from
-         * items the buyer returned, such as an exchange's replacement order. Included in
-         * settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
+         * Always present with merchant credentials. pending_order_edit_id.anyOf[1] (Value):
+         * string. The order edit waiting for its balance payment. While it is set, the units that
+         * edit removes can't join a fulfillment and the order refuses another edit. `null` when
+         * there is none. Omitted for buyer credentials. Always present with merchant credentials.
+         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". pending_order_edit_id.anyOf[2] (Value): null.
+         * prepayment_order_id (Optional): string or null. Order that paid for this prepaid
+         * delivery. Null when this is not a prepaid delivery order. prepayment_order_id.anyOf[1]
+         * (Value): string. Order that paid for this prepaid delivery. Null when this is not a
+         * prepaid delivery order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * prepayment_order_id.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The order's money totals: subtotal,
+         * discounts, charges, tax, requested tip, and total. pricing_amounts.anyOf[1] (Value):
+         * {@link PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * refund_ids (Optional): Array of string or null. IDs of the refunds that name this order.
+         * This includes refunds Flint makes to return a payment it couldn't accept (`reason`
+         * `payment_returned`), which never count toward `refund_status` or the order's refunded
+         * amounts. refund_ids.anyOf[1] (Value): Array of string. IDs of the refunds that name this
+         * order. This includes refunds Flint makes to return a payment it couldn't accept
+         * (`reason` `payment_returned`), which never count toward `refund_status` or the order's
+         * refunded amounts. refund_ids.anyOf[1][] (Value): string. Example:
+         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refund_ids.anyOf[2] (Value): null. refund_status
+         * (Optional): string or null. Refund progress for collected money. Refunds with `reason`
+         * `payment_returned` return money the order never received and don't count. Value enum:
+         * "none", "partially_refunded", "refunded". refund_status.anyOf[1] (Value): string. Refund
+         * progress for collected money. Refunds with `reason` `payment_returned` return money the
+         * order never received and don't count. Value enum: "none", "partially_refunded",
+         * "refunded". refund_status.anyOf[2] (Value): null. return_credit_settlements (Optional):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes} or null. Value applied to
+         * this order from items the buyer returned, such as an exchange's replacement order.
+         * Included in settlement_amounts.paid_money. return_credit_settlements.anyOf[1] (Value):
+         * Array of {@link OrderReturnCreditSettlementPreviousAttributes}. Value applied to this
+         * order from items the buyer returned, such as an exchange's replacement order. Included
+         * in settlement_amounts.paid_money. return_credit_settlements.anyOf[1][] (Value): {@link
          * OrderReturnCreditSettlementPreviousAttributes}. return_credit_settlements.anyOf[2]
          * (Value): null. return_resolution_id (Optional): string or null. ID of the return
          * resolution that created this order as a replacement. Omitted for orders a return did not
@@ -13102,6 +13769,12 @@ export type OrderRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * (Value): {@link OrderChargePreviousAttributes}. anyOf[2] (Value): null.
              */
             "charges"?: ((Array<OrderChargePreviousAttributes>) | (null));
+            /**
+             * Billing name and address collected in Checkout for a successful payment. Omitted for
+             * buyer credentials and when Checkout did not collect the details. anyOf[1] (Value):
+             * {@link CheckoutBillingContactPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "checkout_billing_contact"?: ((CheckoutBillingContactPreviousAttributes) | (null));
             /**
              * IDs of the checkout sessions opened for this order. anyOf[1] (Value): Array of
              * string. IDs of the checkout sessions opened for this order. anyOf[1][] (Value):
@@ -13475,10 +14148,10 @@ export type OrderRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              */
             "payment_intents"?: ((Array<ExpandedPaymentIntentSummaryPreviousAttributes>) | (null));
             /**
-             * Payment link whose checkout created this order. Absent for orders that did not come
-             * from a payment link. Filter GET /v1/orders by payment_link_id to list a link's
-             * orders. anyOf[1] (Value): string. Payment link whose checkout created this order.
-             * Absent for orders that did not come from a payment link. Filter GET /v1/orders by
+             * Payment link that created this order or started the subscription it renews. Absent
+             * for other orders. Filter GET /v1/orders by payment_link_id to list a link's orders.
+             * anyOf[1] (Value): string. Payment link that created this order or started the
+             * subscription it renews. Absent for other orders. Filter GET /v1/orders by
              * payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
              * anyOf[2] (Value): null.
              */
@@ -13793,9 +14466,8 @@ export type OrderSettlementAmounts = ({
     /**
      * Value order edits removed from the order, which it no longer owes: removed units' value plus
      * each edit's charge_refunds[].amount_money, whether that value was refunded or applied to
-     * lines the edit added. Not collected money, so it never changes paid_money or refunded_money.
-     * outstanding_money is the total minus paid, written-off, released, and removed money, never
-     * below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * lines the edit added. This reduces outstanding_money without changing paid_money or
+     * refunded_money. Monetary amount represented as integer minor units plus an ISO 4217 currency
      * code.
      */
     "removed_money": MoneyValue;
@@ -13878,9 +14550,9 @@ export type OrderSettlementAmountsPreviousAttributes = ({
     /**
      * Value order edits removed from the order, which it no longer owes: removed units' value plus
      * each edit's charge_refunds[].amount_money, whether that value was refunded or applied to
-     * lines the edit added. Not collected money, so it never changes paid_money or refunded_money.
-     * outstanding_money is the total minus paid, written-off, released, and removed money, never
-     * below zero. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * lines the edit added. This reduces outstanding_money without changing paid_money or
+     * refunded_money. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value):
+     * null.
      */
     "removed_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
@@ -13985,10 +14657,12 @@ export type OrderTax = {
     /**
      * Read-only, sorted ISO 3166-1 alpha-2 destination countries where automatic tax can calculate
      * every taxable line. Present only when tax is enabled in automatic mode. US destinations are
-     * covered for every category. In Canada, EU member states, GB, AU and NZ, only digital_goods,
-     * software and saas are covered; services, professional_services, physical goods and taxable
-     * charges are unsupported there. Read tax-connection.coverage for category scopes. Intersect
-     * with delivery supported_countries when collecting a shipping address. [] (Value): string.
+     * covered for categories supported by automatic tax. In Canada, EU member states, GB, AU and
+     * NZ, only digital_goods, software and saas are covered. Services, professional services,
+     * physical goods and taxable charges are unsupported outside the US. The list is empty when an
+     * unsettled taxable item has an unsupported category or the checkout needs an active tax
+     * connection. Read tax-connection.coverage for category scopes. Intersect with delivery
+     * supported_countries when collecting a shipping address. [] (Value): string.
      */
     "supported_countries"?: Array<string>;
     /**
@@ -14249,8 +14923,8 @@ export type OrderTaxComponentRequest = ({
      * (Required): integer string. Use an integer string (decimal digits), not a floating-point
      * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
      * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength:
-     * 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * minimum: 0. currency (Required): string. Three-letter uppercase ISO 4217 currency code for
+     * this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      */
     "flat_money": ({
         /**
@@ -14297,8 +14971,8 @@ export type OrderTaxComponentRequestInput = ({
      * (Required): integer string. Use an integer string (decimal digits), not a floating-point
      * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
      * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
-     * minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength:
-     * 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * minimum: 0. currency (Required): string. Three-letter uppercase ISO 4217 currency code for
+     * this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      */
     "flat_money": ({
         /**
@@ -14576,329 +15250,3 @@ export type OrderTaxExemptionInputOrderInput = ({
      */
     "coverage": CustomerTaxExemptionCoverageRequestInput;
 });
-export type OrderTaxExemptionPreviousAttributes = {
-    /**
-     * Certificate number recorded at assessment. Omitted when none was recorded. anyOf[1] (Value):
-     * string. Certificate number recorded at assessment. Omitted when none was recorded. anyOf[2]
-     * (Value): null.
-     */
-    "certificate_number"?: ((string) | (null));
-    /**
-     * Jurisdictions covered by the exemption at assessment. Omitted when no coverage was recorded.
-     * anyOf[1] (Value): {@link CustomerTaxExemptionCoveragePreviousAttributes}. anyOf[2] (Value):
-     * null.
-     */
-    "coverage"?: ((CustomerTaxExemptionCoveragePreviousAttributes) | (null));
-    /**
-     * ID of the customer the exemption was assessed from, when one was linked. anyOf[1] (Value):
-     * string. ID of the customer the exemption was assessed from, when one was linked. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
-     */
-    "customer_id"?: ((string) | (null));
-    /**
-     * Customer exemption record used for this assessment. Omitted for blanket flags, order
-     * declarations, and older snapshots. anyOf[1] (Value): string. Customer exemption record used
-     * for this assessment. Omitted for blanket flags, order declarations, and older snapshots.
-     * Example: "ctex_01KEZF7C009N0YTK0NMWP1XZPW". anyOf[2] (Value): null.
-     */
-    "customer_tax_exemption_id"?: ((string) | (null));
-    /**
-     * Last day of the selected record's exemption, inclusive. Omitted when no end date was
-     * recorded. anyOf[1] (Value): string. Last day of the selected record's exemption, inclusive.
-     * Omitted when no end date was recorded. Format: date. Example: "2026-08-02". anyOf[2]
-     * (Value): null.
-     */
-    "end_date"?: ((string) | (null));
-    /**
-     * Merchant-only reference to supporting evidence recorded at assessment. Buyer views omit it.
-     * Never printed on buyer documents. anyOf[1] (Value): string. Merchant-only reference to
-     * supporting evidence recorded at assessment. Buyer views omit it. Never printed on buyer
-     * documents. anyOf[2] (Value): null.
-     */
-    "evidence_reference"?: ((string) | (null));
-    /**
-     * Exemption reason recorded at assessment. Omitted when no reason was recorded. Value enum:
-     * "federal_government", "state_or_local_government", "tribal_government", "foreign_diplomat",
-     * "charitable_organization", "religious_organization", "educational_organization", "resale",
-     * "agricultural_production", "industrial_production", "direct_pay_permit", "direct_mail",
-     * "other". anyOf[1] (Value): string. Exemption reason recorded at assessment. Omitted when no
-     * reason was recorded. Value enum: "federal_government", "state_or_local_government",
-     * "tribal_government", "foreign_diplomat", "charitable_organization",
-     * "religious_organization", "educational_organization", "resale", "agricultural_production",
-     * "industrial_production", "direct_pay_permit", "direct_mail", "other". anyOf[2] (Value):
-     * null.
-     */
-    "reason"?: (("federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other"
-        | (string & {}))
-        | (null));
-    /**
-     * The source of the tax exemption assessment. Omitted when the source has not been
-     * established. Value enum: "none", "customer", "order". anyOf[1] (Value): string. The source
-     * of the tax exemption assessment. Omitted when the source has not been established. Value
-     * enum: "none", "customer", "order". anyOf[2] (Value): null.
-     */
-    "source"?: (("none" | "customer" | "order" | (string & {})) | (null));
-    /**
-     * First day of the selected record's exemption, inclusive. Omitted when no date was recorded.
-     * anyOf[1] (Value): string. First day of the selected record's exemption, inclusive. Omitted
-     * when no date was recorded. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
-     */
-    "start_date"?: ((string) | (null));
-    /**
-     * Whether an exemption applied to this sale. An exempt sale has zero tax and taxability_reason
-     * customer_exempt. anyOf[1] (Value): boolean. Whether an exemption applied to this sale. An
-     * exempt sale has zero tax and taxability_reason customer_exempt. anyOf[2] (Value): null.
-     */
-    "tax_exempt"?: ((boolean) | (null));
-};
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionRequest = ({
-    /**
-     * Merchant's exemption certificate number. Optional for type order. minLength: 1. maxLength:
-     * 255.
-     */
-    "certificate_number"?: string;
-    /**
-     * Replaced as a whole: send every field you want to keep. Required for type order. Covers all
-     * US states or an explicit list of states and DC. Replaced as a whole: send every field you
-     * want to keep. Covers all US states or an explicit list of US states and DC.
-     */
-    "coverage"?: CustomerTaxExemptionCoverage;
-    /**
-     * Explanation of the exemption. Required when reason is other; optional for every other
-     * reason. Up to 500 characters. minLength: 1. maxLength: 500.
-     */
-    "description"?: string;
-    /**
-     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
-     * buyer documents. minLength: 1. maxLength: 1024.
-     */
-    "evidence_reference"?: string;
-    /**
-     * Required for type order. other requires description; description is optional for every other
-     * reason. Value enum: "federal_government", "state_or_local_government", "tribal_government",
-     * "foreign_diplomat", "charitable_organization", "religious_organization",
-     * "educational_organization", "resale", "agricultural_production", "industrial_production",
-     * "direct_pay_permit", "direct_mail", "other".
-     */
-    "reason"?: "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other"
-        | (string & {});
-})
-    & ((Exclude<OrderTaxExemptionInputCustomer & object, readonly unknown[]>)
-    | (Exclude<OrderTaxExemptionInputNone & object, readonly unknown[]>)
-    | (Exclude<OrderTaxExemptionInputOrder & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
- * exemption, or a one-off order declaration. Write-only: responses return the exemption that
- * applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns
- * 409 ACTION_NOT_ALLOWED with reason payment_collected.
- */
-export type OrderTaxExemptionRequestInput = ({
-    /**
-     * Merchant's exemption certificate number. Optional for type order. minLength: 1. maxLength:
-     * 255.
-     */
-    "certificate_number"?: string;
-    /**
-     * Replaced as a whole: send every field you want to keep. Required for type order. Covers all
-     * US states or an explicit list of states and DC. Replaced as a whole: send every field you
-     * want to keep. Covers all US states or an explicit list of US states and DC.
-     */
-    "coverage"?: CustomerTaxExemptionCoverageRequestInput;
-    /**
-     * Explanation of the exemption. Required when reason is other; optional for every other
-     * reason. Up to 500 characters. minLength: 1. maxLength: 500.
-     */
-    "description"?: string;
-    /**
-     * Merchant-only reference to the supporting document. Never shown to buyers or printed on
-     * buyer documents. minLength: 1. maxLength: 1024.
-     */
-    "evidence_reference"?: string;
-    /**
-     * Required for type order. other requires description; description is optional for every other
-     * reason. Value enum: "federal_government", "state_or_local_government", "tribal_government",
-     * "foreign_diplomat", "charitable_organization", "religious_organization",
-     * "educational_organization", "resale", "agricultural_production", "industrial_production",
-     * "direct_pay_permit", "direct_mail", "other".
-     */
-    "reason"?: "federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other";
-    /**
-     * Required selector. customer uses the linked customer; none ignores customer exemptions;
-     * order supplies a declaration. Value enum: "customer", "none", "order".
-     */
-    "type": "customer" | "none" | "order";
-})
-    & ((Exclude<OrderTaxExemptionInputCustomerInput & object, readonly unknown[]>)
-    | (Exclude<OrderTaxExemptionInputNoneInput & object, readonly unknown[]>)
-    | (Exclude<OrderTaxExemptionInputOrderInput & object, readonly unknown[]>));
-/**
- * The taxing jurisdiction of an externally supplied tax component, identified by code, level,
- * name, state, and country.
- */
-export type OrderTaxJurisdictionRequestInput = {
-    /**
-     * Your stable key for the jurisdiction: 1 to 128 letters, digits, `.`, `_`, `:`, or `-`,
-     * starting with a letter or digit. Reports group tax by this code. minLength: 1. maxLength:
-     * 128. pattern: ^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$.
-     */
-    "code": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US".
-     */
-    "country": string;
-    /**
-     * The level of government that imposes the tax. Value enum: "state", "county", "city",
-     * "district", "country", "province".
-     */
-    "level": "state" | "county" | "city" | "district" | "country" | "province";
-    /**
-     * Name of the jurisdiction, up to 200 characters. Surrounding whitespace is trimmed before
-     * length validation. A supplied value cannot be blank; use null where clearing is supported.
-     * minLength: 1. maxLength: 200. pattern: ^[^\s\x00](?:[^\r\n\x00]*[^\s\x00])?$.
-     */
-    "name": string;
-    /**
-     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
-     * letters or digits), required below country level and omitted at country level. minLength: 1.
-     * maxLength: 3. pattern: ^[A-Z0-9]{1,3}$.
-     */
-    "state"?: string;
-};
-/**
- * The location Flint uses to calculate tax on an order, with its address, address type, and where
- * the address came from.
- */
-export type OrderTaxLocation = {
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. A postal address. Every address has country. Addresses Flint checked as complete
-     * (customer and saved addresses, merchant, location, invoice, order delivery destination, tax
-     * identity, fulfillment recipient and pickup addresses) always have line1 and city, and US
-     * ones always have state and postal_code. Delivery quote destinations, buyer locations and
-     * postal-code tax locations hold only what was provided, such as postal_code and country.
-     */
-    "address"?: Address;
-    /**
-     * Where the tax address came from. Value enum: "provided", "fulfillment", "customer",
-     * "location", "merchant".
-     */
-    "address_source": "provided" | "fulfillment" | "customer" | "location" | "merchant" | (string & {});
-    /**
-     * The kind of address Flint used to calculate tax. Value enum: "postal_code", "tax_address",
-     * "billing_address", "shipping_address", "business_address".
-     */
-    "address_type": "postal_code"
-        | "tax_address"
-        | "billing_address"
-        | "shipping_address"
-        | "business_address"
-        | (string & {});
-    /**
-     * ID of the customer whose saved address Flint used, when `address_source` is `customer`.
-     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * ID of the fulfillment whose shipping address Flint used. Absent when the address is the
-     * order's `delivery_destination`. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string;
-    /**
-     * ID of the pickup store whose address Flint used, when `address_source` is `location`.
-     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-};
-/** A full street address you supply as an order's tax location. */
-export type OrderTaxLocationFullAddressRequest = ({
-    /** City. minLength: 1. pattern: \S. */
-    "city": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. External tax accepts any ISO country; automatic tax
-     * supports only AT, AU, BE, BG, CA, CY, CZ, DE, DK, EE, ES, FI, FR, GB, GR, HR, HU, IE, IT,
-     * LT, LU, LV, MT, NL, NZ, PL, PT, RO, SE, SI, SK, US. minLength: 2. maxLength: 2. pattern:
-     * ^[A-Z]{2}$. Example: "US".
-     */
-    "country": string;
-    /** First line of the street address. minLength: 1. pattern: \S. */
-    "line1": string;
-    /** Second line of the street address, such as an apartment or suite. minLength: 1. */
-    "line2"?: string;
-    /**
-     * Postal code. A full address in Ireland may omit it; every other address needs one.
-     * minLength: 1. pattern: \S.
-     */
-    "postal_code"?: string;
-    /**
-     * State or province code, such as `WA` or `ON`. Required for US and Canadian full addresses;
-     * omit it elsewhere when the address has none. minLength: 1. pattern: \S.
-     */
-    "state"?: string;
-});
-/** A full street address you supply as an order's tax location. */
-export type OrderTaxLocationFullAddressRequestInput = OrderTaxLocationFullAddressRequest;
-/**
- * The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of
- * `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
- */
-export type OrderTaxLocationInputFullAddress = {
-    /**
-     * The address to calculate tax from. A full street address you supply as an order's tax
-     * location.
-     */
-    "address": OrderTaxLocationFullAddressRequest;
-    /**
-     * Where the tax address comes from. The only accepted value is provided, which is the default.
-     * Default: "provided". Value enum: "provided".
-     */
-    "address_source"?: "provided" | (string & {});
-    /**
-     * The kind of address you are sending. Value enum: "tax_address", "billing_address",
-     * "shipping_address".
-     */
-    "address_type": "tax_address" | "billing_address" | "shipping_address" | (string & {});
-};

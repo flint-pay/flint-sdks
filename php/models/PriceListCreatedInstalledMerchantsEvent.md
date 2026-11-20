@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](PriceListCreatedMerchantEvent.md#pricelistcreatedmerchanteventdata-fields-1).
 
+### PriceListCreatedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### PriceListCreatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [PriceListArchivedMerchantEvent.data fields 1.object](../models/PriceListArchivedMerchantEvent.md#pricelistarchivedmerchanteventdata-fields-1object).

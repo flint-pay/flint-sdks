@@ -27,14 +27,15 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object and [WebhookMerchant](../models/WebhookMerchant.md#webhookmerchant) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `banners`. `object`: [field definitions](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataobject). |
+| `actor` | Optional | [ReturnActor](../models/ReturnActor.md#returnactor) | Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. |
+| `object` | Required | object and [WebhookMerchant](../models/WebhookMerchant.md#webhookmerchant) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `banners`, `timezone_inferred`. `object`: [field definitions](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataobject). |
 | `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributes). |
 
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.data.object
 
-The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `banners`.
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `banners`, `timezone_inferred`.
 
-Field definitions: [shared fields](Merchant.md#merchant).
+Field definitions: [shared fields](WebhookMerchant.md#webhookmerchant).
 
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.data.object.metadata
 
@@ -66,7 +67,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `support_email` | Optional | string or null | Support email address shown to buyers, for example on receipts and checkout. `support_email`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributessupport_email). |
 | `support_phone` | Optional | string or null | Support phone number shown to buyers, in international format such as +12125551234. `support_phone`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributessupport_phone). |
 | `support_url` | Optional | string or null | Support page shown to buyers. `support_url`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributessupport_url). |
-| `timezone` | Optional | string or null | Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. `timezone`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributestimezone). |
+| `timezone` | Optional | string or null | Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone. `timezone`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributestimezone). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `version` | Optional | integer or null | Merchant version. Profile, status, and API version changes advance this version, including business name and business type changes synced from the payment provider. Readiness updates alone do not. `version`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributesversion). |
 | `website_url` | Optional | string or null | The business's website. `website_url`: [declared alternatives](../models/MerchantReadinessUpdatedInstalledMerchantsEvent.md#merchantreadinessupdatedinstalledmerchantseventdataprevious_attributeswebsite_url). |
@@ -280,15 +281,15 @@ anyOf variant 2.
 
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.data.previous_attributes.timezone variant 1
 
-anyOf variant 1: Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone..
+anyOf variant 1: Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone..
 
-- Value shape: string. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. 
+- Value shape: string. Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone. 
 
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.data.previous_attributes.timezone variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. 
+- Value shape: null. Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone. 
 
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.data.previous_attributes.updated_at
 

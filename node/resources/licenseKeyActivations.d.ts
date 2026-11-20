@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { LicenseKeyActivation } from '../declarations/types-38.js';
 import type {
+    LicenseKeyActivation,
     LicenseKeyActivationListResponse,
     LicenseKeyActivationResponse,
     LicenseKeyActivationsCreateParams,
@@ -27,6 +27,7 @@ export type {
 } from '../runtime.js';
 export type {
     LicenseKeyActivationsCreateParams,
+    LicenseKeyActivation,
     LicenseKeyActivationResponse,
     LicenseKeyActivationsGetParams,
     LicenseKeyActivationsListParams,
@@ -34,18 +35,17 @@ export type {
     LicenseKeyActivationsReleaseParams
 } from '../declarations/types-39.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { LicenseKeyActivation } from '../declarations/types-38.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateLicenseKeyActivationRequestInput, CreateLicenseKeyActivationRequest } from '../declarations/types-11.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { ReleaseLicenseKeyActivationRequestInput, ReleaseLicenseKeyActivationRequest } from '../declarations/types-61.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateLicenseKeyActivationRequest } from '../declarations/types-83.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeReleaseLicenseKeyActivationRequest } from '../declarations/types-91.js';
 export interface LicenseKeyActivationsResource {
     /**

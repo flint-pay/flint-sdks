@@ -1,7 +1,7 @@
-import { d11031 as c0 } from '../descriptors/data/527.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d11031 as d11031 } from '../descriptors/data/527.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d11062 as c0 } from '../descriptors/data/529.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d11062 as d11062 } from '../descriptors/data/529.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d11031;
+const read = d11062;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["SellerTaxAttestationRequest"]:c0()}); }
 export { codec as _validate };

@@ -16,9 +16,9 @@ External tax for replacement merchandise. Allowed only on merchant requests for 
 
 External percentage tax components and price mode for this replacement line. A tax calculation you supply for a draft order line item, made of tax components and a price mode.
 
-Field definitions: [shared fields](CreateOrderLineItemInputBundle.md#createorderlineiteminputbundletaxcalculation).
+Field definitions: [shared fields](CreateOrderLineItemCustom.md#createorderlineitemcustom-variant-2taxcalculation).
 
 ### ReturnReplacementTaxRequest.calculation.components[]
 
-Field definitions: [CreateOrderLineItemInputBundle.tax.calculation.components[]](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundletaxcalculationcomponents).
+Field definitions: [CreateOrderLineItemCustom variant 2.tax.calculation.components[]](../models/CreateOrderLineItemCustom.md#createorderlineitemcustom-variant-2taxcalculationcomponents).
 

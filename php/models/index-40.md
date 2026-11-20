@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# SignedMoney to BuyerRetryPaymentActionOptions
+# TaxCalculationCallbackUpdatedEvent to StripePaymentClientAction
 
+- [TaxCalculationCallbackUpdatedEvent](TaxCalculationCallbackUpdatedEvent.md)
+- [TaxConnectionUpdatedEvent](TaxConnectionUpdatedEvent.md)
+- [TestClockAdvancingEvent](TestClockAdvancingEvent.md)
+- [TestClockArchivedEvent](TestClockArchivedEvent.md)
+- [TestClockCreatedEvent](TestClockCreatedEvent.md)
+- [TestClockFailedEvent](TestClockFailedEvent.md)
+- [TestClockReadyEvent](TestClockReadyEvent.md)
+- [MoneyValue](MoneyValue.md)
+- [ExpandedCustomerSummary](ExpandedCustomerSummary.md)
+- [CheckoutBuyerContact](CheckoutBuyerContact.md)
+- [DeferredPromotion](DeferredPromotion.md)
+- [PricingAmounts](PricingAmounts.md)
 - [SignedMoney](SignedMoney.md)
 - [OrderSettlementAmounts](OrderSettlementAmounts.md)
 - [ExpandedOrderSummary](ExpandedOrderSummary.md)
@@ -90,16 +102,4 @@
 - [StripeSetupIntentClientAction](StripeSetupIntentClientAction.md)
 - [StripeTerminalPaymentIntentClientAction](StripeTerminalPaymentIntentClientAction.md)
 - [StripePaymentClientAction](StripePaymentClientAction.md)
-- [PendingPaymentActionClientActionStripe](PendingPaymentActionClientActionStripe.md)
-- [PendingPaymentActionPaymentIntentSubject](PendingPaymentActionPaymentIntentSubject.md)
-- [PendingPaymentActionSetupPaymentSourceSubject](PendingPaymentActionSetupPaymentSourceSubject.md)
-- [PendingPaymentActionSubject](PendingPaymentActionSubject.md)
-- [PendingPaymentAction](PendingPaymentAction.md)
-- [OrderPaymentAttempt](OrderPaymentAttempt.md)
-- [OrderAuthorizationAmounts](OrderAuthorizationAmounts.md)
-- [BuyerCancelRetentionOffer](BuyerCancelRetentionOffer.md)
-- [BuyerCancelActionOptions](BuyerCancelActionOptions.md)
-- [BuyerPauseActionOptions](BuyerPauseActionOptions.md)
-- [BuyerPayBalanceActionOptions](BuyerPayBalanceActionOptions.md)
-- [BuyerRetryPaymentActionOptions](BuyerRetryPaymentActionOptions.md)
 

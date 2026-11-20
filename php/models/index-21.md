@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# OrderLineItemInput to PartnerAppCredentialPublicKeyRequestInput
+# OrderHandoverRequestInput to PartnerAppCredentialInput
 
+- [OrderHandoverRequestInput](OrderHandoverRequestInput.md)
+- [OrderInventoryExceptionCreatedInstalledMerchantsEventInput](OrderInventoryExceptionCreatedInstalledMerchantsEventInput.md)
+- [OrderInventoryExceptionCreatedMerchantEventInput](OrderInventoryExceptionCreatedMerchantEventInput.md)
+- [OrderInventoryExceptionResolvedInstalledMerchantsEventInput](OrderInventoryExceptionResolvedInstalledMerchantsEventInput.md)
+- [OrderInventoryExceptionResolvedMerchantEventInput](OrderInventoryExceptionResolvedMerchantEventInput.md)
 - [OrderLineItemInput](OrderLineItemInput.md)
 - [OrderLineItemFulfillmentComponentInput](OrderLineItemFulfillmentComponentInput.md)
 - [OrderLineItemFulfillmentComponentPreviousAttributesInput](OrderLineItemFulfillmentComponentPreviousAttributesInput.md)
@@ -97,9 +102,4 @@
 - [PartnerAppInput](PartnerAppInput.md)
 - [PartnerAppAuthContextInput](PartnerAppAuthContextInput.md)
 - [PartnerAppCredentialInput](PartnerAppCredentialInput.md)
-- [PartnerAppCredentialJWKSURLInput](PartnerAppCredentialJWKSURLInput.md)
-- [PartnerAppCredentialJWKSURLRequestInput](PartnerAppCredentialJWKSURLRequestInput.md)
-- [PartnerAppCredentialListResponseInput](PartnerAppCredentialListResponseInput.md)
-- [PartnerAppCredentialPublicKeyInput](PartnerAppCredentialPublicKeyInput.md)
-- [PartnerAppCredentialPublicKeyRequestInput](PartnerAppCredentialPublicKeyRequestInput.md)
 

@@ -3,7 +3,9 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int $active_count
+ * @property-read int $billing_hold_count
  * @property-read int $canceled_count
+ * @property-read int $canceling_count
  * @property-read int $incomplete_count
  * @property-read int $past_due_count
  * @property-read int $paused_count
@@ -11,18 +13,28 @@ namespace Flint;
  * @property-read int $trialing_count
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionStatusCounts extends Model {
-    /** @param array{'active_count': int, 'canceled_count': int, 'incomplete_count': int, 'past_due_count': int, 'paused_count': int, 'scheduled_count': int, 'trialing_count': int, ...}|object $values */
+    /** @param array{'active_count': int, 'billing_hold_count': int, 'canceled_count': int, 'canceling_count': int, 'incomplete_count': int, 'past_due_count': int, 'paused_count': int, 'scheduled_count': int, 'trialing_count': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionStatusCounts')); }
-    /** Current subscriptions with this status, across currencies. Selected by current subscription status, independent of the requested half-open period. Format: int64.
+    /** Active subscriptions across currencies, excluding subscriptions scheduled to cancel or on billing hold. Format: int64.
      * @return int
      */
     public function getActiveCount(): int { return $this->get('active_count'); }
     public function hasActiveCount(): bool { return $this->has('active_count'); }
+    /** Active subscriptions across currencies with billing on hold or being retried, excluding subscriptions scheduled to cancel. Format: int64.
+     * @return int
+     */
+    public function getBillingHoldCount(): int { return $this->get('billing_hold_count'); }
+    public function hasBillingHoldCount(): bool { return $this->has('billing_hold_count'); }
     /** Current subscriptions with this status, across currencies. Selected by current subscription status, independent of the requested half-open period. Format: int64.
      * @return int
      */
     public function getCanceledCount(): int { return $this->get('canceled_count'); }
     public function hasCanceledCount(): bool { return $this->has('canceled_count'); }
+    /** Active or trialing subscriptions across currencies that are scheduled to cancel at the end of their current period. Format: int64.
+     * @return int
+     */
+    public function getCancelingCount(): int { return $this->get('canceling_count'); }
+    public function hasCancelingCount(): bool { return $this->has('canceling_count'); }
     /** Current subscriptions with this status, across currencies. Selected by current subscription status, independent of the requested half-open period. Format: int64.
      * @return int
      */
@@ -43,7 +55,7 @@ final class SubscriptionStatusCounts extends Model {
      */
     public function getScheduledCount(): int { return $this->get('scheduled_count'); }
     public function hasScheduledCount(): bool { return $this->has('scheduled_count'); }
-    /** Current subscriptions with this status, across currencies. Selected by current subscription status, independent of the requested half-open period. Format: int64.
+    /** Trialing subscriptions across currencies, excluding subscriptions scheduled to cancel. Format: int64.
      * @return int
      */
     public function getTrialingCount(): int { return $this->get('trialing_count'); }

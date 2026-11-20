@@ -132,6 +132,7 @@ export const VALIDATION_MESSAGES = {
     maxItems: '{param} must be an array with at most {limit} items; received an array of length {length}',
     minProperties: '{param} must be an object with at least {limit} fields; received an object with {length} fields',
     maxProperties: '{param} must be an object with at most {limit} fields; received an object with {length} fields',
+    uppercaseCurrency: '{param} must be a three-letter uppercase ISO 4217 code such as USD.',
     pattern: '{param} must be a string matching the required pattern; received a string',
     uniqueItems: '{param} must be an array of unique items; received an array',
     contains: '{param} must be an array containing the required shape; received an array',
@@ -596,6 +597,21 @@ export function assertRuntimePlan(value, historical = false) {
                 throw new Error('Raw schema in compiled response');
             if (result.phpRepresentation !== undefined)
                 assertPhpRepresentation(result.phpRepresentation);
+            if (result.phpPayloadAlternatives !== undefined) {
+                const location = `${op.id}.responses.${status}.phpPayloadAlternatives`;
+                const alternatives = record(result.phpPayloadAlternatives, location);
+                const codec = alternatives.codec;
+                assertCodecPlan(codec, location + '.codec');
+                const branches = codec.exactlyOne ?? codec.some;
+                if (!branches ||
+                    branches.length < 2 ||
+                    codec.tag ||
+                    (codec.exactlyOne && codec.some) ||
+                    !Array.isArray(alternatives.models) ||
+                    alternatives.models.length !== branches.length ||
+                    alternatives.models.some((name) => typeof name !== 'string' || !/^[A-Za-z][A-Za-z0-9_]*$/.test(name)))
+                    throw new Error(location + ': invalid alternatives');
+            }
             for (const key of ['model', 'mediaType'])
                 if (result[key] !== undefined && typeof result[key] !== 'string')
                     throw new Error(`${op.id}.responses.${status}: invalid ${key}`);

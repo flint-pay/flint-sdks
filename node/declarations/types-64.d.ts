@@ -1,39 +1,1500 @@
-import type { MoneyValuePreviousAttributes, MoneyValue } from './types-44.js';
+import type { BundleComponent, BundleComponentPreviousAttributes } from './types-1.js';
+import type { Fulfillment } from './types-27.js';
+import type { Image, ImagePreviousAttributes } from './types-31.js';
+import type { OrderLineItemModifier, OrderLineItemModifierPreviousAttributes } from './types-46.js';
+import type { ReturnActor, ReturnActorPreviousAttributes } from './types-62.js';
+import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-68.js';
+import type { FulfillmentPreviousAttributes } from './types-28.js';
+import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateReturnPolicyRequestInput, CreateReturnPreviewRequestInput, CreateReturnReasonRequestInput } from './types-13.js';
 import type { PublishReturnPolicyRevisionRequestInput } from './types-59.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { UpdateReturnPolicyRequestInput, UpdateReturnReasonRequestInput } from './types-77.js';
 import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-43.js';
-import type { BundleComponent, BundleComponentPreviousAttributes } from './types-1.js';
-import type { Image, ImagePreviousAttributes } from './types-31.js';
-import type { OrderLineItemModifier, OrderLineItemModifierPreviousAttributes } from './types-46.js';
-import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-67.js';
 import type {
     ReturnRestockingFeePolicy,
     ReturnShippingPolicy,
+    ReturnWindow,
     ReturnRestockingFeePolicyRequestInput,
     ReturnShippingPolicyRequestInput,
-    ReturnReplacementLineItemRequest,
-    ReturnReplacementLineItemRequestInput,
-    ReturnResolution,
-    ReturnResource,
-    ReturnSourceSystem,
-    ReturnSourceSystemPreviousAttributes
-} from './types-65.js';
-import type {
-    ReturnWindow,
     ReturnWindowRequestInput,
     ReturnSourceSystemRequest,
     ReturnSourceSystemRequestInput,
-    ReturnUnverifiedItem,
-    ReturnUnverifiedItemInput,
-    ReturnUnverifiedItemPreviousAttributes
+    ReturnResource,
+    ReturnSourceSystem
 } from './types-66.js';
-import type { ReturnDisposition, ReturnInspection, ReturnDispositionPreviousAttributes } from './types-63.js';
+import type {
+    ReturnReplacementLineItemRequest,
+    ReturnReplacementLineItemRequestInput,
+    ReturnResolution,
+    ReturnReceiptLineItem
+} from './types-65.js';
+import type { ReturnDisposition, ReturnInspection } from './types-63.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { WebhookSnapshotReturnDisposition } from './types-79.js';
-import type { ReturnActor, ReturnActorPreviousAttributes } from './types-62.js';
+/**
+ * Start from the pinned policy proposal recomputed for approved_quantity when the line has a
+ * policy evaluation and the proposal can be built. Otherwise start with return_required_quantity
+ * equal to approved_quantity, allowed_resolution_types containing refund, exchange, replacement,
+ * no_monetary_action, and store_credit in that order regardless of whether the original payment is
+ * refundable, no automatic_resolution_type, is_inspection_required false, and no
+ * receiving_location_id. Each supplied field replaces its starting value; allowed_resolution_types
+ * replaces the whole list. Omit automatic_resolution_type to keep its starting value, or send null
+ * to resolve manually. Then fill an omitted release_timing with after_inspection when merchandise
+ * is required and inspection is required, after_receipt when merchandise is required without
+ * inspection, or after_approval when no merchandise is required. Validate the merged decision for
+ * quantity bounds, allowed resolution types, and reachable timing and inspection requirements. A
+ * pinned policy always requires override_reason when approved_quantity exceeds evaluated
+ * eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal,
+ * other decision fields use these defaults and override_reason is otherwise optional. Example:
+ * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ","return_line_item_id":"retli_01KEZF7C001NHF6JPD83VD0MRK"}.
+ */
+export type ReturnLineDecision = ({
+    /**
+     * Optional replacement for the entire starting list. Defaults to the buildable pinned policy
+     * proposal; otherwise refund, exchange, replacement, no_monetary_action, and store_credit in
+     * that order, independent of the original payment's refundability. The resulting list must be
+     * valid and non-empty when approved_quantity is above zero. [] enum: "refund", "exchange",
+     * "replacement", "no_monetary_action", "store_credit". [] (Value): string. Value enum:
+     * "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     */
+    "allowed_resolution_types"?: Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>;
+    /**
+     * Required whole-number quantity from zero through the line's requested_quantity; fractional
+     * quantities are not supported. When approved_quantity is below requested_quantity, send
+     * decline_reason; decline_reason_message is optional. Both decline fields are forbidden when
+     * all requested quantity is approved. Format: int64. minimum: 0.
+     */
+    "approved_quantity": number;
+    /**
+     * Optional refund, store_credit, or no_monetary_action that Flint creates and confirms
+     * automatically. Omit to keep the policy proposal's value, or the absent value from no-policy
+     * defaults. Send null to resolve the line manually; clearing a policy proposal's automatic
+     * value requires override_reason. Must be in the resulting allowed_resolution_types. Exchange
+     * and replacement cannot be automated. An unavailable automatic refund or store credit fails
+     * with 409 ACTION_NOT_ALLOWED and reason refund_unavailable or store_credit_unavailable. Value
+     * enum: "refund", "store_credit", "no_monetary_action", null.
+     */
+    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | null | (string & {}) | null;
+    /**
+     * Why the line's declined quantity is declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason"?: "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /**
+     * Optional explanation accompanying decline_reason, up to 2048 characters (Unicode code
+     * points), counted before normalization. Requires decline_reason and is forbidden when all
+     * requested quantity is approved. minLength: 1. maxLength: 2048.
+     */
+    "decline_reason_message"?: string;
+    /**
+     * Optional inspection requirement. Defaults to the buildable pinned policy proposal or false
+     * when no proposal can be built. The resulting requirement must be reachable with the merged
+     * merchandise quantity and release timing.
+     */
+    "is_inspection_required"?: boolean;
+    /**
+     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
+     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
+     * when no proposal can be built. The release timing fill also applies to the proposal and does
+     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
+     * or no deviation exists. Forbidden without a pinned policy. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason"?: "customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /**
+     * Optional explanation accompanying override_reason. Requires override_reason and is forbidden
+     * without a pinned policy. minLength: 1.
+     */
+    "override_reason_message"?: string;
+    /**
+     * Optional receiving Location with a postal address. Defaults to the buildable pinned policy
+     * proposal or no location when no proposal can be built. Required when the resulting
+     * return_required_quantity is above zero and there is no starting location. A process receipt
+     * does not supply the decision's location. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id"?: string;
+    /**
+     * Optional gate for every resolution type. Defaults to the policy proposal's timing when set.
+     * After merging supplied fields, an unset timing becomes after_inspection when
+     * return_required_quantity is above zero and inspection is required, after_receipt when
+     * return_required_quantity is above zero without inspection, or after_approval when
+     * return_required_quantity is zero. Applies to every resolution type, including exchanges and
+     * replacements. manual is held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual".
+     */
+    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
+    /**
+     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * How much of the approved quantity the buyer must physically send back; fractional quantities
+     * are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and
+     * the Return still settles the money. Format: int64. minimum: 0.
+     */
+    "return_required_quantity"?: number;
+})
+    & (((unknown)
+    | ({
+    /**
+     * Why the line's declined quantity is declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason": "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+})
+    | (Record<string, unknown>)))
+    & (((unknown)
+    | ({
+    /**
+     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
+     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
+     * when no proposal can be built. The release timing fill also applies to the proposal and does
+     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
+     * or no deviation exists. Forbidden without a pinned policy. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason": "customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+})
+    | (Record<string, unknown>)));
+/**
+ * Start from the pinned policy proposal recomputed for approved_quantity when the line has a
+ * policy evaluation and the proposal can be built. Otherwise start with return_required_quantity
+ * equal to approved_quantity, allowed_resolution_types containing refund, exchange, replacement,
+ * no_monetary_action, and store_credit in that order regardless of whether the original payment is
+ * refundable, no automatic_resolution_type, is_inspection_required false, and no
+ * receiving_location_id. Each supplied field replaces its starting value; allowed_resolution_types
+ * replaces the whole list. Omit automatic_resolution_type to keep its starting value, or send null
+ * to resolve manually. Then fill an omitted release_timing with after_inspection when merchandise
+ * is required and inspection is required, after_receipt when merchandise is required without
+ * inspection, or after_approval when no merchandise is required. Validate the merged decision for
+ * quantity bounds, allowed resolution types, and reachable timing and inspection requirements. A
+ * pinned policy always requires override_reason when approved_quantity exceeds evaluated
+ * eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal,
+ * other decision fields use these defaults and override_reason is otherwise optional. Example:
+ * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ","return_line_item_id":"retli_01KEZF7C001NHF6JPD83VD0MRK"}.
+ */
+export type ReturnLineDecisionInput = ({
+    /**
+     * Optional replacement for the entire starting list. Defaults to the buildable pinned policy
+     * proposal; otherwise refund, exchange, replacement, no_monetary_action, and store_credit in
+     * that order, independent of the original payment's refundability. The resulting list must be
+     * valid and non-empty when approved_quantity is above zero. [] enum: "refund", "exchange",
+     * "replacement", "no_monetary_action", "store_credit". [] (Value): string. Value enum:
+     * "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     */
+    "allowed_resolution_types"?: Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit">;
+    /**
+     * Required whole-number quantity from zero through the line's requested_quantity; fractional
+     * quantities are not supported. When approved_quantity is below requested_quantity, send
+     * decline_reason; decline_reason_message is optional. Both decline fields are forbidden when
+     * all requested quantity is approved. Format: int64. minimum: 0.
+     */
+    "approved_quantity": number;
+    /**
+     * Optional refund, store_credit, or no_monetary_action that Flint creates and confirms
+     * automatically. Omit to keep the policy proposal's value, or the absent value from no-policy
+     * defaults. Send null to resolve the line manually; clearing a policy proposal's automatic
+     * value requires override_reason. Must be in the resulting allowed_resolution_types. Exchange
+     * and replacement cannot be automated. An unavailable automatic refund or store credit fails
+     * with 409 ACTION_NOT_ALLOWED and reason refund_unavailable or store_credit_unavailable. Value
+     * enum: "refund", "store_credit", "no_monetary_action", null.
+     */
+    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | null;
+    /**
+     * Why the line's declined quantity is declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason"?: "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other";
+    /**
+     * Optional explanation accompanying decline_reason, up to 2048 characters (Unicode code
+     * points), counted before normalization. Requires decline_reason and is forbidden when all
+     * requested quantity is approved. minLength: 1. maxLength: 2048.
+     */
+    "decline_reason_message"?: string;
+    /**
+     * Optional inspection requirement. Defaults to the buildable pinned policy proposal or false
+     * when no proposal can be built. The resulting requirement must be reachable with the merged
+     * merchandise quantity and release timing.
+     */
+    "is_inspection_required"?: boolean;
+    /**
+     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
+     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
+     * when no proposal can be built. The release timing fill also applies to the proposal and does
+     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
+     * or no deviation exists. Forbidden without a pinned policy. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason"?: "customer_service_exception" | "policy_correction" | "risk_review" | "merchant_discretion" | "other";
+    /**
+     * Optional explanation accompanying override_reason. Requires override_reason and is forbidden
+     * without a pinned policy. minLength: 1.
+     */
+    "override_reason_message"?: string;
+    /**
+     * Optional receiving Location with a postal address. Defaults to the buildable pinned policy
+     * proposal or no location when no proposal can be built. Required when the resulting
+     * return_required_quantity is above zero and there is no starting location. A process receipt
+     * does not supply the decision's location. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id"?: string;
+    /**
+     * Optional gate for every resolution type. Defaults to the policy proposal's timing when set.
+     * After merging supplied fields, an unset timing becomes after_inspection when
+     * return_required_quantity is above zero and inspection is required, after_receipt when
+     * return_required_quantity is above zero without inspection, or after_approval when
+     * return_required_quantity is zero. Applies to every resolution type, including exchanges and
+     * replacements. manual is held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual".
+     */
+    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual";
+    /**
+     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * How much of the approved quantity the buyer must physically send back; fractional quantities
+     * are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and
+     * the Return still settles the money. Format: int64. minimum: 0.
+     */
+    "return_required_quantity"?: number;
+})
+    & (((({
+    "decline_reason_message"?: never;
+}))
+    | ({
+    /**
+     * Why the line's declined quantity is declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason": "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other";
+})))
+    & (((({
+    "override_reason_message"?: never;
+}))
+    | ({
+    /**
+     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
+     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
+     * when no proposal can be built. The release timing fill also applies to the proposal and does
+     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
+     * or no deviation exists. Forbidden without a pinned policy. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason": "customer_service_exception" | "policy_correction" | "risk_review" | "merchant_discretion" | "other";
+})));
+/** An item included in a return request. */
+export type ReturnLineItem = {
+    /**
+     * Inspected units that were accepted. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "accepted_quantity": number;
+    /**
+     * Resolution types that can settle this line's approved quantity. [] enum: "refund",
+     * "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string. Value
+     * enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     */
+    "allowed_resolution_types": Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>;
+    /**
+     * Units the decision approved. Whole-number quantity; fractional quantities are not supported.
+     * Format: int64.
+     */
+    "approved_quantity": number;
+    /**
+     * The refund, store_credit, or no_monetary_action resolution Flint creates and confirms
+     * automatically. Absent when the merchant resolves manually. Example: "refund". Value enum:
+     * "refund", "store_credit", "no_monetary_action".
+     */
+    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | (string & {});
+    /**
+     * Approved quantity that can still be assigned to a new resolution. Every non-canceled
+     * resolution reserves its line quantity, including proposed, pending, action-required, failed,
+     * and completed resolutions. Whole-number quantity; fractional quantities are not supported.
+     * Format: int64.
+     */
+    "available_resolution_quantity": number;
+    /**
+     * Components of the bundle the line was sold from. [] (Value): {@link BundleComponent}. An
+     * item included in a bundle.
+     */
+    "bundle_components": Array<BundleComponent>;
+    /** ID of the bundle the line was sold from. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+    "bundle_id"?: string;
+    /** Note the buyer gave about this line. Some return reasons require one. */
+    "buyer_note"?: string;
+    /**
+     * Approved units canceled later. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "canceled_quantity": number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Who recorded the decision on this line. Who performed a return action: a buyer, merchant,
+     * integration, or the system, with an optional ID.
+     */
+    "decided_by"?: ReturnActor;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "decision_at"?: string;
+    /**
+     * Why the line's declined quantity was declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason"?: "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /** Detail sent with the decline. */
+    "decline_reason_message"?: string;
+    /**
+     * Units the decision declined. Whole-number quantity; fractional quantities are not supported.
+     * Format: int64.
+     */
+    "declined_quantity": number;
+    /** Description of the item as sold. */
+    "description"?: string;
+    /**
+     * Units with a successful disposition. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "dispositioned_quantity": number;
+    /**
+     * How the pinned return policy judged this line when the Return was created, with the policy
+     * revision it used. Whether a return line is eligible under policy, with the eligible
+     * quantity, allowed resolution types, and any policy adjustments.
+     */
+    "eligibility": ReturnLineItemEligibility;
+    /**
+     * Present only when `expand` includes `line_items.fulfillment`; `null` when expanded and there
+     * is no related fulfillment. anyOf[1] (Value): {@link Fulfillment}. Work required to deliver
+     * an order's items. anyOf[2] (Value): null.
+     */
+    "fulfillment"?: ((Fulfillment) | (null));
+    /**
+     * ID of the fulfillment the units were delivered in. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id": string;
+    /**
+     * Units the buyer handed off for the trip back. Whole-number quantity; fractional quantities
+     * are not supported. Format: int64.
+     */
+    "handed_off_quantity": number;
+    /** Image of the item as sold. An image with its URL, size, and alt text. */
+    "image"?: Image;
+    /**
+     * Units that have been inspected. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "inspected_quantity": number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "inspection_waived_at"?: string;
+    /**
+     * Who waived inspection for this line. Who performed a return action: a buyer, merchant,
+     * integration, or the system, with an optional ID.
+     */
+    "inspection_waived_by"?: ReturnActor;
+    /**
+     * Why inspection was waived for this line. Value enum: "policy_override",
+     * "trusted_in_store_handoff", "merchant_review", "other".
+     */
+    "inspection_waiver_reason"?: "policy_override" | "trusted_in_store_handoff" | "merchant_review" | "other" | (string & {});
+    /** Detail sent when inspection was waived. */
+    "inspection_waiver_reason_message"?: string;
+    /** Whether returned units of this line must be inspected. */
+    "is_inspection_required"?: boolean;
+    /**
+     * Whether the decision overrode the pinned return policy's proposal. `override_reason` says
+     * why.
+     */
+    "is_policy_overridden": boolean;
+    /**
+     * Where this line's merchandise stands, from handoff through disposition. Value enum:
+     * "not_required", "awaiting_handoff", "in_transit", "partially_received",
+     * "inspection_required", "partially_inspected", "inspection_review_required",
+     * "disposition_required", "resolved".
+     */
+    "merchandise_status": "not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | (string & {});
+    /**
+     * Modifiers selected on the order line, with their prices. [] (Value): {@link
+     * OrderLineItemModifier}. A modifier selected on an order line item.
+     */
+    "modifiers": Array<OrderLineItemModifier>;
+    /** Name of the item as sold. */
+    "name": string;
+    /** Order that owns order_line_item_id. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /** ID of the order line item the units come from. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+    "order_line_item_id": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "overridden_at"?: string;
+    /**
+     * Who recorded the override. Who performed a return action: a buyer, merchant, integration, or
+     * the system, with an optional ID.
+     */
+    "overridden_by"?: ReturnActor;
+    /**
+     * Why the decision overrode the pinned return policy's proposal. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason"?: "customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /** Detail sent with the override. */
+    "override_reason_message"?: string;
+    /**
+     * ID of the catalog product the item was sold from. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * Units that arrived. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64.
+     */
+    "received_quantity": number;
+    /**
+     * ID of the Location the buyer sends the merchandise to. Absent when none has to come back.
+     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id"?: string;
+    /**
+     * Inspected units that were rejected. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "rejected_quantity": number;
+    /**
+     * Committed resolution execution gate, filled for every approved line: after_inspection when
+     * merchandise and inspection are required, after_receipt when merchandise is required without
+     * inspection, or after_approval when merchandise is not required, unless the policy or
+     * decision sets a timing explicitly. Applies to every resolution type, including exchanges and
+     * replacements. manual is held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual".
+     */
+    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
+    /**
+     * Units the request asked to return. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "requested_quantity": number;
+    /**
+     * Outcome requested for this line when it was created. Absent when none was requested. Value
+     * enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     */
+    "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
+    /**
+     * ID of the variant requested for this exchange. The merchant chooses the replacement and
+     * confirms its price during resolution.
+     */
+    "requested_variant"?: string;
+    /**
+     * Whether the value for this line's approved quantity has been delivered. Value enum:
+     * "not_selected", "pending", "requires_action", "completed", "failed".
+     */
+    "resolution_status": "not_selected" | "pending" | "requires_action" | "completed" | "failed" | (string & {});
+    /**
+     * Units whose resolution has finished. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64.
+     */
+    "resolved_quantity": number;
+    /** ID of the Return this line belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+    "return_id": string;
+    /**
+     * Unique identifier for this return line item, prefixed `retli_`. Example:
+     * "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * Present only when `expand` includes `line_items.return_reason`; `null` when expanded and
+     * there is no related return reason. anyOf[1] (Value): {@link ReturnReason}. A reason
+     * customers can select when requesting a return. anyOf[2] (Value): null.
+     */
+    "return_reason"?: ((ReturnReason) | (null));
+    /**
+     * Handle of the chosen reason, captured when the line is created or its reason changes. Later
+     * renames, deactivation or archiving don't change it.
+     */
+    "return_reason_handle": string;
+    /** ID of the reason chosen for this line. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E". */
+    "return_reason_id": string;
+    /**
+     * Name of the chosen reason, captured when the line is created or its reason changes. Later
+     * renames, deactivation or archiving don't change it.
+     */
+    "return_reason_name": string;
+    /**
+     * How much of the approved quantity the buyer must physically send back; fractional quantities
+     * are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and
+     * the Return still settles the money. Format: int64.
+     */
+    "return_required_quantity": number;
+    /**
+     * IDs of the resolutions that include this line, oldest first, including failed and canceled
+     * resolutions. [] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_ids": Array<string>;
+    /**
+     * Value of the line's units, fixed when the line was created: what the buyer paid for them,
+     * less what was already refunded or returned. The value of a return line: unit price,
+     * subtotal, discount, tax, and total.
+     */
+    "return_value": ReturnLineItemValue;
+    /**
+     * Inspected units still waiting for an acceptance decision. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64.
+     */
+    "review_required_quantity": number;
+    /**
+     * Variant options selected for the item, such as size and color. [] (Value): {@link
+     * SelectedProductOption}. An option and value chosen for a product variant, such as size
+     * Large.
+     */
+    "selected_options": Array<SelectedProductOption>;
+    /** SKU of the item as sold. */
+    "sku"?: string;
+    /**
+     * Where this line stands. Same values and meanings as the Return's `status`, applied to the
+     * line. Value enum: "requested", "open", "completed", "declined", "canceled".
+     */
+    "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+    /**
+     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
+     * left out. For an open line with uncanceled approved quantity, `cancel` is listed while
+     * approved quantity remains after accounting for handoff, receipt, inspection, disposition,
+     * non-canceled resolutions, and non-voided return shipment allocations. `waive_inspection` is
+     * listed while inspection is required and no unit has been inspected. [] enum: "cancel",
+     * "waive_inspection". [] (Value): string. Value enum: "cancel", "waive_inspection".
+     */
+    "supported_actions": Array<"cancel" | "waive_inspection" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * ID of the catalog variant the item was sold from. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+};
+/**
+ * The pinned policy decision recomputed for based_on_quantity. A decide with only
+ * approved_quantity commits these values. Policy automatic resolution selects the policy
+ * automatic_resolution_type for policy_default or the line's requested_resolution_type for
+ * buyer_requested. When buyer_requested has no requested_resolution_type, the proposal still
+ * exists without automatic_resolution_type, so resolution is manual. Manual policy resolution also
+ * has no automatic_resolution_type. An unset release_timing is filled with after_inspection when
+ * merchandise and inspection are required, after_receipt when merchandise is required without
+ * inspection, or after_approval when no merchandise is required.
+ */
+export type ReturnLineItemDecisionProposal = {
+    /**
+     * Resolution types the proposal allows. [] enum: "refund", "exchange", "replacement",
+     * "no_monetary_action", "store_credit". [] (Value): string. Value enum: "refund", "exchange",
+     * "replacement", "no_monetary_action", "store_credit".
+     */
+    "allowed_resolution_types": Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>;
+    /**
+     * The refund, store_credit, or no_monetary_action that Flint creates and confirms
+     * automatically, using the policy default or buyer request according to the policy selection
+     * mode. Absent for manual resolution, including buyer_requested when the line has no
+     * requested_resolution_type. Example: "refund". Value enum: "refund", "store_credit",
+     * "no_monetary_action".
+     */
+    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | (string & {});
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "based_on_quantity": number;
+    /** Whether the proposal requires inspection of the returned units. */
+    "is_inspection_required": boolean;
+    /**
+     * ID of the Location the proposal sends returned merchandise to. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id"?: string;
+    /**
+     * The policy timing, or after_inspection when merchandise and inspection are required,
+     * after_receipt when merchandise is required without inspection, or after_approval when no
+     * merchandise is required. This fill never counts as a policy deviation. Applies to every
+     * resolution type, including exchanges and replacements. manual is held until a merchant calls
+     * POST /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual".
+     */
+    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "return_required_quantity": number;
+};
+export type ReturnLineItemDecisionProposalPreviousAttributes = {
+    /**
+     * Resolution types the proposal allows. [] enum: "refund", "exchange", "replacement",
+     * "no_monetary_action", "store_credit". anyOf[1] (Value): Array of string. Resolution types
+     * the proposal allows. [] enum: "refund", "exchange", "replacement", "no_monetary_action",
+     * "store_credit". anyOf[1][] (Value): string. Value enum: "refund", "exchange", "replacement",
+     * "no_monetary_action", "store_credit". anyOf[2] (Value): null.
+     */
+    "allowed_resolution_types"?: ((Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>)
+        | (null));
+    /**
+     * The refund, store_credit, or no_monetary_action that Flint creates and confirms
+     * automatically, using the policy default or buyer request according to the policy selection
+     * mode. Absent for manual resolution, including buyer_requested when the line has no
+     * requested_resolution_type. Value enum: "refund", "store_credit", "no_monetary_action".
+     * anyOf[1] (Value): string. The refund, store_credit, or no_monetary_action that Flint creates
+     * and confirms automatically, using the policy default or buyer request according to the
+     * policy selection mode. Absent for manual resolution, including buyer_requested when the line
+     * has no requested_resolution_type. Example: "refund". Value enum: "refund", "store_credit",
+     * "no_monetary_action". anyOf[2] (Value): null.
+     */
+    "automatic_resolution_type"?: (("refund" | "store_credit" | "no_monetary_action" | (string & {})) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
+     * (Value): null.
+     */
+    "based_on_quantity"?: ((number) | (null));
+    /**
+     * Whether the proposal requires inspection of the returned units. anyOf[1] (Value): boolean.
+     * Whether the proposal requires inspection of the returned units. anyOf[2] (Value): null.
+     */
+    "is_inspection_required"?: ((boolean) | (null));
+    /**
+     * ID of the Location the proposal sends returned merchandise to. anyOf[1] (Value): string. ID
+     * of the Location the proposal sends returned merchandise to. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+     */
+    "receiving_location_id"?: ((string) | (null));
+    /**
+     * The policy timing, or after_inspection when merchandise and inspection are required,
+     * after_receipt when merchandise is required without inspection, or after_approval when no
+     * merchandise is required. This fill never counts as a policy deviation. Applies to every
+     * resolution type, including exchanges and replacements. manual is held until a merchant calls
+     * POST /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual". anyOf[1] (Value): string. The policy timing,
+     * or after_inspection when merchandise and inspection are required, after_receipt when
+     * merchandise is required without inspection, or after_approval when no merchandise is
+     * required. This fill never counts as a policy deviation. Applies to every resolution type,
+     * including exchanges and replacements. manual is held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual". anyOf[2] (Value): null.
+     */
+    "release_timing"?: (("after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {}))
+        | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
+     * (Value): null.
+     */
+    "return_required_quantity"?: ((number) | (null));
+};
+/**
+ * Whether a return line is eligible under policy, with the eligible quantity, allowed resolution
+ * types, and any policy adjustments.
+ */
+export type ReturnLineItemEligibility = {
+    /**
+     * Resolution types the policy allows for this line. [] enum: "refund", "exchange",
+     * "replacement", "no_monetary_action", "store_credit". [] (Value): string. Value enum:
+     * "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     */
+    "allowed_resolution_types": Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>;
+    /**
+     * Terms the policy proposes if the line is approved. Absent when the policy can't propose any.
+     * The pinned policy decision recomputed for based_on_quantity. A decide with only
+     * approved_quantity commits these values. Policy automatic resolution selects the policy
+     * automatic_resolution_type for policy_default or the line's requested_resolution_type for
+     * buyer_requested. When buyer_requested has no requested_resolution_type, the proposal still
+     * exists without automatic_resolution_type, so resolution is manual. Manual policy resolution
+     * also has no automatic_resolution_type. An unset release_timing is filled with
+     * after_inspection when merchandise and inspection are required, after_receipt when
+     * merchandise is required without inspection, or after_approval when no merchandise is
+     * required.
+     */
+    "decision_proposal"?: ReturnLineItemDecisionProposal;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "eligible_quantity": number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "evaluated_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /**
+     * The matched policy's declared exclusion reason. Present exactly when reason is
+     * policy_ineligible. Value enum: "final_sale", "product_excluded", "category_excluded",
+     * "market_restricted", "channel_restricted", "outside_return_window", "other".
+     */
+    "ineligibility_reason"?: "final_sale"
+        | "product_excluded"
+        | "category_excluded"
+        | "market_restricted"
+        | "channel_restricted"
+        | "outside_return_window"
+        | "other"
+        | (string & {});
+    /**
+     * Fees or credits the policy proposes for this line, to add to a resolution as adjustments. []
+     * (Value): {@link ReturnPolicyAdjustmentProposal}. A fee or credit a return policy proposes
+     * for a line, calculated as a flat amount or a percent.
+     */
+    "policy_adjustment_proposals": Array<ReturnPolicyAdjustmentProposal>;
+    /**
+     * Why the line got this result. Value enum: "eligible_under_policy", "manual_review_required",
+     * "return_window_expired", "quantity_unavailable", "policy_ineligible",
+     * "resolution_not_allowed", "reason_not_allowed", "policy_conflict", "no_matching_policy".
+     */
+    "reason": "eligible_under_policy"
+        | "manual_review_required"
+        | "return_window_expired"
+        | "quantity_unavailable"
+        | "policy_ineligible"
+        | "resolution_not_allowed"
+        | "reason_not_allowed"
+        | "policy_conflict"
+        | "no_matching_policy"
+        | (string & {});
+    /** Explanation of `reason`. */
+    "reason_message": string;
+    /**
+     * ID of the policy that judged the line. Absent when none matched. Example:
+     * "rpol_01KEZF7C00H8C042BEK6HBRANX".
+     */
+    "return_policy_id"?: string;
+    /**
+     * ID of the policy revision that judged the line. Absent when none matched. Example:
+     * "rpolv_01KEZF7C007AWH6P4QC14Q25TC".
+     */
+    "return_policy_revision_id"?: string;
+    /**
+     * Who pays return shipping under the policy. Null when the line is not eligible, requires no
+     * merchandise return, or the policy does not specify a payer. This field does not promise a
+     * prepaid label. Value enum: "merchant", "buyer", null.
+     */
+    "return_shipping_payer": "merchant" | "buyer" | null | (string & {}) | null;
+    /**
+     * Whether the policy lets the buyer return this. `review_required` means the merchant decides.
+     * Value enum: "eligible", "ineligible", "review_required".
+     */
+    "status": "eligible" | "ineligible" | "review_required" | (string & {});
+};
+export type ReturnLineItemEligibilityPreviousAttributes = {
+    /**
+     * Resolution types the policy allows for this line. [] enum: "refund", "exchange",
+     * "replacement", "no_monetary_action", "store_credit". anyOf[1] (Value): Array of string.
+     * Resolution types the policy allows for this line. [] enum: "refund", "exchange",
+     * "replacement", "no_monetary_action", "store_credit". anyOf[1][] (Value): string. Value enum:
+     * "refund", "exchange", "replacement", "no_monetary_action", "store_credit". anyOf[2] (Value):
+     * null.
+     */
+    "allowed_resolution_types"?: ((Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>)
+        | (null));
+    /**
+     * Terms the policy proposes if the line is approved. Absent when the policy can't propose any.
+     * anyOf[1] (Value): {@link ReturnLineItemDecisionProposalPreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "decision_proposal"?: ((ReturnLineItemDecisionProposalPreviousAttributes) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
+     * (Value): null.
+     */
+    "eligible_quantity"?: ((number) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "evaluated_at"?: ((string) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "expires_at"?: ((string) | (null));
+    /**
+     * The matched policy's declared exclusion reason. Present exactly when reason is
+     * policy_ineligible. Value enum: "final_sale", "product_excluded", "category_excluded",
+     * "market_restricted", "channel_restricted", "outside_return_window", "other". anyOf[1]
+     * (Value): string. The matched policy's declared exclusion reason. Present exactly when reason
+     * is policy_ineligible. Value enum: "final_sale", "product_excluded", "category_excluded",
+     * "market_restricted", "channel_restricted", "outside_return_window", "other". anyOf[2]
+     * (Value): null.
+     */
+    "ineligibility_reason"?: (("final_sale"
+        | "product_excluded"
+        | "category_excluded"
+        | "market_restricted"
+        | "channel_restricted"
+        | "outside_return_window"
+        | "other"
+        | (string & {}))
+        | (null));
+    /**
+     * Fees or credits the policy proposes for this line, to add to a resolution as adjustments.
+     * anyOf[1] (Value): Array of {@link ReturnPolicyAdjustmentProposalPreviousAttributes}. Fees or
+     * credits the policy proposes for this line, to add to a resolution as adjustments. anyOf[1][]
+     * (Value): {@link ReturnPolicyAdjustmentProposalPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "policy_adjustment_proposals"?: ((Array<ReturnPolicyAdjustmentProposalPreviousAttributes>) | (null));
+    /**
+     * Why the line got this result. Value enum: "eligible_under_policy", "manual_review_required",
+     * "return_window_expired", "quantity_unavailable", "policy_ineligible",
+     * "resolution_not_allowed", "reason_not_allowed", "policy_conflict", "no_matching_policy".
+     * anyOf[1] (Value): string. Why the line got this result. Value enum: "eligible_under_policy",
+     * "manual_review_required", "return_window_expired", "quantity_unavailable",
+     * "policy_ineligible", "resolution_not_allowed", "reason_not_allowed", "policy_conflict",
+     * "no_matching_policy". anyOf[2] (Value): null.
+     */
+    "reason"?: (("eligible_under_policy"
+        | "manual_review_required"
+        | "return_window_expired"
+        | "quantity_unavailable"
+        | "policy_ineligible"
+        | "resolution_not_allowed"
+        | "reason_not_allowed"
+        | "policy_conflict"
+        | "no_matching_policy"
+        | (string & {}))
+        | (null));
+    /**
+     * Explanation of `reason`. anyOf[1] (Value): string. Explanation of `reason`. anyOf[2]
+     * (Value): null.
+     */
+    "reason_message"?: ((string) | (null));
+    /**
+     * ID of the policy that judged the line. Absent when none matched. anyOf[1] (Value): string.
+     * ID of the policy that judged the line. Absent when none matched. Example:
+     * "rpol_01KEZF7C00H8C042BEK6HBRANX". anyOf[2] (Value): null.
+     */
+    "return_policy_id"?: ((string) | (null));
+    /**
+     * ID of the policy revision that judged the line. Absent when none matched. anyOf[1] (Value):
+     * string. ID of the policy revision that judged the line. Absent when none matched. Example:
+     * "rpolv_01KEZF7C007AWH6P4QC14Q25TC". anyOf[2] (Value): null.
+     */
+    "return_policy_revision_id"?: ((string) | (null));
+    /**
+     * Who pays return shipping under the policy. Null when the line is not eligible, requires no
+     * merchandise return, or the policy does not specify a payer. This field does not promise a
+     * prepaid label. Value enum: "merchant", "buyer", null. anyOf[1] (Value): string. Who pays
+     * return shipping under the policy. Null when the line is not eligible, requires no
+     * merchandise return, or the policy does not specify a payer. This field does not promise a
+     * prepaid label. Value enum: "merchant", "buyer", null. anyOf[2] (Value): null.
+     */
+    "return_shipping_payer"?: (("merchant" | "buyer" | null | (string & {})) | (null));
+    /**
+     * Whether the policy lets the buyer return this. `review_required` means the merchant decides.
+     * Value enum: "eligible", "ineligible", "review_required". anyOf[1] (Value): string. Whether
+     * the policy lets the buyer return this. `review_required` means the merchant decides. Value
+     * enum: "eligible", "ineligible", "review_required". anyOf[2] (Value): null.
+     */
+    "status"?: (("eligible" | "ineligible" | "review_required" | (string & {})) | (null));
+};
+export type ReturnLineItemPreviousAttributes = {
+    /**
+     * Inspected units that were accepted. Whole-number quantity; fractional quantities are not
+     * supported. anyOf[1] (Value): integer. Inspected units that were accepted. Whole-number
+     * quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "accepted_quantity"?: ((number) | (null));
+    /**
+     * Resolution types that can settle this line's approved quantity. [] enum: "refund",
+     * "exchange", "replacement", "no_monetary_action", "store_credit". anyOf[1] (Value): Array of
+     * string. Resolution types that can settle this line's approved quantity. [] enum: "refund",
+     * "exchange", "replacement", "no_monetary_action", "store_credit". anyOf[1][] (Value): string.
+     * Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     * anyOf[2] (Value): null.
+     */
+    "allowed_resolution_types"?: ((Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>)
+        | (null));
+    /**
+     * Units the decision approved. Whole-number quantity; fractional quantities are not supported.
+     * anyOf[1] (Value): integer. Units the decision approved. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "approved_quantity"?: ((number) | (null));
+    /**
+     * The refund, store_credit, or no_monetary_action resolution Flint creates and confirms
+     * automatically. Absent when the merchant resolves manually. Value enum: "refund",
+     * "store_credit", "no_monetary_action". anyOf[1] (Value): string. The refund, store_credit, or
+     * no_monetary_action resolution Flint creates and confirms automatically. Absent when the
+     * merchant resolves manually. Example: "refund". Value enum: "refund", "store_credit",
+     * "no_monetary_action". anyOf[2] (Value): null.
+     */
+    "automatic_resolution_type"?: (("refund" | "store_credit" | "no_monetary_action" | (string & {})) | (null));
+    /**
+     * Approved quantity that can still be assigned to a new resolution. Every non-canceled
+     * resolution reserves its line quantity, including proposed, pending, action-required, failed,
+     * and completed resolutions. Whole-number quantity; fractional quantities are not supported.
+     * anyOf[1] (Value): integer. Approved quantity that can still be assigned to a new resolution.
+     * Every non-canceled resolution reserves its line quantity, including proposed, pending,
+     * action-required, failed, and completed resolutions. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "available_resolution_quantity"?: ((number) | (null));
+    /**
+     * Components of the bundle the line was sold from. anyOf[1] (Value): Array of {@link
+     * BundleComponentPreviousAttributes}. Components of the bundle the line was sold from.
+     * anyOf[1][] (Value): {@link BundleComponentPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "bundle_components"?: ((Array<BundleComponentPreviousAttributes>) | (null));
+    /**
+     * ID of the bundle the line was sold from. anyOf[1] (Value): string. ID of the bundle the line
+     * was sold from. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". anyOf[2] (Value): null.
+     */
+    "bundle_id"?: ((string) | (null));
+    /**
+     * Note the buyer gave about this line. Some return reasons require one. anyOf[1] (Value):
+     * string. Note the buyer gave about this line. Some return reasons require one. anyOf[2]
+     * (Value): null.
+     */
+    "buyer_note"?: ((string) | (null));
+    /**
+     * Approved units canceled later. Whole-number quantity; fractional quantities are not
+     * supported. anyOf[1] (Value): integer. Approved units canceled later. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "canceled_quantity"?: ((number) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * Who recorded the decision on this line. anyOf[1] (Value): {@link
+     * ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "decided_by"?: ((ReturnActorPreviousAttributes) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "decision_at"?: ((string) | (null));
+    /**
+     * Why the line's declined quantity was declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other". anyOf[1] (Value): string. Why the line's declined quantity was declined. Value
+     * enum: "not_eligible", "quantity_unavailable", "evidence_missing", "suspected_abuse",
+     * "merchant_discretion", "other". anyOf[2] (Value): null.
+     */
+    "decline_reason"?: (("not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {}))
+        | (null));
+    /**
+     * Detail sent with the decline. anyOf[1] (Value): string. Detail sent with the decline.
+     * anyOf[2] (Value): null.
+     */
+    "decline_reason_message"?: ((string) | (null));
+    /**
+     * Units the decision declined. Whole-number quantity; fractional quantities are not supported.
+     * anyOf[1] (Value): integer. Units the decision declined. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "declined_quantity"?: ((number) | (null));
+    /**
+     * Description of the item as sold. anyOf[1] (Value): string. Description of the item as sold.
+     * anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * Units with a successful disposition. Whole-number quantity; fractional quantities are not
+     * supported. anyOf[1] (Value): integer. Units with a successful disposition. Whole-number
+     * quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "dispositioned_quantity"?: ((number) | (null));
+    /**
+     * How the pinned return policy judged this line when the Return was created, with the policy
+     * revision it used. anyOf[1] (Value): {@link ReturnLineItemEligibilityPreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "eligibility"?: ((ReturnLineItemEligibilityPreviousAttributes) | (null));
+    /**
+     * Present only when `expand` includes `line_items.fulfillment`; `null` when expanded and there
+     * is no related fulfillment. anyOf[1] (Value): {@link FulfillmentPreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "fulfillment"?: ((FulfillmentPreviousAttributes) | (null));
+    /**
+     * ID of the fulfillment the units were delivered in. anyOf[1] (Value): string. ID of the
+     * fulfillment the units were delivered in. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2]
+     * (Value): null.
+     */
+    "fulfillment_id"?: ((string) | (null));
+    /**
+     * Units the buyer handed off for the trip back. Whole-number quantity; fractional quantities
+     * are not supported. anyOf[1] (Value): integer. Units the buyer handed off for the trip back.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
+     * (Value): null.
+     */
+    "handed_off_quantity"?: ((number) | (null));
+    /**
+     * Image of the item as sold. anyOf[1] (Value): {@link ImagePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "image"?: ((ImagePreviousAttributes) | (null));
+    /**
+     * Units that have been inspected. Whole-number quantity; fractional quantities are not
+     * supported. anyOf[1] (Value): integer. Units that have been inspected. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "inspected_quantity"?: ((number) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "inspection_waived_at"?: ((string) | (null));
+    /**
+     * Who waived inspection for this line. anyOf[1] (Value): {@link
+     * ReturnActorPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "inspection_waived_by"?: ((ReturnActorPreviousAttributes) | (null));
+    /**
+     * Why inspection was waived for this line. Value enum: "policy_override",
+     * "trusted_in_store_handoff", "merchant_review", "other". anyOf[1] (Value): string. Why
+     * inspection was waived for this line. Value enum: "policy_override",
+     * "trusted_in_store_handoff", "merchant_review", "other". anyOf[2] (Value): null.
+     */
+    "inspection_waiver_reason"?: (("policy_override" | "trusted_in_store_handoff" | "merchant_review" | "other" | (string & {}))
+        | (null));
+    /**
+     * Detail sent when inspection was waived. anyOf[1] (Value): string. Detail sent when
+     * inspection was waived. anyOf[2] (Value): null.
+     */
+    "inspection_waiver_reason_message"?: ((string) | (null));
+    /**
+     * Whether returned units of this line must be inspected. anyOf[1] (Value): boolean. Whether
+     * returned units of this line must be inspected. anyOf[2] (Value): null.
+     */
+    "is_inspection_required"?: ((boolean) | (null));
+    /**
+     * Whether the decision overrode the pinned return policy's proposal. `override_reason` says
+     * why. anyOf[1] (Value): boolean. Whether the decision overrode the pinned return policy's
+     * proposal. `override_reason` says why. anyOf[2] (Value): null.
+     */
+    "is_policy_overridden"?: ((boolean) | (null));
+    /**
+     * Where this line's merchandise stands, from handoff through disposition. Value enum:
+     * "not_required", "awaiting_handoff", "in_transit", "partially_received",
+     * "inspection_required", "partially_inspected", "inspection_review_required",
+     * "disposition_required", "resolved". anyOf[1] (Value): string. Where this line's merchandise
+     * stands, from handoff through disposition. Value enum: "not_required", "awaiting_handoff",
+     * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved". anyOf[2] (Value): null.
+     */
+    "merchandise_status"?: (("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | (string & {}))
+        | (null));
+    /**
+     * Modifiers selected on the order line, with their prices. anyOf[1] (Value): Array of {@link
+     * OrderLineItemModifierPreviousAttributes}. Modifiers selected on the order line, with their
+     * prices. anyOf[1][] (Value): {@link OrderLineItemModifierPreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "modifiers"?: ((Array<OrderLineItemModifierPreviousAttributes>) | (null));
+    /**
+     * Name of the item as sold. anyOf[1] (Value): string. Name of the item as sold. anyOf[2]
+     * (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * Order that owns order_line_item_id. anyOf[1] (Value): string. Order that owns
+     * order_line_item_id. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * ID of the order line item the units come from. anyOf[1] (Value): string. ID of the order
+     * line item the units come from. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". anyOf[2] (Value):
+     * null.
+     */
+    "order_line_item_id"?: ((string) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "overridden_at"?: ((string) | (null));
+    /**
+     * Who recorded the override. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "overridden_by"?: ((ReturnActorPreviousAttributes) | (null));
+    /**
+     * Why the decision overrode the pinned return policy's proposal. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other". anyOf[1] (Value): string. Why the decision overrode the pinned return policy's
+     * proposal. Value enum: "customer_service_exception", "policy_correction", "risk_review",
+     * "merchant_discretion", "other". anyOf[2] (Value): null.
+     */
+    "override_reason"?: (("customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {}))
+        | (null));
+    /**
+     * Detail sent with the override. anyOf[1] (Value): string. Detail sent with the override.
+     * anyOf[2] (Value): null.
+     */
+    "override_reason_message"?: ((string) | (null));
+    /**
+     * ID of the catalog product the item was sold from. anyOf[1] (Value): string. ID of the
+     * catalog product the item was sold from. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2]
+     * (Value): null.
+     */
+    "product_id"?: ((string) | (null));
+    /**
+     * Units that arrived. Whole-number quantity; fractional quantities are not supported. anyOf[1]
+     * (Value): integer. Units that arrived. Whole-number quantity; fractional quantities are not
+     * supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "received_quantity"?: ((number) | (null));
+    /**
+     * ID of the Location the buyer sends the merchandise to. Absent when none has to come back.
+     * anyOf[1] (Value): string. ID of the Location the buyer sends the merchandise to. Absent when
+     * none has to come back. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+     */
+    "receiving_location_id"?: ((string) | (null));
+    /**
+     * Inspected units that were rejected. Whole-number quantity; fractional quantities are not
+     * supported. anyOf[1] (Value): integer. Inspected units that were rejected. Whole-number
+     * quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "rejected_quantity"?: ((number) | (null));
+    /**
+     * Committed resolution execution gate, filled for every approved line: after_inspection when
+     * merchandise and inspection are required, after_receipt when merchandise is required without
+     * inspection, or after_approval when merchandise is not required, unless the policy or
+     * decision sets a timing explicitly. Applies to every resolution type, including exchanges and
+     * replacements. manual is held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual". anyOf[1] (Value): string. Committed
+     * resolution execution gate, filled for every approved line: after_inspection when merchandise
+     * and inspection are required, after_receipt when merchandise is required without inspection,
+     * or after_approval when merchandise is not required, unless the policy or decision sets a
+     * timing explicitly. Applies to every resolution type, including exchanges and replacements.
+     * manual is held until a merchant calls POST /v1/return-resolutions/{id}/release. Value enum:
+     * "after_approval", "after_handoff", "after_receipt", "after_inspection", "manual". anyOf[2]
+     * (Value): null.
+     */
+    "release_timing"?: (("after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {}))
+        | (null));
+    /**
+     * Units the request asked to return. Whole-number quantity; fractional quantities are not
+     * supported. anyOf[1] (Value): integer. Units the request asked to return. Whole-number
+     * quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "requested_quantity"?: ((number) | (null));
+    /**
+     * Outcome requested for this line when it was created. Absent when none was requested. Value
+     * enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". anyOf[1]
+     * (Value): string. Outcome requested for this line when it was created. Absent when none was
+     * requested. Value enum: "refund", "exchange", "replacement", "no_monetary_action",
+     * "store_credit". anyOf[2] (Value): null.
+     */
+    "requested_resolution_type"?: (("refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {}))
+        | (null));
+    /**
+     * ID of the variant requested for this exchange. The merchant chooses the replacement and
+     * confirms its price during resolution. anyOf[1] (Value): string. ID of the variant requested
+     * for this exchange. The merchant chooses the replacement and confirms its price during
+     * resolution. anyOf[2] (Value): null.
+     */
+    "requested_variant"?: ((string) | (null));
+    /**
+     * Whether the value for this line's approved quantity has been delivered. Value enum:
+     * "not_selected", "pending", "requires_action", "completed", "failed". anyOf[1] (Value):
+     * string. Whether the value for this line's approved quantity has been delivered. Value enum:
+     * "not_selected", "pending", "requires_action", "completed", "failed". anyOf[2] (Value): null.
+     */
+    "resolution_status"?: (("not_selected" | "pending" | "requires_action" | "completed" | "failed" | (string & {})) | (null));
+    /**
+     * Units whose resolution has finished. Whole-number quantity; fractional quantities are not
+     * supported. anyOf[1] (Value): integer. Units whose resolution has finished. Whole-number
+     * quantity; fractional quantities are not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "resolved_quantity"?: ((number) | (null));
+    /**
+     * ID of the Return this line belongs to. anyOf[1] (Value): string. ID of the Return this line
+     * belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+     */
+    "return_id"?: ((string) | (null));
+    /**
+     * Unique identifier for this return line item, prefixed `retli_`. anyOf[1] (Value): string.
+     * Unique identifier for this return line item, prefixed `retli_`. Example:
+     * "retli_01KEZF7C00R813VR7ECXS062QG". anyOf[2] (Value): null.
+     */
+    "return_line_item_id"?: ((string) | (null));
+    /**
+     * Present only when `expand` includes `line_items.return_reason`; `null` when expanded and
+     * there is no related return reason. anyOf[1] (Value): {@link ReturnReasonPreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "return_reason"?: ((ReturnReasonPreviousAttributes) | (null));
+    /**
+     * Handle of the chosen reason, captured when the line is created or its reason changes. Later
+     * renames, deactivation or archiving don't change it. anyOf[1] (Value): string. Handle of the
+     * chosen reason, captured when the line is created or its reason changes. Later renames,
+     * deactivation or archiving don't change it. anyOf[2] (Value): null.
+     */
+    "return_reason_handle"?: ((string) | (null));
+    /**
+     * ID of the reason chosen for this line. anyOf[1] (Value): string. ID of the reason chosen for
+     * this line. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E". anyOf[2] (Value): null.
+     */
+    "return_reason_id"?: ((string) | (null));
+    /**
+     * Name of the chosen reason, captured when the line is created or its reason changes. Later
+     * renames, deactivation or archiving don't change it. anyOf[1] (Value): string. Name of the
+     * chosen reason, captured when the line is created or its reason changes. Later renames,
+     * deactivation or archiving don't change it. anyOf[2] (Value): null.
+     */
+    "return_reason_name"?: ((string) | (null));
+    /**
+     * How much of the approved quantity the buyer must physically send back; fractional quantities
+     * are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and
+     * the Return still settles the money. anyOf[1] (Value): integer. How much of the approved
+     * quantity the buyer must physically send back; fractional quantities are not supported. Set 0
+     * for a returnless refund, where the buyer keeps the merchandise and the Return still settles
+     * the money. Format: int64. anyOf[2] (Value): null.
+     */
+    "return_required_quantity"?: ((number) | (null));
+    /**
+     * IDs of the resolutions that include this line, oldest first, including failed and canceled
+     * resolutions. anyOf[1] (Value): Array of string. IDs of the resolutions that include this
+     * line, oldest first, including failed and canceled resolutions. anyOf[1][] (Value): string.
+     * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". anyOf[2] (Value): null.
+     */
+    "return_resolution_ids"?: ((Array<string>) | (null));
+    /**
+     * Value of the line's units, fixed when the line was created: what the buyer paid for them,
+     * less what was already refunded or returned. anyOf[1] (Value): {@link
+     * ReturnLineItemValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "return_value"?: ((ReturnLineItemValuePreviousAttributes) | (null));
+    /**
+     * Inspected units still waiting for an acceptance decision. Whole-number quantity; fractional
+     * quantities are not supported. anyOf[1] (Value): integer. Inspected units still waiting for
+     * an acceptance decision. Whole-number quantity; fractional quantities are not supported.
+     * Format: int64. anyOf[2] (Value): null.
+     */
+    "review_required_quantity"?: ((number) | (null));
+    /**
+     * Variant options selected for the item, such as size and color. anyOf[1] (Value): Array of
+     * {@link SelectedProductOptionPreviousAttributes}. Variant options selected for the item, such
+     * as size and color. anyOf[1][] (Value): {@link SelectedProductOptionPreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "selected_options"?: ((Array<SelectedProductOptionPreviousAttributes>) | (null));
+    /**
+     * SKU of the item as sold. anyOf[1] (Value): string. SKU of the item as sold. anyOf[2]
+     * (Value): null.
+     */
+    "sku"?: ((string) | (null));
+    /**
+     * Where this line stands. Same values and meanings as the Return's `status`, applied to the
+     * line. Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[1]
+     * (Value): string. Where this line stands. Same values and meanings as the Return's `status`,
+     * applied to the line. Value enum: "requested", "open", "completed", "declined", "canceled".
+     * anyOf[2] (Value): null.
+     */
+    "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+    /**
+     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
+     * left out. For an open line with uncanceled approved quantity, `cancel` is listed while
+     * approved quantity remains after accounting for handoff, receipt, inspection, disposition,
+     * non-canceled resolutions, and non-voided return shipment allocations. `waive_inspection` is
+     * listed while inspection is required and no unit has been inspected. [] enum: "cancel",
+     * "waive_inspection". anyOf[1] (Value): Array of string. Actions that can succeed now. Actions
+     * the API key or token doesn't have the scope for are left out. For an open line with
+     * uncanceled approved quantity, `cancel` is listed while approved quantity remains after
+     * accounting for handoff, receipt, inspection, disposition, non-canceled resolutions, and
+     * non-voided return shipment allocations. `waive_inspection` is listed while inspection is
+     * required and no unit has been inspected. [] enum: "cancel", "waive_inspection". anyOf[1][]
+     * (Value): string. Value enum: "cancel", "waive_inspection". anyOf[2] (Value): null.
+     */
+    "supported_actions"?: ((Array<"cancel" | "waive_inspection" | (string & {})>) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+    /**
+     * ID of the catalog variant the item was sold from. anyOf[1] (Value): string. ID of the
+     * catalog variant the item was sold from. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+     * (Value): null.
+     */
+    "variant_id"?: ((string) | (null));
+};
+/**
+ * An order line item to return, with the quantity, return reason, and optionally a note and the
+ * resolution the buyer wants.
+ */
+export type ReturnLineItemRequest = {
+    /**
+     * Note about this line. Some return reasons require one. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1.
+     */
+    "buyer_note"?: string;
+    /**
+     * ID of the fulfillment the units were delivered in. minLength: 1. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * ID of the order line item being returned. minLength: 1. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "requested_quantity": number;
+    /**
+     * Outcome requested for this line. Eligibility checks it against the policy's allowed
+     * resolution types. Value enum: "refund", "exchange", "replacement", "no_monetary_action",
+     * "store_credit".
+     */
+    "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
+    /** ID of one variant of the same product. Set only for an exchange request. minLength: 1. */
+    "requested_variant"?: string;
+    /**
+     * ID of the return reason for this line. The reason must be active. minLength: 1. Example:
+     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+     */
+    "return_reason_id": string;
+};
+/**
+ * An order line item to return, with the quantity, return reason, and optionally a note and the
+ * resolution the buyer wants.
+ */
+export type ReturnLineItemRequestInput = {
+    /**
+     * Note about this line. Some return reasons require one. Surrounding whitespace is trimmed
+     * before length validation. A supplied value cannot be blank; use null where clearing is
+     * supported. minLength: 1.
+     */
+    "buyer_note"?: string;
+    /**
+     * ID of the fulfillment the units were delivered in. minLength: 1. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string;
+    /**
+     * ID of the order line item being returned. minLength: 1. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "requested_quantity": number;
+    /**
+     * Outcome requested for this line. Eligibility checks it against the policy's allowed
+     * resolution types. Value enum: "refund", "exchange", "replacement", "no_monetary_action",
+     * "store_credit".
+     */
+    "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
+    /** ID of one variant of the same product. Set only for an exchange request. minLength: 1. */
+    "requested_variant"?: string;
+    /**
+     * ID of the return reason for this line. The reason must be active. minLength: 1. Example:
+     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+     */
+    "return_reason_id": string;
+};
+/** The value of a return line: unit price, subtotal, discount, tax, and total. */
+export type ReturnLineItemValue = {
+    /**
+     * Discount on the returned units. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "discount_money": MoneyValue;
+    /**
+     * Subtotal of the returned units, before discount and tax. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "subtotal_money": MoneyValue;
+    /**
+     * Tax on the returned units. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * Subtotal minus discount, plus tax. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /**
+     * Price of one returned unit. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+};
 export type ReturnLineItemValuePreviousAttributes = {
     /**
      * Discount on the returned units. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}.
@@ -553,11 +2014,17 @@ export type ReturnPolicyEvaluationLineItem = {
      * Release gate for every resolution type, including exchanges and replacements. Released after
      * the Return is approved. Released after the buyer hands back the required merchandise.
      * Released after the required merchandise is received. Released after the required merchandise
-     * passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release.
-     * Value enum: "after_approval", "after_handoff", "after_receipt", "after_inspection",
-     * "manual".
+     * passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. The
+     * policy evaluation did not assign a release gate to this line. Value enum: "after_approval",
+     * "after_handoff", "after_receipt", "after_inspection", "manual", "unspecified".
      */
-    "release_timing": "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
+    "release_timing": "after_approval"
+        | "after_handoff"
+        | "after_receipt"
+        | "after_inspection"
+        | "manual"
+        | "unspecified"
+        | (string & {});
     /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
     "requested_quantity": number;
     /**
@@ -728,16 +2195,24 @@ export type ReturnPolicyEvaluationLineItemPreviousAttributes = {
      * Release gate for every resolution type, including exchanges and replacements. Released after
      * the Return is approved. Released after the buyer hands back the required merchandise.
      * Released after the required merchandise is received. Released after the required merchandise
-     * passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release.
-     * Value enum: "after_approval", "after_handoff", "after_receipt", "after_inspection",
-     * "manual". anyOf[1] (Value): string. Release gate for every resolution type, including
-     * exchanges and replacements. Released after the Return is approved. Released after the buyer
-     * hands back the required merchandise. Released after the required merchandise is received.
-     * Released after the required merchandise passes inspection. Held until a merchant calls POST
-     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
-     * "after_receipt", "after_inspection", "manual". anyOf[2] (Value): null.
+     * passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. The
+     * policy evaluation did not assign a release gate to this line. Value enum: "after_approval",
+     * "after_handoff", "after_receipt", "after_inspection", "manual", "unspecified". anyOf[1]
+     * (Value): string. Release gate for every resolution type, including exchanges and
+     * replacements. Released after the Return is approved. Released after the buyer hands back the
+     * required merchandise. Released after the required merchandise is received. Released after
+     * the required merchandise passes inspection. Held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. The policy evaluation did not assign a release gate to
+     * this line. Value enum: "after_approval", "after_handoff", "after_receipt",
+     * "after_inspection", "manual", "unspecified". anyOf[2] (Value): null.
      */
-    "release_timing"?: (("after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {}))
+    "release_timing"?: (("after_approval"
+        | "after_handoff"
+        | "after_receipt"
+        | "after_inspection"
+        | "manual"
+        | "unspecified"
+        | (string & {}))
         | (null));
     /**
      * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
@@ -3788,528 +5263,3 @@ export type ReturnReceiptCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
     /** Value enum: "return_receipt.created". */
     "event_type"?: "return_receipt.created";
 });
-/** A returned item recorded as received. */
-export type ReturnReceiptLineItem = {
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "available_disposition_quantity": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Return that owns return_line_item_id. `null` when return_line_item_id is null. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string | null;
-    /**
-     * ID of the Return line the units were matched to. Absent for unverified units. Example:
-     * "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id"?: string;
-    /** ID of the receipt the line belongs to. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
-    "return_receipt_id": string;
-    /**
-     * Unique identifier for this return receipt line item, prefixed `retrcli_`. Example:
-     * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-     */
-    "return_receipt_line_item_id": string;
-    /**
-     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
-     * left out. `verify` is listed while the receipt is current and the line's
-     * `verification_status` is `unverified`. Otherwise empty. [] enum: "verify". [] (Value):
-     * string. Value enum: "verify".
-     */
-    "supported_actions": Array<"verify" | (string & {})>;
-    /**
-     * What the operator recorded for units that match no line. Present on `unverified` lines.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item"?: ReturnUnverifiedItem;
-    /**
-     * Why the units were verified against the line. Value enum: "order_match_confirmed",
-     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
-     */
-    "verification_reason"?: "order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other"
-        | (string & {});
-    /** Detail about `verification_reason`. */
-    "verification_reason_message"?: string;
-    /** Whether the units are matched to a line. Value enum: "matched", "unverified", "excess". */
-    "verification_status": "matched" | "unverified" | "excess" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "verified_at"?: string;
-    /**
-     * Who verified the line. Who performed a return action: a buyer, merchant, integration, or the
-     * system, with an optional ID.
-     */
-    "verified_by"?: ReturnActor;
-};
-/** The `excess` variant of `ReturnReceiptLineItemInput`. */
-export type ReturnReceiptLineItemInputExcess = ({
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-    /**
-     * Whether this observation matches a Return line, is unverified merchandise, or is known
-     * excess merchandise. Value enum: "excess".
-     */
-    "type": "excess" | (string & {});
-    /**
-     * A buyer or catalog identity observation that has not been matched to a Return line.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item"?: ReturnUnverifiedItem;
-})
-    & (({
-    /** Value enum: "excess". */
-    "type": unknown;
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-}));
-/** The `excess` variant of `ReturnReceiptLineItemInput`. */
-export type ReturnReceiptLineItemInputExcessInput = ({
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-    /**
-     * Whether this observation matches a Return line, is unverified merchandise, or is known
-     * excess merchandise. Value enum: "excess".
-     */
-    "type": "excess";
-    /**
-     * A buyer or catalog identity observation that has not been matched to a Return line.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item"?: ReturnUnverifiedItemInput;
-})
-    & (({
-    /** Value enum: "excess". */
-    "type": "excess";
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-})
-    & ({
-    "unverified_item"?: never;
-}));
-/** The `matched` variant of `ReturnReceiptLineItemInput`. */
-export type ReturnReceiptLineItemInputMatched = ({
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-    /**
-     * Whether this observation matches a Return line, is unverified merchandise, or is known
-     * excess merchandise. Value enum: "matched".
-     */
-    "type": "matched" | (string & {});
-    /**
-     * A buyer or catalog identity observation that has not been matched to a Return line.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item"?: ReturnUnverifiedItem;
-})
-    & (({
-    /** Value enum: "matched". */
-    "type": unknown;
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-}));
-/** The `matched` variant of `ReturnReceiptLineItemInput`. */
-export type ReturnReceiptLineItemInputMatchedInput = ({
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-    /**
-     * Whether this observation matches a Return line, is unverified merchandise, or is known
-     * excess merchandise. Value enum: "matched".
-     */
-    "type": "matched";
-    /**
-     * A buyer or catalog identity observation that has not been matched to a Return line.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item"?: ReturnUnverifiedItemInput;
-})
-    & (({
-    /** Value enum: "matched". */
-    "type": "matched";
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-})
-    & ({
-    "unverified_item"?: never;
-}));
-/** The `unverified` variant of `ReturnReceiptLineItemInput`. */
-export type ReturnReceiptLineItemInputUnverified = ({
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id"?: string;
-    /**
-     * Whether this observation matches a Return line, is unverified merchandise, or is known
-     * excess merchandise. Value enum: "unverified".
-     */
-    "type": "unverified" | (string & {});
-    /**
-     * A buyer or catalog identity observation that has not been matched to a Return line.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item": ReturnUnverifiedItem;
-})
-    & (({
-    /** Value enum: "unverified". */
-    "type": unknown;
-    /**
-     * A buyer or catalog identity observation that has not been matched to a Return line.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item": ReturnUnverifiedItem;
-}));
-/** The `unverified` variant of `ReturnReceiptLineItemInput`. */
-export type ReturnReceiptLineItemInputUnverifiedInput = ({
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id"?: string;
-    /**
-     * Whether this observation matches a Return line, is unverified merchandise, or is known
-     * excess merchandise. Value enum: "unverified".
-     */
-    "type": "unverified";
-    /**
-     * A buyer or catalog identity observation that has not been matched to a Return line.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item": ReturnUnverifiedItemInput;
-})
-    & (({
-    /** Value enum: "unverified". */
-    "type": "unverified";
-    /**
-     * A buyer or catalog identity observation that has not been matched to a Return line.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item": ReturnUnverifiedItemInput;
-})
-    & ({
-    "return_line_item_id"?: never;
-}));
-export type ReturnReceiptLineItemPreviousAttributes = {
-    /**
-     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
-     * (Value): null.
-     */
-    "available_disposition_quantity"?: ((number) | (null));
-    /**
-     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
-     * (Value): null.
-     */
-    "quantity"?: ((number) | (null));
-    /**
-     * Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1]
-     * (Value): string. Return that owns return_line_item_id. `null` when return_line_item_id is
-     * null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
-     */
-    "return_id"?: ((string) | (null));
-    /**
-     * ID of the Return line the units were matched to. Absent for unverified units. anyOf[1]
-     * (Value): string. ID of the Return line the units were matched to. Absent for unverified
-     * units. Example: "retli_01KEZF7C00R813VR7ECXS062QG". anyOf[2] (Value): null.
-     */
-    "return_line_item_id"?: ((string) | (null));
-    /**
-     * ID of the receipt the line belongs to. anyOf[1] (Value): string. ID of the receipt the line
-     * belongs to. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
-     */
-    "return_receipt_id"?: ((string) | (null));
-    /**
-     * Unique identifier for this return receipt line item, prefixed `retrcli_`. anyOf[1] (Value):
-     * string. Unique identifier for this return receipt line item, prefixed `retrcli_`. Example:
-     * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". anyOf[2] (Value): null.
-     */
-    "return_receipt_line_item_id"?: ((string) | (null));
-    /**
-     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
-     * left out. `verify` is listed while the receipt is current and the line's
-     * `verification_status` is `unverified`. Otherwise empty. [] enum: "verify". anyOf[1] (Value):
-     * Array of string. Actions that can succeed now. Actions the API key or token doesn't have the
-     * scope for are left out. `verify` is listed while the receipt is current and the line's
-     * `verification_status` is `unverified`. Otherwise empty. [] enum: "verify". anyOf[1][]
-     * (Value): string. Value enum: "verify". anyOf[2] (Value): null.
-     */
-    "supported_actions"?: ((Array<"verify" | (string & {})>) | (null));
-    /**
-     * What the operator recorded for units that match no line. Present on `unverified` lines.
-     * anyOf[1] (Value): {@link ReturnUnverifiedItemPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "unverified_item"?: ((ReturnUnverifiedItemPreviousAttributes) | (null));
-    /**
-     * Why the units were verified against the line. Value enum: "order_match_confirmed",
-     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other". anyOf[1] (Value):
-     * string. Why the units were verified against the line. Value enum: "order_match_confirmed",
-     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other". anyOf[2] (Value):
-     * null.
-     */
-    "verification_reason"?: (("order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other"
-        | (string & {}))
-        | (null));
-    /**
-     * Detail about `verification_reason`. anyOf[1] (Value): string. Detail about
-     * `verification_reason`. anyOf[2] (Value): null.
-     */
-    "verification_reason_message"?: ((string) | (null));
-    /**
-     * Whether the units are matched to a line. Value enum: "matched", "unverified", "excess".
-     * anyOf[1] (Value): string. Whether the units are matched to a line. Value enum: "matched",
-     * "unverified", "excess". anyOf[2] (Value): null.
-     */
-    "verification_status"?: (("matched" | "unverified" | "excess" | (string & {})) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "verified_at"?: ((string) | (null));
-    /**
-     * Who verified the line. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}. anyOf[2]
-     * (Value): null.
-     */
-    "verified_by"?: ((ReturnActorPreviousAttributes) | (null));
-};
-/**
- * One line of received merchandise: a matched return line, excess quantity, or an unverified item.
- */
-export type ReturnReceiptLineItemRequest = ({
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id"?: string;
-    /**
-     * Whether this observation matches a Return line, is unverified merchandise, or is known
-     * excess merchandise. Value enum: "matched", "unverified", "excess".
-     */
-    "type": "matched" | "unverified" | "excess" | (string & {});
-    /**
-     * A buyer or catalog identity observation that has not been matched to a Return line.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item"?: ReturnUnverifiedItem;
-})
-    & ((Exclude<ReturnReceiptLineItemInputMatched & object, readonly unknown[]>)
-    | (Exclude<ReturnReceiptLineItemInputUnverified & object, readonly unknown[]>)
-    | (Exclude<ReturnReceiptLineItemInputExcess & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * One line of received merchandise: a matched return line, excess quantity, or an unverified item.
- */
-export type ReturnReceiptLineItemRequestInput = ({
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id"?: string;
-    /**
-     * Whether this observation matches a Return line, is unverified merchandise, or is known
-     * excess merchandise. Value enum: "matched", "unverified", "excess".
-     */
-    "type": "matched" | "unverified" | "excess";
-    /**
-     * A buyer or catalog identity observation that has not been matched to a Return line.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item"?: ReturnUnverifiedItemInput;
-})
-    & ((Exclude<ReturnReceiptLineItemInputMatchedInput & object, readonly unknown[]>)
-    | (Exclude<ReturnReceiptLineItemInputUnverifiedInput & object, readonly unknown[]>)
-    | (Exclude<ReturnReceiptLineItemInputExcessInput & object, readonly unknown[]>));
-export type ReturnReceiptPreviousAttributes = {
-    /**
-     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
-     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other". anyOf[1] (Value): string. Why
-     * this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
-     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other". anyOf[2] (Value): null.
-     */
-    "correction_reason"?: (("entry_error"
-        | "duplicate_observation"
-        | "source_correction"
-        | "reconciliation_correction"
-        | "other"
-        | (string & {}))
-        | (null));
-    /**
-     * Detail about `correction_reason`. anyOf[1] (Value): string. Detail about
-     * `correction_reason`. anyOf[2] (Value): null.
-     */
-    "correction_reason_message"?: ((string) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "created_at"?: ((string) | (null));
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * anyOf[1] (Value): string. Your identifier for the actor who recorded the event. Don't put
-     * secrets in this field. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-     */
-    "external_actor_id"?: ((string) | (null));
-    /**
-     * Caller-owned identifier for this resource in an external system. anyOf[1] (Value): string.
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". anyOf[2] (Value): null.
-     */
-    "external_reference_id"?: ((string) | (null));
-    /**
-     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
-     * `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of {@link
-     * ReturnDispositionPreviousAttributes}. Dispositions Flint created when it recorded this
-     * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. anyOf[1][]
-     * (Value): {@link ReturnDispositionPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "generated_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
-    /**
-     * The Idempotency-Key of the request that created this resource. `null` when that request sent
-     * no key, Flint created the resource, the reader isn't the caller that created it (another app
-     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
-     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
-     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
-     * find a key that a replay returns as `null`, read the resource. anyOf[1] (Value): string. The
-     * Idempotency-Key of the request that created this resource. `null` when that request sent no
-     * key, Flint created the resource, the reader isn't the caller that created it (another app
-     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
-     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
-     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
-     * find a key that a replay returns as `null`, read the resource. anyOf[2] (Value): null.
-     */
-    "idempotency_key"?: ((string) | (null));
-    /**
-     * The lines recorded. anyOf[1] (Value): Array of {@link
-     * ReturnReceiptLineItemPreviousAttributes}. The lines recorded. anyOf[1][] (Value): {@link
-     * ReturnReceiptLineItemPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "line_items"?: ((Array<ReturnReceiptLineItemPreviousAttributes>) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "received_at"?: ((string) | (null));
-    /**
-     * ID of the Location that received the goods. anyOf[1] (Value): string. ID of the Location
-     * that received the goods. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
-     */
-    "receiving_location_id"?: ((string) | (null));
-    /**
-     * ID of the Return the goods belong to. anyOf[1] (Value): string. ID of the Return the goods
-     * belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
-     */
-    "return_id"?: ((string) | (null));
-    /**
-     * Unique identifier for this return receipt, prefixed `retrc_`. anyOf[1] (Value): string.
-     * Unique identifier for this return receipt, prefixed `retrc_`. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
-     */
-    "return_receipt_id"?: ((string) | (null));
-    /**
-     * ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a
-     * shipment. anyOf[1] (Value): string. ID of the return shipment the goods arrived in. Absent
-     * when the receipt isn't tied to a shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     * anyOf[2] (Value): null.
-     */
-    "shipment_id"?: ((string) | (null));
-    /**
-     * System that recorded the observation. `null` when no source system was recorded. anyOf[1]
-     * (Value): {@link ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
-    /**
-     * Whether this is the current observation of these units or a correction replaced it. Value
-     * enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the current
-     * observation of these units or a correction replaced it. Value enum: "current", "superseded".
-     * anyOf[2] (Value): null.
-     */
-    "status"?: (("current" | "superseded" | (string & {})) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "superseded_at"?: ((string) | (null));
-    /**
-     * ID of the receipt that corrected this one. Absent while it is current. anyOf[1] (Value):
-     * string. ID of the receipt that corrected this one. Absent while it is current. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
-     */
-    "superseded_by_return_receipt_id"?: ((string) | (null));
-    /**
-     * ID of the receipt this one corrects. anyOf[1] (Value): string. ID of the receipt this one
-     * corrects. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
-     */
-    "supersedes_return_receipt_id"?: ((string) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "updated_at"?: ((string) | (null));
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. anyOf[1] (Value): integer. Current version of this
-     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
-     * stale write. Format: int64. minimum: 1. anyOf[2] (Value): null.
-     */
-    "version"?: ((number) | (null));
-};

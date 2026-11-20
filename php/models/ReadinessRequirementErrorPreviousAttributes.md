@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Optional | string or null | Flint verification failure code. New codes may be added; use message and resolution for unknown codes. Values: [11 declared values](ReadinessRequirementErrorInput.md#readinessrequirementerrorinput-code-values). `code`: [declared alternatives](../models/ReadinessRequirementErrorPreviousAttributes.md#readinessrequirementerrorpreviousattributescode). |
+| `code` | Optional | string or null | Flint verification failure code. New codes may be added; use message and resolution for unknown codes. Values: [12 declared values](ReadinessRequirementErrorInput.md#readinessrequirementerrorinput-code-values). `code`: [declared alternatives](../models/ReadinessRequirementErrorPreviousAttributes.md#readinessrequirementerrorpreviousattributescode). |
 | `message` | Optional | string or null | What could not be verified. `message`: [declared alternatives](../models/ReadinessRequirementErrorPreviousAttributes.md#readinessrequirementerrorpreviousattributesmessage). |
 | `requirement` | Optional | string or null | Flint requirement codes. New codes can appear; treat an unknown code as additional_account_information. Values: [36 declared values](MerchantAccountSessionCreateRequestInput.md#merchantaccountsessioncreaterequestinput-targeted_requirements--values). `requirement`: [declared alternatives](../models/ReadinessRequirementErrorPreviousAttributes.md#readinessrequirementerrorpreviousattributesrequirement). |
 | `resolution` | Optional | string or null | What the merchant should do to resolve the requirement. `resolution`: [declared alternatives](../models/ReadinessRequirementErrorPreviousAttributes.md#readinessrequirementerrorpreviousattributesresolution). |
@@ -19,7 +19,7 @@ Response model.
 
 anyOf variant 1: Flint verification failure code. New codes may be added; use message and resolution for unknown codes..
 
-- Value shape: string. Flint verification failure code. New codes may be added; use message and resolution for unknown codes. Values: `"statement_descriptor_mismatch"`, `"statement_descriptor_rejected"`, `"tax_id_mismatch"`, `"identity_mismatch"`, `"document_unreadable"`, `"document_expired"`, `"document_mismatch"`, `"document_rejected"`, `"invalid_value"`, `"profile_field_rejected"`, `"verification_failed"`.
+- Value shape: string. Flint verification failure code. New codes may be added; use message and resolution for unknown codes. Values: `"statement_descriptor_mismatch"`, `"statement_descriptor_rejected"`, `"tax_id_mismatch"`, `"identity_mismatch"`, `"document_unreadable"`, `"document_expired"`, `"document_mismatch"`, `"document_rejected"`, `"invalid_value"`, `"terms_reacceptance_required"`, `"profile_field_rejected"`, `"verification_failed"`.
 
 ### ReadinessRequirementErrorPreviousAttributes.code variant 2
 

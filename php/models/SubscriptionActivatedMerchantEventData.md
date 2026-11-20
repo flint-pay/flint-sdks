@@ -8,11 +8,13 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `actor` | Optional | [SubscriptionActivatedMerchantEventDataActor](../models/SubscriptionActivatedMerchantEventDataActor.md#subscriptionactivatedmerchanteventdataactor) | Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. `actor`: [field definitions](../models/SubscriptionActivatedMerchantEventData.md#subscriptionactivatedmerchanteventdataactor-fields-1). |
 | `object` | Required | [SubscriptionActivatedMerchantEventDataObject](../models/SubscriptionActivatedMerchantEventDataObject.md#subscriptionactivatedmerchanteventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. |
 | `previous_attributes` | Optional | [SubscriptionActivatedMerchantEventDataPreviousAttributes](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributes) | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
-| `actor` | Optional | [ReturnActor](../models/ReturnActor.md#returnactor) | Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. `actor`: [field definitions](../models/ReturnCanceledMerchantEventData.md#returncanceledmerchanteventdataactor). |
 
-### SubscriptionActivatedMerchantEventData.actor
+### SubscriptionActivatedMerchantEventData.actor fields 1
 
-Field definitions: [ReturnCanceledMerchantEventData.actor](../models/ReturnCanceledMerchantEventData.md#returncanceledmerchanteventdataactor).
+Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+
+Field definitions: [shared fields](ReturnActorInput.md#returnactorinput).
 

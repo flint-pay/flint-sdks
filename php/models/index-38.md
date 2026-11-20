@@ -1,7 +1,18 @@
 [Model index](../MODELS.md)
 
-# InventoryTransferListResponse to TestClockListResponse
+# GiftCardListResponse to SandboxListResponse
 
+- [GiftCardListResponse](GiftCardListResponse.md)
+- [GiftCardTransactionListResponse](GiftCardTransactionListResponse.md)
+- [InventoryAdjustmentListResponse](InventoryAdjustmentListResponse.md)
+- [InventoryAllocationPolicyListResponse](InventoryAllocationPolicyListResponse.md)
+- [InventoryAllocationPolicyRevisionListResponse](InventoryAllocationPolicyRevisionListResponse.md)
+- [InventoryCountListResponse](InventoryCountListResponse.md)
+- [InventoryItemListResponse](InventoryItemListResponse.md)
+- [InventoryLevelListResponse](InventoryLevelListResponse.md)
+- [InventoryMovementListResponse](InventoryMovementListResponse.md)
+- [InventoryReceiptListResponse](InventoryReceiptListResponse.md)
+- [InventoryReservationListResponse](InventoryReservationListResponse.md)
 - [InventoryTransferListResponse](InventoryTransferListResponse.md)
 - [InvoiceActivityListResponse](InvoiceActivityListResponse.md)
 - [InvoiceDeliveryAttemptListResponse](InvoiceDeliveryAttemptListResponse.md)
@@ -91,15 +102,4 @@
 - [RiskListListResponse](RiskListListResponse.md)
 - [RiskRuleListResponse](RiskRuleListResponse.md)
 - [SandboxListResponse](SandboxListResponse.md)
-- [ShipmentListResponse](ShipmentListResponse.md)
-- [SubscriptionDeliveryMigrationFailureListResponse](SubscriptionDeliveryMigrationFailureListResponse.md)
-- [SubscriptionDeliveryMigrationListResponse](SubscriptionDeliveryMigrationListResponse.md)
-- [SubscriptionLineItemsListResponse](SubscriptionLineItemsListResponse.md)
-- [SubscriptionOfferListResponse](SubscriptionOfferListResponse.md)
-- [SubscriptionPaymentRetryListResponse](SubscriptionPaymentRetryListResponse.md)
-- [SubscriptionPlanListResponse](SubscriptionPlanListResponse.md)
-- [SubscriptionListResponse](SubscriptionListResponse.md)
-- [TaxCalculationCallbackListResponse](TaxCalculationCallbackListResponse.md)
-- [TaxRegistrationListResponse](TaxRegistrationListResponse.md)
-- [TestClockListResponse](TestClockListResponse.md)
 

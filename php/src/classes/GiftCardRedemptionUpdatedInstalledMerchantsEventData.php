@@ -2,12 +2,18 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read ?ReturnActor $actor
  * @property-read GiftCardRedemptionUpdatedInstalledMerchantsEventDataObject $object
  * @property-read ?GiftCardRedemptionUpdatedInstalledMerchantsEventDataPreviousAttributes $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class GiftCardRedemptionUpdatedInstalledMerchantsEventData extends Model {
-    /** @param array{'object': object{'capture_mode': string, 'captured_money': mixed, 'created_at': string, 'expires_at': string|null, 'gift_card_id': string, 'gift_card_redemption_id': string, 'idempotency_key': string|null, 'order_id': string|null, 'order_payment_attempt_id': string|null, 'refunded_money': mixed, 'remaining_refundable_money': mixed, 'requested_money': mixed, 'reserved_money': mixed, 'sale_reference': string|null, 'source_type': string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int}, 'previous_attributes'?: object{'capture_mode'?: mixed, 'captured_money'?: mixed, 'created_at'?: mixed, 'expires_at'?: mixed, 'gift_card_id'?: mixed, 'gift_card_redemption_id'?: mixed, 'idempotency_key'?: mixed, 'order_id'?: mixed, 'order_payment_attempt_id'?: mixed, 'refunded_money'?: mixed, 'remaining_refundable_money'?: mixed, 'requested_money'?: mixed, 'reserved_money'?: mixed, 'sale_reference'?: mixed, 'source_type'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, 'version'?: mixed}, ...}|object $values */
+    /** @param array{'actor'?: mixed, 'object': object{'capture_mode': string, 'captured_money': mixed, 'created_at': string, 'expires_at': string|null, 'gift_card_id': string, 'gift_card_redemption_id': string, 'idempotency_key': string|null, 'order_id': string|null, 'order_payment_attempt_id': string|null, 'refunded_money': mixed, 'remaining_refundable_money': mixed, 'requested_money': mixed, 'reserved_money': mixed, 'sale_reference': string|null, 'source_type': string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int}, 'previous_attributes'?: object{'capture_mode'?: mixed, 'captured_money'?: mixed, 'created_at'?: mixed, 'expires_at'?: mixed, 'gift_card_id'?: mixed, 'gift_card_redemption_id'?: mixed, 'idempotency_key'?: mixed, 'order_id'?: mixed, 'order_payment_attempt_id'?: mixed, 'refunded_money'?: mixed, 'remaining_refundable_money'?: mixed, 'requested_money'?: mixed, 'reserved_money'?: mixed, 'sale_reference'?: mixed, 'source_type'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'updated_at'?: mixed, 'version'?: mixed}, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardRedemptionUpdatedInstalledMerchantsEventData')); }
+    /** Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+     * @return ?ReturnActor
+     */
+    public function getActor(): ?ReturnActor { return $this->get('actor'); }
+    public function hasActor(): bool { return $this->has('actor'); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return GiftCardRedemptionUpdatedInstalledMerchantsEventDataObject
      */

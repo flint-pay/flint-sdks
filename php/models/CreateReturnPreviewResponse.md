@@ -65,6 +65,7 @@ Return eligibility for one order line item, with the line's details, suggested r
 | `can_buyer_request` | Required | boolean | Whether the buyer can request this line themselves, through a customer session, right now. False when no policy covers the item, when it is not eligible, or when the store offers no reason for it. Read eligibility.reason and ineligibility_reason to say why. |
 | `description` | Optional | string | Description of the item as sold. |
 | `eligibility` | Required | [ReturnLineItemEligibility](../models/ReturnLineItemEligibility.md#returnlineitemeligibility) | How the policy judged this line. Whether a return line is eligible under policy, with the eligible quantity, allowed resolution types, and any policy adjustments. `eligibility`: [field definitions](../models/CreateReturnPreviewResponse.md#createreturnpreviewresponsedataeligibility-fields-1line_itemseligibility). |
+| `exchange_variants` | Required | Array of object | Available alternatives for an exchange of this product. Empty when alternatives were omitted from the request or none are available. `exchange_variants[]`: [field definitions](../models/BuyerReturnPreviewResponse.md#buyerreturnpreviewresponsedataeligibility-fields-1line_itemsexchange_variants). |
 | `fulfillment_id` | Required | string | ID of the fulfillment the units were delivered in. Example: `"ful_01KEZF7C00F24WVSTTWR1FQX5T"`. |
 | `image` | Optional | [Image](../models/Image.md#image) | Image of the item as sold. An image with its URL, size, and alt text. |
 | `modifiers` | Required | Array of [OrderLineItemModifier](../models/OrderLineItemModifier.md#orderlineitemmodifier) | Modifiers selected on the order line, with their prices. `modifiers[]`: [field definitions](../models/FulfillmentResponse.md#fulfillmentresponsedataline_itemsmodifiers). |
@@ -117,6 +118,10 @@ How the policy judged this line. Whether a return line is eligible under policy,
 ### CreateReturnPreviewResponse.data.eligibility fields 1.line_items[].eligibility.decision_proposal
 
 Field definitions: [BuyerReturnResponse.data.line_items[].eligibility.decision_proposal](../models/BuyerReturnResponse.md#buyerreturnresponsedataline_itemseligibilitydecision_proposal).
+
+### CreateReturnPreviewResponse.data.eligibility fields 1.line_items[].exchange_variants[]
+
+Field definitions: [BuyerReturnPreviewResponse.data.eligibility fields 1.line_items[].exchange_variants[]](../models/BuyerReturnPreviewResponse.md#buyerreturnpreviewresponsedataeligibility-fields-1line_itemsexchange_variants).
 
 ### CreateReturnPreviewResponse.data.eligibility fields 1.line_items[].modifiers[]
 

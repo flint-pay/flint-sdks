@@ -124,7 +124,7 @@ export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-31.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type {
@@ -140,11 +140,8 @@ export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, Meta
 export type { TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-74.js';
 export type { CardDetails } from '../declarations/types-5.js';
 export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-40.js';
-export type {
-    UpdateCustomerRequestInput,
-    UpdateCustomerAddressRequestInput,
-    UpdateCustomerTaxExemptionRequestInput
-} from '../declarations/types-75.js';
+export type { UpdateCustomerRequestInput, UpdateCustomerTaxExemptionRequestInput } from '../declarations/types-76.js';
+export type { UpdateCustomerAddressRequestInput } from '../declarations/types-75.js';
 export { makeAddressRequest } from '../declarations/types-80.js';
 export {
     makeCreateCustomerAccessLinkRequest,
@@ -161,10 +158,11 @@ export {
 export { makeDocumentTaxIDRequest } from '../declarations/types-86.js';
 export {
     makeLinkCustomerGuestPurchasesRequest,
+    makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue
+    makeMetadataRequest
 } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export {
     makeTaxIdentityPatch,
     makeTaxIdentityRequest,
@@ -517,8 +515,9 @@ export interface CustomersResource {
     /**
  * Returns the customer's exemption records ordered by created_at descending, then
  * customer_tax_exemption_id descending. Archived records are excluded by default. Status may
- * filter scheduled, active, expired and archived records, alone or together. Default order:
- * created_at descending, then customer_tax_exemption_id descending.
+ * filter scheduled, active, expired and archived records, alone or together. A deleted customer
+ * has an empty list. Default order: created_at descending, then customer_tax_exemption_id
+ * descending.
  *
  * `GET /v1/customers/{customer_id}/tax-exemptions`
  * @param customer_id Flint ID of the customer that owns this nested child. Must be a valid ID with

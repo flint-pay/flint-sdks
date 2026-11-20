@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](PayoutSettingsUpdatedMerchantEvent.md#payoutsettingsupdatedmerchanteventdata-fields-1).
 
+### PayoutSettingsUpdatedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### PayoutSettingsUpdatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [PayoutSettingsUpdatedMerchantEvent.data fields 1.object](../models/PayoutSettingsUpdatedMerchantEvent.md#payoutsettingsupdatedmerchanteventdata-fields-1object).

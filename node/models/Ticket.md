@@ -20,6 +20,7 @@ An individual admission, a top-level child of an order. Merchant reads and webho
 | `order_id` | Required | string | The order that purchased this ticket. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `order_line_item_id` | Required | string | The purchased ticket tier. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
 | `payment_link_id` | Required | string | The event payment link. Example: `"pl_01KEZF7C007WDMA5P9BPZ8J2AM"`. |
+| `payment_link_line_item_key` | Optional | string | The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key. |
 | `status` | Required | string | The admission lifecycle. Values: `"issued"`, `"checked_in"`, `"voided"`. |
 | `supported_actions` | Required | Array of string | Actions currently offered for this ticket. Items values: `"check_in"`, `"undo_check_in"`, `"void"`. |
 | `ticket_id` | Required | string | Unique ticket identity with the tkt_ prefix. Example: `"tkt_01KEZF7C00AWVKS6GAX8RMEBZ8"`. |

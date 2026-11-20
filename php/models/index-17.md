@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# InvoicePartiallyPaidInstalledMerchantsEventInput to InvoiceScheduleEntryWriteInstallmentInput
+# InvoiceMarkedUncollectibleMerchantEventInput to InvoiceScheduleEntryInput
 
+- [InvoiceMarkedUncollectibleMerchantEventInput](InvoiceMarkedUncollectibleMerchantEventInput.md)
+- [InvoiceOverdueInstalledMerchantsEventInput](InvoiceOverdueInstalledMerchantsEventInput.md)
+- [InvoiceOverdueMerchantEventInput](InvoiceOverdueMerchantEventInput.md)
+- [InvoicePaidInstalledMerchantsEventInput](InvoicePaidInstalledMerchantsEventInput.md)
+- [InvoicePaidMerchantEventInput](InvoicePaidMerchantEventInput.md)
 - [InvoicePartiallyPaidInstalledMerchantsEventInput](InvoicePartiallyPaidInstalledMerchantsEventInput.md)
 - [InvoicePartiallyPaidMerchantEventInput](InvoicePartiallyPaidMerchantEventInput.md)
 - [InvoicePartiallyRefundedInstalledMerchantsEventInput](InvoicePartiallyRefundedInstalledMerchantsEventInput.md)
@@ -97,9 +102,4 @@
 - [InvoiceScheduleDueWriteDateInput](InvoiceScheduleDueWriteDateInput.md)
 - [InvoiceScheduleDueWriteInvoiceDueDateInput](InvoiceScheduleDueWriteInvoiceDueDateInput.md)
 - [InvoiceScheduleEntryInput](InvoiceScheduleEntryInput.md)
-- [InvoiceScheduleEntryPreviousAttributesInput](InvoiceScheduleEntryPreviousAttributesInput.md)
-- [InvoiceScheduleEntryWriteInput](InvoiceScheduleEntryWriteInput.md)
-- [InvoiceScheduleEntryWriteBalanceInput](InvoiceScheduleEntryWriteBalanceInput.md)
-- [InvoiceScheduleEntryWriteDepositInput](InvoiceScheduleEntryWriteDepositInput.md)
-- [InvoiceScheduleEntryWriteInstallmentInput](InvoiceScheduleEntryWriteInstallmentInput.md)
 

@@ -11,7 +11,7 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `blocks_completion` | Optional | boolean or null | Whether the checkout cannot complete until the problem is resolved. `blocks_completion`: [declared alternatives](../models/CheckoutProblemResourcePreviousAttributes.md#checkoutproblemresourcepreviousattributesblocks_completion). |
-| `code` | Optional | string or null | Which condition affects the checkout. Values: `"delivery_selection_stale"`, `"delivery_selection_invalid"`, `"delivery_unreadable"`, `"payment_in_progress"`. `code`: [declared alternatives](../models/CheckoutProblemResourcePreviousAttributes.md#checkoutproblemresourcepreviousattributescode). |
+| `code` | Optional | string or null | Which condition affects the checkout. Values: `"delivery_selection_stale"`, `"delivery_selection_invalid"`, `"delivery_unreadable"`, `"payment_in_progress"`, `"processor_payments_paused"`. `code`: [declared alternatives](../models/CheckoutProblemResourcePreviousAttributes.md#checkoutproblemresourcepreviousattributescode). |
 | `remediation` | Optional | [ErrorRemediationPreviousAttributes](../models/ErrorRemediationPreviousAttributes.md#errorremediationpreviousattributes) or null | What the caller can do about the problem, and whether retrying the same request can help. |
 | `severity` | Optional | string or null | How serious the problem is. Values: `"error"`. `severity`: [declared alternatives](../models/CheckoutProblemResourcePreviousAttributes.md#checkoutproblemresourcepreviousattributesseverity). |
 
@@ -35,7 +35,7 @@ anyOf variant 2.
 
 anyOf variant 1: Which condition affects the checkout..
 
-- Value shape: string. Which condition affects the checkout. Values: `"delivery_selection_stale"`, `"delivery_selection_invalid"`, `"delivery_unreadable"`, `"payment_in_progress"`.
+- Value shape: string. Which condition affects the checkout. Values: `"delivery_selection_stale"`, `"delivery_selection_invalid"`, `"delivery_unreadable"`, `"payment_in_progress"`, `"processor_payments_paused"`.
 
 ### CheckoutProblemResourcePreviousAttributes.code variant 2
 

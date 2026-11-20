@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# SubscriptionDeliveryMethodSummaryInput to SubscriptionPromotionApplyPreviewInput
+# SubscriptionDeliveryDestinationInputCustomerAddressInput to SubscriptionPlanSwapVariantInput
 
+- [SubscriptionDeliveryDestinationInputCustomerAddressInput](SubscriptionDeliveryDestinationInputCustomerAddressInput.md)
+- [SubscriptionDeliveryDestinationPreviousAttributesInput](SubscriptionDeliveryDestinationPreviousAttributesInput.md)
+- [SubscriptionDeliveryDestinationRequestInput](SubscriptionDeliveryDestinationRequestInput.md)
+- [SubscriptionDeliveryHoldInput](SubscriptionDeliveryHoldInput.md)
+- [SubscriptionDeliveryHoldPreviousAttributesInput](SubscriptionDeliveryHoldPreviousAttributesInput.md)
+- [SubscriptionDeliveryMethodCountsInput](SubscriptionDeliveryMethodCountsInput.md)
+- [SubscriptionDeliveryMethodImpactInput](SubscriptionDeliveryMethodImpactInput.md)
 - [SubscriptionDeliveryMethodSummaryInput](SubscriptionDeliveryMethodSummaryInput.md)
 - [SubscriptionDeliveryMethodSummaryPreviousAttributesInput](SubscriptionDeliveryMethodSummaryPreviousAttributesInput.md)
 - [SubscriptionDeliveryMigrationInput](SubscriptionDeliveryMigrationInput.md)
@@ -95,11 +102,4 @@
 - [SubscriptionPlanListResponseInput](SubscriptionPlanListResponseInput.md)
 - [SubscriptionPlanResponseInput](SubscriptionPlanResponseInput.md)
 - [SubscriptionPlanSwapVariantInput](SubscriptionPlanSwapVariantInput.md)
-- [SubscriptionPlanSwapVariantPreviousAttributesInput](SubscriptionPlanSwapVariantPreviousAttributesInput.md)
-- [SubscriptionPlanTermsRequestInput](SubscriptionPlanTermsRequestInput.md)
-- [SubscriptionPreviewInput](SubscriptionPreviewInput.md)
-- [SubscriptionPreviewErrorInput](SubscriptionPreviewErrorInput.md)
-- [SubscriptionPreviewResponseInput](SubscriptionPreviewResponseInput.md)
-- [SubscriptionPromotionInput](SubscriptionPromotionInput.md)
-- [SubscriptionPromotionApplyPreviewInput](SubscriptionPromotionApplyPreviewInput.md)
 

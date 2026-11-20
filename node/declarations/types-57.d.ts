@@ -1,20 +1,24 @@
-import type { Product } from './types-56.js';
+import type { ProcessExistingReturnLineItemRequestInput } from './types-56.js';
+import type { ReturnProcessReceiptRequestInput, ReturnProcessResult } from './types-64.js';
 import type { ResponseMeta } from './types-62.js';
-import type { MetadataMap, MerchantWebhookEnvelope, ModifierSet, MetadataRequestInput } from './types-43.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, ModifierSetPreviousAttributes, MoneyValueInput } from './types-44.js';
-import type { CategoryReferencePreviousAttributes } from './types-5.js';
-import type { ImageAttachmentPreviousAttributes, ImageAttachment, ImageRequest, ImageRequestInput } from './types-31.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { CategoryReference, CategoryReferencePreviousAttributes } from './types-5.js';
+import type { ImageAttachment, ImageAttachmentPreviousAttributes, ImageRequest, ImageRequestInput } from './types-31.js';
+import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-43.js';
 import type {
-    WebhookProduct,
-    Weight,
-    WebhookProductVariant,
-    WeightPreviousAttributes,
-    WeightRequestInput,
-    WebhookPromotion
-} from './types-79.js';
+    ModifierSet,
+    MoneyValue,
+    MoneyValuePreviousAttributes,
+    ModifierSetPreviousAttributes,
+    MoneyValueInput
+} from './types-44.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { WebhookProduct, WebhookProductVariant } from './types-79.js';
 import type { Dimensions, DimensionsPreviousAttributes, DimensionsRequestInput } from './types-25.js';
-import type { GiftCardProductConfiguration } from './types-29.js';
+import type {
+    GiftCardProductConfiguration,
+    GiftCardProductConfigurationPreviousAttributes,
+    GiftCardProductConfigurationRequestInput
+} from './types-30.js';
 import type {
     LicenseKeyConfiguration,
     LicenseKeyConfigurationPreviousAttributes,
@@ -25,11 +29,14 @@ import type {
     QuantityPriceBreak,
     QuantityPriceBreakPreviousAttributes,
     QuantityPriceBreakRequestInput,
+    PromotionRuleGroup,
     PromotionSchedule,
-    PromotionSchedulePreviousAttributes
+    PromotionRuleGroupPreviousAttributes,
+    PromotionRuleGroupRequest,
+    PromotionRuleGroupRequestInput
 } from './types-59.js';
-import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-67.js';
-import type { GiftCardProductConfigurationPreviousAttributes, GiftCardProductConfigurationRequestInput } from './types-30.js';
+import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-68.js';
+import type { Weight, WeightPreviousAttributes, WeightRequestInput } from './types-80.js';
 import type { InventoryRoutingSource, InventoryRoutingSourcePreviousAttributes } from './types-33.js';
 import type { InventoryItemCreateRequest, InventoryItemCreateRequestInput } from './types-32.js';
 import type { InputValue } from '../runtime.js';
@@ -42,21 +49,1161 @@ import type {
     PromotionCodesSummary,
     PromotionCombinesWith,
     PromotionExclusivity,
-    PromotionRuleGroup,
     PromotionRecurrence,
     PromotionRecurrencePreviousAttributes,
-    PromotionRuleGroupPreviousAttributes,
-    PromotionRuleGroupRequest,
     PromotionRecurrenceRequestInput,
-    PromotionRuleGroupRequestInput,
+    PromotionBuyXGetYMethod,
     PromotionPercentOffMethod,
+    PromotionBuyXGetYMethodPreviousAttributes,
     PromotionPercentOffMethodPreviousAttributes,
-    PromotionPercentOffMethodRequest,
-    PromotionPercentOffMethodRequestInput,
-    PromotionCodesSummaryPreviousAttributes,
-    PromotionCombinesWithPreviousAttributes,
-    PromotionExclusivityPreviousAttributes
+    PromotionBuyXGetYMethodRequest,
+    PromotionPercentOffMethodRequest
 } from './types-58.js';
+/** The request body for: Process existing return. */
+export type ProcessExistingReturnRequestInput = {
+    /**
+     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
+     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
+     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
+     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
+     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
+     * completion_mode. Value enum: "manual", "automatic".
+     */
+    "completion_mode"?: "manual" | "automatic";
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * One decision for each line. minItems: 1. [] (Value): {@link
+     * ProcessExistingReturnLineItemRequestInput}. How to process one line of an existing return:
+     * the received quantity, inspection, decision, disposition, and resolution.
+     */
+    "line_items": Array<ProcessExistingReturnLineItemRequestInput>;
+    /**
+     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
+     * it was received, supplied when processing an existing return.
+     */
+    "receipt"?: ReturnProcessReceiptRequestInput;
+};
+/** A response containing `ReturnProcessResult` data. */
+export type ProcessExistingReturnResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The return is the
+     * primary resource and expected_version target; the other resources report the processing
+     * effects.
+     */
+    "data": ReturnProcessResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** An item offered in the merchant's catalog. */
+export type Product = {
+    /** Number of active variants belonging to the product. Format: int32. */
+    "active_variant_count"?: number;
+    /**
+     * Always present. Empty collections are returned as []. [] (Value): {@link CategoryReference}.
+     * A reference to a product category by ID, handle, and name.
+     */
+    "categories": Array<CategoryReference>;
+    /**
+     * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at"?: string;
+    /**
+     * The product's default variant, when one is set. A specific purchasable version of a product.
+     */
+    "default_variant"?: ProductVariant;
+    /**
+     * Identifier of the variant chosen as this product's default, when one is set. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /**
+     * Delivery readiness aggregated across the product's non-archived variants. Value enum:
+     * "configured", "action_required", "not_applicable".
+     */
+    "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+    /** Description of the product shown to buyers. */
+    "description"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Images attached to this resource, in display order. The first image is primary. [] (Value):
+     * {@link ImageAttachment}. An image attached to a resource, with its display properties and
+     * attachment metadata.
+     */
+    "images": Array<ImageAttachment>;
+    /** Whether the product is active and has at least one active variant. */
+    "is_available_for_sale"?: boolean;
+    /**
+     * On product list rows, the first non-archived variant by position, then variant_id, that
+     * matches all exact variant filters. Without exact variant filters, identifies the first
+     * variant whose SKU or barcode matches query. Omitted when no variant matches; a product name
+     * or description match alone does not set it. Page the product's variants to find all matches.
+     * A single variant witness on product list rows only. With exact variant filters, the first
+     * variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first
+     * variant in that order whose SKU matches query. Use the paginated nested variant list to
+     * enumerate every match.
+     */
+    "matched_variant"?: ProductVariantMatch;
+    /**
+     * Identifier of the merchant that owns this resource. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Attached modifier set, included when expand=modifier_set is requested. Requires
+     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
+     * includes `modifier_set`; `null` when expanded and there is no related modifier set. anyOf[1]
+     * (Value): {@link ModifierSet}. A reusable collection of customization groups. anyOf[2]
+     * (Value): null.
+     */
+    "modifier_set"?: ((ModifierSet) | (null));
+    /**
+     * ID of the modifier set attached to the product. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id": string | null;
+    /** Product name shown to buyers. */
+    "name": string;
+    /** Number of active options belonging to the product. Format: int32. */
+    "option_count"?: number;
+    /**
+     * Product options and their non-archived values. Empty when the product has no options. []
+     * (Value): {@link ProductOption}. A choice that defines a product's variants.
+     */
+    "options": Array<ProductOption>;
+    /**
+     * Lowest and highest base unit prices among active variants, before any quantity price breaks.
+     * Omitted when there are no active variants or their currencies differ. The lowest and highest
+     * unit prices across a product's variants.
+     */
+    "price_range"?: ProductPriceRange;
+    /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+    "product_id": string;
+    /**
+     * Kind of goods or service this product represents. New variants of digital products store
+     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
+     * Value enum: "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+    /**
+     * Product lifecycle status. Archived products remain readable and cannot be edited. Value
+     * enum: "active", "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at"?: string;
+    /** Number of non-archived variants belonging to the product. Format: int32. */
+    "variant_count"?: number;
+    /**
+     * The product's complete non-archived variants, ordered by `position` and then `variant_id`.
+     * Present when `expand=variants` is requested, and on the `POST /v1/products` response. An
+     * archived product returns an empty array. [] (Value): {@link ProductVariant}. A specific
+     * purchasable version of a product.
+     */
+    "variants"?: Array<ProductVariant>;
+    /**
+     * Current resource version. Send it as expected_version to reject a write if the resource has
+     * changed. Format: uint64. minimum: 0.
+     */
+    "version": number;
+};
+export type ProductArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookProduct;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_variant_count"?: ((number) | (null));
+            "categories"?: ((Array<CategoryReferencePreviousAttributes>) | (null));
+            "created_at"?: ((string) | (null));
+            "default_variant"?: ((ProductVariantPreviousAttributes) | (null));
+            "default_variant_id"?: ((string) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "option_count"?: ((number) | (null));
+            "options"?: ((Array<ProductOptionPreviousAttributes>) | (null));
+            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
+            "product_id"?: ((string) | (null));
+            "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "variant_count"?: ((number) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "product.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookProduct;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_variant_count"?: ((number) | (null));
+            "categories"?: ((Array<CategoryReferencePreviousAttributes>) | (null));
+            "created_at"?: ((string) | (null));
+            "default_variant"?: ((ProductVariantPreviousAttributes) | (null));
+            "default_variant_id"?: ((string) | (null));
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
+            "is_available_for_sale"?: ((boolean) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "modifier_set_id"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "option_count"?: ((number) | (null));
+            "options"?: ((Array<ProductOptionPreviousAttributes>) | (null));
+            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
+            "product_id"?: ((string) | (null));
+            "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "variant_count"?: ((number) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "product.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "product.archived";
+});
+/**
+ * The `product.archived` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type ProductArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookProduct}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.active_variant_count (Optional): integer or null. Number of active
+     * variants belonging to the product. previous_attributes.active_variant_count.anyOf[1]
+     * (Value): integer. Number of active variants belonging to the product. Format: int32.
+     * previous_attributes.active_variant_count.anyOf[2] (Value): null.
+     * previous_attributes.categories (Optional): Array of {@link
+     * CategoryReferencePreviousAttributes} or null. Always present. Empty collections are returned
+     * as []. previous_attributes.categories.anyOf[1] (Value): Array of {@link
+     * CategoryReferencePreviousAttributes}. Always present. Empty collections are returned as [].
+     * previous_attributes.categories.anyOf[1][] (Value): {@link
+     * CategoryReferencePreviousAttributes}. previous_attributes.categories.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When this resource was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When this
+     * resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.default_variant (Optional): {@link ProductVariantPreviousAttributes} or
+     * null. The product's default variant, when one is set.
+     * previous_attributes.default_variant.anyOf[1] (Value): {@link
+     * ProductVariantPreviousAttributes}. previous_attributes.default_variant.anyOf[2] (Value):
+     * null. previous_attributes.default_variant_id (Optional): string or null. Identifier of the
+     * variant chosen as this product's default, when one is set.
+     * previous_attributes.default_variant_id.anyOf[1] (Value): string. Identifier of the variant
+     * chosen as this product's default, when one is set. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX". previous_attributes.default_variant_id.anyOf[2] (Value):
+     * null. previous_attributes.delivery_configuration_status (Optional): string or null. Delivery
+     * readiness aggregated across the product's non-archived variants. Value enum: "configured",
+     * "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Delivery
+     * readiness aggregated across the product's non-archived variants. Value enum: "configured",
+     * "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Description of the product shown
+     * to buyers. previous_attributes.description.anyOf[1] (Value): string. Description of the
+     * product shown to buyers. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.images
+     * (Optional): Array of {@link ImageAttachmentPreviousAttributes} or null. Images attached to
+     * this resource, in display order. The first image is primary.
+     * previous_attributes.images.anyOf[1] (Value): Array of {@link
+     * ImageAttachmentPreviousAttributes}. Images attached to this resource, in display order. The
+     * first image is primary. previous_attributes.images.anyOf[1][] (Value): {@link
+     * ImageAttachmentPreviousAttributes}. previous_attributes.images.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the product
+     * is active and has at least one active variant.
+     * previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean. Whether the product is
+     * active and has at least one active variant.
+     * previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
+     * (Optional): string or null. ID of the modifier set attached to the product. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the product. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Product name shown to
+     * buyers. previous_attributes.name.anyOf[1] (Value): string. Product name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.option_count
+     * (Optional): integer or null. Number of active options belonging to the product.
+     * previous_attributes.option_count.anyOf[1] (Value): integer. Number of active options
+     * belonging to the product. Format: int32. previous_attributes.option_count.anyOf[2] (Value):
+     * null. previous_attributes.options (Optional): Array of {@link
+     * ProductOptionPreviousAttributes} or null. Product options and their non-archived values.
+     * Empty when the product has no options. previous_attributes.options.anyOf[1] (Value): Array
+     * of {@link ProductOptionPreviousAttributes}. Product options and their non-archived values.
+     * Empty when the product has no options. previous_attributes.options.anyOf[1][] (Value):
+     * {@link ProductOptionPreviousAttributes}. previous_attributes.options.anyOf[2] (Value): null.
+     * previous_attributes.price_range (Optional): {@link ProductPriceRangePreviousAttributes} or
+     * null. Lowest and highest base unit prices among active variants, before any quantity price
+     * breaks. Omitted when there are no active variants or their currencies differ.
+     * previous_attributes.price_range.anyOf[1] (Value): {@link
+     * ProductPriceRangePreviousAttributes}. previous_attributes.price_range.anyOf[2] (Value):
+     * null. previous_attributes.product_id (Optional): string or null. Stable identifier of the
+     * product. previous_attributes.product_id.anyOf[1] (Value): string. Stable identifier of the
+     * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". previous_attributes.product_id.anyOf[2]
+     * (Value): null. previous_attributes.product_type (Optional): string or null. Kind of goods or
+     * service this product represents. New variants of digital products store digital_goods when
+     * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     * previous_attributes.product_type.anyOf[1] (Value): string. Kind of goods or service this
+     * product represents. New variants of digital products store digital_goods when
+     * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     * previous_attributes.product_type.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Product lifecycle status. Archived products remain readable and
+     * cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Product lifecycle status. Archived
+     * products remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When this resource last changed, as an RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When this resource last changed, as
+     * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.variant_count
+     * (Optional): integer or null. Number of non-archived variants belonging to the product.
+     * previous_attributes.variant_count.anyOf[1] (Value): integer. Number of non-archived variants
+     * belonging to the product. Format: int32. previous_attributes.variant_count.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current resource version.
+     * Send it as expected_version to reject a write if the resource has changed.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current resource version. Send it as
+     * expected_version to reject a write if the resource has changed. Format: uint64. minimum: 0.
+     * previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
+         * `matched_variant`, `modifier_set`.
+         */
+        "object": WebhookProduct;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. active_variant_count (Optional): integer or
+         * null. Number of active variants belonging to the product. active_variant_count.anyOf[1]
+         * (Value): integer. Number of active variants belonging to the product. Format: int32.
+         * active_variant_count.anyOf[2] (Value): null. categories (Optional): Array of {@link
+         * CategoryReferencePreviousAttributes} or null. Always present. Empty collections are
+         * returned as []. categories.anyOf[1] (Value): Array of {@link
+         * CategoryReferencePreviousAttributes}. Always present. Empty collections are returned as
+         * []. categories.anyOf[1][] (Value): {@link CategoryReferencePreviousAttributes}.
+         * categories.anyOf[2] (Value): null. created_at (Optional): string or null. When this
+         * resource was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string. When
+         * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. default_variant (Optional):
+         * {@link ProductVariantPreviousAttributes} or null. The product's default variant, when
+         * one is set. default_variant.anyOf[1] (Value): {@link ProductVariantPreviousAttributes}.
+         * default_variant.anyOf[2] (Value): null. default_variant_id (Optional): string or null.
+         * Identifier of the variant chosen as this product's default, when one is set.
+         * default_variant_id.anyOf[1] (Value): string. Identifier of the variant chosen as this
+         * product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         * default_variant_id.anyOf[2] (Value): null. delivery_configuration_status (Optional):
+         * string or null. Delivery readiness aggregated across the product's non-archived
+         * variants. Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[1] (Value): string. Delivery readiness aggregated
+         * across the product's non-archived variants. Value enum: "configured", "action_required",
+         * "not_applicable". delivery_configuration_status.anyOf[2] (Value): null. description
+         * (Optional): string or null. Description of the product shown to buyers.
+         * description.anyOf[1] (Value): string. Description of the product shown to buyers.
+         * description.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. images (Optional): Array of {@link
+         * ImageAttachmentPreviousAttributes} or null. Images attached to this resource, in display
+         * order. The first image is primary. images.anyOf[1] (Value): Array of {@link
+         * ImageAttachmentPreviousAttributes}. Images attached to this resource, in display order.
+         * The first image is primary. images.anyOf[1][] (Value): {@link
+         * ImageAttachmentPreviousAttributes}. images.anyOf[2] (Value): null. is_available_for_sale
+         * (Optional): boolean or null. Whether the product is active and has at least one active
+         * variant. is_available_for_sale.anyOf[1] (Value): boolean. Whether the product is active
+         * and has at least one active variant. is_available_for_sale.anyOf[2] (Value): null.
+         * merchant_id (Optional): string or null. Identifier of the merchant that owns this
+         * resource. merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns
+         * this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
+         * null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on
+         * this resource. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2]
+         * (Value): null. modifier_set_id (Optional): string or null. ID of the modifier set
+         * attached to the product. `null` when no modifier set is attached.
+         * modifier_set_id.anyOf[1] (Value): string. ID of the modifier set attached to the
+         * product. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Product name shown to buyers. name.anyOf[1] (Value): string.
+         * Product name shown to buyers. name.anyOf[2] (Value): null. option_count (Optional):
+         * integer or null. Number of active options belonging to the product.
+         * option_count.anyOf[1] (Value): integer. Number of active options belonging to the
+         * product. Format: int32. option_count.anyOf[2] (Value): null. options (Optional): Array
+         * of {@link ProductOptionPreviousAttributes} or null. Product options and their
+         * non-archived values. Empty when the product has no options. options.anyOf[1] (Value):
+         * Array of {@link ProductOptionPreviousAttributes}. Product options and their non-archived
+         * values. Empty when the product has no options. options.anyOf[1][] (Value): {@link
+         * ProductOptionPreviousAttributes}. options.anyOf[2] (Value): null. price_range
+         * (Optional): {@link ProductPriceRangePreviousAttributes} or null. Lowest and highest base
+         * unit prices among active variants, before any quantity price breaks. Omitted when there
+         * are no active variants or their currencies differ. price_range.anyOf[1] (Value): {@link
+         * ProductPriceRangePreviousAttributes}. price_range.anyOf[2] (Value): null. product_id
+         * (Optional): string or null. Stable identifier of the product. product_id.anyOf[1]
+         * (Value): string. Stable identifier of the product. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null. product_type
+         * (Optional): string or null. Kind of goods or service this product represents. New
+         * variants of digital products store digital_goods when line_item_tax_category is omitted;
+         * explicit categories are preserved. Value enum: "physical", "service", "fee", "digital",
+         * "gift_card". product_type.anyOf[1] (Value): string. Kind of goods or service this
+         * product represents. New variants of digital products store digital_goods when
+         * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+         * "physical", "service", "fee", "digital", "gift_card". product_type.anyOf[2] (Value):
+         * null. status (Optional): string or null. Product lifecycle status. Archived products
+         * remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Product lifecycle status. Archived products remain
+         * readable and cannot be edited. Value enum: "active", "inactive", "archived".
+         * status.anyOf[2] (Value): null. updated_at (Optional): string or null. When this resource
+         * last changed, as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this
+         * resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. variant_count (Optional):
+         * integer or null. Number of non-archived variants belonging to the product.
+         * variant_count.anyOf[1] (Value): integer. Number of non-archived variants belonging to
+         * the product. Format: int32. variant_count.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current resource version. Send it as expected_version to reject a write
+         * if the resource has changed. version.anyOf[1] (Value): integer. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * Format: uint64. minimum: 0. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Number of active variants belonging to the product. anyOf[1] (Value): integer.
+             * Number of active variants belonging to the product. Format: int32. anyOf[2] (Value):
+             * null.
+             */
+            "active_variant_count"?: ((number) | (null));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link CategoryReferencePreviousAttributes}. Always present. Empty collections are
+             * returned as []. anyOf[1][] (Value): {@link CategoryReferencePreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "categories"?: ((Array<CategoryReferencePreviousAttributes>) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The product's default variant, when one is set. anyOf[1] (Value): {@link
+             * ProductVariantPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "default_variant"?: ((ProductVariantPreviousAttributes) | (null));
+            /**
+             * Identifier of the variant chosen as this product's default, when one is set.
+             * anyOf[1] (Value): string. Identifier of the variant chosen as this product's
+             * default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+             * (Value): null.
+             */
+            "default_variant_id"?: ((string) | (null));
+            /**
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[1] (Value): string.
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Description of the product shown to buyers. anyOf[1] (Value): string. Description of
+             * the product shown to buyers. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Images attached to this resource, in display order. The first image is primary.
+             * anyOf[1] (Value): Array of {@link ImageAttachmentPreviousAttributes}. Images
+             * attached to this resource, in display order. The first image is primary. anyOf[1][]
+             * (Value): {@link ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
+            /**
+             * Whether the product is active and has at least one active variant. anyOf[1] (Value):
+             * boolean. Whether the product is active and has at least one active variant. anyOf[2]
+             * (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the product. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the product.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string) | (null));
+            /**
+             * Product name shown to buyers. anyOf[1] (Value): string. Product name shown to
+             * buyers. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Number of active options belonging to the product. anyOf[1] (Value): integer. Number
+             * of active options belonging to the product. Format: int32. anyOf[2] (Value): null.
+             */
+            "option_count"?: ((number) | (null));
+            /**
+             * Product options and their non-archived values. Empty when the product has no
+             * options. anyOf[1] (Value): Array of {@link ProductOptionPreviousAttributes}. Product
+             * options and their non-archived values. Empty when the product has no options.
+             * anyOf[1][] (Value): {@link ProductOptionPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "options"?: ((Array<ProductOptionPreviousAttributes>) | (null));
+            /**
+             * Lowest and highest base unit prices among active variants, before any quantity price
+             * breaks. Omitted when there are no active variants or their currencies differ.
+             * anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
+            /**
+             * Stable identifier of the product. anyOf[1] (Value): string. Stable identifier of the
+             * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
+             */
+            "product_id"?: ((string) | (null));
+            /**
+             * Kind of goods or service this product represents. New variants of digital products
+             * store digital_goods when line_item_tax_category is omitted; explicit categories are
+             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+             * anyOf[1] (Value): string. Kind of goods or service this product represents. New
+             * variants of digital products store digital_goods when line_item_tax_category is
+             * omitted; explicit categories are preserved. Value enum: "physical", "service",
+             * "fee", "digital", "gift_card". anyOf[2] (Value): null.
+             */
+            "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
+            /**
+             * Product lifecycle status. Archived products remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Product
+             * lifecycle status. Archived products remain readable and cannot be edited. Value
+             * enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Number of non-archived variants belonging to the product. anyOf[1] (Value): integer.
+             * Number of non-archived variants belonging to the product. Format: int32. anyOf[2]
+             * (Value): null.
+             */
+            "variant_count"?: ((number) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "product.archived". */
+    "event_type"?: "product.archived";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `product.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ProductArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookProduct}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.active_variant_count (Optional): integer or null. Number of active
+     * variants belonging to the product. previous_attributes.active_variant_count.anyOf[1]
+     * (Value): integer. Number of active variants belonging to the product. Format: int32.
+     * previous_attributes.active_variant_count.anyOf[2] (Value): null.
+     * previous_attributes.categories (Optional): Array of {@link
+     * CategoryReferencePreviousAttributes} or null. Always present. Empty collections are returned
+     * as []. previous_attributes.categories.anyOf[1] (Value): Array of {@link
+     * CategoryReferencePreviousAttributes}. Always present. Empty collections are returned as [].
+     * previous_attributes.categories.anyOf[1][] (Value): {@link
+     * CategoryReferencePreviousAttributes}. previous_attributes.categories.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. When this resource was created,
+     * as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value): string. When this
+     * resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
+     * previous_attributes.default_variant (Optional): {@link ProductVariantPreviousAttributes} or
+     * null. The product's default variant, when one is set.
+     * previous_attributes.default_variant.anyOf[1] (Value): {@link
+     * ProductVariantPreviousAttributes}. previous_attributes.default_variant.anyOf[2] (Value):
+     * null. previous_attributes.default_variant_id (Optional): string or null. Identifier of the
+     * variant chosen as this product's default, when one is set.
+     * previous_attributes.default_variant_id.anyOf[1] (Value): string. Identifier of the variant
+     * chosen as this product's default, when one is set. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX". previous_attributes.default_variant_id.anyOf[2] (Value):
+     * null. previous_attributes.delivery_configuration_status (Optional): string or null. Delivery
+     * readiness aggregated across the product's non-archived variants. Value enum: "configured",
+     * "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[1] (Value): string. Delivery
+     * readiness aggregated across the product's non-archived variants. Value enum: "configured",
+     * "action_required", "not_applicable".
+     * previous_attributes.delivery_configuration_status.anyOf[2] (Value): null.
+     * previous_attributes.description (Optional): string or null. Description of the product shown
+     * to buyers. previous_attributes.description.anyOf[1] (Value): string. Description of the
+     * product shown to buyers. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null. previous_attributes.images
+     * (Optional): Array of {@link ImageAttachmentPreviousAttributes} or null. Images attached to
+     * this resource, in display order. The first image is primary.
+     * previous_attributes.images.anyOf[1] (Value): Array of {@link
+     * ImageAttachmentPreviousAttributes}. Images attached to this resource, in display order. The
+     * first image is primary. previous_attributes.images.anyOf[1][] (Value): {@link
+     * ImageAttachmentPreviousAttributes}. previous_attributes.images.anyOf[2] (Value): null.
+     * previous_attributes.is_available_for_sale (Optional): boolean or null. Whether the product
+     * is active and has at least one active variant.
+     * previous_attributes.is_available_for_sale.anyOf[1] (Value): boolean. Whether the product is
+     * active and has at least one active variant.
+     * previous_attributes.is_available_for_sale.anyOf[2] (Value): null.
+     * previous_attributes.merchant_id (Optional): string or null. Identifier of the merchant that
+     * owns this resource. previous_attributes.merchant_id.anyOf[1] (Value): string. Identifier of
+     * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on this resource.
+     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
+     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.modifier_set_id
+     * (Optional): string or null. ID of the modifier set attached to the product. `null` when no
+     * modifier set is attached. previous_attributes.modifier_set_id.anyOf[1] (Value): string. ID
+     * of the modifier set attached to the product. `null` when no modifier set is attached.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". previous_attributes.modifier_set_id.anyOf[2]
+     * (Value): null. previous_attributes.name (Optional): string or null. Product name shown to
+     * buyers. previous_attributes.name.anyOf[1] (Value): string. Product name shown to buyers.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.option_count
+     * (Optional): integer or null. Number of active options belonging to the product.
+     * previous_attributes.option_count.anyOf[1] (Value): integer. Number of active options
+     * belonging to the product. Format: int32. previous_attributes.option_count.anyOf[2] (Value):
+     * null. previous_attributes.options (Optional): Array of {@link
+     * ProductOptionPreviousAttributes} or null. Product options and their non-archived values.
+     * Empty when the product has no options. previous_attributes.options.anyOf[1] (Value): Array
+     * of {@link ProductOptionPreviousAttributes}. Product options and their non-archived values.
+     * Empty when the product has no options. previous_attributes.options.anyOf[1][] (Value):
+     * {@link ProductOptionPreviousAttributes}. previous_attributes.options.anyOf[2] (Value): null.
+     * previous_attributes.price_range (Optional): {@link ProductPriceRangePreviousAttributes} or
+     * null. Lowest and highest base unit prices among active variants, before any quantity price
+     * breaks. Omitted when there are no active variants or their currencies differ.
+     * previous_attributes.price_range.anyOf[1] (Value): {@link
+     * ProductPriceRangePreviousAttributes}. previous_attributes.price_range.anyOf[2] (Value):
+     * null. previous_attributes.product_id (Optional): string or null. Stable identifier of the
+     * product. previous_attributes.product_id.anyOf[1] (Value): string. Stable identifier of the
+     * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". previous_attributes.product_id.anyOf[2]
+     * (Value): null. previous_attributes.product_type (Optional): string or null. Kind of goods or
+     * service this product represents. New variants of digital products store digital_goods when
+     * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     * previous_attributes.product_type.anyOf[1] (Value): string. Kind of goods or service this
+     * product represents. New variants of digital products store digital_goods when
+     * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     * previous_attributes.product_type.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Product lifecycle status. Archived products remain readable and
+     * cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[1] (Value): string. Product lifecycle status. Archived
+     * products remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.updated_at
+     * (Optional): string or null. When this resource last changed, as an RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. When this resource last changed, as
+     * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.variant_count
+     * (Optional): integer or null. Number of non-archived variants belonging to the product.
+     * previous_attributes.variant_count.anyOf[1] (Value): integer. Number of non-archived variants
+     * belonging to the product. Format: int32. previous_attributes.variant_count.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current resource version.
+     * Send it as expected_version to reject a write if the resource has changed.
+     * previous_attributes.version.anyOf[1] (Value): integer. Current resource version. Send it as
+     * expected_version to reject a write if the resource has changed. Format: uint64. minimum: 0.
+     * previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
+         * `matched_variant`, `modifier_set`.
+         */
+        "object": WebhookProduct;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. active_variant_count (Optional): integer or
+         * null. Number of active variants belonging to the product. active_variant_count.anyOf[1]
+         * (Value): integer. Number of active variants belonging to the product. Format: int32.
+         * active_variant_count.anyOf[2] (Value): null. categories (Optional): Array of {@link
+         * CategoryReferencePreviousAttributes} or null. Always present. Empty collections are
+         * returned as []. categories.anyOf[1] (Value): Array of {@link
+         * CategoryReferencePreviousAttributes}. Always present. Empty collections are returned as
+         * []. categories.anyOf[1][] (Value): {@link CategoryReferencePreviousAttributes}.
+         * categories.anyOf[2] (Value): null. created_at (Optional): string or null. When this
+         * resource was created, as an RFC3339 timestamp. created_at.anyOf[1] (Value): string. When
+         * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. default_variant (Optional):
+         * {@link ProductVariantPreviousAttributes} or null. The product's default variant, when
+         * one is set. default_variant.anyOf[1] (Value): {@link ProductVariantPreviousAttributes}.
+         * default_variant.anyOf[2] (Value): null. default_variant_id (Optional): string or null.
+         * Identifier of the variant chosen as this product's default, when one is set.
+         * default_variant_id.anyOf[1] (Value): string. Identifier of the variant chosen as this
+         * product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         * default_variant_id.anyOf[2] (Value): null. delivery_configuration_status (Optional):
+         * string or null. Delivery readiness aggregated across the product's non-archived
+         * variants. Value enum: "configured", "action_required", "not_applicable".
+         * delivery_configuration_status.anyOf[1] (Value): string. Delivery readiness aggregated
+         * across the product's non-archived variants. Value enum: "configured", "action_required",
+         * "not_applicable". delivery_configuration_status.anyOf[2] (Value): null. description
+         * (Optional): string or null. Description of the product shown to buyers.
+         * description.anyOf[1] (Value): string. Description of the product shown to buyers.
+         * description.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this resource in an external system.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+         * external_reference_id.anyOf[2] (Value): null. images (Optional): Array of {@link
+         * ImageAttachmentPreviousAttributes} or null. Images attached to this resource, in display
+         * order. The first image is primary. images.anyOf[1] (Value): Array of {@link
+         * ImageAttachmentPreviousAttributes}. Images attached to this resource, in display order.
+         * The first image is primary. images.anyOf[1][] (Value): {@link
+         * ImageAttachmentPreviousAttributes}. images.anyOf[2] (Value): null. is_available_for_sale
+         * (Optional): boolean or null. Whether the product is active and has at least one active
+         * variant. is_available_for_sale.anyOf[1] (Value): boolean. Whether the product is active
+         * and has at least one active variant. is_available_for_sale.anyOf[2] (Value): null.
+         * merchant_id (Optional): string or null. Identifier of the merchant that owns this
+         * resource. merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns
+         * this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
+         * null. metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata stored on
+         * this resource. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2]
+         * (Value): null. modifier_set_id (Optional): string or null. ID of the modifier set
+         * attached to the product. `null` when no modifier set is attached.
+         * modifier_set_id.anyOf[1] (Value): string. ID of the modifier set attached to the
+         * product. `null` when no modifier set is attached. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". modifier_set_id.anyOf[2] (Value): null. name
+         * (Optional): string or null. Product name shown to buyers. name.anyOf[1] (Value): string.
+         * Product name shown to buyers. name.anyOf[2] (Value): null. option_count (Optional):
+         * integer or null. Number of active options belonging to the product.
+         * option_count.anyOf[1] (Value): integer. Number of active options belonging to the
+         * product. Format: int32. option_count.anyOf[2] (Value): null. options (Optional): Array
+         * of {@link ProductOptionPreviousAttributes} or null. Product options and their
+         * non-archived values. Empty when the product has no options. options.anyOf[1] (Value):
+         * Array of {@link ProductOptionPreviousAttributes}. Product options and their non-archived
+         * values. Empty when the product has no options. options.anyOf[1][] (Value): {@link
+         * ProductOptionPreviousAttributes}. options.anyOf[2] (Value): null. price_range
+         * (Optional): {@link ProductPriceRangePreviousAttributes} or null. Lowest and highest base
+         * unit prices among active variants, before any quantity price breaks. Omitted when there
+         * are no active variants or their currencies differ. price_range.anyOf[1] (Value): {@link
+         * ProductPriceRangePreviousAttributes}. price_range.anyOf[2] (Value): null. product_id
+         * (Optional): string or null. Stable identifier of the product. product_id.anyOf[1]
+         * (Value): string. Stable identifier of the product. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value): null. product_type
+         * (Optional): string or null. Kind of goods or service this product represents. New
+         * variants of digital products store digital_goods when line_item_tax_category is omitted;
+         * explicit categories are preserved. Value enum: "physical", "service", "fee", "digital",
+         * "gift_card". product_type.anyOf[1] (Value): string. Kind of goods or service this
+         * product represents. New variants of digital products store digital_goods when
+         * line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+         * "physical", "service", "fee", "digital", "gift_card". product_type.anyOf[2] (Value):
+         * null. status (Optional): string or null. Product lifecycle status. Archived products
+         * remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+         * status.anyOf[1] (Value): string. Product lifecycle status. Archived products remain
+         * readable and cannot be edited. Value enum: "active", "inactive", "archived".
+         * status.anyOf[2] (Value): null. updated_at (Optional): string or null. When this resource
+         * last changed, as an RFC3339 timestamp. updated_at.anyOf[1] (Value): string. When this
+         * resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. variant_count (Optional):
+         * integer or null. Number of non-archived variants belonging to the product.
+         * variant_count.anyOf[1] (Value): integer. Number of non-archived variants belonging to
+         * the product. Format: int32. variant_count.anyOf[2] (Value): null. version (Optional):
+         * integer or null. Current resource version. Send it as expected_version to reject a write
+         * if the resource has changed. version.anyOf[1] (Value): integer. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * Format: uint64. minimum: 0. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Number of active variants belonging to the product. anyOf[1] (Value): integer.
+             * Number of active variants belonging to the product. Format: int32. anyOf[2] (Value):
+             * null.
+             */
+            "active_variant_count"?: ((number) | (null));
+            /**
+             * Always present. Empty collections are returned as []. anyOf[1] (Value): Array of
+             * {@link CategoryReferencePreviousAttributes}. Always present. Empty collections are
+             * returned as []. anyOf[1][] (Value): {@link CategoryReferencePreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "categories"?: ((Array<CategoryReferencePreviousAttributes>) | (null));
+            /**
+             * When this resource was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * The product's default variant, when one is set. anyOf[1] (Value): {@link
+             * ProductVariantPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "default_variant"?: ((ProductVariantPreviousAttributes) | (null));
+            /**
+             * Identifier of the variant chosen as this product's default, when one is set.
+             * anyOf[1] (Value): string. Identifier of the variant chosen as this product's
+             * default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". anyOf[2]
+             * (Value): null.
+             */
+            "default_variant_id"?: ((string) | (null));
+            /**
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[1] (Value): string.
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable". anyOf[2] (Value): null.
+             */
+            "delivery_configuration_status"?: (("configured" | "action_required" | "not_applicable" | (string & {})) | (null));
+            /**
+             * Description of the product shown to buyers. anyOf[1] (Value): string. Description of
+             * the product shown to buyers. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Images attached to this resource, in display order. The first image is primary.
+             * anyOf[1] (Value): Array of {@link ImageAttachmentPreviousAttributes}. Images
+             * attached to this resource, in display order. The first image is primary. anyOf[1][]
+             * (Value): {@link ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
+            /**
+             * Whether the product is active and has at least one active variant. anyOf[1] (Value):
+             * boolean. Whether the product is active and has at least one active variant. anyOf[2]
+             * (Value): null.
+             */
+            "is_available_for_sale"?: ((boolean) | (null));
+            /**
+             * Identifier of the merchant that owns this resource. anyOf[1] (Value): string.
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Caller-owned metadata stored on this resource. anyOf[1] (Value): {@link
+             * MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * ID of the modifier set attached to the product. `null` when no modifier set is
+             * attached. anyOf[1] (Value): string. ID of the modifier set attached to the product.
+             * `null` when no modifier set is attached. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             * anyOf[2] (Value): null.
+             */
+            "modifier_set_id"?: ((string) | (null));
+            /**
+             * Product name shown to buyers. anyOf[1] (Value): string. Product name shown to
+             * buyers. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Number of active options belonging to the product. anyOf[1] (Value): integer. Number
+             * of active options belonging to the product. Format: int32. anyOf[2] (Value): null.
+             */
+            "option_count"?: ((number) | (null));
+            /**
+             * Product options and their non-archived values. Empty when the product has no
+             * options. anyOf[1] (Value): Array of {@link ProductOptionPreviousAttributes}. Product
+             * options and their non-archived values. Empty when the product has no options.
+             * anyOf[1][] (Value): {@link ProductOptionPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "options"?: ((Array<ProductOptionPreviousAttributes>) | (null));
+            /**
+             * Lowest and highest base unit prices among active variants, before any quantity price
+             * breaks. Omitted when there are no active variants or their currencies differ.
+             * anyOf[1] (Value): {@link ProductPriceRangePreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "price_range"?: ((ProductPriceRangePreviousAttributes) | (null));
+            /**
+             * Stable identifier of the product. anyOf[1] (Value): string. Stable identifier of the
+             * product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". anyOf[2] (Value): null.
+             */
+            "product_id"?: ((string) | (null));
+            /**
+             * Kind of goods or service this product represents. New variants of digital products
+             * store digital_goods when line_item_tax_category is omitted; explicit categories are
+             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+             * anyOf[1] (Value): string. Kind of goods or service this product represents. New
+             * variants of digital products store digital_goods when line_item_tax_category is
+             * omitted; explicit categories are preserved. Value enum: "physical", "service",
+             * "fee", "digital", "gift_card". anyOf[2] (Value): null.
+             */
+            "product_type"?: (("physical" | "service" | "fee" | "digital" | "gift_card" | (string & {})) | (null));
+            /**
+             * Product lifecycle status. Archived products remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived". anyOf[1] (Value): string. Product
+             * lifecycle status. Archived products remain readable and cannot be edited. Value
+             * enum: "active", "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. anyOf[1] (Value): string.
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Number of non-archived variants belonging to the product. anyOf[1] (Value): integer.
+             * Number of non-archived variants belonging to the product. Format: int32. anyOf[2]
+             * (Value): null.
+             */
+            "variant_count"?: ((number) | (null));
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. anyOf[1] (Value): integer. Current resource version. Send it
+             * as expected_version to reject a write if the resource has changed. Format: uint64.
+             * minimum: 0. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "product.archived". */
+    "event_type"?: "product.archived";
+});
+export type ProductCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookProduct;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "product.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookProduct;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "product.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "product.created";
+});
+/**
+ * The `product.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type ProductCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookProduct}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
+         * `matched_variant`, `modifier_set`.
+         */
+        "object": WebhookProduct;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "product.created". */
+    "event_type"?: "product.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `product.created` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type ProductCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookProduct}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
+         * `matched_variant`, `modifier_set`.
+         */
+        "object": WebhookProduct;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "product.created". */
+    "event_type"?: "product.created";
+});
 /** A page of `Product` objects. */
 export type ProductListResponse = {
     /**
@@ -1245,15 +2392,16 @@ export type ProductVariant = {
      */
     "images": Array<ImageAttachment>;
     /**
-     * Whether one order line can buy this variant now, evaluated at read time against
-     * `settings.inventory.default_routing_source` with the same routing pay uses. Returned by `GET
-     * /v1/products/{product_id}/variants/{variant_id}`, `GET /v1/products/{product_id}/variants`,
-     * and variants included by `expand=variants` on product reads; write responses and webhooks
-     * omit it. Advisory: it holds no stock, so pay can still find the stock gone. Variants that
-     * share an inventory item are each evaluated alone. It ignores the variant's `status`, so also
-     * check `is_available_for_sale`. It is outside `version` and sends no event of its own: read
-     * the variant again after `inventory_level.updated`. Stock availability of a variant for one
-     * order line, computed when the variant is read.
+     * Whether one order line can buy this variant now. Flint uses
+     * `settings.inventory.default_routing_source` when it is set. With no default, Flint uses the
+     * only active Location with inventory allocation enabled if exactly one exists. Returned by
+     * `GET /v1/products/{product_id}/variants/{variant_id}`, `GET
+     * /v1/products/{product_id}/variants`, and variants included by `expand=variants` on product
+     * reads. Write responses and webhooks omit it. The check holds no stock, so pay can still find
+     * the stock gone. Variants that share an inventory item are each evaluated alone. Check
+     * `is_available_for_sale` for the variant's sale status. Availability has no effect on
+     * `version`. Read the variant again after `inventory_level.updated`. Stock availability of a
+     * variant for one order line, computed when the variant is read.
      */
     "inventory_availability"?: ProductVariantInventoryAvailability;
     /**
@@ -2956,12 +4104,12 @@ export type ProductVariantInventoryAvailability = {
      */
     "available_quantity"?: number | null;
     /**
-     * The routing source evaluated: the merchant's default, with
-     * `inventory_allocation_policy_revision_id` set to the revision current at the read when it is
-     * a policy. `null` when nothing was evaluated, because `status` is `not_tracked` or no default
-     * is set. anyOf[1] (Value): {@link InventoryRoutingSource}. Where an order, payment link, or
-     * reservation routes inventory from: a fixed Location, an inventory allocation policy, or one
-     * policy revision. anyOf[2] (Value): null.
+     * The merchant's default routing source or the Location Flint selected when no default is set.
+     * For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` for
+     * untracked variants or when no default or single eligible Location applies. anyOf[1] (Value):
+     * {@link InventoryRoutingSource}. Where an order, payment link, or reservation routes
+     * inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
+     * anyOf[2] (Value): null.
      */
     "inventory_routing_source": ((InventoryRoutingSource) | (null));
     /**
@@ -2987,11 +4135,10 @@ export type ProductVariantInventoryAvailabilityPreviousAttributes = {
      */
     "available_quantity"?: ((number) | (null));
     /**
-     * The routing source evaluated: the merchant's default, with
-     * `inventory_allocation_policy_revision_id` set to the revision current at the read when it is
-     * a policy. `null` when nothing was evaluated, because `status` is `not_tracked` or no default
-     * is set. anyOf[1] (Value): {@link InventoryRoutingSourcePreviousAttributes}. anyOf[2]
-     * (Value): null.
+     * The merchant's default routing source or the Location Flint selected when no default is set.
+     * For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` for
+     * untracked variants or when no default or single eligible Location applies. anyOf[1] (Value):
+     * {@link InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
      */
     "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
     /**
@@ -3115,14 +4262,15 @@ export type ProductVariantPreviousAttributes = {
      */
     "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
     /**
-     * Whether one order line can buy this variant now, evaluated at read time against
-     * `settings.inventory.default_routing_source` with the same routing pay uses. Returned by `GET
-     * /v1/products/{product_id}/variants/{variant_id}`, `GET /v1/products/{product_id}/variants`,
-     * and variants included by `expand=variants` on product reads; write responses and webhooks
-     * omit it. Advisory: it holds no stock, so pay can still find the stock gone. Variants that
-     * share an inventory item are each evaluated alone. It ignores the variant's `status`, so also
-     * check `is_available_for_sale`. It is outside `version` and sends no event of its own: read
-     * the variant again after `inventory_level.updated`. anyOf[1] (Value): {@link
+     * Whether one order line can buy this variant now. Flint uses
+     * `settings.inventory.default_routing_source` when it is set. With no default, Flint uses the
+     * only active Location with inventory allocation enabled if exactly one exists. Returned by
+     * `GET /v1/products/{product_id}/variants/{variant_id}`, `GET
+     * /v1/products/{product_id}/variants`, and variants included by `expand=variants` on product
+     * reads. Write responses and webhooks omit it. The check holds no stock, so pay can still find
+     * the stock gone. Variants that share an inventory item are each evaluated alone. Check
+     * `is_available_for_sale` for the variant's sale status. Availability has no effect on
+     * `version`. Read the variant again after `inventory_level.updated`. anyOf[1] (Value): {@link
      * ProductVariantInventoryAvailabilityPreviousAttributes}. anyOf[2] (Value): null.
      */
     "inventory_availability"?: ((ProductVariantInventoryAvailabilityPreviousAttributes) | (null));
@@ -3460,8 +4608,9 @@ export type ProductVariantRequest = ({
      * Base unit price in the currency's smallest unit. It applies below the first quantity price
      * break. amount (Required): integer string. Positive amount in the currency's minor unit, such
      * as cents for USD. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 1. currency (Required): string. ISO 4217 currency code for this
-     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * Format: int64. minimum: 1. currency (Required): string. Three-letter uppercase ISO 4217
+     * currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD".
      */
     "unit_price_money": {
         /**
@@ -3470,8 +4619,8 @@ export type ProductVariantRequest = ({
          */
         "amount": `${bigint}`;
         /**
-         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD".
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
          */
         "currency": string;
     };
@@ -3627,8 +4776,9 @@ export type ProductVariantRequestInput = ({
      * Base unit price in the currency's smallest unit. It applies below the first quantity price
      * break. amount (Required): integer string. Positive amount in the currency's minor unit, such
      * as cents for USD. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 1. currency (Required): string. ISO 4217 currency code for this
-     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * Format: int64. minimum: 1. currency (Required): string. Three-letter uppercase ISO 4217
+     * currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * Example: "USD".
      */
     "unit_price_money": {
         /**
@@ -3637,8 +4787,8 @@ export type ProductVariantRequestInput = ({
          */
         "amount": `${bigint}` | bigint;
         /**
-         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD".
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
          */
         "currency": string;
     };
@@ -5906,8 +7056,8 @@ export type PromotionAmountOffMethodRequest = {
      * each matched item or once across the matched set. amount (Required): integer string.
      * Positive amount in the currency's minor unit, such as cents for USD. Use an integer string
      * (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency
-     * (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3.
-     * pattern: ^[A-Z]{3}$. Example: "USD".
+     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
+     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "amount_off_money": {
         /**
@@ -5916,8 +7066,8 @@ export type PromotionAmountOffMethodRequest = {
          */
         "amount": `${bigint}`;
         /**
-         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD".
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
          */
         "currency": string;
     };
@@ -5931,9 +7081,9 @@ export type PromotionAmountOffMethodRequest = {
      * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
      * its key. * (Value): object. *.amount (Required): integer string. Positive amount in the
      * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1. *.currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
-     * "USD".
+     * floating-point number. Format: int64. minimum: 1. *.currency (Required): string.
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency_options"?: Record<string, {
         /**
@@ -5942,8 +7092,8 @@ export type PromotionAmountOffMethodRequest = {
          */
         "amount": `${bigint}`;
         /**
-         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD".
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
          */
         "currency": string;
     }>;
@@ -5993,8 +7143,8 @@ export type PromotionAmountOffMethodRequestInput = {
      * each matched item or once across the matched set. amount (Required): integer string.
      * Positive amount in the currency's minor unit, such as cents for USD. Use an integer string
      * (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency
-     * (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3.
-     * pattern: ^[A-Z]{3}$. Example: "USD".
+     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
+     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "amount_off_money": {
         /**
@@ -6003,8 +7153,8 @@ export type PromotionAmountOffMethodRequestInput = {
          */
         "amount": `${bigint}` | bigint;
         /**
-         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD".
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
          */
         "currency": string;
     };
@@ -6018,9 +7168,9 @@ export type PromotionAmountOffMethodRequestInput = {
      * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
      * its key. * (Value): object. *.amount (Required): integer string. Positive amount in the
      * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1. *.currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
-     * "USD".
+     * floating-point number. Format: int64. minimum: 1. *.currency (Required): string.
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency_options"?: Record<string, {
         /**
@@ -6029,8 +7179,8 @@ export type PromotionAmountOffMethodRequestInput = {
          */
         "amount": `${bigint}` | bigint;
         /**
-         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD".
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
          */
         "currency": string;
     }>;
@@ -6085,8 +7235,8 @@ export type PromotionApplicationMethodPatch = {
      * each matched item or once across the matched set. amount (Required): integer string.
      * Positive amount in the currency's minor unit, such as cents for USD. Use an integer string
      * (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency
-     * (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3.
-     * pattern: ^[A-Z]{3}$. Example: "USD".
+     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
+     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "amount_off_money"?: {
         /**
@@ -6095,8 +7245,8 @@ export type PromotionApplicationMethodPatch = {
          */
         "amount": `${bigint}`;
         /**
-         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD".
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
          */
         "currency": string;
     };
@@ -6115,9 +7265,9 @@ export type PromotionApplicationMethodPatch = {
      * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
      * its key. * (Value): object. *.amount (Required): integer string. Positive amount in the
      * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1. *.currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
-     * "USD".
+     * floating-point number. Format: int64. minimum: 1. *.currency (Required): string.
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency_options"?: Record<string, {
         /**
@@ -6126,8 +7276,8 @@ export type PromotionApplicationMethodPatch = {
          */
         "amount": `${bigint}`;
         /**
-         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD".
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
          */
         "currency": string;
     }>
@@ -6224,8 +7374,8 @@ export type PromotionApplicationMethodPatchInput = {
      * each matched item or once across the matched set. amount (Required): integer string.
      * Positive amount in the currency's minor unit, such as cents for USD. Use an integer string
      * (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency
-     * (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3.
-     * pattern: ^[A-Z]{3}$. Example: "USD".
+     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
+     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "amount_off_money"?: {
         /**
@@ -6234,8 +7384,8 @@ export type PromotionApplicationMethodPatchInput = {
          */
         "amount": `${bigint}` | bigint;
         /**
-         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD".
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
          */
         "currency": string;
     };
@@ -6254,9 +7404,9 @@ export type PromotionApplicationMethodPatchInput = {
      * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
      * its key. * (Value): object. *.amount (Required): integer string. Positive amount in the
      * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1. *.currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
-     * "USD".
+     * floating-point number. Format: int64. minimum: 1. *.currency (Required): string.
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency_options"?: Record<string, {
         /**
@@ -6265,8 +7415,8 @@ export type PromotionApplicationMethodPatchInput = {
          */
         "amount": `${bigint}` | bigint;
         /**
-         * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-         * Example: "USD".
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
          */
         "currency": string;
     }>
@@ -6353,1519 +7503,3 @@ export type PromotionApplicationMethodRequest = ((PromotionPercentOffMethodReque
     | (PromotionAmountOffMethodRequest)
     | (PromotionBuyXGetYMethodRequest)
     | (Record<string, unknown>));
-/** A flat application method whose type selects its effect fields. */
-export type PromotionApplicationMethodRequestInput = ((PromotionPercentOffMethodRequestInput)
-    | (PromotionAmountOffMethodRequestInput)
-    | (PromotionBuyXGetYMethodRequestInput));
-export type PromotionArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookPromotion;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "application_method"?: ((PromotionApplicationMethodPreviousAttributes) | (null) | (unknown));
-            "available"?: ((boolean) | (null));
-            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null));
-            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "description"?: ((string) | (null));
-            "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
-            "display_name"?: ((string) | (null));
-            "eligibility_rules"?: ((PromotionRuleGroupPreviousAttributes) | (null) | (unknown));
-            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "max_uses"?: ((number) | (null));
-            "max_uses_per_customer"?: ((number) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "name"?: ((string) | (null));
-            "promotion_id"?: ((string) | (null));
-            "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
-            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "unavailable_reason"?: (("inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {}))
-                | (null));
-            "updated_at"?: ((string) | (null));
-            "uses_count"?: ((number) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "promotion.archived";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookPromotion;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "application_method"?: ((PromotionApplicationMethodPreviousAttributes) | (null) | (unknown));
-            "available"?: ((boolean) | (null));
-            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null));
-            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "description"?: ((string) | (null));
-            "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
-            "display_name"?: ((string) | (null));
-            "eligibility_rules"?: ((PromotionRuleGroupPreviousAttributes) | (null) | (unknown));
-            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "max_uses"?: ((number) | (null));
-            "max_uses_per_customer"?: ((number) | (null));
-            "merchant_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "name"?: ((string) | (null));
-            "promotion_id"?: ((string) | (null));
-            "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
-            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "unavailable_reason"?: (("inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {}))
-                | (null));
-            "updated_at"?: ((string) | (null));
-            "uses_count"?: ((number) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "promotion.archived";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "promotion.archived";
-});
-/**
- * The `promotion.archived` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PromotionArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotion}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `codes`. previous_attributes (Optional): object. Previous values
-     * of changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.application_method (Optional): {@link
-     * PromotionApplicationMethodPreviousAttributes} or null. Discount effect and how it applies to
-     * eligible items or charges. previous_attributes.application_method.anyOf[1] (Value): {@link
-     * PromotionApplicationMethodPreviousAttributes}. A flat application method whose type selects
-     * its effect fields. previous_attributes.application_method.anyOf[2] (Value): null.
-     * previous_attributes.available (Optional): boolean or null. Whether the promotion can apply
-     * right now: it is active, inside its schedule, under its max_uses, and, when code-gated, has
-     * at least one redeemable code. previous_attributes.available.anyOf[1] (Value): boolean.
-     * Whether the promotion can apply right now: it is active, inside its schedule, under its
-     * max_uses, and, when code-gated, has at least one redeemable code.
-     * previous_attributes.available.anyOf[2] (Value): null. previous_attributes.codes_summary
-     * (Optional): {@link PromotionCodesSummaryPreviousAttributes} or null. Read-only rollup of
-     * this promotion's codes. Present only on code-gated promotions; automatic promotions omit it.
-     * previous_attributes.codes_summary.anyOf[1] (Value): {@link
-     * PromotionCodesSummaryPreviousAttributes}. previous_attributes.codes_summary.anyOf[2]
-     * (Value): null. previous_attributes.combines_with (Optional): {@link
-     * PromotionCombinesWithPreviousAttributes} or null. Which promotion discount classes this
-     * promotion may share an order with. Both promotions must allow each other's class. Manual
-     * discounts are ignored. See Promotion for the evaluation order.
-     * previous_attributes.combines_with.anyOf[1] (Value): {@link
-     * PromotionCombinesWithPreviousAttributes}. previous_attributes.combines_with.anyOf[2]
-     * (Value): null. previous_attributes.created_at (Optional): string or null. When the promotion
-     * was created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value):
-     * string. When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.description (Optional): string or null. Optional description of the
-     * promotion for your own records. previous_attributes.description.anyOf[1] (Value): string.
-     * Optional description of the promotion for your own records.
-     * previous_attributes.description.anyOf[2] (Value): null. previous_attributes.discount_class
-     * (Optional): string or null. Whether the promotion discounts the order, individual line
-     * items, or service charges. Value enum: "order", "line_item", "service_charge".
-     * previous_attributes.discount_class.anyOf[1] (Value): string. Whether the promotion discounts
-     * the order, individual line items, or service charges. Value enum: "order", "line_item",
-     * "service_charge". previous_attributes.discount_class.anyOf[2] (Value): null.
-     * previous_attributes.display_name (Optional): string or null. Buyer-facing promotion name
-     * shown in checkout and order discount surfaces. previous_attributes.display_name.anyOf[1]
-     * (Value): string. Buyer-facing promotion name shown in checkout and order discount surfaces.
-     * previous_attributes.display_name.anyOf[2] (Value): null.
-     * previous_attributes.eligibility_rules (Optional): {@link
-     * PromotionRuleGroupPreviousAttributes} or null. Conditions an order must satisfy for the
-     * promotion to apply. Omitted when the promotion has no eligibility conditions.
-     * previous_attributes.eligibility_rules.anyOf[1] (Value): {@link
-     * PromotionRuleGroupPreviousAttributes}. A rule group is an object with exactly one nonempty
-     * all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key
-     * are invalid. Omit the field for no rules, or send null where the field is clearable.
-     * Responses list rules before nested groups. Under any, a nested group containing only one
-     * rule reads back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups. previous_attributes.eligibility_rules.anyOf[2]
-     * (Value): null. previous_attributes.exclusivity (Optional): {@link
-     * PromotionExclusivityPreviousAttributes} or null. Optional group and priority used to choose
-     * one promotion from competing promotions in the same group. See Promotion for the evaluation
-     * order. previous_attributes.exclusivity.anyOf[1] (Value): {@link
-     * PromotionExclusivityPreviousAttributes}. previous_attributes.exclusivity.anyOf[2] (Value):
-     * null. previous_attributes.external_reference_id (Optional): string or null. Caller-owned
-     * identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.max_uses (Optional): integer or null. Maximum number of redemptions
-     * across all codes and automatic applications. Omitted when there is no redemption limit.
-     * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of redemptions across
-     * all codes and automatic applications. Omitted when there is no redemption limit. Format:
-     * int64. previous_attributes.max_uses.anyOf[2] (Value): null.
-     * previous_attributes.max_uses_per_customer (Optional): integer or null. Maximum reserved and
-     * redeemed uses per identified customer across every code and automatic or ID-based
-     * application. Checked atomically when payment starts. Failed, canceled, or expired attempts
-     * release their reservation; refunds do not restore uses. Counts only within the same merchant
-     * and environment; live and test mode are separate. Without an identified customer, returns
-     * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
-     * limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer. Maximum reserved
-     * and redeemed uses per identified customer across every code and automatic or ID-based
-     * application. Checked atomically when payment starts. Failed, canceled, or expired attempts
-     * release their reservation; refunds do not restore uses. Counts only within the same merchant
-     * and environment; live and test mode are separate. Without an identified customer, returns
-     * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
-     * limit. Format: int64. minimum: 1. previous_attributes.max_uses_per_customer.anyOf[2]
-     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Identifier of the
-     * merchant that owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string.
-     * Identifier of the merchant that owns the promotion. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Key-value data you
-     * attach to the promotion. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
-     * string or null. Internal promotion name for dashboards, searching, and reporting.
-     * previous_attributes.name.anyOf[1] (Value): string. Internal promotion name for dashboards,
-     * searching, and reporting. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.promotion_id (Optional): string or null. Unique identifier for the
-     * promotion. previous_attributes.promotion_id.anyOf[1] (Value): string. Unique identifier for
-     * the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * previous_attributes.promotion_id.anyOf[2] (Value): null. previous_attributes.redemption_type
-     * (Optional): string or null. Whether the promotion applies automatically when its rules match
-     * or requires a promotion code. Value enum: "automatic", "code".
-     * previous_attributes.redemption_type.anyOf[1] (Value): string. Whether the promotion applies
-     * automatically when its rules match or requires a promotion code. Value enum: "automatic",
-     * "code". previous_attributes.redemption_type.anyOf[2] (Value): null.
-     * previous_attributes.schedule (Optional): {@link PromotionSchedulePreviousAttributes} or
-     * null. Optional start and end times that limit when the promotion can apply.
-     * previous_attributes.schedule.anyOf[1] (Value): {@link PromotionSchedulePreviousAttributes}.
-     * previous_attributes.schedule.anyOf[2] (Value): null. previous_attributes.status (Optional):
-     * string or null. Lifecycle status. Set active or inactive with PATCH; DELETE sets archived.
-     * An active promotion can still be unavailable: read available. Value enum: "active",
-     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Lifecycle
-     * status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can
-     * still be unavailable: read available. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.unavailable_reason
-     * (Optional): string or null. Why available is false. Present only when available is false.
-     * Value enum: "inactive", "archived", "not_yet_started", "expired", "exhausted",
-     * "no_active_codes". previous_attributes.unavailable_reason.anyOf[1] (Value): string. Why
-     * available is false. Present only when available is false. Value enum: "inactive",
-     * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-     * previous_attributes.unavailable_reason.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. When the promotion was last
-     * updated, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
-     * When the promotion was last updated, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
-     * previous_attributes.uses_count (Optional): integer or null. Number of times the promotion
-     * has been redeemed. previous_attributes.uses_count.anyOf[1] (Value): integer. Number of times
-     * the promotion has been redeemed. Format: int64. previous_attributes.uses_count.anyOf[2]
-     * (Value): null. previous_attributes.version (Optional): integer or null. Persisted
-     * owned-state version. Clock-based availability and expanded resources do not advance this
-     * counter. previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state
-     * version. Clock-based availability and expanded resources do not advance this counter.
-     * Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
-        "object": WebhookPromotion;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. application_method (Optional): {@link
-         * PromotionApplicationMethodPreviousAttributes} or null. Discount effect and how it
-         * applies to eligible items or charges. application_method.anyOf[1] (Value): {@link
-         * PromotionApplicationMethodPreviousAttributes}. A flat application method whose type
-         * selects its effect fields. application_method.anyOf[2] (Value): null. available
-         * (Optional): boolean or null. Whether the promotion can apply right now: it is active,
-         * inside its schedule, under its max_uses, and, when code-gated, has at least one
-         * redeemable code. available.anyOf[1] (Value): boolean. Whether the promotion can apply
-         * right now: it is active, inside its schedule, under its max_uses, and, when code-gated,
-         * has at least one redeemable code. available.anyOf[2] (Value): null. codes_summary
-         * (Optional): {@link PromotionCodesSummaryPreviousAttributes} or null. Read-only rollup of
-         * this promotion's codes. Present only on code-gated promotions; automatic promotions omit
-         * it. codes_summary.anyOf[1] (Value): {@link PromotionCodesSummaryPreviousAttributes}.
-         * codes_summary.anyOf[2] (Value): null. combines_with (Optional): {@link
-         * PromotionCombinesWithPreviousAttributes} or null. Which promotion discount classes this
-         * promotion may share an order with. Both promotions must allow each other's class. Manual
-         * discounts are ignored. See Promotion for the evaluation order. combines_with.anyOf[1]
-         * (Value): {@link PromotionCombinesWithPreviousAttributes}. combines_with.anyOf[2]
-         * (Value): null. created_at (Optional): string or null. When the promotion was created, as
-         * an RFC3339 timestamp. created_at.anyOf[1] (Value): string. When the promotion was
-         * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. description (Optional): string or null. Optional
-         * description of the promotion for your own records. description.anyOf[1] (Value): string.
-         * Optional description of the promotion for your own records. description.anyOf[2]
-         * (Value): null. discount_class (Optional): string or null. Whether the promotion
-         * discounts the order, individual line items, or service charges. Value enum: "order",
-         * "line_item", "service_charge". discount_class.anyOf[1] (Value): string. Whether the
-         * promotion discounts the order, individual line items, or service charges. Value enum:
-         * "order", "line_item", "service_charge". discount_class.anyOf[2] (Value): null.
-         * display_name (Optional): string or null. Buyer-facing promotion name shown in checkout
-         * and order discount surfaces. display_name.anyOf[1] (Value): string. Buyer-facing
-         * promotion name shown in checkout and order discount surfaces. display_name.anyOf[2]
-         * (Value): null. eligibility_rules (Optional): {@link
-         * PromotionRuleGroupPreviousAttributes} or null. Conditions an order must satisfy for the
-         * promotion to apply. Omitted when the promotion has no eligibility conditions.
-         * eligibility_rules.anyOf[1] (Value): {@link PromotionRuleGroupPreviousAttributes}. A rule
-         * group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-         * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-         * rules, or send null where the field is clearable. Responses list rules before nested
-         * groups. Under any, a nested group containing only one rule reads back as that rule.
-         * Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope.
-         * These deterministic normalizations stabilize after one round trip.
-         * matched_items.subtotal sums the line items matched by the line_item.* rules in the same
-         * all group, including its nested groups. eligibility_rules.anyOf[2] (Value): null.
-         * exclusivity (Optional): {@link PromotionExclusivityPreviousAttributes} or null. Optional
-         * group and priority used to choose one promotion from competing promotions in the same
-         * group. See Promotion for the evaluation order. exclusivity.anyOf[1] (Value): {@link
-         * PromotionExclusivityPreviousAttributes}. exclusivity.anyOf[2] (Value): null.
-         * external_reference_id (Optional): string or null. Caller-owned identifier for this
-         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. max_uses
-         * (Optional): integer or null. Maximum number of redemptions across all codes and
-         * automatic applications. Omitted when there is no redemption limit. max_uses.anyOf[1]
-         * (Value): integer. Maximum number of redemptions across all codes and automatic
-         * applications. Omitted when there is no redemption limit. Format: int64.
-         * max_uses.anyOf[2] (Value): null. max_uses_per_customer (Optional): integer or null.
-         * Maximum reserved and redeemed uses per identified customer across every code and
-         * automatic or ID-based application. Checked atomically when payment starts. Failed,
-         * canceled, or expired attempts release their reservation; refunds do not restore uses.
-         * Counts only within the same merchant and environment; live and test mode are separate.
-         * Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-         * customer_required. Null when there is no per-customer limit.
-         * max_uses_per_customer.anyOf[1] (Value): integer. Maximum reserved and redeemed uses per
-         * identified customer across every code and automatic or ID-based application. Checked
-         * atomically when payment starts. Failed, canceled, or expired attempts release their
-         * reservation; refunds do not restore uses. Counts only within the same merchant and
-         * environment; live and test mode are separate. Without an identified customer, returns
-         * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
-         * limit. Format: int64. minimum: 1. max_uses_per_customer.anyOf[2] (Value): null.
-         * merchant_id (Optional): string or null. Identifier of the merchant that owns the
-         * promotion. merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns
-         * the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
-         * null. metadata (Optional): {@link MetadataMap} or null. Key-value data you attach to the
-         * promotion. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value):
-         * null. name (Optional): string or null. Internal promotion name for dashboards,
-         * searching, and reporting. name.anyOf[1] (Value): string. Internal promotion name for
-         * dashboards, searching, and reporting. name.anyOf[2] (Value): null. promotion_id
-         * (Optional): string or null. Unique identifier for the promotion. promotion_id.anyOf[1]
-         * (Value): string. Unique identifier for the promotion. Example:
-         * "promo_01KEZF7C00QQ8EZ74BDYSZ315V". promotion_id.anyOf[2] (Value): null. redemption_type
-         * (Optional): string or null. Whether the promotion applies automatically when its rules
-         * match or requires a promotion code. Value enum: "automatic", "code".
-         * redemption_type.anyOf[1] (Value): string. Whether the promotion applies automatically
-         * when its rules match or requires a promotion code. Value enum: "automatic", "code".
-         * redemption_type.anyOf[2] (Value): null. schedule (Optional): {@link
-         * PromotionSchedulePreviousAttributes} or null. Optional start and end times that limit
-         * when the promotion can apply. schedule.anyOf[1] (Value): {@link
-         * PromotionSchedulePreviousAttributes}. schedule.anyOf[2] (Value): null. status
-         * (Optional): string or null. Lifecycle status. Set active or inactive with PATCH; DELETE
-         * sets archived. An active promotion can still be unavailable: read available. Value enum:
-         * "active", "inactive", "archived". status.anyOf[1] (Value): string. Lifecycle status. Set
-         * active or inactive with PATCH; DELETE sets archived. An active promotion can still be
-         * unavailable: read available. Value enum: "active", "inactive", "archived".
-         * status.anyOf[2] (Value): null. unavailable_reason (Optional): string or null. Why
-         * available is false. Present only when available is false. Value enum: "inactive",
-         * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-         * unavailable_reason.anyOf[1] (Value): string. Why available is false. Present only when
-         * available is false. Value enum: "inactive", "archived", "not_yet_started", "expired",
-         * "exhausted", "no_active_codes". unavailable_reason.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. When the promotion was last updated, as an RFC3339
-         * timestamp. updated_at.anyOf[1] (Value): string. When the promotion was last updated, as
-         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. uses_count (Optional): integer or null. Number of
-         * times the promotion has been redeemed. uses_count.anyOf[1] (Value): integer. Number of
-         * times the promotion has been redeemed. Format: int64. uses_count.anyOf[2] (Value): null.
-         * version (Optional): integer or null. Persisted owned-state version. Clock-based
-         * availability and expanded resources do not advance this counter. version.anyOf[1]
-         * (Value): integer. Persisted owned-state version. Clock-based availability and expanded
-         * resources do not advance this counter. Format: uint64. minimum: 1. version.anyOf[2]
-         * (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Discount effect and how it applies to eligible items or charges. anyOf[1] (Value):
-             * {@link PromotionApplicationMethodPreviousAttributes}. A flat application method
-             * whose type selects its effect fields. anyOf[2] (Value): null.
-             */
-            "application_method"?: ((PromotionApplicationMethodPreviousAttributes) | (null) | (unknown));
-            /**
-             * Whether the promotion can apply right now: it is active, inside its schedule, under
-             * its max_uses, and, when code-gated, has at least one redeemable code. anyOf[1]
-             * (Value): boolean. Whether the promotion can apply right now: it is active, inside
-             * its schedule, under its max_uses, and, when code-gated, has at least one redeemable
-             * code. anyOf[2] (Value): null.
-             */
-            "available"?: ((boolean) | (null));
-            /**
-             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
-             * automatic promotions omit it. anyOf[1] (Value): {@link
-             * PromotionCodesSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null));
-            /**
-             * Which promotion discount classes this promotion may share an order with. Both
-             * promotions must allow each other's class. Manual discounts are ignored. See
-             * Promotion for the evaluation order. anyOf[1] (Value): {@link
-             * PromotionCombinesWithPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null));
-            /**
-             * When the promotion was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
-             * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Optional description of the promotion for your own records. anyOf[1] (Value):
-             * string. Optional description of the promotion for your own records. anyOf[2]
-             * (Value): null.
-             */
-            "description"?: ((string) | (null));
-            /**
-             * Whether the promotion discounts the order, individual line items, or service
-             * charges. Value enum: "order", "line_item", "service_charge". anyOf[1] (Value):
-             * string. Whether the promotion discounts the order, individual line items, or service
-             * charges. Value enum: "order", "line_item", "service_charge". anyOf[2] (Value): null.
-             */
-            "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
-            /**
-             * Buyer-facing promotion name shown in checkout and order discount surfaces. anyOf[1]
-             * (Value): string. Buyer-facing promotion name shown in checkout and order discount
-             * surfaces. anyOf[2] (Value): null.
-             */
-            "display_name"?: ((string) | (null));
-            /**
-             * Conditions an order must satisfy for the promotion to apply. Omitted when the
-             * promotion has no eligibility conditions. anyOf[1] (Value): {@link
-             * PromotionRuleGroupPreviousAttributes}. A rule group is an object with exactly one
-             * nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty
-             * groups, and a rules key are invalid. Omit the field for no rules, or send null where
-             * the field is clearable. Responses list rules before nested groups. Under any, a
-             * nested group containing only one rule reads back as that rule. Under all, nested
-             * groups keep their boundaries to preserve matched_items.subtotal scope. These
-             * deterministic normalizations stabilize after one round trip. matched_items.subtotal
-             * sums the line items matched by the line_item.* rules in the same all group,
-             * including its nested groups. anyOf[2] (Value): null.
-             */
-            "eligibility_rules"?: ((PromotionRuleGroupPreviousAttributes) | (null) | (unknown));
-            /**
-             * Optional group and priority used to choose one promotion from competing promotions
-             * in the same group. See Promotion for the evaluation order. anyOf[1] (Value): {@link
-             * PromotionExclusivityPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Maximum number of redemptions across all codes and automatic applications. Omitted
-             * when there is no redemption limit. anyOf[1] (Value): integer. Maximum number of
-             * redemptions across all codes and automatic applications. Omitted when there is no
-             * redemption limit. Format: int64. anyOf[2] (Value): null.
-             */
-            "max_uses"?: ((number) | (null));
-            /**
-             * Maximum reserved and redeemed uses per identified customer across every code and
-             * automatic or ID-based application. Checked atomically when payment starts. Failed,
-             * canceled, or expired attempts release their reservation; refunds do not restore
-             * uses. Counts only within the same merchant and environment; live and test mode are
-             * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-             * customer_required. Null when there is no per-customer limit. anyOf[1] (Value):
-             * integer. Maximum reserved and redeemed uses per identified customer across every
-             * code and automatic or ID-based application. Checked atomically when payment starts.
-             * Failed, canceled, or expired attempts release their reservation; refunds do not
-             * restore uses. Counts only within the same merchant and environment; live and test
-             * mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED
-             * with reason customer_required. Null when there is no per-customer limit. Format:
-             * int64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "max_uses_per_customer"?: ((number) | (null));
-            /**
-             * Identifier of the merchant that owns the promotion. anyOf[1] (Value): string.
-             * Identifier of the merchant that owns the promotion. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Key-value data you attach to the promotion. anyOf[1] (Value): {@link MetadataMap}.
-             * anyOf[2] (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Internal promotion name for dashboards, searching, and reporting. anyOf[1] (Value):
-             * string. Internal promotion name for dashboards, searching, and reporting. anyOf[2]
-             * (Value): null.
-             */
-            "name"?: ((string) | (null));
-            /**
-             * Unique identifier for the promotion. anyOf[1] (Value): string. Unique identifier for
-             * the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". anyOf[2] (Value): null.
-             */
-            "promotion_id"?: ((string) | (null));
-            /**
-             * Whether the promotion applies automatically when its rules match or requires a
-             * promotion code. Value enum: "automatic", "code". anyOf[1] (Value): string. Whether
-             * the promotion applies automatically when its rules match or requires a promotion
-             * code. Value enum: "automatic", "code". anyOf[2] (Value): null.
-             */
-            "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
-            /**
-             * Optional start and end times that limit when the promotion can apply. anyOf[1]
-             * (Value): {@link PromotionSchedulePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null));
-            /**
-             * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
-             * promotion can still be unavailable: read available. Value enum: "active",
-             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status. Set active or
-             * inactive with PATCH; DELETE sets archived. An active promotion can still be
-             * unavailable: read available. Value enum: "active", "inactive", "archived". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            /**
-             * Why available is false. Present only when available is false. Value enum:
-             * "inactive", "archived", "not_yet_started", "expired", "exhausted",
-             * "no_active_codes". anyOf[1] (Value): string. Why available is false. Present only
-             * when available is false. Value enum: "inactive", "archived", "not_yet_started",
-             * "expired", "exhausted", "no_active_codes". anyOf[2] (Value): null.
-             */
-            "unavailable_reason"?: (("inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {}))
-                | (null));
-            /**
-             * When the promotion was last updated, as an RFC3339 timestamp. anyOf[1] (Value):
-             * string. When the promotion was last updated, as an RFC3339 timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Number of times the promotion has been redeemed. anyOf[1] (Value): integer. Number
-             * of times the promotion has been redeemed. Format: int64. anyOf[2] (Value): null.
-             */
-            "uses_count"?: ((number) | (null));
-            /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
-             * Clock-based availability and expanded resources do not advance this counter. Format:
-             * uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "promotion.archived". */
-    "event_type"?: "promotion.archived";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `promotion.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PromotionArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookPromotion}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `codes`. previous_attributes (Optional): object. Previous values
-     * of changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events. previous_attributes.application_method (Optional): {@link
-     * PromotionApplicationMethodPreviousAttributes} or null. Discount effect and how it applies to
-     * eligible items or charges. previous_attributes.application_method.anyOf[1] (Value): {@link
-     * PromotionApplicationMethodPreviousAttributes}. A flat application method whose type selects
-     * its effect fields. previous_attributes.application_method.anyOf[2] (Value): null.
-     * previous_attributes.available (Optional): boolean or null. Whether the promotion can apply
-     * right now: it is active, inside its schedule, under its max_uses, and, when code-gated, has
-     * at least one redeemable code. previous_attributes.available.anyOf[1] (Value): boolean.
-     * Whether the promotion can apply right now: it is active, inside its schedule, under its
-     * max_uses, and, when code-gated, has at least one redeemable code.
-     * previous_attributes.available.anyOf[2] (Value): null. previous_attributes.codes_summary
-     * (Optional): {@link PromotionCodesSummaryPreviousAttributes} or null. Read-only rollup of
-     * this promotion's codes. Present only on code-gated promotions; automatic promotions omit it.
-     * previous_attributes.codes_summary.anyOf[1] (Value): {@link
-     * PromotionCodesSummaryPreviousAttributes}. previous_attributes.codes_summary.anyOf[2]
-     * (Value): null. previous_attributes.combines_with (Optional): {@link
-     * PromotionCombinesWithPreviousAttributes} or null. Which promotion discount classes this
-     * promotion may share an order with. Both promotions must allow each other's class. Manual
-     * discounts are ignored. See Promotion for the evaluation order.
-     * previous_attributes.combines_with.anyOf[1] (Value): {@link
-     * PromotionCombinesWithPreviousAttributes}. previous_attributes.combines_with.anyOf[2]
-     * (Value): null. previous_attributes.created_at (Optional): string or null. When the promotion
-     * was created, as an RFC3339 timestamp. previous_attributes.created_at.anyOf[1] (Value):
-     * string. When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value): null.
-     * previous_attributes.description (Optional): string or null. Optional description of the
-     * promotion for your own records. previous_attributes.description.anyOf[1] (Value): string.
-     * Optional description of the promotion for your own records.
-     * previous_attributes.description.anyOf[2] (Value): null. previous_attributes.discount_class
-     * (Optional): string or null. Whether the promotion discounts the order, individual line
-     * items, or service charges. Value enum: "order", "line_item", "service_charge".
-     * previous_attributes.discount_class.anyOf[1] (Value): string. Whether the promotion discounts
-     * the order, individual line items, or service charges. Value enum: "order", "line_item",
-     * "service_charge". previous_attributes.discount_class.anyOf[2] (Value): null.
-     * previous_attributes.display_name (Optional): string or null. Buyer-facing promotion name
-     * shown in checkout and order discount surfaces. previous_attributes.display_name.anyOf[1]
-     * (Value): string. Buyer-facing promotion name shown in checkout and order discount surfaces.
-     * previous_attributes.display_name.anyOf[2] (Value): null.
-     * previous_attributes.eligibility_rules (Optional): {@link
-     * PromotionRuleGroupPreviousAttributes} or null. Conditions an order must satisfy for the
-     * promotion to apply. Omitted when the promotion has no eligibility conditions.
-     * previous_attributes.eligibility_rules.anyOf[1] (Value): {@link
-     * PromotionRuleGroupPreviousAttributes}. A rule group is an object with exactly one nonempty
-     * all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key
-     * are invalid. Omit the field for no rules, or send null where the field is clearable.
-     * Responses list rules before nested groups. Under any, a nested group containing only one
-     * rule reads back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups. previous_attributes.eligibility_rules.anyOf[2]
-     * (Value): null. previous_attributes.exclusivity (Optional): {@link
-     * PromotionExclusivityPreviousAttributes} or null. Optional group and priority used to choose
-     * one promotion from competing promotions in the same group. See Promotion for the evaluation
-     * order. previous_attributes.exclusivity.anyOf[1] (Value): {@link
-     * PromotionExclusivityPreviousAttributes}. previous_attributes.exclusivity.anyOf[2] (Value):
-     * null. previous_attributes.external_reference_id (Optional): string or null. Caller-owned
-     * identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.max_uses (Optional): integer or null. Maximum number of redemptions
-     * across all codes and automatic applications. Omitted when there is no redemption limit.
-     * previous_attributes.max_uses.anyOf[1] (Value): integer. Maximum number of redemptions across
-     * all codes and automatic applications. Omitted when there is no redemption limit. Format:
-     * int64. previous_attributes.max_uses.anyOf[2] (Value): null.
-     * previous_attributes.max_uses_per_customer (Optional): integer or null. Maximum reserved and
-     * redeemed uses per identified customer across every code and automatic or ID-based
-     * application. Checked atomically when payment starts. Failed, canceled, or expired attempts
-     * release their reservation; refunds do not restore uses. Counts only within the same merchant
-     * and environment; live and test mode are separate. Without an identified customer, returns
-     * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
-     * limit. previous_attributes.max_uses_per_customer.anyOf[1] (Value): integer. Maximum reserved
-     * and redeemed uses per identified customer across every code and automatic or ID-based
-     * application. Checked atomically when payment starts. Failed, canceled, or expired attempts
-     * release their reservation; refunds do not restore uses. Counts only within the same merchant
-     * and environment; live and test mode are separate. Without an identified customer, returns
-     * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
-     * limit. Format: int64. minimum: 1. previous_attributes.max_uses_per_customer.anyOf[2]
-     * (Value): null. previous_attributes.merchant_id (Optional): string or null. Identifier of the
-     * merchant that owns the promotion. previous_attributes.merchant_id.anyOf[1] (Value): string.
-     * Identifier of the merchant that owns the promotion. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". previous_attributes.merchant_id.anyOf[2] (Value): null.
-     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Key-value data you
-     * attach to the promotion. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
-     * string or null. Internal promotion name for dashboards, searching, and reporting.
-     * previous_attributes.name.anyOf[1] (Value): string. Internal promotion name for dashboards,
-     * searching, and reporting. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.promotion_id (Optional): string or null. Unique identifier for the
-     * promotion. previous_attributes.promotion_id.anyOf[1] (Value): string. Unique identifier for
-     * the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * previous_attributes.promotion_id.anyOf[2] (Value): null. previous_attributes.redemption_type
-     * (Optional): string or null. Whether the promotion applies automatically when its rules match
-     * or requires a promotion code. Value enum: "automatic", "code".
-     * previous_attributes.redemption_type.anyOf[1] (Value): string. Whether the promotion applies
-     * automatically when its rules match or requires a promotion code. Value enum: "automatic",
-     * "code". previous_attributes.redemption_type.anyOf[2] (Value): null.
-     * previous_attributes.schedule (Optional): {@link PromotionSchedulePreviousAttributes} or
-     * null. Optional start and end times that limit when the promotion can apply.
-     * previous_attributes.schedule.anyOf[1] (Value): {@link PromotionSchedulePreviousAttributes}.
-     * previous_attributes.schedule.anyOf[2] (Value): null. previous_attributes.status (Optional):
-     * string or null. Lifecycle status. Set active or inactive with PATCH; DELETE sets archived.
-     * An active promotion can still be unavailable: read available. Value enum: "active",
-     * "inactive", "archived". previous_attributes.status.anyOf[1] (Value): string. Lifecycle
-     * status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can
-     * still be unavailable: read available. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.unavailable_reason
-     * (Optional): string or null. Why available is false. Present only when available is false.
-     * Value enum: "inactive", "archived", "not_yet_started", "expired", "exhausted",
-     * "no_active_codes". previous_attributes.unavailable_reason.anyOf[1] (Value): string. Why
-     * available is false. Present only when available is false. Value enum: "inactive",
-     * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-     * previous_attributes.unavailable_reason.anyOf[2] (Value): null.
-     * previous_attributes.updated_at (Optional): string or null. When the promotion was last
-     * updated, as an RFC3339 timestamp. previous_attributes.updated_at.anyOf[1] (Value): string.
-     * When the promotion was last updated, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value): null.
-     * previous_attributes.uses_count (Optional): integer or null. Number of times the promotion
-     * has been redeemed. previous_attributes.uses_count.anyOf[1] (Value): integer. Number of times
-     * the promotion has been redeemed. Format: int64. previous_attributes.uses_count.anyOf[2]
-     * (Value): null. previous_attributes.version (Optional): integer or null. Persisted
-     * owned-state version. Clock-based availability and expanded resources do not advance this
-     * counter. previous_attributes.version.anyOf[1] (Value): integer. Persisted owned-state
-     * version. Clock-based availability and expanded resources do not advance this counter.
-     * Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
-        "object": WebhookPromotion;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. application_method (Optional): {@link
-         * PromotionApplicationMethodPreviousAttributes} or null. Discount effect and how it
-         * applies to eligible items or charges. application_method.anyOf[1] (Value): {@link
-         * PromotionApplicationMethodPreviousAttributes}. A flat application method whose type
-         * selects its effect fields. application_method.anyOf[2] (Value): null. available
-         * (Optional): boolean or null. Whether the promotion can apply right now: it is active,
-         * inside its schedule, under its max_uses, and, when code-gated, has at least one
-         * redeemable code. available.anyOf[1] (Value): boolean. Whether the promotion can apply
-         * right now: it is active, inside its schedule, under its max_uses, and, when code-gated,
-         * has at least one redeemable code. available.anyOf[2] (Value): null. codes_summary
-         * (Optional): {@link PromotionCodesSummaryPreviousAttributes} or null. Read-only rollup of
-         * this promotion's codes. Present only on code-gated promotions; automatic promotions omit
-         * it. codes_summary.anyOf[1] (Value): {@link PromotionCodesSummaryPreviousAttributes}.
-         * codes_summary.anyOf[2] (Value): null. combines_with (Optional): {@link
-         * PromotionCombinesWithPreviousAttributes} or null. Which promotion discount classes this
-         * promotion may share an order with. Both promotions must allow each other's class. Manual
-         * discounts are ignored. See Promotion for the evaluation order. combines_with.anyOf[1]
-         * (Value): {@link PromotionCombinesWithPreviousAttributes}. combines_with.anyOf[2]
-         * (Value): null. created_at (Optional): string or null. When the promotion was created, as
-         * an RFC3339 timestamp. created_at.anyOf[1] (Value): string. When the promotion was
-         * created, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * created_at.anyOf[2] (Value): null. description (Optional): string or null. Optional
-         * description of the promotion for your own records. description.anyOf[1] (Value): string.
-         * Optional description of the promotion for your own records. description.anyOf[2]
-         * (Value): null. discount_class (Optional): string or null. Whether the promotion
-         * discounts the order, individual line items, or service charges. Value enum: "order",
-         * "line_item", "service_charge". discount_class.anyOf[1] (Value): string. Whether the
-         * promotion discounts the order, individual line items, or service charges. Value enum:
-         * "order", "line_item", "service_charge". discount_class.anyOf[2] (Value): null.
-         * display_name (Optional): string or null. Buyer-facing promotion name shown in checkout
-         * and order discount surfaces. display_name.anyOf[1] (Value): string. Buyer-facing
-         * promotion name shown in checkout and order discount surfaces. display_name.anyOf[2]
-         * (Value): null. eligibility_rules (Optional): {@link
-         * PromotionRuleGroupPreviousAttributes} or null. Conditions an order must satisfy for the
-         * promotion to apply. Omitted when the promotion has no eligibility conditions.
-         * eligibility_rules.anyOf[1] (Value): {@link PromotionRuleGroupPreviousAttributes}. A rule
-         * group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-         * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-         * rules, or send null where the field is clearable. Responses list rules before nested
-         * groups. Under any, a nested group containing only one rule reads back as that rule.
-         * Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope.
-         * These deterministic normalizations stabilize after one round trip.
-         * matched_items.subtotal sums the line items matched by the line_item.* rules in the same
-         * all group, including its nested groups. eligibility_rules.anyOf[2] (Value): null.
-         * exclusivity (Optional): {@link PromotionExclusivityPreviousAttributes} or null. Optional
-         * group and priority used to choose one promotion from competing promotions in the same
-         * group. See Promotion for the evaluation order. exclusivity.anyOf[1] (Value): {@link
-         * PromotionExclusivityPreviousAttributes}. exclusivity.anyOf[2] (Value): null.
-         * external_reference_id (Optional): string or null. Caller-owned identifier for this
-         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. max_uses
-         * (Optional): integer or null. Maximum number of redemptions across all codes and
-         * automatic applications. Omitted when there is no redemption limit. max_uses.anyOf[1]
-         * (Value): integer. Maximum number of redemptions across all codes and automatic
-         * applications. Omitted when there is no redemption limit. Format: int64.
-         * max_uses.anyOf[2] (Value): null. max_uses_per_customer (Optional): integer or null.
-         * Maximum reserved and redeemed uses per identified customer across every code and
-         * automatic or ID-based application. Checked atomically when payment starts. Failed,
-         * canceled, or expired attempts release their reservation; refunds do not restore uses.
-         * Counts only within the same merchant and environment; live and test mode are separate.
-         * Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-         * customer_required. Null when there is no per-customer limit.
-         * max_uses_per_customer.anyOf[1] (Value): integer. Maximum reserved and redeemed uses per
-         * identified customer across every code and automatic or ID-based application. Checked
-         * atomically when payment starts. Failed, canceled, or expired attempts release their
-         * reservation; refunds do not restore uses. Counts only within the same merchant and
-         * environment; live and test mode are separate. Without an identified customer, returns
-         * 409 PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer
-         * limit. Format: int64. minimum: 1. max_uses_per_customer.anyOf[2] (Value): null.
-         * merchant_id (Optional): string or null. Identifier of the merchant that owns the
-         * promotion. merchant_id.anyOf[1] (Value): string. Identifier of the merchant that owns
-         * the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value):
-         * null. metadata (Optional): {@link MetadataMap} or null. Key-value data you attach to the
-         * promotion. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value):
-         * null. name (Optional): string or null. Internal promotion name for dashboards,
-         * searching, and reporting. name.anyOf[1] (Value): string. Internal promotion name for
-         * dashboards, searching, and reporting. name.anyOf[2] (Value): null. promotion_id
-         * (Optional): string or null. Unique identifier for the promotion. promotion_id.anyOf[1]
-         * (Value): string. Unique identifier for the promotion. Example:
-         * "promo_01KEZF7C00QQ8EZ74BDYSZ315V". promotion_id.anyOf[2] (Value): null. redemption_type
-         * (Optional): string or null. Whether the promotion applies automatically when its rules
-         * match or requires a promotion code. Value enum: "automatic", "code".
-         * redemption_type.anyOf[1] (Value): string. Whether the promotion applies automatically
-         * when its rules match or requires a promotion code. Value enum: "automatic", "code".
-         * redemption_type.anyOf[2] (Value): null. schedule (Optional): {@link
-         * PromotionSchedulePreviousAttributes} or null. Optional start and end times that limit
-         * when the promotion can apply. schedule.anyOf[1] (Value): {@link
-         * PromotionSchedulePreviousAttributes}. schedule.anyOf[2] (Value): null. status
-         * (Optional): string or null. Lifecycle status. Set active or inactive with PATCH; DELETE
-         * sets archived. An active promotion can still be unavailable: read available. Value enum:
-         * "active", "inactive", "archived". status.anyOf[1] (Value): string. Lifecycle status. Set
-         * active or inactive with PATCH; DELETE sets archived. An active promotion can still be
-         * unavailable: read available. Value enum: "active", "inactive", "archived".
-         * status.anyOf[2] (Value): null. unavailable_reason (Optional): string or null. Why
-         * available is false. Present only when available is false. Value enum: "inactive",
-         * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-         * unavailable_reason.anyOf[1] (Value): string. Why available is false. Present only when
-         * available is false. Value enum: "inactive", "archived", "not_yet_started", "expired",
-         * "exhausted", "no_active_codes". unavailable_reason.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. When the promotion was last updated, as an RFC3339
-         * timestamp. updated_at.anyOf[1] (Value): string. When the promotion was last updated, as
-         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. uses_count (Optional): integer or null. Number of
-         * times the promotion has been redeemed. uses_count.anyOf[1] (Value): integer. Number of
-         * times the promotion has been redeemed. Format: int64. uses_count.anyOf[2] (Value): null.
-         * version (Optional): integer or null. Persisted owned-state version. Clock-based
-         * availability and expanded resources do not advance this counter. version.anyOf[1]
-         * (Value): integer. Persisted owned-state version. Clock-based availability and expanded
-         * resources do not advance this counter. Format: uint64. minimum: 1. version.anyOf[2]
-         * (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Discount effect and how it applies to eligible items or charges. anyOf[1] (Value):
-             * {@link PromotionApplicationMethodPreviousAttributes}. A flat application method
-             * whose type selects its effect fields. anyOf[2] (Value): null.
-             */
-            "application_method"?: ((PromotionApplicationMethodPreviousAttributes) | (null) | (unknown));
-            /**
-             * Whether the promotion can apply right now: it is active, inside its schedule, under
-             * its max_uses, and, when code-gated, has at least one redeemable code. anyOf[1]
-             * (Value): boolean. Whether the promotion can apply right now: it is active, inside
-             * its schedule, under its max_uses, and, when code-gated, has at least one redeemable
-             * code. anyOf[2] (Value): null.
-             */
-            "available"?: ((boolean) | (null));
-            /**
-             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
-             * automatic promotions omit it. anyOf[1] (Value): {@link
-             * PromotionCodesSummaryPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "codes_summary"?: ((PromotionCodesSummaryPreviousAttributes) | (null));
-            /**
-             * Which promotion discount classes this promotion may share an order with. Both
-             * promotions must allow each other's class. Manual discounts are ignored. See
-             * Promotion for the evaluation order. anyOf[1] (Value): {@link
-             * PromotionCombinesWithPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "combines_with"?: ((PromotionCombinesWithPreviousAttributes) | (null));
-            /**
-             * When the promotion was created, as an RFC3339 timestamp. anyOf[1] (Value): string.
-             * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Optional description of the promotion for your own records. anyOf[1] (Value):
-             * string. Optional description of the promotion for your own records. anyOf[2]
-             * (Value): null.
-             */
-            "description"?: ((string) | (null));
-            /**
-             * Whether the promotion discounts the order, individual line items, or service
-             * charges. Value enum: "order", "line_item", "service_charge". anyOf[1] (Value):
-             * string. Whether the promotion discounts the order, individual line items, or service
-             * charges. Value enum: "order", "line_item", "service_charge". anyOf[2] (Value): null.
-             */
-            "discount_class"?: (("order" | "line_item" | "service_charge" | (string & {})) | (null));
-            /**
-             * Buyer-facing promotion name shown in checkout and order discount surfaces. anyOf[1]
-             * (Value): string. Buyer-facing promotion name shown in checkout and order discount
-             * surfaces. anyOf[2] (Value): null.
-             */
-            "display_name"?: ((string) | (null));
-            /**
-             * Conditions an order must satisfy for the promotion to apply. Omitted when the
-             * promotion has no eligibility conditions. anyOf[1] (Value): {@link
-             * PromotionRuleGroupPreviousAttributes}. A rule group is an object with exactly one
-             * nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty
-             * groups, and a rules key are invalid. Omit the field for no rules, or send null where
-             * the field is clearable. Responses list rules before nested groups. Under any, a
-             * nested group containing only one rule reads back as that rule. Under all, nested
-             * groups keep their boundaries to preserve matched_items.subtotal scope. These
-             * deterministic normalizations stabilize after one round trip. matched_items.subtotal
-             * sums the line items matched by the line_item.* rules in the same all group,
-             * including its nested groups. anyOf[2] (Value): null.
-             */
-            "eligibility_rules"?: ((PromotionRuleGroupPreviousAttributes) | (null) | (unknown));
-            /**
-             * Optional group and priority used to choose one promotion from competing promotions
-             * in the same group. See Promotion for the evaluation order. anyOf[1] (Value): {@link
-             * PromotionExclusivityPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "exclusivity"?: ((PromotionExclusivityPreviousAttributes) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Maximum number of redemptions across all codes and automatic applications. Omitted
-             * when there is no redemption limit. anyOf[1] (Value): integer. Maximum number of
-             * redemptions across all codes and automatic applications. Omitted when there is no
-             * redemption limit. Format: int64. anyOf[2] (Value): null.
-             */
-            "max_uses"?: ((number) | (null));
-            /**
-             * Maximum reserved and redeemed uses per identified customer across every code and
-             * automatic or ID-based application. Checked atomically when payment starts. Failed,
-             * canceled, or expired attempts release their reservation; refunds do not restore
-             * uses. Counts only within the same merchant and environment; live and test mode are
-             * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-             * customer_required. Null when there is no per-customer limit. anyOf[1] (Value):
-             * integer. Maximum reserved and redeemed uses per identified customer across every
-             * code and automatic or ID-based application. Checked atomically when payment starts.
-             * Failed, canceled, or expired attempts release their reservation; refunds do not
-             * restore uses. Counts only within the same merchant and environment; live and test
-             * mode are separate. Without an identified customer, returns 409 PROMOTION_DECLINED
-             * with reason customer_required. Null when there is no per-customer limit. Format:
-             * int64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "max_uses_per_customer"?: ((number) | (null));
-            /**
-             * Identifier of the merchant that owns the promotion. anyOf[1] (Value): string.
-             * Identifier of the merchant that owns the promotion. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". anyOf[2] (Value): null.
-             */
-            "merchant_id"?: ((string) | (null));
-            /**
-             * Key-value data you attach to the promotion. anyOf[1] (Value): {@link MetadataMap}.
-             * anyOf[2] (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Internal promotion name for dashboards, searching, and reporting. anyOf[1] (Value):
-             * string. Internal promotion name for dashboards, searching, and reporting. anyOf[2]
-             * (Value): null.
-             */
-            "name"?: ((string) | (null));
-            /**
-             * Unique identifier for the promotion. anyOf[1] (Value): string. Unique identifier for
-             * the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". anyOf[2] (Value): null.
-             */
-            "promotion_id"?: ((string) | (null));
-            /**
-             * Whether the promotion applies automatically when its rules match or requires a
-             * promotion code. Value enum: "automatic", "code". anyOf[1] (Value): string. Whether
-             * the promotion applies automatically when its rules match or requires a promotion
-             * code. Value enum: "automatic", "code". anyOf[2] (Value): null.
-             */
-            "redemption_type"?: (("automatic" | "code" | (string & {})) | (null));
-            /**
-             * Optional start and end times that limit when the promotion can apply. anyOf[1]
-             * (Value): {@link PromotionSchedulePreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "schedule"?: ((PromotionSchedulePreviousAttributes) | (null));
-            /**
-             * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
-             * promotion can still be unavailable: read available. Value enum: "active",
-             * "inactive", "archived". anyOf[1] (Value): string. Lifecycle status. Set active or
-             * inactive with PATCH; DELETE sets archived. An active promotion can still be
-             * unavailable: read available. Value enum: "active", "inactive", "archived". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            /**
-             * Why available is false. Present only when available is false. Value enum:
-             * "inactive", "archived", "not_yet_started", "expired", "exhausted",
-             * "no_active_codes". anyOf[1] (Value): string. Why available is false. Present only
-             * when available is false. Value enum: "inactive", "archived", "not_yet_started",
-             * "expired", "exhausted", "no_active_codes". anyOf[2] (Value): null.
-             */
-            "unavailable_reason"?: (("inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {}))
-                | (null));
-            /**
-             * When the promotion was last updated, as an RFC3339 timestamp. anyOf[1] (Value):
-             * string. When the promotion was last updated, as an RFC3339 timestamp. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Number of times the promotion has been redeemed. anyOf[1] (Value): integer. Number
-             * of times the promotion has been redeemed. Format: int64. anyOf[2] (Value): null.
-             */
-            "uses_count"?: ((number) | (null));
-            /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. anyOf[1] (Value): integer. Persisted owned-state version.
-             * Clock-based availability and expanded resources do not advance this counter. Format:
-             * uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "promotion.archived". */
-    "event_type"?: "promotion.archived";
-});
-/** The `buy_x_get_y` variant of `PromotionApplicationMethod`. */
-export type PromotionBuyXGetYMethod = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "buy_min_quantity": number;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules": PromotionRuleGroup;
-    /**
-     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
-     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "get_percent_off": number;
-    /**
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "get_quantity": number;
-    /**
-     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
-     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
-     */
-    "max_applications_per_order"?: number;
-    /**
-     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups.
-     */
-    "qualifying_item_rules": PromotionRuleGroup;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrence;
-    /**
-     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
-     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
-     * "highest_price", "first_added".
-     */
-    "reward_selection"?: "cheapest" | "highest_price" | "first_added" | (string & {});
-    /**
-     * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
-     */
-    "type": "buy_x_get_y" | (string & {});
-};
-export type PromotionBuyXGetYMethodPreviousAttributes = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across". anyOf[1] (Value):
-     * string. How the effect is applied across the matched items or charges. each applies the
-     * effect to every matched item independently: a fixed amount_off is charged per item (10 USD
-     * off 3 items discounts 30 USD, each capped at the item price), and a percent_off is taken
-     * from each item. across applies the effect once to the matched set as a whole: a fixed
-     * amount_off is the whole amount one time (10 USD off the group total, not prorated per item),
-     * and a percent_off is taken from the combined subtotal. For percent_off the two produce the
-     * same total and differ only in how the discount is attributed to individual line items; for
-     * amount_off they differ by the number of matched items, so set it deliberately. Defaults to
-     * each for line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across". anyOf[2] (Value): null.
-     */
-    "allocation"?: (("each" | "across" | (string & {})) | (null));
-    /**
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * anyOf[2] (Value): null.
-     */
-    "buy_min_quantity"?: ((number) | (null));
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax". anyOf[1] (Value): string. What a merchandise
-     * discount is calculated from. Omitted means `subtotal_pre_tax`. Not used by service_charge
-     * promotions; sending it there returns `400 INVALID_REQUEST`. Value enum: "subtotal_pre_tax",
-     * "subtotal_post_tax". anyOf[2] (Value): null.
-     */
-    "calculation_basis"?: (("subtotal_pre_tax" | "subtotal_post_tax" | (string & {})) | (null));
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. anyOf[1] (Value): {@link
-     * PromotionRuleGroupPreviousAttributes}. A rule group is an object with exactly one nonempty
-     * all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key
-     * are invalid. Omit the field for no rules, or send null where the field is clearable.
-     * Responses list rules before nested groups. Under any, a nested group containing only one
-     * rule reads back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups. anyOf[2] (Value): null.
-     */
-    "discounted_item_rules"?: ((PromotionRuleGroupPreviousAttributes) | (null) | (unknown));
-    /**
-     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
-     * free. anyOf[1] (Value): number. Percentage to discount from reward items, from 1 to 100. Use
-     * 100 to make the reward items free. minimum: 1. maximum: 100. multipleOf: 0.0001. anyOf[2]
-     * (Value): null.
-     */
-    "get_percent_off"?: ((number) | (null));
-    /**
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * anyOf[2] (Value): null.
-     */
-    "get_quantity"?: ((number) | (null));
-    /**
-     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
-     * beyond the qualifying and reward quantities. anyOf[1] (Value): integer. Maximum number of
-     * times the buy_x_get_y promotion can apply to one order. Omit for no limit beyond the
-     * qualifying and reward quantities. Format: int32. minimum: 1. anyOf[2] (Value): null.
-     */
-    "max_applications_per_order"?: ((number) | (null));
-    /**
-     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion.
-     * anyOf[1] (Value): {@link PromotionRuleGroupPreviousAttributes}. A rule group is an object
-     * with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays,
-     * empty groups, and a rules key are invalid. Omit the field for no rules, or send null where
-     * the field is clearable. Responses list rules before nested groups. Under any, a nested group
-     * containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups. anyOf[2] (Value):
-     * null.
-     */
-    "qualifying_item_rules"?: ((PromotionRuleGroupPreviousAttributes) | (null) | (unknown));
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. anyOf[1] (Value): {@link
-     * PromotionRecurrencePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "recurrence"?: ((PromotionRecurrencePreviousAttributes) | (null));
-    /**
-     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
-     * added first to the order. Defaults to cheapest. Value enum: "cheapest", "highest_price",
-     * "first_added". anyOf[1] (Value): string. Which matching reward items receive the discount:
-     * the cheapest, the highest priced, or those added first to the order. Defaults to cheapest.
-     * Default: "cheapest". Value enum: "cheapest", "highest_price", "first_added". anyOf[2]
-     * (Value): null.
-     */
-    "reward_selection"?: (("cheapest" | "highest_price" | "first_added" | (string & {})) | (null));
-    /**
-     * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
-     * anyOf[1] (Value): string. Selects the buy_x_get_y discount effect and its allowed fields.
-     * Value enum: "buy_x_get_y". anyOf[2] (Value): null.
-     */
-    "type"?: (("buy_x_get_y" | (string & {})) | (null));
-};
-/** The `buy_x_get_y` variant of `PromotionApplicationMethodInput`. */
-export type PromotionBuyXGetYMethodRequest = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "buy_min_quantity": number;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules": PromotionRuleGroupRequest;
-    /**
-     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
-     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "get_percent_off": number;
-    /**
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "get_quantity": number;
-    /**
-     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
-     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
-     */
-    "max_applications_per_order"?: number;
-    /**
-     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups.
-     */
-    "qualifying_item_rules": PromotionRuleGroupRequest;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrence;
-    /**
-     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
-     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
-     * "highest_price", "first_added".
-     */
-    "reward_selection"?: "cheapest" | "highest_price" | "first_added" | (string & {});
-    /**
-     * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
-     */
-    "type": "buy_x_get_y" | (string & {});
-};
-/** The `buy_x_get_y` variant of `PromotionApplicationMethodInput`. */
-export type PromotionBuyXGetYMethodRequestInput = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across";
-    /**
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "buy_min_quantity": number;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax";
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules": PromotionRuleGroupRequestInput;
-    /**
-     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
-     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "get_percent_off": number;
-    /**
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "get_quantity": number;
-    /**
-     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
-     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
-     */
-    "max_applications_per_order"?: number;
-    /**
-     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups.
-     */
-    "qualifying_item_rules": PromotionRuleGroupRequestInput;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrenceRequestInput;
-    /**
-     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
-     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
-     * "highest_price", "first_added".
-     */
-    "reward_selection"?: "cheapest" | "highest_price" | "first_added";
-    /**
-     * Selects the buy_x_get_y discount effect and its allowed fields. Value enum: "buy_x_get_y".
-     */
-    "type": "buy_x_get_y";
-};
-/**
- * A promotion considered for an order, with its discount amounts, its stacking rules, and why it
- * was or was not applied.
- */
-export type PromotionCandidate = {
-    /**
-     * Calculated discount amount for this promotion candidate before final application, when
-     * available. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Discount amount applied to the order for candidates in applied[]. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "applied_money"?: MoneyValue;
-    /**
-     * Which promotion discount classes this promotion may share an order with. Both promotions
-     * must allow each other's class. Which kinds of discounts a promotion can combine with: line
-     * item, order, and service charge discounts.
-     */
-    "combines_with"?: PromotionCombinesWith;
-    /**
-     * Current money amount counted toward threshold_money for available[] candidates. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "current_money"?: MoneyValue;
-    /**
-     * The name buyers see for the promotion: its `display_name`, or its `name` when it has no
-     * display name.
-     */
-    "customer_facing_name": string;
-    /**
-     * Whether the promotion discounts the order, individual line items, or service charges. Value
-     * enum: "order", "line_item", "service_charge".
-     */
-    "discount_class"?: "order" | "line_item" | "service_charge" | (string & {});
-    /**
-     * The promotion's exclusivity group and priority. Promotions in the same group compete, and
-     * only one of them applies. Only one promotion in an exclusivity group continues. See
-     * Promotion for the evaluation order.
-     */
-    "exclusivity"?: PromotionExclusivity;
-    /**
-     * Additional money amount needed to reach threshold_money for available[] candidates. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "gap_money"?: MoneyValue;
-    /**
-     * IDs of the order charges the discount applies to. Set for `service_charge` promotions. []
-     * (Value): string. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
-     */
-    "order_charge_ids"?: Array<string>;
-    /**
-     * IDs of the order line items the discount applies to. Omitted when it applies to none. []
-     * (Value): string. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
-     */
-    "order_line_item_ids"?: Array<string>;
-    /** The code the buyer entered. Omitted when the promotion applies automatically. */
-    "promotion_code"?: string;
-    /**
-     * ID of the promotion code the buyer entered. Omitted when the promotion applies
-     * automatically. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
-     */
-    "promotion_code_id"?: string;
-    /**
-     * Why the promotion did not apply, or stopped applying. Omitted for a promotion that applies.
-     * Value enum: "already_applied", "automatic_disabled", "buy_item_missing", "code_invalid",
-     * "code_required", "codes_disabled", "currency_mismatch", "customer_limit_reached",
-     * "customer_mismatch", "customer_required", "exhausted", "expired", "inactive",
-     * "max_promotions_reached", "minimum_not_met", "no_discountable_balance", "not_combinable",
-     * "not_eligible", "not_yet_started", "recurrence_completed", "superseded",
-     * "superseded_by_better_offer", "superseded_by_higher_priority", "unknown_type".
-     */
-    "promotion_decline_reason"?: "already_applied"
-        | "automatic_disabled"
-        | "buy_item_missing"
-        | "code_invalid"
-        | "code_required"
-        | "codes_disabled"
-        | "currency_mismatch"
-        | "customer_limit_reached"
-        | "customer_mismatch"
-        | "customer_required"
-        | "exhausted"
-        | "expired"
-        | "inactive"
-        | "max_promotions_reached"
-        | "minimum_not_met"
-        | "no_discountable_balance"
-        | "not_combinable"
-        | "not_eligible"
-        | "not_yet_started"
-        | "recurrence_completed"
-        | "superseded"
-        | "superseded_by_better_offer"
-        | "superseded_by_higher_priority"
-        | "unknown_type"
-        | (string & {});
-    /** ID of the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". */
-    "promotion_id": string;
-    /**
-     * Minimum money amount required by a threshold rule for available[] candidates. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "threshold_money"?: MoneyValue;
-    /**
-     * Discount amount this candidate would have applied if it had been eligible and won conflict
-     * resolution. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "would_have_applied_money"?: MoneyValue;
-};

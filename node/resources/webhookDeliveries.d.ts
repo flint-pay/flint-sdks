@@ -5,7 +5,9 @@ import type {
     WebhookDeliveriesCreateParams,
     WebhookDeliveriesGetParams,
     WebhookDeliveriesListAttemptsParams,
-    WebhookDeliveriesListParams,
+    WebhookDeliveriesListParams
+} from '../declarations/types-78.js';
+import type {
     WebhookDeliveriesResendParams,
     WebhookDelivery,
     WebhookDeliveryAction,
@@ -14,7 +16,7 @@ import type {
     WebhookDeliveryAttemptListResponse,
     WebhookDeliveryListResponse,
     WebhookDeliveryResponse
-} from '../declarations/types-78.js';
+} from '../declarations/types-79.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -32,17 +34,9 @@ export type {
 } from '../runtime.js';
 export type {
     WebhookDeliveriesCreateParams,
-    WebhookDelivery,
-    WebhookDeliveryResponse,
     WebhookDeliveriesGetParams,
     WebhookDeliveriesListParams,
-    WebhookDeliveryListResponse,
-    WebhookDeliveriesListAttemptsParams,
-    WebhookDeliveryAttemptListResponse,
-    WebhookDeliveryAttempt,
-    WebhookDeliveriesResendParams,
-    WebhookDeliveryAction,
-    WebhookDeliveryActionResponse
+    WebhookDeliveriesListAttemptsParams
 } from '../declarations/types-78.js';
 export type {
     RequestOptions,
@@ -52,16 +46,27 @@ export type {
     ResendWebhookDeliveryRequestInput,
     ResendWebhookDeliveryRequest
 } from '../declarations/types-62.js';
+export type {
+    WebhookDelivery,
+    WebhookDeliveryResponse,
+    WebhookDeliveryListResponse,
+    WebhookDeliveryAttemptListResponse,
+    WebhookDeliveryAttempt,
+    WebhookDeliveriesResendParams,
+    WebhookDeliveryAction,
+    WebhookDeliveryActionResponse
+} from '../declarations/types-79.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateWebhookDeliveryRequestInput, Credentials, CreateWebhookDeliveryRequest } from '../declarations/types-14.js';
+export type { CreateWebhookDeliveryRequestInput, CreateWebhookDeliveryRequest } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export type { CustomersListAddressesParams } from '../declarations/types-17.js';
-export { makeCreateWebhookDeliveryRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeCreateWebhookDeliveryRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeResendWebhookDeliveryRequest } from '../declarations/types-91.js';
 export interface WebhookDeliveriesResource {
     /**

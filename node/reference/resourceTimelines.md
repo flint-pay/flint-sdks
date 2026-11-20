@@ -15,7 +15,7 @@ Signature: `get(resource_id: InputValue<string>, params?: ResourceTimelinesGetPa
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Flint public API resource ID. |
-| `resource_type` | Optional | string | Optional resource type. Must match the resource_id prefix when present. Values: [54 declared values](#resourcetimelinesget-input-resource_type-values). |
+| `resource_type` | Optional | string | Optional resource type. Must match the resource_id prefix when present. Values: [55 declared values](#resourcetimelinesget-input-resource_type-values). |
 | `include` | Optional | Array of string | Timeline entry groups to include. Defaults to all applicable groups. Items values: `"requests"`, `"webhooks"`, `"attempts"`, `"image_mutations"`, `"license_key_pool_attestations"`, `"license_key_restriction_changes"`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
@@ -32,6 +32,7 @@ Signature: `get(resource_id: InputValue<string>, params?: ResourceTimelinesGetPa
 - `"credit_note"`
 - `"credit_note_allocation"`
 - `"customer"`
+- `"delivery_method"`
 - `"dispute"`
 - `"fraud_warning"`
 - `"inventory_count"`

@@ -1,17 +1,8 @@
+import type { CustomerSession, CustomerReceivables, CustomerReceivablesPreviousAttributes } from './types-16.js';
 import type { ResponseMeta } from './types-62.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
-import type { Address, AddressPreviousAttributes } from './types-0.js';
-import type { CustomerReceivables, CustomerReceivablesPreviousAttributes } from './types-16.js';
-import type {
-    ExpandedPaymentMethodSummary,
-    ExpandedPaymentMethodSummaryPreviousAttributes,
-    DisputesAcceptParams
-} from './types-26.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { TaxIdentity, TaxIdentityPreviousAttributes } from './types-74.js';
 import type { InputValue } from '../runtime.js';
-import type { ConfirmCustomerVerificationRequestInput } from './types-7.js';
 import type {
+    CreateCustomerSessionRequestInput,
     CreateCustomerVerificationRequestInput,
     CreateCustomerAccessLinkRequestInput,
     CreateCustomerAddressRequestInput,
@@ -19,14 +10,89 @@ import type {
     CreateCustomerRequestInput,
     CreateCustomerTaxExemptionRequestInput
 } from './types-9.js';
-import type { LinkCustomerGuestPurchasesRequestInput } from './types-40.js';
+import type { RefreshCustomerSessionRequestInput } from './types-60.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
+import type { Address, AddressPreviousAttributes } from './types-0.js';
 import type {
-    UpdateCustomerAddressRequestInput,
-    UpdateCustomerRequestInput,
-    UpdateCustomerTaxExemptionRequestInput
-} from './types-75.js';
-import type { GetReturnInspectionResponse, GetReturnResponse, GetReturnPolicyResponse, GetReturnReasonResponse } from './types-28.js';
-import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-63.js';
+    ExpandedPaymentMethodSummary,
+    ExpandedPaymentMethodSummaryPreviousAttributes,
+    DisputesAcceptParams
+} from './types-26.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { TaxIdentity, TaxIdentityPreviousAttributes } from './types-74.js';
+import type { ConfirmCustomerVerificationRequestInput } from './types-8.js';
+import type { LinkCustomerGuestPurchasesRequestInput } from './types-40.js';
+import type { UpdateCustomerAddressRequestInput } from './types-75.js';
+import type { UpdateCustomerRequestInput, UpdateCustomerTaxExemptionRequestInput } from './types-76.js';
+import type { GetReturnInspectionResponse, GetReturnResponse } from './types-28.js';
+import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-64.js';
+/** A customer session's state without its authentication credentials. */
+export type CustomerSessionResponse = {
+    /**
+     * The customer session, including its status and credential expiry times. A credential for the
+     * /v1/me routes that acts as one customer. By default it can read and change the customer's
+     * account and commerce data, including saved payment methods and account deletion requests.
+     * Explicit capabilities or access-link resource grants narrow that authority.
+     */
+    "data": CustomerSession;
+    /**
+     * Metadata about this response, including idempotency replay and warnings when present.
+     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
+     * request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * ID of this API request. Include it when asking Flint to investigate the response. maxLength:
+     * 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * A customer session with its `secret` and `refresh_token`, returned only when the session is
+ * created or refreshed. A credential for the /v1/me routes that acts as one customer. By default
+ * it can read and change the customer's account and commerce data, including saved payment methods
+ * and account deletion requests. Explicit capabilities or access-link resource grants narrow that
+ * authority.
+ */
+export type CustomerSessionWithSecret = (Exclude<CustomerSession & object, readonly unknown[]>)
+    & ({
+    /**
+     * Single-use refresh token. Returned only on create and refresh; retry rotation with the same
+     * Idempotency-Key. Returned only to the credential that created it, and omitted when another
+     * credential replays the request.
+     */
+    "refresh_token"?: string;
+    /**
+     * Current server-held customer session secret. Returned only on create and refresh. Returned
+     * only to the credential that created it, and omitted when another credential replays the
+     * request.
+     */
+    "secret"?: string;
+});
+/** A response containing `CustomerSessionWithSecret` data. */
+export type CustomerSessionWithSecretResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A customer session with
+     * its `secret` and `refresh_token`, returned only when the session is created or refreshed. A
+     * credential for the /v1/me routes that acts as one customer. By default it can read and
+     * change the customer's account and commerce data, including saved payment methods and account
+     * deletion requests. Explicit capabilities or access-link resource grants narrow that
+     * authority.
+     */
+    "data": CustomerSessionWithSecret;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type CustomerSessionsCreateParams = (InputValue<CreateCustomerSessionRequestInput>);
+export type CustomerSessionsRefreshParams = (InputValue<RefreshCustomerSessionRequestInput>);
 /**
  * The result of revoking a customer's sessions: the customer ID and how many sessions were
  * revoked.
@@ -3452,45 +3518,4 @@ export type DeferredPromotionPreviousAttributes = {
      * anyOf[2] (Value): null.
      */
     "promotion_id"?: ((string) | (null));
-};
-export type DeleteReturnLineItemResponse = GetReturnResponse;
-export type DeleteReturnPolicyResponse = GetReturnPolicyResponse;
-export type DeleteReturnReasonResponse = GetReturnReasonResponse;
-/**
- * An address verification result for a delivery address or buyer location. `suggested_address` may
- * offer a correction.
- */
-export type DeliveryAddressAdvisoryResource = {
-    /** Which address the advisory is about. Value enum: "destination_address", "buyer_location". */
-    "role": "destination_address" | "buyer_location" | (string & {});
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. A postal address. Every address has country. Addresses Flint checked as complete
-     * (customer and saved addresses, merchant, location, invoice, order delivery destination, tax
-     * identity, fulfillment recipient and pickup addresses) always have line1 and city, and US
-     * ones always have state and postal_code. Delivery quote destinations, buyer locations and
-     * postal-code tax locations hold only what was provided, such as postal_code and country.
-     */
-    "suggested_address"?: Address;
-    /** How far address verification got. Value enum: "needs_review", "unverifiable". */
-    "verification_state": "needs_review" | "unverifiable" | (string & {});
-};
-export type DeliveryAddressAdvisoryResourcePreviousAttributes = {
-    /**
-     * Which address the advisory is about. Value enum: "destination_address", "buyer_location".
-     * anyOf[1] (Value): string. Which address the advisory is about. Value enum:
-     * "destination_address", "buyer_location". anyOf[2] (Value): null.
-     */
-    "role"?: (("destination_address" | "buyer_location" | (string & {})) | (null));
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. anyOf[1] (Value): {@link AddressPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "suggested_address"?: ((AddressPreviousAttributes) | (null));
-    /**
-     * How far address verification got. Value enum: "needs_review", "unverifiable". anyOf[1]
-     * (Value): string. How far address verification got. Value enum: "needs_review",
-     * "unverifiable". anyOf[2] (Value): null.
-     */
-    "verification_state"?: (("needs_review" | "unverifiable" | (string & {})) | (null));
 };

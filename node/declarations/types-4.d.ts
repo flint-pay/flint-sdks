@@ -1,37 +1,97 @@
-import type { MoneyValue, MoneyValueInput } from './types-44.js';
-import type { ReturnReplacementLineItem, ReturnResolutionLineItem } from './types-65.js';
-import type { ResponseMeta } from './types-62.js';
 import type {
+    BuyerReturnReplacementLineItemInputBundle,
+    BuyerReturnReplacementLineItemInputVariant,
+    BuyerReturnReplacementLineItemInputBundleInput,
+    BuyerReturnReplacementLineItemInputVariantInput,
     BuyerReturn,
     BuyerPaymentMethodWithSetup,
     BuyerPaymentCollection,
     BuyerPaymentErrorSummary,
     BuyerPaymentCollectionStripeElements,
     BuyerOrderLineItemModifier,
+    BuyerOrder,
     BuyerOrderPaymentAttempt
 } from './types-3.js';
+import type { MoneyValue, MoneyValueInput } from './types-44.js';
+import type { ReturnReplacementLineItem, ReturnResolutionLineItem } from './types-65.js';
+import type { ResponseMeta } from './types-62.js';
 import type { ReturnHandoffRequirementLineItem } from './types-63.js';
 import type { BuyerAction } from './types-1.js';
-import type { BuyerExpandedSubscriptionPlanSummary, BuyerOrder } from './types-2.js';
-import type { SubscriptionDelivery, SubscriptionDeliveryHold } from './types-69.js';
-import type { SubscriptionEndAfter, SubscriptionGiftRecipient, SubscriptionIntervalOption } from './types-70.js';
-import type { SubscriptionPausedDeliveryHold, SubscriptionPlanSwapVariant, SubscriptionPlanChangePreview } from './types-71.js';
+import type { BuyerExpandedSubscriptionPlanSummary } from './types-2.js';
+import type { SubscriptionDelivery } from './types-69.js';
+import type {
+    SubscriptionDeliveryHold,
+    SubscriptionEndAfter,
+    SubscriptionGiftRecipient,
+    SubscriptionIntervalOption
+} from './types-70.js';
+import type { SubscriptionPausedDeliveryHold, SubscriptionPlanChangePreview } from './types-71.js';
 import type {
     SubscriptionPromotion,
-    SubscriptionUpcomingDeliveryHold,
+    SubscriptionPlanSwapVariant,
     SubscriptionPreview,
     SubscriptionQuantityChangePreview,
     SubscriptionRenewalPreview
 } from './types-72.js';
+import type { SubscriptionUpcomingDeliveryHold } from './types-73.js';
 import type { CategoryReference } from './types-5.js';
 import type { Image } from './types-31.js';
-import type { SelectedProductOption } from './types-67.js';
+import type { SelectedProductOption } from './types-68.js';
 import type { PaymentErrorSummary } from './types-51.js';
-import type { OrderLineItemTax } from './types-46.js';
-import type { Address, AcceptFulfillmentRequestInput, ApplyInventoryCountRequestInput } from './types-0.js';
+import type { OrderLineItemTax } from './types-47.js';
+import type { Address, AcceptFulfillmentRequestInput } from './types-0.js';
 import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-75.js';
 import type { ContextSummary } from './types-8.js';
 import type { DeliveryWindowRequest, DeliveryWindowRequestInput } from './types-24.js';
+/**
+ * A catalog variant or bundle and quantity the buyer requests as a replacement in a Return
+ * resolution preview.
+ */
+export type BuyerReturnReplacementLineItemRequest = ({
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 1.
+     */
+    "quantity": number;
+    /** The catalog source of the replacement merchandise. Value enum: "variant", "bundle". */
+    "type": "variant" | "bundle" | (string & {});
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & ((Exclude<BuyerReturnReplacementLineItemInputVariant & object, readonly unknown[]>)
+    | (Exclude<BuyerReturnReplacementLineItemInputBundle & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A catalog variant or bundle and quantity the buyer requests as a replacement in a Return
+ * resolution preview.
+ */
+export type BuyerReturnReplacementLineItemRequestInput = ({
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 1.
+     */
+    "quantity": number;
+    /** The catalog source of the replacement merchandise. Value enum: "variant", "bundle". */
+    "type": "variant" | "bundle";
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & ((Exclude<BuyerReturnReplacementLineItemInputVariantInput & object, readonly unknown[]>)
+    | (Exclude<BuyerReturnReplacementLineItemInputBundleInput & object, readonly unknown[]>));
 /** The refund, exchange, or other outcome of a return. */
 export type BuyerReturnResolution = {
     /**
@@ -3369,7 +3429,3 @@ export type CallerSuppliedDeliveryOutcomeRequestUnavailableInput = ({
 })));
 /** Cancels fulfillment work that has not completed. */
 export type CancelFulfillmentRequestInput = AcceptFulfillmentRequestInput;
-/** The request body for: Cancel a gift card notification. */
-export type CancelGiftCardNotificationRequestInput = {};
-/** Closes an open physical count without changing stock. */
-export type CancelInventoryCountRequestInput = ApplyInventoryCountRequestInput;

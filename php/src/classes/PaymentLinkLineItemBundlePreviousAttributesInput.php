@@ -166,7 +166,7 @@ final class PaymentLinkLineItemBundlePreviousAttributesInput extends Model {
      */
     public function getResolvedUnitPriceMoney(): mixed { return $this->get('resolved_unit_price_money'); }
     public function hasResolvedUnitPriceMoney(): bool { return $this->has('resolved_unit_price_money'); }
-    /** Unit prices offered as one-tap choices when the buyer sets the price. anyOf[1] (Value): Array of {@see MoneyValuePreviousAttributesInput}. Unit prices offered as one-tap choices when the buyer sets the price. anyOf[1][] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+    /** Unit prices offered as one-tap choices when the buyer sets the price. Use the same currency for the price, bounds, and suggested prices. anyOf[1] (Value): Array of {@see MoneyValuePreviousAttributesInput}. Unit prices offered as one-tap choices when the buyer sets the price. Use the same currency for the price, bounds, and suggested prices. anyOf[1][] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return list<MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass>|null
      * @throws SdkError When suggested_unit_price_money_options is omitted; use hasSuggestedUnitPriceMoneyOptions() or valueOrDefault().
      */

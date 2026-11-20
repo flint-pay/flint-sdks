@@ -7,9 +7,10 @@ namespace Flint;
  * @property-read ReadinessAxisPreviousAttributes|null $payments
  * @property-read ReadinessAxisPreviousAttributes|null $payouts
  * @property-read ReadinessRequirementsPreviousAttributes|null $requirements
+ * @property-read bool|null $review_blocks_captures
  * Presence-aware response; omitted optional fields return null. */
 final class MerchantReadinessPreviousAttributes extends Model {
-    /** @param array{'capabilities'?: mixed, 'observed_at'?: mixed, 'payments'?: mixed, 'payouts'?: mixed, 'requirements'?: mixed, ...}|object $values */
+    /** @param array{'capabilities'?: mixed, 'observed_at'?: mixed, 'payments'?: mixed, 'payouts'?: mixed, 'requirements'?: mixed, 'review_blocks_captures'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantReadinessPreviousAttributes')); }
     /** Readiness of each payment and money movement capability, with its own status, requirements, and next actions. anyOf[1] (Value): Array of {@see CapabilityReadinessPreviousAttributes}. Readiness of each payment and money movement capability, with its own status, requirements, and next actions. anyOf[1][] (Value): {@see CapabilityReadinessPreviousAttributes}. anyOf[2] (Value): null.
      * @return list<CapabilityReadinessPreviousAttributes>|null
@@ -36,4 +37,9 @@ final class MerchantReadinessPreviousAttributes extends Model {
      */
     public function getRequirements(): ReadinessRequirementsPreviousAttributes|null { return $this->get('requirements'); }
     public function hasRequirements(): bool { return $this->has('requirements'); }
+    /**  anyOf[1] (Value): boolean. anyOf[2] (Value): null.
+     * @return bool|null
+     */
+    public function getReviewBlocksCaptures(): bool|null { return $this->get('review_blocks_captures'); }
+    public function hasReviewBlocksCaptures(): bool { return $this->has('review_blocks_captures'); }
 }

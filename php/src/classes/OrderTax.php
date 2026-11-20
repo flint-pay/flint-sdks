@@ -86,7 +86,7 @@ final class OrderTax extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Read-only, sorted ISO 3166-1 alpha-2 destination countries where automatic tax can calculate every taxable line. Present only when tax is enabled in automatic mode. US destinations are covered for every category. In Canada, EU member states, GB, AU and NZ, only digital_goods, software and saas are covered; services, professional_services, physical goods and taxable charges are unsupported there. Read tax-connection.coverage for category scopes. Intersect with delivery supported_countries when collecting a shipping address. [] (Value): string.
+    /** Read-only, sorted ISO 3166-1 alpha-2 destination countries where automatic tax can calculate every taxable line. Present only when tax is enabled in automatic mode. US destinations are covered for categories supported by automatic tax. In Canada, EU member states, GB, AU and NZ, only digital_goods, software and saas are covered. Services, professional services, physical goods and taxable charges are unsupported outside the US. The list is empty when an unsettled taxable item has an unsupported category or the checkout needs an active tax connection. Read tax-connection.coverage for category scopes. Intersect with delivery supported_countries when collecting a shipping address. [] (Value): string.
      * @return ?list<string>
      */
     public function getSupportedCountries(): ?array { return $this->get('supported_countries'); }

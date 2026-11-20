@@ -7,6 +7,7 @@ namespace Flint;
  * @property-read bool $can_buyer_request
  * @property-read ?string $description
  * @property-read CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItemEligibility $eligibility
+ * @property-read list<CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItemExchangeVariantsItem> $exchange_variants
  * @property-read string $fulfillment_id
  * @property-read ?CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItemImage $image
  * @property-read list<CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItemModifiersItem> $modifiers
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItem extends Model {
-    /** @param array{'bundle_components': list<mixed>, 'bundle_id'?: string, 'can_buyer_request': bool, 'description'?: string, 'eligibility': mixed, 'fulfillment_id': string, 'image'?: mixed, 'modifiers': list<mixed>, 'name': string, 'order_id': string, 'order_line_item_id': string, 'product_id'?: string, 'requested_quantity'?: int, 'selected_options': list<mixed>, 'sku'?: string, 'suggested_return_reasons': list<mixed>, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'bundle_components': list<mixed>, 'bundle_id'?: string, 'can_buyer_request': bool, 'description'?: string, 'eligibility': mixed, 'exchange_variants': list<mixed>, 'fulfillment_id': string, 'image'?: mixed, 'modifiers': list<mixed>, 'name': string, 'order_id': string, 'order_line_item_id': string, 'product_id'?: string, 'requested_quantity'?: int, 'selected_options': list<mixed>, 'sku'?: string, 'suggested_return_reasons': list<mixed>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItem')); }
     /** Components of the bundle the line was sold from. [] (Value): {@see CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItemBundleComponentsItem}. An item included in a bundle.
      * @return list<CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItemBundleComponentsItem>
@@ -48,6 +49,11 @@ final class CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItem ex
      */
     public function getEligibility(): CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItemEligibility { return $this->get('eligibility'); }
     public function hasEligibility(): bool { return $this->has('eligibility'); }
+    /** Available alternatives for an exchange of this product. Empty when alternatives were omitted from the request or none are available. [] (Value): {@see CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItemExchangeVariantsItem}. One in-stock or untracked alternative variant of the returned product. Price and stock can change before resolution.
+     * @return list<CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItemExchangeVariantsItem>
+     */
+    public function getExchangeVariants(): array { return $this->get('exchange_variants'); }
+    public function hasExchangeVariants(): bool { return $this->has('exchange_variants'); }
     /** ID of the fulfillment the units were delivered in.
      * @return string
      */

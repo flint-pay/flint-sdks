@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# OrderLineItemFulfillmentRequirements to PackageCreateRequestInput
+# OrderInventoryExceptionResolvedMerchantEvent to Package
 
+- [OrderInventoryExceptionResolvedMerchantEvent](OrderInventoryExceptionResolvedMerchantEvent.md)
+- [OrderLineItem](OrderLineItem.md)
+- [OrderLineItemFulfillmentComponent](OrderLineItemFulfillmentComponent.md)
+- [OrderLineItemFulfillmentComponentPreviousAttributes](OrderLineItemFulfillmentComponentPreviousAttributes.md)
+- [OrderLineItemFulfillmentProfile](OrderLineItemFulfillmentProfile.md)
+- [OrderLineItemFulfillmentProfilePreviousAttributes](OrderLineItemFulfillmentProfilePreviousAttributes.md)
+- [OrderLineItemFulfillmentQuantities](OrderLineItemFulfillmentQuantities.md)
+- [OrderLineItemFulfillmentQuantitiesPreviousAttributes](OrderLineItemFulfillmentQuantitiesPreviousAttributes.md)
 - [OrderLineItemFulfillmentRequirements](OrderLineItemFulfillmentRequirements.md)
 - [OrderLineItemFulfillmentRequirementsPreviousAttributes](OrderLineItemFulfillmentRequirementsPreviousAttributes.md)
 - [OrderLineItemModifier](OrderLineItemModifier.md)
@@ -94,12 +102,4 @@
 - [OrderUpdatedInstalledMerchantsEvent](OrderUpdatedInstalledMerchantsEvent.md)
 - [OrderUpdatedMerchantEvent](OrderUpdatedMerchantEvent.md)
 - [Package](Package.md)
-- [PackageCreatedInstalledMerchantsEvent](PackageCreatedInstalledMerchantsEvent.md)
-- [PackageCreatedMerchantEvent](PackageCreatedMerchantEvent.md)
-- [PackageCreateInputCreated](PackageCreateInputCreated.md)
-- [PackageCreateInputCreatedInput](PackageCreateInputCreatedInput.md)
-- [PackageCreateInputShipped](PackageCreateInputShipped.md)
-- [PackageCreateInputShippedInput](PackageCreateInputShippedInput.md)
-- [PackageCreateRequest](PackageCreateRequest.md)
-- [PackageCreateRequestInput](PackageCreateRequestInput.md)
 

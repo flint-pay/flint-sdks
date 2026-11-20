@@ -12,7 +12,7 @@ A webhook delivery attempt recorded in this resource's timeline.
 | --- | --- | --- | --- |
 | `api_request_log_id` | Optional | string | ID of the API request log associated with this attempt. Omitted when no request log is associated. Example: `"rlog_01KEZF7C008XJCH6BHA224X46F"`. |
 | `attempt_number` | Required | integer | Which attempt this is for the delivery, starting at 1. Format: `int32`. |
-| `attributed_resource` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The activation this entry refers to. Present for license key activation entries. A reference to another resource by `resource_type` and `resource_id`. `attributed_resource`: [field definitions](../models/ResourceTimelineEntry.md#resourcetimelineentry-variant-2attributed_resource). |
+| `attributed_resource` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The activation this entry refers to. Present for license key activation entries. A reference to another resource by `resource_type` and `resource_id`. `attributed_resource`: [field definitions](../models/ResourceTimelineEntry.md#resourcetimelineentry-variant-3attributed_resource). |
 | `completed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `delivery_trigger` | Required | string | What caused this attempt. Values: `"automatic_delivery"`, `"automatic_retry"`, `"manual_resend"`, `"manual_delivery"`. |
 | `duration_milliseconds` | Optional | integer | How long the attempt took, in milliseconds. Format: `int64`. |
@@ -49,5 +49,5 @@ A webhook delivery attempt recorded in this resource's timeline.
 
 ### ResourceTimelineWebhookDeliveryAttemptEntry.attributed_resource
 
-Field definitions: [ResourceTimelineEntry variant 2.attributed_resource](../models/ResourceTimelineEntry.md#resourcetimelineentry-variant-2attributed_resource).
+Field definitions: [ResourceTimelineEntry variant 3.attributed_resource](../models/ResourceTimelineEntry.md#resourcetimelineentry-variant-3attributed_resource).
 

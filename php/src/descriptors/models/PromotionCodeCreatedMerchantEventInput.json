@@ -1,1 +1,1 @@
-{"shared":"PromotionCodeCreatedMerchantEvent","dependencies":["MetadataMap","PromotionCodeCreatedMerchantEvent","SharedCodec10","SharedCodec11","SharedCodec12","SharedCodec2457","SharedCodec8","SharedCodec9","WebhookPromotionCode"]}
+{"shared":"PromotionCodeCreatedMerchantEvent","dependencies":["MetadataMap","PromotionCodeCreatedMerchantEvent","ReturnActor","SharedCodec10","SharedCodec11","SharedCodec12","SharedCodec2460","SharedCodec8","SharedCodec9","WebhookPromotionCode"]}

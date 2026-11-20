@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput to InventoryAdjustmentListResponseInput
+# GiftCardFundingSourceFlintManualPaymentPreviousAttributesInput to InventoryActionRequiredInput
 
+- [GiftCardFundingSourceFlintManualPaymentPreviousAttributesInput](GiftCardFundingSourceFlintManualPaymentPreviousAttributesInput.md)
+- [GiftCardFundingSourceFlintManualPaymentRequestInput](GiftCardFundingSourceFlintManualPaymentRequestInput.md)
+- [GiftCardFundingSourceFlintPaymentInput](GiftCardFundingSourceFlintPaymentInput.md)
+- [GiftCardFundingSourceFlintPaymentPreviousAttributesInput](GiftCardFundingSourceFlintPaymentPreviousAttributesInput.md)
+- [GiftCardFundingSourceFlintPaymentRequestInput](GiftCardFundingSourceFlintPaymentRequestInput.md)
 - [GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput](GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput.md)
 - [GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributesInput](GiftCardFundingSourceGiftCardPurchaseRefundRecoveryPreviousAttributesInput.md)
 - [GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput](GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput.md)
@@ -97,9 +102,4 @@
 - [InitialGiftCardFundingInput](InitialGiftCardFundingInput.md)
 - [InlineModifierGroupRequestInput](InlineModifierGroupRequestInput.md)
 - [InventoryActionRequiredInput](InventoryActionRequiredInput.md)
-- [InventoryActionRequiredPreviousAttributesInput](InventoryActionRequiredPreviousAttributesInput.md)
-- [InventoryAdjustmentInput](InventoryAdjustmentInput.md)
-- [InventoryAdjustmentConditionChangeLineRequestInput](InventoryAdjustmentConditionChangeLineRequestInput.md)
-- [InventoryAdjustmentLineInput](InventoryAdjustmentLineInput.md)
-- [InventoryAdjustmentListResponseInput](InventoryAdjustmentListResponseInput.md)
 

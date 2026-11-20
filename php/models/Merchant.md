@@ -28,7 +28,8 @@ Response model.
 | `support_email` | Optional | string | Support email address shown to buyers, for example on receipts and checkout. |
 | `support_phone` | Optional | string | Support phone number shown to buyers, in international format such as +12125551234. |
 | `support_url` | Optional | string | Support page shown to buyers. |
-| `timezone` | Optional | string | Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. |
+| `timezone` | Optional | string | Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone. |
+| `timezone_inferred` | Optional | boolean | True when GET /v1/merchant inferred timezone because the merchant has no saved business time zone. Omitted otherwise. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | integer | Merchant version. Profile, status, and API version changes advance this version, including business name and business type changes synced from the payment provider. Readiness updates alone do not. Format: `int64`. minimum: `1`. |
 | `website_url` | Optional | string | The business's website. |

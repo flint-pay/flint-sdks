@@ -14,7 +14,7 @@ final class SignedMoneyRequestInput extends Model {
      */
     public function getAmount(): string { return $this->get('amount'); }
     public function hasAmount(): bool { return $this->has('amount'); }
-    /** ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+    /** Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      * @return string
      * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
      */

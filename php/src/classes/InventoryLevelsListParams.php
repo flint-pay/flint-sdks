@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read int $page_size
  * @property-read string $page_token
  * @property-read string $inventory_item_id
+ * @property-read string $product_id
  * @property-read string $location_id
  * @property-read list<string>|string $inventory_item_status
  * @property-read bool $has_available_quantity
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryLevelsListParams extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'location_id'?: string, 'inventory_item_status'?: list<string>|string, 'has_available_quantity'?: bool, 'has_unavailable_condition'?: bool, 'has_shortage'?: bool, 'query'?: string, 'min_available_quantity'?: int, 'max_available_quantity'?: int, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'inventory_item_id'?: string, 'product_id'?: string, 'location_id'?: string, 'inventory_item_status'?: list<string>|string, 'has_available_quantity'?: bool, 'has_unavailable_condition'?: bool, 'has_shortage'?: bool, 'query'?: string, 'min_available_quantity'?: int, 'max_available_quantity'?: int, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryLevelsListParams')); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
@@ -38,6 +39,12 @@ final class InventoryLevelsListParams extends Model {
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
+    /** Filter by inventory items linked to the product's non-deleted variants. An item shared by several variants returns one level per Location. pattern: ^prod_[0-7][0-9A-HJKMNP-TV-Z]{25}$. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     * @return string
+     * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
+     */
+    public function getProductId(): string { return $this->get('product_id'); }
+    public function hasProductId(): bool { return $this->has('product_id'); }
     /** Filter by Location. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().

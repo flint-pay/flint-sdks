@@ -50,14 +50,13 @@ export type {
     CreateInventoryAdjustmentCountedRequestInput,
     CreateInventoryAdjustmentCorrectionRequestInput
 } from '../declarations/types-10.js';
-export type { InventorySourceSystemRequestInput } from '../declarations/types-34.js';
+export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '../declarations/types-34.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { InventoryLevel, InventoryItem } from '../declarations/types-32.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { InventorySourceSystem } from '../declarations/types-33.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export {
     makeCreateInventoryAdjustmentConditionChangeRequest,
@@ -65,14 +64,15 @@ export {
     makeCreateInventoryAdjustmentCountedRequest,
     makeCreateInventoryAdjustmentQuantityRequest,
     makeCreateInventoryAdjustmentRequest
-} from '../declarations/types-82.js';
+} from '../declarations/types-83.js';
 export {
     makeInventoryAdjustmentConditionChangeLineRequest,
     makeInventoryAdjustmentQuantityLineRequest,
     makeInventoryAdjustmentSetLineRequest,
     makeInventorySourceSystemRequest
 } from '../declarations/types-87.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface InventoryAdjustmentsResource {
     /**
  * Record a stock change by what happened: stock received, returned, sold, stolen, lost, or moved

@@ -130,7 +130,7 @@ final class MerchantReadinessUpdatedInstalledMerchantsEventDataObject extends Mo
      */
     public function getSupportUrl(): ?string { return $this->get('support_url'); }
     public function hasSupportUrl(): bool { return $this->has('support_url'); }
-    /** Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone.
+    /** Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone.
      * @return ?string
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }

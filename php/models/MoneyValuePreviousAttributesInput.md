@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount` | Optional | integer string or null | Amount in the currency's minor unit, such as cents for USD. `amount`: [declared alternatives](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinputamount). |
-| `currency` | Optional | string or null | ISO 4217 currency code for this amount. `currency`: [declared alternatives](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinputcurrency). |
+| `currency` | Optional | string or null | Three-letter uppercase ISO 4217 currency code for this amount, such as USD. `currency`: [declared alternatives](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinputcurrency). |
 
 ### MoneyValuePreviousAttributesInput.amount
 
@@ -29,13 +29,13 @@ anyOf variant 2.
 
 ### MoneyValuePreviousAttributesInput.currency variant 1
 
-anyOf variant 1: ISO 4217 currency code for this amount..
+anyOf variant 1: Three-letter uppercase ISO 4217 currency code for this amount, such as USD..
 
-- Value shape: string. ISO 4217 currency code for this amount. ISO 4217 currency code for this amount. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. 
+- Value shape: string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. 
 
 ### MoneyValuePreviousAttributesInput.currency variant 2
 
 anyOf variant 2.
 
-- Value shape: null. ISO 4217 currency code for this amount. 
+- Value shape: null. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. 
 

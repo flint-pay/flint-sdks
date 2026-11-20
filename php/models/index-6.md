@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CreateInventoryCountRequestInput to CreateReturnPreviewResponseInput
+# CreateInventoryAdjustmentQuantityRequestInput to CreateReturnPreviewDataEligibilityInput
 
+- [CreateInventoryAdjustmentQuantityRequestInput](CreateInventoryAdjustmentQuantityRequestInput.md)
+- [CreateInventoryAdjustmentRequestInput](CreateInventoryAdjustmentRequestInput.md)
+- [CreateInventoryAllocationPolicyRequestInput](CreateInventoryAllocationPolicyRequestInput.md)
+- [CreateInventoryBackorderPolicyRequestInput](CreateInventoryBackorderPolicyRequestInput.md)
 - [CreateInventoryCountRequestInput](CreateInventoryCountRequestInput.md)
 - [CreateInventoryItemRequestInput](CreateInventoryItemRequestInput.md)
 - [CreateInventoryReceiptRequestInput](CreateInventoryReceiptRequestInput.md)
@@ -43,6 +47,7 @@
 - [CreateOrderLineItemInput](CreateOrderLineItemInput.md)
 - [CreateOrderLineItemBundleInput](CreateOrderLineItemBundleInput.md)
 - [CreateOrderLineItemCustomInput](CreateOrderLineItemCustomInput.md)
+- [CreateOrderLineItemCustomRequestInput](CreateOrderLineItemCustomRequestInput.md)
 - [CreateOrderLineItemInputBundleInput](CreateOrderLineItemInputBundleInput.md)
 - [CreateOrderLineItemInputCustomInput](CreateOrderLineItemInputCustomInput.md)
 - [CreateOrderLineItemInputVariantInput](CreateOrderLineItemInputVariantInput.md)
@@ -97,9 +102,4 @@
 - [CreateReturnPolicyResponseInput](CreateReturnPolicyResponseInput.md)
 - [CreateReturnPreviewDataInput](CreateReturnPreviewDataInput.md)
 - [CreateReturnPreviewDataEligibilityInput](CreateReturnPreviewDataEligibilityInput.md)
-- [CreateReturnPreviewDataResolutionInput](CreateReturnPreviewDataResolutionInput.md)
-- [CreateReturnPreviewRequestInput](CreateReturnPreviewRequestInput.md)
-- [CreateReturnPreviewRequestEligibilityInput](CreateReturnPreviewRequestEligibilityInput.md)
-- [CreateReturnPreviewRequestResolutionInput](CreateReturnPreviewRequestResolutionInput.md)
-- [CreateReturnPreviewResponseInput](CreateReturnPreviewResponseInput.md)
 

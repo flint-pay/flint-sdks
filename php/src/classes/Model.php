@@ -57,9 +57,28 @@ class Model implements \JsonSerializable
         }
         return $value;
     }
+    /** @internal Share the selected response model between the envelope and payload. */
+    public static function withResponseBranch(mixed $body, array $path, Model $branch): mixed
+    {
+        if (!$path) {
+            return $branch;
+        }
+        $field = array_shift($path);
+        if ($body instanceof self) {
+            $value = self::withResponseBranch($body->get($field), $path, $branch);
+            $body->hydrated[$field] = $value;
+            $body->copyOnRead[$field] = self::containsMutableObject($value);
+        } elseif (is_array($body)) {
+            $body[$field] = self::withResponseBranch($body[$field], $path, $branch);
+        } else {
+            $body->{$field} = self::withResponseBranch($body->{$field}, $path, $branch);
+        }
+        return $body;
+    }
     private array $hydrated = [];
     private array $copyOnRead = [];
     private readonly bool $response;
+    private readonly bool $decodedResponse;
     protected readonly mixed $values;
     private readonly mixed $inputValues;
     private readonly array $codec;
@@ -83,13 +102,18 @@ class Model implements \JsonSerializable
         }
         $this->representation = $representation;
         $this->redactFields = $redactFields;
-        if (is_array($values) && $codec['modelObjectInput']) {
-            $values = (object) $values;
+        $this->decodedResponse = $response && $values instanceof DecodedResponseValue;
+        if ($this->decodedResponse) {
+            $normalized = $values->value;
+        } else {
+            if (is_array($values) && $codec['modelObjectInput']) {
+                $values = (object) $values;
+            }
+            $normalized = Codec::execute($values, $codec, [
+                'mode' => $response ? 'response' : 'request',
+                'redactFields' => $redactFields,
+            ]);
         }
-        $normalized = Codec::execute($values, $codec, [
-            'mode' => $response ? 'response' : 'request',
-            'redactFields' => $redactFields,
-        ]);
         // Store public values: unwrap nested models and exact wire-number wrappers,
         // while retaining the normalized distinction between objects and lists.
         $hasWireNumbers = false;
@@ -208,6 +232,7 @@ class Model implements \JsonSerializable
         array $plan,
         array $redactFields = [],
         int $depth = 0,
+        bool $decoded = false,
     ): mixed {
         if ($depth > 256) {
             throw new \InvalidArgumentException('PHP representation nesting limit');
@@ -218,24 +243,39 @@ class Model implements \JsonSerializable
             case 'nullable':
                 return $value === null
                     ? null
-                    : self::hydrate($value, $plan['value'], $redactFields, $depth + 1);
+                    : self::hydrate($value, $plan['value'], $redactFields, $depth + 1, $decoded);
             case 'entity':
                 if ($value instanceof Model) {
                     return $value;
                 }
                 $class = __NAMESPACE__ . '\\' . $plan['name'];
-                return new $class($value, $redactFields);
+                return new $class(
+                    $decoded ? new DecodedResponseValue($value) : $value,
+                    $redactFields,
+                );
             case 'list':
             case 'map':
                 $out = [];
                 foreach ((array) $value as $key => $child) {
-                    $out[$key] = self::hydrate($child, $plan['value'], $redactFields, $depth + 1);
+                    $out[$key] = self::hydrate(
+                        $child,
+                        $plan['value'],
+                        $redactFields,
+                        $depth + 1,
+                        $decoded,
+                    );
                 }
                 return $out;
             case 'tagged':
                 $tag = is_object($value) ? $value->{$plan['field']} ?? null : null;
                 return is_string($tag) && isset($plan['variants'][$tag])
-                    ? self::hydrate($value, $plan['variants'][$tag], $redactFields, $depth + 1)
+                    ? self::hydrate(
+                        $value,
+                        $plan['variants'][$tag],
+                        $redactFields,
+                        $depth + 1,
+                        $decoded,
+                    )
                     : self::copyValue($value);
             case 'record':
                 $out = new \stdClass();
@@ -244,7 +284,7 @@ class Model implements \JsonSerializable
                     $out->{$key} =
                         $field === null
                             ? self::copyValue($child)
-                            : self::hydrate($child, $field, $redactFields, $depth + 1);
+                            : self::hydrate($child, $field, $redactFields, $depth + 1, $decoded);
                 }
                 return $out;
         }
@@ -338,7 +378,12 @@ class Model implements \JsonSerializable
             $this->hydrated[$field] =
                 $plan === null
                     ? self::copyValue($value)
-                    : self::hydrate($value, $plan, $this->redactFields);
+                    : self::hydrate(
+                        $value,
+                        $plan,
+                        $this->redactFields,
+                        decoded: $this->decodedResponse,
+                    );
             $this->copyOnRead[$field] = self::containsMutableObject($this->hydrated[$field]);
         }
         // PHP arrays use copy-on-write; immutable model children can be shared.

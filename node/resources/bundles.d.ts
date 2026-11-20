@@ -52,24 +52,23 @@ export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, 
 export type {
     MetadataRequestInput,
     MetadataMap,
-    ModifierSet,
-    ModifierSetGroup,
     ModifierGroup,
     Modifier,
     ModifierOverride,
     MetadataPatchRequestInput,
     MetadataPatchRequest
 } from '../declarations/types-43.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { MoneyValueInput, ModifierSet, ModifierSetGroup, MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { CategoryReference } from '../declarations/types-5.js';
 export type { TextModifierConfig } from '../declarations/types-74.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { SelectedProductOption } from '../declarations/types-67.js';
+export type { SelectedProductOption } from '../declarations/types-68.js';
 export type { UpdateBundleRequestInput, UpdateBundleComponentRequestInput, UpdateBundleComponentRequest } from '../declarations/types-75.js';
 export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-81.js';
 export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-87.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-93.js';
 export interface BundlesResource {
     /**

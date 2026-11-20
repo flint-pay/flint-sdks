@@ -1,10 +1,10 @@
+import type { InvoicePaymentOptionLimitRequestInput, InvoicePaymentDuePreviousAttributes } from './types-36.js';
 import type {
-    InvoicePaymentTermCalculationDayOfMonthPreviousAttributes,
-    InvoicePaymentTermCalculationDayOfMonthRequestInput,
-    InvoicePaymentTerm,
-    InvoicePaymentTermCalculation,
-    InvoicePaymentDuePreviousAttributes
-} from './types-36.js';
+    InvoiceLateFeePolicy,
+    InvoiceLateFeePolicyPreviousAttributes,
+    InvoiceCollectionPreviousAttributes,
+    InvoiceLateFeePreviousAttributes
+} from './types-35.js';
 import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateInvoicePaymentTermRequestInput } from './types-10.js';
@@ -13,18 +13,14 @@ import type {
     ExpandedCustomerSummaryPreviousAttributes,
     ExpandedOrderSummaryPreviousAttributes
 } from './types-26.js';
-import type {
-    InvoiceLateFeePolicy,
-    InvoiceLateFeePolicyPreviousAttributes,
-    InvoiceCollectionPreviousAttributes,
-    InvoiceLateFeePreviousAttributes
-} from './types-35.js';
 import type { UpdateInvoicePaymentTermRequestInput } from './types-76.js';
 import type { AddressPreviousAttributes } from './types-0.js';
 import type {
     InvoiceScheduleEntryPreviousAttributes,
     InvoiceSettlementAmountsPreviousAttributes,
-    InvoiceSnapshotPreviousAttributes
+    InvoiceSnapshotPreviousAttributes,
+    InvoiceScheduleDueWriteAtIssue,
+    InvoiceScheduleDueWriteInvoiceDueDate
 } from './types-38.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
@@ -32,6 +28,231 @@ import type { PricingAmountsPreviousAttributes } from './types-56.js';
 import type { WebhookInvoice } from './types-79.js';
 import type { Invoice } from './types-34.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+/**
+ * Which payment options an invoice accepts, any per-option total limits, and whether to show a
+ * cost comparison.
+ */
+export type InvoicePaymentPolicyRequestInput = {
+    /**
+     * The payment options the buyer can use on the hosted invoice page. Send at least one.
+     * maxItems: 5. uniqueItems: true. [] enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit". [] (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit".
+     */
+    "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
+    /**
+     * Caps by payment option and currency. Flint doesn't offer an option when the invoice total in
+     * that currency is above its max_total_money. maxItems: 100. [] (Value): {@link
+     * InvoicePaymentOptionLimitRequestInput}. The largest invoice total allowed for a payment
+     * option.
+     */
+    "payment_option_limits"?: Array<InvoicePaymentOptionLimitRequestInput>;
+    /**
+     * Whether the buyer's invoice shows the estimated savings of a lower-cost payment option.
+     * Requires ach_debit and at least one of card, apple_pay, or google_pay.
+     */
+    "show_cost_comparison"?: boolean;
+};
+/** The payment timing agreed for an invoice. */
+export type InvoicePaymentTerm = {
+    /**
+     * Rule used to calculate the invoice's due date when it is issued. How an invoice due date is
+     * calculated from payment terms, such as on receipt, net days, or a day of the month.
+     */
+    "calculation": InvoicePaymentTermCalculation;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * ID of the payment term captured on this invoice. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4".
+     */
+    "invoice_payment_term_id": string;
+    /**
+     * One-time late fee policy captured with this term. Absent when no late fee policy applies. A
+     * late fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and
+     * whether Flint applies it automatically.
+     */
+    "late_fee_policy"?: InvoiceLateFeePolicy;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /** Name of the payment term shown on invoices. */
+    "name": string;
+    /**
+     * Whether the term can be selected for new invoices. Archiving preserves terms captured on
+     * existing invoices. Value enum: "active", "archived".
+     */
+    "status": "active" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int32.
+     */
+    "version": number;
+};
+/**
+ * How an invoice due date is calculated from payment terms, such as on receipt, net days, or a day
+ * of the month.
+ */
+export type InvoicePaymentTermCalculation = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day"?: number;
+    /**
+     * Calendar days after issue for net_days, or after the issue month's last day for
+     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
+     * 365.
+     */
+    "days"?: number;
+    /**
+     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
+     * "on_receipt", "net_days", "day_of_month", "day_of_next_month", "days_after_month_end".
+     */
+    "type": "on_receipt"
+        | "net_days"
+        | "day_of_month"
+        | "day_of_next_month"
+        | "days_after_month_end"
+        | (string & {});
+})
+    & ((Exclude<InvoicePaymentTermCalculationOnReceipt & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationNetDays & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationDaysAfterMonthEnd & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationDayOfMonth & object, readonly unknown[]>)
+    | (Exclude<InvoicePaymentTermCalculationDayOfNextMonth & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `day_of_month` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDayOfMonth = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+    /**
+     * Calendar days after issue for net_days, or after the issue month's last day for
+     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
+     * 365.
+     */
+    "days"?: number;
+    /**
+     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
+     * "day_of_month".
+     */
+    "type": "day_of_month" | (string & {});
+})
+    & (({
+    /**
+     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
+     * "day_of_month".
+     */
+    "type": "day_of_month" | (string & {});
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+}));
+export type InvoicePaymentTermCalculationDayOfMonthPreviousAttributes = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. anyOf[1] (Value): integer.
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31. anyOf[2] (Value): null.
+     */
+    "day"?: ((number) | (null));
+    /**
+     * Calendar days after issue for net_days, or after the issue month's last day for
+     * days_after_month_end. Required only for those types. anyOf[1] (Value): integer. Calendar
+     * days after issue for net_days, or after the issue month's last day for days_after_month_end.
+     * Required only for those types. Format: int32. minimum: 0. maximum: 365. anyOf[2] (Value):
+     * null.
+     */
+    "days"?: ((number) | (null));
+    /**
+     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
+     * "day_of_month". anyOf[1] (Value): string. How issue calculates the invoice's due date in the
+     * invoice timezone. Value enum: "day_of_month". anyOf[2] (Value): null.
+     */
+    "type"?: (("day_of_month" | (string & {})) | (null));
+})
+    & ({
+    /**
+     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
+     * "day_of_month". anyOf[1] (Value): string. How issue calculates the invoice's due date in the
+     * invoice timezone. Value enum: "day_of_month". anyOf[2] (Value): null.
+     */
+    "type"?: (("day_of_month" | (string & {})) | (null));
+});
+/** The `day_of_month` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDayOfMonthRequestInput = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+    /**
+     * Calendar days after issue for net_days, or after the issue month's last day for
+     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
+     * 365.
+     */
+    "days"?: number;
+    /**
+     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
+     * "day_of_month".
+     */
+    "type": "day_of_month";
+})
+    & (({
+    /**
+     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
+     * "day_of_month".
+     */
+    "type": "day_of_month";
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+})
+    & ({
+    "days"?: never;
+}));
+/** The `day_of_next_month` variant of `InvoicePaymentTermCalculation`. */
+export type InvoicePaymentTermCalculationDayOfNextMonth = ({
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+    /**
+     * Calendar days after issue for net_days, or after the issue month's last day for
+     * days_after_month_end. Required only for those types. Format: int32. minimum: 0. maximum:
+     * 365.
+     */
+    "days"?: number;
+    /**
+     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
+     * "day_of_next_month".
+     */
+    "type": "day_of_next_month" | (string & {});
+})
+    & (({
+    /**
+     * How issue calculates the invoice's due date in the invoice timezone. Value enum:
+     * "day_of_next_month".
+     */
+    "type": "day_of_next_month" | (string & {});
+    /**
+     * Day of the month. Later days clamp to the last day of the month. Format: int32. minimum: 1.
+     * maximum: 31.
+     */
+    "day": number;
+}));
 export type InvoicePaymentTermCalculationDayOfNextMonthPreviousAttributes = ({
     /**
      * Day of the month. Later days clamp to the last day of the month. anyOf[1] (Value): integer.
@@ -5373,164 +5594,3 @@ export type InvoiceScheduleDueWrite = ({
     | (Exclude<InvoiceScheduleDueDate & object, readonly unknown[]>)
     | (Exclude<InvoiceScheduleDueWriteInvoiceDueDate & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/** The `at_issue` variant of `InvoiceScheduleDueWrite`. */
-export type InvoiceScheduleDueWriteAtIssue = ({
-    /**
-     * Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Required
-     * for date and must be today or later. Not accepted for at_issue or invoice_due_date, which
-     * resolve when the invoice is issued. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "due_date"?: string;
-    /** How the entry's due time is set. Value enum: "at_issue". */
-    "type": "at_issue" | (string & {});
-})
-    & (({
-    /** Value enum: "at_issue". */
-    "type": "at_issue" | (string & {});
-}));
-/** The `at_issue` variant of `InvoiceScheduleDueWrite`. */
-export type InvoiceScheduleDueWriteAtIssueInput = ({
-    /**
-     * Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Required
-     * for date and must be today or later. Not accepted for at_issue or invoice_due_date, which
-     * resolve when the invoice is issued. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "due_date"?: string;
-    /** How the entry's due time is set. Value enum: "at_issue". */
-    "type": "at_issue";
-})
-    & (({
-    /** Value enum: "at_issue". */
-    "type": "at_issue";
-}) & ({
-    "due_date"?: never;
-}));
-/** The `date` variant of `InvoiceScheduleDueWrite`. */
-export type InvoiceScheduleDueWriteDateInput = ({
-    /**
-     * Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Required
-     * for date and must be today or later. Not accepted for at_issue or invoice_due_date, which
-     * resolve when the invoice is issued. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "due_date": string;
-    /** How the entry's due time is set. Value enum: "date". */
-    "type": "date";
-})
-    & ({
-    /** Value enum: "date". */
-    "type": "date";
-    /**
-     * Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Required
-     * for date and must be today or later. Not accepted for at_issue or invoice_due_date, which
-     * resolve when the invoice is issued. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "due_date": string;
-});
-/**
- * When a payment schedule entry is due, as supplied when creating or updating an invoice: at
- * issue, on a set date, or on the invoice due date.
- */
-export type InvoiceScheduleDueWriteInput = ({
-    /**
-     * Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Required
-     * for date and must be today or later. Not accepted for at_issue or invoice_due_date, which
-     * resolve when the invoice is issued. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "due_date"?: string;
-    /** How the entry's due time is set. Value enum: "at_issue", "date", "invoice_due_date". */
-    "type": "at_issue" | "date" | "invoice_due_date";
-})
-    & ((Exclude<InvoiceScheduleDueWriteAtIssueInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueWriteDateInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueWriteInvoiceDueDateInput & object, readonly unknown[]>));
-/** The `invoice_due_date` variant of `InvoiceScheduleDueWrite`. */
-export type InvoiceScheduleDueWriteInvoiceDueDate = ({
-    /**
-     * Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Required
-     * for date and must be today or later. Not accepted for at_issue or invoice_due_date, which
-     * resolve when the invoice is issued. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "due_date"?: string;
-    /** How the entry's due time is set. Value enum: "invoice_due_date". */
-    "type": "invoice_due_date" | (string & {});
-})
-    & (({
-    /** Value enum: "invoice_due_date". */
-    "type": "invoice_due_date" | (string & {});
-}));
-/** The `invoice_due_date` variant of `InvoiceScheduleDueWrite`. */
-export type InvoiceScheduleDueWriteInvoiceDueDateInput = ({
-    /**
-     * Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Required
-     * for date and must be today or later. Not accepted for at_issue or invoice_due_date, which
-     * resolve when the invoice is issued. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "due_date"?: string;
-    /** How the entry's due time is set. Value enum: "invoice_due_date". */
-    "type": "invoice_due_date";
-})
-    & (({
-    /** Value enum: "invoice_due_date". */
-    "type": "invoice_due_date";
-})
-    & ({
-    "due_date"?: never;
-}));
-/**
- * One payment on an invoice's payment schedule, such as a deposit, installment, or balance, with
- * its due time, amounts, and status.
- */
-export type InvoiceScheduleEntry = {
-    /**
-     * How the entry's amount is set: a fixed amount, a percent of the invoice total, or the
-     * remaining balance. How much a payment schedule entry collects: a fixed amount, a percentage
-     * of the invoice total, or the remaining balance.
-     */
-    "amount_specification": InvoiceScheduleAmountSpecification;
-    /**
-     * Credit note credit allocated to this entry, minus reversed allocations. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "credited_money": MoneyValue;
-    /**
-     * When the entry is due. When a payment schedule entry on an invoice is due: at issue, on a
-     * set date, or on the invoice due date.
-     */
-    "due": InvoiceScheduleDue;
-    /**
-     * Flint invoice schedule entry ID. Kept across draft edits that send it back with the entry.
-     * Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-     */
-    "invoice_schedule_entry_id": string;
-    /** The entry's role in the schedule. Value enum: "deposit", "installment", "balance". */
-    "kind": "deposit" | "installment" | "balance" | (string & {});
-    /**
-     * What is still owed on this entry, including its unpaid late fee, never below zero. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "outstanding_money": MoneyValue;
-    /**
-     * Payments applied to this entry, minus reversed payments, including payments toward its late
-     * fee. Dispute losses don't reduce it. It can exceed total_money when the entry carries a late
-     * fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "paid_money": MoneyValue;
-    /**
-     * The entry's payment status, computed when the invoice is read. It follows the entry's
-     * balance and due time, not the invoice's status. Value enum: "pending", "due",
-     * "partially_satisfied", "satisfied", "overdue", "refunded".
-     */
-    "status": "pending" | "due" | "partially_satisfied" | "satisfied" | "overdue" | "refunded" | (string & {});
-    /**
-     * The entry's share of the invoice total, resolved from amount_specification against
-     * pricing_amounts.total_money. Recomputed on draft edits and fixed at issue. Excludes late
-     * fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /**
-     * The part of this entry written off when the invoice was marked uncollectible, including its
-     * unpaid late fee. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "written_off_money": MoneyValue;
-};

@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string|\DateTimeInterface|null $blocked_since
  * @property-read string $capability
  * @property-read string $domain
  * @property-read list<ReadinessActionInput|array<array-key, mixed>|\stdClass> $next_actions
@@ -10,8 +11,14 @@ namespace Flint;
  * @property-read string $status_reason
  * Presence-aware input; omitted fields throw when accessed. */
 final class CapabilityReadinessInput extends Model {
-    /** @param array{'capability': string, 'domain': string, 'next_actions': list<ReadinessActionInput|array<array-key, mixed>|\stdClass>, 'requirements': ReadinessRequirementsInput|array<array-key, mixed>|\stdClass, 'status': string, 'status_reason'?: string, ...}|object $values */
+    /** @param array{'blocked_since'?: string|\DateTimeInterface|null, 'capability': string, 'domain': string, 'next_actions': list<ReadinessActionInput|array<array-key, mixed>|\stdClass>, 'requirements': ReadinessRequirementsInput|array<array-key, mixed>|\stdClass, 'status': string, 'status_reason'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CapabilityReadinessInput')); }
+    /** Start of the current continuous blocked period, as an RFC 3339 UTC timestamp. A change to the reason preserves the start. Flint may treat a brief unblock that it didn't publish as part of the same blocked period. Omitted when the status is not blocked or the start is unknown. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When blocked_since is omitted; use hasBlockedSince() or valueOrDefault().
+     */
+    public function getBlockedSince(): string|\DateTimeInterface|null { return $this->get('blocked_since'); }
+    public function hasBlockedSince(): bool { return $this->has('blocked_since'); }
     /** Flint-owned capability name. Payment capabilities describe transaction acceptance readiness; money movement capabilities describe payout and balance movement readiness. Value enum: "accept_card_payments", "save_payment_methods", "accept_affirm_payments", "accept_ach_debit_payments", "receive_payouts", "create_standard_payouts", "manage_payout_destinations", "manage_payout_settings".
      * @return string
      * @throws SdkError When capability is omitted; use hasCapability() or valueOrDefault().

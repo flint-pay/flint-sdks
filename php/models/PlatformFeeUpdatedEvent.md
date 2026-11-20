@@ -29,6 +29,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1).
 
+### PlatformFeeUpdatedEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### PlatformFeeUpdatedEvent.data fields 1.object
 
 Field definitions: [PlatformFeeCanceledEvent.data fields 1.object](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1object).

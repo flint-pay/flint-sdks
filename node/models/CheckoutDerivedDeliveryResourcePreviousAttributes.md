@@ -17,6 +17,7 @@
 | `evaluation_status` | Optional | string or null | How completely Flint evaluated the candidate delivery methods. Values: `"complete"`, `"incomplete"`, `"degraded"`, `"requires_explicit_quote"`. `evaluation_status`: [declared alternatives](../models/CheckoutDerivedDeliveryResourcePreviousAttributes.md#checkoutderiveddeliveryresourcepreviousattributesevaluation_status). |
 | `expires_at` | Optional | string or null | RFC3339 timestamp. `expires_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at). |
 | `input_requirements` | Optional | Array of [DeliveryInputRequirementPreviousAttributes](../models/DeliveryInputRequirementPreviousAttributes.md#deliveryinputrequirementpreviousattributes) or null | Inputs the checkout's delivery methods need. Once the checkout has a delivery quote, these are the quote's input_requirements. Before that, they come from the methods alone and name no choice group: the fields in each method's quote_input_fields, and each recipient field a method requires. `input_requirements`: [declared alternatives](../models/CheckoutDerivedDeliveryResourcePreviousAttributes.md#checkoutderiveddeliveryresourcepreviousattributesinput_requirements). |
+| `inventory_unavailable` | Optional | boolean or null | True when a required delivery group has no option and a candidate lacks the requested stock. `inventory_unavailable`: [declared alternatives](../models/CheckoutDerivedDeliveryResourcePreviousAttributes.md#checkoutderiveddeliveryresourcepreviousattributesinventory_unavailable). |
 | `merchant_diagnostics` | Optional | Array of [DeliveryMerchantDiagnosticPreviousAttributes](../models/DeliveryMerchantDiagnosticPreviousAttributes.md#deliverymerchantdiagnosticpreviousattributes) or null | Always present with an API key or dashboard credential. `merchant_diagnostics`: [declared alternatives](../models/CheckoutDerivedDeliveryResourcePreviousAttributes.md#checkoutderiveddeliveryresourcepreviousattributesmerchant_diagnostics). |
 
 ### CheckoutDerivedDeliveryResourcePreviousAttributes.buyer_reasons
@@ -106,6 +107,20 @@ anyOf variant 1: Inputs the checkout's delivery methods need. Once the checkout 
 anyOf variant 2.
 
 - Value shape: null. Inputs the checkout's delivery methods need. Once the checkout has a delivery quote, these are the quote's input_requirements. Before that, they come from the methods alone and name no choice group: the fields in each method's quote_input_fields, and each recipient field a method requires. 
+
+### CheckoutDerivedDeliveryResourcePreviousAttributes.inventory_unavailable
+
+### CheckoutDerivedDeliveryResourcePreviousAttributes.inventory_unavailable variant 1
+
+anyOf variant 1: True when a required delivery group has no option and a candidate lacks the requested stock..
+
+- Value shape: boolean. True when a required delivery group has no option and a candidate lacks the requested stock. 
+
+### CheckoutDerivedDeliveryResourcePreviousAttributes.inventory_unavailable variant 2
+
+anyOf variant 2.
+
+- Value shape: null. True when a required delivery group has no option and a candidate lacks the requested stock. 
 
 ### CheckoutDerivedDeliveryResourcePreviousAttributes.merchant_diagnostics
 

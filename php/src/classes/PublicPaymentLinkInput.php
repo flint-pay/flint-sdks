@@ -65,7 +65,7 @@ final class PublicPaymentLinkInput extends Model {
      */
     public function getDonationMinAmountMoney(): mixed { return $this->get('donation_min_amount_money'); }
     public function hasDonationMinAmountMoney(): bool { return $this->has('donation_min_amount_money'); }
-    /** Amounts a donation link offers as one-tap choices. [] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. [] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return list<MoneyValueInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When donation_suggested_amount_money_options is omitted; use hasDonationSuggestedAmountMoneyOptions() or valueOrDefault().
      */

@@ -1,3 +1,6 @@
+import type { InputValue } from '../runtime.js';
+import type { CreateDeliveryRevocationRequestInput, CreateDeliverySelectionRequestInput } from './types-9.js';
+import type { DisputesAcceptParams } from './types-26.js';
 import type {
     DeliveryAvailability,
     DeliveryAvailabilityPreviousAttributes,
@@ -6,8 +9,7 @@ import type {
     DeliveryBuyerLocationResourcePreviousAttributes,
     DeliveryBusinessDayRange,
     DeliveryBusinessDayRangePreviousAttributes,
-    DeliveryBusinessDayRangeRequestInput,
-    DeliveryCountryConditionRequestInput
+    DeliveryBusinessDayRangeRequestInput
 } from './types-18.js';
 import type { Address, AddressPreviousAttributes } from './types-0.js';
 import type {
@@ -21,29 +23,157 @@ import type {
     DeliveryPickupDetails,
     DeliveryPlan,
     DeliveryPickupDetailsPreviousAttributes,
-    DeliveryPlanPreviousAttributes,
-    DeliveryPostalCodeCondition,
-    DeliveryPostalCodeConditionPreviousAttributes,
-    DeliveryPostalCodeConditionRequestInput
+    DeliveryPlanPreviousAttributes
 } from './types-20.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { ResponseMeta } from './types-62.js';
 import type { CheckoutSession } from './types-6.js';
 import type { Order } from './types-45.js';
-import type { InputValue } from '../runtime.js';
-import type { CreateDeliverySelectionRequestInput } from './types-9.js';
-import type { DisputesAcceptParams } from './types-26.js';
 import type {
     DeliveryPricingTierBand,
     DeliveryPricingTierBandRequestInput,
     DeliveryPricingTierBandPreviousAttributes
 } from './types-21.js';
-import type {
-    DeliveryRadiusCondition,
-    DeliveryRadiusConditionPreviousAttributes,
-    DeliveryRadiusConditionRequestInput
-} from './types-22.js';
+import type { DeliveryZoneConfiguration, DeliveryZoneConfigurationPreviousAttributes } from './types-25.js';
+/** Fences one current or previous HMAC signing key of the named delivery rate callback. */
+export type DeliveryRevocationTargetDeliveryRateCallbackSigningKey = {
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. Example:
+     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id": string;
+    /**
+     * ID of the HMAC signing key to fence. It must be the named callback's current or previous
+     * key; secret material is never returned. Example: "cbkey_00112233445566778899aabb".
+     */
+    "delivery_rate_callback_signing_key_id": string;
+    /**
+     * Fences one current or previous HMAC signing key of the named delivery rate callback. Value
+     * enum: "delivery_rate_callback_signing_key".
+     */
+    "target_type": "delivery_rate_callback_signing_key" | (string & {});
+};
+/** Fences one geography version recorded by the named Location. */
+export type DeliveryRevocationTargetLocationGeography = {
+    /**
+     * Exact recorded geography version of location_id to fence. Future and unrecorded versions are
+     * not accepted. Format: int64. minimum: 1.
+     */
+    "location_geography_version": number;
+    /**
+     * ID of the Location that recorded the targeted geography version. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+    /**
+     * Fences one geography version recorded by the named Location. Value enum:
+     * "location_geography".
+     */
+    "target_type": "location_geography" | (string & {});
+};
+export type DeliveryRevocationsCreateParams = (InputValue<CreateDeliveryRevocationRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type DeliveryRevocationsGetParams = DisputesAcceptParams;
+export type DeliveryRevocationsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by revocation target type. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision". Value enum:
+     * "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision". anyOf[1][] (Value): string.
+     * Value enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision". anyOf[2] (Value): string.
+     * Value enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision".
+     */
+    "target_type"?: InputValue<("location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback_revision"
+        | "delivery_method_revision")
+        | readonly ("location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback_revision"
+        | "delivery_method_revision")[]>;
+    /**
+     * Filter by revocation reason. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "unsafe_configuration", "location_unavailable", "credential_compromise",
+     * "legal_requirement", "other". Value enum: "unsafe_configuration", "location_unavailable",
+     * "credential_compromise", "legal_requirement", "other". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "unsafe_configuration", "location_unavailable",
+     * "credential_compromise", "legal_requirement", "other". anyOf[1][] (Value): string. Value
+     * enum: "unsafe_configuration", "location_unavailable", "credential_compromise",
+     * "legal_requirement", "other". anyOf[2] (Value): string. Value enum: "unsafe_configuration",
+     * "location_unavailable", "credential_compromise", "legal_requirement", "other".
+     */
+    "reason"?: InputValue<("unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other")
+        | readonly ("unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 /** Estimate rule for a scheduled-window delivery method, defined by its `availability` schedule. */
 export type DeliveryScheduleWindowRule = {
     /**
@@ -4085,559 +4215,4 @@ export type DeliveryZoneConditionPreviousAttributes = {
      * enum: "destination_address", "buyer_location". anyOf[2] (Value): null.
      */
     "subject"?: (("destination_address" | "buyer_location" | (string & {})) | (null));
-};
-/**
- * Eligibility condition that matches when the destination or buyer location falls inside the
- * delivery zone `delivery_zone_id`.
- */
-export type DeliveryZoneConditionRequestInput = {
-    /**
-     * ID of the delivery zone the address must be inside. minLength: 1. Example:
-     * "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
-     */
-    "delivery_zone_id": string;
-    /**
-     * Address facts tested by this condition. destination_address is the shipping destination.
-     * buyer_location is the buyer's current pickup or local-delivery location. Default:
-     * "destination_address". Value enum: "destination_address", "buyer_location".
-     */
-    "subject"?: "destination_address" | "buyer_location";
-};
-/**
- * A reusable geographic predicate containing only country, state, postal_code, and radius
- * conditions.
- */
-export type DeliveryZoneConfiguration = ({
-    /**
-     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
-     * DeliveryZoneConfiguration}. A reusable geographic predicate containing only country, state,
-     * postal_code, and radius conditions.
-     */
-    "all"?: Array<DeliveryZoneConfiguration>;
-    /**
-     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
-     * {@link DeliveryZoneConfiguration}. A reusable geographic predicate containing only country,
-     * state, postal_code, and radius conditions.
-     */
-    "any"?: Array<DeliveryZoneConfiguration>;
-    /**
-     * Matches when the address is in one of the listed countries. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryStateCondition;
-    /**
-     * Matches when the nested expression does not match. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not"?: DeliveryZoneConfiguration;
-    /**
-     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
-     * condition that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeCondition;
-    /**
-     * Matches when the address is within a set distance of an origin. Eligibility condition that
-     * matches when the destination or buyer location is within `maximum_distance` of an origin,
-     * measured in a straight line.
-     */
-    "radius"?: DeliveryRadiusCondition;
-    /**
-     * Matches when the address is in one of the listed states or provinces. Eligibility condition
-     * that matches when the destination or buyer location is in one of the listed states or
-     * provinces, given as ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateCondition;
-})
-    & (({
-    /**
-     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
-     * DeliveryZoneConfiguration}. A reusable geographic predicate containing only country, state,
-     * postal_code, and radius conditions.
-     */
-    "all": Array<DeliveryZoneConfiguration>;
-})
-    | ({
-    /**
-     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
-     * {@link DeliveryZoneConfiguration}. A reusable geographic predicate containing only country,
-     * state, postal_code, and radius conditions.
-     */
-    "any": Array<DeliveryZoneConfiguration>;
-})
-    | ({
-    /**
-     * Matches when the nested expression does not match. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not": DeliveryZoneConfiguration;
-})
-    | ({
-    /**
-     * Matches when the address is in one of the listed countries. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country": DeliveryStateCondition;
-})
-    | ({
-    /**
-     * Matches when the address is in one of the listed states or provinces. Eligibility condition
-     * that matches when the destination or buyer location is in one of the listed states or
-     * provinces, given as ISO 3166-2 codes.
-     */
-    "state": DeliveryStateCondition;
-})
-    | ({
-    /**
-     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
-     * condition that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code": DeliveryPostalCodeCondition;
-})
-    | ({
-    /**
-     * Matches when the address is within a set distance of an origin. Eligibility condition that
-     * matches when the destination or buyer location is within `maximum_distance` of an origin,
-     * measured in a straight line.
-     */
-    "radius": DeliveryRadiusCondition;
-})
-    | (Record<string, unknown>));
-export type DeliveryZoneConfigurationPreviousAttributes = ({
-    /**
-     * Matches when every nested expression matches. anyOf[1] (Value): Array of {@link
-     * DeliveryZoneConfigurationPreviousAttributes}. Matches when every nested expression matches.
-     * minItems: 1. maxItems: 100. anyOf[1][] (Value): {@link
-     * DeliveryZoneConfigurationPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "all"?: ((Array<DeliveryZoneConfigurationPreviousAttributes>) | (null));
-    /**
-     * Matches when at least one nested expression matches. anyOf[1] (Value): Array of {@link
-     * DeliveryZoneConfigurationPreviousAttributes}. Matches when at least one nested expression
-     * matches. minItems: 1. maxItems: 100. anyOf[1][] (Value): {@link
-     * DeliveryZoneConfigurationPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "any"?: ((Array<DeliveryZoneConfigurationPreviousAttributes>) | (null));
-    /**
-     * Matches when the address is in one of the listed countries. anyOf[1] (Value): {@link
-     * DeliveryStateConditionPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "country"?: ((DeliveryStateConditionPreviousAttributes) | (null));
-    /**
-     * Matches when the nested expression does not match. anyOf[1] (Value): {@link
-     * DeliveryZoneConfigurationPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "not"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null));
-    /**
-     * Matches when the address postal code matches one of the listed codes. anyOf[1] (Value):
-     * {@link DeliveryPostalCodeConditionPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "postal_code"?: ((DeliveryPostalCodeConditionPreviousAttributes) | (null));
-    /**
-     * Matches when the address is within a set distance of an origin. anyOf[1] (Value): {@link
-     * DeliveryRadiusConditionPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "radius"?: ((DeliveryRadiusConditionPreviousAttributes) | (null));
-    /**
-     * Matches when the address is in one of the listed states or provinces. anyOf[1] (Value):
-     * {@link DeliveryStateConditionPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "state"?: ((DeliveryStateConditionPreviousAttributes) | (null));
-})
-    & (((unknown)
-    | (unknown)
-    | (unknown)
-    | (unknown)
-    | (unknown)
-    | (unknown)
-    | (unknown)
-    | (Record<string, unknown>)));
-/**
- * A reusable geographic predicate containing only country, state, postal_code, and radius
- * conditions.
- */
-export type DeliveryZoneConfigurationRequest = ({
-    /**
-     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
-     * DeliveryZoneConfigurationRequest}. A reusable geographic predicate containing only country,
-     * state, postal_code, and radius conditions.
-     */
-    "all"?: Array<DeliveryZoneConfigurationRequest>;
-    /**
-     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
-     * {@link DeliveryZoneConfigurationRequest}. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions.
-     */
-    "any"?: Array<DeliveryZoneConfigurationRequest>;
-    /**
-     * Matches when the address is in one of the listed countries. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryStateCondition;
-    /**
-     * Matches when the nested expression does not match. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not"?: DeliveryZoneConfigurationRequest;
-    /**
-     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
-     * condition that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeCondition;
-    /**
-     * Matches when the address is within a set distance of an origin. Eligibility condition that
-     * matches when the destination or buyer location is within `maximum_distance` of an origin,
-     * measured in a straight line.
-     */
-    "radius"?: DeliveryRadiusCondition;
-    /**
-     * Matches when the address is in one of the listed states or provinces. Eligibility condition
-     * that matches when the destination or buyer location is in one of the listed states or
-     * provinces, given as ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateCondition;
-})
-    & (({
-    /**
-     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
-     * DeliveryZoneConfigurationRequest}. A reusable geographic predicate containing only country,
-     * state, postal_code, and radius conditions.
-     */
-    "all": Array<DeliveryZoneConfigurationRequest>;
-})
-    | ({
-    /**
-     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
-     * {@link DeliveryZoneConfigurationRequest}. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions.
-     */
-    "any": Array<DeliveryZoneConfigurationRequest>;
-})
-    | ({
-    /**
-     * Matches when the nested expression does not match. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not": DeliveryZoneConfigurationRequest;
-})
-    | ({
-    /**
-     * Matches when the address is in one of the listed countries. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country": DeliveryStateCondition;
-})
-    | ({
-    /**
-     * Matches when the address is in one of the listed states or provinces. Eligibility condition
-     * that matches when the destination or buyer location is in one of the listed states or
-     * provinces, given as ISO 3166-2 codes.
-     */
-    "state": DeliveryStateCondition;
-})
-    | ({
-    /**
-     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
-     * condition that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code": DeliveryPostalCodeCondition;
-})
-    | ({
-    /**
-     * Matches when the address is within a set distance of an origin. Eligibility condition that
-     * matches when the destination or buyer location is within `maximum_distance` of an origin,
-     * measured in a straight line.
-     */
-    "radius": DeliveryRadiusCondition;
-})
-    | (Record<string, unknown>));
-/**
- * A reusable geographic predicate containing only country, state, postal_code, and radius
- * conditions.
- */
-export type DeliveryZoneConfigurationRequestInput = {
-    /**
-     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
-     * DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions.
-     */
-    "all": Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
-     * {@link DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing
-     * only country, state, postal_code, and radius conditions.
-     */
-    "any"?: Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when the address is in one of the listed countries. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryCountryConditionRequestInput;
-    /**
-     * Matches when the nested expression does not match. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not"?: DeliveryZoneConfigurationRequestInput;
-    /**
-     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
-     * condition that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeConditionRequestInput;
-    /**
-     * Matches when the address is within a set distance of an origin. Eligibility condition that
-     * matches when the destination or buyer location is within `maximum_distance` of an origin,
-     * measured in a straight line.
-     */
-    "radius"?: DeliveryRadiusConditionRequestInput;
-    /**
-     * Matches when the address is in one of the listed states or provinces. Eligibility condition
-     * that matches when the destination or buyer location is in one of the listed states or
-     * provinces, given as ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateConditionRequestInput;
-}
-    | {
-    /**
-     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
-     * DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions.
-     */
-    "all"?: Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
-     * {@link DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing
-     * only country, state, postal_code, and radius conditions.
-     */
-    "any": Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when the address is in one of the listed countries. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryCountryConditionRequestInput;
-    /**
-     * Matches when the nested expression does not match. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not"?: DeliveryZoneConfigurationRequestInput;
-    /**
-     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
-     * condition that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeConditionRequestInput;
-    /**
-     * Matches when the address is within a set distance of an origin. Eligibility condition that
-     * matches when the destination or buyer location is within `maximum_distance` of an origin,
-     * measured in a straight line.
-     */
-    "radius"?: DeliveryRadiusConditionRequestInput;
-    /**
-     * Matches when the address is in one of the listed states or provinces. Eligibility condition
-     * that matches when the destination or buyer location is in one of the listed states or
-     * provinces, given as ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateConditionRequestInput;
-}
-    | {
-    /**
-     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
-     * DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions.
-     */
-    "all"?: Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
-     * {@link DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing
-     * only country, state, postal_code, and radius conditions.
-     */
-    "any"?: Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when the address is in one of the listed countries. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryCountryConditionRequestInput;
-    /**
-     * Matches when the nested expression does not match. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not": DeliveryZoneConfigurationRequestInput;
-    /**
-     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
-     * condition that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeConditionRequestInput;
-    /**
-     * Matches when the address is within a set distance of an origin. Eligibility condition that
-     * matches when the destination or buyer location is within `maximum_distance` of an origin,
-     * measured in a straight line.
-     */
-    "radius"?: DeliveryRadiusConditionRequestInput;
-    /**
-     * Matches when the address is in one of the listed states or provinces. Eligibility condition
-     * that matches when the destination or buyer location is in one of the listed states or
-     * provinces, given as ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateConditionRequestInput;
-}
-    | {
-    /**
-     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
-     * DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions.
-     */
-    "all"?: Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
-     * {@link DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing
-     * only country, state, postal_code, and radius conditions.
-     */
-    "any"?: Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when the address is in one of the listed countries. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country": DeliveryCountryConditionRequestInput;
-    /**
-     * Matches when the nested expression does not match. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not"?: DeliveryZoneConfigurationRequestInput;
-    /**
-     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
-     * condition that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeConditionRequestInput;
-    /**
-     * Matches when the address is within a set distance of an origin. Eligibility condition that
-     * matches when the destination or buyer location is within `maximum_distance` of an origin,
-     * measured in a straight line.
-     */
-    "radius"?: DeliveryRadiusConditionRequestInput;
-    /**
-     * Matches when the address is in one of the listed states or provinces. Eligibility condition
-     * that matches when the destination or buyer location is in one of the listed states or
-     * provinces, given as ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateConditionRequestInput;
-}
-    | {
-    /**
-     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
-     * DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions.
-     */
-    "all"?: Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
-     * {@link DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing
-     * only country, state, postal_code, and radius conditions.
-     */
-    "any"?: Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when the address is in one of the listed countries. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryCountryConditionRequestInput;
-    /**
-     * Matches when the nested expression does not match. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not"?: DeliveryZoneConfigurationRequestInput;
-    /**
-     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
-     * condition that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeConditionRequestInput;
-    /**
-     * Matches when the address is within a set distance of an origin. Eligibility condition that
-     * matches when the destination or buyer location is within `maximum_distance` of an origin,
-     * measured in a straight line.
-     */
-    "radius"?: DeliveryRadiusConditionRequestInput;
-    /**
-     * Matches when the address is in one of the listed states or provinces. Eligibility condition
-     * that matches when the destination or buyer location is in one of the listed states or
-     * provinces, given as ISO 3166-2 codes.
-     */
-    "state": DeliveryStateConditionRequestInput;
-}
-    | {
-    /**
-     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
-     * DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions.
-     */
-    "all"?: Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
-     * {@link DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing
-     * only country, state, postal_code, and radius conditions.
-     */
-    "any"?: Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when the address is in one of the listed countries. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryCountryConditionRequestInput;
-    /**
-     * Matches when the nested expression does not match. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not"?: DeliveryZoneConfigurationRequestInput;
-    /**
-     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
-     * condition that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code": DeliveryPostalCodeConditionRequestInput;
-    /**
-     * Matches when the address is within a set distance of an origin. Eligibility condition that
-     * matches when the destination or buyer location is within `maximum_distance` of an origin,
-     * measured in a straight line.
-     */
-    "radius"?: DeliveryRadiusConditionRequestInput;
-    /**
-     * Matches when the address is in one of the listed states or provinces. Eligibility condition
-     * that matches when the destination or buyer location is in one of the listed states or
-     * provinces, given as ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateConditionRequestInput;
-}
-    | {
-    /**
-     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
-     * DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions.
-     */
-    "all"?: Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
-     * {@link DeliveryZoneConfigurationRequestInput}. A reusable geographic predicate containing
-     * only country, state, postal_code, and radius conditions.
-     */
-    "any"?: Array<DeliveryZoneConfigurationRequestInput>;
-    /**
-     * Matches when the address is in one of the listed countries. A delivery eligibility condition
-     * that matches when the address country is one of `values`.
-     */
-    "country"?: DeliveryCountryConditionRequestInput;
-    /**
-     * Matches when the nested expression does not match. A reusable geographic predicate
-     * containing only country, state, postal_code, and radius conditions.
-     */
-    "not"?: DeliveryZoneConfigurationRequestInput;
-    /**
-     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
-     * condition that matches the address postal code against exact or prefix `values`.
-     */
-    "postal_code"?: DeliveryPostalCodeConditionRequestInput;
-    /**
-     * Matches when the address is within a set distance of an origin. Eligibility condition that
-     * matches when the destination or buyer location is within `maximum_distance` of an origin,
-     * measured in a straight line.
-     */
-    "radius": DeliveryRadiusConditionRequestInput;
-    /**
-     * Matches when the address is in one of the listed states or provinces. Eligibility condition
-     * that matches when the destination or buyer location is in one of the listed states or
-     * provinces, given as ISO 3166-2 codes.
-     */
-    "state"?: DeliveryStateConditionRequestInput;
 };

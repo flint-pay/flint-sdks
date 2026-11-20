@@ -29,6 +29,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](CustomerDeletionRequestCompletedEvent.md#customerdeletionrequestcompletedeventdata-fields-1).
 
+### CustomerDeletionRequestProcessingEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### CustomerDeletionRequestProcessingEvent.data fields 1.object
 
 Field definitions: [CustomerDeletionRequestCompletedEvent.data fields 1.object](../models/CustomerDeletionRequestCompletedEvent.md#customerdeletionrequestcompletedeventdata-fields-1object).

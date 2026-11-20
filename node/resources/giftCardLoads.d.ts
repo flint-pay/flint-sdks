@@ -41,6 +41,8 @@ export type {
     GiftCardFundingSourceGiftCardRefundRequestInput,
     GiftCardFundingSourceGiftCardPurchaseRefundRecoveryRequestInput,
     GiftCardFundingSourceStoreCreditRequestInput,
+    GiftCardFundingDispute,
+    GiftCardFundingLossResolution,
     GiftCardFundingSource,
     GiftCardFundingSourceExternalPayment,
     GiftCardFundingSourceFlintPayment,
@@ -57,8 +59,8 @@ export type { CreateGiftCardLoadResult, CreateGiftCardLoadResultResponse, Create
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { GiftCard, GiftCardFundingDispute, GiftCardFundingLossResolution } from '../declarations/types-28.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { GiftCard } from '../declarations/types-28.js';
 export type {
     GiftCardRestriction,
     GiftCardTransaction,
@@ -83,8 +85,8 @@ export {
     makeGiftCardFundingSourceImportRequest,
     makeGiftCardFundingSourceRequest,
     makeGiftCardFundingSourceStoreCreditRequest
-} from '../declarations/types-86.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+} from '../declarations/types-87.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface GiftCardLoadsResource {
     /**
  * Adds positive value with separately recorded consideration and funding provenance. Limits apply

@@ -1,13 +1,13 @@
-import { d390 as c0 } from '../descriptors/data/23.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d10636 as c1, d10637 as c7, d10638 as c8, d10639 as c9, d10640 as c10, d10641 as c11, d10642 as c12 } from '../descriptors/data/505.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d10543 as c2, d10546 as c4, d10547 as c5, d10548 as c6 } from '../descriptors/data/499.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d10652 as c3 } from '../descriptors/data/506.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d9133 as c13 } from '../descriptors/data/414.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d390 as d390 } from '../descriptors/data/23.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d392 as c0 } from '../descriptors/data/23.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d10667 as c1, d10668 as c7, d10669 as c8, d10670 as c9, d10671 as c10, d10672 as c11, d10673 as c12 } from '../descriptors/data/506.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d10574 as c2, d10577 as c4, d10578 as c5, d10579 as c6 } from '../descriptors/data/500.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d10683 as c3 } from '../descriptors/data/507.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d9147 as c13 } from '../descriptors/data/414.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d392 as d392 } from '../descriptors/data/23.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d390;
+const read = d392;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateReturnReceiptRequest"]:c0(),["ReturnReceiptLineItemRequest"]:c1(),["ReturnSourceSystemRequest"]:c2(),["ReturnUnverifiedItem"]:c3(),["SharedCodec2673"]:c4(),["SharedCodec2674"]:c5(),["SharedCodec2675"]:c6(),["SharedCodec2747"]:c7(),["SharedCodec2748"]:c8(),["SharedCodec2749"]:c9(),["SharedCodec2754"]:c10(),["SharedCodec2755"]:c11(),["SharedCodec2756"]:c12(),["SharedCodec451"]:c13()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateReturnReceiptRequest"]:c0(),["ReturnReceiptLineItemRequest"]:c1(),["ReturnSourceSystemRequest"]:c2(),["ReturnUnverifiedItem"]:c3(),["SharedCodec2680"]:c4(),["SharedCodec2681"]:c5(),["SharedCodec2682"]:c6(),["SharedCodec2755"]:c7(),["SharedCodec2756"]:c8(),["SharedCodec2757"]:c9(),["SharedCodec2762"]:c10(),["SharedCodec2763"]:c11(),["SharedCodec2764"]:c12(),["SharedCodec451"]:c13()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateReturnReceiptRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string $key
  * @property-read int $max_quantity
  * @property-read int $max_total_quantity
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $max_unit_price_money
+ * @property-read array{'amount': string, 'currency': string}|object $max_unit_price_money
  * @property-read int $min_quantity
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $min_unit_price_money
  * @property-read string $name
@@ -25,7 +25,7 @@ namespace Flint;
  * @property-read list<string> $variant_ids
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkLineItemPatchInputCustomVariableInput extends Model {
-    /** @param array{'allow_quantity_adjustment'?: bool, 'allow_unit_price_adjustment': bool, 'bundle_id'?: string, 'default_variant_id'?: string|null, 'description'?: string, 'key'?: string, 'max_quantity'?: int, 'max_total_quantity'?: int, 'max_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'min_quantity'?: int, 'min_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'name': string, 'payment_link_line_item_id'?: string, 'product_type'?: string, 'quantity'?: int, 'suggested_unit_price_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'tax'?: OrderLineItemTaxRequestInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money'?: array{'amount': string, 'currency': string}|object, 'variant_id'?: string, 'variant_ids'?: list<string>}|object $values */
+    /** @param array{'allow_quantity_adjustment'?: bool, 'allow_unit_price_adjustment': bool, 'bundle_id'?: string, 'default_variant_id'?: string|null, 'description'?: string, 'key'?: string, 'max_quantity'?: int, 'max_total_quantity'?: int, 'max_unit_price_money'?: array{'amount': string, 'currency': string}|object, 'min_quantity'?: int, 'min_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'name': string, 'payment_link_line_item_id'?: string, 'product_type'?: string, 'quantity'?: int, 'suggested_unit_price_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'tax'?: OrderLineItemTaxRequestInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money'?: array{'amount': string, 'currency': string}|object, 'variant_id'?: string, 'variant_ids'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkLineItemPatchInputCustomVariableInput')); }
     /** Whether the buyer can change the quantity in checkout.
      * @return bool
@@ -75,11 +75,11 @@ final class PaymentLinkLineItemPatchInputCustomVariableInput extends Model {
      */
     public function getMaxTotalQuantity(): int { return $this->get('max_total_quantity'); }
     public function hasMaxTotalQuantity(): bool { return $this->has('max_total_quantity'); }
-    /** Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Must be greater than zero and greater than or equal to min_unit_price_money. Omit for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount (Required): integer string. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * @return array{'amount': string, 'currency': string}|object
      * @throws SdkError When max_unit_price_money is omitted; use hasMaxUnitPriceMoney() or valueOrDefault().
      */
-    public function getMaxUnitPriceMoney(): mixed { return $this->get('max_unit_price_money'); }
+    public function getMaxUnitPriceMoney(): array|object { return $this->get('max_unit_price_money'); }
     public function hasMaxUnitPriceMoney(): bool { return $this->has('max_unit_price_money'); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int32.
      * @return int
@@ -117,7 +117,7 @@ final class PaymentLinkLineItemPatchInputCustomVariableInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Unit prices offered as one-tap choices when the buyer sets the price. Use the same currency for the price, bounds, and suggested prices. [] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return list<MoneyValueInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When suggested_unit_price_money_options is omitted; use hasSuggestedUnitPriceMoneyOptions() or valueOrDefault().
      */
@@ -135,7 +135,7 @@ final class PaymentLinkLineItemPatchInputCustomVariableInput extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+    /** Price of one unit of a `custom_fixed` line item. amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      * @return array{'amount': string, 'currency': string}|object
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
      */

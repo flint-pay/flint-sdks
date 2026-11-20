@@ -27,6 +27,7 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `actor` | Optional | [ReturnActor](../models/ReturnActor.md#returnactor) | Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataobject). |
 | `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributes). |
 
@@ -56,6 +57,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `order_id` | Optional | string or null | The order that purchased this ticket. `order_id`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributesorder_id). |
 | `order_line_item_id` | Optional | string or null | The purchased ticket tier. `order_line_item_id`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributesorder_line_item_id). |
 | `payment_link_id` | Optional | string or null | The event payment link. `payment_link_id`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributespayment_link_id). |
+| `payment_link_line_item_key` | Optional | string or null | The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key. `payment_link_line_item_key`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributespayment_link_line_item_key). |
 | `status` | Optional | string or null | The admission lifecycle. Values: `"issued"`, `"checked_in"`, `"voided"`. `status`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Actions currently offered for this ticket. Items values: `"check_in"`, `"undo_check_in"`, `"void"`. `supported_actions`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributessupported_actions). |
 | `ticket_id` | Optional | string or null | Unique ticket identity with the tkt_ prefix. `ticket_id`: [declared alternatives](../models/TicketCheckedInInstalledMerchantsEvent.md#ticketcheckedininstalledmerchantseventdataprevious_attributesticket_id). |
@@ -180,6 +182,20 @@ anyOf variant 1: The event payment link..
 anyOf variant 2.
 
 - Value shape: null. The event payment link. 
+
+### TicketCheckedInInstalledMerchantsEvent.data.previous_attributes.payment_link_line_item_key
+
+### TicketCheckedInInstalledMerchantsEvent.data.previous_attributes.payment_link_line_item_key variant 1
+
+anyOf variant 1: The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key..
+
+- Value shape: string. The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key. 
+
+### TicketCheckedInInstalledMerchantsEvent.data.previous_attributes.payment_link_line_item_key variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key. 
 
 ### TicketCheckedInInstalledMerchantsEvent.data.previous_attributes.status
 

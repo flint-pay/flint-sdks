@@ -12,6 +12,7 @@ namespace Flint;
  * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read string $payment_link_id
+ * @property-read string $payment_link_line_item_key
  * @property-read string $status
  * @property-read list<string> $supported_actions
  * @property-read string $ticket_id
@@ -22,7 +23,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $voided_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class TicketInput extends Model {
-    /** @param array{'admission_code'?: string, 'admission_code_last4': string, 'attendee_name': string|null, 'check_in_method': string|null, 'checked_in_at': string|\DateTimeInterface|null, 'created_at': string|\DateTimeInterface, 'order'?: ExpandedOrderSummaryInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'order_line_item_id': string, 'payment_link_id': string, 'status': string, 'supported_actions': list<string>, 'ticket_id': string, 'ticket_number': string, 'tier_name'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, 'voided_at': string|\DateTimeInterface|null, ...}|object $values */
+    /** @param array{'admission_code'?: string, 'admission_code_last4': string, 'attendee_name': string|null, 'check_in_method': string|null, 'checked_in_at': string|\DateTimeInterface|null, 'created_at': string|\DateTimeInterface, 'order'?: ExpandedOrderSummaryInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'order_line_item_id': string, 'payment_link_id': string, 'payment_link_line_item_key'?: string, 'status': string, 'supported_actions': list<string>, 'ticket_id': string, 'ticket_number': string, 'tier_name'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, 'voided_at': string|\DateTimeInterface|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TicketInput')); }
     /** The ticket's 16-character Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid checkout session's own paying credential receives it, on its own order's tickets that aren't voided. A checkout credential from a launch URL a merchant reads or requests after payment never does. Returned only to the checkout credential; never in webhook payloads. minLength: 16.
      * @return string
@@ -84,6 +85,12 @@ final class TicketInput extends Model {
      */
     public function getPaymentLinkId(): string { return $this->get('payment_link_id'); }
     public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
+    /** The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key.
+     * @return string
+     * @throws SdkError When payment_link_line_item_key is omitted; use hasPaymentLinkLineItemKey() or valueOrDefault().
+     */
+    public function getPaymentLinkLineItemKey(): string { return $this->get('payment_link_line_item_key'); }
+    public function hasPaymentLinkLineItemKey(): bool { return $this->has('payment_link_line_item_key'); }
     /** The admission lifecycle. Value enum: "issued", "checked_in", "voided".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().

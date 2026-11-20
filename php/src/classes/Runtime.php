@@ -591,6 +591,9 @@ class Runtime
                 if (isset($response['phpRepresentation'])) {
                     Model::assertRepresentation($response['phpRepresentation']);
                 }
+                if (array_key_exists('phpPayloadAlternatives', $response)) {
+                    self::assertPayloadAlternatives($response['phpPayloadAlternatives']);
+                }
                 if (
                     ($response['bodyKind'] ?? null) === 'sse' &&
                     (isset($response['codec']) ||
@@ -686,6 +689,29 @@ class Runtime
     private function definitions(): array
     {
         return $this->descriptors?->definitions() ?? ($this->contract['definitions'] ?? []);
+    }
+    private static function assertPayloadAlternatives(mixed $plan): void
+    {
+        if (!is_array($plan) || !is_array($plan['codec'] ?? null)) {
+            throw new \InvalidArgumentException('Invalid PHP payload alternatives');
+        }
+        $codec = $plan['codec'];
+        Codec::assertPlan($codec, 'response.phpPayloadAlternatives');
+        $branches = $codec['exactlyOne'] ?? ($codec['some'] ?? []);
+        $models = $plan['models'] ?? null;
+        if (
+            isset($codec['tag']) ||
+            (isset($codec['exactlyOne']) && isset($codec['some'])) ||
+            count($branches) < 2 ||
+            !is_array($models) ||
+            !array_is_list($models) ||
+            count($models) !== count($branches)
+        ) {
+            throw new \InvalidArgumentException('Invalid PHP payload alternatives');
+        }
+        foreach ($models as $name) {
+            Model::assertRepresentation(['kind' => 'entity', 'name' => $name]);
+        }
     }
     private function decode(mixed $value, array $codec, array $context = []): mixed
     {
@@ -1495,10 +1521,19 @@ class Runtime
         }
         foreach (array_keys($input) as $key) {
             if ($key !== 'body' && !in_array($key, array_column($op['parameters'], 'name'), true)) {
+                $suggestion = '';
+                if ($key === 'limit') {
+                    foreach ($op['parameters'] as $parameter) {
+                        if ($parameter['in'] === 'query' && $parameter['name'] === 'page_size') {
+                            $suggestion = ' (did you mean "page_size"?)';
+                            break;
+                        }
+                    }
+                }
                 self::inputError(
                     (string) $key,
                     'UNKNOWN_FIELD',
-                    $key . ' is not a field of this input',
+                    $key . ' is not a field of this input' . $suggestion,
                 );
             }
         }
@@ -1750,6 +1785,9 @@ class Runtime
                     }
                     $responseErrorCode = 'schema_mismatch';
                     try {
+                        $alternatives = $declared['phpPayloadAlternatives'] ?? null;
+                        $branch = null;
+                        $path = $op['response']['payloadPath'] ?? '';
                         if ($binary) {
                             $responseErrorCode = 'unexpected_media_type';
                             $contentType = strtolower(
@@ -1782,12 +1820,36 @@ class Runtime
                                 $responseErrorCode = 'missing_payload';
                                 throw new \RuntimeException('Missing body');
                             }
+                            $index = null;
+                            if ($alternatives !== null) {
+                                $payload = $path === '' ? $data : self::field($data, $path);
+                                $index = Codec::responseAlternative(
+                                    $payload,
+                                    $alternatives['codec'],
+                                    $this->definitions(),
+                                );
+                            }
                             $data = Codec::plainNumbers(
                                 $this->decode($data, $declared['codec'], [
                                     'mode' => 'response',
                                     'path' => 'response',
                                 ]),
                             );
+                            if ($alternatives !== null) {
+                                $payload = $path === '' ? $data : self::field($data, $path);
+                                if (!($payload instanceof \stdClass)) {
+                                    throw new \RuntimeException(
+                                        'Expected an object response alternative',
+                                    );
+                                }
+                                if ($index !== null) {
+                                    $class = __NAMESPACE__ . '\\' . $alternatives['models'][$index];
+                                    $branch = new $class(
+                                        new DecodedResponseValue($payload),
+                                        $this->options->redactFields,
+                                    );
+                                }
+                            }
                         } elseif ($raw !== '') {
                             throw new \RuntimeException('Unexpected body for an empty response');
                         }
@@ -1810,6 +1872,7 @@ class Runtime
                                 $data,
                                 $declared['phpRepresentation'],
                                 $this->options->redactFields,
+                                decoded: $alternatives !== null,
                             );
                         } else {
                             $model = $declared['model'] ?? null;
@@ -1838,6 +1901,13 @@ class Runtime
                                 $class = __NAMESPACE__ . '\\' . $model;
                                 $data = new $class((array) $data, $this->options->redactFields);
                             }
+                        }
+                        if ($branch !== null) {
+                            $data = Model::withResponseBranch(
+                                $data,
+                                $path === '' ? [] : explode('.', $path),
+                                $branch,
+                            );
                         }
                     } catch (\Throwable $cause) {
                         throw SdkError::create(

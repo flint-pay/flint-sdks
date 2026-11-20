@@ -1,9 +1,19 @@
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type {
+    PaymentCollection,
+    PaymentErrorSummary,
+    PaymentCollectionPreviousAttributes,
+    PaymentErrorSummaryPreviousAttributes,
+    PaymentCollectionStripeElements,
+    PaymentCollectionStripeElementsPreviousAttributes
+} from './types-51.js';
 import type { BrandingSettings } from './types-1.js';
-import type { CheckoutSettings, ConfigurationVersionRequestInput } from './types-7.js';
+import type { CheckoutSettings } from './types-7.js';
 import type { CustomerAccountSettings, CustomerEmailDeliverySettings } from './types-16.js';
 import type { FulfillmentSettings } from './types-28.js';
-import type { InventorySettings } from './types-33.js';
-import type { InvoiceSettings, LegalSettings } from './types-38.js';
+import type { InventorySettings } from './types-34.js';
+import type { InvoiceSettings } from './types-38.js';
+import type { LegalSettings } from './types-39.js';
 import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-43.js';
 import type { PaymentLimitSettings } from './types-52.js';
 import type { PaymentSettings } from './types-54.js';
@@ -21,16 +31,447 @@ import type {
     ExpandedPackageSummaryPreviousAttributes
 } from './types-26.js';
 import type { ResponseMeta } from './types-62.js';
-import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput } from './types-77.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
-import type { PaymentCollectionStripeElements, PaymentCollectionStripeElementsPreviousAttributes } from './types-51.js';
+import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput, VoidShipmentRequestInput } from './types-78.js';
 import type { ReturnHandoffRequirementLineItem, ReturnHandoffRequirementLineItemPreviousAttributes } from './types-63.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { CreateShipmentRequestInput } from './types-14.js';
-import type { VoidShipmentRequestInput } from './types-78.js';
 import type { Dimensions, DimensionsRequestInput } from './types-25.js';
-import type { Weight, WeightRequestInput } from './types-79.js';
+import type { Weight, WeightRequestInput } from './types-80.js';
+import type { ConfigurationVersionRequestInput } from './types-8.js';
 import type { AcceptFulfillmentRequestInput } from './types-0.js';
+/** A resource the caller can select for a request field. */
+export type SelectableErrorResource = {
+    /**
+     * Amount for this choice when available. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /** Resource display name when available. */
+    "display_name"?: string;
+    /**
+     * Most recent payment failure when available. A summary of why a payment attempt failed, with
+     * a normalized error code, a message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /**
+     * Payment collection details when available. Client-side details for collecting payment from
+     * the buyer, such as the Stripe settings to initialize Stripe.js.
+     */
+    "payment_collection"?: PaymentCollection;
+    /**
+     * Public Flint ID to submit in the refused request field. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "resource_id": string;
+    /**
+     * Stable public resource name for this choice. Example: "order". Value enum: "api_key",
+     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
+     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
+     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_tax_exemption", "customer_verification", "delivery_choice_group",
+     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
+     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
+     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
+     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
+     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
+     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
+     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
+     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
+     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
+     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
+     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
+     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
+     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
+     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
+     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
+     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
+     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
+     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     */
+    "resource_type": "api_key"
+        | "api_request_log"
+        | "balance"
+        | "balance_transaction"
+        | "bundle"
+        | "bundle_component"
+        | "category"
+        | "checkout_session"
+        | "checkout_session_customer_verification"
+        | "credit_note"
+        | "credit_note_allocation"
+        | "custom_domain"
+        | "customer"
+        | "customer_address"
+        | "customer_deletion_request"
+        | "customer_email_preferences"
+        | "customer_session"
+        | "customer_tax_exemption"
+        | "customer_verification"
+        | "delivery_choice_group"
+        | "delivery_location_set"
+        | "delivery_method"
+        | "delivery_profile"
+        | "delivery_quote"
+        | "delivery_rate"
+        | "delivery_rate_callback"
+        | "delivery_revocation"
+        | "delivery_selection"
+        | "delivery_zone"
+        | "demo_session"
+        | "device"
+        | "discount"
+        | "dispute"
+        | "email_change_request"
+        | "environment_grant"
+        | "file"
+        | "flint_wallet"
+        | "flint_wallet_card"
+        | "fraud_warning"
+        | "fulfillment"
+        | "fulfillment_event"
+        | "fulfillment_notification"
+        | "gift_card"
+        | "gift_card_funding_disposition"
+        | "gift_card_load"
+        | "gift_card_notification"
+        | "gift_card_redemption"
+        | "gift_card_transaction"
+        | "image"
+        | "inventory_adjustment"
+        | "inventory_allocation_policy"
+        | "inventory_allocation_policy_revision"
+        | "inventory_count"
+        | "inventory_item"
+        | "inventory_level"
+        | "inventory_movement"
+        | "inventory_receipt"
+        | "inventory_reservation"
+        | "inventory_reservation_line"
+        | "inventory_transfer"
+        | "inventory_transfer_line"
+        | "invoice"
+        | "invoice_delivery_attempt"
+        | "invoice_late_fee"
+        | "invoice_line_item"
+        | "invoice_manual_payment"
+        | "invoice_payment_attempt"
+        | "invoice_payment_term"
+        | "license_key"
+        | "license_key_activation"
+        | "license_key_pool"
+        | "license_key_pool_key"
+        | "location"
+        | "merchant"
+        | "merchant_billing_balance"
+        | "merchant_billing_entry"
+        | "merchant_billing_invoice"
+        | "merchant_signup"
+        | "modifier"
+        | "modifier_group"
+        | "modifier_set"
+        | "order"
+        | "order_charge"
+        | "order_edit"
+        | "order_line_item"
+        | "order_line_item_modifier"
+        | "order_payment_attempt"
+        | "package"
+        | "package_item"
+        | "partner_app"
+        | "partner_app_credential"
+        | "partner_app_install"
+        | "payment_attempt"
+        | "payment_intent"
+        | "payment_link"
+        | "payment_link_custom_field"
+        | "payment_link_line_item"
+        | "payment_method"
+        | "payment_method_domain"
+        | "payment_review"
+        | "payment_split"
+        | "payout"
+        | "payout_destination"
+        | "payout_settings"
+        | "platform_fee"
+        | "platform_fee_balance_transaction"
+        | "platform_fee_payout"
+        | "price_list"
+        | "price_list_price"
+        | "product"
+        | "product_option"
+        | "product_option_value"
+        | "product_variant"
+        | "promotion"
+        | "promotion_code"
+        | "purchase_refund_allocation"
+        | "reader"
+        | "refund"
+        | "refund_allocation"
+        | "refund_line_item_adjustment"
+        | "remembered_buyer"
+        | "report"
+        | "report_download"
+        | "return"
+        | "return_activity"
+        | "return_disposition"
+        | "return_inspection"
+        | "return_inspection_line_item"
+        | "return_line_item"
+        | "return_policy"
+        | "return_policy_revision"
+        | "return_reason"
+        | "return_receipt"
+        | "return_receipt_line_item"
+        | "return_resolution"
+        | "risk_list"
+        | "risk_list_item"
+        | "risk_rule"
+        | "sandbox"
+        | "settings"
+        | "shipment"
+        | "subscription"
+        | "subscription_delivery_migration"
+        | "subscription_line_item"
+        | "subscription_offer"
+        | "subscription_payment_retry"
+        | "subscription_plan"
+        | "subscription_plan_line_item"
+        | "tax_calculation_callback"
+        | "tax_connection"
+        | "tax_registration"
+        | "test_clock"
+        | "ticket"
+        | "user"
+        | "webhook_delivery"
+        | "webhook_endpoint"
+        | "webhook_event"
+        | "workload_identity"
+        | (string & {});
+    /** Current public status when available. */
+    "status"?: string;
+    /**
+     * Actions offered for this resource when the request was refused. An empty array means no
+     * action is offered; an omitted field means actions were not reported. [] (Value): string.
+     */
+    "supported_actions"?: Array<string>;
+    /**
+     * Tip for this choice when available. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tip_money"?: MoneyValue;
+};
+/**
+ * A payment intent on an order the caller can pick, with its amount, status, and last payment
+ * error.
+ */
+export type SelectableOrderPaymentIntent = {
+    /**
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Most recent payment failure, when one is recorded. A summary of why a payment attempt
+     * failed, with a normalized error code, a message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /**
+     * Client setup details for collecting this payment. Client-side details for collecting payment
+     * from the buyer, such as the Stripe settings to initialize Stripe.js.
+     */
+    "payment_collection"?: PaymentCollection;
+    /** Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+    "payment_intent_id": string;
+    /**
+     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
+     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
+     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
+     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
+     * "succeeded", "expired".
+     */
+    "status": "requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {});
+    /**
+     * Portion of this payment's amount allocated to a tip. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "tip_money": MoneyValue;
+};
+export type SelectableOrderPaymentIntentPreviousAttributes = {
+    /**
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Most recent payment failure, when one is recorded. anyOf[1] (Value): {@link
+     * PaymentErrorSummaryPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
+    /**
+     * Client setup details for collecting this payment. anyOf[1] (Value): {@link
+     * PaymentCollectionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "payment_collection"?: ((PaymentCollectionPreviousAttributes) | (null));
+    /**
+     * Flint payment intent ID. anyOf[1] (Value): string. Flint payment intent ID. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+     */
+    "payment_intent_id"?: ((string) | (null));
+    /**
+     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
+     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
+     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
+     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
+     * "succeeded", "expired". anyOf[1] (Value): string. Lifecycle status. requires_payment_method
+     * covers both a new payment intent and one whose last attempt failed, so read
+     * last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes
+     * never change status. Value enum: "requires_payment_method", "requires_confirmation",
+     * "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
+     * anyOf[2] (Value): null.
+     */
+    "status"?: (("requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {}))
+        | (null));
+    /**
+     * Portion of this payment's amount allocated to a tip. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tip_money"?: ((MoneyValuePreviousAttributes) | (null));
+};
+/** An option and value chosen for a product variant, such as size Large. */
+export type SelectedProductOption = {
+    /** Identifier of the selected product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". */
+    "option_id": string;
+    /** Name of the selected product option. */
+    "option_name": string;
+    /** Identifier of the selected option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F". */
+    "option_value_id": string;
+    /** Selected value of the product option. */
+    "value": string;
+};
+export type SelectedProductOptionPreviousAttributes = {
+    /**
+     * Identifier of the selected product option. anyOf[1] (Value): string. Identifier of the
+     * selected product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". anyOf[2] (Value): null.
+     */
+    "option_id"?: ((string) | (null));
+    /**
+     * Name of the selected product option. anyOf[1] (Value): string. Name of the selected product
+     * option. anyOf[2] (Value): null.
+     */
+    "option_name"?: ((string) | (null));
+    /**
+     * Identifier of the selected option value. anyOf[1] (Value): string. Identifier of the
+     * selected option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F". anyOf[2] (Value): null.
+     */
+    "option_value_id"?: ((string) | (null));
+    /**
+     * Selected value of the product option. anyOf[1] (Value): string. Selected value of the
+     * product option. anyOf[2] (Value): null.
+     */
+    "value"?: ((string) | (null));
+};
+/**
+ * The seller's agreement to the current automatic sales tax disclosure, recorded when connect
+ * succeeds.
+ */
+export type SellerTaxAttestationRequest = {
+    /**
+     * Current disclosure version from GET /v1/tax-connection. Send only after the seller agrees to
+     * every rendered statement. minLength: 1.
+     */
+    "disclosure_version": string;
+};
+/**
+ * The seller's agreement to the current automatic sales tax disclosure, recorded when connect
+ * succeeds.
+ */
+export type SellerTaxAttestationRequestInput = SellerTaxAttestationRequest;
+/** The request body for: Send an order receipt. */
+export type SendOrderReceiptRequest = {
+    /**
+     * Receipt email, limited to 254 characters (Unicode code points) after trimming surrounding
+     * whitespace. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email.
+     * minLength: 1. maxLength: 254. Example: "buyer@example.com".
+     */
+    "email"?: string;
+};
+/** The request body for: Send an order receipt. */
+export type SendOrderReceiptRequestInput = SendOrderReceiptRequest;
+/** The request body for: Send a payment receipt. */
+export type SendPaymentIntentReceiptRequestInput = {
+    /**
+     * Email address that receives the receipt. Omit to use receipt_email, then the order's receipt
+     * address for an order-owned intent or the customer's email for a standalone intent. The local
+     * part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1.
+     * maxLength: 254. Example: "buyer@example.com".
+     */
+    "email"?: string;
+};
+/**
+ * Details of a service fulfillment: the scheduled start and end, timezone, completion time, and
+ * notes.
+ */
+export type ServiceFulfillmentDetails = {
+    /**
+     * When the service was completed, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "completed_at"?: string;
+    /** Additional instructions or notes for performing the service. */
+    "notes"?: string;
+    /**
+     * Scheduled end of the service, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "scheduled_end_at"?: string;
+    /**
+     * Scheduled start of the service, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "scheduled_start_at"?: string;
+    /** Timezone used to display the service appointment. Uses an IANA time zone name. */
+    "timezone"?: string;
+};
 export type ServiceFulfillmentDetailsPreviousAttributes = {
     /**
      * When the service was completed, in RFC3339 format. anyOf[1] (Value): string. When the
@@ -2970,8 +3411,8 @@ export type SignedMoneyRequestInput = {
      */
     "amount": `${bigint}` | bigint;
     /**
-     * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     * Example: "USD".
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
 };
@@ -3624,8 +4065,8 @@ export type SplitReversalRequest = {
      * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
      * 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string
      * (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency
-     * (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3.
-     * pattern: ^[A-Z]{3}$.
+     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
+     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      */
     "amount_money": ({
         /**
@@ -3649,8 +4090,8 @@ export type SplitReversalRequestInput = {
      * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
      * 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string
      * (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency
-     * (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3.
-     * pattern: ^[A-Z]{3}$.
+     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
+     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      */
     "amount_money": ({
         /**
@@ -3692,251 +4133,4 @@ export type StripeClientAuthority = {
      * confirm_payment authority. Value enum: "confirm_payment", "confirm_setup".
      */
     "stripe_js_call": "confirm_payment" | "confirm_setup" | (string & {});
-};
-/**
- * Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now.
- * setup_collection is guidance instead and never carries a secret.
- */
-export type StripeClientSetup = {
-    /**
-     * Stripe.js initialization context and the SetupIntent authority for saving the payment
-     * method. Stripe.js initialization context and SetupIntent setup authority.
-     */
-    "stripe"?: StripeClientSetupStripe;
-};
-/** Stripe.js initialization context and SetupIntent setup authority. */
-export type StripeClientSetupStripe = {
-    /**
-     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Example:
-     * "acct_1234567890".
-     */
-    "account_id"?: string;
-    /**
-     * Stripe publishable key for the active Flint payment mode; use this with account_id when
-     * loading Stripe.js.
-     */
-    "publishable_key"?: string;
-    /**
-     * One-time authority for the Stripe SetupIntent: its client secret and the Stripe.js call to
-     * make with it. One-time client authority for the named Stripe object. This payload always
-     * names the Stripe.js call and carries its client secret.
-     */
-    "setup_intent"?: StripeClientAuthority;
-};
-/**
- * Stripe initialization context plus one flow-specific authority object. Exactly one of
- * payment_intent, setup_intent, or terminal_payment_intent is present.
- */
-export type StripePaymentClientAction = ({
-    /**
-     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when
-     * the payment has splits: initialize Stripe.js with publishable_key alone and omit
-     * stripeAccount. The Terminal SDK ignores this field. Example: "acct_1234567890".
-     */
-    "account_id": string | null;
-    /**
-     * The collecting merchant's Stripe account for a payment on Flint's Stripe account. It
-     * identifies the settlement account, not the Stripe.js account. Do not pass it as
-     * stripeAccount or to handleNextAction.
-     */
-    "on_behalf_of"?: string;
-    /**
-     * PaymentIntent authority for an order payment authentication action. The client action for a
-     * Stripe payment intent: the client secret to pass to Stripe.js `handleNextAction`.
-     */
-    "payment_intent"?: StripeSetupIntentClientAction;
-    /**
-     * Stripe publishable key for the active Flint payment mode; use this with account_id when
-     * loading Stripe.js. The Terminal SDK ignores this field.
-     */
-    "publishable_key": string;
-    /**
-     * SetupIntent authority for a saved-payment-method authentication action. The client action
-     * for a Stripe setup intent: the client secret to pass to Stripe.js `handleNextAction`.
-     */
-    "setup_intent"?: StripeSetupIntentClientAction;
-    /**
-     * Card-present PaymentIntent authority for the Stripe Terminal SDK on a connected Tap to Pay
-     * reader. Authority to collect and confirm a card-present payment with the Stripe Terminal SDK
-     * on the connected Tap to Pay reader.
-     */
-    "terminal_payment_intent"?: StripeTerminalPaymentIntentClientAction;
-});
-export type StripePaymentClientActionPreviousAttributes = ({
-    /**
-     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when
-     * the payment has splits: initialize Stripe.js with publishable_key alone and omit
-     * stripeAccount. The Terminal SDK ignores this field. anyOf[1] (Value): string. Stripe
-     * connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the
-     * payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount.
-     * The Terminal SDK ignores this field. Example: "acct_1234567890". anyOf[2] (Value): null.
-     */
-    "account_id"?: ((string) | (null));
-    /**
-     * The collecting merchant's Stripe account for a payment on Flint's Stripe account. It
-     * identifies the settlement account, not the Stripe.js account. Do not pass it as
-     * stripeAccount or to handleNextAction. anyOf[1] (Value): string. The collecting merchant's
-     * Stripe account for a payment on Flint's Stripe account. It identifies the settlement
-     * account, not the Stripe.js account. Do not pass it as stripeAccount or to handleNextAction.
-     * anyOf[2] (Value): null.
-     */
-    "on_behalf_of"?: ((string) | (null));
-    /**
-     * PaymentIntent authority for an order payment authentication action. anyOf[1] (Value): {@link
-     * StripeSetupIntentClientActionPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "payment_intent"?: ((StripeSetupIntentClientActionPreviousAttributes) | (null));
-    /**
-     * Stripe publishable key for the active Flint payment mode; use this with account_id when
-     * loading Stripe.js. The Terminal SDK ignores this field. anyOf[1] (Value): string. Stripe
-     * publishable key for the active Flint payment mode; use this with account_id when loading
-     * Stripe.js. The Terminal SDK ignores this field. anyOf[2] (Value): null.
-     */
-    "publishable_key"?: ((string) | (null));
-    /**
-     * SetupIntent authority for a saved-payment-method authentication action. anyOf[1] (Value):
-     * {@link StripeSetupIntentClientActionPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "setup_intent"?: ((StripeSetupIntentClientActionPreviousAttributes) | (null));
-    /**
-     * Card-present PaymentIntent authority for the Stripe Terminal SDK on a connected Tap to Pay
-     * reader. anyOf[1] (Value): {@link StripeTerminalPaymentIntentClientActionPreviousAttributes}.
-     * anyOf[2] (Value): null.
-     */
-    "terminal_payment_intent"?: ((StripeTerminalPaymentIntentClientActionPreviousAttributes) | (null));
-});
-/**
- * The client action for a Stripe setup intent: the client secret to pass to Stripe.js
- * `handleNextAction`.
- */
-export type StripeSetupIntentClientAction = {
-    /** SetupIntent client secret to pass to Stripe.js handleNextAction. */
-    "client_secret": string;
-    /**
-     * Stripe.js operation to perform. Today this is handle_next_action. Value enum:
-     * "handle_next_action".
-     */
-    "stripe_js_call": "handle_next_action" | (string & {});
-};
-export type StripeSetupIntentClientActionPreviousAttributes = {
-    /**
-     * SetupIntent client secret to pass to Stripe.js handleNextAction. anyOf[1] (Value): string.
-     * SetupIntent client secret to pass to Stripe.js handleNextAction. anyOf[2] (Value): null.
-     */
-    "client_secret"?: ((string) | (null));
-    /**
-     * Stripe.js operation to perform. Today this is handle_next_action. Value enum:
-     * "handle_next_action". anyOf[1] (Value): string. Stripe.js operation to perform. Today this
-     * is handle_next_action. Value enum: "handle_next_action". anyOf[2] (Value): null.
-     */
-    "stripe_js_call"?: (("handle_next_action" | (string & {})) | (null));
-};
-/**
- * Authority to collect and confirm a card-present payment with the Stripe Terminal SDK on the
- * connected Tap to Pay reader.
- */
-export type StripeTerminalPaymentIntentClientAction = {
-    /**
-     * Card-present PaymentIntent client secret to pass to the Terminal SDK's
-     * retrievePaymentIntent, then collect and confirm on the connected Tap to Pay reader.
-     */
-    "client_secret": string;
-    /**
-     * Stripe Terminal SDK operation to perform. collect_and_confirm_payment_intent retrieves,
-     * collects, and confirms the payment. Value enum: "collect_and_confirm_payment_intent".
-     */
-    "stripe_terminal_sdk_call": "collect_and_confirm_payment_intent" | (string & {});
-};
-export type StripeTerminalPaymentIntentClientActionPreviousAttributes = {
-    /**
-     * Card-present PaymentIntent client secret to pass to the Terminal SDK's
-     * retrievePaymentIntent, then collect and confirm on the connected Tap to Pay reader. anyOf[1]
-     * (Value): string. Card-present PaymentIntent client secret to pass to the Terminal SDK's
-     * retrievePaymentIntent, then collect and confirm on the connected Tap to Pay reader. anyOf[2]
-     * (Value): null.
-     */
-    "client_secret"?: ((string) | (null));
-    /**
-     * Stripe Terminal SDK operation to perform. collect_and_confirm_payment_intent retrieves,
-     * collects, and confirms the payment. Value enum: "collect_and_confirm_payment_intent".
-     * anyOf[1] (Value): string. Stripe Terminal SDK operation to perform.
-     * collect_and_confirm_payment_intent retrieves, collects, and confirms the payment. Value
-     * enum: "collect_and_confirm_payment_intent". anyOf[2] (Value): null.
-     */
-    "stripe_terminal_sdk_call"?: (("collect_and_confirm_payment_intent" | (string & {})) | (null));
-};
-/**
- * The subscription offer and billing interval an order line was bought under, with the recurring
- * amount.
- */
-export type SubscribedLine = {
-    /**
-     * Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the
-     * pair must be one of the offer's billing interval options. Value enum: "daily", "weekly",
-     * "monthly", "yearly".
-     */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Number of billing_interval units between charges, from 1 to 365. Format: int32. */
-    "billing_interval_count": number;
-    /**
-     * Line amount for the first renewal, including modifiers and recurring discounts, before
-     * shipping and tax. Signup-only discounts are excluded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "recurring_amount_money"?: MoneyValue;
-    /**
-     * ID of the subscription offer the line was bought under. Example:
-     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
-     */
-    "subscription_offer_id": string;
-};
-export type SubscribedLinePreviousAttributes = {
-    /**
-     * Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the
-     * pair must be one of the offer's billing interval options. Value enum: "daily", "weekly",
-     * "monthly", "yearly". anyOf[1] (Value): string. Unit of the billing period the line was
-     * bought on. Sent with `billing_interval_count`, the pair must be one of the offer's billing
-     * interval options. Value enum: "daily", "weekly", "monthly", "yearly". anyOf[2] (Value):
-     * null.
-     */
-    "billing_interval"?: (("daily" | "weekly" | "monthly" | "yearly" | (string & {})) | (null));
-    /**
-     * Number of billing_interval units between charges, from 1 to 365. anyOf[1] (Value): integer.
-     * Number of billing_interval units between charges, from 1 to 365. Format: int32. anyOf[2]
-     * (Value): null.
-     */
-    "billing_interval_count"?: ((number) | (null));
-    /**
-     * Line amount for the first renewal, including modifiers and recurring discounts, before
-     * shipping and tax. Signup-only discounts are excluded. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "recurring_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * ID of the subscription offer the line was bought under. anyOf[1] (Value): string. ID of the
-     * subscription offer the line was bought under. Example: "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
-     * anyOf[2] (Value): null.
-     */
-    "subscription_offer_id"?: ((string) | (null));
-};
-/**
- * Makes an order line a subscription purchase, with the subscription offer and billing interval.
- */
-export type SubscribedLineRequest = {
-    /**
-     * Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the
-     * pair must be one of the offer's billing interval options. Value enum: "daily", "weekly",
-     * "monthly", "yearly".
-     */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Number of billing_interval units between charges, from 1 to 365. Format: int32. minimum: 1.
-     * maximum: 365.
-     */
-    "billing_interval_count": number;
-    /**
-     * Active subscription offer for this catalog variant. minLength: 1. Example:
-     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
-     */
-    "subscription_offer_id": string;
 };

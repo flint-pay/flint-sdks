@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# MerchantBillingInvoiceLineItem to OnboardingState
+# MerchantBillingBalanceListResponse to OnboardingProfile
 
+- [MerchantBillingBalanceListResponse](MerchantBillingBalanceListResponse.md)
+- [MerchantBillingBalanceResponse](MerchantBillingBalanceResponse.md)
+- [MerchantBillingBalanceUpdatedEvent](MerchantBillingBalanceUpdatedEvent.md)
+- [MerchantBillingEntry](MerchantBillingEntry.md)
+- [MerchantBillingEntryListResponse](MerchantBillingEntryListResponse.md)
+- [MerchantBillingInvoice](MerchantBillingInvoice.md)
+- [MerchantBillingInvoiceIssuedEvent](MerchantBillingInvoiceIssuedEvent.md)
 - [MerchantBillingInvoiceLineItem](MerchantBillingInvoiceLineItem.md)
 - [MerchantBillingInvoiceLineItemPreviousAttributes](MerchantBillingInvoiceLineItemPreviousAttributes.md)
 - [MerchantBillingInvoiceListResponse](MerchantBillingInvoiceListResponse.md)
@@ -29,6 +36,7 @@
 - [MerchantUpdatedMerchantEvent](MerchantUpdatedMerchantEvent.md)
 - [MerchantWebhookEnvelope](MerchantWebhookEnvelope.md)
 - [MetadataMap](MetadataMap.md)
+- [MetadataMapInput](MetadataMapInput.md)
 - [MetadataPatchRequest](MetadataPatchRequest.md)
 - [MetadataPatchRequestInput](MetadataPatchRequestInput.md)
 - [MetadataRequestInput](MetadataRequestInput.md)
@@ -94,12 +102,4 @@
 - [OnboardingAdvanceRequest](OnboardingAdvanceRequest.md)
 - [OnboardingAdvanceRequestInput](OnboardingAdvanceRequestInput.md)
 - [OnboardingProfile](OnboardingProfile.md)
-- [OnboardingProfileRequest](OnboardingProfileRequest.md)
-- [OnboardingProfileRequestInput](OnboardingProfileRequestInput.md)
-- [OnboardingSessionAuthContext](OnboardingSessionAuthContext.md)
-- [OnboardingStartRequest](OnboardingStartRequest.md)
-- [OnboardingStartRequestInput](OnboardingStartRequestInput.md)
-- [OnboardingStartResponse](OnboardingStartResponse.md)
-- [OnboardingStartResult](OnboardingStartResult.md)
-- [OnboardingState](OnboardingState.md)
 

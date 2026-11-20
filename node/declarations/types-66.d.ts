@@ -1,61 +1,487 @@
+import type { InputValue } from '../runtime.js';
+import type { ReleaseReturnResolutionRequestInput, ReopenReturnRequestInput } from './types-61.js';
 import type {
-    ExpandedCustomerSummary,
-    ExpandedCustomerSummaryPreviousAttributes,
-    ExpandedOrderSummary,
-    ExpandedOrderSummaryPreviousAttributes,
-    ExpandedShipmentSummary,
-    ExpandedShipmentSummaryPreviousAttributes,
-    DisputesAcceptParams
-} from './types-26.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
-import type {
+    RetryReturnResolutionRequestInput,
     ReturnActor,
     ReturnActorPreviousAttributes,
-    ReturnCompletionBlocker,
-    ReturnCompletionBlockerPreviousAttributes,
     ResponseMeta,
     ResourceReference
 } from './types-62.js';
 import type {
-    ReturnDispositionPreviousAttributes,
+    UpdateReturnResolutionRequestInput,
+    WaiveReturnLineInspectionRequestInput,
+    UpdateRiskListRequestInput
+} from './types-78.js';
+import type {
+    ExpandedCustomerSummary,
+    ExpandedOrderSummary,
+    ExpandedCustomerSummaryPreviousAttributes,
+    ExpandedOrderSummaryPreviousAttributes,
+    DisputesAcceptParams
+} from './types-26.js';
+import type { ExpandedShipmentSummary, ExpandedShipmentSummaryPreviousAttributes, FilesCompleteParams } from './types-27.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
+import type {
+    ReturnCompletionBlocker,
+    ReturnDisposition,
     ReturnFinancialSummary,
-    ReturnFinancialSummaryPreviousAttributes,
     ReturnHandoffRequirement,
+    ReturnInspection,
+    ReturnCompletionBlockerPreviousAttributes,
+    ReturnDispositionPreviousAttributes,
+    ReturnFinancialSummaryPreviousAttributes,
     ReturnHandoffRequirementPreviousAttributes,
-    ReturnInspectionPreviousAttributes,
-    ReturnLineItemPreviousAttributes
+    ReturnInspectionPreviousAttributes
 } from './types-63.js';
 import type {
+    ReturnLineItem,
     ReturnPolicyEvaluation,
-    ReturnPolicyEvaluationPreviousAttributes,
-    ReturnReceiptPreviousAttributes
+    ReturnReceipt,
+    ReturnLineItemPreviousAttributes,
+    ReturnPolicyEvaluationPreviousAttributes
 } from './types-64.js';
-import type { ReturnResolutionPreviousAttributes } from './types-65.js';
+import type { ReturnResolution, ReturnReceiptPreviousAttributes, ReturnResolutionPreviousAttributes } from './types-65.js';
+import type { MoneyValue, MoneyValueInput } from './types-44.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 import type {
     WebhookSnapshotReturnDisposition,
     WebhookSnapshotReturnInspection,
     WebhookSnapshotReturnLineItem,
-    WebhookSnapshotReturnReceipt,
-    WebhookSnapshotReturnResolution
+    WebhookSnapshotReturnReceipt
 } from './types-79.js';
-import type { InputValue } from '../runtime.js';
+import type { WebhookSnapshotReturnResolution } from './types-80.js';
 import type { CancelReturnLineItemRequestInput, CancelReturnRequestInput } from './types-5.js';
 import type { CompleteReturnRequestInput } from './types-7.js';
-import type { FilesCompleteParams } from './types-27.js';
 import type { AddReturnLineItemRequestInput, AddRiskListItemsRequestInput } from './types-0.js';
 import type { CreateReturnRequestInput, CreateRiskListRequestInput } from './types-13.js';
 import type { DecideReturnRequestInput } from './types-17.js';
-import type { ProcessExistingReturnRequestInput } from './types-56.js';
-import type { ReopenReturnRequestInput } from './types-61.js';
-import type { UpdateReturnLineItemRequestInput, UpdateReturnRequestInput, UpdateRiskListRequestInput } from './types-77.js';
-import type { WaiveReturnLineInspectionRequestInput } from './types-78.js';
+import type { ProcessExistingReturnRequestInput } from './types-57.js';
+import type { UpdateReturnLineItemRequestInput, UpdateReturnRequestInput } from './types-77.js';
 import type {
+    RiskPredicateNodeAny,
+    RiskPredicateNodeComparison,
+    RiskPredicateNodeIn,
+    RiskPredicateNodeInList,
+    RiskPredicateNodeIsMissing,
     RiskPredicateNodeMoneyComparison,
     RiskPredicateNodeNot,
-    RiskPredicateNodeRequest,
-    RiskPredicateNodeRequestInput
+    RiskPredicateNodeRequest
 } from './types-67.js';
+export type ReturnResolutionsReleaseParams = (InputValue<ReleaseReturnResolutionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnResolutionsRetryParams = (InputValue<RetryReturnResolutionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnResolutionsUpdateParams = (InputValue<UpdateReturnResolutionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** A request to send purchased items back. */
+export type ReturnResource = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "canceled_at"?: string;
+    /**
+     * Who canceled the Return. Who performed a return action: a buyer, merchant, integration, or
+     * the system, with an optional ID.
+     */
+    "canceled_by"?: ReturnActor;
+    /**
+     * Why the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate",
+     * "expired", "created_in_error", "other".
+     */
+    "cancellation_reason"?: "buyer_request"
+        | "merchant_request"
+        | "duplicate"
+        | "expired"
+        | "created_in_error"
+        | "other"
+        | (string & {});
+    /** Detail sent with the cancellation. Merchant reads only. */
+    "cancellation_reason_message"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "completed_at"?: string;
+    /**
+     * Who completed the Return. `system` when Flint completed it automatically. Who performed a
+     * return action: a buyer, merchant, integration, or the system, with an optional ID.
+     */
+    "completed_by"?: ReturnActor;
+    /**
+     * What is still owed before the Return can complete. Empty when nothing is. [] (Value): {@link
+     * ReturnCompletionBlocker}. Something still owed before a return can complete, with the return
+     * line or record it concerns.
+     */
+    "completion_blockers": Array<ReturnCompletionBlocker>;
+    /**
+     * automatic completes the Return when the last completion blocker clears; manual waits for
+     * POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic".
+     */
+    "completion_mode"?: "manual" | "automatic" | (string & {});
+    /**
+     * Why the Return was completed by hand. Absent when Flint completed it automatically. Value
+     * enum: "manual_completion", "exception_waived", "other".
+     */
+    "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
+    /** Detail sent when the Return was completed by hand. */
+    "completion_reason_message"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
+     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
+     */
+    "customer"?: ((ExpandedCustomerSummary) | (null));
+    /** The customer the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "decision_at"?: string;
+    /**
+     * Whether the requested units were approved. `pending` until one decision covers every line.
+     * Value enum: "pending", "approved", "partially_approved", "declined".
+     */
+    "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The Return's money in one place: the value of the returned lines, deductions and credits,
+     * and what has been refunded or collected. The money for a return: returned value, deductions,
+     * credits, replacement total, and amounts due to or from the buyer.
+     */
+    "financial_summary": ReturnFinancialSummary;
+    /**
+     * What the buyer still has to send back and where. Each entry leaves the list once it is
+     * satisfied, so an empty list means nothing is waiting on the buyer. [] (Value): {@link
+     * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination,
+     * instructions, line items, and expiry.
+     */
+    "handoff_requirements": Array<ReturnHandoffRequirement>;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. Buyer routes return only keys
+     * from the buyer's namespace.
+     */
+    "idempotency_key": string | null;
+    /**
+     * Who created the Return: buyer for a customer session on /v1/me or Flint's hosted account,
+     * merchant for a Dashboard user, integration for an API key or partner app, or system for
+     * Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration",
+     * "system".
+     */
+    "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
+    /**
+     * The lines being returned. [] (Value): {@link ReturnLineItem}. An item included in a return
+     * request.
+     */
+    "line_items": Array<ReturnLineItem>;
+    /**
+     * On the Return, the least-finished line's value. Value enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception".
+     */
+    "merchandise_status": "not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception"
+        | (string & {});
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata": MetadataMap;
+    /**
+     * Present only when `expand` includes `order`; `null` when expanded and there is no related
+     * order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+     * status, payment and refund status, and pricing and settlement amounts, returned when the
+     * order is expanded. anyOf[2] (Value): null.
+     */
+    "order"?: ((ExpandedOrderSummary) | (null));
+    /** ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /**
+     * How your return policies judged the request when the Return was created. How a return policy
+     * evaluated a return request: overall status and reason, the policy revision used, and
+     * per-line results.
+     */
+    "policy_evaluation"?: ReturnPolicyEvaluation;
+    /**
+     * Whether the buyer has received the value they are owed. Combines the Return's resolutions
+     * and its unsettled corrections. Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed".
+     */
+    "resolution_status": "not_selected"
+        | "pending"
+        | "partially_completed"
+        | "requires_action"
+        | "completed"
+        | "failed"
+        | (string & {});
+    /**
+     * IDs of every disposition recorded for this Return, oldest first, including failed and
+     * canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read
+     * them inline. [] (Value): string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "return_disposition_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `return_dispositions`. The dispositions in
+     * `return_disposition_ids`, in the same order. [] (Value): {@link ReturnDisposition}. A
+     * decision about how returned merchandise will be handled.
+     */
+    "return_dispositions"?: Array<ReturnDisposition>;
+    /**
+     * Unique identifier for this return, prefixed `ret_`. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * IDs of every inspection recorded for this Return, oldest first, including superseded
+     * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them
+     * inline. [] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     */
+    "return_inspection_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `return_inspections`. The inspections in
+     * `return_inspection_ids`, in the same order. [] (Value): {@link ReturnInspection}. An
+     * assessment of the condition of returned items.
+     */
+    "return_inspections"?: Array<ReturnInspection>;
+    /** Human-readable number for the Return. */
+    "return_number": string;
+    /**
+     * IDs of every receipt recorded for this Return, oldest first, including superseded receipts.
+     * Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline. [] (Value):
+     * string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     */
+    "return_receipt_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`,
+     * in the same order. [] (Value): {@link ReturnReceipt}. A record of returned items arriving at
+     * a location.
+     */
+    "return_receipts"?: Array<ReturnReceipt>;
+    /**
+     * IDs of every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. [] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `return_resolutions`. The resolutions in
+     * `return_resolution_ids`, in the same order. [] (Value): {@link ReturnResolution}. The
+     * refund, exchange, or other outcome of a return.
+     */
+    "return_resolutions"?: Array<ReturnResolution>;
+    /**
+     * IDs of every shipment raised to send this Return's items back, oldest first, including
+     * voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * [] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+     */
+    "shipment_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `shipments`. Summaries of the shipments in
+     * `shipment_ids`, in the same order. [] (Value): {@link ExpandedShipmentSummary}. A shipment's
+     * summary fields, including direction, status, and package count, returned when the shipment
+     * is expanded.
+     */
+    "shipments"?: Array<ExpandedShipmentSummary>;
+    /**
+     * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+     * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+     * "declined", "canceled".
+     */
+    "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+    /**
+     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
+     * left out. A Return waiting for a decision lists `decide` and `cancel`. An open Return lists
+     * `cancel` only while no units have been received, inspected, dispositioned, or resolved, and
+     * it has no current receipts or inspections, non-canceled dispositions or resolutions, or
+     * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
+     * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or canceled
+     * Return lists none. [] enum: "cancel", "complete", "decide", "process", "reopen". [] (Value):
+     * string. Value enum: "cancel", "complete", "decide", "process", "reopen".
+     */
+    "supported_actions": Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Goes up with every change to the Return. Each activity's `return_version` is the version
+     * that activity produced. A write that takes `expected_version` or `expected_return_version`
+     * for this Return compares it with this value. Format: int64. minimum: 0.
+     */
+    "version": number;
+};
+/** A restocking fee in a return policy, charged as a flat amount or a percent. */
+export type ReturnRestockingFeePolicy = {
+    /** How the fee is worked out. Value enum: "flat", "percent". */
+    "calculation_type": "flat" | "percent" | (string & {});
+    /**
+     * Fixed fee proposed for each line, whatever the quantity. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValue;
+    /**
+     * Percentage points of the returned units' subtotal, from 1 through 100 with at most four
+     * decimal places on every revision. `10` means 10%. Format: double. minimum: 1. maximum: 100.
+     * multipleOf: 0.0001.
+     */
+    "percent"?: number;
+};
+/** A restocking fee in a return policy, charged as a flat amount or a percent. */
+export type ReturnRestockingFeePolicyRequestInput = {
+    /** How the fee is worked out. Value enum: "flat", "percent". */
+    "calculation_type": "flat" | "percent";
+    /**
+     * Fixed fee proposed for each line, whatever the quantity. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValueInput;
+    /**
+     * Percentage points of the returned units' subtotal, from 1 through 100 with at most four
+     * decimal places on every revision. `10` means 10%. Format: double. minimum: 1. maximum: 100.
+     * multipleOf: 0.0001.
+     */
+    "percent"?: number;
+};
+/**
+ * A Return line and the quantity to place in a return shipment or package. The enclosing Return or
+ * shipment determines its parent.
+ */
+export type ReturnShipmentLineItemAllocationRequestInput = {
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Return line whose quantity is allocated to the shipment or package. minLength: 1. Example:
+     * "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+};
+/** Who pays for return shipping in a return policy: the merchant or the buyer. */
+export type ReturnShippingPolicy = {
+    /**
+     * Who pays for shipping the goods back. This states your policy and charges nothing. Value
+     * enum: "merchant", "buyer".
+     */
+    "payer": "merchant" | "buyer" | (string & {});
+};
+/** Who pays for return shipping in a return policy: the merchant or the buyer. */
+export type ReturnShippingPolicyRequestInput = {
+    /**
+     * Who pays for shipping the goods back. This states your policy and charges nothing. Value
+     * enum: "merchant", "buyer".
+     */
+    "payer": "merchant" | "buyer";
+};
+/**
+ * The system a return event came from, such as a point of sale or warehouse system, with its own
+ * identifier.
+ */
+export type ReturnSourceSystem = ({
+    /**
+     * Your source system's identifier. Required when source_system_type is pos, wms, erp, or
+     * other; not allowed when source_system_type is manual. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_source_id"?: string;
+    /**
+     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
+     * management system, erp for an enterprise resource planning system, or other for another
+     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
+     * "wms", "erp", "other", "flint".
+     */
+    "source_system_type": "manual" | "pos" | "wms" | "erp" | "other" | "flint" | (string & {});
+});
+export type ReturnSourceSystemPreviousAttributes = ({
+    /**
+     * Your source system's identifier. Required when source_system_type is pos, wms, erp, or
+     * other; not allowed when source_system_type is manual. Don't put secrets in this field.
+     * anyOf[1] (Value): string. Your source system's identifier. Required when source_system_type
+     * is pos, wms, erp, or other; not allowed when source_system_type is manual. Don't put secrets
+     * in this field. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value):
+     * null.
+     */
+    "external_source_id"?: ((string) | (null));
+    /**
+     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
+     * management system, erp for an enterprise resource planning system, or other for another
+     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
+     * "wms", "erp", "other", "flint". anyOf[1] (Value): string. Source of the event: manual for a
+     * manual entry, pos for a point of sale, wms for a warehouse management system, erp for an
+     * enterprise resource planning system, or other for another external system. Flint-authored
+     * events use flint in responses. Value enum: "manual", "pos", "wms", "erp", "other", "flint".
+     * anyOf[2] (Value): null.
+     */
+    "source_system_type"?: (("manual" | "pos" | "wms" | "erp" | "other" | "flint" | (string & {})) | (null));
+});
 /**
  * The system a return event came from, such as a point of sale or warehouse system, with its own
  * identifier.
@@ -4547,142 +4973,4 @@ export type RiskPredicateNodeAllRequest = {
      * an `all`, `any`, or `not` group of other nodes.
      */
     "all": Array<RiskPredicateNodeRequest>;
-};
-/** The `All` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeAllRequestInput = {
-    /**
-     * Predicates that must all match. minItems: 1. maxItems: 50. [] (Value): {@link
-     * RiskPredicateNodeRequestInput}. A node in a risk rule condition: a comparison of an
-     * attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "all": Array<RiskPredicateNodeRequestInput>;
-};
-/** The `Any` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeAny = {
-    /**
-     * Predicates of which at least one must match. minItems: 1. maxItems: 50. [] (Value): {@link
-     * RiskPredicateNode}. A node in a risk rule condition: a comparison of an attribute, or an
-     * `all`, `any`, or `not` group of other nodes.
-     */
-    "any": Array<RiskPredicateNode>;
-};
-/** The `Any` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeAnyRequest = {
-    /**
-     * Predicates of which at least one must match. minItems: 1. maxItems: 50. [] (Value): {@link
-     * RiskPredicateNodeRequest}. A node in a risk rule condition: a comparison of an attribute, or
-     * an `all`, `any`, or `not` group of other nodes.
-     */
-    "any": Array<RiskPredicateNodeRequest>;
-};
-/** The `Any` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeAnyRequestInput = {
-    /**
-     * Predicates of which at least one must match. minItems: 1. maxItems: 50. [] (Value): {@link
-     * RiskPredicateNodeRequestInput}. A node in a risk rule condition: a comparison of an
-     * attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "any": Array<RiskPredicateNodeRequestInput>;
-};
-/** The `Comparison` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeComparison = {
-    /**
-     * The payment attribute to test. Read the attribute registry for the names a rule can use.
-     * minLength: 1. maxLength: 280.
-     */
-    "attribute": string;
-    /** How the attribute is compared. Value enum: "eq", "neq", "gt", "gte", "lt", "lte". */
-    "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte" | (string & {});
-    /**
-     * The value to compare with. oneOf[1] (Value): string. minLength: 1. oneOf[2] (Value):
-     * integer. oneOf[3] (Value): boolean.
-     */
-    "value": ((string) | (number) | (boolean) | (unknown));
-};
-/** The `Comparison` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeComparisonRequestInput = {
-    /**
-     * The payment attribute to test. Read the attribute registry for the names a rule can use.
-     * minLength: 1. maxLength: 280.
-     */
-    "attribute": string;
-    /** How the attribute is compared. Value enum: "eq", "neq", "gt", "gte", "lt", "lte". */
-    "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte";
-    /**
-     * The value to compare with. oneOf[1] (Value): string. minLength: 1. oneOf[2] (Value):
-     * integer. oneOf[3] (Value): boolean.
-     */
-    "value": ((string) | (number) | (boolean));
-};
-/** The `In` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeIn = {
-    /**
-     * The payment attribute to test. Read the attribute registry for the names a rule can use.
-     * minLength: 1. maxLength: 280.
-     */
-    "attribute": string;
-    /** How the attribute is compared. Value enum: "in". */
-    "operator": "in" | (string & {});
-    /**
-     * The values to compare with. The predicate matches when the attribute equals any of them.
-     * minItems: 1. maxItems: 100. [] (Value): string or integer or boolean. [].oneOf[1] (Value):
-     * string. minLength: 1. [].oneOf[2] (Value): integer. [].oneOf[3] (Value): boolean.
-     */
-    "values": Array<((string) | (number) | (boolean) | (unknown))>;
-};
-/** The `In list` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeInList = {
-    /**
-     * The payment attribute to test. Read the attribute registry for the names a rule can use.
-     * minLength: 1. maxLength: 280.
-     */
-    "attribute": string;
-    /**
-     * Alias of the risk list to look the attribute's value up in. minLength: 1. pattern:
-     * ^[a-z][a-z0-9_]{0,127}$.
-     */
-    "list_alias": string;
-    /** How the attribute is compared. Value enum: "in_list". */
-    "operator": "in_list" | (string & {});
-};
-/** The `In list` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeInListRequestInput = {
-    /**
-     * The payment attribute to test. Read the attribute registry for the names a rule can use.
-     * minLength: 1. maxLength: 280.
-     */
-    "attribute": string;
-    /**
-     * Alias of the risk list to look the attribute's value up in. minLength: 1. pattern:
-     * ^[a-z][a-z0-9_]{0,127}$.
-     */
-    "list_alias": string;
-    /** How the attribute is compared. Value enum: "in_list". */
-    "operator": "in_list";
-};
-/** The `In` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeInRequestInput = {
-    /**
-     * The payment attribute to test. Read the attribute registry for the names a rule can use.
-     * minLength: 1. maxLength: 280.
-     */
-    "attribute": string;
-    /** How the attribute is compared. Value enum: "in". */
-    "operator": "in";
-    /**
-     * The values to compare with. The predicate matches when the attribute equals any of them.
-     * minItems: 1. maxItems: 100. [] (Value): string or integer or boolean. [].oneOf[1] (Value):
-     * string. minLength: 1. [].oneOf[2] (Value): integer. [].oneOf[3] (Value): boolean.
-     */
-    "values": Array<((string) | (number) | (boolean))>;
-};
-/** The `Is missing` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeIsMissing = {
-    /**
-     * The payment attribute to test. Read the attribute registry for the names a rule can use.
-     * minLength: 1. maxLength: 280.
-     */
-    "attribute": string;
-    /** How the attribute is compared. Value enum: "is_missing". */
-    "operator": "is_missing" | (string & {});
 };

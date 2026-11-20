@@ -8,9 +8,9 @@ namespace Flint;
  * @property-read PaymentLinkCustomTextConfigInput|array<array-key, mixed>|\stdClass $custom_text
  * @property-read list<string> $delivery_method_ids
  * @property-read string $description
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $donation_max_amount_money
+ * @property-read array{'amount': string, 'currency': string}|object $donation_max_amount_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $donation_min_amount_money
- * @property-read list<MoneyValueInput|array<array-key, mixed>|\stdClass> $donation_suggested_amount_money_options
+ * @property-read list<array{'amount': string, 'currency': string}|object> $donation_suggested_amount_money_options
  * @property-read PaymentLinkEventConfigRequestInput|array<array-key, mixed>|\stdClass $event_config
  * @property-read string $external_reference_id
  * @property-read ImageRequestInput|array<array-key, mixed>|\stdClass $image
@@ -33,7 +33,7 @@ namespace Flint;
  * @property-read CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass $tip
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreatePaymentLinkRequestInput extends Model {
-    /** @param array{'buyer_fields'?: CheckoutBuyerFieldsRequestInput|array<array-key, mixed>|\stdClass, 'checkout_session_expires_in_seconds'?: int, 'custom_fields'?: list<PaymentLinkCustomFieldRequestInput|array<array-key, mixed>|\stdClass>, 'custom_text'?: PaymentLinkCustomTextConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids'?: list<string>, 'description'?: string, 'donation_max_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'donation_min_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'donation_suggested_amount_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'event_config'?: PaymentLinkEventConfigRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'image'?: ImageRequestInput|array<array-key, mixed>|\stdClass, 'inactive_message'?: string, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'legal'?: PaymentLinkLegalConfigInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<PaymentLinkLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'max_completions'?: int, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'payment_link_type'?: string, 'payments'?: PaymentLinkPaymentConfigInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'sales_end_at'?: string|\DateTimeInterface, 'sales_start_at'?: string|\DateTimeInterface, 'subscription_plan_id'?: string, 'tax'?: CheckoutTaxConfigRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: PaymentLinkThemeConfigInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'buyer_fields'?: CheckoutBuyerFieldsRequestInput|array<array-key, mixed>|\stdClass, 'checkout_session_expires_in_seconds'?: int, 'custom_fields'?: list<PaymentLinkCustomFieldRequestInput|array<array-key, mixed>|\stdClass>, 'custom_text'?: PaymentLinkCustomTextConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids'?: list<string>, 'description'?: string, 'donation_max_amount_money'?: array{'amount': string, 'currency': string}|object, 'donation_min_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'donation_suggested_amount_money_options'?: list<array{'amount': string, 'currency': string}|object>, 'event_config'?: PaymentLinkEventConfigRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'image'?: ImageRequestInput|array<array-key, mixed>|\stdClass, 'inactive_message'?: string, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'legal'?: PaymentLinkLegalConfigInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<PaymentLinkLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'max_completions'?: int, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'payment_link_type'?: string, 'payments'?: PaymentLinkPaymentConfigInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'sales_end_at'?: string|\DateTimeInterface, 'sales_start_at'?: string|\DateTimeInterface, 'subscription_plan_id'?: string, 'tax'?: CheckoutTaxConfigRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: PaymentLinkThemeConfigInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePaymentLinkRequestInput')); }
     /** What checkout asks the buyer for. Each field you leave out uses your checkout settings.
      * @return CheckoutBuyerFieldsRequestInput|array<array-key, mixed>|\stdClass
@@ -71,11 +71,11 @@ final class CreatePaymentLinkRequestInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** Largest amount a buyer can give on a donation link. Must be greater than zero and greater than or equal to donation_min_amount_money. Omit on create for no maximum. amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * @return array{'amount': string, 'currency': string}|object
      * @throws SdkError When donation_max_amount_money is omitted; use hasDonationMaxAmountMoney() or valueOrDefault().
      */
-    public function getDonationMaxAmountMoney(): mixed { return $this->get('donation_max_amount_money'); }
+    public function getDonationMaxAmountMoney(): array|object { return $this->get('donation_max_amount_money'); }
     public function hasDonationMaxAmountMoney(): bool { return $this->has('donation_max_amount_money'); }
     /** Smallest amount a buyer can give on a donation link. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -83,8 +83,8 @@ final class CreatePaymentLinkRequestInput extends Model {
      */
     public function getDonationMinAmountMoney(): mixed { return $this->get('donation_min_amount_money'); }
     public function hasDonationMinAmountMoney(): bool { return $this->has('donation_min_amount_money'); }
-    /** Amounts a donation link offers as one-tap choices. [] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return list<MoneyValueInput|array<array-key, mixed>|\stdClass>
+    /** Amounts a donation link offers as one-tap choices. Use the same currency for all suggested amounts and both bounds. [] (Value): object. [].amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. [].currency (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * @return list<array{'amount': string, 'currency': string}|object>
      * @throws SdkError When donation_suggested_amount_money_options is omitted; use hasDonationSuggestedAmountMoneyOptions() or valueOrDefault().
      */
     public function getDonationSuggestedAmountMoneyOptions(): array { return $this->get('donation_suggested_amount_money_options'); }

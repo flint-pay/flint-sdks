@@ -27,9 +27,9 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `actor` | Optional | [ReturnActorInput](../models/ReturnActorInput.md#returnactorinput) | Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. |
 | `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields. `object`: [field definitions](../models/SubscriptionActivatedInstalledMerchantsEventInput.md#subscriptionactivatedinstalledmerchantseventinputdataobject). |
 | `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. `previous_attributes`: [field definitions](../models/SubscriptionActivatedInstalledMerchantsEventInput.md#subscriptionactivatedinstalledmerchantseventinputdataprevious_attributes). |
-| `actor` | Optional | [ReturnActorInput](../models/ReturnActorInput.md#returnactorinput) | Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. |
 
 ### SubscriptionActivatedInstalledMerchantsEventInput.data.object
 
@@ -88,6 +88,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `pause_reason` | Optional | string or null | Why the subscription is paused: merchant for a pause made with your API key or dashboard, buyer for the buyer's own pause, delivery_action_required for a pause during or after a delivery hold, and payment_failed when renewal payment retries ran out and your dunning settings pause the subscription. Omitted when the subscription is not paused. Values: `"buyer"`, `"delivery_action_required"`, `"merchant"`, `"payment_failed"`. `pause_reason`: [declared alternatives](../models/SubscriptionActivatedInstalledMerchantsEventInput.md#subscriptionactivatedinstalledmerchantseventinputdataprevious_attributespause_reason). |
 | `paused_at` | Optional | string or null | RFC3339 timestamp. `paused_at`: [declared alternatives](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at). |
 | `paused_delivery_hold` | Optional | [SubscriptionPausedDeliveryHoldPreviousAttributesInput](../models/SubscriptionPausedDeliveryHoldPreviousAttributesInput.md#subscriptionpauseddeliveryholdpreviousattributesinput) or null | The delivery hold that expired and paused the subscription. Null when no stored expiry reason exists, including a manual pause during an active hold, or the subscription is no longer paused for delivery action. |
+| `payment_link_id` | Optional | string or null | The payment link that started this subscription, when there was one. `payment_link_id`: [declared alternatives](../models/SubscriptionActivatedInstalledMerchantsEventInput.md#subscriptionactivatedinstalledmerchantseventinputdataprevious_attributespayment_link_id). |
 | `payment_method` | Optional | [ExpandedPaymentMethodSummaryPreviousAttributesInput](../models/ExpandedPaymentMethodSummaryPreviousAttributesInput.md#expandedpaymentmethodsummarypreviousattributesinput) or null | Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. |
 | `payment_method_due_at` | Optional | string or null | First charge boundary while no card is bound: the later of trial_end_at and next_billing_at during a trial, or the next billing date for an imported period, even when that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a card at its boundary cancels without an order or payment attempt. At that boundary, an imported subscription with a positive charge that still has no card enters its normal dunning schedule without a payment attempt. For an imported subscription, a zero charge completes the renewal without a card and the deadline advances to the following boundary. Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel at period end), an active or trialing subscription is in its final end_after cycle, or an external schedule has no known boundary. `payment_method_due_at`: [declared alternatives](../models/SubscriptionActivatedInstalledMerchantsEventInput.md#subscriptionactivatedinstalledmerchantseventinputdataprevious_attributespayment_method_due_at). |
 | `payment_method_id` | Optional | string or null | Saved payment method used for renewal charges. Null when no card is bound. Bind a card to this subscription with PATCH; changing the customer's default alone does not bind it. `payment_method_id`: [declared alternatives](../models/SubscriptionActivatedInstalledMerchantsEventInput.md#subscriptionactivatedinstalledmerchantseventinputdataprevious_attributespayment_method_id). |
@@ -423,6 +424,20 @@ anyOf variant 2.
 ### SubscriptionActivatedInstalledMerchantsEventInput.data.previous_attributes.paused_at
 
 Declared alternatives: [ApiKeyRevokedEventInput.data.previous_attributes.created_at](../models/ApiKeyRevokedEventInput.md#apikeyrevokedeventinputdataprevious_attributescreated_at).
+
+### SubscriptionActivatedInstalledMerchantsEventInput.data.previous_attributes.payment_link_id
+
+### SubscriptionActivatedInstalledMerchantsEventInput.data.previous_attributes.payment_link_id variant 1
+
+anyOf variant 1: The payment link that started this subscription, when there was one..
+
+- Value shape: string. The payment link that started this subscription, when there was one. The payment link that started this subscription, when there was one. Example: `"pl_01KEZF7C007WDMA5P9BPZ8J2AM"`. 
+
+### SubscriptionActivatedInstalledMerchantsEventInput.data.previous_attributes.payment_link_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The payment link that started this subscription, when there was one. 
 
 ### SubscriptionActivatedInstalledMerchantsEventInput.data.previous_attributes.payment_method_due_at
 

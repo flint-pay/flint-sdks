@@ -1,31 +1,27 @@
-import type { MerchantWebhookEnvelope } from './types-43.js';
 import type {
+    PartnerAppPermissionManifestEntry,
     PartnerAppMerchantActionRouting,
     PartnerAppMerchantActionRoutingPreviousAttributes,
     PartnerAppPaymentSplits,
     PartnerAppPaymentSplitsPreviousAttributes,
-    PartnerAppPermissionManifestEntry,
-    PartnerAppPermissionManifestEntryPreviousAttributes,
-    PartnerAppPlatform,
-    PartnerAppPlatformCapabilityPreviousAttributes,
     PartnerApp,
-    PartnerAppPlatformContact,
     PartnerAppMerchantReadiness,
     PartnerAppMerchantReadinessPreviousAttributes
 } from './types-49.js';
-import type { PlatformFeeCap, PlatformFeeCapPreviousAttributes } from './types-55.js';
+import type { MerchantWebhookEnvelope } from './types-43.js';
+import type { PlatformFeeCap, PlatformFeeCapPreviousAttributes, PlatformFeeRequest, PlatformFeeRequestInput } from './types-56.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
-import type { ResourceReference, ResourceReferencePreviousAttributes, ResponseMeta } from './types-62.js';
+import type { ResourceReference, ResourceReferencePreviousAttributes, ResponseMeta, ReturnActor } from './types-62.js';
 import type { InputValue } from '../runtime.js';
 import type { AcceptPartnerAppPlatformTermsRequestInput } from './types-0.js';
 import type { CreatePartnerAppCredentialRequestInput, CreatePartnerAppRequestInput } from './types-12.js';
 import type { CheckoutSessionsListCustomerVerificationsParams } from './types-7.js';
 import type { RotatePartnerAppSecretRequestInput } from './types-67.js';
-import type { UpdatePartnerAppRequestInput } from './types-76.js';
+import type { UpdatePartnerAppRequestInput } from './types-77.js';
 import type { WebhookEventSource } from './types-79.js';
 import type { CheckoutBuyerContactRequest, CheckoutBuyerContactRequestInput } from './types-6.js';
 import type { OrderGiftCardAllocationAcceptance, OrderGiftCardAllocationAcceptanceInput } from './types-46.js';
-import type { OrderPaymentIntentSelection, OrderPaymentIntentSelectionInput, OrderPaymentAttempt } from './types-47.js';
+import type { OrderPaymentIntentSelection, OrderPaymentIntentSelectionInput } from './types-47.js';
 import type {
     PaymentSourceCredential,
     PaymentSplitRequest,
@@ -34,14 +30,249 @@ import type {
     PaymentSourceCredentialStripePaymentMethod,
     PaymentSourceCredentialStripePaymentMethodInput
 } from './types-54.js';
-import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-56.js';
-import type { Order } from './types-45.js';
-import type {
-    PaymentErrorSummary,
-    PaymentErrorSummaryPreviousAttributes,
-    PaymentClientActionStripe,
-    PaymentClientActionURL
-} from './types-51.js';
+import type { PayOrderResult } from './types-51.js';
+export type PartnerAppPermissionManifestEntryPreviousAttributes = {
+    /**
+     * What the permission lets the app do, shown to merchants when they approve the install.
+     * anyOf[1] (Value): string. What the permission lets the app do, shown to merchants when they
+     * approve the install. minLength: 1. anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * Whether the merchant can decline this permission when they approve the install. Defaults to
+     * false: the permission is required and is always granted. anyOf[1] (Value): boolean. Whether
+     * the merchant can decline this permission when they approve the install. Defaults to false:
+     * the permission is required and is always granted. anyOf[2] (Value): null.
+     */
+    "optional"?: ((boolean) | (null));
+    /**
+     * The permission's ID, which you choose and which must be unique within the manifest.
+     * Authorization requests name permissions by this ID in scope, and the code exchange returns
+     * the granted IDs as its scope. anyOf[1] (Value): string. The permission's ID, which you
+     * choose and which must be unique within the manifest. Authorization requests name permissions
+     * by this ID in scope, and the code exchange returns the granted IDs as its scope. minLength:
+     * 1. Example: "manage_orders". anyOf[2] (Value): null.
+     */
+    "permission_id"?: ((string) | (null));
+    /**
+     * The Flint API scopes the permission grants, at least one. Each must be a scope partner
+     * installs allow; the scope catalog lists them. Duplicates are dropped. anyOf[1] (Value):
+     * Array of string. The Flint API scopes the permission grants, at least one. Each must be a
+     * scope partner installs allow; the scope catalog lists them. Duplicates are dropped.
+     * anyOf[1][] (Value): string. minLength: 1. anyOf[2] (Value): null.
+     */
+    "required_scopes"?: ((Array<string>) | (null));
+    /**
+     * A short name for the permission, shown to merchants when they approve the install. It can't
+     * contain a link or an email address. anyOf[1] (Value): string. A short name for the
+     * permission, shown to merchants when they approve the install. It can't contain a link or an
+     * email address. minLength: 1. anyOf[2] (Value): null.
+     */
+    "title"?: ((string) | (null));
+};
+/**
+ * One permission a partner app can request, with a title, a description, and the Flint scopes it
+ * grants.
+ */
+export type PartnerAppPermissionManifestEntryRequestInput = PartnerAppPermissionManifestEntry;
+/**
+ * The app's platform onboarding. Platform capabilities apply in live mode only; test mode never
+ * checks them. requirements and capability readiness that depend on the owning merchant's live
+ * onboarding are read when Flint serves the app, so a change there alone doesn't advance the app's
+ * version or send a partner_app event.
+ */
+export type PartnerAppPlatform = {
+    /**
+     * One entry per platform capability, in the same order for every app. [] (Value): {@link
+     * PartnerAppPlatformCapability}. One platform capability and whether the app can use it in
+     * live mode.
+     */
+    "capabilities": Array<PartnerAppPlatformCapability>;
+    /**
+     * The platform terms version Flint accepts now. Send its platform_terms_version to
+     * accept-platform-terms. The app has accepted it when terms_acceptance.platform_terms_version
+     * is the same. The current version of Flint's platform terms: the only version
+     * accept-platform-terms accepts.
+     */
+    "current_terms": PartnerAppPlatformCurrentTerms;
+    /**
+     * The platform's live merchant and monthly volume limits, present once Flint has approved or
+     * limited the app. Limits are soft: crossing one never refuses or interrupts a payment or an
+     * onboarding step. Flint staff are alerted and may limit or pause the app. Soft limits on the
+     * platform's live use, and its usage against them.
+     */
+    "limits"?: PartnerAppPlatformLimits;
+    /**
+     * What's outstanding before Flint can review the app, `[]` when nothing is. Flint moves the
+     * app to pending_review when the last one is met. [] enum: "owner_merchant_onboarding",
+     * "platform_profile", "platform_terms". [] (Value): string. Value enum:
+     * "owner_merchant_onboarding", "platform_profile", "platform_terms".
+     */
+    "requirements": Array<"owner_merchant_onboarding" | "platform_profile" | "platform_terms" | (string & {})>;
+    /**
+     * The share of each platform fee Flint holds as a reserve and how long it holds it, present
+     * once Flint has approved or limited the app. A change applies to fees collected afterwards.
+     * The platform's reserve terms.
+     */
+    "reserve"?: PartnerAppPlatformReserve;
+    /**
+     * Where the app is in platform onboarding. No value is final. Value enum: "not_started",
+     * "pending_review", "approved", "limited", "rejected".
+     */
+    "status": "not_started" | "pending_review" | "approved" | "limited" | "rejected" | (string & {});
+    /**
+     * The latest acceptance of Flint's platform terms. `null` when the app hasn't accepted any
+     * version. anyOf[1] (Value): {@link PartnerAppPlatformTermsAcceptance}. Who accepted a version
+     * of Flint's platform terms, and when. anyOf[2] (Value): null.
+     */
+    "terms_acceptance": ((PartnerAppPlatformTermsAcceptance) | (null));
+};
+export type PartnerAppPlatformApprovedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "allowed_scopes": Array<string>;
+            "api_version": string;
+            "api_version_changed_at"?: string;
+            "api_version_previous"?: string;
+            "api_version_rollback_expires_at"?: string;
+            "client_id": string;
+            "client_secret_enabled": boolean;
+            "client_secret_last_used_at": string | null;
+            "created_at": string;
+            "default_requested_permissions": Array<string>;
+            "merchant_action_routing"?: PartnerAppMerchantActionRouting;
+            "merchant_action_url"?: string;
+            "name": string;
+            "partner_app_id": string;
+            "payment_splits"?: PartnerAppPaymentSplits;
+            "permission_manifest": Array<PartnerAppPermissionManifestEntry>;
+            "platform": PartnerAppPlatform;
+            "platform_fee_cap"?: PlatformFeeCap;
+            "platform_profile"?: PartnerAppPlatformProfile;
+            "previous_secret_expires_at"?: string;
+            "redirect_uris": Array<string>;
+            "status": "active" | "archived" | (string & {});
+            "supported_actions": Array<"accept_platform_terms" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "allowed_scopes"?: ((Array<string>) | (null));
+            "api_version"?: ((string) | (null));
+            "api_version_changed_at"?: ((string) | (null));
+            "api_version_previous"?: ((string) | (null));
+            "api_version_rollback_expires_at"?: ((string) | (null));
+            "client_id"?: ((string) | (null));
+            "client_secret_enabled"?: ((boolean) | (null));
+            "client_secret_last_used_at"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "default_requested_permissions"?: ((Array<string>) | (null));
+            "merchant_action_routing"?: ((PartnerAppMerchantActionRoutingPreviousAttributes) | (null));
+            "merchant_action_url"?: ((string) | (null));
+            "name"?: ((string) | (null));
+            "partner_app_id"?: ((string) | (null));
+            "payment_splits"?: ((PartnerAppPaymentSplitsPreviousAttributes) | (null));
+            "permission_manifest"?: ((Array<PartnerAppPermissionManifestEntryPreviousAttributes>) | (null));
+            "platform"?: ((PartnerAppPlatformPreviousAttributes) | (null));
+            "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null));
+            "platform_profile"?: ((PartnerAppPlatformProfilePreviousAttributes) | (null));
+            "previous_secret_expires_at"?: ((string) | (null));
+            "redirect_uris"?: ((Array<string>) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"accept_platform_terms" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "partner_app.platform_approved";
+})
+    & {
+    "event_type": "partner_app.platform_approved";
+});
+/** One platform capability and whether the app can use it in live mode. */
+export type PartnerAppPlatformCapability = {
+    /**
+     * The platform capability. Value enum: "platform_fees", "merchant_onboarding",
+     * "create_merchants", "payment_splits".
+     */
+    "capability": "platform_fees" | "merchant_onboarding" | "create_merchants" | "payment_splits" | (string & {});
+    /**
+     * Why the capability is inactive. Present only while status is inactive. Value enum:
+     * "requirements_due", "pending_review", "not_approved", "rejected", "paused".
+     */
+    "inactive_reason"?: "requirements_due" | "pending_review" | "not_approved" | "rejected" | "paused" | (string & {});
+    /** Whether the capability works in live mode. Value enum: "active", "inactive". */
+    "status": "active" | "inactive" | (string & {});
+};
+export type PartnerAppPlatformCapabilityPreviousAttributes = {
+    /**
+     * The platform capability. Value enum: "platform_fees", "merchant_onboarding",
+     * "create_merchants", "payment_splits". anyOf[1] (Value): string. The platform capability.
+     * Value enum: "platform_fees", "merchant_onboarding", "create_merchants", "payment_splits".
+     * anyOf[2] (Value): null.
+     */
+    "capability"?: (("platform_fees" | "merchant_onboarding" | "create_merchants" | "payment_splits" | (string & {}))
+        | (null));
+    /**
+     * Why the capability is inactive. Present only while status is inactive. Value enum:
+     * "requirements_due", "pending_review", "not_approved", "rejected", "paused". anyOf[1]
+     * (Value): string. Why the capability is inactive. Present only while status is inactive.
+     * Value enum: "requirements_due", "pending_review", "not_approved", "rejected", "paused".
+     * anyOf[2] (Value): null.
+     */
+    "inactive_reason"?: (("requirements_due" | "pending_review" | "not_approved" | "rejected" | "paused" | (string & {}))
+        | (null));
+    /**
+     * Whether the capability works in live mode. Value enum: "active", "inactive". anyOf[1]
+     * (Value): string. Whether the capability works in live mode. Value enum: "active",
+     * "inactive". anyOf[2] (Value): null.
+     */
+    "status"?: (("active" | "inactive" | (string & {})) | (null));
+};
+/** The platform's support contact shown to merchants. */
+export type PartnerAppPlatformContact = {
+    /**
+     * Where the platform's merchants get support. Format: email. maxLength: 320. Example:
+     * "buyer@example.com".
+     */
+    "support_email": string;
+    /**
+     * Support phone number in E.164 format, such as +14155550123. Optional. pattern:
+     * ^\+[1-9][0-9]{1,14}$.
+     */
+    "support_phone"?: string;
+    /**
+     * The platform's website, as an https URL. Format: uri. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "website_url": string;
+};
+/**
+ * The current version of Flint's platform terms: the only version accept-platform-terms accepts.
+ */
+export type PartnerAppPlatformCurrentTerms = {
+    /**
+     * When accepting this version becomes required. Until then an earlier accepted version keeps
+     * the platform_terms requirement met; from then the app needs this one. Absent when this
+     * version is already required. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "acceptance_due_at"?: string;
+    /**
+     * The current platform terms version. Send it as platform_terms_version to
+     * accept-platform-terms.
+     */
+    "platform_terms_version": string;
+    /**
+     * Where Flint publishes this version's text: the Flint Platform Agreement. `null` when the
+     * version has no published text. Format: uri. Example: "https://example.com/receipt".
+     */
+    "url": string | null;
+};
 export type PartnerAppPlatformCurrentTermsPreviousAttributes = {
     /**
      * When accepting this version becomes required. Until then an earlier accepted version keeps
@@ -1089,14 +1320,23 @@ export type PartnerWebhookEnvelope = ({
     "created_at": string;
     /**
      * The resource snapshot recorded for this event and rendered at the delivery API version.
-     * object (Required): object. The affected public resource without expansions, client authority
-     * fields, or fields computed for an individual caller. previous_attributes (Optional): object.
-     * Previous values of changed top-level fields in data.object, at this delivery's API version.
-     * Nested changes include the whole previous top-level value. A value is null when the field
-     * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * actor (Optional): {@link ReturnActor}. Who caused this event, captured when the change
+     * commits. Omitted when the event predates actor attribution or attribution is unavailable.
+     * Who performed a return action: a buyer, merchant, integration, or the system, with an
+     * optional ID. object (Required): object. The affected public resource without expansions,
+     * client authority fields, or fields computed for an individual caller. previous_attributes
+     * (Optional): object. Previous values of changed top-level fields in data.object, at this
+     * delivery's API version. Nested changes include the whole previous top-level value. A value
+     * is null when the field was absent before the change. Omitted when Flint did not record the
+     * previous state, including synthetic test events.
      */
     "data": {
+        /**
+         * Who caused this event, captured when the change commits. Omitted when the event predates
+         * actor attribution or attribution is unavailable. Who performed a return action: a buyer,
+         * merchant, integration, or the system, with an optional ID.
+         */
+        "actor"?: ReturnActor;
         /**
          * The affected public resource without expansions, client authority fields, or fields
          * computed for an individual caller.
@@ -2624,493 +2864,3 @@ export type PayOrderResponse = {
      */
     "request_id": string;
 };
-/**
- * The order is the primary resource and expected_version target; order_payment_attempt records the
- * payment outcome.
- */
-export type PayOrderResult = {
-    /**
-     * The order after the payment request. Send its `version` as `expected_version` in your next
-     * change to the order. A customer's purchase and its payment and fulfillment progress.
-     */
-    "order": Order;
-    /**
-     * The payment attempt for this request. Read its `status` and `pending_actions` to decide what
-     * to do next. An attempt to pay an order.
-     */
-    "order_payment_attempt"?: OrderPaymentAttempt;
-};
-/**
- * The merchant identity that initiated the action. Labels are recorded with the activity and do
- * not change when the identity is renamed or removed.
- */
-export type PaymentActivityActor = {
-    /**
-     * Teammate name (or email), API key name, or app name. Empty when a display label was
-     * unavailable; use resource_id as a fallback.
-     */
-    "label": string;
-    /**
-     * Flint ID of the identity that initiated the action. Key creators and app installers are not
-     * the actor. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
-     */
-    "resource_id": string;
-    /**
-     * The acting identity's resource type. Today one of `user` (a teammate acting through
-     * Dashboard or a CLI login), `api_key` (an API key, not its creator), `partner_app_install`
-     * (an installed partner app, not its installer), or `partner_app` (a partner app acting on its
-     * own resources). Accept other resource types. Value enum: "api_key", "api_request_log",
-     * "balance", "balance_transaction", "bundle", "bundle_component", "category",
-     * "checkout_session", "checkout_session_customer_verification", "credit_note",
-     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_email_preferences", "customer_session",
-     * "customer_tax_exemption", "customer_verification", "delivery_choice_group",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
-     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
-     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
-     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
-     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
-     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
-     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
-     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
-     */
-    "resource_type": "api_key"
-        | "api_request_log"
-        | "balance"
-        | "balance_transaction"
-        | "bundle"
-        | "bundle_component"
-        | "category"
-        | "checkout_session"
-        | "checkout_session_customer_verification"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "custom_domain"
-        | "customer"
-        | "customer_address"
-        | "customer_deletion_request"
-        | "customer_email_preferences"
-        | "customer_session"
-        | "customer_tax_exemption"
-        | "customer_verification"
-        | "delivery_choice_group"
-        | "delivery_location_set"
-        | "delivery_method"
-        | "delivery_profile"
-        | "delivery_quote"
-        | "delivery_rate"
-        | "delivery_rate_callback"
-        | "delivery_revocation"
-        | "delivery_selection"
-        | "delivery_zone"
-        | "demo_session"
-        | "device"
-        | "discount"
-        | "dispute"
-        | "email_change_request"
-        | "environment_grant"
-        | "file"
-        | "flint_wallet"
-        | "flint_wallet_card"
-        | "fraud_warning"
-        | "fulfillment"
-        | "fulfillment_event"
-        | "fulfillment_notification"
-        | "gift_card"
-        | "gift_card_funding_disposition"
-        | "gift_card_load"
-        | "gift_card_notification"
-        | "gift_card_redemption"
-        | "gift_card_transaction"
-        | "image"
-        | "inventory_adjustment"
-        | "inventory_allocation_policy"
-        | "inventory_allocation_policy_revision"
-        | "inventory_count"
-        | "inventory_item"
-        | "inventory_level"
-        | "inventory_movement"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_reservation_line"
-        | "inventory_transfer"
-        | "inventory_transfer_line"
-        | "invoice"
-        | "invoice_delivery_attempt"
-        | "invoice_late_fee"
-        | "invoice_line_item"
-        | "invoice_manual_payment"
-        | "invoice_payment_attempt"
-        | "invoice_payment_term"
-        | "license_key"
-        | "license_key_activation"
-        | "license_key_pool"
-        | "license_key_pool_key"
-        | "location"
-        | "merchant"
-        | "merchant_billing_balance"
-        | "merchant_billing_entry"
-        | "merchant_billing_invoice"
-        | "merchant_signup"
-        | "modifier"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "order_charge"
-        | "order_edit"
-        | "order_line_item"
-        | "order_line_item_modifier"
-        | "order_payment_attempt"
-        | "package"
-        | "package_item"
-        | "partner_app"
-        | "partner_app_credential"
-        | "partner_app_install"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_link_custom_field"
-        | "payment_link_line_item"
-        | "payment_method"
-        | "payment_method_domain"
-        | "payment_review"
-        | "payment_split"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "platform_fee"
-        | "platform_fee_balance_transaction"
-        | "platform_fee_payout"
-        | "price_list"
-        | "price_list_price"
-        | "product"
-        | "product_option"
-        | "product_option_value"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "purchase_refund_allocation"
-        | "reader"
-        | "refund"
-        | "refund_allocation"
-        | "refund_line_item_adjustment"
-        | "remembered_buyer"
-        | "report"
-        | "report_download"
-        | "return"
-        | "return_activity"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_inspection_line_item"
-        | "return_line_item"
-        | "return_policy"
-        | "return_policy_revision"
-        | "return_reason"
-        | "return_receipt"
-        | "return_receipt_line_item"
-        | "return_resolution"
-        | "risk_list"
-        | "risk_list_item"
-        | "risk_rule"
-        | "sandbox"
-        | "settings"
-        | "shipment"
-        | "subscription"
-        | "subscription_delivery_migration"
-        | "subscription_line_item"
-        | "subscription_offer"
-        | "subscription_payment_retry"
-        | "subscription_plan"
-        | "subscription_plan_line_item"
-        | "tax_calculation_callback"
-        | "tax_connection"
-        | "tax_registration"
-        | "test_clock"
-        | "ticket"
-        | "user"
-        | "webhook_delivery"
-        | "webhook_endpoint"
-        | "webhook_event"
-        | "workload_identity"
-        | (string & {});
-};
-/** A Flint fee added to a payment intent, with the fee type and amount. */
-export type PaymentAddOnFee = {
-    /**
-     * Amount of this fee. Added to the payment's `fee_money` on its balance transaction. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * The Flint feature this fee pays for. A payment carries at most one of invoice_collection and
-     * subscription_collection. Can gain values: sum every entry rather than matching only the
-     * types you know. Value enum: "invoice_collection", "subscription_collection",
-     * "automatic_tax".
-     */
-    "fee_type": "invoice_collection" | "subscription_collection" | "automatic_tax" | (string & {});
-};
-/**
- * A gift card redemption made as part of an order payment attempt, with the amount, tip, and gift
- * card.
- */
-export type PaymentAttemptGiftCardRedemption = {
-    /**
-     * The amount reserved on the gift card for this attempt, in USD, including `tip_money`. It is
-     * taken from the card only if the attempt succeeds. A failed or canceled attempt releases it.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** ID of the gift card redeemed. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
-    "gift_card_id": string;
-    /**
-     * ID of the redemption that holds this amount on the gift card. Example:
-     * "gcr_01KEZF7C002YD2G2J734RRZTWT".
-     */
-    "gift_card_redemption_id": string;
-    /** Last four characters of the card's current code. */
-    "last4": string;
-    /**
-     * The part of `amount_money` that is a tip. Zero when the redemption carries no tip. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tip_money": MoneyValue;
-};
-export type PaymentAttemptGiftCardRedemptionPreviousAttributes = {
-    /**
-     * The amount reserved on the gift card for this attempt, in USD, including `tip_money`. It is
-     * taken from the card only if the attempt succeeds. A failed or canceled attempt releases it.
-     * anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * ID of the gift card redeemed. anyOf[1] (Value): string. ID of the gift card redeemed.
-     * Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". anyOf[2] (Value): null.
-     */
-    "gift_card_id"?: ((string) | (null));
-    /**
-     * ID of the redemption that holds this amount on the gift card. anyOf[1] (Value): string. ID
-     * of the redemption that holds this amount on the gift card. Example:
-     * "gcr_01KEZF7C002YD2G2J734RRZTWT". anyOf[2] (Value): null.
-     */
-    "gift_card_redemption_id"?: ((string) | (null));
-    /**
-     * Last four characters of the card's current code. anyOf[1] (Value): string. Last four
-     * characters of the card's current code. anyOf[2] (Value): null.
-     */
-    "last4"?: ((string) | (null));
-    /**
-     * The part of `amount_money` that is a tip. Zero when the redemption carries no tip. anyOf[1]
-     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "tip_money"?: ((MoneyValuePreviousAttributes) | (null));
-};
-/**
- * A payment intent used as one leg of an order payment attempt, with its amount, status, tip, and
- * latest error.
- */
-export type PaymentAttemptPaymentIntent = {
-    /**
-     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
-     * after a partial capture it still shows the requested amount, and captured_money shows what
-     * was collected. On a standalone payment intent, PATCH can change it only before the first
-     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
-     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Effective Flint capture deadline, equal to the earlier of the provider capture deadline and
-     * this attempt's sealed resource guarantee. Capture is refused at or after this time, even
-     * while status is requires_capture. Omitted until a hold is placed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "authorization_expires_at"?: string;
-    /**
-     * Payment intent's stored capturable amount. A positive amount does not override
-     * authorization_expires_at or the payment status. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "capturable_money"?: MoneyValue;
-    /**
-     * Money collected through this payment, once nothing more can be collected. Positive when
-     * money was collected, including a payment Flint couldn't accept and is refunding (the payment
-     * intent's cancellation_reason is payment_returned). Zero when nothing was collected, for
-     * example after a decline or a released authorization. Absent while the outcome can still
-     * change, such as an ACH debit that hasn't settled or an open hold. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "captured_money"?: MoneyValue;
-    /**
-     * The most recent payment error recorded on this payment, when it has a public error code.
-     * Absent when none is recorded. A summary of why a payment attempt failed, with a normalized
-     * error code, a message, the failure time, and remediation.
-     */
-    "last_payment_error"?: PaymentErrorSummary;
-    /** Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
-    "payment_intent_id": string;
-    /**
-     * The reader the payment is or was last presented on. Set when Flint presents it and kept
-     * afterward. While processing or requires_action with a reader_id and no
-     * payment_source.card.card_present, the payment is on that reader now. After a card is read,
-     * the payment can stay processing while Flint captures it. Example:
-     * "rdr_01KEZF7C007JA0G24M7SD6P46C".
-     */
-    "reader_id"?: string;
-    /**
-     * Payment option used by this leg, using the same values as
-     * PaymentIntent.selected_payment_option. Fixed when the attempt becomes terminal. Omitted when
-     * no payment option has been selected. Value enum: "card", "apple_pay", "google_pay",
-     * "affirm", "ach_debit", "card_present".
-     */
-    "selected_payment_option"?: "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | "card_present" | (string & {});
-    /**
-     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
-     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
-     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
-     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
-     * "succeeded", "expired".
-     */
-    "status": "requires_payment_method"
-        | "requires_confirmation"
-        | "requires_action"
-        | "processing"
-        | "requires_capture"
-        | "canceled"
-        | "succeeded"
-        | "expired"
-        | (string & {});
-    /**
-     * The part of `amount_money` that is a tip. Zero when the payment carries no tip. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tip_money": MoneyValue;
-};
-export type PaymentAttemptPaymentIntentPreviousAttributes = {
-    /**
-     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
-     * after a partial capture it still shows the requested amount, and captured_money shows what
-     * was collected. On a standalone payment intent, PATCH can change it only before the first
-     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
-     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Effective Flint capture deadline, equal to the earlier of the provider capture deadline and
-     * this attempt's sealed resource guarantee. Capture is refused at or after this time, even
-     * while status is requires_capture. Omitted until a hold is placed. anyOf[1] (Value): string.
-     * Effective Flint capture deadline, equal to the earlier of the provider capture deadline and
-     * this attempt's sealed resource guarantee. Capture is refused at or after this time, even
-     * while status is requires_capture. Omitted until a hold is placed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "authorization_expires_at"?: ((string) | (null));
-    /**
-     * Payment intent's stored capturable amount. A positive amount does not override
-     * authorization_expires_at or the payment status. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "capturable_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Money collected through this payment, once nothing more can be collected. Positive when
-     * money was collected, including a payment Flint couldn't accept and is refunding (the payment
-     * intent's cancellation_reason is payment_returned). Zero when nothing was collected, for
-     * example after a decline or a released authorization. Absent while the outcome can still
-     * change, such as an ACH debit that hasn't settled or an open hold. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "captured_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * The most recent payment error recorded on this payment, when it has a public error code.
-     * Absent when none is recorded. anyOf[1] (Value): {@link
-     * PaymentErrorSummaryPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "last_payment_error"?: ((PaymentErrorSummaryPreviousAttributes) | (null));
-    /**
-     * Flint payment intent ID. anyOf[1] (Value): string. Flint payment intent ID. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
-     */
-    "payment_intent_id"?: ((string) | (null));
-    /**
-     * The reader the payment is or was last presented on. Set when Flint presents it and kept
-     * afterward. While processing or requires_action with a reader_id and no
-     * payment_source.card.card_present, the payment is on that reader now. After a card is read,
-     * the payment can stay processing while Flint captures it. anyOf[1] (Value): string. The
-     * reader the payment is or was last presented on. Set when Flint presents it and kept
-     * afterward. While processing or requires_action with a reader_id and no
-     * payment_source.card.card_present, the payment is on that reader now. After a card is read,
-     * the payment can stay processing while Flint captures it. Example:
-     * "rdr_01KEZF7C007JA0G24M7SD6P46C". anyOf[2] (Value): null.
-     */
-    "reader_id"?: ((string) | (null));
-    /**
-     * Payment option used by this leg, using the same values as
-     * PaymentIntent.selected_payment_option. Fixed when the attempt becomes terminal. Omitted when
-     * no payment option has been selected. Value enum: "card", "apple_pay", "google_pay",
-     * "affirm", "ach_debit", "card_present". anyOf[1] (Value): string. Payment option used by this
-     * leg, using the same values as PaymentIntent.selected_payment_option. Fixed when the attempt
-     * becomes terminal. Omitted when no payment option has been selected. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit", "card_present". anyOf[2] (Value): null.
-     */
-    "selected_payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | "card_present" | (string & {}))
-        | (null));
-    /**
-     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
-     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
-     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
-     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
-     * "succeeded", "expired". anyOf[1] (Value): string. Lifecycle status. requires_payment_method
-     * covers both a new payment intent and one whose last attempt failed, so read
-     * last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes
-     * never change status. Value enum: "requires_payment_method", "requires_confirmation",
-     * "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
-     * anyOf[2] (Value): null.
-     */
-    "status"?: (("requires_payment_method"
-        | "requires_confirmation"
-        | "requires_action"
-        | "processing"
-        | "requires_capture"
-        | "canceled"
-        | "succeeded"
-        | "expired"
-        | (string & {}))
-        | (null));
-    /**
-     * The part of `amount_money` that is a tip. Zero when the payment carries no tip. anyOf[1]
-     * (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "tip_money"?: ((MoneyValuePreviousAttributes) | (null));
-};
-/**
- * How to finish a payment step. Flint's API returns a Stripe client secret only for
- * client_action_type stripe. With url, Stripe's authentication page receives what it needs to run
- * the challenge, including the client secret for hosted 3DS2. If a payment is confirmed with a
- * payment method Flint didn't approve, Flint doesn't count the charge, returns it to the buyer,
- * and the payment intent ends canceled with cancellation_reason payment_returned.
- */
-export type PaymentClientAction = ((PaymentClientActionURL) | (PaymentClientActionStripe) | (Record<string, unknown>));

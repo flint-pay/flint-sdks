@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# RefundGiftCardDestinationPreviousAttributesInput to ReturnCanceledInstalledMerchantsEventInput
+# RefundDestinationsInput to RetryReturnDispositionResponseInput
 
+- [RefundDestinationsInput](RefundDestinationsInput.md)
+- [RefundFailedInstalledMerchantsEventInput](RefundFailedInstalledMerchantsEventInput.md)
+- [RefundFailedMerchantEventInput](RefundFailedMerchantEventInput.md)
+- [RefundGiftCardCodeInput](RefundGiftCardCodeInput.md)
+- [RefundGiftCardDestinationInput](RefundGiftCardDestinationInput.md)
 - [RefundGiftCardDestinationPreviousAttributesInput](RefundGiftCardDestinationPreviousAttributesInput.md)
 - [RefundLineItemInput](RefundLineItemInput.md)
 - [RefundLineItemAdjustmentInput](RefundLineItemAdjustmentInput.md)
@@ -81,6 +86,7 @@
 - [ResourceTimelineInput](ResourceTimelineInput.md)
 - [ResourceTimelineAPIRequestEntryInput](ResourceTimelineAPIRequestEntryInput.md)
 - [ResourceTimelineEntryInput](ResourceTimelineEntryInput.md)
+- [ResourceTimelineFieldChangeInput](ResourceTimelineFieldChangeInput.md)
 - [ResourceTimelineImageMutationEntryInput](ResourceTimelineImageMutationEntryInput.md)
 - [ResourceTimelineLicenseKeyRestrictionChangeEntryInput](ResourceTimelineLicenseKeyRestrictionChangeEntryInput.md)
 - [ResourceTimelinePoolAttestationEntryInput](ResourceTimelinePoolAttestationEntryInput.md)
@@ -96,10 +102,4 @@
 - [RetryOrderEditRefundResultInput](RetryOrderEditRefundResultInput.md)
 - [RetryReturnDispositionRequestInput](RetryReturnDispositionRequestInput.md)
 - [RetryReturnDispositionResponseInput](RetryReturnDispositionResponseInput.md)
-- [RetryReturnResolutionRequestInput](RetryReturnResolutionRequestInput.md)
-- [RetryReturnResolutionResponseInput](RetryReturnResolutionResponseInput.md)
-- [ReturnActivityInput](ReturnActivityInput.md)
-- [ReturnActorInput](ReturnActorInput.md)
-- [ReturnActorPreviousAttributesInput](ReturnActorPreviousAttributesInput.md)
-- [ReturnCanceledInstalledMerchantsEventInput](ReturnCanceledInstalledMerchantsEventInput.md)
 

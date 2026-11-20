@@ -56,15 +56,16 @@ export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateInventoryAllocationPolicyRequestInput } from '../declarations/types-10.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateInventoryAllocationPolicyRequestInput } from '../declarations/types-76.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateInventoryAllocationPolicyRequest } from '../declarations/types-82.js';
+export { makeCreateInventoryAllocationPolicyRequest } from '../declarations/types-83.js';
 export { makeInventoryAllocationPolicyConfigurationRequest, makeInventoryAllocationPolicyLocation } from '../declarations/types-87.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdateInventoryAllocationPolicyRequest } from '../declarations/types-93.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeUpdateInventoryAllocationPolicyRequest } from '../declarations/types-94.js';
 export interface InventoryAllocationPoliciesResource {
     /**
  * Create an allocation policy with its routing configuration. Idempotency is scoped to the

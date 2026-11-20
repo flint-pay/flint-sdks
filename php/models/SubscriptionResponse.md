@@ -63,6 +63,7 @@ Resource, collection, or operation result returned by this request. A customer's
 | `pause_reason` | Optional | string | Why the subscription is paused: merchant for a pause made with your API key or dashboard, buyer for the buyer's own pause, delivery_action_required for a pause during or after a delivery hold, and payment_failed when renewal payment retries ran out and your dunning settings pause the subscription. Omitted when the subscription is not paused. Values: `"buyer"`, `"delivery_action_required"`, `"merchant"`, `"payment_failed"`. |
 | `paused_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `paused_delivery_hold` | Required | [SubscriptionPausedDeliveryHold](../models/SubscriptionPausedDeliveryHold.md#subscriptionpauseddeliveryhold) or null | The delivery hold that expired and paused the subscription. Null when no stored expiry reason exists, including a manual pause during an active hold, or the subscription is no longer paused for delivery action. |
+| `payment_link_id` | Optional | string | The payment link that started this subscription, when there was one. Example: `"pl_01KEZF7C007WDMA5P9BPZ8J2AM"`. |
 | `payment_method` | Optional | [ExpandedPaymentMethodSummary](../models/ExpandedPaymentMethodSummary.md#expandedpaymentmethodsummary) or null | Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. `payment_method`: [declared alternatives](../models/SubscriptionResponse.md#subscriptionresponsedatapayment_method). |
 | `payment_method_due_at` | Required | string or null | First charge boundary while no card is bound: the later of trial_end_at and next_billing_at during a trial, or the next billing date for an imported period, even when that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a card at its boundary cancels without an order or payment attempt. At that boundary, an imported subscription with a positive charge that still has no card enters its normal dunning schedule without a payment attempt. For an imported subscription, a zero charge completes the renewal without a card and the deadline advances to the following boundary. Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel at period end), an active or trialing subscription is in its final end_after cycle, or an external schedule has no known boundary. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `payment_method_id` | Required | string or null | Saved payment method used for renewal charges. Null when no card is bound. Bind a card to this subscription with PATCH; changing the customer's default alone does not bind it. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
@@ -138,14 +139,7 @@ Where future deliveries go. The delivery address for a subscription's future shi
 
 Resolved delivery address used by future shipments. `null` when the saved destination has no address.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `city` | Conditional | string | City or locality of the address. |
-| `country` | Conditional | string | ISO 3166-1 alpha-2 country code. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Example: `"US"`. |
-| `line1` | Conditional | string | Street address, including the building number. |
-| `line2` | Conditional | string | Apartment, suite, floor, or other address details. |
-| `postal_code` | Conditional | string | Postal or ZIP code of the address. |
-| `state` | Conditional | string | State, province, or region of the address. |
+Field definitions: [shared fields](OrderResponse.md#orderresponsedatacheckout_billing_contactaddress).
 
 ### SubscriptionResponse.data.delivery.destination.address variant 1
 

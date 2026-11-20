@@ -29,6 +29,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](OrderEditCanceledMerchantEvent.md#ordereditcanceledmerchanteventdata-fields-1).
 
+### OrderEditUpdatedMerchantEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### OrderEditUpdatedMerchantEvent.data fields 1.object
 
 Field definitions: [OrderEditCanceledMerchantEvent.data fields 1.object](../models/OrderEditCanceledMerchantEvent.md#ordereditcanceledmerchanteventdata-fields-1object).

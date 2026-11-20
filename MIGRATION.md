@@ -1,6 +1,6 @@
 # SDK 8.0.0
 
-This guide covers upgrading from `7.0.0` to the `8.0.0-beta.8` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.8` or `flintpay/flint:8.0.0-beta.8`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
+This guide covers upgrading from `7.0.0` to the `8.0.0-beta.9` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.9` or `flintpay/flint:8.0.0-beta.9`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
 
 TypeScript reports most of these changes as compile errors, so run `tsc` after upgrading and work through the output. PHP reports them when the call runs; use the search patterns in [Finding call sites](#finding-call-sites).
 
@@ -14,6 +14,68 @@ What changed, most common first:
 - [Results](#results-carry-lastresponse): results carry `lastResponse`, and the `*WithResponse` methods are removed.
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
+
+## Changes in 8.0.0-beta.9
+
+- Pass currency codes such as `USD` and use `page_size` on list calls. Both SDKs now explain these corrections when they reject the request locally.
+- Supply both `amount` and `currency` when setting payment intent amounts, Quick Pay prices, or payment-link price overrides. The generated request models now enforce the documented money shape.
+- When updating a Quick Pay invoice draft with `invoices.update`, send the invoice's current version in `expected_version` with `quick_pay`. You can also pass the backing order's current version in `expected_order_version` to check both versions.
+- Use the same currency for the minimum, maximum, and suggested amounts on donation links. A maximum and each suggested amount must be positive. Send `null` to clear the maximum on an update.
+- Check for `checkout_billing_contact` before reading billing details on order responses or order webhook snapshots. Re-run TypeScript type checking or PHP integration tests for affected model and webhook handlers.
+- Read `canceling_count` and `billing_hold_count` separately in subscription analytics. `active_count` excludes both groups, and `trialing_count` excludes subscriptions scheduled to cancel.
+
+### Webhook test events
+
+Both HTTP delivery and listener-stream results expose `webhook_event_id`. In Node, check for the HTTP delivery fields before reading them. Use `WebhookTestEventResponse` for the full body in `lastResponse.body`.
+
+**Before**
+
+```ts
+import type { WebhookDeliveryActionResponse } from '@flintpay/node';
+
+const result = await client.webhookEndpoints.createTestEvent(endpointId, params, options);
+const attemptNumber = result.attempt_number;
+const body: WebhookDeliveryActionResponse = result.lastResponse.body;
+```
+
+**After**
+
+```ts
+import type { WebhookTestEventResponse } from '@flintpay/node';
+
+const result = await client.webhookEndpoints.createTestEvent(endpointId, params, options);
+const attemptNumber =
+  'attempt_number' in result && typeof result.attempt_number === 'number'
+    ? result.attempt_number
+    : undefined;
+const body: WebhookTestEventResponse = result.lastResponse.body;
+```
+
+In PHP, narrow the result to `Flint\WebhookDeliveryAction` or `Flint\WebhookStreamTestEvent` before calling `getWebhookEventId()`. The return type also allows a generic `Flint\Model` for an unrecognized result.
+
+**Before**
+
+```php
+$result = $client->webhookEndpoints->createTestEvent($endpointId, $params, $options);
+$eventId = $result->getWebhookEventId();
+```
+
+**After**
+
+```php
+$result = $client->webhookEndpoints->createTestEvent($endpointId, $params, $options);
+if ($result instanceof \Flint\WebhookDeliveryAction || $result instanceof \Flint\WebhookStreamTestEvent) {
+    $eventId = $result->getWebhookEventId();
+} else {
+    throw new \UnexpectedValueException('Unrecognized webhook test-event result');
+}
+```
+
+### Webhook snapshots and fixtures
+
+- Delivery-method `subscription_counts` now requires `billing_hold` and `canceling`. Signed `delivery_method.*` snapshots created before these fields were added can omit them. Both SDKs reject those snapshots, including when an older event is resent.
+- In PHP, 54 return and subscription event actor getters now return event-specific classes. For example, `ReturnCreatedMerchantEventData::getActor()` returns `?Flint\ReturnCreatedMerchantEventDataActor`. Update parameter and return type declarations that used `?Flint\ReturnActor` to match each event's getter and preserve null handling.
+- Include `billing_hold` and `canceling` in typed delivery-method subscription count fixtures. Use zero when there are no subscriptions in that group. Include `exchange_variants` on typed buyer return eligibility lines. Use an empty array when there are no alternatives.
 
 ## Changes in 8.0.0-beta.8
 

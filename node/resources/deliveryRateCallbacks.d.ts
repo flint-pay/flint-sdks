@@ -1,11 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
+import type { DeliveryRateCallback, DeliveryRateCallbackConnectionCheck } from '../declarations/types-22.js';
 import type {
-    DeliveryRateCallback,
-    DeliveryRateCallbackConnectionCheck,
-    DeliveryRateCallbackConnectionCheckResponse
-} from '../declarations/types-22.js';
-import type {
+    DeliveryRateCallbackConnectionCheckResponse,
     DeliveryRateCallbackListResponse,
     DeliveryRateCallbackResponse,
     DeliveryRateCallbackTestDelivery,
@@ -39,6 +36,7 @@ export type {
 } from '../runtime.js';
 export type {
     DeliveryRateCallbacksCheckConnectionParams,
+    DeliveryRateCallbackConnectionCheckResponse,
     DeliveryRateCallbacksCreateParams,
     DeliveryRateCallbackWithSecret,
     DeliveryRateCallbackWithSecretResponse,
@@ -56,7 +54,6 @@ export type {
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     DeliveryRateCallbackConnectionCheck,
-    DeliveryRateCallbackConnectionCheckResponse,
     DeliveryRateCallback,
     DeliveryRateCallbackConfigurationRequestInput,
     DeliveryRateCallbackConfiguration,
@@ -65,7 +62,7 @@ export type {
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CreateDeliveryRateCallbackRequestInput } from '../declarations/types-9.js';
@@ -75,9 +72,9 @@ export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-19.js';
 export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-82.js';
 export { makeDeliveryRateCallbackConfigurationPatchRequest, makeDeliveryRateCallbackConfigurationRequest } from '../declarations/types-86.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-93.js';
-export { makeWebhookSigningMethod } from '../declarations/types-94.js';
+export { makeWebhookSigningMethod } from '../declarations/types-95.js';
 export interface DeliveryRateCallbacksResource {
     /**
  * Sends a minimal signed probe to verify endpoint reachability and callback credentials without

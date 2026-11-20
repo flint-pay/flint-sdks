@@ -13,12 +13,10 @@ import type {
     ReturnResolutionsConfirmParams,
     ReturnResolutionsCreateParams,
     ReturnResolutionsGetParams,
-    ReturnResolutionsListParams,
-    ReturnResolutionsReleaseParams,
-    ReturnResolutionsRetryParams,
-    ReturnResolutionsUpdateParams
+    ReturnResolutionsListParams
 } from '../declarations/types-65.js';
-import type { UpdateReturnResolutionResponse } from '../declarations/types-77.js';
+import type { ReturnResolutionsReleaseParams, ReturnResolutionsRetryParams, ReturnResolutionsUpdateParams } from '../declarations/types-66.js';
+import type { UpdateReturnResolutionResponse } from '../declarations/types-78.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
@@ -41,9 +39,6 @@ export type {
     ReturnResolutionsCreateParams,
     ReturnResolutionsGetParams,
     ReturnResolutionsListParams,
-    ReturnResolutionsReleaseParams,
-    ReturnResolutionsRetryParams,
-    ReturnResolutionsUpdateParams,
     ReturnResolutionAdjustment,
     ReturnResolutionExecutionBlocker,
     ReturnResolutionLineItem,
@@ -86,26 +81,18 @@ export type {
     LineItemFulfillmentRequestModelInput,
     LineItemFulfillmentOriginRequestModelInput
 } from '../declarations/types-40.js';
+export type { ReturnResolutionsReleaseParams, ReturnResolutionsRetryParams, ReturnResolutionsUpdateParams } from '../declarations/types-66.js';
 export type {
     ReleaseReturnResolutionResponse,
+    RefundTaxBreakdownRefund,
     RefundTenderAllocation,
     RefundUnissuedGiftCardRecovery,
     ReleaseReturnResolutionRequestInput
 } from '../declarations/types-61.js';
-export type {
-    UpdateReturnResolutionResponse,
-    UpdateReturnResolutionRequestInput,
-    UpdateReturnResolutionAdjustmentRequestInput,
-    UpdateReturnResolutionLineItemRequestInput,
-    UpdateReturnReplacementLineItemRequestInput,
-    UpdateReturnReplacementLineItemInputVariantInput,
-    UpdateReturnReplacementLineItemInputBundleInput,
-    UpdateReturnReplacementLineItemInputCustomInput,
-    UpdateReturnResolutionLineItemRequest
-} from '../declarations/types-77.js';
+export type { UpdateReturnResolutionResponse, UpdateReturnResolutionRequestInput } from '../declarations/types-78.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { MoneyValue, MoneyValueInput, NextAction } from '../declarations/types-44.js';
 export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { ExpandedPaymentIntentSummary, ExpandedCustomerSummary, ExpandedOrderSummary } from '../declarations/types-26.js';
@@ -124,15 +111,13 @@ export type {
     RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation,
-    RefundTaxBreakdownRefund,
     ReadinessMerchantAccountSession
 } from '../declarations/types-60.js';
-export type { SelectedProductOption } from '../declarations/types-67.js';
+export type { SelectedProductOption, SettlementAmounts, SplitReversalReference } from '../declarations/types-68.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
-export type { SettlementAmounts, SplitReversalReference } from '../declarations/types-68.js';
 export type { PaymentRefund } from '../declarations/types-53.js';
 export type { OrderGiftCardAllocation } from '../declarations/types-46.js';
 export type {
@@ -140,8 +125,16 @@ export type {
     OrderDraftTaxComponentRequestModelInput,
     OrderDraftTaxJurisdictionRequestModelInput
 } from '../declarations/types-45.js';
-export { makeCancelReturnRequest } from '../declarations/types-80.js';
-export { makeCancelReturnResolutionRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-81.js';
+export type {
+    UpdateReturnResolutionAdjustmentRequestInput,
+    UpdateReturnResolutionLineItemRequestInput,
+    UpdateReturnReplacementLineItemRequestInput,
+    UpdateReturnReplacementLineItemInputVariantInput,
+    UpdateReturnReplacementLineItemInputBundleInput,
+    UpdateReturnReplacementLineItemInputCustomInput,
+    UpdateReturnResolutionLineItemRequest
+} from '../declarations/types-77.js';
+export { makeCancelReturnRequest, makeCancelReturnResolutionRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-81.js';
 export {
     makeCreateReturnResolutionRequest,
     makeCreateReturnResolutionRequestCorrection,
@@ -150,18 +143,18 @@ export {
 export {
     makeLineItemFulfillmentOriginRequestModel,
     makeLineItemFulfillmentRequestModel,
+    makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue
+    makeMetadataRequest
 } from '../declarations/types-88.js';
 export {
+    makeMoneyValue,
     makeOrderDraftLineItemTaxCalculationRequestModel,
     makeOrderDraftTaxComponentRequestModel,
     makeOrderDraftTaxJurisdictionRequestModel
 } from '../declarations/types-89.js';
+export { makeReleaseReturnResolutionRequest, makeRetryReturnResolutionRequest } from '../declarations/types-91.js';
 export {
-    makeReleaseReturnResolutionRequest,
-    makeRetryReturnResolutionRequest,
     makeReturnReplacementLineItemInputBundle,
     makeReturnReplacementLineItemInputCustom,
     makeReturnReplacementLineItemInputVariant,
@@ -169,7 +162,7 @@ export {
     makeReturnReplacementTaxRequest,
     makeReturnResolutionAdjustmentRequest,
     makeReturnResolutionLineItemRequest
-} from '../declarations/types-91.js';
+} from '../declarations/types-92.js';
 export {
     makeUpdateReturnReplacementLineItemInputBundle,
     makeUpdateReturnReplacementLineItemInputCustom,

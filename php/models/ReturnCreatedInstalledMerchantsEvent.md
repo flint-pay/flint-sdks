@@ -27,13 +27,13 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](ReturnCreatedMerchantEvent.md#returncreatedmerchanteventdata-fields-1).
 
+### ReturnCreatedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### ReturnCreatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [ReturnCanceledMerchantEvent.data fields 1.object](../models/ReturnCanceledMerchantEvent.md#returncanceledmerchanteventdata-fields-1object).
-
-### ReturnCreatedInstalledMerchantsEvent.data fields 1.actor
-
-Field definitions: [ReturnCanceledMerchantEventData.actor](../models/ReturnCanceledMerchantEventData.md#returncanceledmerchanteventdataactor).
 
 ### ReturnCreatedInstalledMerchantsEvent.source fields 1
 

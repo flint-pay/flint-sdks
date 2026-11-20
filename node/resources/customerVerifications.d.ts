@@ -36,15 +36,16 @@ export type {
 } from '../declarations/types-17.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type { ClientOptions, ConfirmCustomerVerificationRequestInput } from '../declarations/types-7.js';
+export type { ClientOptions } from '../declarations/types-7.js';
+export type { ConfirmCustomerVerificationRequestInput } from '../declarations/types-8.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CreateCustomerVerificationRequestInput } from '../declarations/types-9.js';
 export { makeConfirmCustomerVerificationRequest } from '../declarations/types-81.js';
 export { makeCreateCustomerVerificationRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface CustomerVerificationsResource {
     /**
  * Confirms the Flint-sent code and returns a verification that can link guest purchases for its

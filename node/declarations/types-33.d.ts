@@ -1,15 +1,382 @@
-import type { InventoryActionRequired, InventoryActionRequiredPreviousAttributes } from './types-31.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { MerchantWebhookEnvelope } from './types-43.js';
-import type { InventoryReservation, InventoryLevel, InventoryOriginPolicy, InventoryOriginPolicyRequestInput } from './types-32.js';
+import type { InventoryLevel, InventoryReceipt } from './types-32.js';
 import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
+import type { CreateInventoryReceiptRequestInput, CreateInventoryReservationRequestInput } from './types-10.js';
+import type { DisputesAcceptParams } from './types-26.js';
+import type { InventoryActionRequired, InventoryActionRequiredPreviousAttributes } from './types-31.js';
+import type { MerchantWebhookEnvelope } from './types-43.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { CommitInventoryReservationRequestInput } from './types-7.js';
 import type { ConsumeInventoryReservationRequestInput } from './types-8.js';
-import type { CreateInventoryReservationRequestInput } from './types-10.js';
-import type { DisputesAcceptParams } from './types-26.js';
 import type { ReleaseInventoryReservationRequestInput } from './types-61.js';
 import type { UpdateInventoryReservationRequestInput } from './types-76.js';
+/**
+ * Inventory receipt and the levels it changed. inventory_receipt is the primary resource and
+ * expected_version target.
+ */
+export type InventoryReceiptResult = {
+    /**
+     * Post-commit state of every level this command touched, one entry per level. A replay returns
+     * the levels the original command produced. Empty when no levels changed. [] (Value): {@link
+     * InventoryLevel}. The quantity state of one inventory item at one Location.
+     */
+    "inventory_levels": Array<InventoryLevel>;
+    /**
+     * The recorded receipt. Returned units received into Inventory, from a Return disposition or
+     * against the reservation line that consumed them. For supplier deliveries, use POST
+     * /v1/inventory-adjustments with reason: received.
+     */
+    "inventory_receipt": InventoryReceipt;
+};
+/** A response containing `InventoryReceiptResult` data. */
+export type InventoryReceiptResultResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Inventory receipt and
+     * the levels it changed. inventory_receipt is the primary resource and expected_version
+     * target.
+     */
+    "data": InventoryReceiptResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type InventoryReceiptsCreateParams = (InputValue<CreateInventoryReceiptRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type InventoryReceiptsGetParams = DisputesAcceptParams;
+export type InventoryReceiptsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by inventory item. pattern: ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     */
+    "inventory_item_id"?: InputValue<string>;
+    /**
+     * Filter by receiving Location. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id"?: InputValue<string>;
+    /**
+     * Filter by source reservation. pattern: ^invr_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "inventory_reservation_id"?: InputValue<string>;
+    /**
+     * Filter by the customer Return that produced the receipt. pattern:
+     * ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id"?: InputValue<string>;
+    /**
+     * Filter by the Return disposition that produced the receipt. pattern:
+     * ^retdsp_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "return_disposition_id"?: InputValue<string>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns only resources created in your caller namespace, plus
+     * resources created before caller scoping under the original key. Returns current authorized
+     * resources, not the recorded response. A pending resource does not prove that the operation
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Filter by source-system type. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "manual", "pos", "wms", "erp", "flint", "other". Value enum: "manual",
+     * "pos", "wms", "erp", "flint", "other". anyOf[1] (Value): Array of string. minItems: 1. []
+     * enum: "manual", "pos", "wms", "erp", "flint", "other". anyOf[1][] (Value): string. Value
+     * enum: "manual", "pos", "wms", "erp", "flint", "other". anyOf[2] (Value): string. Value enum:
+     * "manual", "pos", "wms", "erp", "flint", "other".
+     */
+    "source_system_type"?: InputValue<("manual" | "pos" | "wms" | "erp" | "flint" | "other")
+        | readonly ("manual" | "pos" | "wms" | "erp" | "flint" | "other")[]>;
+    /** Filter by external source ID. Example: "warehouse-1842". */
+    "external_source_id"?: InputValue<string>;
+    /** Filter by external actor ID. Example: "warehouse-1842". */
+    "external_actor_id"?: InputValue<string>;
+    /** Inclusive lower bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/**
+ * A claim on stock. Quantity moves from held to committed to consumed, and can be released or
+ * reallocated.
+ */
+export type InventoryReservation = {
+    /**
+     * How the reservation ended. adopted when its remaining held stock moved to a delivery
+     * selection. mixed when more than one terminal outcome applied. `null` when the reservation
+     * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
+     * "mixed", null.
+     */
+    "closed_reason"?: "consumed"
+        | "released"
+        | "expired"
+        | "reallocated"
+        | "adopted"
+        | "mixed"
+        | null
+        | (string & {})
+        | null;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Deadline for held or unconfirmed backordered quantity. While an order payment waits for a
+     * buyer action, this is the earlier of the stock hold deadline and the payment attempt
+     * deadline. Flint can keep stock held while the payment outcome is uncertain. `null` when no
+     * line holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string | null;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key": string | null;
+    /**
+     * Present when the claim needs a merchant action before commerce can continue. Says that an
+     * inventory reservation needs action, with the `reason` and the reservation lines affected.
+     */
+    "inventory_action_required"?: InventoryActionRequired;
+    /**
+     * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "inventory_reservation_id": string;
+    /**
+     * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+     * allocation policy, or a specific policy revision. Where an order, payment link, or
+     * reservation routes inventory from: a fixed Location, an inventory allocation policy, or one
+     * policy revision.
+     */
+    "inventory_routing_source": InventoryRoutingSource;
+    /**
+     * Allocations of the reserved stock, one for each item and Location. [] (Value): {@link
+     * InventoryReservationLine}. One item's location allocation within a reservation.
+     */
+    "lines": Array<InventoryReservationLine>;
+    /**
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order.
+     */
+    "owner": InventoryReservationOwner;
+    /**
+     * Set on a reservation whose claim Flint moved when it rerouted an order: the replacement
+     * reservation that now holds the quantity named in this reservation's reallocated_quantity.
+     * Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "replacement_inventory_reservation_id"?: string;
+    /**
+     * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+     * rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "source_inventory_reservation_id"?: string;
+    /**
+     * active while any held, committed, or backordered quantity remains; closed once none does.
+     * Value enum: "active", "closed".
+     */
+    "status": "active" | "closed" | (string & {});
+    /**
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". [] (Value): string. Value enum: "commit",
+     * "consume", "release".
+     */
+    "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * The reservation version. Send it as expected_version to reject a write if the reservation
+     * changed. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+export type InventoryReservationActionRequiredEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string | null;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
+            "created_at"?: ((string) | (null));
+            "expires_at"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
+            "inventory_reservation_id"?: ((string) | (null));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            "lines"?: ((Array<InventoryReservationLinePreviousAttributes>) | (null));
+            "owner"?: ((InventoryReservationOwnerPreviousAttributes) | (null) | (unknown));
+            "replacement_inventory_reservation_id"?: ((string) | (null));
+            "source_inventory_reservation_id"?: ((string) | (null));
+            "status"?: (("active" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"commit" | "consume" | "release" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "inventory_reservation.action_required";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string | null;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "closed_reason"?: (("consumed" | "released" | "expired" | "reallocated" | "adopted" | "mixed" | null | (string & {}))
+                | (null));
+            "created_at"?: ((string) | (null));
+            "expires_at"?: ((string) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inventory_action_required"?: ((InventoryActionRequiredPreviousAttributes) | (null));
+            "inventory_reservation_id"?: ((string) | (null));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            "lines"?: ((Array<InventoryReservationLinePreviousAttributes>) | (null));
+            "owner"?: ((InventoryReservationOwnerPreviousAttributes) | (null) | (unknown));
+            "replacement_inventory_reservation_id"?: ((string) | (null));
+            "source_inventory_reservation_id"?: ((string) | (null));
+            "status"?: (("active" | "closed" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"commit" | "consume" | "release" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "inventory_reservation.action_required";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.action_required";
+});
 /**
  * The `inventory_reservation.action_required` webhook payload for the `installed_merchants` event
  * source. Fields shared by partner webhook payloads.
@@ -11151,179 +11518,3 @@ export type InventoryRoutingSourceRequest = ((InventoryRoutingSourceInputFixedLo
     | (InventoryRoutingSourceInputPolicy)
     | (InventoryRoutingSourceInputPolicyRevision)
     | (Record<string, unknown>));
-/**
- * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one
- * policy revision, selected by `type`.
- */
-export type InventoryRoutingSourceRequestInput = ((InventoryRoutingSourceInputFixedLocationInput)
-    | (InventoryRoutingSourceInputPolicyInput)
-    | (InventoryRoutingSourceInputPolicyRevisionInput));
-/**
- * Inventory settings: the `low_stock_threshold`, how inventory failures are handled for each order
- * source, and the `default_routing_source` for requests that omit one.
- */
-export type InventorySettings = {
-    /**
-     * Where tracked demand is routed when a request omits `inventory_routing_source`: a fixed
-     * Location, an allocation policy, or one policy revision. It applies to orders, line items
-     * added to orders, quick pay invoices, payment links, subscription plans, inventory
-     * reservations, and delivery previews. The request stores the resolved source on the resource
-     * it creates or changes, as if the caller had sent it, so changing or clearing this default
-     * never moves routing for existing orders, payment links, plans, or reservations. A source the
-     * request sends always wins. `null` when no default is set. Orders, payment links, and
-     * subscription plans then use the only active Location with inventory_allocation_enabled when
-     * exactly one exists in the current environment. Links and plans do not store this implicit
-     * source; it is resolved again when their demand is evaluated. With zero or multiple eligible
-     * Locations, tracked demand still requires a source. anyOf[1] (Value): {@link
-     * InventoryRoutingSource}. Where an order, payment link, or reservation routes inventory from:
-     * a fixed Location, an inventory allocation policy, or one policy revision. anyOf[2] (Value):
-     * null.
-     */
-    "default_routing_source"?: ((InventoryRoutingSource) | (null));
-    /**
-     * Available quantity your team treats as low stock, zero or greater. The Dashboard shows this
-     * setting. It does not change allocation, filter API results, or send events. Format: int32.
-     * minimum: 0.
-     */
-    "low_stock_threshold"?: number;
-    /**
-     * Inventory failure handling keyed by order source: checkout, payment_link, api, subscription,
-     * virtual_terminal, or default. The source-specific entry wins; default applies to the rest. *
-     * (Value): {@link InventoryOriginPolicy}. How Flint handles inventory failures for one order
-     * source: the action after a post-payment inventory failure and for a blocked subscription.
-     */
-    "origin_policies"?: Record<string, InventoryOriginPolicy>;
-};
-/**
- * Inventory settings to change: the `low_stock_threshold`, how inventory failures are handled for
- * each order source, and the `default_routing_source` for requests that omit one.
- */
-export type InventorySettingsRequest = {
-    /**
-     * Where tracked demand is routed when a request omits `inventory_routing_source`: a fixed
-     * Location, an allocation policy, or one policy revision. It applies to orders, line items
-     * added to orders, quick pay invoices, payment links, subscription plans, inventory
-     * reservations, and delivery previews. The request stores the resolved source on the resource
-     * it creates or changes, as if the caller had sent it, so changing or clearing this default
-     * never moves routing for existing orders, payment links, plans, or reservations. A source the
-     * request sends always wins. `null` when no default is set. Orders, payment links, and
-     * subscription plans then use the only active Location with inventory_allocation_enabled when
-     * exactly one exists in the current environment. Links and plans do not store this implicit
-     * source; it is resolved again when their demand is evaluated. With zero or multiple eligible
-     * Locations, tracked demand still requires a source. Send null to clear it. anyOf[1] (Value):
-     * {@link InventoryRoutingSourceRequest}. Where you want inventory routed from: a fixed
-     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
-     * anyOf[2] (Value): null.
-     */
-    "default_routing_source"?: ((InventoryRoutingSourceRequest) | (null) | (unknown));
-    /**
-     * Available quantity your team treats as low stock, zero or greater. The Dashboard shows this
-     * setting. It does not change allocation, filter API results, or send events. Format: int32.
-     * minimum: 0.
-     */
-    "low_stock_threshold"?: number;
-    /**
-     * Map replaced as a whole: the keys you send become the full map. Inventory failure handling
-     * keyed by order source: checkout, payment_link, api, subscription, virtual_terminal, or
-     * default. The source-specific entry wins; default applies to the rest. * (Value): {@link
-     * InventoryOriginPolicy}. How Flint handles inventory failures for one order source: the
-     * action after a post-payment inventory failure and for a blocked subscription.
-     */
-    "origin_policies"?: Record<string, InventoryOriginPolicy>;
-};
-/**
- * Inventory settings to change: the `low_stock_threshold`, how inventory failures are handled for
- * each order source, and the `default_routing_source` for requests that omit one.
- */
-export type InventorySettingsRequestInput = {
-    /**
-     * Where tracked demand is routed when a request omits `inventory_routing_source`: a fixed
-     * Location, an allocation policy, or one policy revision. It applies to orders, line items
-     * added to orders, quick pay invoices, payment links, subscription plans, inventory
-     * reservations, and delivery previews. The request stores the resolved source on the resource
-     * it creates or changes, as if the caller had sent it, so changing or clearing this default
-     * never moves routing for existing orders, payment links, plans, or reservations. A source the
-     * request sends always wins. `null` when no default is set. Orders, payment links, and
-     * subscription plans then use the only active Location with inventory_allocation_enabled when
-     * exactly one exists in the current environment. Links and plans do not store this implicit
-     * source; it is resolved again when their demand is evaluated. With zero or multiple eligible
-     * Locations, tracked demand still requires a source. Send null to clear it. anyOf[1] (Value):
-     * {@link InventoryRoutingSourceRequestInput}. Where you want inventory routed from: a fixed
-     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
-     * anyOf[2] (Value): null.
-     */
-    "default_routing_source"?: ((InventoryRoutingSourceRequestInput) | (null));
-    /**
-     * Available quantity your team treats as low stock, zero or greater. The Dashboard shows this
-     * setting. It does not change allocation, filter API results, or send events. Format: int32.
-     * minimum: 0.
-     */
-    "low_stock_threshold"?: number;
-    /**
-     * Map replaced as a whole: the keys you send become the full map. Inventory failure handling
-     * keyed by order source: checkout, payment_link, api, subscription, virtual_terminal, or
-     * default. The source-specific entry wins; default applies to the rest. * (Value): {@link
-     * InventoryOriginPolicyRequestInput}. How Flint handles inventory failures for one order
-     * source: the action after a post-payment inventory failure and for a blocked subscription.
-     */
-    "origin_policies"?: Record<string, InventoryOriginPolicyRequestInput>;
-};
-/**
- * The system an inventory event came from, such as manual entry, a point of sale, a warehouse
- * system, or Flint, with your source identifier when it applies.
- */
-export type InventorySourceSystem = ({
-    /**
-     * Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed
-     * when type is manual. Don't put secrets in this field. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_source_id"?: string;
-    /**
-     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
-     * management system, erp for an enterprise resource planning system, or other for another
-     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
-     * "wms", "erp", "flint", "other".
-     */
-    "type": "manual" | "pos" | "wms" | "erp" | "flint" | "other" | (string & {});
-});
-export type InventorySourceSystemPreviousAttributes = ({
-    /**
-     * Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed
-     * when type is manual. Don't put secrets in this field. anyOf[1] (Value): string. Your source
-     * system's identifier. Required when type is pos, wms, erp, or other; not allowed when type is
-     * manual. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842". anyOf[2]
-     * (Value): null.
-     */
-    "external_source_id"?: ((string) | (null));
-    /**
-     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
-     * management system, erp for an enterprise resource planning system, or other for another
-     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
-     * "wms", "erp", "flint", "other". anyOf[1] (Value): string. Source of the event: manual for a
-     * manual entry, pos for a point of sale, wms for a warehouse management system, erp for an
-     * enterprise resource planning system, or other for another external system. Flint-authored
-     * events use flint in responses. Value enum: "manual", "pos", "wms", "erp", "flint", "other".
-     * anyOf[2] (Value): null.
-     */
-    "type"?: (("manual" | "pos" | "wms" | "erp" | "flint" | "other" | (string & {})) | (null));
-});
-/**
- * The source system you report for an inventory event, such as manual, pos, wms, erp, or other,
- * with your identifier when it applies.
- */
-export type InventorySourceSystemRequest = ({
-    /**
-     * Your source system's identifier. Required when type is pos, wms, erp, or other; not allowed
-     * when type is manual. Don't put secrets in this field. minLength: 1. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_source_id"?: string;
-    /**
-     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
-     * management system, erp for an enterprise resource planning system, or other for another
-     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
-     * "wms", "erp", "other".
-     */
-    "type": "manual" | "pos" | "wms" | "erp" | "other" | (string & {});
-});

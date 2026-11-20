@@ -29,8 +29,9 @@ Request input.
 | `route_pattern` | Conditional | string | The matched route as a method and path template, such as `POST /v1/orders`. |
 | `status_code` | Conditional | integer | Format: `int32`. |
 | `actor` | Conditional | [ReturnActorInput](../models/ReturnActorInput.md#returnactorinput) or null | Who caused the change, captured with the event. Null when the event predates actor attribution, its payload has been redacted, its resource type does not record an actor, or attribution is unavailable. Uses the same actor model as returns. |
+| `changes` | Conditional | Array of [ResourceTimelineFieldChangeInput](../models/ResourceTimelineFieldChangeInput.md#resourcetimelinefieldchangeinput) | Recorded before-and-after values for selected product, delivery option, and return fields. A null value means the field was unset. |
 | `event_type` | Conditional | string | Type of webhook event recorded for this resource. Values: [305 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
-| `initiator` | Conditional | [PaymentActivityActorInput](../models/PaymentActivityActorInput.md#paymentactivityactorinput) | The merchant identity associated with a product event's API request, when available. The label reflects the identity's current name. The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed. |
+| `initiator` | Conditional | [PaymentActivityActorInput](../models/PaymentActivityActorInput.md#paymentactivityactorinput) | The teammate, API key, or app that initiated the change, when recorded and visible under request-log permissions. The label reflects its current name when available. The teammate, API key, or app that initiated the action. |
 | `webhook_event_id` | Conditional | string | ID of the event being delivered. Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`. |
 | `attempt_number` | Conditional | integer | Which attempt this is for the delivery, starting at 1. Format: `int32`. |
 | `completed_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -67,7 +68,7 @@ oneOf with entry_type: "api_request": An API request recorded in this resource's
 
 - Required: `api_request_log_id`, `attributed_resource`, `http_method`, `latency_milliseconds`, `path`, `request_id`, `route_pattern`, `status_code`.
 - Optional: `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `recommended_action`, `reference_url`, `retry`.
-- Undeclared: `actor`, `event_type`, `initiator`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `image_version`, `mutation_kind`.
+- Undeclared: `actor`, `changes`, `event_type`, `initiator`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `image_version`, `mutation_kind`.
 - Constraints for `api_request_log_id`: Stable identifier of this log entry.
 - Constraints for `attributed_resource`: The resource this request log is attributed to. Always present: the timeline resource for a direct request, or its directly owned resource for an included request.
 - Constraints for `entry_type`: Always `api_request` for this kind of entry. Values: `"api_request"`.
@@ -81,10 +82,10 @@ oneOf with entry_type: "api_request": An API request recorded in this resource's
 oneOf with entry_type: "webhook_event": A webhook event recorded in this resource's timeline..
 
 - Required: `actor`, `event_type`, `webhook_event_id`.
-- Optional: `api_request_log_id`, `attributed_resource`, `initiator`, `request_id`.
+- Optional: `api_request_log_id`, `attributed_resource`, `changes`, `initiator`, `request_id`.
 - Undeclared: `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `image_version`, `mutation_kind`.
 - Constraints for `api_request_log_id`: ID of the API request log associated with this event. Omitted when no request log is associated.
-- Constraints for `attributed_resource`: The activation this entry refers to. Present for license key activation entries.
+- Constraints for `attributed_resource`: The related activation, product variant, or return resolution described by this event.
 - Constraints for `entry_type`: Always `webhook_event` for this kind of entry. Values: `"webhook_event"`.
 - Constraints for `resource_timeline_entry_id`: Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`.
 
@@ -94,7 +95,7 @@ oneOf with entry_type: "webhook_delivery_attempt": A webhook delivery attempt re
 
 - Required: `attempt_number`, `delivery_trigger`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `webhook_event_id`.
 - Optional: `api_request_log_id`, `attributed_resource`, `completed_at`, `duration_milliseconds`, `error_category`, `error_summary`, `reason_message`, `recommended_action`, `request_id`, `retryable`, `started_at`, `status_code`.
-- Undeclared: `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `reference_url`, `retry`, `route_pattern`, `actor`, `event_type`, `initiator`, `image_version`, `mutation_kind`.
+- Undeclared: `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `reference_url`, `retry`, `route_pattern`, `actor`, `changes`, `event_type`, `initiator`, `image_version`, `mutation_kind`.
 - Constraints for `api_request_log_id`: ID of the API request log associated with this attempt. Omitted when no request log is associated.
 - Constraints for `attributed_resource`: The activation this entry refers to. Present for license key activation entries.
 - Constraints for `entry_type`: Always `webhook_delivery_attempt` for this kind of entry. Values: `"webhook_delivery_attempt"`.
@@ -109,7 +110,7 @@ oneOf with entry_type: "image_mutation": A change to this resource's image attac
 
 - Required: `image_version`, `mutation_kind`.
 - Optional: `request_id`.
-- Undeclared: `api_request_log_id`, `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `actor`, `event_type`, `initiator`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`.
+- Undeclared: `api_request_log_id`, `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `actor`, `changes`, `event_type`, `initiator`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`.
 - Constraints for `entry_type`: Always `image_mutation` for this kind of entry. Values: `"image_mutation"`.
 - Constraints for `resource_timeline_entry_id`: Example: `"iomevt_01KEZF7C00D4JSSDP6AB68EFF2"`.
 

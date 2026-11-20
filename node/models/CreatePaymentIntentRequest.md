@@ -10,7 +10,7 @@ The request body for: Create payment intent.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount to request from the buyer, including any standalone tip_money. Required for standalone payments. On an order, uses the order currency and defaults to its remaining balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules apply. With capture_method manual, this is the hold amount, and you can capture less later. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/CreatePaymentIntentRequest.md#createpaymentintentrequestamount_money). |
+| `amount_money` | Optional | object | Amount to request from the buyer, including any standalone tip_money. Required for standalone payments. On an order, uses the order currency and defaults to its remaining balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules apply. With capture_method manual, this is the hold amount, and you can capture less later. `amount_money`: [field definitions](../models/CreatePaymentIntentRequest.md#createpaymentintentrequestamount_money). |
 | `capture_method` | Optional | string | automatic collects the payment when it is confirmed. manual places a hold at confirmation that you capture or cancel later. Defaults to automatic. Default: `"automatic"`. Values: `"automatic"`, `"manual"`. |
 | `customer_id` | Optional | string | Customer to link to this payment intent. minLength: `1`. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `expected_order_version` | Optional | integer | Optional order version from the last order read. Accepted only with order_id; the create fails with VERSION_CONFLICT if the order changed. Format: `int64`. minimum: `1`. |
@@ -29,9 +29,9 @@ The request body for: Create payment intent.
 
 ### CreatePaymentIntentRequest.amount_money
 
-Amount to request from the buyer, including any standalone tip_money. Required for standalone payments. On an order, uses the order currency and defaults to its remaining balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules apply. With capture_method manual, this is the hold amount, and you can capture less later. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+Amount to request from the buyer, including any standalone tip_money. Required for standalone payments. On an order, uses the order currency and defaults to its remaining balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules apply. With capture_method manual, this is the hold amount, and you can capture less later.
 
-Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestamount_money).
 
 ### CreatePaymentIntentRequest.metadata
 

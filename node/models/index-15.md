@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# DeliveryWindowTimeConditionInput to ExpandedPaymentMethodSummary
+# DeliveryWeightUnitPriceRequestInput to ExpandedPackageSummaryPreviousAttributes
 
+- [DeliveryWeightUnitPriceRequestInput](DeliveryWeightUnitPriceRequestInput.md)
+- [DeliveryWindowRequest](DeliveryWindowRequest.md)
+- [DeliveryWindowRequestInput](DeliveryWindowRequestInput.md)
+- [DeliveryWindowResourcePreviousAttributes](DeliveryWindowResourcePreviousAttributes.md)
+- [DeliveryWindowTimeCondition](DeliveryWindowTimeCondition.md)
 - [DeliveryWindowTimeConditionInput](DeliveryWindowTimeConditionInput.md)
 - [DeliveryWindowTimeConditionPreviousAttributes](DeliveryWindowTimeConditionPreviousAttributes.md)
 - [DeliveryZone](DeliveryZone.md)
@@ -97,9 +102,4 @@
 - [ExpandedOrderSummaryPreviousAttributes](ExpandedOrderSummaryPreviousAttributes.md)
 - [ExpandedPackageSummary](ExpandedPackageSummary.md)
 - [ExpandedPackageSummaryPreviousAttributes](ExpandedPackageSummaryPreviousAttributes.md)
-- [ExpandedPaymentIntentSummary](ExpandedPaymentIntentSummary.md)
-- [ExpandedPaymentIntentSummaryPreviousAttributes](ExpandedPaymentIntentSummaryPreviousAttributes.md)
-- [ExpandedPaymentLinkSummary](ExpandedPaymentLinkSummary.md)
-- [ExpandedPaymentLinkSummaryPreviousAttributes](ExpandedPaymentLinkSummaryPreviousAttributes.md)
-- [ExpandedPaymentMethodSummary](ExpandedPaymentMethodSummary.md)
 

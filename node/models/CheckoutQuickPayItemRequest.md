@@ -10,15 +10,15 @@ A single custom item to charge on a checkout session, supplied as `quick_pay_ite
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount the buyer pays for the item. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/CheckoutQuickPayItemRequest.md#checkoutquickpayitemrequestamount_money). |
+| `amount_money` | Required | object | Positive price for the quick-pay item. `amount_money`: [field definitions](../models/CheckoutQuickPayItemRequest.md#checkoutquickpayitemrequestamount_money). |
 | `name` | Required | string | Name shown for the item. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `tax` | Optional | [OrderLineItemTax](../models/OrderLineItemTax.md#orderlineitemtax) | Tax settings for the item. A line item's tax category and whether it is taxable. `tax`: [field definitions](../models/CheckoutQuickPayItemRequest.md#checkoutquickpayitemrequesttax). |
 
 ### CheckoutQuickPayItemRequest.amount_money
 
-Amount the buyer pays for the item. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+Positive price for the quick-pay item.
 
-Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestamount_money).
 
 ### CheckoutQuickPayItemRequest.tax
 

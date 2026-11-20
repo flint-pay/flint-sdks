@@ -1,7 +1,7 @@
 import type { ResourceReference, ResponseMeta, ResourceReferencePreviousAttributes } from './types-62.js';
-import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-11.js';
+import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-12.js';
 import type { OrderChargeRequest, OrderChargeRequestInput } from './types-45.js';
-import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-63.js';
+import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-64.js';
 import type { GetReturnResponse, GiftCard } from './types-28.js';
 import type { RiskListItemAddition } from './types-66.js';
 import type { MoneyValue } from './types-44.js';
@@ -10,11 +10,10 @@ import type { GiftCardLoad } from './types-29.js';
 import type { GiftCardTransaction } from './types-30.js';
 import type { InputValue } from '../runtime.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
-import type { CreateAPIKeyRequestInput } from './types-8.js';
-import type { ConfigurationVersionRequestInput } from './types-7.js';
+import type { CreateAPIKeyRequestInput, ConfigurationVersionRequestInput } from './types-8.js';
 import type { UpdateAPIKeyRequestInput } from './types-75.js';
 import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-40.js';
-import type { PromotionRefRequest, PromotionRefRequestInput } from './types-58.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-59.js';
 /** A credential used to authenticate API requests. */
 export type APIKey = {
     /**
@@ -499,10 +498,10 @@ export type APIRequestLog = {
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
@@ -608,6 +607,7 @@ export type APIRequestLog = {
         | "partner_app"
         | "partner_app_credential"
         | "partner_app_install"
+        | "payment_attempt"
         | "payment_intent"
         | "payment_link"
         | "payment_link_custom_field"
@@ -845,10 +845,10 @@ export type APIRequestLogDetail = {
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
@@ -954,6 +954,7 @@ export type APIRequestLogDetail = {
         | "partner_app"
         | "partner_app_credential"
         | "partner_app_install"
+        | "payment_attempt"
         | "payment_intent"
         | "payment_link"
         | "payment_link_custom_field"
@@ -2623,10 +2624,10 @@ export type ApiRequestLogsListParams = {
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
@@ -2662,10 +2663,10 @@ export type ApiRequestLogsListParams = {
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
@@ -2701,10 +2702,10 @@ export type ApiRequestLogsListParams = {
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
@@ -2740,10 +2741,10 @@ export type ApiRequestLogsListParams = {
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
@@ -2779,10 +2780,10 @@ export type ApiRequestLogsListParams = {
      * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
      * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
      * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_intent",
-     * "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method",
-     * "payment_method_domain", "payment_review", "payment_split", "payout", "payout_destination",
-     * "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
@@ -2888,6 +2889,7 @@ export type ApiRequestLogsListParams = {
         | "partner_app"
         | "partner_app_credential"
         | "partner_app_install"
+        | "payment_attempt"
         | "payment_intent"
         | "payment_link"
         | "payment_link_custom_field"
@@ -3045,6 +3047,7 @@ export type ApiRequestLogsListParams = {
         | "partner_app"
         | "partner_app_credential"
         | "partner_app_install"
+        | "payment_attempt"
         | "payment_intent"
         | "payment_link"
         | "payment_link_custom_field"

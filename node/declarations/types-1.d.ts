@@ -1,18 +1,19 @@
 import type { APIKeyAuthContext } from './types-0.js';
 import type { CLILoginAuthContext, BuyerSkipCapability, BuyerSkipCapabilityInput, BuyerSetupCollection } from './types-4.js';
-import type { OnboardingSessionAuthContext, MoneyValue, MoneyMovementListMeta, MoneyValuePreviousAttributes } from './types-44.js';
+import type { OnboardingSessionAuthContext } from './types-45.js';
 import type { PartnerAppAuthContext } from './types-49.js';
 import type { WorkloadIdentityAuthContext } from './types-80.js';
 import type { InputValue } from '../runtime.js';
 import type { DisputesAcceptParams, ExpandedOrderSummary, ExpandedOrderSummaryPreviousAttributes } from './types-26.js';
 import type { ResponseMeta, ResourceReference, ResourceReferencePreviousAttributes } from './types-62.js';
-import type { Credentials } from './types-14.js';
-import type { MerchantWebhookEnvelope, MetadataMap, ModifierSet } from './types-43.js';
+import type { Credentials } from './types-15.js';
+import type { MoneyValue, MoneyMovementListMeta, MoneyValuePreviousAttributes, ModifierSet } from './types-44.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { CategoryReference, CategoryReferencePreviousAttributes } from './types-5.js';
 import type { ImageAttachment, ImageAttachmentPreviousAttributes, Image } from './types-31.js';
 import type { WebhookBundle } from './types-78.js';
-import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-67.js';
+import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-68.js';
 import type { CreateBundleRequestInput } from './types-8.js';
 import type { UpdateBundleRequestInput } from './types-75.js';
 import type {
@@ -27,12 +28,7 @@ import type {
     BuyerPaymentCollection,
     BuyerRefund
 } from './types-3.js';
-import type {
-    BuyerErrorRemediation,
-    BuyerCreateReturnPreviewRequestEligibility,
-    BuyerCreateReturnPreviewRequestResolution,
-    BuyerCreateReturnResolutionPreviewRequest
-} from './types-2.js';
+import type { BuyerErrorRemediation, BuyerCheckoutSessionWithSecret } from './types-2.js';
 import type {
     CheckoutBuyerContact,
     CheckoutBuyerFields,
@@ -48,8 +44,7 @@ import type {
     CheckoutRedirects
 } from './types-6.js';
 import type { CheckoutSessionTax, CheckoutSubscriptionTerms, CheckoutTheme, CheckoutTipConfig } from './types-7.js';
-import type { LegalSettings } from './types-38.js';
-import type { CreateReturnEligibilityPreviewRequest } from './types-13.js';
+import type { LegalSettings } from './types-39.js';
 /** The request body for: Assign unconfigured catalog entries. */
 export type AssignToUnconfiguredDeliveryProfileRequestInput = {
     /** Current version of the delivery profile. Format: uint64. minimum: 1. */
@@ -4023,6 +4018,36 @@ export type BalancesListParams = {
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
+/** A response containing `BlockFailedAttemptSignalsResult` data. */
+export type BlockFailedAttemptSignalsResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Default block-list
+     * result for a payment intent's failed attempt.
+     */
+    "data": BlockFailedAttemptSignalsResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** Default block-list result for a payment intent's failed attempt. */
+export type BlockFailedAttemptSignalsResult = {
+    /**
+     * Types of signals now on the default lists, including existing entries. Empty if the attempt
+     * carried no blockable signals. [] (Value): string.
+     */
+    "block_list_item_types": Array<string>;
+    /** The attempt whose retained signals were used. Example: "pia_01KEZF7C00CGGHWWR7KPCGNJRM". */
+    "payment_attempt_id": string;
+    /** The payment intent that owns the attempt. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+    "payment_intent_id": string;
+};
 /**
  * A merchant's branding settings: colors, corner radius, and font family. Checkout uses them as
  * its default theme.
@@ -6599,12 +6624,14 @@ export type BuyerCheckoutProblemResource = {
     "blocks_completion": boolean;
     /**
      * Which condition affects the checkout. Value enum: "delivery_selection_stale",
-     * "delivery_selection_invalid", "delivery_unreadable", "payment_in_progress".
+     * "delivery_selection_invalid", "delivery_unreadable", "payment_in_progress",
+     * "processor_payments_paused".
      */
     "code": "delivery_selection_stale"
         | "delivery_selection_invalid"
         | "delivery_unreadable"
         | "payment_in_progress"
+        | "processor_payments_paused"
         | (string & {});
     /**
      * What the caller can do about the problem, and whether retrying the same request can help.
@@ -7041,42 +7068,3 @@ export type BuyerCheckoutSessionLaunchResponse = {
      */
     "request_id": string;
 };
-/**
- * The checkout session with any newly issued checkout credential. Hosted launches return url
- * without checkout_auth_token. Headless launches return checkout_auth_token without url. Customer
- * binding confirmation returns its newly issued credential for either surface. A session in which
- * a buyer completes an order's payment.
- */
-export type BuyerCheckoutSessionWithSecret = (Exclude<BuyerCheckoutSession & object, readonly unknown[]>)
-    & ({
-    /**
-     * Checkout credential. Send it as Authorization: Bearer <checkout_auth_token>. Present on
-     * headless checkout launch and customer binding confirmation. Omitted on hosted checkout
-     * launch and when a saved-card confirmation keeps the current credential.
-     */
-    "checkout_auth_token"?: string;
-    /**
-     * One-time identity token returned only when a successful code confirmation remembered the
-     * buyer. Store it on your backend or in an HttpOnly cookie. It never opens saved cards.
-     * minLength: 47. maxLength: 47. pattern: ^rbt_[A-Za-z0-9_-]{43}$.
-     */
-    "remembered_buyer_token"?: string;
-});
-/** The request body for: Preview Return eligibility or resolution amounts for the current buyer. */
-export type BuyerCreateReturnPreviewRequest = ({
-    /**
-     * The eligibility check. Present when `mode` is `eligibility`. A request to preview which
-     * items of an order can be returned, given an order and a selection.
-     */
-    "eligibility"?: CreateReturnEligibilityPreviewRequest;
-    /** Which preview to run. Value enum: "eligibility", "resolution". */
-    "mode": "eligibility" | "resolution" | (string & {});
-    /**
-     * The priced resolution. Present when `mode` is `resolution`. The buyer's proposed resolution
-     * type, returned quantities, and replacement items to preview for a Return.
-     */
-    "resolution"?: BuyerCreateReturnResolutionPreviewRequest;
-})
-    & ((Exclude<BuyerCreateReturnPreviewRequestEligibility & object, readonly unknown[]>)
-    | (Exclude<BuyerCreateReturnPreviewRequestResolution & object, readonly unknown[]>)
-    | (Record<string, unknown>));

@@ -1,0 +1,1 @@
+{"shared":"BlockFailedAttemptSignalsResult","phpRepresentation":{"kind":"record","fields":{"block_list_item_types":{"kind":"list","value":{"kind":"value","type":"string"}},"payment_attempt_id":{"kind":"value","type":"string"},"payment_intent_id":{"kind":"value","type":"string"}}},"dependencies":["BlockFailedAttemptSignalsResult"]}

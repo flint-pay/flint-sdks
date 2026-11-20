@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# UpdateProductOptionRequestInput to WebhookSnapshotPayoutInput
+# UpdatePaymentIntentRequestInput to WebhookSnapshotInventoryCountInput
 
+- [UpdatePaymentIntentRequestInput](UpdatePaymentIntentRequestInput.md)
+- [UpdatePaymentLinkRequestInput](UpdatePaymentLinkRequestInput.md)
+- [UpdatePaymentMethodDomainRequestInput](UpdatePaymentMethodDomainRequestInput.md)
+- [UpdatePayoutDestinationRequestInput](UpdatePayoutDestinationRequestInput.md)
+- [UpdatePayoutSettingsRequestInput](UpdatePayoutSettingsRequestInput.md)
+- [UpdatePickupFulfillmentDetailsInput](UpdatePickupFulfillmentDetailsInput.md)
+- [UpdatePriceListPriceRequestInput](UpdatePriceListPriceRequestInput.md)
+- [UpdatePriceListRequestInput](UpdatePriceListRequestInput.md)
 - [UpdateProductOptionRequestInput](UpdateProductOptionRequestInput.md)
 - [UpdateProductOptionValueRequestInput](UpdateProductOptionValueRequestInput.md)
 - [UpdateProductRequestInput](UpdateProductRequestInput.md)
@@ -94,12 +102,4 @@
 - [WebhookSnapshotFulfillmentPreviousAttributesInput](WebhookSnapshotFulfillmentPreviousAttributesInput.md)
 - [WebhookSnapshotGiftCardInput](WebhookSnapshotGiftCardInput.md)
 - [WebhookSnapshotInventoryCountInput](WebhookSnapshotInventoryCountInput.md)
-- [WebhookSnapshotInventoryReceiptInput](WebhookSnapshotInventoryReceiptInput.md)
-- [WebhookSnapshotInventoryReservationInput](WebhookSnapshotInventoryReservationInput.md)
-- [WebhookSnapshotInventoryTransferInput](WebhookSnapshotInventoryTransferInput.md)
-- [WebhookSnapshotInvoiceManualPaymentInput](WebhookSnapshotInvoiceManualPaymentInput.md)
-- [WebhookSnapshotInvoicePaymentAttemptInput](WebhookSnapshotInvoicePaymentAttemptInput.md)
-- [WebhookSnapshotOrderPaymentAttemptInput](WebhookSnapshotOrderPaymentAttemptInput.md)
-- [WebhookSnapshotOrderPaymentAttemptPreviousAttributesInput](WebhookSnapshotOrderPaymentAttemptPreviousAttributesInput.md)
-- [WebhookSnapshotPayoutInput](WebhookSnapshotPayoutInput.md)
 

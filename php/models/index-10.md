@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# DeliveryMethodUpdatedInstalledMerchantsEventInput to DeliveryRadiusConditionRequestInput
+# DeliveryMethodOriginSelectorPickupLocationCollectionInput to DeliveryQuoteListResponseInput
 
+- [DeliveryMethodOriginSelectorPickupLocationCollectionInput](DeliveryMethodOriginSelectorPickupLocationCollectionInput.md)
+- [DeliveryMethodOriginSelectorPickupLocationCollectionPreviousAttributesInput](DeliveryMethodOriginSelectorPickupLocationCollectionPreviousAttributesInput.md)
+- [DeliveryMethodOriginSelectorPreviousAttributesInput](DeliveryMethodOriginSelectorPreviousAttributesInput.md)
+- [DeliveryMethodOriginSelectorRequestInput](DeliveryMethodOriginSelectorRequestInput.md)
+- [DeliveryMethodResponseInput](DeliveryMethodResponseInput.md)
 - [DeliveryMethodUpdatedInstalledMerchantsEventInput](DeliveryMethodUpdatedInstalledMerchantsEventInput.md)
 - [DeliveryMethodUpdatedMerchantEventInput](DeliveryMethodUpdatedMerchantEventInput.md)
 - [DeliveryOptionProjectionInput](DeliveryOptionProjectionInput.md)
@@ -97,9 +102,4 @@
 - [DeliveryQuoteLineItemResourceInput](DeliveryQuoteLineItemResourceInput.md)
 - [DeliveryQuoteLineItemResourcePreviousAttributesInput](DeliveryQuoteLineItemResourcePreviousAttributesInput.md)
 - [DeliveryQuoteListResponseInput](DeliveryQuoteListResponseInput.md)
-- [DeliveryQuoteMethodResourceInput](DeliveryQuoteMethodResourceInput.md)
-- [DeliveryQuoteResponseInput](DeliveryQuoteResponseInput.md)
-- [DeliveryRadiusConditionInput](DeliveryRadiusConditionInput.md)
-- [DeliveryRadiusConditionPreviousAttributesInput](DeliveryRadiusConditionPreviousAttributesInput.md)
-- [DeliveryRadiusConditionRequestInput](DeliveryRadiusConditionRequestInput.md)
 

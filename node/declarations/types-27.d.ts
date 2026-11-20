@@ -1,26 +1,22 @@
+import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+import type { SubscriptionIntervalOption, SubscriptionIntervalOptionPreviousAttributes } from './types-70.js';
+import type { SubscriptionPlanLineItem, SubscriptionPlanLineItemPreviousAttributes } from './types-71.js';
 import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateFileRequestInput, CreateFulfillmentEventRequestInput } from './types-9.js';
+import type { CreateFileRequestInput } from './types-9.js';
 import type {
     DisputesAcceptParams,
     ExpandedPaymentIntentSummary,
+    DisputePreviousAttributes,
     ExpandedPaymentIntentSummaryPreviousAttributes,
     ExpandedOrderSummary,
     ExpandedPackageSummary,
-    ExpandedShipmentSummary,
     ExpandedOrderSummaryPreviousAttributes,
-    ExpandedPackageSummaryPreviousAttributes,
-    ExpandedShipmentSummaryPreviousAttributes
+    ExpandedPackageSummaryPreviousAttributes
 } from './types-26.js';
-import type {
-    Dispute,
-    DisputePreviousAttributes,
-    DigitalFulfillmentDetails,
-    DigitalFulfillmentDetailsPreviousAttributes
-} from './types-25.js';
+import type { Dispute, DigitalFulfillmentDetails, DigitalFulfillmentDetailsPreviousAttributes } from './types-25.js';
 import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { DeliveryFulfillmentDetails, DeliveryFulfillmentDetailsPreviousAttributes } from './types-19.js';
 import type {
     FulfillmentOutcome,
@@ -29,17 +25,445 @@ import type {
     FulfillmentRecipientPreviousAttributes
 } from './types-28.js';
 import type { PickupFulfillmentDetails, PickupFulfillmentDetailsPreviousAttributes } from './types-55.js';
-import type { ServiceFulfillmentDetails } from './types-67.js';
 import type {
+    ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
     ServiceFulfillmentDetailsPreviousAttributes,
     ShipmentFulfillmentDetailsPreviousAttributes,
     SinglePackageCreateRequest,
     SinglePackageCreateRequestInput
 } from './types-68.js';
+import type { CreateFulfillmentEventRequestInput } from './types-10.js';
 import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-12.js';
 import type { PackageCreateRequest, PackageCreateRequestInput } from './types-48.js';
 import type { OrderLineItemModifier, OrderLineItemModifierPreviousAttributes } from './types-46.js';
+/**
+ * A shipment's summary fields, including direction, status, and package count, returned when the
+ * shipment is expanded.
+ */
+export type ExpandedShipmentSummary = {
+    /**
+     * When the shipment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at"?: string;
+    /**
+     * When the shipment was delivered, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "delivered_at"?: string;
+    /**
+     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
+     * "outbound", "return".
+     */
+    "direction": "outbound" | "return" | (string & {});
+    /** Fulfillment associated with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
+    "fulfillment_id": string;
+    /**
+     * When the carrier accepted the shipment, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "handed_off_at"?: string;
+    /**
+     * Total number of packages attached to the shipment, including voided packages. Format: int32.
+     * minimum: 0.
+     */
+    "package_count": number;
+    /**
+     * ID of the Return this shipment sends back. Present only on return shipments. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id"?: string;
+    /** Stable identifier of the expanded shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
+    "shipment_id": string;
+    /**
+     * When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "shipped_at"?: string;
+    /**
+     * Read-only shipment state. - `created`: The shipment leg exists but has not been packed or
+     * handed off. - `packed`: The shipment leg is packed and awaiting carrier handoff. -
+     * `shipped`: The shipment leg was handed to the carrier. - `in_transit`: The carrier is moving
+     * the shipment through its network. - `out_for_delivery`: The shipment is on its final
+     * delivery route. - `delivered`: The carrier reported successful delivery. -
+     * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the
+     * carrier instructions before retrying delivery. - `exception`: A carrier exception is
+     * blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was
+     * returned toward or to its origin. - `voided`: The shipment was voided and will not continue
+     * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
+     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+     */
+    "status": "created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided"
+        | (string & {});
+    /**
+     * Lifecycle actions Flint accepts now, independent of permissions. Contains void while the
+     * shipment and its fulfillment permit voiding. Always present with merchant credentials. []
+     * enum: "void". [] (Value): string. Value enum: "void".
+     */
+    "supported_actions"?: Array<"void" | (string & {})>;
+    /**
+     * When the shipment was last updated, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at"?: string;
+};
+export type ExpandedShipmentSummaryPreviousAttributes = {
+    /**
+     * When the shipment was created, in RFC3339 format. anyOf[1] (Value): string. When the
+     * shipment was created, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * When the shipment was delivered, in RFC3339 format. anyOf[1] (Value): string. When the
+     * shipment was delivered, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "delivered_at"?: ((string) | (null));
+    /**
+     * Whether the shipment sends items to the buyer or returns items to the merchant. Value enum:
+     * "outbound", "return". anyOf[1] (Value): string. Whether the shipment sends items to the
+     * buyer or returns items to the merchant. Value enum: "outbound", "return". anyOf[2] (Value):
+     * null.
+     */
+    "direction"?: (("outbound" | "return" | (string & {})) | (null));
+    /**
+     * Fulfillment associated with this shipment. anyOf[1] (Value): string. Fulfillment associated
+     * with this shipment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". anyOf[2] (Value): null.
+     */
+    "fulfillment_id"?: ((string) | (null));
+    /**
+     * When the carrier accepted the shipment, in RFC3339 format. anyOf[1] (Value): string. When
+     * the carrier accepted the shipment, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "handed_off_at"?: ((string) | (null));
+    /**
+     * Total number of packages attached to the shipment, including voided packages. anyOf[1]
+     * (Value): integer. Total number of packages attached to the shipment, including voided
+     * packages. Format: int32. minimum: 0. anyOf[2] (Value): null.
+     */
+    "package_count"?: ((number) | (null));
+    /**
+     * ID of the Return this shipment sends back. Present only on return shipments. anyOf[1]
+     * (Value): string. ID of the Return this shipment sends back. Present only on return
+     * shipments. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+     */
+    "return_id"?: ((string) | (null));
+    /**
+     * Stable identifier of the expanded shipment. anyOf[1] (Value): string. Stable identifier of
+     * the expanded shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". anyOf[2] (Value): null.
+     */
+    "shipment_id"?: ((string) | (null));
+    /**
+     * When the shipment was shipped, in RFC3339 format. anyOf[1] (Value): string. When the
+     * shipment was shipped, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * anyOf[2] (Value): null.
+     */
+    "shipped_at"?: ((string) | (null));
+    /**
+     * Read-only shipment state. - `created`: The shipment leg exists but has not been packed or
+     * handed off. - `packed`: The shipment leg is packed and awaiting carrier handoff. -
+     * `shipped`: The shipment leg was handed to the carrier. - `in_transit`: The carrier is moving
+     * the shipment through its network. - `out_for_delivery`: The shipment is on its final
+     * delivery route. - `delivered`: The carrier reported successful delivery. -
+     * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the
+     * carrier instructions before retrying delivery. - `exception`: A carrier exception is
+     * blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was
+     * returned toward or to its origin. - `voided`: The shipment was voided and will not continue
+     * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
+     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+     * anyOf[1] (Value): string. Read-only shipment state. - `created`: The shipment leg exists but
+     * has not been packed or handed off. - `packed`: The shipment leg is packed and awaiting
+     * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. - `in_transit`:
+     * The carrier is moving the shipment through its network. - `out_for_delivery`: The shipment
+     * is on its final delivery route. - `delivered`: The carrier reported successful delivery. -
+     * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the
+     * carrier instructions before retrying delivery. - `exception`: A carrier exception is
+     * blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was
+     * returned toward or to its origin. - `voided`: The shipment was voided and will not continue
+     * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
+     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+     * anyOf[2] (Value): null.
+     */
+    "status"?: (("created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided"
+        | (string & {}))
+        | (null));
+    /**
+     * Lifecycle actions Flint accepts now, independent of permissions. Contains void while the
+     * shipment and its fulfillment permit voiding. Always present with merchant credentials. []
+     * enum: "void". anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts now,
+     * independent of permissions. Contains void while the shipment and its fulfillment permit
+     * voiding. Always present with merchant credentials. [] enum: "void". anyOf[1][] (Value):
+     * string. Value enum: "void". anyOf[2] (Value): null.
+     */
+    "supported_actions"?: ((Array<"void" | (string & {})>) | (null));
+    /**
+     * When the shipment was last updated, in RFC3339 format. anyOf[1] (Value): string. When the
+     * shipment was last updated, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+};
+/**
+ * A subscription plan's summary fields, including name, billing interval, currency, and status,
+ * returned when the plan is expanded.
+ */
+export type ExpandedSubscriptionPlanSummary = {
+    /**
+     * Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with
+     * a count of 3 bills every three months. A new subscription starts on the pair the buyer chose
+     * from `billing_interval_options`, or on this one when they chose none. Value enum: "daily",
+     * "weekly", "monthly", "yearly".
+     */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /**
+     * Number of `billing_interval` units between charges on the plan's default pair. Format:
+     * int32.
+     */
+    "billing_interval_count": number;
+    /**
+     * Offered billing interval and count pairs, including the plan's default pair. Prices of lines
+     * that ship are per delivery. Each option charges for all deliveries in its period. Use
+     * separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems:
+     * true. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such as every 2
+     * months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship
+     * are per delivery, and each option charges for all deliveries in its period. Without a
+     * delivery cadence there is one delivery per period, so every option bills the same line
+     * prices once per period. With a delivery cadence, a longer period bills more deliveries of
+     * the lines that ship; other lines bill once per period. For a different price per interval
+     * with no delivery cadence, create separate plans.
+     */
+    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at"?: string;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /** Description of the plan. Omitted when none is set. */
+    "description"?: string;
+    /**
+     * The lines a subscription on this plan bills each period, in the order you set them. Flint
+     * copied each catalog line's details from the catalog when it added the line. [] (Value):
+     * {@link SubscriptionPlanLineItem}. A line item on a subscription plan.
+     */
+    "line_items"?: Array<SubscriptionPlanLineItem>;
+    /** Name of the plan. Buyers see it at checkout and on their subscription. */
+    "name": string;
+    /**
+     * One-time fee charged with the first payment of a new subscription, except one that continues
+     * an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "setup_fee_money"?: MoneyValue;
+    /**
+     * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
+     * while existing subscriptions keep renewing. Archived plans are read-only and their status is
+     * set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Value enum: "active",
+     * "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * Unique identifier for this subscription plan, prefixed `plan_`. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id": string;
+    /**
+     * Days of free trial before the first recurring charge. Omitted or 0 when the plan has no
+     * trial. Format: int32.
+     */
+    "trial_period_days"?: number;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at"?: string;
+};
+export type ExpandedSubscriptionPlanSummaryPreviousAttributes = {
+    /**
+     * Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with
+     * a count of 3 bills every three months. A new subscription starts on the pair the buyer chose
+     * from `billing_interval_options`, or on this one when they chose none. Value enum: "daily",
+     * "weekly", "monthly", "yearly". anyOf[1] (Value): string. Unit of the plan's default billing
+     * period. Read with `billing_interval_count`: monthly with a count of 3 bills every three
+     * months. A new subscription starts on the pair the buyer chose from
+     * `billing_interval_options`, or on this one when they chose none. Value enum: "daily",
+     * "weekly", "monthly", "yearly". anyOf[2] (Value): null.
+     */
+    "billing_interval"?: (("daily" | "weekly" | "monthly" | "yearly" | (string & {})) | (null));
+    /**
+     * Number of `billing_interval` units between charges on the plan's default pair. anyOf[1]
+     * (Value): integer. Number of `billing_interval` units between charges on the plan's default
+     * pair. Format: int32. anyOf[2] (Value): null.
+     */
+    "billing_interval_count"?: ((number) | (null));
+    /**
+     * Offered billing interval and count pairs, including the plan's default pair. Prices of lines
+     * that ship are per delivery. Each option charges for all deliveries in its period. Use
+     * separate plans or promotions for different prices per interval. anyOf[1] (Value): Array of
+     * {@link SubscriptionIntervalOptionPreviousAttributes}. Offered billing interval and count
+     * pairs, including the plan's default pair. Prices of lines that ship are per delivery. Each
+     * option charges for all deliveries in its period. Use separate plans or promotions for
+     * different prices per interval. maxItems: 12. uniqueItems: true. anyOf[1][] (Value): {@link
+     * SubscriptionIntervalOptionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "billing_interval_options"?: ((Array<SubscriptionIntervalOptionPreviousAttributes>) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * ISO 4217 currency code. anyOf[1] (Value): string. ISO 4217 currency code. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
+     */
+    "currency"?: ((string) | (null));
+    /**
+     * Description of the plan. Omitted when none is set. anyOf[1] (Value): string. Description of
+     * the plan. Omitted when none is set. anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * The lines a subscription on this plan bills each period, in the order you set them. Flint
+     * copied each catalog line's details from the catalog when it added the line. anyOf[1]
+     * (Value): Array of {@link SubscriptionPlanLineItemPreviousAttributes}. The lines a
+     * subscription on this plan bills each period, in the order you set them. Flint copied each
+     * catalog line's details from the catalog when it added the line. anyOf[1][] (Value): {@link
+     * SubscriptionPlanLineItemPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "line_items"?: ((Array<SubscriptionPlanLineItemPreviousAttributes>) | (null));
+    /**
+     * Name of the plan. Buyers see it at checkout and on their subscription. anyOf[1] (Value):
+     * string. Name of the plan. Buyers see it at checkout and on their subscription. anyOf[2]
+     * (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * One-time fee charged with the first payment of a new subscription, except one that continues
+     * an imported paid period. Omitted when the plan has no setup fee. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "setup_fee_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
+     * while existing subscriptions keep renewing. Archived plans are read-only and their status is
+     * set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Value enum: "active",
+     * "inactive", "archived". anyOf[1] (Value): string. Active plans accept new signups. Inactive
+     * plans refuse new signups with ACTION_NOT_ALLOWED while existing subscriptions keep renewing.
+     * Archived plans are read-only and their status is set only by DELETE
+     * /v1/subscription-plans/{subscription_plan_id}. Value enum: "active", "inactive", "archived".
+     * anyOf[2] (Value): null.
+     */
+    "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+    /**
+     * Unique identifier for this subscription plan, prefixed `plan_`. anyOf[1] (Value): string.
+     * Unique identifier for this subscription plan, prefixed `plan_`. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV". anyOf[2] (Value): null.
+     */
+    "subscription_plan_id"?: ((string) | (null));
+    /**
+     * Days of free trial before the first recurring charge. Omitted or 0 when the plan has no
+     * trial. anyOf[1] (Value): integer. Days of free trial before the first recurring charge.
+     * Omitted or 0 when the plan has no trial. Format: int32. anyOf[2] (Value): null.
+     */
+    "trial_period_days"?: ((number) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+};
+/**
+ * A subscription's summary fields, including status, billing period, and next billing time,
+ * returned when the subscription is expanded.
+ */
+export type ExpandedSubscriptionSummary = {
+    /**
+     * Day of the month used for monthly and yearly billing in the subscription's billing timezone.
+     * Applies only to Flint-owned schedules; 0 when no anchor day is set. Format: int32.
+     */
+    "billing_anchor_day": number;
+    /** True when the subscription is scheduled to cancel instead of renewing. */
+    "cancel_at_period_end": boolean;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "current_period_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "current_period_start_at"?: string;
+    /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id": string;
+    /**
+     * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
+     * while a trialing or active subscription has a billing date and isn't set to cancel at the
+     * end of its period. Absent when no renewal is scheduled: a subscription in its final billing
+     * cycle ends at expires_at, a paused subscription resumes at scheduled_resume_at, a past_due
+     * one reports the failed billing date in missed_billing_at and retries at next_retry_at, an
+     * incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one set to
+     * cancel ends at scheduled_cancel_at, and an external schedule awaiting a date reports
+     * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "next_billing_at"?: string;
+    /**
+     * Where the subscription is in its lifecycle. Each value says what it means. Value enum:
+     * "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
+     */
+    "status": "trialing"
+        | "active"
+        | "paused"
+        | "past_due"
+        | "canceled"
+        | "incomplete"
+        | "scheduled"
+        | (string & {});
+    /**
+     * Unique identifier for this subscription, prefixed `sub_`. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+    /**
+     * ID of the subscription plan the terms come from. An empty string when `terms_type` is
+     * `subscription_offer`. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id": string;
+    /**
+     * Merchant lifecycle actions accepted by the subscription's current state. Always present with
+     * merchant credentials. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
+     * "change_plan", "change_quantity". [] (Value): string. Value enum: "cancel", "pause",
+     * "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
+     */
+    "supported_actions"?: Array<"cancel"
+        | "pause"
+        | "resume"
+        | "skip_cycle"
+        | "renew"
+        | "change_plan"
+        | "change_quantity"
+        | (string & {})>;
+    /**
+     * Terms come from the subscription plan in subscription_plan_id, or from subscription offers
+     * identified on each offer line by subscription_offer_id. Value enum: "subscription_plan",
+     * "subscription_offer".
+     */
+    "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at"?: string;
+};
 export type ExpandedSubscriptionSummaryPreviousAttributes = {
     /**
      * Day of the month used for monthly and yearly billing in the subscription's billing timezone.
@@ -356,9 +780,9 @@ export type File = {
      */
     "upload"?: FileUpload;
     /**
-     * The canonical image URL, present when ready. Attach the file with images[].file_id, or copy
-     * this URL into source_url on another resource. Format: uri. Example:
-     * "https://example.com/receipt".
+     * The canonical image URL, present when ready. It serves the image after the file is first
+     * attached. To preview before attaching, display the local image. Attach with images[].file_id
+     * or pass this URL as source_url. Format: uri. Example: "https://example.com/receipt".
      */
     "url"?: string;
     /** The stored image width in pixels, present only when ready. Format: int32. */
@@ -14483,306 +14907,4 @@ export type FulfillmentListResponse = {
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
-};
-/** A message sent about an order's fulfillment. */
-export type FulfillmentNotification = {
-    /**
-     * How Flint sends this notification. - `email`: Sends the notification to recipient_email.
-     * Value enum: "email".
-     */
-    "channel": "email" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "failed_at"?: string;
-    /**
-     * ID of the fulfillment event that triggered the notification. Example:
-     * "fev_01KEZF7C002XK9D7X3239ERT51".
-     */
-    "fulfillment_event_id"?: string;
-    /**
-     * ID of the fulfillment the notification is about. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id": string;
-    /**
-     * Unique identifier for this fulfillment notification, prefixed `fnt_`. Example:
-     * "fnt_01KEZF7C00QD91RXQH2E7H9K5E".
-     */
-    "fulfillment_notification_id": string;
-    /**
-     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * The buyer update this notification communicates. - `fulfillment_ready`: The fulfillment is
-     * ready for pickup. - `fulfillment_dispatched`: The fulfillment was dispatched. -
-     * `fulfillment_completed`: The fulfillment was completed. - `fulfillment_canceled`: The
-     * fulfillment was canceled. - `fulfillment_failed`: The fulfillment failed. -
-     * `fulfillment_no_show`: A service appointment was missed. - `fulfillment_shipped`: The
-     * fulfillment was shipped. - `fulfillment_delivered`: The fulfillment was delivered. -
-     * `shipment_shipped`: A shipment was shipped. - `shipment_out_for_delivery`: A shipment is out
-     * for delivery. - `shipment_delivered`: A shipment was delivered. -
-     * `shipment_delivery_attempted`: A carrier attempted to deliver a shipment. -
-     * `shipment_exception`: A shipment has a delivery exception. - `shipment_returned`: A shipment
-     * was returned. Value enum: "fulfillment_ready", "fulfillment_dispatched",
-     * "fulfillment_completed", "fulfillment_canceled", "fulfillment_failed",
-     * "fulfillment_no_show", "fulfillment_shipped", "fulfillment_delivered", "shipment_shipped",
-     * "shipment_out_for_delivery", "shipment_delivered", "shipment_delivery_attempted",
-     * "shipment_exception", "shipment_returned".
-     */
-    "notification_type": "fulfillment_ready"
-        | "fulfillment_dispatched"
-        | "fulfillment_completed"
-        | "fulfillment_canceled"
-        | "fulfillment_failed"
-        | "fulfillment_no_show"
-        | "fulfillment_shipped"
-        | "fulfillment_delivered"
-        | "shipment_shipped"
-        | "shipment_out_for_delivery"
-        | "shipment_delivered"
-        | "shipment_delivery_attempted"
-        | "shipment_exception"
-        | "shipment_returned"
-        | (string & {});
-    /**
-     * Present only when `expand` includes `order`; `null` when expanded and there is no related
-     * order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-     * status, payment and refund status, and pricing and settlement amounts, returned when the
-     * order is expanded. anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** ID of the order the notification is about. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-    "order_id": string;
-    /**
-     * ID of the package the notification is about, when it concerns a package. Example:
-     * "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
-     */
-    "package_id"?: string;
-    /**
-     * ID of the customer the notification was sent to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "recipient_customer_id"?: string;
-    /** Email address the notification was sent to. */
-    "recipient_email"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "sent_at"?: string;
-    /**
-     * ID of the shipment the notification is about, when it concerns a shipment. Example:
-     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     */
-    "shipment_id"?: string;
-    /**
-     * Whether the notification's email is waiting to send, was sent, failed, or was suppressed.
-     * Value enum: "pending", "sent", "failed", "suppressed".
-     */
-    "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
-    /**
-     * Why Flint chose not to send this notification. - `source_suppressed`: The originating
-     * request suppressed buyer messaging. - `default_suppressed`: The configured default
-     * suppressed buyer messaging. - `recipient_missing`: No usable recipient was available. -
-     * `template_not_configured`: No notification template was configured. -
-     * `merchant_managed_email`: The merchant's integration owns this email. -
-     * `recipient_unsubscribed`: The recipient opted out of this notification. -
-     * `sandbox_daily_limit_reached`: Not sent because the sandbox reached its daily limit of buyer
-     * emails to addresses outside your team. Send to a team address, or wait for the next UTC day.
-     * Value enum: "source_suppressed", "default_suppressed", "recipient_missing",
-     * "template_not_configured", "merchant_managed_email", "recipient_unsubscribed",
-     * "sandbox_daily_limit_reached".
-     */
-    "suppression_reason"?: "source_suppressed"
-        | "default_suppressed"
-        | "recipient_missing"
-        | "template_not_configured"
-        | "merchant_managed_email"
-        | "recipient_unsubscribed"
-        | "sandbox_daily_limit_reached"
-        | (string & {});
-    /**
-     * What created this notification. - `fulfillment_status_updated`: Created by a fulfillment
-     * status transition. - `fulfillment_event_created`: Created by a fulfillment timeline event.
-     * Value enum: "fulfillment_status_updated", "fulfillment_event_created".
-     */
-    "trigger_type": "fulfillment_status_updated" | "fulfillment_event_created" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-};
-/** A page of `FulfillmentNotification` objects. */
-export type FulfillmentNotificationListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * FulfillmentNotification}. A message sent about an order's fulfillment.
-     */
-    "data": Array<FulfillmentNotification>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `FulfillmentNotification` data. */
-export type FulfillmentNotificationResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A message sent about an
-     * order's fulfillment.
-     */
-    "data": FulfillmentNotification;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type FulfillmentNotificationsGetParams = FulfillmentEventsGetParams;
-export type FulfillmentNotificationsListParams = {
-    /**
-     * Optional fulfillment ID filter. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: InputValue<string>;
-    /**
-     * Optional order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Optional fulfillment event ID filter. pattern: ^fev_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "fev_01KEZF7C002XK9D7X3239ERT51".
-     */
-    "fulfillment_event_id"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by notification channel. Values are trimmed and deduplicated in first-seen order;
-     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
-     * are ANDed. [] enum: "email". Value enum: "email". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "email". anyOf[1][] (Value): string. Value enum: "email". anyOf[2]
-     * (Value): string. Value enum: "email".
-     */
-    "channel"?: InputValue<("email") | readonly ("email")[]>;
-    /**
-     * Filter by notification status. Values are trimmed and deduplicated in first-seen order;
-     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
-     * are ANDed. [] enum: "pending", "sent", "failed", "suppressed". Value enum: "pending",
-     * "sent", "failed", "suppressed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "pending", "sent", "failed", "suppressed". anyOf[1][] (Value): string. Value enum:
-     * "pending", "sent", "failed", "suppressed". anyOf[2] (Value): string. Value enum: "pending",
-     * "sent", "failed", "suppressed".
-     */
-    "status"?: InputValue<("pending" | "sent" | "failed" | "suppressed")
-        | readonly ("pending" | "sent" | "failed" | "suppressed")[]>;
-    /**
-     * Filter by notification type. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "fulfillment_canceled", "fulfillment_completed", "fulfillment_delivered",
-     * "fulfillment_dispatched", "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready",
-     * "fulfillment_shipped", "shipment_delivered", "shipment_delivery_attempted",
-     * "shipment_exception", "shipment_out_for_delivery", "shipment_returned", "shipment_shipped".
-     * Value enum: "fulfillment_canceled", "fulfillment_completed", "fulfillment_delivered",
-     * "fulfillment_dispatched", "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready",
-     * "fulfillment_shipped", "shipment_delivered", "shipment_delivery_attempted",
-     * "shipment_exception", "shipment_out_for_delivery", "shipment_returned", "shipment_shipped".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "fulfillment_canceled",
-     * "fulfillment_completed", "fulfillment_delivered", "fulfillment_dispatched",
-     * "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready", "fulfillment_shipped",
-     * "shipment_delivered", "shipment_delivery_attempted", "shipment_exception",
-     * "shipment_out_for_delivery", "shipment_returned", "shipment_shipped". anyOf[1][] (Value):
-     * string. Value enum: "fulfillment_canceled", "fulfillment_completed",
-     * "fulfillment_delivered", "fulfillment_dispatched", "fulfillment_failed",
-     * "fulfillment_no_show", "fulfillment_ready", "fulfillment_shipped", "shipment_delivered",
-     * "shipment_delivery_attempted", "shipment_exception", "shipment_out_for_delivery",
-     * "shipment_returned", "shipment_shipped". anyOf[2] (Value): string. Value enum:
-     * "fulfillment_canceled", "fulfillment_completed", "fulfillment_delivered",
-     * "fulfillment_dispatched", "fulfillment_failed", "fulfillment_no_show", "fulfillment_ready",
-     * "fulfillment_shipped", "shipment_delivered", "shipment_delivery_attempted",
-     * "shipment_exception", "shipment_out_for_delivery", "shipment_returned", "shipment_shipped".
-     */
-    "notification_type"?: InputValue<("fulfillment_canceled"
-        | "fulfillment_completed"
-        | "fulfillment_delivered"
-        | "fulfillment_dispatched"
-        | "fulfillment_failed"
-        | "fulfillment_no_show"
-        | "fulfillment_ready"
-        | "fulfillment_shipped"
-        | "shipment_delivered"
-        | "shipment_delivery_attempted"
-        | "shipment_exception"
-        | "shipment_out_for_delivery"
-        | "shipment_returned"
-        | "shipment_shipped")
-        | readonly ("fulfillment_canceled"
-        | "fulfillment_completed"
-        | "fulfillment_delivered"
-        | "fulfillment_dispatched"
-        | "fulfillment_failed"
-        | "fulfillment_no_show"
-        | "fulfillment_ready"
-        | "fulfillment_shipped"
-        | "shipment_delivered"
-        | "shipment_delivery_attempted"
-        | "shipment_exception"
-        | "shipment_out_for_delivery"
-        | "shipment_returned"
-        | "shipment_shipped")[]>;
-    /**
-     * Include related objects in the response. Supported expansions: order. Include the requested
-     * related resources using scoped batch reads for this page. Each relationship requires its
-     * existing target read scopes. Expansion changes the representation without changing
-     * pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "order".
-     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
-     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
-     */
-    "expand"?: InputValue<("order") | readonly ("order")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
 };

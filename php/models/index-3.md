@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# BuyerReturnPreviewResponseInput to ChangeSubscriptionQuantityRequestInput
+# BuyerReturnPreviewEligibilityInput to ChangeMeSubscriptionQuantityRequestInput
 
+- [BuyerReturnPreviewEligibilityInput](BuyerReturnPreviewEligibilityInput.md)
+- [BuyerReturnPreviewResolutionInput](BuyerReturnPreviewResolutionInput.md)
 - [BuyerReturnPreviewResponseInput](BuyerReturnPreviewResponseInput.md)
 - [BuyerReturnRefundEstimateInput](BuyerReturnRefundEstimateInput.md)
 - [BuyerReturnReplacementLineItemInputBundleInput](BuyerReturnReplacementLineItemInputBundleInput.md)
@@ -100,6 +102,4 @@
 - [CategoryUpdatedMerchantEventInput](CategoryUpdatedMerchantEventInput.md)
 - [ChangeMeSubscriptionPlanRequestInput](ChangeMeSubscriptionPlanRequestInput.md)
 - [ChangeMeSubscriptionQuantityRequestInput](ChangeMeSubscriptionQuantityRequestInput.md)
-- [ChangeSubscriptionPlanRequestInput](ChangeSubscriptionPlanRequestInput.md)
-- [ChangeSubscriptionQuantityRequestInput](ChangeSubscriptionQuantityRequestInput.md)
 

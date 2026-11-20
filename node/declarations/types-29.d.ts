@@ -1,9 +1,6 @@
-import type {
-    GiftCard,
-    GiftCardFundingDispute,
-    GiftCardFundingDisputePreviousAttributes,
-    GiftCardCustomAmountBounds
-} from './types-28.js';
+import type { InputValue } from '../runtime.js';
+import type { DisputesAcceptParams } from './types-26.js';
+import type { GiftCard } from './types-28.js';
 import type { ResponseMeta } from './types-62.js';
 import type {
     GiftCardPurchaseRefundAllocation,
@@ -18,10 +15,162 @@ import type {
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { InputValue } from '../runtime.js';
-import type { CreateGiftCardLoadRequestInput, CreateGiftCardNotificationRequestInput } from './types-10.js';
-import type { DisputesAcceptParams } from './types-26.js';
-import type { CancelGiftCardNotificationRequestInput } from './types-4.js';
+import type { CreateGiftCardLoadRequestInput } from './types-10.js';
+export type GiftCardFundingDispositionsGetParams = DisputesAcceptParams;
+export type GiftCardFundingDispositionsListParams = {
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exact, case-sensitive filter. maxLength: 255. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+     */
+    "dispute_id"?: InputValue<string>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns only resources created in your caller namespace, plus
+     * resources created before caller scoping under the original key. Returns current authorized
+     * resources, not the recorded response. A pending resource does not prove that the operation
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/**
+ * A dispute on the payment that funded a gift card load, with its status and any loss resolution.
+ */
+export type GiftCardFundingDispute = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The dispute on the payment that funded this load. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+     */
+    "dispute_id": string;
+    /**
+     * true when the dispute is lost and no funding disposition exists for it yet. Create one with
+     * POST /v1/gift-card-funding-dispositions.
+     */
+    "requires_resolution": boolean;
+    /**
+     * The funding disposition recorded for this lost dispute. `null` when you have not created one
+     * yet. anyOf[1] (Value): {@link GiftCardFundingLossResolution}. How a lost funding dispute was
+     * resolved for a gift card load, such as honoring the card's value, with a reason message.
+     * anyOf[2] (Value): null.
+     */
+    "resolution": ((GiftCardFundingLossResolution) | (null));
+    /**
+     * Where the dispute on the funding payment stands. Spending of the value it funded stays
+     * restricted while it is `open` or `lost`. Value enum: "open", "won", "lost".
+     */
+    "status": "open" | "won" | "lost" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
+     */
+    "version": number;
+};
+export type GiftCardFundingDisputePreviousAttributes = {
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * The dispute on the payment that funded this load. anyOf[1] (Value): string. The dispute on
+     * the payment that funded this load. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". anyOf[2]
+     * (Value): null.
+     */
+    "dispute_id"?: ((string) | (null));
+    /**
+     * true when the dispute is lost and no funding disposition exists for it yet. Create one with
+     * POST /v1/gift-card-funding-dispositions. anyOf[1] (Value): boolean. true when the dispute is
+     * lost and no funding disposition exists for it yet. Create one with POST
+     * /v1/gift-card-funding-dispositions. anyOf[2] (Value): null.
+     */
+    "requires_resolution"?: ((boolean) | (null));
+    /**
+     * The funding disposition recorded for this lost dispute. `null` when you have not created one
+     * yet. anyOf[1] (Value): {@link GiftCardFundingLossResolutionPreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "resolution"?: ((GiftCardFundingLossResolutionPreviousAttributes) | (null));
+    /**
+     * Where the dispute on the funding payment stands. Spending of the value it funded stays
+     * restricted while it is `open` or `lost`. Value enum: "open", "won", "lost". anyOf[1]
+     * (Value): string. Where the dispute on the funding payment stands. Spending of the value it
+     * funded stays restricted while it is `open` or `lost`. Value enum: "open", "won", "lost".
+     * anyOf[2] (Value): null.
+     */
+    "status"?: (("open" | "won" | "lost" | (string & {})) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. anyOf[2] (Value): null.
+     */
+    "version"?: ((number) | (null));
+};
+/**
+ * How a lost funding dispute was resolved for a gift card load, such as honoring the card's value,
+ * with a reason message.
+ */
+export type GiftCardFundingLossResolution = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * What the merchant decided about the card's value after the funding payment lost a dispute.
+     * Value enum: "honor_value".
+     */
+    "disposition": "honor_value" | (string & {});
+    /**
+     * ID of the funding disposition recorded for the lost dispute. Example:
+     * "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8".
+     */
+    "gift_card_funding_disposition_id": string;
+    /** The note you gave when you created the disposition. */
+    "reason_message": string;
+};
 export type GiftCardFundingLossResolutionPreviousAttributes = {
     /**
      * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
@@ -5191,121 +5340,3 @@ export type GiftCardNotificationUpdatedMerchantEvent = (Exclude<MerchantWebhookE
     /** Value enum: "gift_card_notification.updated". */
     "event_type"?: "gift_card_notification.updated";
 });
-export type GiftCardNotificationsCancelParams = (InputValue<CancelGiftCardNotificationRequestInput> | {})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardNotificationsCreateParams = (InputValue<CreateGiftCardNotificationRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardNotificationsGetParams = DisputesAcceptParams;
-export type GiftCardNotificationsListParams = {
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Exact, case-sensitive filter. maxLength: 255. pattern: ^gc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     */
-    "gift_card_id"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Exact, case-sensitive filter. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "canceled", "failed", "pending", "scheduled", "sent", "unconfirmed". Value
-     * enum: "canceled", "failed", "pending", "scheduled", "sent", "unconfirmed". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "canceled", "failed", "pending", "scheduled", "sent",
-     * "unconfirmed". anyOf[1][] (Value): string. maxLength: 255. Value enum: "canceled", "failed",
-     * "pending", "scheduled", "sent", "unconfirmed". anyOf[2] (Value): string. maxLength: 255.
-     * Value enum: "canceled", "failed", "pending", "scheduled", "sent", "unconfirmed".
-     */
-    "status"?: InputValue<("canceled" | "failed" | "pending" | "scheduled" | "sent" | "unconfirmed")
-        | readonly ("canceled" | "failed" | "pending" | "scheduled" | "sent" | "unconfirmed")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/**
- * Gift card settings on a product variant: its `face_value_money`, price mode (face value or
- * discounted), and bounds for custom amounts.
- */
-export type GiftCardProductConfiguration = {
-    /**
-     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. The
-     * minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
-     */
-    "custom_amount_bounds"?: GiftCardCustomAmountBounds;
-    /**
-     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
-     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "face_value_money": MoneyValue;
-    /**
-     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
-     * "face_value", "discounted".
-     */
-    "price_mode": "face_value" | "discounted" | (string & {});
-};

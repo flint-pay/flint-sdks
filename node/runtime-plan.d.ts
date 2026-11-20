@@ -75,6 +75,7 @@ export declare const VALIDATION_MESSAGES: {
     readonly maxItems: "{param} must be an array with at most {limit} items; received an array of length {length}";
     readonly minProperties: "{param} must be an object with at least {limit} fields; received an object with {length} fields";
     readonly maxProperties: "{param} must be an object with at most {limit} fields; received an object with {length} fields";
+    readonly uppercaseCurrency: "{param} must be a three-letter uppercase ISO 4217 code such as USD.";
     readonly pattern: "{param} must be a string matching the required pattern; received a string";
     readonly uniqueItems: "{param} must be an array of unique items; received an array";
     readonly contains: "{param} must be an array containing the required shape; received an array";
@@ -158,6 +159,10 @@ export interface CompiledOperation extends Omit<Operation, 'parameters' | 'body'
         & {
         codec?: CodecPlan;
         phpRepresentation?: PhpRepresentation;
+        phpPayloadAlternatives?: {
+            codec: CodecPlan;
+            models: string[];
+        };
         model?: string;
         variants?: Record<string, string>;
     }>;

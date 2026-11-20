@@ -10,7 +10,7 @@ namespace Flint;
 final class ReadinessRequirementError extends Model {
     /** @param array{'code': string, 'message': string, 'requirement': string, 'resolution': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReadinessRequirementError')); }
-    /** Flint verification failure code. New codes may be added; use message and resolution for unknown codes. Value enum: "statement_descriptor_mismatch", "statement_descriptor_rejected", "tax_id_mismatch", "identity_mismatch", "document_unreadable", "document_expired", "document_mismatch", "document_rejected", "invalid_value", "profile_field_rejected", "verification_failed".
+    /** Flint verification failure code. New codes may be added; use message and resolution for unknown codes. Value enum: "statement_descriptor_mismatch", "statement_descriptor_rejected", "tax_id_mismatch", "identity_mismatch", "document_unreadable", "document_expired", "document_mismatch", "document_rejected", "invalid_value", "terms_reacceptance_required", "profile_field_rejected", "verification_failed".
      * @return string
      */
     public function getCode(): string { return $this->get('code'); }

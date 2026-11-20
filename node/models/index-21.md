@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# InvoicePaymentTermCalculationPreviousAttributes to LicenseKeyPoolAdditionsResponse
+# InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput to LicenseKeyDisabledInstalledMerchantsEvent
 
+- [InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput](InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput.md)
+- [InvoicePaymentTermCalculationNetDays](InvoicePaymentTermCalculationNetDays.md)
+- [InvoicePaymentTermCalculationNetDaysPreviousAttributes](InvoicePaymentTermCalculationNetDaysPreviousAttributes.md)
+- [InvoicePaymentTermCalculationNetDaysRequestInput](InvoicePaymentTermCalculationNetDaysRequestInput.md)
+- [InvoicePaymentTermCalculationOnReceipt](InvoicePaymentTermCalculationOnReceipt.md)
+- [InvoicePaymentTermCalculationOnReceiptPreviousAttributes](InvoicePaymentTermCalculationOnReceiptPreviousAttributes.md)
+- [InvoicePaymentTermCalculationOnReceiptRequestInput](InvoicePaymentTermCalculationOnReceiptRequestInput.md)
 - [InvoicePaymentTermCalculationPreviousAttributes](InvoicePaymentTermCalculationPreviousAttributes.md)
 - [InvoicePaymentTermCalculationRequestInput](InvoicePaymentTermCalculationRequestInput.md)
 - [InvoicePaymentTermListResponse](InvoicePaymentTermListResponse.md)
@@ -95,11 +102,4 @@
 - [LicenseKeyCreatedInstalledMerchantsEvent](LicenseKeyCreatedInstalledMerchantsEvent.md)
 - [LicenseKeyCreatedMerchantEvent](LicenseKeyCreatedMerchantEvent.md)
 - [LicenseKeyDisabledInstalledMerchantsEvent](LicenseKeyDisabledInstalledMerchantsEvent.md)
-- [LicenseKeyDisabledMerchantEvent](LicenseKeyDisabledMerchantEvent.md)
-- [LicenseKeyExpiredInstalledMerchantsEvent](LicenseKeyExpiredInstalledMerchantsEvent.md)
-- [LicenseKeyExpiredMerchantEvent](LicenseKeyExpiredMerchantEvent.md)
-- [LicenseKeyListResponse](LicenseKeyListResponse.md)
-- [LicenseKeyPool](LicenseKeyPool.md)
-- [LicenseKeyPoolAdditions](LicenseKeyPoolAdditions.md)
-- [LicenseKeyPoolAdditionsResponse](LicenseKeyPoolAdditionsResponse.md)
 

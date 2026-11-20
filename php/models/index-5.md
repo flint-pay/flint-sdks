@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CompleteReturnRequestInput to CreateInventoryBackorderPolicyRequestInput
+# CollectInvoiceResponseInput to CreateInventoryAdjustmentCountedRequestInput
 
+- [CollectInvoiceResponseInput](CollectInvoiceResponseInput.md)
+- [CollectInvoiceResultInput](CollectInvoiceResultInput.md)
+- [CommitInventoryReservationRequestInput](CommitInventoryReservationRequestInput.md)
+- [CompleteFulfillmentRequestInput](CompleteFulfillmentRequestInput.md)
 - [CompleteReturnRequestInput](CompleteReturnRequestInput.md)
 - [CompleteReturnResponseInput](CompleteReturnResponseInput.md)
 - [ConfigurationVersionRequestInput](ConfigurationVersionRequestInput.md)
@@ -98,8 +102,4 @@
 - [CreateInventoryAdjustmentConditionChangeRequestInput](CreateInventoryAdjustmentConditionChangeRequestInput.md)
 - [CreateInventoryAdjustmentCorrectionRequestInput](CreateInventoryAdjustmentCorrectionRequestInput.md)
 - [CreateInventoryAdjustmentCountedRequestInput](CreateInventoryAdjustmentCountedRequestInput.md)
-- [CreateInventoryAdjustmentQuantityRequestInput](CreateInventoryAdjustmentQuantityRequestInput.md)
-- [CreateInventoryAdjustmentRequestInput](CreateInventoryAdjustmentRequestInput.md)
-- [CreateInventoryAllocationPolicyRequestInput](CreateInventoryAllocationPolicyRequestInput.md)
-- [CreateInventoryBackorderPolicyRequestInput](CreateInventoryBackorderPolicyRequestInput.md)
 

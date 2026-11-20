@@ -1,25 +1,20 @@
 import type {
-    CreateDeliveryFulfillmentDetailsInput,
-    CreateDigitalFulfillmentDetailsInput,
     CreateDeliveryFulfillmentDetails,
-    CreateDigitalFulfillmentDetails
+    CreateDigitalFulfillmentDetails,
+    CreateDeliveryFulfillmentDetailsInput,
+    CreateDigitalFulfillmentDetailsInput
 } from './types-9.js';
+import type { CreatePickupFulfillmentDetails, CreatePickupFulfillmentDetailsInput } from './types-12.js';
+import type { CreateServiceFulfillmentDetails, CreateServiceFulfillmentDetailsInput } from './types-14.js';
+import type { FulfillmentLineItemRequest, FulfillmentLineItemRequestInput } from './types-27.js';
 import type {
-    CreatePickupFulfillmentDetailsInput,
-    CreatePickupFulfillmentDetails,
-    CreateOrderTip,
-    CreateOrderTipInput
-} from './types-12.js';
-import type { CreateServiceFulfillmentDetailsInput, CreateServiceFulfillmentDetails } from './types-14.js';
-import type { FulfillmentLineItemRequestInput, FulfillmentLineItemRequest } from './types-27.js';
-import type {
-    FulfillmentPackagingRequestInput,
-    FulfillmentRecipientRequestInput,
     FulfillmentPackagingRequest,
     FulfillmentRecipientRequest,
+    FulfillmentPackagingRequestInput,
+    FulfillmentRecipientRequestInput,
     GiftCard
 } from './types-28.js';
-import type { MetadataRequestInput, MetadataMap } from './types-43.js';
+import type { MetadataMap, MetadataRequestInput } from './types-43.js';
 import type {
     GiftCardFundingSource,
     GiftCardFundingSourceRequestInput,
@@ -44,45 +39,280 @@ import type {
     InventoryAllocationPolicyConfigurationRequestInput,
     InventoryBackorderPolicyRequest
 } from './types-31.js';
-import type {
-    CreateModifierRequestInput,
-    CreateOrderDiscount,
-    CreateOrderLineItemRequest,
-    CreateOrderDiscountInput,
-    CreateOrderLineItemRequestInput,
-    CreateInvoiceRequestOrder,
-    CreateInvoiceRequestQuickPay,
-    CreateInvoiceRequestOrderInput,
-    CreateInvoiceRequestQuickPayInput
-} from './types-11.js';
-import type { TextModifierConfigRequestInput } from './types-74.js';
+import type { CreateModifierRequestInput } from './types-11.js';
+import type { TextModifierConfigRequestInput } from './types-75.js';
 import type {
     InventorySourceSystemRequest,
-    InventoryRoutingDemand,
-    InventoryRoutingSourceRequest,
-    InventoryReservationOwnerRequestInput,
-    InventoryRoutingDemandInput,
-    InventoryRoutingSourceRequestInput
-} from './types-33.js';
-import type {
     InventorySourceSystemRequestInput,
+    InventoryRoutingSourceRequestInput,
     InventoryTransferLineRequest,
     InventoryTransferLineRequestInput
 } from './types-34.js';
 import type { InventoryReceiptLineRequest, InventoryReceiptLineRequestInput } from './types-32.js';
-import type { LookupLicenseKeyRequest } from './types-40.js';
 import type {
-    InvoiceLateFeePolicy,
-    InvoiceLateFeePolicyRequestInput,
-    InvoiceCollectionRequest,
-    InvoiceCollectionRequestInput
-} from './types-35.js';
-import type { InvoicePaymentTermCalculation, InvoicePaymentDueRequest, InvoicePaymentDueRequestInput } from './types-36.js';
-import type { InvoicePaymentTermCalculationRequestInput } from './types-37.js';
-import type { OrderDeliveryDestinationRequest, OrderDeliveryDestinationRequestInput } from './types-45.js';
-import type { OrderTaxRequest, OrderTaxRequestInput } from './types-48.js';
-import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { InvoiceScheduleEntryWrite, InvoiceScheduleEntryWriteInput } from './types-38.js';
+    InventoryRoutingDemand,
+    InventoryRoutingSourceRequest,
+    InventoryReservationOwnerRequestInput,
+    InventoryRoutingDemandInput
+} from './types-33.js';
+import type { LookupLicenseKeyRequest } from './types-40.js';
+import type { InvoiceLateFeePolicy, InvoiceLateFeePolicyRequestInput } from './types-35.js';
+import type { InvoicePaymentTermCalculation, InvoicePaymentTermCalculationRequestInput } from './types-37.js';
+/** The request body for: Create fulfillment event. */
+export type CreateFulfillmentEventRequest = {
+    /** Free-form details attached to the event. * (Value): string. minLength: 1. */
+    "custom_details"?: Record<string, string>;
+    /** What kind of event this records. Value enum: "carrier_scan", "custom". */
+    "event_type": "carrier_scan" | "custom" | (string & {});
+    /**
+     * Event identifier assigned by that integration. Flint records a repeated pair of
+     * `external_system` and `external_event_id` once. minLength: 1. Example: "warehouse-1842".
+     */
+    "external_event_id"?: string;
+    /** Status supplied by that integration. minLength: 1. */
+    "external_status"?: string;
+    /** Integration that supplied the event. minLength: 1. */
+    "external_system"?: string;
+    /**
+     * Fulfillment that owns this event. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id": string;
+    /** Where the event happened, such as `Louisville, KY`. minLength: 1. */
+    "location_description"?: string;
+    /** Human-readable text describing the event. minLength: 1. */
+    "message"?: string;
+    /**
+     * Provider event timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /**
+     * Nested package associated with this observational event. Flint resolves and validates its
+     * shipment and fulfillment ownership. minLength: 1. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
+     */
+    "package_id"?: string;
+    /**
+     * Nested shipment associated with this observational event. Flint validates that it belongs to
+     * fulfillment_id. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+     */
+    "shipment_id"?: string;
+};
+/** The request body for: Create fulfillment event. */
+export type CreateFulfillmentEventRequestInput = {
+    /** Free-form details attached to the event. * (Value): string. minLength: 1. */
+    "custom_details"?: Record<string, string>;
+    /** What kind of event this records. Value enum: "carrier_scan", "custom". */
+    "event_type": "carrier_scan" | "custom";
+    /**
+     * Event identifier assigned by that integration. Flint records a repeated pair of
+     * `external_system` and `external_event_id` once. minLength: 1. Example: "warehouse-1842".
+     */
+    "external_event_id"?: string;
+    /** Status supplied by that integration. minLength: 1. */
+    "external_status"?: string;
+    /** Integration that supplied the event. minLength: 1. */
+    "external_system"?: string;
+    /**
+     * Fulfillment that owns this event. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id": string;
+    /** Where the event happened, such as `Louisville, KY`. minLength: 1. */
+    "location_description"?: string;
+    /** Human-readable text describing the event. minLength: 1. */
+    "message"?: string;
+    /**
+     * Provider event timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /**
+     * Nested package associated with this observational event. Flint resolves and validates its
+     * shipment and fulfillment ownership. minLength: 1. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
+     */
+    "package_id"?: string;
+    /**
+     * Nested shipment associated with this observational event. Flint validates that it belongs to
+     * fulfillment_id. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+     */
+    "shipment_id"?: string;
+};
+/**
+ * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
+ * digital_details, or service_details. Shipment execution details belong to shipments and
+ * packages.
+ */
+export type CreateFulfillmentRequest = ({
+    /**
+     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Device used for this fulfillment. It must be active. When location_id is also set, the
+     * device must belong to that Location. minLength: 1. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
+     * you supply when creating a fulfillment: the delivery URL.
+     */
+    "digital_details"?: CreateDigitalFulfillmentDetails;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
+     * (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity to include when
+     * creating a fulfillment.
+     */
+    "line_items": Array<FulfillmentLineItemRequest>;
+    /**
+     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
+     * delivery details you supply when creating a fulfillment: courier, timing window,
+     * instructions, and tracking.
+     */
+    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
+    /**
+     * Merchant location responsible for this fulfillment. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
+     * the pickup address, location, window, instructions, and curbside details.
+     */
+    "pickup_details"?: CreatePickupFulfillmentDetails;
+    /**
+     * Who receives the fulfillment. Recipient details you supply when creating or updating a
+     * fulfillment: name, email, phone, address, and handling instructions.
+     */
+    "recipient"?: FulfillmentRecipientRequest;
+    /**
+     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
+     * the scheduled start and end, timezone, and notes.
+     */
+    "service_details"?: CreateServiceFulfillmentDetails;
+    /**
+     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
+     * single_package assigns every submitted line quantity to package; itemized requires explicit
+     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
+     * the same call. Creates an outbound shipment with one package using `packaging:
+     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
+     * External reference and metadata are optional.
+     */
+    "shipment"?: FulfillmentPackagingRequest;
+    /**
+     * The kind of fulfillment. Value enum: "shipment", "pickup", "local_delivery", "digital",
+     * "service".
+     */
+    "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {});
+})
+    & ((Exclude<CreateFulfillmentRequestShipment & object, readonly unknown[]>)
+    | (Exclude<CreateFulfillmentRequestPickup & object, readonly unknown[]>)
+    | (Exclude<CreateFulfillmentRequestLocalDelivery & object, readonly unknown[]>)
+    | (Exclude<CreateFulfillmentRequestDigital & object, readonly unknown[]>)
+    | (Exclude<CreateFulfillmentRequestService & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
+ * digital_details, or service_details. Shipment execution details belong to shipments and
+ * packages.
+ */
+export type CreateFulfillmentRequestDigital = ({
+    /**
+     * Customer receiving this fulfillment, when one is set. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Device used for this fulfillment. It must be active. When location_id is also set, the
+     * device must belong to that Location. minLength: 1. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * Details of a `digital` fulfillment, such as the download link. Digital fulfillment details
+     * you supply when creating a fulfillment: the delivery URL.
+     */
+    "digital_details"?: CreateDigitalFulfillmentDetails;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Order line items, with the quantity of each, that this fulfillment covers. minItems: 1. []
+     * (Value): {@link FulfillmentLineItemRequest}. An order line item and quantity to include when
+     * creating a fulfillment.
+     */
+    "line_items": Array<FulfillmentLineItemRequest>;
+    /**
+     * Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local
+     * delivery details you supply when creating a fulfillment: courier, timing window,
+     * instructions, and tracking.
+     */
+    "local_delivery_details"?: CreateDeliveryFulfillmentDetails;
+    /**
+     * Merchant location responsible for this fulfillment. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Paid order whose quantities this fulfillment delivers. minLength: 1. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment:
+     * the pickup address, location, window, instructions, and curbside details.
+     */
+    "pickup_details"?: CreatePickupFulfillmentDetails;
+    /**
+     * Who receives the fulfillment. Recipient details you supply when creating or updating a
+     * fulfillment: name, email, phone, address, and handling instructions.
+     */
+    "recipient"?: FulfillmentRecipientRequest;
+    /**
+     * Details of a `service` fulfillment. Service details you supply when creating a fulfillment:
+     * the scheduled start and end, timezone, and notes.
+     */
+    "service_details"?: CreateServiceFulfillmentDetails;
+    /**
+     * Creates an outbound shipment and packages atomically with a shipment fulfillment.
+     * single_package assigns every submitted line quantity to package; itemized requires explicit
+     * items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in
+     * the same call. Creates an outbound shipment with one package using `packaging:
+     * single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`.
+     * External reference and metadata are optional.
+     */
+    "shipment"?: FulfillmentPackagingRequest;
+    /** The kind of fulfillment. Value enum: "digital". */
+    "type": "digital" | (string & {});
+});
 /**
  * Provide at most one fulfillment details object: pickup_details, local_delivery_details,
  * digital_details, or service_details. Shipment execution details belong to shipments and
@@ -1046,8 +1276,9 @@ export type CreateGiftCardLoadRequest = ({
      * string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
      * minimum: 0. Amount in the currency's minor unit, such as cents for USD. Use an integer
      * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-     * anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+     * anyOf[1].currency (Required): string. Three-letter uppercase ISO 4217 currency code for this
+     * amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value):
+     * null.
      */
     "consideration_money"?: ((({
         /**
@@ -1114,8 +1345,9 @@ export type CreateGiftCardLoadRequest = ({
      * plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string
      * (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the
      * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$.
      */
     "value_money": ({
         /**
@@ -1135,8 +1367,9 @@ export type CreateGiftCardLoadRequestInput = ({
      * string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
      * minimum: 0. Amount in the currency's minor unit, such as cents for USD. Use an integer
      * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-     * anyOf[1].currency (Required): string. ISO 4217 currency code for this amount. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+     * anyOf[1].currency (Required): string. Three-letter uppercase ISO 4217 currency code for this
+     * amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value):
+     * null.
      */
     "consideration_money"?: ((({
         /**
@@ -1202,8 +1435,9 @@ export type CreateGiftCardLoadRequestInput = ({
      * plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string
      * (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the
      * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$.
      */
     "value_money": ({
         /**
@@ -1301,8 +1535,9 @@ export type CreateGiftCardRedemptionRequest = ({
      * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
      * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
      * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$.
      */
     "amount_money": ({
         /**
@@ -1345,8 +1580,9 @@ export type CreateGiftCardRedemptionRequestAutomatic = ({
      * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
      * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
      * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$.
      */
     "amount_money": ({
         /**
@@ -1393,8 +1629,9 @@ export type CreateGiftCardRedemptionRequestAutomaticInput = ({
      * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
      * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
      * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$.
      */
     "amount_money": ({
         /**
@@ -1444,8 +1681,9 @@ export type CreateGiftCardRedemptionRequestInput = ({
      * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
      * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
      * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$.
      */
     "amount_money": ({
         /**
@@ -1487,8 +1725,9 @@ export type CreateGiftCardRedemptionRequestManual = ({
      * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
      * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
      * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$.
      */
     "amount_money": ({
         /**
@@ -1535,8 +1774,9 @@ export type CreateGiftCardRedemptionRequestManualInput = ({
      * an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal
      * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
      * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217
-     * currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * floating-point number. Format: int64. minimum: 0. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$.
      */
     "amount_money": ({
         /**
@@ -2778,356 +3018,3 @@ export type CreateInvoicePaymentTermRequestInput = {
      */
     "name": string;
 };
-/**
- * Inline order details for creating an invoice as `quick_pay`: line items, discounts, notes,
- * customer, tip, and inventory routing.
- */
-export type CreateInvoiceQuickPayRequest = {
-    /**
-     * A note to the buyer on the backing order, captured in snapshot.buyer_note. Surrounding
-     * whitespace is trimmed before length validation. A supplied value cannot be blank; use null
-     * where clearing is supported. minLength: 1.
-     */
-    "buyer_note"?: string;
-    /**
-     * The customer to bill. The invoice shows their name and billing details, and GET
-     * /v1/invoices?customer_id= finds it. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Where the backing order's items are shipped or delivered, the same as order creation
-     * accepts. The delivery destination you set when creating or updating an order, with an
-     * address and an optional recipient.
-     */
-    "delivery_destination"?: OrderDeliveryDestinationRequest;
-    /**
-     * Discounts to apply to the backing order, in the shape order creation accepts. [] (Value):
-     * {@link CreateOrderDiscount}. A discount to apply when creating an order: either a manual
-     * discount or a reference to a promotion.
-     */
-    "discounts"?: Array<CreateOrderDiscount>;
-    /**
-     * A note for your team on the backing order. Buyer reads leave it out. Surrounding whitespace
-     * is trimmed before length validation. A supplied value cannot be blank; use null where
-     * clearing is supported. minLength: 1.
-     */
-    "internal_note"?: string;
-    /**
-     * Where this invoice backing order's tracked demand is routed: a fixed Location, an allocation
-     * policy, or an immutable policy revision. Required when any line tracks inventory. Where you
-     * want inventory routed from: a fixed Location, an inventory allocation policy, or one policy
-     * revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequest;
-    /**
-     * The items to bill, at least one, in the shape order creation accepts. A custom line without
-     * variant_id or bundle_id must set fulfillment.requirement. minItems: 1. [] (Value): {@link
-     * CreateOrderLineItemRequest}. A line item to add to an order: a catalog variant, a bundle, or
-     * a custom item with a name and unit price.
-     */
-    "line_items": Array<CreateOrderLineItemRequest>;
-    /**
-     * A tip to request from the buyer on the backing order. Requested tip expressed as either a
-     * flat amount or a percentage. Send exactly one of amount_money or percent.
-     */
-    "requested_tip"?: CreateOrderTip;
-    /**
-     * Tax inputs for the backing order, the same as order creation accepts. Validation errors name
-     * fields under quick_pay.tax. Tax settings for a new order: whether tax is enabled, its
-     * calculation, location, and exemption selection.
-     */
-    "tax"?: OrderTaxRequest;
-};
-/**
- * Inline order details for creating an invoice as `quick_pay`: line items, discounts, notes,
- * customer, tip, and inventory routing.
- */
-export type CreateInvoiceQuickPayRequestInput = {
-    /**
-     * A note to the buyer on the backing order, captured in snapshot.buyer_note. Surrounding
-     * whitespace is trimmed before length validation. A supplied value cannot be blank; use null
-     * where clearing is supported. minLength: 1.
-     */
-    "buyer_note"?: string;
-    /**
-     * The customer to bill. The invoice shows their name and billing details, and GET
-     * /v1/invoices?customer_id= finds it. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: string;
-    /**
-     * Where the backing order's items are shipped or delivered, the same as order creation
-     * accepts. The delivery destination you set when creating or updating an order, with an
-     * address and an optional recipient.
-     */
-    "delivery_destination"?: OrderDeliveryDestinationRequestInput;
-    /**
-     * Discounts to apply to the backing order, in the shape order creation accepts. [] (Value):
-     * {@link CreateOrderDiscountInput}. A discount to apply when creating an order: either a
-     * manual discount or a reference to a promotion.
-     */
-    "discounts"?: Array<CreateOrderDiscountInput>;
-    /**
-     * A note for your team on the backing order. Buyer reads leave it out. Surrounding whitespace
-     * is trimmed before length validation. A supplied value cannot be blank; use null where
-     * clearing is supported. minLength: 1.
-     */
-    "internal_note"?: string;
-    /**
-     * Where this invoice backing order's tracked demand is routed: a fixed Location, an allocation
-     * policy, or an immutable policy revision. Required when any line tracks inventory. Where you
-     * want inventory routed from: a fixed Location, an inventory allocation policy, or one policy
-     * revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
-    /**
-     * The items to bill, at least one, in the shape order creation accepts. A custom line without
-     * variant_id or bundle_id must set fulfillment.requirement. minItems: 1. [] (Value): {@link
-     * CreateOrderLineItemRequestInput}. A line item to add to an order: a catalog variant, a
-     * bundle, or a custom item with a name and unit price.
-     */
-    "line_items": Array<CreateOrderLineItemRequestInput>;
-    /**
-     * A tip to request from the buyer on the backing order. Requested tip expressed as either a
-     * flat amount or a percentage. Send exactly one of amount_money or percent.
-     */
-    "requested_tip"?: CreateOrderTipInput;
-    /**
-     * Tax inputs for the backing order, the same as order creation accepts. Validation errors name
-     * fields under quick_pay.tax. Tax settings for a new order: whether tax is enabled, its
-     * calculation, location, and exemption selection.
-     */
-    "tax"?: OrderTaxRequestInput;
-};
-/** The request body for: Create invoice. */
-export type CreateInvoiceRequest = ({
-    /**
-     * Additional addresses copied on the invoice email and every reminder. [] (Value): string.
-     * minLength: 1.
-     */
-    "cc_emails"?: Array<string>;
-    /**
-     * How the invoice is collected. Omit it to use merchant_default. The invoice's collection
-     * object returns the resolved mode, and you can send it back unchanged on update. How an
-     * invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved
-     * payment method, and a payment policy.
-     */
-    "collection"?: InvoiceCollectionRequest;
-    /**
-     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
-     * isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. minLength:
-     * 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Fine print at the bottom of the invoice and PDF. Omit it to use the invoice settings
-     * default_footer. minLength: 1. maxLength: 2048.
-     */
-    "footer"?: string;
-    /**
-     * Issue the invoice immediately after creating it. An empty object uses merchant_default
-     * delivery. Cannot be combined with a scheduled_issue_at timestamp. Options for issuing an
-     * invoice as you create it. `delivery_mode` chooses how the invoice reaches its recipient.
-     */
-    "issue"?: CreateInvoiceIssueRequest;
-    /**
-     * Message to the customer, printed on the invoice and PDF. Omit it to use the invoice settings
-     * default_memo. minLength: 1. maxLength: 2048.
-     */
-    "memo"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * The open order to bill. It must have no payments, refunds, or other active invoice. Send
-     * exactly one of order_id or quick_pay. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: string;
-    /**
-     * When the invoice is due. Omit it to use merchant_default. The invoice's payment_due object
-     * returns the resolved type, and you can send it back unchanged on update. Default:
-     * {"type":"merchant_default"}. When an invoice is due, used when creating or updating an
-     * invoice: no due date, a calendar date, payment terms, or a default.
-     */
-    "payment_due"?: InvoicePaymentDueRequest;
-    /**
-     * The buyer's purchase order number, printed on the invoice and PDF. minLength: 1. maxLength:
-     * 255.
-     */
-    "po_number"?: string;
-    /**
-     * Order details for an invoice with no existing order. Flint creates the backing order from
-     * them. Send exactly one of order_id or quick_pay. Inline order details for creating an
-     * invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing.
-     */
-    "quick_pay"?: CreateInvoiceQuickPayRequest;
-    /**
-     * Where Flint emails the invoice and its reminders. Defaults to the linked customer's email
-     * when omitted at creation. Send null to leave it unset at creation; PATCH null clears it.
-     * Required at issue when delivery resolves to email, and when you schedule the issue.
-     * minLength: 1.
-     */
-    "recipient_email"?: string | null;
-    /**
-     * Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase
-     * order number in po_number instead. minLength: 1. maxLength: 255.
-     */
-    "reference"?: string;
-    /**
-     * Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice
-     * settings remit-to address. A complete postal address. State and postal_code are required for
-     * US addresses and optional for other countries. Send null or omit line2, state, and
-     * postal_code when the address has none.
-     */
-    "remit_to_address"?: AddressRequest;
-    /**
-     * Complete draft payment schedule with at most 14 entries. Validation errors identify the
-     * entry by index, such as schedule_entries[3].kind. Enum values are case-sensitive and must
-     * not contain surrounding whitespace. Omission preserves the current or default schedule; []
-     * clears the authored schedule. Null is not accepted. On PATCH, include
-     * invoice_schedule_entry_id to retain an entry and expected_version to detect concurrent
-     * edits. maxItems: 14. [] (Value): {@link InvoiceScheduleEntryWrite}. One payment schedule
-     * entry you supply when creating or updating an invoice. Set its kind, how much it collects,
-     * and when it is due.
-     */
-    "schedule_entries"?: Array<InvoiceScheduleEntryWrite>;
-    /**
-     * When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A
-     * scheduled issue delivers by email, so the draft needs recipient_email. Cannot be combined
-     * with issue. null is the same as omitting it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_issue_at"?: string | null;
-    /**
-     * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it
-     * as written, without timezone conversion. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "service_date"?: string;
-    /** Selects the type branch. Value enum: "order", "quick_pay". */
-    "type": "order" | "quick_pay" | (string & {});
-})
-    & ((Exclude<CreateInvoiceRequestOrder & object, readonly unknown[]>)
-    | (Exclude<CreateInvoiceRequestQuickPay & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The request body for: Create invoice. */
-export type CreateInvoiceRequestInput = ({
-    /**
-     * Additional addresses copied on the invoice email and every reminder. [] (Value): string.
-     * minLength: 1.
-     */
-    "cc_emails"?: Array<string>;
-    /**
-     * How the invoice is collected. Omit it to use merchant_default. The invoice's collection
-     * object returns the resolved mode, and you can send it back unchanged on update. How an
-     * invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved
-     * payment method, and a payment policy.
-     */
-    "collection"?: InvoiceCollectionRequestInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. Use it as your sync key: it
-     * isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. minLength:
-     * 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Fine print at the bottom of the invoice and PDF. Omit it to use the invoice settings
-     * default_footer. minLength: 1. maxLength: 2048.
-     */
-    "footer"?: string;
-    /**
-     * Issue the invoice immediately after creating it. An empty object uses merchant_default
-     * delivery. Cannot be combined with a scheduled_issue_at timestamp. Options for issuing an
-     * invoice as you create it. `delivery_mode` chooses how the invoice reaches its recipient.
-     */
-    "issue"?: CreateInvoiceIssueRequestInput;
-    /**
-     * Message to the customer, printed on the invoice and PDF. Omit it to use the invoice settings
-     * default_memo. minLength: 1. maxLength: 2048.
-     */
-    "memo"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * The open order to bill. It must have no payments, refunds, or other active invoice. Send
-     * exactly one of order_id or quick_pay. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: string;
-    /**
-     * When the invoice is due. Omit it to use merchant_default. The invoice's payment_due object
-     * returns the resolved type, and you can send it back unchanged on update. Default:
-     * {"type":"merchant_default"}. When an invoice is due, used when creating or updating an
-     * invoice: no due date, a calendar date, payment terms, or a default.
-     */
-    "payment_due"?: InvoicePaymentDueRequestInput;
-    /**
-     * The buyer's purchase order number, printed on the invoice and PDF. minLength: 1. maxLength:
-     * 255.
-     */
-    "po_number"?: string;
-    /**
-     * Order details for an invoice with no existing order. Flint creates the backing order from
-     * them. Send exactly one of order_id or quick_pay. Inline order details for creating an
-     * invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing.
-     */
-    "quick_pay"?: CreateInvoiceQuickPayRequestInput;
-    /**
-     * Where Flint emails the invoice and its reminders. Defaults to the linked customer's email
-     * when omitted at creation. Send null to leave it unset at creation; PATCH null clears it.
-     * Required at issue when delivery resolves to email, and when you schedule the issue.
-     * minLength: 1.
-     */
-    "recipient_email"?: string | null;
-    /**
-     * Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase
-     * order number in po_number instead. minLength: 1. maxLength: 255.
-     */
-    "reference"?: string;
-    /**
-     * Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice
-     * settings remit-to address. A complete postal address. State and postal_code are required for
-     * US addresses and optional for other countries. Send null or omit line2, state, and
-     * postal_code when the address has none.
-     */
-    "remit_to_address"?: AddressRequestInput;
-    /**
-     * Complete draft payment schedule with at most 14 entries. Validation errors identify the
-     * entry by index, such as schedule_entries[3].kind. Enum values are case-sensitive and must
-     * not contain surrounding whitespace. Omission preserves the current or default schedule; []
-     * clears the authored schedule. Null is not accepted. On PATCH, include
-     * invoice_schedule_entry_id to retain an entry and expected_version to detect concurrent
-     * edits. maxItems: 14. [] (Value): {@link InvoiceScheduleEntryWriteInput}. One payment
-     * schedule entry you supply when creating or updating an invoice. Set its kind, how much it
-     * collects, and when it is due.
-     */
-    "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>;
-    /**
-     * When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A
-     * scheduled issue delivers by email, so the draft needs recipient_email. Cannot be combined
-     * with issue. null is the same as omitting it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_issue_at"?: string | globalThis.Date | null;
-    /**
-     * The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it
-     * as written, without timezone conversion. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "service_date"?: string;
-    /** Selects the type branch. Value enum: "order", "quick_pay". */
-    "type": "order" | "quick_pay";
-})
-    & ((Exclude<CreateInvoiceRequestOrderInput & object, readonly unknown[]>)
-    | (Exclude<CreateInvoiceRequestQuickPayInput & object, readonly unknown[]>));

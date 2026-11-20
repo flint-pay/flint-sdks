@@ -44,18 +44,19 @@ export type { DecideReturnInspectionLineItemResponse, DecideReturnInspectionLine
 export type { GetReturnInspectionResponse } from '../declarations/types-28.js';
 export type { ListReturnInspectionsResponse } from '../declarations/types-40.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { ReturnSourceSystemRequestInput } from '../declarations/types-66.js';
+export type { ReturnSourceSystemRequestInput, ReturnSourceSystem } from '../declarations/types-66.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { MetadataMap } from '../declarations/types-43.js';
-export type { ReturnSourceSystem } from '../declarations/types-65.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateReturnInspectionRequest } from '../declarations/types-84.js';
 export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeReturnInspectionLineItemRequest, makeReturnSourceSystemRequest } from '../declarations/types-91.js';
+export { makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeReturnInspectionLineItemRequest } from '../declarations/types-91.js';
+export { makeReturnSourceSystemRequest } from '../declarations/types-92.js';
 export interface ReturnInspectionsResource {
     /**
  * Record an immutable inspection observation. Corrections supersede an earlier inspection instead

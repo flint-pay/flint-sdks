@@ -15,5 +15,5 @@ A webhook event type, with a description and the event sources where it is valid
 | `event_type` | Required | string | Webhook event type string accepted by compatible endpoint enabled_events values and webhook event filters. Values: [305 declared values](CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
 | `kind` | Required | string | Whether the event records a resource snapshot or asks you to fetch current state. Values: `"snapshot"`, `"notification"`. |
 | `previous_names` | Required | Array of string | Previous names of this type, retained permanently for reading stored events. Inputs accept only the current event_type. Empty when the type has never been renamed. |
-| `resource_type` | Required | string | Public resource type: the resource's ID field name without `_id`. Values: [157 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
+| `resource_type` | Required | string | Public resource type: the resource's ID field name without `_id`. Values: [158 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
 

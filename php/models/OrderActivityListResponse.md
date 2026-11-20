@@ -20,7 +20,7 @@ Read-only order history row for merchant timeline rendering and debugging. The o
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `activity_type` | Optional | string | The action recorded on the order. Omitted when the activity type cannot be identified. Clients must accept values added in future releases. Values: [32 declared values](OrderActivityInput.md#orderactivityinput-activity_type-values). |
-| `actor` | Optional | [PaymentActivityActor](../models/PaymentActivityActor.md#paymentactivityactor) | The merchant identity that initiated the refund, when available. Buyer activity lists omit it. The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed. `actor`: [field definitions](../models/OrderActivityListResponse.md#orderactivitylistresponsedataactor). |
+| `actor` | Optional | [PaymentActivityActor](../models/PaymentActivityActor.md#paymentactivityactor) | The merchant identity that initiated the action, when recorded. Buyer activity lists omit it. The teammate, API key, or app that initiated the action. `actor`: [field definitions](../models/OrderActivityListResponse.md#orderactivitylistresponsedataactor). |
 | `balance_delta_money` | Required | [SignedMoney](../models/SignedMoney.md#signedmoney) | Signed change this row made to the order balance: running_balance_money minus the balance before the row. Rows that do not change the balance, such as payment_failed, refund_failed, and most refund rows, have amount 0. A payment or refund amount is on the referenced resource. Do not sum activity deltas to compute the order balance. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `checkout_session_id` | Optional | string | Related checkout session when activity_type points at checkout session lifecycle. Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -40,7 +40,7 @@ Read-only order history row for merchant timeline rendering and debugging. The o
 
 ### OrderActivityListResponse.data[].actor
 
-The merchant identity that initiated the refund, when available. Buyer activity lists omit it. The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed.
+The merchant identity that initiated the action, when recorded. Buyer activity lists omit it. The teammate, API key, or app that initiated the action.
 
 Field definitions: [shared fields](PaymentActivityActorInput.md#paymentactivityactorinput).
 

@@ -21,7 +21,7 @@ final class SubscriptionPreviewResponseDataDeliveryMethodUpdate extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Of those, the subscriptions the edit would leave unable to use the method, by status. Counts of subscriptions by status: active, past due, and paused.
+    /** Of those, the subscriptions the edit would leave unable to use the method, by status. Delivery usage counts by stored status, with separate subsets for active subscriptions that are canceling or on billing hold.
      * @return SubscriptionCounts
      */
     public function getNoLongerEligibleCounts(): SubscriptionCounts { return $this->get('no_longer_eligible_counts'); }
@@ -31,7 +31,7 @@ final class SubscriptionPreviewResponseDataDeliveryMethodUpdate extends Model {
      */
     public function getNoLongerEligibleReasons(): ?array { return $this->get('no_longer_eligible_reasons'); }
     public function hasNoLongerEligibleReasons(): bool { return $this->has('no_longer_eligible_reasons'); }
-    /** Live subscriptions that use the method now, by status. Counts of subscriptions by status: active, past due, and paused.
+    /** Live subscriptions that use the method now, by status. Delivery usage counts by stored status, with separate subsets for active subscriptions that are canceling or on billing hold.
      * @return SubscriptionCounts
      */
     public function getSubscriptionCounts(): SubscriptionCounts { return $this->get('subscription_counts'); }

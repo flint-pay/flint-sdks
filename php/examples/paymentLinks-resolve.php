@@ -17,7 +17,31 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->paymentLinks->resolve('pl_01KEZF7C007WDMA5P9BPZ8J2AM', [
-  'resolution_context' => 'example',
+  'custom_field_values' => (object) [
+    'meal_preference' => 'Vegetarian',
+  ],
+  'modifiers' => (object) [
+    'general-admission' => (object) [
+      'modifiers' => [
+        (object) [
+          'modifier_id' => 'mod_01KEZF7C00HP1041X7TDG6WRV5',
+          'quantity' => 1,
+          'type' => 'catalog',
+        ],
+        (object) [
+          'text' => (object) [
+            'modifier_group_id' => 'mg_01KEZF7C00VBHD29DTPF4QBB6V',
+            'value' => 'Extra hot',
+          ],
+          'type' => 'text',
+        ],
+      ],
+    ],
+  ],
+  'quantity_overrides' => (object) [
+    'general-admission' => 2,
+  ],
+  'resolution_context' => 'plrc_v1.example_signed_resolution_context',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

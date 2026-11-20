@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read string $api_version
  * @property-read string|\DateTimeInterface $created_at
- * @property-read array{'object': array<array-key, mixed>|\stdClass, 'previous_attributes'?: array<array-key, mixed>|\stdClass}|object $data
+ * @property-read array{'actor'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'object': array<array-key, mixed>|\stdClass, 'previous_attributes'?: array<array-key, mixed>|\stdClass}|object $data
  * @property-read string $event_source
  * @property-read string $event_type
  * @property-read string $partner_app_id
@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PartnerWebhookEnvelopeInput extends Model {
-    /** @param array{'api_version': string, 'created_at': string|\DateTimeInterface, 'data': array{'object': array<array-key, mixed>|\stdClass, 'previous_attributes'?: array<array-key, mixed>|\stdClass}|object, 'event_source': string, 'event_type': string, 'partner_app_id': string, 'payload_version': int, 'source': WebhookEventSourceInput|array<array-key, mixed>|\stdClass, 'test': bool, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'api_version': string, 'created_at': string|\DateTimeInterface, 'data': array{'actor'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'object': array<array-key, mixed>|\stdClass, 'previous_attributes'?: array<array-key, mixed>|\stdClass}|object, 'event_source': string, 'event_type': string, 'partner_app_id': string, 'payload_version': int, 'source': WebhookEventSourceInput|array<array-key, mixed>|\stdClass, 'test': bool, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerWebhookEnvelopeInput')); }
     /** API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: date. Example: "2026-08-02".
      * @return string
@@ -28,8 +28,8 @@ final class PartnerWebhookEnvelopeInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The resource snapshot recorded for this event and rendered at the delivery API version. object (Required): object. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. previous_attributes (Optional): object. Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
-     * @return array{'object': array<array-key, mixed>|\stdClass, 'previous_attributes'?: array<array-key, mixed>|\stdClass}|object
+    /** The resource snapshot recorded for this event and rendered at the delivery API version. actor (Optional): {@see ReturnActorInput}. Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. object (Required): object. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. previous_attributes (Optional): object. Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events.
+     * @return array{'actor'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'object': array<array-key, mixed>|\stdClass, 'previous_attributes'?: array<array-key, mixed>|\stdClass}|object
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): array|object { return $this->get('data'); }

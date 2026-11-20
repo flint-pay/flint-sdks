@@ -56,8 +56,8 @@ export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference }
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { PlatformFeeCap } from '../declarations/types-55.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { PlatformFeeCap } from '../declarations/types-56.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CreateMerchantSignupRequestInput } from '../declarations/types-11.js';
@@ -68,10 +68,10 @@ export {
     makeLicenseKeyVersionRequest,
     makeMerchantSignupOwnerRequest,
     makeMerchantSignupTermsAcceptanceRequest,
-    makeMerchantSignupVersionRequest,
-    makeMoneyValue
+    makeMerchantSignupVersionRequest
 } from '../declarations/types-88.js';
-export { makeVerifyMerchantSignupRequest } from '../declarations/types-94.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeVerifyMerchantSignupRequest } from '../declarations/types-95.js';
 export interface MerchantSignupsResource {
     /**
  * Cancels a `pending` signup and voids its code, so a code email still queued is never sent. A

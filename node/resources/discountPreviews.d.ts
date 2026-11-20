@@ -26,20 +26,19 @@ export type {
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
+export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput } from '../declarations/types-59.js';
 export type {
-    PromotionRefRequestInput,
-    PromotionRefInputPromotionIDInput,
     PromotionRefInputPromotionCodeInput,
+    PromotionCandidate,
     PromotionCombinesWith,
     PromotionExclusivity
 } from '../declarations/types-58.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { PromotionCandidate } from '../declarations/types-57.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeDiscountPreviewRequest } from '../declarations/types-86.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-90.js';
 export interface DiscountPreviewsResource {
     /**

@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# SubscriptionTermsRequestInput to TicketedEventPreviousAttributes
+# SubscriptionSnapshotMetrics to TextModifierRequestPreviousAttributes
 
+- [SubscriptionSnapshotMetrics](SubscriptionSnapshotMetrics.md)
+- [SubscriptionStatusCounts](SubscriptionStatusCounts.md)
+- [SubscriptionSwapPreviewRequest](SubscriptionSwapPreviewRequest.md)
+- [SubscriptionSwapPreviewRequestInput](SubscriptionSwapPreviewRequestInput.md)
+- [SubscriptionTax](SubscriptionTax.md)
+- [SubscriptionTaxCalculationRequestInput](SubscriptionTaxCalculationRequestInput.md)
+- [SubscriptionTaxPreviousAttributes](SubscriptionTaxPreviousAttributes.md)
+- [SubscriptionTaxRequest](SubscriptionTaxRequest.md)
+- [SubscriptionTaxRequestInput](SubscriptionTaxRequestInput.md)
+- [SubscriptionTermsRequest](SubscriptionTermsRequest.md)
 - [SubscriptionTermsRequestInput](SubscriptionTermsRequestInput.md)
 - [SubscriptionTrialEndingInstalledMerchantsEvent](SubscriptionTrialEndingInstalledMerchantsEvent.md)
 - [SubscriptionTrialEndingMerchantEvent](SubscriptionTrialEndingMerchantEvent.md)
@@ -92,14 +102,4 @@
 - [TextModifierRequest](TextModifierRequest.md)
 - [TextModifierRequestInput](TextModifierRequestInput.md)
 - [TextModifierRequestPreviousAttributes](TextModifierRequestPreviousAttributes.md)
-- [ThemeConfig](ThemeConfig.md)
-- [ThemeConfigPreviousAttributes](ThemeConfigPreviousAttributes.md)
-- [ThemeConfigRequestInput](ThemeConfigRequestInput.md)
-- [Ticket](Ticket.md)
-- [TicketCheckedInInstalledMerchantsEvent](TicketCheckedInInstalledMerchantsEvent.md)
-- [TicketCheckedInMerchantEvent](TicketCheckedInMerchantEvent.md)
-- [TicketCreatedInstalledMerchantsEvent](TicketCreatedInstalledMerchantsEvent.md)
-- [TicketCreatedMerchantEvent](TicketCreatedMerchantEvent.md)
-- [TicketedEvent](TicketedEvent.md)
-- [TicketedEventPreviousAttributes](TicketedEventPreviousAttributes.md)
 

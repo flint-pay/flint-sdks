@@ -37,7 +37,7 @@ Resource, collection, or operation result returned by this request. A physical o
 
 Published postal address. `null` when the Location has no address on record.
 
-Field definitions: [shared fields](SubscriptionResponse.md#subscriptionresponsedatadeliverydestinationaddress).
+Field definitions: [shared fields](OrderResponse.md#orderresponsedatacheckout_billing_contactaddress).
 
 ### LocationResponse.data.address variant 1
 

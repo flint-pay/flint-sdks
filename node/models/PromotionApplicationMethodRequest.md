@@ -18,7 +18,7 @@ A flat application method whose type selects its effect fields.
 | `recurrence` | Optional | [PromotionRecurrence](../models/PromotionRecurrence.md#promotionrecurrence) | Optional recurrence for subscription payments: once applies to the first charged payment, repeating applies for period_count charged payments, and forever applies to every payment. One-time orders apply the promotion once. How often a promotion's discount repeats on a subscription: once, for a number of charged payments, or forever. `recurrence`: [declared alternatives](../models/PromotionAmountOffMethodRequest.md#promotionamountoffmethodrequestrecurrence). |
 | `type` | Required | string |  |
 | `amount_off_money` | Conditional | object | Positive fixed discount in the primary currency. allocation determines whether it applies to each matched item or once across the matched set. `amount_off_money`: [field definitions](../models/PromotionAmountOffMethodRequest.md#promotionamountoffmethodrequestamount_off_money). |
-| `currency_options` | Conditional | Map of object | Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/PromotionAmountOffMethodRequest.md#promotionamountoffmethodrequestcurrency_options). |
+| `currency_options` | Conditional | Map of object | Alternative positive fixed discounts, keyed by currency code. Each Money currency must match its key. `currency_options{}`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_suggested_amount_money_options). |
 | `buy_min_quantity` | Conditional | integer | Number of qualifying units needed for one application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
 | `get_percent_off` | Conditional | number | Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items free. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
 | `get_quantity` | Conditional | integer | Maximum number of reward units discounted per application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
@@ -63,5 +63,5 @@ Field definitions: [PromotionAmountOffMethodRequest.amount_off_money](../models/
 
 ### PromotionApplicationMethodRequest variant 2.currency_options{}
 
-Field definitions: [PromotionAmountOffMethodRequest.currency_options{}](../models/PromotionAmountOffMethodRequest.md#promotionamountoffmethodrequestcurrency_options).
+Field definitions: [CreatePaymentLinkRequest.donation_suggested_amount_money_options[]](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_suggested_amount_money_options).
 

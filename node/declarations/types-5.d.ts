@@ -1,6 +1,8 @@
+import type { ApplyInventoryCountRequestInput } from './types-0.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
 import type { ResponseMeta } from './types-62.js';
-import type { Order, OrderEdit } from './types-45.js';
+import type { Order } from './types-45.js';
+import type { OrderEdit } from './types-46.js';
 import type { PayOrderResponse, PartnerWebhookEnvelope } from './types-50.js';
 import type { GetReturnDispositionResponse, GetReturnResponse, GetReturnResolutionResponse, GiftCard } from './types-28.js';
 import type {
@@ -18,8 +20,11 @@ import type { CreateCategoryRequestInput } from './types-8.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { UpdateCategoryRequestInput } from './types-75.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
-import type { SubscriptionQuantityChangeLineItemRequest, SubscriptionQuantityChangeLineItemRequestInput } from './types-72.js';
-import type { SubscriptionPlanChangeLineItemRequest } from './types-71.js';
+import type { SubscriptionQuantityChangeLineItemRequest } from './types-72.js';
+/** The request body for: Cancel a gift card notification. */
+export type CancelGiftCardNotificationRequestInput = {};
+/** Closes an open physical count without changing stock. */
+export type CancelInventoryCountRequestInput = ApplyInventoryCountRequestInput;
 /** Cancels requested quantity that hasn't departed. */
 export type CancelInventoryTransferRequest = {
     /** Transfer version the caller last read. Format: uint64. minimum: 1. */
@@ -478,6 +483,13 @@ export type CancelSubscriptionRequestInput = {
 /** Merchant capability readiness for a payment or money movement capability. */
 export type CapabilityReadiness = {
     /**
+     * Start of the current continuous blocked period, as an RFC 3339 UTC timestamp. A change to
+     * the reason preserves the start. Flint may treat a brief unblock that it didn't publish as
+     * part of the same blocked period. Omitted when the status is not blocked or the start is
+     * unknown. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "blocked_since"?: string | null;
+    /**
      * Flint-owned capability name. Payment capabilities describe transaction acceptance readiness;
      * money movement capabilities describe payout and balance movement readiness. Value enum:
      * "accept_card_payments", "save_payment_methods", "accept_affirm_payments",
@@ -548,6 +560,17 @@ export type CapabilityReadiness = {
         | (string & {});
 };
 export type CapabilityReadinessPreviousAttributes = {
+    /**
+     * Start of the current continuous blocked period, as an RFC 3339 UTC timestamp. A change to
+     * the reason preserves the start. Flint may treat a brief unblock that it didn't publish as
+     * part of the same blocked period. Omitted when the status is not blocked or the start is
+     * unknown. anyOf[1] (Value): string. Start of the current continuous blocked period, as an RFC
+     * 3339 UTC timestamp. A change to the reason preserves the start. Flint may treat a brief
+     * unblock that it didn't publish as part of the same blocked period. Omitted when the status
+     * is not blocked or the start is unknown. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * anyOf[2] (Value): null.
+     */
+    "blocked_since"?: ((string) | (null));
     /**
      * Flint-owned capability name. Payment capabilities describe transaction acceptance readiness;
      * money movement capabilities describe payout and balance movement readiness. Value enum:
@@ -647,10 +670,24 @@ export type CapturePaymentIntentRequest = {
      * capturable_money. A smaller amount is a partial capture: Flint releases the rest in the same
      * request, and the payment intent can't be captured again. Must be greater than zero and at
      * most capturable_money. Affirm payments can only be captured in full. Can't be combined with
-     * final_amount_money or tip_money. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
+     * final_amount_money or tip_money. amount (Required): integer string. Positive amount in the
+     * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 1. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD".
      */
-    "amount_money"?: MoneyValue;
+    "amount_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         */
+        "currency": string;
+    };
     /**
      * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
      * the current version. Retrieve the resource and rebuild the request before retrying. Format:
@@ -664,10 +701,24 @@ export type CapturePaymentIntentRequest = {
      * the payment's currency. On an order's payment, it is at most the authorization minus the tip
      * it carries, so the order's items, charges and tax can't grow; above it LIMIT_EXCEEDED with
      * maximum_money on final_amount_money. The order releases the difference. Not accepted on
-     * Affirm or ACH debit payments. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
+     * Affirm or ACH debit payments. amount (Required): integer string. Positive amount in the
+     * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 1. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD".
      */
-    "final_amount_money"?: MoneyValue;
+    "final_amount_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}`;
+        /**
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         */
+        "currency": string;
+    };
     /**
      * A platform fee your partner app charges on this payment, set when you know the final bill
      * and tip. Only the partner app install token that created the payment can send it; from any
@@ -721,10 +772,24 @@ export type CapturePaymentIntentRequestInput = {
      * capturable_money. A smaller amount is a partial capture: Flint releases the rest in the same
      * request, and the payment intent can't be captured again. Must be greater than zero and at
      * most capturable_money. Affirm payments can only be captured in full. Can't be combined with
-     * final_amount_money or tip_money. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
+     * final_amount_money or tip_money. amount (Required): integer string. Positive amount in the
+     * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 1. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD".
      */
-    "amount_money"?: MoneyValueInput;
+    "amount_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         */
+        "currency": string;
+    };
     /**
      * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
      * the current version. Retrieve the resource and rebuild the request before retrying. Format:
@@ -738,10 +803,24 @@ export type CapturePaymentIntentRequestInput = {
      * the payment's currency. On an order's payment, it is at most the authorization minus the tip
      * it carries, so the order's items, charges and tax can't grow; above it LIMIT_EXCEEDED with
      * maximum_money on final_amount_money. The order releases the difference. Not accepted on
-     * Affirm or ACH debit payments. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
+     * Affirm or ACH debit payments. amount (Required): integer string. Positive amount in the
+     * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 1. currency (Required): string. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD".
      */
-    "final_amount_money"?: MoneyValueInput;
+    "final_amount_money"?: {
+        /**
+         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+         */
+        "amount": `${bigint}` | bigint;
+        /**
+         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
+         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         */
+        "currency": string;
+    };
     /**
      * A platform fee your partner app charges on this payment, set when you know the final bill
      * and tip. Only the partner app install token that created the payment can send it; from any
@@ -796,8 +875,8 @@ export type CapturePaymentSplitRequestInput = {
      * an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
      * Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
      * digits), not a floating-point number. Format: int64. minimum: 0. currency (Required):
-     * string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$.
+     * string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      */
     "amount_money": ({
         /**
@@ -2774,62 +2853,3 @@ export type ChangeMeSubscriptionQuantityRequest = {
      */
     "line_items": Array<SubscriptionQuantityChangeLineItemRequest>;
 };
-/** The request body for: Change subscription quantity. */
-export type ChangeMeSubscriptionQuantityRequestInput = {
-    /**
-     * period_end schedules the new quantities for the next billing boundary; prorated_now charges
-     * the difference now for an eligible digital line. Value enum: "period_end", "prorated_now".
-     */
-    "billing_starts": "period_end" | "prorated_now";
-    /** Reject the request if the subscription version has changed. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * The frozen adjustable subscription line and its quantity, within min_quantity and
-     * max_quantity. Omitted lines keep their quantities. minItems: 1. maxItems: 50. [] (Value):
-     * {@link SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing
-     * subscription line.
-     */
-    "line_items": Array<SubscriptionQuantityChangeLineItemRequestInput>;
-};
-/** The request body for: Change subscription plan. */
-export type ChangeSubscriptionPlanRequest = ({
-    /**
-     * Send with billing_interval_count to choose a target plan option. Omit both to keep the
-     * current interval if the target offers that pair, otherwise use the target plan's default
-     * interval and count. Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Required when billing_interval is sent; billing_interval is required when this field is
-     * sent. minimum: 1. maximum: 365.
-     */
-    "billing_interval_count"?: number;
-    /**
-     * now bills a new period with credit for unused paid item time. next_renewal changes the plan
-     * immediately and keeps the current paid period and next billing date. period_end keeps the
-     * current plan until the next charged renewal, then applies and bills the scheduled terms.
-     * prorated_now charges the new terms for the rest of the current period, less unused paid item
-     * credit, and keeps the billing period and anchor. Value enum: "now", "next_renewal",
-     * "period_end", "prorated_now".
-     */
-    "billing_starts": "now" | "next_renewal" | "period_end" | "prorated_now" | (string & {});
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Optional quantities for target plan lines, with no duplicate IDs. Omitted lines carry their
-     * paired current line's quantity, or use the target line's quantity when unpaired. If an
-     * adjusted current quantity cannot be paired, send a quantity for every target line. []
-     * (Value): {@link SubscriptionPlanChangeLineItemRequest}. Quantity override for a line in the
-     * target subscription plan.
-     */
-    "line_items"?: Array<SubscriptionPlanChangeLineItemRequest>;
-    /**
-     * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV".
-     */
-    "subscription_plan_id": string;
-});

@@ -23,7 +23,7 @@ Replaced as a whole: send every field you want to keep. The preselected fixed ti
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount` | Conditional | integer string | Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. minimum: `0`. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. minimum: `0`. |
-| `currency` | Conditional | string | ISO 4217 currency code for this amount. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
+| `currency` | Conditional | string | Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 
 ### TippingSettingsInput.default_smart_tip_money variant 1
 

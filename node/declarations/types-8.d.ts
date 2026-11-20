@@ -1,9 +1,9 @@
 import type { PaymentSourceCredential, PaymentSourceCredentialInput } from './types-54.js';
-import type { PaymentIntentWithAction } from './types-51.js';
+import type { PaymentIntentWithAction } from './types-52.js';
 import type { ResponseMeta } from './types-62.js';
 import type { GetReturnResolutionResponse } from './types-28.js';
 import type { AddressRequest, AddressRequestInput, APIKeyWithSecret } from './types-0.js';
-import type { SellerTaxAttestationRequest, SellerTaxAttestationRequestInput } from './types-67.js';
+import type { SellerTaxAttestationRequest, SellerTaxAttestationRequestInput } from './types-68.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
 import type { ImageRequest, ImageRequestInput } from './types-31.js';
 import type { MetadataMap, MetadataRequestInput } from './types-43.js';
@@ -16,7 +16,7 @@ import type {
     DeliveryBuyerLocationRequestInput
 } from './types-18.js';
 import type { DeliveryInventoryAssignmentRequest, DeliveryInventoryAssignmentRequestInput } from './types-19.js';
-import type { PromotionRefRequest, PromotionRefRequestInput } from './types-58.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-59.js';
 import type {
     CheckoutRedirects,
     CheckoutRedirectsRequestInput,
@@ -42,10 +42,44 @@ import type {
     CheckoutSubscriptionTermsRequest,
     CheckoutSubscriptionTermsRequestInput
 } from './types-7.js';
-import type { LegalSettings } from './types-38.js';
+import type { LegalSettings } from './types-39.js';
 import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-56.js';
-import type { ThemeConfig, ThemeConfigRequestInput } from './types-74.js';
-import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-15.js';
+import type { ThemeConfig, ThemeConfigRequestInput } from './types-75.js';
+/** The request body for: Revoke an API key. */
+export type ConfigurationVersionRequestInput = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** The code the buyer typed. */
+export type ConfirmCheckoutSessionCustomerVerificationRequest = {
+    /**
+     * The six-digit code from the email or the text. minLength: 6. maxLength: 6. pattern:
+     * ^[0-9]{6}$.
+     */
+    "code": string;
+    /**
+     * Remember this buyer after a right code. Defaults to false. Accepted without issuing a token
+     * until the required notice email is configured.
+     */
+    "remember_buyer"?: boolean;
+    /**
+     * Token this device already holds, if any. A right code for the same email resets its
+     * unconfirmed steps; a different email ends it. With remember_buyer, Flint returns a
+     * replacement token. minLength: 47. maxLength: 47. pattern: ^rbt_[A-Za-z0-9_-]{43}$.
+     */
+    "remembered_buyer_token"?: string;
+};
+/** The code the buyer typed. */
+export type ConfirmCheckoutSessionCustomerVerificationRequestInput = ConfirmCheckoutSessionCustomerVerificationRequest;
+/** The request body for: Confirm a customer email verification. */
+export type ConfirmCustomerVerificationRequestInput = {
+    /** The six-digit code Flint sent to the customer's email. minLength: 1. pattern: ^[0-9]{6}$. */
+    "code": string;
+};
 /** The request body for: Confirm an email change. */
 export type ConfirmEmailChangeRequest = {
     /**
@@ -5136,86 +5170,4 @@ export type CreateCreditNoteAllocationRequest = {
      * int64. minimum: 1.
      */
     "expected_credit_note_version"?: number;
-};
-/** The request body for: Allocate credit note. */
-export type CreateCreditNoteAllocationRequestInput = {
-    /**
-     * Credit to apply, no more than the credit note's available_money or the invoice's outstanding
-     * balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
-     * int64. minimum: 1.
-     */
-    "expected_credit_note_version"?: number;
-};
-/** The request body for: Create credit note. */
-export type CreateCreditNoteRequest = {
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The invoice to correct. It has to be past draft and not voided. minLength: 1. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id": string;
-    /**
-     * Initial draft corrections. Omit or send [] to create an empty draft. Null is not accepted.
-     * [] (Value): {@link CreditNoteLineItemRequest}. A credit note line you supply when creating
-     * or updating a credit note: the invoice line item it credits and how much, or an existing
-     * line to keep.
-     */
-    "line_items"?: Array<CreditNoteLineItemRequest>;
-    /** Free text shown on the credit note, up to 4096 characters. minLength: 1. maxLength: 4096. */
-    "memo"?: string;
-    /**
-     * Why the invoice is being corrected: returned_goods, order_adjustment, billing_error,
-     * goodwill, or other. Shown on the credit note document. Value enum: "returned_goods",
-     * "order_adjustment", "billing_error", "goodwill", "other".
-     */
-    "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-};
-/** The request body for: Create credit note. */
-export type CreateCreditNoteRequestInput = {
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The invoice to correct. It has to be past draft and not voided. minLength: 1. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id": string;
-    /**
-     * Initial draft corrections. Omit or send [] to create an empty draft. Null is not accepted.
-     * [] (Value): {@link CreditNoteLineItemRequestInput}. A credit note line you supply when
-     * creating or updating a credit note: the invoice line item it credits and how much, or an
-     * existing line to keep.
-     */
-    "line_items"?: Array<CreditNoteLineItemRequestInput>;
-    /** Free text shown on the credit note, up to 4096 characters. minLength: 1. maxLength: 4096. */
-    "memo"?: string;
-    /**
-     * Why the invoice is being corrected: returned_goods, order_adjustment, billing_error,
-     * goodwill, or other. Shown on the credit note document. Value enum: "returned_goods",
-     * "order_adjustment", "billing_error", "goodwill", "other".
-     */
-    "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other";
-};
-/** The request body for: Create a custom domain. */
-export type CreateCustomDomainRequest = {
-    /**
-     * Hostname to configure, such as checkout.example.com or account.example.com. minLength: 1.
-     * maxLength: 253.
-     */
-    "hostname": string;
-    /**
-     * Whether the hostname serves checkout pages or the customer account Flint hosts. Value enum:
-     * "checkout", "customer_account".
-     */
-    "type": "checkout" | "customer_account" | (string & {});
 };

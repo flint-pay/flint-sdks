@@ -29,6 +29,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](TicketCheckedInMerchantEvent.md#ticketcheckedinmerchanteventdata-fields-1).
 
+### TicketUpdatedMerchantEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### TicketUpdatedMerchantEvent.data fields 1.object
 
 Field definitions: [TicketCheckedInMerchantEvent.data fields 1.object](../models/TicketCheckedInMerchantEvent.md#ticketcheckedinmerchanteventdata-fields-1object).

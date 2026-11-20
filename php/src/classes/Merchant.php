@@ -23,12 +23,13 @@ namespace Flint;
  * @property-read ?string $support_phone
  * @property-read ?string $support_url
  * @property-read ?string $timezone
+ * @property-read ?bool $timezone_inferred
  * @property-read string $updated_at
  * @property-read int $version
  * @property-read ?string $website_url
  * Presence-aware response; omitted optional fields return null. */
 final class Merchant extends Model {
-    /** @param array{'address'?: mixed, 'api_version'?: string, 'api_version_changed_at'?: string, 'api_version_pinned_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'business_name'?: string, 'business_type'?: string, 'created_at': string, 'email': string|null, 'icon'?: mixed, 'logo'?: mixed, 'merchant_id': string, 'metadata'?: mixed, 'phone'?: string, 'readiness': mixed, 'status': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'timezone'?: string, 'updated_at': string, 'version': int, 'website_url'?: string, ...}|object $values */
+    /** @param array{'address'?: mixed, 'api_version'?: string, 'api_version_changed_at'?: string, 'api_version_pinned_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'business_name'?: string, 'business_type'?: string, 'created_at': string, 'email': string|null, 'icon'?: mixed, 'logo'?: mixed, 'merchant_id': string, 'metadata'?: mixed, 'phone'?: string, 'readiness': mixed, 'status': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'timezone'?: string, 'timezone_inferred'?: bool, 'updated_at': string, 'version': int, 'website_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Merchant')); }
     /** The merchant's business address. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
@@ -130,11 +131,16 @@ final class Merchant extends Model {
      */
     public function getSupportUrl(): ?string { return $this->get('support_url'); }
     public function hasSupportUrl(): bool { return $this->has('support_url'); }
-    /** Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone.
+    /** Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone.
      * @return ?string
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
+    /** True when GET /v1/merchant inferred timezone because the merchant has no saved business time zone. Omitted otherwise.
+     * @return ?bool
+     */
+    public function getTimezoneInferred(): ?bool { return $this->get('timezone_inferred'); }
+    public function hasTimezoneInferred(): bool { return $this->has('timezone_inferred'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
      */

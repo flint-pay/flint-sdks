@@ -440,6 +440,7 @@ anyOf variant 2.
 | `release_timing` | Optional | string or null | Committed resolution execution gate, filled for every approved line: after_inspection when merchandise and inspection are required, after_receipt when merchandise is required without inspection, or after_approval when merchandise is not required, unless the policy or decision sets a timing explicitly. Applies to every resolution type, including exchanges and replacements. manual is held until a merchant calls POST /v1/return-resolutions/{id}/release. Values: `"after_approval"`, `"after_handoff"`, `"after_receipt"`, `"after_inspection"`, `"manual"`. `release_timing`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesrelease_timing). |
 | `requested_quantity` | Optional | integer or null | Units the request asked to return. Whole-number quantity; fractional quantities are not supported. `requested_quantity`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesrequested_quantity). |
 | `requested_resolution_type` | Optional | string or null | Outcome requested for this line when it was created. Absent when none was requested. Values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`. `requested_resolution_type`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesrequested_resolution_type). |
+| `requested_variant` | Optional | string or null | ID of the variant requested for this exchange. The merchant chooses the replacement and confirms its price during resolution. `requested_variant`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesrequested_variant). |
 | `resolution_status` | Optional | string or null | Whether the value for this line's approved quantity has been delivered. Values: `"not_selected"`, `"pending"`, `"requires_action"`, `"completed"`, `"failed"`. `resolution_status`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesresolution_status). |
 | `resolved_quantity` | Optional | integer or null | Units whose resolution has finished. Whole-number quantity; fractional quantities are not supported. `resolved_quantity`: [declared alternatives](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesresolved_quantity). |
 | `return_id` | Optional | string or null | ID of the Return this line belongs to. `return_id`: [declared alternatives](../models/ReturnCanceledMerchantEventDataPreviousAttributes.md#returncanceledmerchanteventdatapreviousattributesline_items-variant-1-fields-1return_id). |
@@ -666,6 +667,10 @@ Declared alternatives: [ReturnLineItemPreviousAttributes.requested_quantity](../
 ### ReturnCanceledMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.requested_resolution_type
 
 Declared alternatives: [ReturnLineItemPreviousAttributes.requested_resolution_type](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesrequested_resolution_type).
+
+### ReturnCanceledMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.requested_variant
+
+Declared alternatives: [ReturnLineItemPreviousAttributes.requested_variant](../models/ReturnLineItemPreviousAttributes.md#returnlineitempreviousattributesrequested_variant).
 
 ### ReturnCanceledMerchantEventDataPreviousAttributes.line_items variant 1.[] fields 1.resolution_status
 

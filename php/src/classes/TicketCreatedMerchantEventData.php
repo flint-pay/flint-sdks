@@ -2,12 +2,18 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read ?ReturnActor $actor
  * @property-read TicketCreatedMerchantEventDataObject $object
  * @property-read ?array<array-key, mixed> $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class TicketCreatedMerchantEventData extends Model {
-    /** @param array{'object': object{'admission_code'?: string, 'admission_code_last4': string, 'attendee_name': string|null, 'check_in_method': mixed, 'checked_in_at': string|null, 'created_at': string, 'order'?: mixed, 'order_id': string, 'order_line_item_id': string, 'payment_link_id': string, 'status': string, 'supported_actions': list<string>, 'ticket_id': string, 'ticket_number': string, 'tier_name'?: string, 'updated_at': string, 'version': int, 'voided_at': string|null}, 'previous_attributes'?: \stdClass, ...}|object $values */
+    /** @param array{'actor'?: mixed, 'object': object{'admission_code'?: string, 'admission_code_last4': string, 'attendee_name': string|null, 'check_in_method': mixed, 'checked_in_at': string|null, 'created_at': string, 'order'?: mixed, 'order_id': string, 'order_line_item_id': string, 'payment_link_id': string, 'payment_link_line_item_key'?: string, 'status': string, 'supported_actions': list<string>, 'ticket_id': string, 'ticket_number': string, 'tier_name'?: string, 'updated_at': string, 'version': int, 'voided_at': string|null}, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TicketCreatedMerchantEventData')); }
+    /** Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+     * @return ?ReturnActor
+     */
+    public function getActor(): ?ReturnActor { return $this->get('actor'); }
+    public function hasActor(): bool { return $this->has('actor'); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return TicketCreatedMerchantEventDataObject
      */

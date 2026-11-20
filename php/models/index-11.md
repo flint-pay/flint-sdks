@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# DeliveryRadiusOriginInput to DeliveryWindowRequestInput
+# DeliveryQuoteMethodResourceInput to DeliveryWeeklyIntervalPreviousAttributesInput
 
+- [DeliveryQuoteMethodResourceInput](DeliveryQuoteMethodResourceInput.md)
+- [DeliveryQuoteResponseInput](DeliveryQuoteResponseInput.md)
+- [DeliveryRadiusConditionInput](DeliveryRadiusConditionInput.md)
+- [DeliveryRadiusConditionPreviousAttributesInput](DeliveryRadiusConditionPreviousAttributesInput.md)
+- [DeliveryRadiusConditionRequestInput](DeliveryRadiusConditionRequestInput.md)
 - [DeliveryRadiusOriginInput](DeliveryRadiusOriginInput.md)
 - [DeliveryRadiusOriginPreviousAttributesInput](DeliveryRadiusOriginPreviousAttributesInput.md)
 - [DeliveryRateCallbackInput](DeliveryRateCallbackInput.md)
@@ -97,9 +102,4 @@
 - [DeliveryTransitTimeRuleRequestInput](DeliveryTransitTimeRuleRequestInput.md)
 - [DeliveryWeeklyIntervalInput](DeliveryWeeklyIntervalInput.md)
 - [DeliveryWeeklyIntervalPreviousAttributesInput](DeliveryWeeklyIntervalPreviousAttributesInput.md)
-- [DeliveryWeeklyIntervalRequestInput](DeliveryWeeklyIntervalRequestInput.md)
-- [DeliveryWeightUnitPriceInput](DeliveryWeightUnitPriceInput.md)
-- [DeliveryWeightUnitPricePreviousAttributesInput](DeliveryWeightUnitPricePreviousAttributesInput.md)
-- [DeliveryWeightUnitPriceRequestInput](DeliveryWeightUnitPriceRequestInput.md)
-- [DeliveryWindowRequestInput](DeliveryWindowRequestInput.md)
 

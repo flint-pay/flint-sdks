@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# SellerTaxAttestationRequestInput to SubscriptionDeliveryMethodImpactInput
+# ScheduleFulfillmentRequestInput to SubscriptionDeliveryDestinationInputAddressInput
 
+- [ScheduleFulfillmentRequestInput](ScheduleFulfillmentRequestInput.md)
+- [ScopeRequirementInput](ScopeRequirementInput.md)
+- [SelectableErrorResourceInput](SelectableErrorResourceInput.md)
+- [SelectableOrderPaymentIntentInput](SelectableOrderPaymentIntentInput.md)
+- [SelectableOrderPaymentIntentPreviousAttributesInput](SelectableOrderPaymentIntentPreviousAttributesInput.md)
+- [SelectedProductOptionInput](SelectedProductOptionInput.md)
+- [SelectedProductOptionPreviousAttributesInput](SelectedProductOptionPreviousAttributesInput.md)
 - [SellerTaxAttestationRequestInput](SellerTaxAttestationRequestInput.md)
 - [SendOrderReceiptRequestInput](SendOrderReceiptRequestInput.md)
 - [SendPaymentIntentReceiptRequestInput](SendPaymentIntentReceiptRequestInput.md)
@@ -95,11 +102,4 @@
 - [SubscriptionDeliveryActionRequiredMerchantEventInput](SubscriptionDeliveryActionRequiredMerchantEventInput.md)
 - [SubscriptionDeliveryDestinationInput](SubscriptionDeliveryDestinationInput.md)
 - [SubscriptionDeliveryDestinationInputAddressInput](SubscriptionDeliveryDestinationInputAddressInput.md)
-- [SubscriptionDeliveryDestinationInputCustomerAddressInput](SubscriptionDeliveryDestinationInputCustomerAddressInput.md)
-- [SubscriptionDeliveryDestinationPreviousAttributesInput](SubscriptionDeliveryDestinationPreviousAttributesInput.md)
-- [SubscriptionDeliveryDestinationRequestInput](SubscriptionDeliveryDestinationRequestInput.md)
-- [SubscriptionDeliveryHoldInput](SubscriptionDeliveryHoldInput.md)
-- [SubscriptionDeliveryHoldPreviousAttributesInput](SubscriptionDeliveryHoldPreviousAttributesInput.md)
-- [SubscriptionDeliveryMethodCountsInput](SubscriptionDeliveryMethodCountsInput.md)
-- [SubscriptionDeliveryMethodImpactInput](SubscriptionDeliveryMethodImpactInput.md)
 

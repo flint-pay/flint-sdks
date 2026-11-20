@@ -1,11 +1,12 @@
-import { d8450 as c0 } from '../descriptors/data/376.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d9356 as c1, d9364 as c2, d9365 as c3, d9366 as c4, d9367 as c5, d9368 as c6, d9369 as c7, d9370 as c8 } from '../descriptors/data/426.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d8283 as c9, d8284 as c10, d8285 as c11, d8286 as c12 } from '../descriptors/data/367.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
-import { d9356 as d9356 } from '../descriptors/data/426.js?sdk=28de873c3713c61c93d1cd1d4cf98eeb9205b09c8d03bd47e8c0d502249adc12';
+import { d8463 as c0 } from '../descriptors/data/376.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d9378 as c1 } from '../descriptors/data/426.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d9386 as c2, d9387 as c3, d9388 as c4, d9389 as c5, d9390 as c6, d9391 as c7, d9392 as c8 } from '../descriptors/data/427.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d8298 as c9, d8299 as c10, d8300 as c11, d8301 as c12 } from '../descriptors/data/367.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d9378 as d9378 } from '../descriptors/data/426.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d9356;
+const read = d9378;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CustomerTaxExemptionCoverageRequest"]:c0(),["OrderTaxExemptionRequest"]:c1(),["SharedCodec1966"]:c2(),["SharedCodec1967"]:c3(),["SharedCodec1968"]:c4(),["SharedCodec1969"]:c5(),["SharedCodec1973"]:c6(),["SharedCodec1974"]:c7(),["SharedCodec1975"]:c8(),["SharedCodec684"]:c9(),["SharedCodec685"]:c10(),["SharedCodec686"]:c11(),["SharedCodec687"]:c12()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CustomerTaxExemptionCoverageRequest"]:c0(),["OrderTaxExemptionRequest"]:c1(),["SharedCodec1968"]:c2(),["SharedCodec1969"]:c3(),["SharedCodec1970"]:c4(),["SharedCodec1971"]:c5(),["SharedCodec1975"]:c6(),["SharedCodec1976"]:c7(),["SharedCodec1977"]:c8(),["SharedCodec685"]:c9(),["SharedCodec686"]:c10(),["SharedCodec687"]:c11(),["SharedCodec688"]:c12()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOrderTaxExemptionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

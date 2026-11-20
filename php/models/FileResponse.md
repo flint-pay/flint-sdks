@@ -29,7 +29,7 @@ Resource, collection, or operation result returned by this request. An image upl
 | `status` | Required | string | Where the file is in its lifecycle. Only a `ready` file can be attached. Values: `"awaiting_upload"`, `"processing"`, `"ready"`, `"failed"`, `"expired"`. |
 | `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts now. complete is offered while awaiting_upload or processing and remains accepted for completed files, returning the completed file. It can remain available after an attachment deadline expires until Flint removes the stored file. An in-progress completion can still return a transient refusal. Items values: `"complete"`. |
 | `upload` | Optional | [FileUpload](../models/FileUpload.md#fileupload) | Present only in the create response while awaiting_upload. GET never returns upload credentials. PUT bytes before upload.expires_at, then complete the file. The signed upload target for a file: the URL, HTTP method, headers to send, and when the URL expires. `upload`: [field definitions](../models/FileResponse.md#fileresponsedataupload). |
-| `url` | Optional | string | The canonical image URL, present when ready. Attach the file with images[].file_id, or copy this URL into source_url on another resource. Format: `uri`. Example: `"https://example.com/receipt"`. |
+| `url` | Optional | string | The canonical image URL, present when ready. It serves the image after the file is first attached. To preview before attaching, display the local image. Attach with images[].file_id or pass this URL as source_url. Format: `uri`. Example: `"https://example.com/receipt"`. |
 | `width` | Optional | integer | The stored image width in pixels, present only when ready. Format: `int32`. |
 
 ### FileResponse.data.upload

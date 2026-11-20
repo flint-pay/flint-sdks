@@ -1,4 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { BlockFailedAttemptSignalsResponse, BlockFailedAttemptSignalsResult } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { ConfirmPaymentIntentResponse } from '../declarations/types-8.js';
 import type {
@@ -6,16 +7,17 @@ import type {
     PaymentIntentActivity,
     PaymentIntentActivityListResponse,
     PaymentIntentListResponse,
-    PaymentIntentResponse,
+    PaymentIntentResponse
+} from '../declarations/types-51.js';
+import type {
     PaymentIntentWithAction,
     PaymentIntentWithCollection,
     PaymentIntentWithCollectionResponse,
+    PaymentIntentsBlockAttemptSignalsParams,
     PaymentIntentsCancelParams,
     PaymentIntentsCaptureParams,
     PaymentIntentsConfirmParams,
-    PaymentIntentsCreateParams
-} from '../declarations/types-51.js';
-import type {
+    PaymentIntentsCreateParams,
     PaymentIntentsCreateResponse,
     PaymentIntentsGetParams,
     PaymentIntentsListActivitiesParams,
@@ -40,60 +42,64 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type {
+    PaymentIntentsBlockAttemptSignalsParams,
     PaymentIntentsCancelParams,
-    PaymentIntent,
-    PaymentIntentResponse,
     PaymentIntentsCaptureParams,
     PaymentIntentsConfirmParams,
     PaymentIntentWithAction,
     PaymentIntentsCreateParams,
     PaymentIntentWithCollection,
-    PaymentIntentWithCollectionResponse,
-    PaymentIntentActivityListResponse,
-    PaymentIntentActivity,
-    PaymentIntentListResponse,
-    PaymentFulfillmentHold,
-    PaymentErrorSummary,
-    PaymentIntentOvercapture,
-    PaymentIntentPlatformFee,
-    PaymentClientActionURL,
-    PaymentClientActionStripe,
-    PaymentCollection,
-    PaymentCollectionStripe,
-    PaymentCollectionStripeElements
-} from '../declarations/types-51.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
-export type { ConfirmPaymentIntentResponse, ConfirmPaymentIntentRequestInput } from '../declarations/types-8.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type {
     PaymentIntentsCreateResponse,
     PaymentIntentsGetParams,
+    PaymentIntentWithCollectionResponse,
     PaymentIntentsListActivitiesParams,
     PaymentIntentsListParams,
     PaymentIntentsSendReceiptParams,
     PaymentIntentsUpdateParams
 } from '../declarations/types-52.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { BlockFailedAttemptSignalsResult, BlockFailedAttemptSignalsResponse, AuthMode } from '../declarations/types-1.js';
+export type {
+    PaymentIntent,
+    PaymentIntentResponse,
+    PaymentIntentActivityListResponse,
+    PaymentIntentActivity,
+    PaymentIntentListResponse,
+    PaymentAddOnFee,
+    PaymentFulfillmentHold,
+    PaymentErrorSummary,
+    PaymentIntentOvercapture,
+    PaymentIntentPlatformFee,
+    PaymentClientAction,
+    PaymentClientActionURL,
+    PaymentClientActionStripe,
+    PaymentCollection,
+    PaymentCollectionStripe,
+    PaymentCollectionStripeElements,
+    PaymentActivityActor
+} from '../declarations/types-51.js';
+export type { ConfirmPaymentIntentResponse, ConfirmPaymentIntentRequestInput } from '../declarations/types-8.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { NextAction, MoneyValue, MoneyValueInput } from '../declarations/types-44.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type {
     CancelPaymentIntentRequestInput,
     CapturePaymentIntentRequestInput,
     CapturePaymentSplitRequestInput
 } from '../declarations/types-5.js';
-export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
-export type { PaymentAddOnFee, PaymentClientAction, PaymentActivityActor } from '../declarations/types-50.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-44.js';
-export type { ExpandedCustomerSummary, ExpandedInvoiceSummary, ErrorRemediation, ExpandedOrderSummary } from '../declarations/types-26.js';
+export type {
+    ExpandedCustomerSummary,
+    ExpandedInvoiceSummary,
+    ErrorRemediation,
+    ExpandedOrderSummary,
+    DisputesAcceptParams
+} from '../declarations/types-26.js';
 export type { FailedPaymentAttempt } from '../declarations/types-27.js';
 export type { PricingAmounts, PlatformFeeRequestInput, PlatformFeeMoneyInput } from '../declarations/types-56.js';
 export type { InvoiceSettlementAmounts } from '../declarations/types-38.js';
-export type {
-    SettlementAmounts,
-    StripePaymentClientAction,
-    StripeSetupIntentClientAction,
-    StripeTerminalPaymentIntentClientAction
-} from '../declarations/types-68.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { SettlementAmounts, SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput } from '../declarations/types-68.js';
 export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
@@ -126,14 +132,22 @@ export type {
     PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject
 } from '../declarations/types-55.js';
+export type {
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
+    StripeTerminalPaymentIntentClientAction
+} from '../declarations/types-69.js';
 export type { CreatePaymentIntentRequestInput } from '../declarations/types-12.js';
-export type { SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput } from '../declarations/types-67.js';
-export type { UpdatePaymentIntentRequestInput } from '../declarations/types-76.js';
-export { makeCancelPaymentIntentRequest } from '../declarations/types-80.js';
-export { makeCapturePaymentIntentRequest, makeCapturePaymentSplitRequest, makeConfirmPaymentIntentRequest } from '../declarations/types-81.js';
+export type { UpdatePaymentIntentRequestInput } from '../declarations/types-77.js';
+export {
+    makeCancelPaymentIntentRequest,
+    makeCapturePaymentIntentRequest,
+    makeCapturePaymentSplitRequest,
+    makeConfirmPaymentIntentRequest
+} from '../declarations/types-81.js';
 export { makeCreatePaymentIntentRequest } from '../declarations/types-83.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeOrderPaymentSourceCardSelection, makeOrderPaymentSourceSelection } from '../declarations/types-89.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue, makeOrderPaymentSourceCardSelection, makeOrderPaymentSourceSelection } from '../declarations/types-89.js';
 export {
     makePaymentSourceCredential,
     makePaymentSourceCredentialPaymentMethod,
@@ -142,12 +156,35 @@ export {
     makePaymentSourceCredentialStripePaymentMethod,
     makePaymentSplitRequest,
     makePlatformFeeMoney,
-    makePlatformFeeRequest,
-    makeReaderPaymentSourceTip
+    makePlatformFeeRequest
 } from '../declarations/types-90.js';
+export { makeReaderPaymentSourceTip } from '../declarations/types-91.js';
 export { makeSendPaymentIntentReceiptRequest } from '../declarations/types-92.js';
 export { makeUpdatePaymentIntentRequest } from '../declarations/types-94.js';
 export interface PaymentIntentsResource {
+    /**
+ * Adds the retained card fingerprint, email, and IP address from a failed or blocked attempt to
+ * the default block lists in one transaction. The result names the list item types present after
+ * the call. Existing entries are kept. Flint skips missing or unlistable signals and omits IP
+ * addresses for virtual-terminal payments. Future payments are checked when the default block rule
+ * is active.
+ *
+ * `POST /v1/payment-intents/{payment_intent_id}/attempts/{payment_attempt_id}/block-signals`
+ * @param payment_intent_id Flint payment intent ID. Must be a valid ID with prefix pi_. Malformed
+ * IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist
+ * return 404 RESOURCE_NOT_FOUND.
+ * @param payment_attempt_id Flint attempt ID from the payment intent's failed attempts. Must be a
+ * valid ID with prefix pia_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE;
+ * well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND.
+ * @see https://developers.withflintpay.com/docs/api/risk-controls#blockPaymentIntentAttemptSignals
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.paymentIntents.blockAttemptSignals("pi_01KEZF7C00G8H9D509YEV22P7R",
+ * "pia_01KEZF7C00CGGHWWR7KPCGNJRM", {}, { idempotencyKey: idempotencyKey })
+ */
+    blockAttemptSignals(payment_intent_id: InputValue<string>, payment_attempt_id: InputValue<string>, params?: PaymentIntentsBlockAttemptSignalsParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<BlockFailedAttemptSignalsResult, BlockFailedAttemptSignalsResponse>>;
     /**
  * Cancels a standalone or order-owned payment intent. Read supported_actions for the actions its
  * stored state accepts. Canceling a hold moves all of capturable_money to released_money, and

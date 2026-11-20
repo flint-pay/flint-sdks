@@ -10,12 +10,12 @@ namespace Flint;
  * @property-read array<array-key, int>|\stdClass $quantity_overrides
  * @property-read string $resolution_context
  * @property-read CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass $subscription_terms
- * @property-read array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass $unit_price_overrides
+ * @property-read array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass $unit_price_overrides
  * @property-read array<array-key, string>|\stdClass $variant_selections
  * @property-read bool $include_checkout
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinksResolveParams extends Model {
-    /** @param array{'attendee_names'?: list<string>, 'client_reference'?: string, 'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, ResolvePaymentLinkLineItemModifiersInput|array<array-key, mixed>|\stdClass>|\stdClass, 'prefill'?: PaymentLinkResolvePrefillRequestInput|array<array-key, mixed>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'unit_price_overrides'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'variant_selections'?: array<array-key, string>|\stdClass, 'include_checkout'?: bool}|object $values */
+    /** @param array{'attendee_names'?: list<string>, 'client_reference'?: string, 'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, ResolvePaymentLinkLineItemModifiersInput|array<array-key, mixed>|\stdClass>|\stdClass, 'prefill'?: PaymentLinkResolvePrefillRequestInput|array<array-key, mixed>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'unit_price_overrides'?: array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass, 'variant_selections'?: array<array-key, string>|\stdClass, 'include_checkout'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinksResolveParams')); }
     /** One attendee name per ticket on an event payment link, in line_items order: each tier's tickets in turn, skipping tiers with quantity 0. The count must equal the tickets being bought. Required when event_config.collect_attendee_names is true, and optional otherwise. Flint trims each name, which must then be 1 to 200 characters. Duplicate names are allowed. Flint copies the names onto the tickets when the order is paid, as each ticket's attendee_name, and never stores them in metadata. minItems: 1. [] (Value): string. minLength: 1.
      * @return list<string>
@@ -65,8 +65,8 @@ final class PaymentLinksResolveParams extends Model {
      */
     public function getSubscriptionTerms(): mixed { return $this->get('subscription_terms'); }
     public function hasSubscriptionTerms(): bool { return $this->has('subscription_terms'); }
-    /** Prices keyed by line item key, for items with allow_unit_price_adjustment, between min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed donation. * (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
+    /** Positive prices keyed by line item key, for items with allow_unit_price_adjustment, between min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed donation. * (Value): object. *.amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. *.currency (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * @return array<array-key, array{'amount': string, 'currency': string}|object>|\stdClass
      * @throws SdkError When unit_price_overrides is omitted; use hasUnitPriceOverrides() or valueOrDefault().
      */
     public function getUnitPriceOverrides(): array|object { return $this->get('unit_price_overrides'); }

@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](LicenseKeyDisabledMerchantEvent.md#licensekeydisabledmerchanteventdata-fields-1).
 
+### LicenseKeyUpdatedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### LicenseKeyUpdatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [LicenseKeyCreatedMerchantEvent.data fields 1.object](../models/LicenseKeyCreatedMerchantEvent.md#licensekeycreatedmerchanteventdata-fields-1object).

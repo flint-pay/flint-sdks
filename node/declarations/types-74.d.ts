@@ -1,10 +1,5 @@
-import type { InputValue } from '../runtime.js';
-import type { ConnectTaxConnectionRequestInput } from './types-8.js';
-import type { CreateTaxRegistrationRequestInput, CreateTestClockRequestInput } from './types-14.js';
-import type { DisconnectTaxConnectionRequestInput } from './types-25.js';
-import type { ResponseMeta } from './types-62.js';
-import type { TaxConnection } from './types-73.js';
-import type { UpdateTaxRegistrationRequestInput } from './types-78.js';
+import type { UpdateTaxCalculationCallbackRequestInput, UpdateTaxRegistrationRequestInput } from './types-78.js';
+import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-44.js';
 import type {
     Address,
     AddressPreviousAttributes,
@@ -12,10 +7,335 @@ import type {
     AddressRequestInput,
     AdvanceTestClockRequestInput
 } from './types-0.js';
+import type { InputValue } from '../runtime.js';
+import type { ConnectTaxConnectionRequestInput } from './types-8.js';
+import type { CreateTaxRegistrationRequestInput, CreateTestClockRequestInput } from './types-14.js';
+import type { DisconnectTaxConnectionRequestInput } from './types-25.js';
+import type { ResponseMeta } from './types-62.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
-import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { DocumentTaxID, DocumentTaxIDRequestInput, DocumentTaxIDPreviousAttributes } from './types-26.js';
 import type { CustomerTaxID, CustomerTaxIDPreviousAttributes } from './types-17.js';
+export type TaxCalculationCallbacksRotateSecretParams = {};
+export type TaxCalculationCallbacksUpdateParams = (UpdateTaxCalculationCallbackRequestInput);
+/**
+ * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
+ * components.
+ */
+export type TaxCalculationRequest = {
+    /**
+     * The tax for this line item or charge, one component per jurisdiction and tax type. Each is a
+     * `percentage` tax. minItems: 1. [] (Value): {@link TaxComponentRequest}. One tax component in
+     * a `TaxCalculationInput`: a jurisdiction, tax type, and percent.
+     */
+    "components": Array<TaxComponentRequest>;
+    /**
+     * Whether the price this tax applies to already includes the tax. Value enum: "additive",
+     * "inclusive".
+     */
+    "price_mode": "additive" | "inclusive" | (string & {});
+};
+/**
+ * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
+ * components.
+ */
+export type TaxCalculationRequestModelInput = {
+    /**
+     * The tax for this line item or charge, one component per jurisdiction and tax type. Each is a
+     * `percentage` tax. minItems: 1. [] (Value): {@link TaxComponentRequestModelInput}. One tax
+     * component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent.
+     */
+    "components": Array<TaxComponentRequestModelInput>;
+    /**
+     * Whether the price this tax applies to already includes the tax. Value enum: "additive",
+     * "inclusive".
+     */
+    "price_mode": "additive" | "inclusive";
+};
+export type TaxCalculationRequestPreviousAttributes = {
+    /**
+     * The tax for this line item or charge, one component per jurisdiction and tax type. Each is a
+     * `percentage` tax. anyOf[1] (Value): Array of {@link TaxComponentRequestPreviousAttributes}.
+     * The tax for this line item or charge, one component per jurisdiction and tax type. Each is a
+     * `percentage` tax. minItems: 1. anyOf[1][] (Value): {@link
+     * TaxComponentRequestPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "components"?: ((Array<TaxComponentRequestPreviousAttributes>) | (null));
+    /**
+     * Whether the price this tax applies to already includes the tax. Value enum: "additive",
+     * "inclusive". anyOf[1] (Value): string. Whether the price this tax applies to already
+     * includes the tax. Value enum: "additive", "inclusive". anyOf[2] (Value): null.
+     */
+    "price_mode"?: (("additive" | "inclusive" | (string & {})) | (null));
+};
+/**
+ * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
+ * components.
+ */
+export type TaxCalculationRequestRequestInput = {
+    /**
+     * The tax for this line item or charge, one component per jurisdiction and tax type. Each is a
+     * `percentage` tax. minItems: 1. [] (Value): {@link TaxComponentRequestRequestInput}. One tax
+     * component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent.
+     */
+    "components": Array<TaxComponentRequestRequestInput>;
+    /**
+     * Whether the price this tax applies to already includes the tax. Value enum: "additive",
+     * "inclusive".
+     */
+    "price_mode": "additive" | "inclusive";
+};
+/** One tax component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent. */
+export type TaxComponentRequest = ({
+    /**
+     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum:
+     * "percentage".
+     */
+    "calculation_type"?: "percentage" | (string & {});
+    /**
+     * The fixed tax amount in the order currency. Send it with a `flat_amount` component; a
+     * `percentage` component doesn't take it. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValue;
+    /**
+     * The taxing jurisdiction this component's tax is owed to. A taxing jurisdiction with its
+     * level, such as state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdiction;
+    /**
+     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
+     * Send it with a `percentage` component; a `flat_amount` component doesn't take it. minimum:
+     * 0. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+    /**
+     * The kind of tax this component collects. Value enum: "sales_tax", "use_tax", "vat", "gst",
+     * "hst", "pst", "qst".
+     */
+    "tax_type": "sales_tax" | "use_tax" | "vat" | "gst" | "hst" | "pst" | "qst" | (string & {});
+    /**
+     * Optional reverse-charge treatment. Requires percent 0 and a non-US jurisdiction. Value enum:
+     * "reverse_charge".
+     */
+    "taxability_reason"?: "reverse_charge" | (string & {});
+});
+/** One tax component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent. */
+export type TaxComponentRequestModelInput = ({
+    /**
+     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Default:
+     * "percentage". Value enum: "percentage".
+     */
+    "calculation_type"?: "percentage";
+    /**
+     * The fixed tax amount in the order currency. Send it with a `flat_amount` component; a
+     * `percentage` component doesn't take it. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValueInput;
+    /**
+     * The taxing jurisdiction this component's tax is owed to. A taxing jurisdiction with its
+     * level, such as state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdictionRequestModelInput;
+    /**
+     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
+     * Send it with a `percentage` component; a `flat_amount` component doesn't take it. minimum:
+     * 0. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+    /**
+     * The kind of tax this component collects. Value enum: "sales_tax", "use_tax", "vat", "gst",
+     * "hst", "pst", "qst".
+     */
+    "tax_type": "sales_tax" | "use_tax" | "vat" | "gst" | "hst" | "pst" | "qst";
+    /**
+     * Optional reverse-charge treatment. Requires percent 0 and a non-US jurisdiction. Value enum:
+     * "reverse_charge".
+     */
+    "taxability_reason"?: "reverse_charge";
+})
+    & ({
+    "flat_money"?: never;
+});
+export type TaxComponentRequestPreviousAttributes = {
+    /**
+     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum:
+     * "percentage". anyOf[1] (Value): string. How the tax is figured: a percentage of the taxable
+     * amount, or a fixed amount. Value enum: "percentage". anyOf[2] (Value): null.
+     */
+    "calculation_type"?: (("percentage" | (string & {})) | (null));
+    /**
+     * The fixed tax amount in the order currency. Send it with a `flat_amount` component; a
+     * `percentage` component doesn't take it. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "flat_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * The taxing jurisdiction this component's tax is owed to. anyOf[1] (Value): {@link
+     * TaxJurisdictionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "jurisdiction"?: ((TaxJurisdictionPreviousAttributes) | (null));
+    /**
+     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
+     * Send it with a `percentage` component; a `flat_amount` component doesn't take it. anyOf[1]
+     * (Value): number. Tax rate in percentage points, from 0 to 100 with up to four decimal
+     * places: `6.5` is 6.5%. Send it with a `percentage` component; a `flat_amount` component
+     * doesn't take it. minimum: 0. maximum: 100. multipleOf: 0.0001. anyOf[2] (Value): null.
+     */
+    "percent"?: ((number) | (null));
+    /**
+     * The kind of tax this component collects. Value enum: "sales_tax", "use_tax", "vat", "gst",
+     * "hst", "pst", "qst". anyOf[1] (Value): string. The kind of tax this component collects.
+     * Value enum: "sales_tax", "use_tax", "vat", "gst", "hst", "pst", "qst". anyOf[2] (Value):
+     * null.
+     */
+    "tax_type"?: (("sales_tax" | "use_tax" | "vat" | "gst" | "hst" | "pst" | "qst" | (string & {})) | (null));
+    /**
+     * Optional reverse-charge treatment. Requires percent 0 and a non-US jurisdiction. Value enum:
+     * "reverse_charge". anyOf[1] (Value): string. Optional reverse-charge treatment. Requires
+     * percent 0 and a non-US jurisdiction. Value enum: "reverse_charge". anyOf[2] (Value): null.
+     */
+    "taxability_reason"?: (("reverse_charge" | (string & {})) | (null));
+};
+/** One tax component in a `TaxCalculationInput`: a jurisdiction, tax type, and percent. */
+export type TaxComponentRequestRequestInput = ({
+    /**
+     * How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum:
+     * "percentage".
+     */
+    "calculation_type"?: "percentage";
+    /**
+     * The fixed tax amount in the order currency. Send it with a `flat_amount` component; a
+     * `percentage` component doesn't take it. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValueInput;
+    /**
+     * The taxing jurisdiction this component's tax is owed to. A taxing jurisdiction with its
+     * level, such as state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdictionRequestInput;
+    /**
+     * Tax rate in percentage points, from 0 to 100 with up to four decimal places: `6.5` is 6.5%.
+     * Send it with a `percentage` component; a `flat_amount` component doesn't take it. minimum:
+     * 0. maximum: 100. multipleOf: 0.0001.
+     */
+    "percent": number;
+    /**
+     * The kind of tax this component collects. Value enum: "sales_tax", "use_tax", "vat", "gst",
+     * "hst", "pst", "qst".
+     */
+    "tax_type": "sales_tax" | "use_tax" | "vat" | "gst" | "hst" | "pst" | "qst";
+    /**
+     * Optional reverse-charge treatment. Requires percent 0 and a non-US jurisdiction. Value enum:
+     * "reverse_charge".
+     */
+    "taxability_reason"?: "reverse_charge";
+})
+    & ({
+    "flat_money"?: never;
+});
+/**
+ * The environment's automatic sales tax connection. Before a record exists, identity, version and
+ * timestamps are omitted. Read-time business-detail changes and provider pauses do not advance
+ * version or send webhooks. Status_reason and supported_actions can also change with the clock as
+ * registrations end, without a version change or webhook.
+ */
+export type TaxConnection = {
+    /**
+     * Current automatic-tax coverage, independent of the seller's registrations. Sorted by
+     * country. Unsupported countries or categories require external tax. [] (Value): {@link
+     * TaxCountryCoverage}. A country and the categories automatic tax can calculate there.
+     */
+    "coverage": Array<TaxCountryCoverage>;
+    /**
+     * When the connection record was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "created_at"?: string;
+    /**
+     * Current statements the seller must agree to before connecting. Ordered seller disclosure
+     * rendered with the merchant's effective automatic tax fee.
+     */
+    "disclosure": TaxConnectionDisclosure;
+    /**
+     * Legal business address used as the tax origin. In live mode, comes from processor-verified
+     * onboarding details before connect and the tax account snapshot once connected. In sandboxes,
+     * uses an explicit legal_address supplied at connect, otherwise verified live details or the
+     * merchant profile, and retains the attested snapshot for retries and reconnects. `null` when
+     * no legal address is available. anyOf[1] (Value): {@link Address}. A postal address. Every
+     * address has country. Addresses Flint checked as complete (customer and saved addresses,
+     * merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient
+     * and pickup addresses) always have line1 and city, and US ones always have state and
+     * postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold
+     * only what was provided, such as postal_code and country. anyOf[2] (Value): null.
+     */
+    "legal_address": ((Address) | (null));
+    /**
+     * Legal business name verified by the payment processor, which can differ from the
+     * merchant-entered Merchant.business_name. Before connect, comes from verified onboarding
+     * details; once connected, comes from the tax account snapshot. In sandboxes, uses verified
+     * live details when available, otherwise the merchant profile, and retains the connected
+     * snapshot. Omitted when no name is available.
+     */
+    "legal_business_name"?: string;
+    /**
+     * The seller's recorded agreement to the disclosure. `null` when no connect has recorded one.
+     * anyOf[1] (Value): {@link TaxConnectionSellerAttestation}. The disclosure the seller agreed
+     * to and when Flint recorded that agreement. anyOf[2] (Value): null.
+     */
+    "seller_attestation": ((TaxConnectionSellerAttestation) | (null));
+    /**
+     * Whether automatic tax is connected and can calculate tax. Value enum: "not_connected",
+     * "provisioning", "active", "attention_required", "disabled".
+     */
+    "status": "not_connected" | "provisioning" | "active" | "attention_required" | "disabled" | (string & {});
+    /**
+     * Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason
+     * applies. Unknown reasons normalize to `other`. Value enum: "not_offered",
+     * "business_address_required", "onboarding_required", "tax_category_required",
+     * "registration_required", "temporarily_unavailable", "setup_incomplete",
+     * "registration_rejected", "business_details_changed", "support_required", "disconnected",
+     * "other", null.
+     */
+    "status_reason": "not_offered"
+        | "business_address_required"
+        | "onboarding_required"
+        | "tax_category_required"
+        | "registration_required"
+        | "temporarily_unavailable"
+        | "setup_incomplete"
+        | "registration_rejected"
+        | "business_details_changed"
+        | "support_required"
+        | "disconnected"
+        | "other"
+        | null
+        | (string & {})
+        | null;
+    /**
+     * Lists connect when setup can complete, including by supplying legal_address in test mode and
+     * disconnect when automatic tax can be turned off, based on the connection state for every
+     * credential. An empty array means neither action is available. Performing either action
+     * requires settings.write. [] enum: "connect", "disconnect". [] (Value): string. Value enum:
+     * "connect", "disconnect".
+     */
+    "supported_actions": Array<"connect" | "disconnect" | (string & {})>;
+    /**
+     * Flint tax connection ID. Present once the first registration or connection creates a record.
+     * Example: "tcn_01KEZF7C007Y42FMVNHV3P27QN".
+     */
+    "tax_connection_id"?: string;
+    /**
+     * When the connection record's public state last changed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at"?: string;
+    /**
+     * Current resource version. Send as expected_version to reject a write based on an older
+     * version. Format: uint64. minimum: 1.
+     */
+    "version"?: number;
+};
 export type TaxConnectionConnectParams = (InputValue<ConnectTaxConnectionRequestInput>);
 export type TaxConnectionCreateRegistrationParams = (InputValue<CreateTaxRegistrationRequestInput>);
 export type TaxConnectionDeleteRegistrationParams = {
@@ -1400,160 +1720,4 @@ export type TextModifierConfig = {
      * precedence.
      */
     "required": boolean;
-};
-/**
- * Send only text fields to change. Omitted fields keep their stored values. null clears min_length
- * or max_length. An empty object is invalid. The merged configuration is validated. minProperties:
- * 1.
- */
-export type TextModifierConfigPatchRequest = {
-    /**
-     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
-     * Omit it to keep the current limit; send null to clear it. Format: int32. minimum: 1.
-     * maximum: 500.
-     */
-    "max_length"?: number | null;
-    /**
-     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
-     * Omit it to keep the current minimum; send null to clear it. Format: int32. minimum: 0.
-     */
-    "min_length"?: number | null;
-    /** Whether the buyer's text can include line breaks. */
-    "multiline"?: boolean;
-    /**
-     * Whether buyers must enter text for this group. A modifier set's required override takes
-     * precedence.
-     */
-    "required"?: boolean;
-};
-/**
- * Send only text fields to change. Omitted fields keep their stored values. null clears min_length
- * or max_length. An empty object is invalid. The merged configuration is validated. minProperties:
- * 1.
- */
-export type TextModifierConfigPatchRequestInput = TextModifierConfigPatchRequest;
-export type TextModifierConfigPreviousAttributes = {
-    /**
-     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
-     * anyOf[1] (Value): integer. Maximum length of the buyer's text in UTF-8 bytes after trimming
-     * surrounding whitespace. Format: int32. anyOf[2] (Value): null.
-     */
-    "max_length"?: ((number) | (null));
-    /**
-     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
-     * anyOf[1] (Value): integer. Minimum length of the buyer's text in UTF-8 bytes after trimming
-     * surrounding whitespace. Format: int32. anyOf[2] (Value): null.
-     */
-    "min_length"?: ((number) | (null));
-    /**
-     * Whether the buyer's text can include line breaks. anyOf[1] (Value): boolean. Whether the
-     * buyer's text can include line breaks. anyOf[2] (Value): null.
-     */
-    "multiline"?: ((boolean) | (null));
-    /**
-     * Whether buyers must enter text for this group. A modifier set's required override takes
-     * precedence. anyOf[1] (Value): boolean. Whether buyers must enter text for this group. A
-     * modifier set's required override takes precedence. anyOf[2] (Value): null.
-     */
-    "required"?: ((boolean) | (null));
-};
-/**
- * Settings for a text modifier group when creating or updating one: required, multiline, and
- * length limits.
- */
-export type TextModifierConfigRequest = {
-    /**
-     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace,
-     * from 1 to 500. Format: int32. minimum: 1. maximum: 500.
-     */
-    "max_length"?: number;
-    /**
-     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
-     * Must be 0 or more, and no more than `max_length`. Format: int32. minimum: 0.
-     */
-    "min_length"?: number;
-    /** Whether the buyer's text can include line breaks. Default: false. */
-    "multiline"?: boolean;
-    /**
-     * Whether buyers must enter text for this group. A modifier set's required override takes
-     * precedence. Default: false.
-     */
-    "required"?: boolean;
-};
-/**
- * Settings for a text modifier group when creating or updating one: required, multiline, and
- * length limits.
- */
-export type TextModifierConfigRequestInput = TextModifierConfigRequest;
-/** Text a buyer entered for a text modifier group on an order line item. */
-export type TextModifierRequest = {
-    /**
-     * Identifier of the text modifier group. For a group a modifier set owns (source: inline),
-     * read it through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return
-     * it. minLength: 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-    /**
-     * Text the buyer entered. Flint trims surrounding whitespace, then checks the length in UTF-8
-     * bytes against the group's `text.min_length` and `text.max_length`. Line breaks are allowed
-     * only when the group's `text.multiline` is true. minLength: 1.
-     */
-    "value": string;
-};
-/** Text a buyer entered for a text modifier group on an order line item. */
-export type TextModifierRequestInput = TextModifierRequest;
-export type TextModifierRequestPreviousAttributes = {
-    /**
-     * Identifier of the text modifier group. For a group a modifier set owns (source: inline),
-     * read it through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return
-     * it. anyOf[1] (Value): string. Identifier of the text modifier group. For a group a modifier
-     * set owns (source: inline), read it through GET /v1/modifier-sets/{modifier_set_id};
-     * /v1/modifier-groups doesn't return it. minLength: 1. Example:
-     * "mg_01KEZF7C00XKJJATARG7KDBYM9". anyOf[2] (Value): null.
-     */
-    "modifier_group_id"?: ((string) | (null));
-    /**
-     * Text the buyer entered. Flint trims surrounding whitespace, then checks the length in UTF-8
-     * bytes against the group's `text.min_length` and `text.max_length`. Line breaks are allowed
-     * only when the group's `text.multiline` is true. anyOf[1] (Value): string. Text the buyer
-     * entered. Flint trims surrounding whitespace, then checks the length in UTF-8 bytes against
-     * the group's `text.min_length` and `text.max_length`. Line breaks are allowed only when the
-     * group's `text.multiline` is true. minLength: 1. anyOf[2] (Value): null.
-     */
-    "value"?: ((string) | (null));
-};
-/** Colors and title applied to a payment link's checkout page. */
-export type ThemeConfig = {
-    /** Accent color of the checkout, such as #1A73E8. */
-    "accent_color"?: string;
-    /** Primary color of the checkout, such as #1A73E8. */
-    "primary_color"?: string;
-    /** Title shown in place of the merchant's business name. */
-    "title"?: string;
-};
-export type ThemeConfigPreviousAttributes = {
-    /**
-     * Accent color of the checkout, such as #1A73E8. anyOf[1] (Value): string. Accent color of the
-     * checkout, such as #1A73E8. anyOf[2] (Value): null.
-     */
-    "accent_color"?: ((string) | (null));
-    /**
-     * Primary color of the checkout, such as #1A73E8. anyOf[1] (Value): string. Primary color of
-     * the checkout, such as #1A73E8. anyOf[2] (Value): null.
-     */
-    "primary_color"?: ((string) | (null));
-    /**
-     * Title shown in place of the merchant's business name. anyOf[1] (Value): string. Title shown
-     * in place of the merchant's business name. anyOf[2] (Value): null.
-     */
-    "title"?: ((string) | (null));
-};
-/** Colors and title to apply to a checkout session's page. */
-export type ThemeConfigRequestInput = {
-    /** Accent color of the checkout, such as #1A73E8. minLength: 1. */
-    "accent_color"?: string;
-    /** Primary color of the checkout, such as #1A73E8. minLength: 1. */
-    "primary_color"?: string;
-    /** Title shown in place of the merchant's business name. minLength: 1. */
-    "title"?: string;
 };

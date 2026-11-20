@@ -1,31 +1,33 @@
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
+import type {
+    ReturnActor,
+    ReturnActorPreviousAttributes,
+    ResourceReference,
+    ResourceReferencePreviousAttributes
+} from './types-62.js';
+import type {
+    ReturnUnverifiedItem,
+    ReturnUnverifiedItemInput,
+    ReturnUnverifiedItemPreviousAttributes,
+    ReturnSourceSystemPreviousAttributes,
+    ReturnSourceSystem
+} from './types-66.js';
 import type {
     ReturnDispositionPreviousAttributes,
+    ReturnCompletionBlocker,
+    ReturnCompletionBlockerPreviousAttributes,
     ReturnFinancialSummary,
     ReturnFinancialSummaryPreviousAttributes,
     ReturnHandoffRequirement,
     ReturnHandoffRequirementPreviousAttributes,
-    ReturnInspectionPreviousAttributes,
-    ReturnLineItemPreviousAttributes,
-    ReturnDisposition,
-    ReturnInspection,
-    ReturnLineItem
+    ReturnInspectionPreviousAttributes
 } from './types-63.js';
-import type {
-    ReturnReceiptLineItem,
-    ReturnReceiptLineItemPreviousAttributes,
-    ReturnPolicyEvaluation,
-    ReturnPolicyEvaluationPreviousAttributes,
-    ReturnReceiptPreviousAttributes,
-    ReturnReceipt
-} from './types-64.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 import type {
     WebhookSnapshotReturnDisposition,
     WebhookSnapshotReturnInspection,
     WebhookSnapshotReturnLineItem,
     WebhookSnapshotReturnReceipt,
-    WebhookSnapshotReturnResolution,
     WebhookSnapshotRefund
 } from './types-79.js';
 import type { InputValue } from '../runtime.js';
@@ -36,30 +38,550 @@ import type {
     ExpandedCustomerSummaryPreviousAttributes,
     ExpandedOrderSummary,
     ExpandedOrderSummaryPreviousAttributes,
-    ExpandedShipmentSummary,
-    ExpandedShipmentSummaryPreviousAttributes,
     ExpandedPaymentIntentSummary,
     ExpandedPaymentIntentSummaryPreviousAttributes
 } from './types-26.js';
 import type { VerifyReturnReceiptLineItemRequestInput } from './types-78.js';
 import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-44.js';
+import type { ExpandedShipmentSummary, ExpandedShipmentSummaryPreviousAttributes } from './types-27.js';
 import type {
-    ReturnActor,
-    ReturnActorPreviousAttributes,
-    ReturnCompletionBlocker,
-    ReturnCompletionBlockerPreviousAttributes,
-    ResourceReference,
-    ResourceReferencePreviousAttributes,
-    RetryReturnResolutionRequestInput
-} from './types-62.js';
+    ReturnLineItemPreviousAttributes,
+    ReturnPolicyEvaluation,
+    ReturnPolicyEvaluationPreviousAttributes
+} from './types-64.js';
+import type { WebhookSnapshotReturnResolution } from './types-80.js';
 import type { LineItemFulfillmentRequest, LineItemFulfillmentRequestModelInput } from './types-40.js';
-import type { TaxCalculationRequest } from './types-73.js';
+import type { TaxCalculationRequest } from './types-74.js';
 import type { OrderDraftLineItemTaxCalculationRequestModelInput } from './types-45.js';
-import type { Refund, RefundPreviousAttributes } from './types-60.js';
+import type { Refund } from './types-60.js';
+import type { RefundPreviousAttributes } from './types-61.js';
 import type { CancelReturnResolutionRequestInput } from './types-5.js';
 import type { ConfirmReturnResolutionRequestInput } from './types-8.js';
-import type { ReleaseReturnResolutionRequestInput } from './types-61.js';
-import type { UpdateReturnResolutionRequestInput } from './types-77.js';
+/** A returned item recorded as received. */
+export type ReturnReceiptLineItem = {
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "available_disposition_quantity": number;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Return that owns return_line_item_id. `null` when return_line_item_id is null. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string | null;
+    /**
+     * ID of the Return line the units were matched to. Absent for unverified units. Example:
+     * "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id"?: string;
+    /** ID of the receipt the line belongs to. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
+    "return_receipt_id": string;
+    /**
+     * Unique identifier for this return receipt line item, prefixed `retrcli_`. Example:
+     * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id": string;
+    /**
+     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
+     * left out. `verify` is listed while the receipt is current and the line's
+     * `verification_status` is `unverified`. Otherwise empty. [] enum: "verify". [] (Value):
+     * string. Value enum: "verify".
+     */
+    "supported_actions": Array<"verify" | (string & {})>;
+    /**
+     * What the operator recorded for units that match no line. Present on `unverified` lines.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItem;
+    /**
+     * Why the units were verified against the line. Value enum: "order_match_confirmed",
+     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
+     */
+    "verification_reason"?: "order_match_confirmed"
+        | "sku_match_confirmed"
+        | "inspection_confirmed"
+        | "merchant_review"
+        | "other"
+        | (string & {});
+    /** Detail about `verification_reason`. */
+    "verification_reason_message"?: string;
+    /** Whether the units are matched to a line. Value enum: "matched", "unverified", "excess". */
+    "verification_status": "matched" | "unverified" | "excess" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "verified_at"?: string;
+    /**
+     * Who verified the line. Who performed a return action: a buyer, merchant, integration, or the
+     * system, with an optional ID.
+     */
+    "verified_by"?: ReturnActor;
+};
+/** The `excess` variant of `ReturnReceiptLineItemInput`. */
+export type ReturnReceiptLineItemInputExcess = ({
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * Whether this observation matches a Return line, is unverified merchandise, or is known
+     * excess merchandise. Value enum: "excess".
+     */
+    "type": "excess" | (string & {});
+    /**
+     * A buyer or catalog identity observation that has not been matched to a Return line.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItem;
+})
+    & (({
+    /** Value enum: "excess". */
+    "type": unknown;
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+}));
+/** The `excess` variant of `ReturnReceiptLineItemInput`. */
+export type ReturnReceiptLineItemInputExcessInput = ({
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * Whether this observation matches a Return line, is unverified merchandise, or is known
+     * excess merchandise. Value enum: "excess".
+     */
+    "type": "excess";
+    /**
+     * A buyer or catalog identity observation that has not been matched to a Return line.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItemInput;
+})
+    & (({
+    /** Value enum: "excess". */
+    "type": "excess";
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+})
+    & ({
+    "unverified_item"?: never;
+}));
+/** The `matched` variant of `ReturnReceiptLineItemInput`. */
+export type ReturnReceiptLineItemInputMatched = ({
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * Whether this observation matches a Return line, is unverified merchandise, or is known
+     * excess merchandise. Value enum: "matched".
+     */
+    "type": "matched" | (string & {});
+    /**
+     * A buyer or catalog identity observation that has not been matched to a Return line.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItem;
+})
+    & (({
+    /** Value enum: "matched". */
+    "type": unknown;
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+}));
+/** The `matched` variant of `ReturnReceiptLineItemInput`. */
+export type ReturnReceiptLineItemInputMatchedInput = ({
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * Whether this observation matches a Return line, is unverified merchandise, or is known
+     * excess merchandise. Value enum: "matched".
+     */
+    "type": "matched";
+    /**
+     * A buyer or catalog identity observation that has not been matched to a Return line.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItemInput;
+})
+    & (({
+    /** Value enum: "matched". */
+    "type": "matched";
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+})
+    & ({
+    "unverified_item"?: never;
+}));
+/** The `unverified` variant of `ReturnReceiptLineItemInput`. */
+export type ReturnReceiptLineItemInputUnverified = ({
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id"?: string;
+    /**
+     * Whether this observation matches a Return line, is unverified merchandise, or is known
+     * excess merchandise. Value enum: "unverified".
+     */
+    "type": "unverified" | (string & {});
+    /**
+     * A buyer or catalog identity observation that has not been matched to a Return line.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item": ReturnUnverifiedItem;
+})
+    & (({
+    /** Value enum: "unverified". */
+    "type": unknown;
+    /**
+     * A buyer or catalog identity observation that has not been matched to a Return line.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item": ReturnUnverifiedItem;
+}));
+/** The `unverified` variant of `ReturnReceiptLineItemInput`. */
+export type ReturnReceiptLineItemInputUnverifiedInput = ({
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id"?: string;
+    /**
+     * Whether this observation matches a Return line, is unverified merchandise, or is known
+     * excess merchandise. Value enum: "unverified".
+     */
+    "type": "unverified";
+    /**
+     * A buyer or catalog identity observation that has not been matched to a Return line.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item": ReturnUnverifiedItemInput;
+})
+    & (({
+    /** Value enum: "unverified". */
+    "type": "unverified";
+    /**
+     * A buyer or catalog identity observation that has not been matched to a Return line.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item": ReturnUnverifiedItemInput;
+})
+    & ({
+    "return_line_item_id"?: never;
+}));
+export type ReturnReceiptLineItemPreviousAttributes = {
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
+     * (Value): null.
+     */
+    "available_disposition_quantity"?: ((number) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
+     * (Value): null.
+     */
+    "quantity"?: ((number) | (null));
+    /**
+     * Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1]
+     * (Value): string. Return that owns return_line_item_id. `null` when return_line_item_id is
+     * null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+     */
+    "return_id"?: ((string) | (null));
+    /**
+     * ID of the Return line the units were matched to. Absent for unverified units. anyOf[1]
+     * (Value): string. ID of the Return line the units were matched to. Absent for unverified
+     * units. Example: "retli_01KEZF7C00R813VR7ECXS062QG". anyOf[2] (Value): null.
+     */
+    "return_line_item_id"?: ((string) | (null));
+    /**
+     * ID of the receipt the line belongs to. anyOf[1] (Value): string. ID of the receipt the line
+     * belongs to. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+     */
+    "return_receipt_id"?: ((string) | (null));
+    /**
+     * Unique identifier for this return receipt line item, prefixed `retrcli_`. anyOf[1] (Value):
+     * string. Unique identifier for this return receipt line item, prefixed `retrcli_`. Example:
+     * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". anyOf[2] (Value): null.
+     */
+    "return_receipt_line_item_id"?: ((string) | (null));
+    /**
+     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
+     * left out. `verify` is listed while the receipt is current and the line's
+     * `verification_status` is `unverified`. Otherwise empty. [] enum: "verify". anyOf[1] (Value):
+     * Array of string. Actions that can succeed now. Actions the API key or token doesn't have the
+     * scope for are left out. `verify` is listed while the receipt is current and the line's
+     * `verification_status` is `unverified`. Otherwise empty. [] enum: "verify". anyOf[1][]
+     * (Value): string. Value enum: "verify". anyOf[2] (Value): null.
+     */
+    "supported_actions"?: ((Array<"verify" | (string & {})>) | (null));
+    /**
+     * What the operator recorded for units that match no line. Present on `unverified` lines.
+     * anyOf[1] (Value): {@link ReturnUnverifiedItemPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "unverified_item"?: ((ReturnUnverifiedItemPreviousAttributes) | (null));
+    /**
+     * Why the units were verified against the line. Value enum: "order_match_confirmed",
+     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other". anyOf[1] (Value):
+     * string. Why the units were verified against the line. Value enum: "order_match_confirmed",
+     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other". anyOf[2] (Value):
+     * null.
+     */
+    "verification_reason"?: (("order_match_confirmed"
+        | "sku_match_confirmed"
+        | "inspection_confirmed"
+        | "merchant_review"
+        | "other"
+        | (string & {}))
+        | (null));
+    /**
+     * Detail about `verification_reason`. anyOf[1] (Value): string. Detail about
+     * `verification_reason`. anyOf[2] (Value): null.
+     */
+    "verification_reason_message"?: ((string) | (null));
+    /**
+     * Whether the units are matched to a line. Value enum: "matched", "unverified", "excess".
+     * anyOf[1] (Value): string. Whether the units are matched to a line. Value enum: "matched",
+     * "unverified", "excess". anyOf[2] (Value): null.
+     */
+    "verification_status"?: (("matched" | "unverified" | "excess" | (string & {})) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "verified_at"?: ((string) | (null));
+    /**
+     * Who verified the line. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "verified_by"?: ((ReturnActorPreviousAttributes) | (null));
+};
+/**
+ * One line of received merchandise: a matched return line, excess quantity, or an unverified item.
+ */
+export type ReturnReceiptLineItemRequest = ({
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id"?: string;
+    /**
+     * Whether this observation matches a Return line, is unverified merchandise, or is known
+     * excess merchandise. Value enum: "matched", "unverified", "excess".
+     */
+    "type": "matched" | "unverified" | "excess" | (string & {});
+    /**
+     * A buyer or catalog identity observation that has not been matched to a Return line.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItem;
+})
+    & ((Exclude<ReturnReceiptLineItemInputMatched & object, readonly unknown[]>)
+    | (Exclude<ReturnReceiptLineItemInputUnverified & object, readonly unknown[]>)
+    | (Exclude<ReturnReceiptLineItemInputExcess & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * One line of received merchandise: a matched return line, excess quantity, or an unverified item.
+ */
+export type ReturnReceiptLineItemRequestInput = ({
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id"?: string;
+    /**
+     * Whether this observation matches a Return line, is unverified merchandise, or is known
+     * excess merchandise. Value enum: "matched", "unverified", "excess".
+     */
+    "type": "matched" | "unverified" | "excess";
+    /**
+     * A buyer or catalog identity observation that has not been matched to a Return line.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItemInput;
+})
+    & ((Exclude<ReturnReceiptLineItemInputMatchedInput & object, readonly unknown[]>)
+    | (Exclude<ReturnReceiptLineItemInputUnverifiedInput & object, readonly unknown[]>)
+    | (Exclude<ReturnReceiptLineItemInputExcessInput & object, readonly unknown[]>));
+export type ReturnReceiptPreviousAttributes = {
+    /**
+     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other". anyOf[1] (Value): string. Why
+     * this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other". anyOf[2] (Value): null.
+     */
+    "correction_reason"?: (("entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other"
+        | (string & {}))
+        | (null));
+    /**
+     * Detail about `correction_reason`. anyOf[1] (Value): string. Detail about
+     * `correction_reason`. anyOf[2] (Value): null.
+     */
+    "correction_reason_message"?: ((string) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * anyOf[1] (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_actor_id"?: ((string) | (null));
+    /**
+     * Caller-owned identifier for this resource in an external system. anyOf[1] (Value): string.
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+     * `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of {@link
+     * ReturnDispositionPreviousAttributes}. Dispositions Flint created when it recorded this
+     * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. anyOf[1][]
+     * (Value): {@link ReturnDispositionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "generated_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. anyOf[1] (Value): string. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. anyOf[2] (Value): null.
+     */
+    "idempotency_key"?: ((string) | (null));
+    /**
+     * The lines recorded. anyOf[1] (Value): Array of {@link
+     * ReturnReceiptLineItemPreviousAttributes}. The lines recorded. anyOf[1][] (Value): {@link
+     * ReturnReceiptLineItemPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "line_items"?: ((Array<ReturnReceiptLineItemPreviousAttributes>) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "received_at"?: ((string) | (null));
+    /**
+     * ID of the Location that received the goods. anyOf[1] (Value): string. ID of the Location
+     * that received the goods. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+     */
+    "receiving_location_id"?: ((string) | (null));
+    /**
+     * ID of the Return the goods belong to. anyOf[1] (Value): string. ID of the Return the goods
+     * belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+     */
+    "return_id"?: ((string) | (null));
+    /**
+     * Unique identifier for this return receipt, prefixed `retrc_`. anyOf[1] (Value): string.
+     * Unique identifier for this return receipt, prefixed `retrc_`. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+     */
+    "return_receipt_id"?: ((string) | (null));
+    /**
+     * ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a
+     * shipment. anyOf[1] (Value): string. ID of the return shipment the goods arrived in. Absent
+     * when the receipt isn't tied to a shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+     * anyOf[2] (Value): null.
+     */
+    "shipment_id"?: ((string) | (null));
+    /**
+     * System that recorded the observation. `null` when no source system was recorded. anyOf[1]
+     * (Value): {@link ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
+    /**
+     * Whether this is the current observation of these units or a correction replaced it. Value
+     * enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the current
+     * observation of these units or a correction replaced it. Value enum: "current", "superseded".
+     * anyOf[2] (Value): null.
+     */
+    "status"?: (("current" | "superseded" | (string & {})) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "superseded_at"?: ((string) | (null));
+    /**
+     * ID of the receipt that corrected this one. Absent while it is current. anyOf[1] (Value):
+     * string. ID of the receipt that corrected this one. Absent while it is current. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+     */
+    "superseded_by_return_receipt_id"?: ((string) | (null));
+    /**
+     * ID of the receipt this one corrects. anyOf[1] (Value): string. ID of the receipt this one
+     * corrects. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+     */
+    "supersedes_return_receipt_id"?: ((string) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. minimum: 1. anyOf[2] (Value): null.
+     */
+    "version"?: ((number) | (null));
+};
 export type ReturnReceiptSupersededEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -2824,10 +3346,9 @@ export type ReturnRefundEstimate = {
      */
     "store_credit_destination": "new_gift_card" | (string & {});
     /**
-     * Estimated original-payment funding in refund order. Amounts sum to buyer_refund_amount_money
-     * plus buyer_store_credit_amount_money less refund_shortfall_money. Empty when no value is
-     * payable. [] (Value): {@link ReturnRefundTenderEstimate}. One estimated original-payment
-     * destination for a return refund.
+     * Estimated original-payment destinations for the payable part of buyer_refund_amount_money,
+     * in refund order. Excludes store credit. Empty when no refund is payable. [] (Value): {@link
+     * ReturnRefundTenderEstimate}. One estimated original-payment destination for a return refund.
      */
     "tender_estimates": Array<ReturnRefundTenderEstimate>;
 };
@@ -12768,418 +13289,3 @@ export type ReturnResolutionsListParams = {
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type ReturnResolutionsReleaseParams = (InputValue<ReleaseReturnResolutionRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ReturnResolutionsRetryParams = (InputValue<RetryReturnResolutionRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ReturnResolutionsUpdateParams = (InputValue<UpdateReturnResolutionRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/** A request to send purchased items back. */
-export type ReturnResource = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "canceled_at"?: string;
-    /**
-     * Who canceled the Return. Who performed a return action: a buyer, merchant, integration, or
-     * the system, with an optional ID.
-     */
-    "canceled_by"?: ReturnActor;
-    /**
-     * Why the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate",
-     * "expired", "created_in_error", "other".
-     */
-    "cancellation_reason"?: "buyer_request"
-        | "merchant_request"
-        | "duplicate"
-        | "expired"
-        | "created_in_error"
-        | "other"
-        | (string & {});
-    /** Detail sent with the cancellation. Merchant reads only. */
-    "cancellation_reason_message"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "completed_at"?: string;
-    /**
-     * Who completed the Return. `system` when Flint completed it automatically. Who performed a
-     * return action: a buyer, merchant, integration, or the system, with an optional ID.
-     */
-    "completed_by"?: ReturnActor;
-    /**
-     * What is still owed before the Return can complete. Empty when nothing is. [] (Value): {@link
-     * ReturnCompletionBlocker}. Something still owed before a return can complete, with the return
-     * line or record it concerns.
-     */
-    "completion_blockers": Array<ReturnCompletionBlocker>;
-    /**
-     * automatic completes the Return when the last completion blocker clears; manual waits for
-     * POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
-     * "manual", "automatic".
-     */
-    "completion_mode"?: "manual" | "automatic" | (string & {});
-    /**
-     * Why the Return was completed by hand. Absent when Flint completed it automatically. Value
-     * enum: "manual_completion", "exception_waived", "other".
-     */
-    "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
-    /** Detail sent when the Return was completed by hand. */
-    "completion_reason_message"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
-     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
-     */
-    "customer"?: ((ExpandedCustomerSummary) | (null));
-    /** The customer the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-    "customer_id"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "decision_at"?: string;
-    /**
-     * Whether the requested units were approved. `pending` until one decision covers every line.
-     * Value enum: "pending", "approved", "partially_approved", "declined".
-     */
-    "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The Return's money in one place: the value of the returned lines, deductions and credits,
-     * and what has been refunded or collected. The money for a return: returned value, deductions,
-     * credits, replacement total, and amounts due to or from the buyer.
-     */
-    "financial_summary": ReturnFinancialSummary;
-    /**
-     * What the buyer still has to send back and where. Each entry leaves the list once it is
-     * satisfied, so an empty list means nothing is waiting on the buyer. [] (Value): {@link
-     * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination,
-     * instructions, line items, and expiry.
-     */
-    "handoff_requirements": Array<ReturnHandoffRequirement>;
-    /**
-     * The Idempotency-Key of the request that created this resource. `null` when that request sent
-     * no key, Flint created the resource, the reader isn't the caller that created it (another app
-     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
-     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
-     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
-     * find a key that a replay returns as `null`, read the resource. Buyer routes return only keys
-     * from the buyer's namespace.
-     */
-    "idempotency_key": string | null;
-    /**
-     * Who created the Return: buyer for a customer session on /v1/me or Flint's hosted account,
-     * merchant for a Dashboard user, integration for an API key or partner app, or system for
-     * Flint automation. It cannot be sent. Value enum: "buyer", "merchant", "integration",
-     * "system".
-     */
-    "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
-    /**
-     * The lines being returned. [] (Value): {@link ReturnLineItem}. An item included in a return
-     * request.
-     */
-    "line_items": Array<ReturnLineItem>;
-    /**
-     * On the Return, the least-finished line's value. Value enum: "not_required",
-     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
-     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
-     * "exception".
-     */
-    "merchandise_status": "not_required"
-        | "awaiting_handoff"
-        | "in_transit"
-        | "partially_received"
-        | "inspection_required"
-        | "partially_inspected"
-        | "inspection_review_required"
-        | "disposition_required"
-        | "resolved"
-        | "exception"
-        | (string & {});
-    /**
-     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata": MetadataMap;
-    /**
-     * Present only when `expand` includes `order`; `null` when expanded and there is no related
-     * order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
-     * status, payment and refund status, and pricing and settlement amounts, returned when the
-     * order is expanded. anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-    "order_id": string;
-    /**
-     * How your return policies judged the request when the Return was created. How a return policy
-     * evaluated a return request: overall status and reason, the policy revision used, and
-     * per-line results.
-     */
-    "policy_evaluation"?: ReturnPolicyEvaluation;
-    /**
-     * Whether the buyer has received the value they are owed. Combines the Return's resolutions
-     * and its unsettled corrections. Value enum: "not_selected", "pending", "partially_completed",
-     * "requires_action", "completed", "failed".
-     */
-    "resolution_status": "not_selected"
-        | "pending"
-        | "partially_completed"
-        | "requires_action"
-        | "completed"
-        | "failed"
-        | (string & {});
-    /**
-     * IDs of every disposition recorded for this Return, oldest first, including failed and
-     * canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read
-     * them inline. [] (Value): string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
-     */
-    "return_disposition_ids": Array<string>;
-    /**
-     * Present only when `expand` includes `return_dispositions`. The dispositions in
-     * `return_disposition_ids`, in the same order. [] (Value): {@link ReturnDisposition}. A
-     * decision about how returned merchandise will be handled.
-     */
-    "return_dispositions"?: Array<ReturnDisposition>;
-    /**
-     * Unique identifier for this return, prefixed `ret_`. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-    /**
-     * IDs of every inspection recorded for this Return, oldest first, including superseded
-     * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them
-     * inline. [] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
-     */
-    "return_inspection_ids": Array<string>;
-    /**
-     * Present only when `expand` includes `return_inspections`. The inspections in
-     * `return_inspection_ids`, in the same order. [] (Value): {@link ReturnInspection}. An
-     * assessment of the condition of returned items.
-     */
-    "return_inspections"?: Array<ReturnInspection>;
-    /** Human-readable number for the Return. */
-    "return_number": string;
-    /**
-     * IDs of every receipt recorded for this Return, oldest first, including superseded receipts.
-     * Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline. [] (Value):
-     * string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-     */
-    "return_receipt_ids": Array<string>;
-    /**
-     * Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`,
-     * in the same order. [] (Value): {@link ReturnReceipt}. A record of returned items arriving at
-     * a location.
-     */
-    "return_receipts"?: Array<ReturnReceipt>;
-    /**
-     * IDs of every resolution created for this Return, oldest first, including failed and canceled
-     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
-     * inline. [] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_ids": Array<string>;
-    /**
-     * Present only when `expand` includes `return_resolutions`. The resolutions in
-     * `return_resolution_ids`, in the same order. [] (Value): {@link ReturnResolution}. The
-     * refund, exchange, or other outcome of a return.
-     */
-    "return_resolutions"?: Array<ReturnResolution>;
-    /**
-     * IDs of every shipment raised to send this Return's items back, oldest first, including
-     * voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
-     * [] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     */
-    "shipment_ids": Array<string>;
-    /**
-     * Present only when `expand` includes `shipments`. Summaries of the shipments in
-     * `shipment_ids`, in the same order. [] (Value): {@link ExpandedShipmentSummary}. A shipment's
-     * summary fields, including direction, status, and package count, returned when the shipment
-     * is expanded.
-     */
-    "shipments"?: Array<ExpandedShipmentSummary>;
-    /**
-     * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
-     * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
-     * "declined", "canceled".
-     */
-    "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
-    /**
-     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
-     * left out. A Return waiting for a decision lists `decide` and `cancel`. An open Return lists
-     * `cancel` only while no units have been received, inspected, dispositioned, or resolved, and
-     * it has no current receipts or inspections, non-canceled dispositions or resolutions, or
-     * non-voided return shipments. It lists `complete` when `completion_mode` is `manual` and
-     * `completion_blockers` is empty. A completed Return lists `reopen`. A declined or canceled
-     * Return lists none. [] enum: "cancel", "complete", "decide", "process", "reopen". [] (Value):
-     * string. Value enum: "cancel", "complete", "decide", "process", "reopen".
-     */
-    "supported_actions": Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Goes up with every change to the Return. Each activity's `return_version` is the version
-     * that activity produced. A write that takes `expected_version` or `expected_return_version`
-     * for this Return compares it with this value. Format: int64. minimum: 0.
-     */
-    "version": number;
-};
-/** A restocking fee in a return policy, charged as a flat amount or a percent. */
-export type ReturnRestockingFeePolicy = {
-    /** How the fee is worked out. Value enum: "flat", "percent". */
-    "calculation_type": "flat" | "percent" | (string & {});
-    /**
-     * Fixed fee proposed for each line, whatever the quantity. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "flat_money"?: MoneyValue;
-    /**
-     * Percentage points of the returned units' subtotal, from 1 through 100 with at most four
-     * decimal places on every revision. `10` means 10%. Format: double. minimum: 1. maximum: 100.
-     * multipleOf: 0.0001.
-     */
-    "percent"?: number;
-};
-/** A restocking fee in a return policy, charged as a flat amount or a percent. */
-export type ReturnRestockingFeePolicyRequestInput = {
-    /** How the fee is worked out. Value enum: "flat", "percent". */
-    "calculation_type": "flat" | "percent";
-    /**
-     * Fixed fee proposed for each line, whatever the quantity. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "flat_money"?: MoneyValueInput;
-    /**
-     * Percentage points of the returned units' subtotal, from 1 through 100 with at most four
-     * decimal places on every revision. `10` means 10%. Format: double. minimum: 1. maximum: 100.
-     * multipleOf: 0.0001.
-     */
-    "percent"?: number;
-};
-/**
- * A Return line and the quantity to place in a return shipment or package. The enclosing Return or
- * shipment determines its parent.
- */
-export type ReturnShipmentLineItemAllocationRequestInput = {
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Return line whose quantity is allocated to the shipment or package. minLength: 1. Example:
-     * "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-};
-/** Who pays for return shipping in a return policy: the merchant or the buyer. */
-export type ReturnShippingPolicy = {
-    /**
-     * Who pays for shipping the goods back. This states your policy and charges nothing. Value
-     * enum: "merchant", "buyer".
-     */
-    "payer": "merchant" | "buyer" | (string & {});
-};
-/** Who pays for return shipping in a return policy: the merchant or the buyer. */
-export type ReturnShippingPolicyRequestInput = {
-    /**
-     * Who pays for shipping the goods back. This states your policy and charges nothing. Value
-     * enum: "merchant", "buyer".
-     */
-    "payer": "merchant" | "buyer";
-};
-/**
- * The system a return event came from, such as a point of sale or warehouse system, with its own
- * identifier.
- */
-export type ReturnSourceSystem = ({
-    /**
-     * Your source system's identifier. Required when source_system_type is pos, wms, erp, or
-     * other; not allowed when source_system_type is manual. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_source_id"?: string;
-    /**
-     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
-     * management system, erp for an enterprise resource planning system, or other for another
-     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
-     * "wms", "erp", "other", "flint".
-     */
-    "source_system_type": "manual" | "pos" | "wms" | "erp" | "other" | "flint" | (string & {});
-});
-export type ReturnSourceSystemPreviousAttributes = ({
-    /**
-     * Your source system's identifier. Required when source_system_type is pos, wms, erp, or
-     * other; not allowed when source_system_type is manual. Don't put secrets in this field.
-     * anyOf[1] (Value): string. Your source system's identifier. Required when source_system_type
-     * is pos, wms, erp, or other; not allowed when source_system_type is manual. Don't put secrets
-     * in this field. minLength: 1. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value):
-     * null.
-     */
-    "external_source_id"?: ((string) | (null));
-    /**
-     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
-     * management system, erp for an enterprise resource planning system, or other for another
-     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
-     * "wms", "erp", "other", "flint". anyOf[1] (Value): string. Source of the event: manual for a
-     * manual entry, pos for a point of sale, wms for a warehouse management system, erp for an
-     * enterprise resource planning system, or other for another external system. Flint-authored
-     * events use flint in responses. Value enum: "manual", "pos", "wms", "erp", "other", "flint".
-     * anyOf[2] (Value): null.
-     */
-    "source_system_type"?: (("manual" | "pos" | "wms" | "erp" | "other" | "flint" | (string & {})) | (null));
-});

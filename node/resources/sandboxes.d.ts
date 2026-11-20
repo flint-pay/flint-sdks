@@ -43,14 +43,15 @@ export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning }
 export type { CreateDeveloperSandboxResult } from '../declarations/types-9.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateSandboxRequestInput, Credentials } from '../declarations/types-14.js';
+export type { CreateSandboxRequestInput } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { APIKey } from '../declarations/types-0.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { PartnerAppsListParams } from '../declarations/types-50.js';
 export { makeCreateSandboxRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface SandboxesResource {
     /**
  * Creates a new empty test sandbox for the current merchant. Send `issue_test_key: true` to also

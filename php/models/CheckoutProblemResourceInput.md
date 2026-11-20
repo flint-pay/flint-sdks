@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `blocks_completion` | Required | boolean | Whether the checkout cannot complete until the problem is resolved. |
-| `code` | Required | string | Which condition affects the checkout. Values: `"delivery_selection_stale"`, `"delivery_selection_invalid"`, `"delivery_unreadable"`, `"payment_in_progress"`. |
+| `code` | Required | string | Which condition affects the checkout. Values: `"delivery_selection_stale"`, `"delivery_selection_invalid"`, `"delivery_unreadable"`, `"payment_in_progress"`, `"processor_payments_paused"`. |
 | `remediation` | Optional | [ErrorRemediationInput](../models/ErrorRemediationInput.md#errorremediationinput) | What the caller can do about the problem, and whether retrying the same request can help. Recovery guidance for an error: whether and how to `retry`, plus next steps and suggested actions. |
 | `severity` | Required | string | How serious the problem is. Values: `"error"`. |
 

@@ -4,7 +4,7 @@
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
 
-The resource snapshot, without expansions. Webhooks omit these fields: `banners`.
+The resource snapshot, without expansions. Webhooks omit these fields: `banners`, `timezone_inferred`.
 
 Response model.
 

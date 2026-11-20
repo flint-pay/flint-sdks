@@ -1,23 +1,36 @@
+import type { MoneyValuePreviousAttributes, MoneyValueInput, MoneyValue } from './types-44.js';
+import type { AddRiskListItemsRequest, Address, AddressPreviousAttributes } from './types-0.js';
 import type {
+    DeliveryCustomerBooleanCondition,
+    DeliveryCustomerBooleanConditionPreviousAttributes,
+    DeliveryCustomerSegmentConditionPreviousAttributes,
     DeliveryCountryConditionRequestInput,
     DeliveryCustomerBooleanConditionInput,
-    DeliveryCustomerSegmentConditionInput,
-    DeliveryEligibilityExpression,
-    DeliveryEligibilityExpressionRequest,
-    DeliveryEligibilityExpressionPreviousAttributes
+    DeliveryCustomerSegmentConditionInput
 } from './types-18.js';
 import type {
+    DeliveryPostalCodeCondition,
+    DeliveryPostalCodeConditionPreviousAttributes,
     DeliveryPostalCodeConditionRequestInput,
     DeliveryMethodOriginSelector,
     DeliveryMethodOriginSelectorRequest,
     DeliveryMethodOriginSelectorRequestInput,
     DeliveryMethodOriginSelectorPreviousAttributes
 } from './types-20.js';
-import type { DeliveryRadiusConditionRequestInput } from './types-22.js';
 import type {
+    DeliveryRadiusCondition,
+    DeliveryRadiusConditionPreviousAttributes,
+    DeliveryRadiusConditionRequestInput
+} from './types-22.js';
+import type {
+    DeliveryStateCondition,
+    DeliveryWindowTimeCondition,
+    DeliveryZoneCondition,
+    DeliveryStateConditionPreviousAttributes,
+    DeliveryWindowTimeConditionPreviousAttributes,
+    DeliveryZoneConditionPreviousAttributes,
     DeliveryStateConditionRequestInput,
     DeliveryWindowTimeConditionInput,
-    DeliveryZoneConditionRequestInput,
     DeliveryScheduleWindowRule,
     DeliveryTransitTimeRule,
     DeliveryScheduleWindowRulePreviousAttributes,
@@ -27,15 +40,14 @@ import type {
     DeliveryWindowRequest,
     DeliveryWindowResourcePreviousAttributes
 } from './types-24.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type { DeliveryZoneConditionRequestInput } from './types-25.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateDeliveryLocationSetRequestInput } from './types-9.js';
 import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdateDeliveryLocationSetRequestInput } from './types-75.js';
-import type { Address, AddressPreviousAttributes } from './types-0.js';
+import type { UpdateDeliveryLocationSetRequestInput } from './types-76.js';
 import type { SubscriptionCounts, SubscriptionCountsPreviousAttributes } from './types-69.js';
 import type {
     BuyerInstructionsConfig,
@@ -55,6 +67,518 @@ import type {
     DeliveryRecipientRequirementRequestInput,
     DeliveryRecipientRequirementPreviousAttributes
 } from './types-23.js';
+export type DeliveryDistanceUnitPricePreviousAttributes = {
+    /**
+     * Price by ISO 4217 currency code. Each key must equal the currency of its Money value.
+     * anyOf[1] (Value): Map of {@link MoneyValuePreviousAttributes}. anyOf[1].* (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "currency_options"?: ((Record<string, MoneyValuePreviousAttributes>) | (null));
+    /**
+     * Distance unit used by unit_quantity. Value enum: "meter", "kilometer", "mile". anyOf[1]
+     * (Value): string. Distance unit used by unit_quantity. Value enum: "meter", "kilometer",
+     * "mile". anyOf[2] (Value): null.
+     */
+    "unit"?: (("meter" | "kilometer" | "mile" | (string & {})) | (null));
+    /**
+     * Whole-number quantity of the selected unit charged at each configured currency price;
+     * fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity of
+     * the selected unit charged at each configured currency price; fractional quantities are not
+     * supported. Format: int64. minimum: 1. anyOf[2] (Value): null.
+     */
+    "unit_quantity"?: ((number) | (null));
+};
+/**
+ * A distance rate you supply for calculated delivery pricing: a price by currency for each
+ * `unit_quantity` of `unit`.
+ */
+export type DeliveryDistanceUnitPriceRequestInput = {
+    /**
+     * Price by ISO 4217 currency code. Each key must equal the currency of its Money value. *
+     * (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValueInput>;
+    /** Distance unit used by unit_quantity. Value enum: "meter", "kilometer", "mile". */
+    "unit": "meter" | "kilometer" | "mile";
+    /**
+     * Whole-number quantity of the selected unit charged at each configured currency price;
+     * fractional quantities are not supported. Format: int64. minimum: 1.
+     */
+    "unit_quantity": number;
+};
+/**
+ * A boolean expression containing exactly one operator or typed condition at each node.
+ * Expressions support at most 8 levels and 100 total nodes.
+ */
+export type DeliveryEligibilityExpression = ({
+    /**
+     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
+     * DeliveryEligibilityExpression}. A boolean expression containing exactly one operator or
+     * typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpression>;
+    /**
+     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
+     * {@link DeliveryEligibilityExpression}. A boolean expression containing exactly one operator
+     * or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpression>;
+    /**
+     * Matches when the address is in one of the listed countries. A delivery eligibility condition
+     * that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryStateCondition;
+    /**
+     * Matches when whether the customer has an email address equals `value`. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanCondition;
+    /**
+     * Matches when whether the customer has a phone number equals `value`. A delivery eligibility
+     * condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanCondition;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanCondition;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: AddRiskListItemsRequest;
+    /**
+     * Matches when the nested expression does not match. A boolean expression containing exactly
+     * one operator or typed condition at each node. Expressions support at most 8 levels and 100
+     * total nodes.
+     */
+    "not"?: DeliveryEligibilityExpression;
+    /**
+     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
+     * condition that matches the address postal code against exact or prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeCondition;
+    /**
+     * Matches when the address is within a set distance of an origin. Eligibility condition that
+     * matches when the destination or buyer location is within `maximum_distance` of an origin,
+     * measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusCondition;
+    /**
+     * Matches when the address is in one of the listed states or provinces. Eligibility condition
+     * that matches when the destination or buyer location is in one of the listed states or
+     * provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateCondition;
+    /**
+     * Matches when whether the purchase is a subscription purchase equals `value`. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanCondition;
+    /**
+     * Matches when the delivery window falls on the listed weekdays and within the listed time of
+     * day, in the window's timezone. Eligibility condition that matches by time of day, using
+     * `start_minute` and `end_minute`, on the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeCondition;
+    /**
+     * Matches when the address is inside the delivery zone you name. Eligibility condition that
+     * matches when the destination or buyer location falls inside the delivery zone
+     * `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneCondition;
+})
+    & (({
+    /**
+     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
+     * DeliveryEligibilityExpression}. A boolean expression containing exactly one operator or
+     * typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all": Array<DeliveryEligibilityExpression>;
+})
+    | ({
+    /**
+     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
+     * {@link DeliveryEligibilityExpression}. A boolean expression containing exactly one operator
+     * or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "any": Array<DeliveryEligibilityExpression>;
+})
+    | ({
+    /**
+     * Matches when the nested expression does not match. A boolean expression containing exactly
+     * one operator or typed condition at each node. Expressions support at most 8 levels and 100
+     * total nodes.
+     */
+    "not": DeliveryEligibilityExpression;
+})
+    | ({
+    /**
+     * Matches when the address is inside the delivery zone you name. Eligibility condition that
+     * matches when the destination or buyer location falls inside the delivery zone
+     * `delivery_zone_id`.
+     */
+    "zone": DeliveryZoneCondition;
+})
+    | ({
+    /**
+     * Matches when the address is in one of the listed countries. A delivery eligibility condition
+     * that matches when the address country is one of `values`.
+     */
+    "country": DeliveryStateCondition;
+})
+    | ({
+    /**
+     * Matches when the address is in one of the listed states or provinces. Eligibility condition
+     * that matches when the destination or buyer location is in one of the listed states or
+     * provinces, given as ISO 3166-2 codes.
+     */
+    "state": DeliveryStateCondition;
+})
+    | ({
+    /**
+     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
+     * condition that matches the address postal code against exact or prefix `values`.
+     */
+    "postal_code": DeliveryPostalCodeCondition;
+})
+    | ({
+    /**
+     * Matches when the address is within a set distance of an origin. Eligibility condition that
+     * matches when the destination or buyer location is within `maximum_distance` of an origin,
+     * measured in a straight line.
+     */
+    "radius": DeliveryRadiusCondition;
+})
+    | ({
+    /**
+     * Matches when the delivery window falls on the listed weekdays and within the listed time of
+     * day, in the window's timezone. Eligibility condition that matches by time of day, using
+     * `start_minute` and `end_minute`, on the listed `weekdays`.
+     */
+    "window_time": DeliveryWindowTimeCondition;
+})
+    | ({
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment": AddRiskListItemsRequest;
+})
+    | ({
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified": DeliveryCustomerBooleanCondition;
+})
+    | ({
+    /**
+     * Matches when whether the customer has an email address equals `value`. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_has_email": DeliveryCustomerBooleanCondition;
+})
+    | ({
+    /**
+     * Matches when whether the customer has a phone number equals `value`. A delivery eligibility
+     * condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_has_phone": DeliveryCustomerBooleanCondition;
+})
+    | ({
+    /**
+     * Matches when whether the purchase is a subscription purchase equals `value`. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "subscription_purchase": DeliveryCustomerBooleanCondition;
+})
+    | (Record<string, unknown>));
+export type DeliveryEligibilityExpressionPreviousAttributes = ({
+    /**
+     * Matches when every nested expression matches. anyOf[1] (Value): Array of {@link
+     * DeliveryEligibilityExpressionPreviousAttributes}. Matches when every nested expression
+     * matches. minItems: 1. maxItems: 100. anyOf[1][] (Value): {@link
+     * DeliveryEligibilityExpressionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "all"?: ((Array<DeliveryEligibilityExpressionPreviousAttributes>) | (null));
+    /**
+     * Matches when at least one nested expression matches. anyOf[1] (Value): Array of {@link
+     * DeliveryEligibilityExpressionPreviousAttributes}. Matches when at least one nested
+     * expression matches. minItems: 1. maxItems: 100. anyOf[1][] (Value): {@link
+     * DeliveryEligibilityExpressionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "any"?: ((Array<DeliveryEligibilityExpressionPreviousAttributes>) | (null));
+    /**
+     * Matches when the address is in one of the listed countries. anyOf[1] (Value): {@link
+     * DeliveryStateConditionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "country"?: ((DeliveryStateConditionPreviousAttributes) | (null));
+    /**
+     * Matches when whether the customer has an email address equals `value`. anyOf[1] (Value):
+     * {@link DeliveryCustomerBooleanConditionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "customer_has_email"?: ((DeliveryCustomerBooleanConditionPreviousAttributes) | (null));
+    /**
+     * Matches when whether the customer has a phone number equals `value`. anyOf[1] (Value):
+     * {@link DeliveryCustomerBooleanConditionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "customer_has_phone"?: ((DeliveryCustomerBooleanConditionPreviousAttributes) | (null));
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. anyOf[1]
+     * (Value): {@link DeliveryCustomerBooleanConditionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "customer_merchant_verified"?: ((DeliveryCustomerBooleanConditionPreviousAttributes) | (null));
+    /**
+     * Matches the free-form segment you assign to the customer against values. anyOf[1] (Value):
+     * {@link DeliveryCustomerSegmentConditionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "customer_segment"?: ((DeliveryCustomerSegmentConditionPreviousAttributes) | (null));
+    /**
+     * Matches when the nested expression does not match. anyOf[1] (Value): {@link
+     * DeliveryEligibilityExpressionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "not"?: ((DeliveryEligibilityExpressionPreviousAttributes) | (null));
+    /**
+     * Matches when the address postal code matches one of the listed codes. anyOf[1] (Value):
+     * {@link DeliveryPostalCodeConditionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "postal_code"?: ((DeliveryPostalCodeConditionPreviousAttributes) | (null));
+    /**
+     * Matches when the address is within a set distance of an origin. anyOf[1] (Value): {@link
+     * DeliveryRadiusConditionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "radius"?: ((DeliveryRadiusConditionPreviousAttributes) | (null));
+    /**
+     * Matches when the address is in one of the listed states or provinces. anyOf[1] (Value):
+     * {@link DeliveryStateConditionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "state"?: ((DeliveryStateConditionPreviousAttributes) | (null));
+    /**
+     * Matches when whether the purchase is a subscription purchase equals `value`. anyOf[1]
+     * (Value): {@link DeliveryCustomerBooleanConditionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "subscription_purchase"?: ((DeliveryCustomerBooleanConditionPreviousAttributes) | (null));
+    /**
+     * Matches when the delivery window falls on the listed weekdays and within the listed time of
+     * day, in the window's timezone. anyOf[1] (Value): {@link
+     * DeliveryWindowTimeConditionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "window_time"?: ((DeliveryWindowTimeConditionPreviousAttributes) | (null));
+    /**
+     * Matches when the address is inside the delivery zone you name. anyOf[1] (Value): {@link
+     * DeliveryZoneConditionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "zone"?: ((DeliveryZoneConditionPreviousAttributes) | (null));
+})
+    & (((unknown)
+    | (unknown)
+    | (unknown)
+    | (unknown)
+    | (unknown)
+    | (unknown)
+    | (unknown)
+    | (unknown)
+    | (unknown)
+    | (unknown)
+    | (unknown)
+    | (unknown)
+    | (unknown)
+    | (unknown)
+    | (Record<string, unknown>)));
+/**
+ * A boolean expression containing exactly one operator or typed condition at each node.
+ * Expressions support at most 8 levels and 100 total nodes.
+ */
+export type DeliveryEligibilityExpressionRequest = ({
+    /**
+     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
+     * DeliveryEligibilityExpressionRequest}. A boolean expression containing exactly one operator
+     * or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all"?: Array<DeliveryEligibilityExpressionRequest>;
+    /**
+     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
+     * {@link DeliveryEligibilityExpressionRequest}. A boolean expression containing exactly one
+     * operator or typed condition at each node. Expressions support at most 8 levels and 100 total
+     * nodes.
+     */
+    "any"?: Array<DeliveryEligibilityExpressionRequest>;
+    /**
+     * Matches when the address is in one of the listed countries. A delivery eligibility condition
+     * that matches when the address country is one of `values`.
+     */
+    "country"?: DeliveryStateCondition;
+    /**
+     * Matches when whether the customer has an email address equals `value`. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_has_email"?: DeliveryCustomerBooleanCondition;
+    /**
+     * Matches when whether the customer has a phone number equals `value`. A delivery eligibility
+     * condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_has_phone"?: DeliveryCustomerBooleanCondition;
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified"?: DeliveryCustomerBooleanCondition;
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment"?: AddRiskListItemsRequest;
+    /**
+     * Matches when the nested expression does not match. A boolean expression containing exactly
+     * one operator or typed condition at each node. Expressions support at most 8 levels and 100
+     * total nodes.
+     */
+    "not"?: DeliveryEligibilityExpressionRequest;
+    /**
+     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
+     * condition that matches the address postal code against exact or prefix `values`.
+     */
+    "postal_code"?: DeliveryPostalCodeCondition;
+    /**
+     * Matches when the address is within a set distance of an origin. Eligibility condition that
+     * matches when the destination or buyer location is within `maximum_distance` of an origin,
+     * measured in a straight line.
+     */
+    "radius"?: DeliveryRadiusCondition;
+    /**
+     * Matches when the address is in one of the listed states or provinces. Eligibility condition
+     * that matches when the destination or buyer location is in one of the listed states or
+     * provinces, given as ISO 3166-2 codes.
+     */
+    "state"?: DeliveryStateCondition;
+    /**
+     * Matches when whether the purchase is a subscription purchase equals `value`. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "subscription_purchase"?: DeliveryCustomerBooleanCondition;
+    /**
+     * Matches when the delivery window falls on the listed weekdays and within the listed time of
+     * day, in the window's timezone. Eligibility condition that matches by time of day, using
+     * `start_minute` and `end_minute`, on the listed `weekdays`.
+     */
+    "window_time"?: DeliveryWindowTimeCondition;
+    /**
+     * Matches when the address is inside the delivery zone you name. Eligibility condition that
+     * matches when the destination or buyer location falls inside the delivery zone
+     * `delivery_zone_id`.
+     */
+    "zone"?: DeliveryZoneCondition;
+})
+    & (({
+    /**
+     * Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@link
+     * DeliveryEligibilityExpressionRequest}. A boolean expression containing exactly one operator
+     * or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
+     */
+    "all": Array<DeliveryEligibilityExpressionRequest>;
+})
+    | ({
+    /**
+     * Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value):
+     * {@link DeliveryEligibilityExpressionRequest}. A boolean expression containing exactly one
+     * operator or typed condition at each node. Expressions support at most 8 levels and 100 total
+     * nodes.
+     */
+    "any": Array<DeliveryEligibilityExpressionRequest>;
+})
+    | ({
+    /**
+     * Matches when the nested expression does not match. A boolean expression containing exactly
+     * one operator or typed condition at each node. Expressions support at most 8 levels and 100
+     * total nodes.
+     */
+    "not": DeliveryEligibilityExpressionRequest;
+})
+    | ({
+    /**
+     * Matches when the address is inside the delivery zone you name. Eligibility condition that
+     * matches when the destination or buyer location falls inside the delivery zone
+     * `delivery_zone_id`.
+     */
+    "zone": DeliveryZoneCondition;
+})
+    | ({
+    /**
+     * Matches when the address is in one of the listed countries. A delivery eligibility condition
+     * that matches when the address country is one of `values`.
+     */
+    "country": DeliveryStateCondition;
+})
+    | ({
+    /**
+     * Matches when the address is in one of the listed states or provinces. Eligibility condition
+     * that matches when the destination or buyer location is in one of the listed states or
+     * provinces, given as ISO 3166-2 codes.
+     */
+    "state": DeliveryStateCondition;
+})
+    | ({
+    /**
+     * Matches when the address postal code matches one of the listed codes. A delivery eligibility
+     * condition that matches the address postal code against exact or prefix `values`.
+     */
+    "postal_code": DeliveryPostalCodeCondition;
+})
+    | ({
+    /**
+     * Matches when the address is within a set distance of an origin. Eligibility condition that
+     * matches when the destination or buyer location is within `maximum_distance` of an origin,
+     * measured in a straight line.
+     */
+    "radius": DeliveryRadiusCondition;
+})
+    | ({
+    /**
+     * Matches when the delivery window falls on the listed weekdays and within the listed time of
+     * day, in the window's timezone. Eligibility condition that matches by time of day, using
+     * `start_minute` and `end_minute`, on the listed `weekdays`.
+     */
+    "window_time": DeliveryWindowTimeCondition;
+})
+    | ({
+    /**
+     * Matches the free-form segment you assign to the customer against values. A delivery
+     * eligibility condition that matches customers in one of the listed segments (`values`).
+     */
+    "customer_segment": AddRiskListItemsRequest;
+})
+    | ({
+    /**
+     * Matches the is_merchant_verified flag you set on the customer against value. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_merchant_verified": DeliveryCustomerBooleanCondition;
+})
+    | ({
+    /**
+     * Matches when whether the customer has an email address equals `value`. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_has_email": DeliveryCustomerBooleanCondition;
+})
+    | ({
+    /**
+     * Matches when whether the customer has a phone number equals `value`. A delivery eligibility
+     * condition that tests a true or false fact about the customer against `value`.
+     */
+    "customer_has_phone": DeliveryCustomerBooleanCondition;
+})
+    | ({
+    /**
+     * Matches when whether the purchase is a subscription purchase equals `value`. A delivery
+     * eligibility condition that tests a true or false fact about the customer against `value`.
+     */
+    "subscription_purchase": DeliveryCustomerBooleanCondition;
+})
+    | (Record<string, unknown>));
 /**
  * A boolean expression containing exactly one operator or typed condition at each node.
  * Expressions support at most 8 levels and 100 total nodes.
@@ -3820,8 +4344,8 @@ export type DeliveryMethod = {
     /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
     "status": "active" | "inactive" | "archived" | (string & {});
     /**
-     * How many subscriptions use this method, by status. Counts of subscriptions by status:
-     * active, past due, and paused.
+     * How many subscriptions use this method, by status. Delivery usage counts by stored status,
+     * with separate subsets for active subscriptions that are canceling or on billing hold.
      */
     "subscription_counts": SubscriptionCounts;
     /** Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup". */
@@ -3967,16 +4491,17 @@ export type DeliveryMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
      * first. Ties go to the lower display_position, then the method ID. Null never recommends the
      * method. Format: int32. object.status (Required): string. Current method lifecycle status.
      * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status. Delivery usage
+     * counts by stored status, with separate subsets for active subscriptions that are canceling
+     * or on billing hold. object.type (Required): string. Delivery mode this method offers. Value
+     * enum: "shipment", "local_delivery", "pickup". object.updated_at (Required): string. Time the
+     * method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
+     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link
      * DeliveryMethodConfigurationPreviousAttributes} or null. Current eligibility, pricing,
      * origin, estimate, and tax configuration. previous_attributes.configuration.anyOf[1] (Value):
      * {@link DeliveryMethodConfigurationPreviousAttributes}.
@@ -4077,12 +4602,12 @@ export type DeliveryMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
          * lower display_position, then the method ID. Null never recommends the method. Format:
          * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
          * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
+         * many subscriptions use this method, by status. Delivery usage counts by stored status,
+         * with separate subsets for active subscriptions that are canceling or on billing hold.
+         * type (Required): string. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". updated_at (Required): string. Time the method last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
          */
         "object": {
             /**
@@ -4136,8 +4661,9 @@ export type DeliveryMethodActivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
             /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
             "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
+             * How many subscriptions use this method, by status. Delivery usage counts by stored
+             * status, with separate subsets for active subscriptions that are canceling or on
+             * billing hold.
              */
             "subscription_counts": SubscriptionCounts;
             /**
@@ -4393,16 +4919,17 @@ export type DeliveryMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
      * first. Ties go to the lower display_position, then the method ID. Null never recommends the
      * method. Format: int32. object.status (Required): string. Current method lifecycle status.
      * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status. Delivery usage
+     * counts by stored status, with separate subsets for active subscriptions that are canceling
+     * or on billing hold. object.type (Required): string. Delivery mode this method offers. Value
+     * enum: "shipment", "local_delivery", "pickup". object.updated_at (Required): string. Time the
+     * method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
+     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link
      * DeliveryMethodConfigurationPreviousAttributes} or null. Current eligibility, pricing,
      * origin, estimate, and tax configuration. previous_attributes.configuration.anyOf[1] (Value):
      * {@link DeliveryMethodConfigurationPreviousAttributes}.
@@ -4503,12 +5030,12 @@ export type DeliveryMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
          * lower display_position, then the method ID. Null never recommends the method. Format:
          * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
          * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
+         * many subscriptions use this method, by status. Delivery usage counts by stored status,
+         * with separate subsets for active subscriptions that are canceling or on billing hold.
+         * type (Required): string. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". updated_at (Required): string. Time the method last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
          */
         "object": {
             /**
@@ -4562,8 +5089,9 @@ export type DeliveryMethodActivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
             /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
             "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
+             * How many subscriptions use this method, by status. Delivery usage counts by stored
+             * status, with separate subsets for active subscriptions that are canceling or on
+             * billing hold.
              */
             "subscription_counts": SubscriptionCounts;
             /**
@@ -4887,16 +5415,17 @@ export type DeliveryMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * first. Ties go to the lower display_position, then the method ID. Null never recommends the
      * method. Format: int32. object.status (Required): string. Current method lifecycle status.
      * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status. Delivery usage
+     * counts by stored status, with separate subsets for active subscriptions that are canceling
+     * or on billing hold. object.type (Required): string. Delivery mode this method offers. Value
+     * enum: "shipment", "local_delivery", "pickup". object.updated_at (Required): string. Time the
+     * method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
+     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link
      * DeliveryMethodConfigurationPreviousAttributes} or null. Current eligibility, pricing,
      * origin, estimate, and tax configuration. previous_attributes.configuration.anyOf[1] (Value):
      * {@link DeliveryMethodConfigurationPreviousAttributes}.
@@ -4997,12 +5526,12 @@ export type DeliveryMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * lower display_position, then the method ID. Null never recommends the method. Format:
          * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
          * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
+         * many subscriptions use this method, by status. Delivery usage counts by stored status,
+         * with separate subsets for active subscriptions that are canceling or on billing hold.
+         * type (Required): string. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". updated_at (Required): string. Time the method last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
          */
         "object": {
             /**
@@ -5056,8 +5585,9 @@ export type DeliveryMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebh
             /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
             "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
+             * How many subscriptions use this method, by status. Delivery usage counts by stored
+             * status, with separate subsets for active subscriptions that are canceling or on
+             * billing hold.
              */
             "subscription_counts": SubscriptionCounts;
             /**
@@ -5313,16 +5843,17 @@ export type DeliveryMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * first. Ties go to the lower display_position, then the method ID. Null never recommends the
      * method. Format: int32. object.status (Required): string. Current method lifecycle status.
      * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status. Delivery usage
+     * counts by stored status, with separate subsets for active subscriptions that are canceling
+     * or on billing hold. object.type (Required): string. Delivery mode this method offers. Value
+     * enum: "shipment", "local_delivery", "pickup". object.updated_at (Required): string. Time the
+     * method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
+     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link
      * DeliveryMethodConfigurationPreviousAttributes} or null. Current eligibility, pricing,
      * origin, estimate, and tax configuration. previous_attributes.configuration.anyOf[1] (Value):
      * {@link DeliveryMethodConfigurationPreviousAttributes}.
@@ -5423,12 +5954,12 @@ export type DeliveryMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * lower display_position, then the method ID. Null never recommends the method. Format:
          * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
          * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
+         * many subscriptions use this method, by status. Delivery usage counts by stored status,
+         * with separate subsets for active subscriptions that are canceling or on billing hold.
+         * type (Required): string. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". updated_at (Required): string. Time the method last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
          */
         "object": {
             /**
@@ -5482,8 +6013,9 @@ export type DeliveryMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelo
             /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
             "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
+             * How many subscriptions use this method, by status. Delivery usage counts by stored
+             * status, with separate subsets for active subscriptions that are canceling or on
+             * billing hold.
              */
             "subscription_counts": SubscriptionCounts;
             /**
@@ -7060,924 +7592,4 @@ export type DeliveryMethodConfigurationRequestInput = ({
      * to clear it back to inheriting.
      */
     "taxable"?: boolean | null;
-});
-export type DeliveryMethodCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "configuration": DeliveryMethodConfiguration;
-            "created_at": string;
-            "current_delivery_method_revision_id": string;
-            "delivery_method_id": string;
-            "delivery_revocation_id": string | null;
-            "description"?: string;
-            "display_position": number;
-            "external_reference_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "recommendation_priority"?: number;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "subscription_counts": SubscriptionCounts;
-            "type": "shipment" | "local_delivery" | "pickup" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "delivery_method.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "configuration": DeliveryMethodConfiguration;
-            "created_at": string;
-            "current_delivery_method_revision_id": string;
-            "delivery_method_id": string;
-            "delivery_revocation_id": string | null;
-            "description"?: string;
-            "display_position": number;
-            "external_reference_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "recommendation_priority"?: number;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "subscription_counts": SubscriptionCounts;
-            "type": "shipment" | "local_delivery" | "pickup" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "delivery_method.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "delivery_method.created";
-});
-/**
- * The `delivery_method.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type DeliveryMethodCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.configuration (Required): {@link DeliveryMethodConfiguration}.
-     * Current eligibility, pricing, origin, estimate, and tax configuration. How a delivery method
-     * works: its origin, pricing, eligibility, timing estimate, tax settings, recipient
-     * requirements, and option lifetimes. object.created_at (Required): string. Time the method
-     * was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_method_revision_id (Required): string. Immutable revision currently
-     * used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". object.delivery_method_id
-     * (Required): string. Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * object.delivery_revocation_id (Required): string or null. The revocation fencing this
-     * resource's own current revision. `null` when the current revision isn't revoked. It doesn't
-     * cover dependencies: a method can be unusable while this is `null` because its rate callback
-     * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-     * `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-     * object.description (Optional): string. Optional buyer-facing description.
-     * object.display_position (Required): integer. Ascending display order among methods. Format:
-     * int32. object.external_reference_id (Optional): string. Caller-owned identifier for this
-     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.metadata
-     * (Optional): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored
-     * on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.name (Required): string. Merchant-facing method name.
-     * object.recommendation_priority (Optional): integer. Marks this method as recommended. Within
-     * each choice group, the available method with the lowest value is recommended and listed
-     * first. Ties go to the lower display_position, then the method ID. Null never recommends the
-     * method. Format: int32. object.status (Required): string. Current method lifecycle status.
-     * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * configuration (Required): {@link DeliveryMethodConfiguration}. Current eligibility,
-         * pricing, origin, estimate, and tax configuration. How a delivery method works: its
-         * origin, pricing, eligibility, timing estimate, tax settings, recipient requirements, and
-         * option lifetimes. created_at (Required): string. Time the method was created. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". current_delivery_method_revision_id
-         * (Required): string. Immutable revision currently used for new quotes. Example:
-         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". delivery_method_id (Required): string. Stable
-         * delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_revocation_id
-         * (Required): string or null. The revocation fencing this resource's own current revision.
-         * `null` when the current revision isn't revoked. It doesn't cover dependencies: a method
-         * can be unusable while this is `null` because its rate callback revision, signing key, or
-         * a Location's address is revoked. A revocation doesn't change `status`; publish a new
-         * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B". description
-         * (Optional): string. Optional buyer-facing description. display_position (Required):
-         * integer. Ascending display order among methods. Format: int32. external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". metadata (Optional): {@link MetadataMap}.
-         * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting
-         * with flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. name (Required): string. Merchant-facing method name. recommendation_priority
-         * (Optional): integer. Marks this method as recommended. Within each choice group, the
-         * available method with the lowest value is recommended and listed first. Ties go to the
-         * lower display_position, then the method ID. Null never recommends the method. Format:
-         * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
-         * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
-         */
-        "object": {
-            /**
-             * Current eligibility, pricing, origin, estimate, and tax configuration. How a
-             * delivery method works: its origin, pricing, eligibility, timing estimate, tax
-             * settings, recipient requirements, and option lifetimes.
-             */
-            "configuration": DeliveryMethodConfiguration;
-            /** Time the method was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Immutable revision currently used for new quotes. Example:
-             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
-             */
-            "current_delivery_method_revision_id": string;
-            /** Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". */
-            "delivery_method_id": string;
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-             */
-            "delivery_revocation_id": string | null;
-            /** Optional buyer-facing description. */
-            "description"?: string;
-            /** Ascending display order among methods. Format: int32. */
-            "display_position": number;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
-             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
-             * not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Merchant-facing method name. */
-            "name": string;
-            /**
-             * Marks this method as recommended. Within each choice group, the available method
-             * with the lowest value is recommended and listed first. Ties go to the lower
-             * display_position, then the method ID. Null never recommends the method. Format:
-             * int32.
-             */
-            "recommendation_priority"?: number;
-            /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
-             */
-            "subscription_counts": SubscriptionCounts;
-            /**
-             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
-             * "pickup".
-             */
-            "type": "shipment" | "local_delivery" | "pickup" | (string & {});
-            /** Time the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /** Optimistic-concurrency version for method writes. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "delivery_method.created". */
-    "event_type"?: "delivery_method.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `delivery_method.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type DeliveryMethodCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.configuration (Required): {@link DeliveryMethodConfiguration}.
-     * Current eligibility, pricing, origin, estimate, and tax configuration. How a delivery method
-     * works: its origin, pricing, eligibility, timing estimate, tax settings, recipient
-     * requirements, and option lifetimes. object.created_at (Required): string. Time the method
-     * was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_method_revision_id (Required): string. Immutable revision currently
-     * used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". object.delivery_method_id
-     * (Required): string. Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * object.delivery_revocation_id (Required): string or null. The revocation fencing this
-     * resource's own current revision. `null` when the current revision isn't revoked. It doesn't
-     * cover dependencies: a method can be unusable while this is `null` because its rate callback
-     * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-     * `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-     * object.description (Optional): string. Optional buyer-facing description.
-     * object.display_position (Required): integer. Ascending display order among methods. Format:
-     * int32. object.external_reference_id (Optional): string. Caller-owned identifier for this
-     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.metadata
-     * (Optional): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored
-     * on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.name (Required): string. Merchant-facing method name.
-     * object.recommendation_priority (Optional): integer. Marks this method as recommended. Within
-     * each choice group, the available method with the lowest value is recommended and listed
-     * first. Ties go to the lower display_position, then the method ID. Null never recommends the
-     * method. Format: int32. object.status (Required): string. Current method lifecycle status.
-     * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * configuration (Required): {@link DeliveryMethodConfiguration}. Current eligibility,
-         * pricing, origin, estimate, and tax configuration. How a delivery method works: its
-         * origin, pricing, eligibility, timing estimate, tax settings, recipient requirements, and
-         * option lifetimes. created_at (Required): string. Time the method was created. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". current_delivery_method_revision_id
-         * (Required): string. Immutable revision currently used for new quotes. Example:
-         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". delivery_method_id (Required): string. Stable
-         * delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_revocation_id
-         * (Required): string or null. The revocation fencing this resource's own current revision.
-         * `null` when the current revision isn't revoked. It doesn't cover dependencies: a method
-         * can be unusable while this is `null` because its rate callback revision, signing key, or
-         * a Location's address is revoked. A revocation doesn't change `status`; publish a new
-         * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B". description
-         * (Optional): string. Optional buyer-facing description. display_position (Required):
-         * integer. Ascending display order among methods. Format: int32. external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". metadata (Optional): {@link MetadataMap}.
-         * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting
-         * with flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. name (Required): string. Merchant-facing method name. recommendation_priority
-         * (Optional): integer. Marks this method as recommended. Within each choice group, the
-         * available method with the lowest value is recommended and listed first. Ties go to the
-         * lower display_position, then the method ID. Null never recommends the method. Format:
-         * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
-         * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
-         */
-        "object": {
-            /**
-             * Current eligibility, pricing, origin, estimate, and tax configuration. How a
-             * delivery method works: its origin, pricing, eligibility, timing estimate, tax
-             * settings, recipient requirements, and option lifetimes.
-             */
-            "configuration": DeliveryMethodConfiguration;
-            /** Time the method was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Immutable revision currently used for new quotes. Example:
-             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
-             */
-            "current_delivery_method_revision_id": string;
-            /** Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". */
-            "delivery_method_id": string;
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-             */
-            "delivery_revocation_id": string | null;
-            /** Optional buyer-facing description. */
-            "description"?: string;
-            /** Ascending display order among methods. Format: int32. */
-            "display_position": number;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
-             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
-             * not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Merchant-facing method name. */
-            "name": string;
-            /**
-             * Marks this method as recommended. Within each choice group, the available method
-             * with the lowest value is recommended and listed first. Ties go to the lower
-             * display_position, then the method ID. Null never recommends the method. Format:
-             * int32.
-             */
-            "recommendation_priority"?: number;
-            /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
-             */
-            "subscription_counts": SubscriptionCounts;
-            /**
-             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
-             * "pickup".
-             */
-            "type": "shipment" | "local_delivery" | "pickup" | (string & {});
-            /** Time the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /** Optimistic-concurrency version for method writes. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "delivery_method.created". */
-    "event_type"?: "delivery_method.created";
-});
-export type DeliveryMethodDeactivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "configuration": DeliveryMethodConfiguration;
-            "created_at": string;
-            "current_delivery_method_revision_id": string;
-            "delivery_method_id": string;
-            "delivery_revocation_id": string | null;
-            "description"?: string;
-            "display_position": number;
-            "external_reference_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "recommendation_priority"?: number;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "subscription_counts": SubscriptionCounts;
-            "type": "shipment" | "local_delivery" | "pickup" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "current_delivery_method_revision_id"?: ((string) | (null));
-            "delivery_method_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string) | (null));
-            "description"?: ((string) | (null));
-            "display_position"?: ((number) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "name"?: ((string) | (null));
-            "recommendation_priority"?: ((number) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
-            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "delivery_method.deactivated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "configuration": DeliveryMethodConfiguration;
-            "created_at": string;
-            "current_delivery_method_revision_id": string;
-            "delivery_method_id": string;
-            "delivery_revocation_id": string | null;
-            "description"?: string;
-            "display_position": number;
-            "external_reference_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "recommendation_priority"?: number;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "subscription_counts": SubscriptionCounts;
-            "type": "shipment" | "local_delivery" | "pickup" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "current_delivery_method_revision_id"?: ((string) | (null));
-            "delivery_method_id"?: ((string) | (null));
-            "delivery_revocation_id"?: ((string) | (null));
-            "description"?: ((string) | (null));
-            "display_position"?: ((number) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "name"?: ((string) | (null));
-            "recommendation_priority"?: ((number) | (null));
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
-            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "delivery_method.deactivated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "delivery_method.deactivated";
-});
-/**
- * The `delivery_method.deactivated` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.configuration (Required): {@link DeliveryMethodConfiguration}.
-     * Current eligibility, pricing, origin, estimate, and tax configuration. How a delivery method
-     * works: its origin, pricing, eligibility, timing estimate, tax settings, recipient
-     * requirements, and option lifetimes. object.created_at (Required): string. Time the method
-     * was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_method_revision_id (Required): string. Immutable revision currently
-     * used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9". object.delivery_method_id
-     * (Required): string. Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * object.delivery_revocation_id (Required): string or null. The revocation fencing this
-     * resource's own current revision. `null` when the current revision isn't revoked. It doesn't
-     * cover dependencies: a method can be unusable while this is `null` because its rate callback
-     * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-     * `status`; publish a new revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-     * object.description (Optional): string. Optional buyer-facing description.
-     * object.display_position (Required): integer. Ascending display order among methods. Format:
-     * int32. object.external_reference_id (Optional): string. Caller-owned identifier for this
-     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.metadata
-     * (Optional): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored
-     * on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.name (Required): string. Merchant-facing method name.
-     * object.recommendation_priority (Optional): integer. Marks this method as recommended. Within
-     * each choice group, the available method with the lowest value is recommended and listed
-     * first. Ties go to the lower display_position, then the method ID. Null never recommends the
-     * method. Format: int32. object.status (Required): string. Current method lifecycle status.
-     * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events. previous_attributes.configuration (Optional): {@link
-     * DeliveryMethodConfigurationPreviousAttributes} or null. Current eligibility, pricing,
-     * origin, estimate, and tax configuration. previous_attributes.configuration.anyOf[1] (Value):
-     * {@link DeliveryMethodConfigurationPreviousAttributes}.
-     * previous_attributes.configuration.anyOf[2] (Value): null. previous_attributes.created_at
-     * (Optional): string or null. Time the method was created.
-     * previous_attributes.created_at.anyOf[1] (Value): string. Time the method was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
-     * (Value): null. previous_attributes.current_delivery_method_revision_id (Optional): string or
-     * null. Immutable revision currently used for new quotes.
-     * previous_attributes.current_delivery_method_revision_id.anyOf[1] (Value): string. Immutable
-     * revision currently used for new quotes. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
-     * previous_attributes.current_delivery_method_revision_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_method_id (Optional): string or null. Stable delivery method
-     * ID. previous_attributes.delivery_method_id.anyOf[1] (Value): string. Stable delivery method
-     * ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     * previous_attributes.delivery_method_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_revocation_id (Optional): string or null. The revocation
-     * fencing this resource's own current revision. `null` when the current revision isn't
-     * revoked. It doesn't cover dependencies: a method can be unusable while this is `null`
-     * because its rate callback revision, signing key, or a Location's address is revoked. A
-     * revocation doesn't change `status`; publish a new revision to clear it.
-     * previous_attributes.delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing
-     * this resource's own current revision. `null` when the current revision isn't revoked. It
-     * doesn't cover dependencies: a method can be unusable while this is `null` because its rate
-     * callback revision, signing key, or a Location's address is revoked. A revocation doesn't
-     * change `status`; publish a new revision to clear it. Example:
-     * "drev_01KEZF7C007Q141XJ28YAAC87B". previous_attributes.delivery_revocation_id.anyOf[2]
-     * (Value): null. previous_attributes.description (Optional): string or null. Optional
-     * buyer-facing description. previous_attributes.description.anyOf[1] (Value): string. Optional
-     * buyer-facing description. previous_attributes.description.anyOf[2] (Value): null.
-     * previous_attributes.display_position (Optional): integer or null. Ascending display order
-     * among methods. previous_attributes.display_position.anyOf[1] (Value): integer. Ascending
-     * display order among methods. Format: int32. previous_attributes.display_position.anyOf[2]
-     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
-     * Caller-owned identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
-     * string or null. Merchant-facing method name. previous_attributes.name.anyOf[1] (Value):
-     * string. Merchant-facing method name. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.recommendation_priority (Optional): integer or null. Marks this method
-     * as recommended. Within each choice group, the available method with the lowest value is
-     * recommended and listed first. Ties go to the lower display_position, then the method ID.
-     * Null never recommends the method. previous_attributes.recommendation_priority.anyOf[1]
-     * (Value): integer. Marks this method as recommended. Within each choice group, the available
-     * method with the lowest value is recommended and listed first. Ties go to the lower
-     * display_position, then the method ID. Null never recommends the method. Format: int32.
-     * previous_attributes.recommendation_priority.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Current method lifecycle status.
-     * Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[1] (Value):
-     * string. Current method lifecycle status. Value enum: "active", "inactive", "archived".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription_counts
-     * (Optional): {@link SubscriptionCountsPreviousAttributes} or null. How many subscriptions use
-     * this method, by status. previous_attributes.subscription_counts.anyOf[1] (Value): {@link
-     * SubscriptionCountsPreviousAttributes}. previous_attributes.subscription_counts.anyOf[2]
-     * (Value): null. previous_attributes.type (Optional): string or null. Delivery mode this
-     * method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * previous_attributes.type.anyOf[1] (Value): string. Delivery mode this method offers. Value
-     * enum: "shipment", "local_delivery", "pickup". previous_attributes.type.anyOf[2] (Value):
-     * null. previous_attributes.updated_at (Optional): string or null. Time the method last
-     * changed. previous_attributes.updated_at.anyOf[1] (Value): string. Time the method last
-     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Optimistic-concurrency version for method writes.
-     * previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency version for
-     * method writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value):
-     * null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * configuration (Required): {@link DeliveryMethodConfiguration}. Current eligibility,
-         * pricing, origin, estimate, and tax configuration. How a delivery method works: its
-         * origin, pricing, eligibility, timing estimate, tax settings, recipient requirements, and
-         * option lifetimes. created_at (Required): string. Time the method was created. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". current_delivery_method_revision_id
-         * (Required): string. Immutable revision currently used for new quotes. Example:
-         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". delivery_method_id (Required): string. Stable
-         * delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_revocation_id
-         * (Required): string or null. The revocation fencing this resource's own current revision.
-         * `null` when the current revision isn't revoked. It doesn't cover dependencies: a method
-         * can be unusable while this is `null` because its rate callback revision, signing key, or
-         * a Location's address is revoked. A revocation doesn't change `status`; publish a new
-         * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B". description
-         * (Optional): string. Optional buyer-facing description. display_position (Required):
-         * integer. Ascending display order among methods. Format: int32. external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". metadata (Optional): {@link MetadataMap}.
-         * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting
-         * with flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. name (Required): string. Merchant-facing method name. recommendation_priority
-         * (Optional): integer. Marks this method as recommended. Within each choice group, the
-         * available method with the lowest value is recommended and listed first. Ties go to the
-         * lower display_position, then the method ID. Null never recommends the method. Format:
-         * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
-         * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
-         */
-        "object": {
-            /**
-             * Current eligibility, pricing, origin, estimate, and tax configuration. How a
-             * delivery method works: its origin, pricing, eligibility, timing estimate, tax
-             * settings, recipient requirements, and option lifetimes.
-             */
-            "configuration": DeliveryMethodConfiguration;
-            /** Time the method was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Immutable revision currently used for new quotes. Example:
-             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
-             */
-            "current_delivery_method_revision_id": string;
-            /** Stable delivery method ID. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". */
-            "delivery_method_id": string;
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. Example: "drev_01KEZF7C007Q141XJ28YAAC87B".
-             */
-            "delivery_revocation_id": string | null;
-            /** Optional buyer-facing description. */
-            "description"?: string;
-            /** Ascending display order among methods. Format: int32. */
-            "display_position": number;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
-             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
-             * not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Merchant-facing method name. */
-            "name": string;
-            /**
-             * Marks this method as recommended. Within each choice group, the available method
-             * with the lowest value is recommended and listed first. Ties go to the lower
-             * display_position, then the method ID. Null never recommends the method. Format:
-             * int32.
-             */
-            "recommendation_priority"?: number;
-            /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
-             */
-            "subscription_counts": SubscriptionCounts;
-            /**
-             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
-             * "pickup".
-             */
-            "type": "shipment" | "local_delivery" | "pickup" | (string & {});
-            /** Time the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /** Optimistic-concurrency version for method writes. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. configuration (Optional): {@link
-         * DeliveryMethodConfigurationPreviousAttributes} or null. Current eligibility, pricing,
-         * origin, estimate, and tax configuration. configuration.anyOf[1] (Value): {@link
-         * DeliveryMethodConfigurationPreviousAttributes}. configuration.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. Time the method was created. created_at.anyOf[1]
-         * (Value): string. Time the method was created. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * current_delivery_method_revision_id (Optional): string or null. Immutable revision
-         * currently used for new quotes. current_delivery_method_revision_id.anyOf[1] (Value):
-         * string. Immutable revision currently used for new quotes. Example:
-         * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". current_delivery_method_revision_id.anyOf[2]
-         * (Value): null. delivery_method_id (Optional): string or null. Stable delivery method ID.
-         * delivery_method_id.anyOf[1] (Value): string. Stable delivery method ID. Example:
-         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_id.anyOf[2] (Value): null.
-         * delivery_revocation_id (Optional): string or null. The revocation fencing this
-         * resource's own current revision. `null` when the current revision isn't revoked. It
-         * doesn't cover dependencies: a method can be unusable while this is `null` because its
-         * rate callback revision, signing key, or a Location's address is revoked. A revocation
-         * doesn't change `status`; publish a new revision to clear it.
-         * delivery_revocation_id.anyOf[1] (Value): string. The revocation fencing this resource's
-         * own current revision. `null` when the current revision isn't revoked. It doesn't cover
-         * dependencies: a method can be unusable while this is `null` because its rate callback
-         * revision, signing key, or a Location's address is revoked. A revocation doesn't change
-         * `status`; publish a new revision to clear it. Example:
-         * "drev_01KEZF7C007Q141XJ28YAAC87B". delivery_revocation_id.anyOf[2] (Value): null.
-         * description (Optional): string or null. Optional buyer-facing description.
-         * description.anyOf[1] (Value): string. Optional buyer-facing description.
-         * description.anyOf[2] (Value): null. display_position (Optional): integer or null.
-         * Ascending display order among methods. display_position.anyOf[1] (Value): integer.
-         * Ascending display order among methods. Format: int32. display_position.anyOf[2] (Value):
-         * null. external_reference_id (Optional): string or null. Caller-owned identifier for this
-         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null. metadata
-         * (Optional): {@link MetadataMap} or null. Caller-owned metadata. metadata.anyOf[1]
-         * (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null. name (Optional): string
-         * or null. Merchant-facing method name. name.anyOf[1] (Value): string. Merchant-facing
-         * method name. name.anyOf[2] (Value): null. recommendation_priority (Optional): integer or
-         * null. Marks this method as recommended. Within each choice group, the available method
-         * with the lowest value is recommended and listed first. Ties go to the lower
-         * display_position, then the method ID. Null never recommends the method.
-         * recommendation_priority.anyOf[1] (Value): integer. Marks this method as recommended.
-         * Within each choice group, the available method with the lowest value is recommended and
-         * listed first. Ties go to the lower display_position, then the method ID. Null never
-         * recommends the method. Format: int32. recommendation_priority.anyOf[2] (Value): null.
-         * status (Optional): string or null. Current method lifecycle status. Value enum:
-         * "active", "inactive", "archived". status.anyOf[1] (Value): string. Current method
-         * lifecycle status. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value):
-         * null. subscription_counts (Optional): {@link SubscriptionCountsPreviousAttributes} or
-         * null. How many subscriptions use this method, by status. subscription_counts.anyOf[1]
-         * (Value): {@link SubscriptionCountsPreviousAttributes}. subscription_counts.anyOf[2]
-         * (Value): null. type (Optional): string or null. Delivery mode this method offers. Value
-         * enum: "shipment", "local_delivery", "pickup". type.anyOf[1] (Value): string. Delivery
-         * mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-         * type.anyOf[2] (Value): null. updated_at (Optional): string or null. Time the method last
-         * changed. updated_at.anyOf[1] (Value): string. Time the method last changed. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
-         * (Optional): integer or null. Optimistic-concurrency version for method writes.
-         * version.anyOf[1] (Value): integer. Optimistic-concurrency version for method writes.
-         * Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Current eligibility, pricing, origin, estimate, and tax configuration. anyOf[1]
-             * (Value): {@link DeliveryMethodConfigurationPreviousAttributes}. anyOf[2] (Value):
-             * null.
-             */
-            "configuration"?: ((DeliveryMethodConfigurationPreviousAttributes) | (null));
-            /**
-             * Time the method was created. anyOf[1] (Value): string. Time the method was created.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Immutable revision currently used for new quotes. anyOf[1] (Value): string.
-             * Immutable revision currently used for new quotes. Example:
-             * "dmetr_01KEZF7C001ZF9D92DY1G51GV9". anyOf[2] (Value): null.
-             */
-            "current_delivery_method_revision_id"?: ((string) | (null));
-            /**
-             * Stable delivery method ID. anyOf[1] (Value): string. Stable delivery method ID.
-             * Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
-             */
-            "delivery_method_id"?: ((string) | (null));
-            /**
-             * The revocation fencing this resource's own current revision. `null` when the current
-             * revision isn't revoked. It doesn't cover dependencies: a method can be unusable
-             * while this is `null` because its rate callback revision, signing key, or a
-             * Location's address is revoked. A revocation doesn't change `status`; publish a new
-             * revision to clear it. anyOf[1] (Value): string. The revocation fencing this
-             * resource's own current revision. `null` when the current revision isn't revoked. It
-             * doesn't cover dependencies: a method can be unusable while this is `null` because
-             * its rate callback revision, signing key, or a Location's address is revoked. A
-             * revocation doesn't change `status`; publish a new revision to clear it. Example:
-             * "drev_01KEZF7C007Q141XJ28YAAC87B". anyOf[2] (Value): null.
-             */
-            "delivery_revocation_id"?: ((string) | (null));
-            /**
-             * Optional buyer-facing description. anyOf[1] (Value): string. Optional buyer-facing
-             * description. anyOf[2] (Value): null.
-             */
-            "description"?: ((string) | (null));
-            /**
-             * Ascending display order among methods. anyOf[1] (Value): integer. Ascending display
-             * order among methods. Format: int32. anyOf[2] (Value): null.
-             */
-            "display_position"?: ((number) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
-             * null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Merchant-facing method name. anyOf[1] (Value): string. Merchant-facing method name.
-             * anyOf[2] (Value): null.
-             */
-            "name"?: ((string) | (null));
-            /**
-             * Marks this method as recommended. Within each choice group, the available method
-             * with the lowest value is recommended and listed first. Ties go to the lower
-             * display_position, then the method ID. Null never recommends the method. anyOf[1]
-             * (Value): integer. Marks this method as recommended. Within each choice group, the
-             * available method with the lowest value is recommended and listed first. Ties go to
-             * the lower display_position, then the method ID. Null never recommends the method.
-             * Format: int32. anyOf[2] (Value): null.
-             */
-            "recommendation_priority"?: ((number) | (null));
-            /**
-             * Current method lifecycle status. Value enum: "active", "inactive", "archived".
-             * anyOf[1] (Value): string. Current method lifecycle status. Value enum: "active",
-             * "inactive", "archived". anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
-            /**
-             * How many subscriptions use this method, by status. anyOf[1] (Value): {@link
-             * SubscriptionCountsPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "subscription_counts"?: ((SubscriptionCountsPreviousAttributes) | (null));
-            /**
-             * Delivery mode this method offers. Value enum: "shipment", "local_delivery",
-             * "pickup". anyOf[1] (Value): string. Delivery mode this method offers. Value enum:
-             * "shipment", "local_delivery", "pickup". anyOf[2] (Value): null.
-             */
-            "type"?: (("shipment" | "local_delivery" | "pickup" | (string & {})) | (null));
-            /**
-             * Time the method last changed. anyOf[1] (Value): string. Time the method last
-             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Optimistic-concurrency version for method writes. anyOf[1] (Value): integer.
-             * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
-             * anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "delivery_method.deactivated". */
-    "event_type"?: "delivery_method.deactivated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
 });

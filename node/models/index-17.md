@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# GiftCardFundingSourceAdjustment to Image
+# GiftCardFundingDispute to GiftCardUpdatedInstalledMerchantsEvent
 
+- [GiftCardFundingDispute](GiftCardFundingDispute.md)
+- [GiftCardFundingDisputePreviousAttributes](GiftCardFundingDisputePreviousAttributes.md)
+- [GiftCardFundingLossResolution](GiftCardFundingLossResolution.md)
+- [GiftCardFundingLossResolutionPreviousAttributes](GiftCardFundingLossResolutionPreviousAttributes.md)
+- [GiftCardFundingSource](GiftCardFundingSource.md)
 - [GiftCardFundingSourceAdjustment](GiftCardFundingSourceAdjustment.md)
 - [GiftCardFundingSourceAdjustmentPreviousAttributes](GiftCardFundingSourceAdjustmentPreviousAttributes.md)
 - [GiftCardFundingSourceAdjustmentRequestInput](GiftCardFundingSourceAdjustmentRequestInput.md)
@@ -57,6 +62,7 @@
 - [GiftCardProductConfigurationRequestInput](GiftCardProductConfigurationRequestInput.md)
 - [GiftCardPurchaseDetailsRequestInput](GiftCardPurchaseDetailsRequestInput.md)
 - [GiftCardPurchaseRecipient](GiftCardPurchaseRecipient.md)
+- [GiftCardPurchaseRecipientInput](GiftCardPurchaseRecipientInput.md)
 - [GiftCardPurchaseRecipientPatchRequest](GiftCardPurchaseRecipientPatchRequest.md)
 - [GiftCardPurchaseRecipientPatchRequestInput](GiftCardPurchaseRecipientPatchRequestInput.md)
 - [GiftCardPurchaseRecipientPreviousAttributes](GiftCardPurchaseRecipientPreviousAttributes.md)
@@ -72,6 +78,7 @@
 - [GiftCardPurchaseRefundValueHold](GiftCardPurchaseRefundValueHold.md)
 - [GiftCardPurchaseRefundValueHoldPreviousAttributes](GiftCardPurchaseRefundValueHoldPreviousAttributes.md)
 - [GiftCardPurchaseRequest](GiftCardPurchaseRequest.md)
+- [GiftCardPurchaseRequestInput](GiftCardPurchaseRequestInput.md)
 - [GiftCardPurchaseRestoration](GiftCardPurchaseRestoration.md)
 - [GiftCardPurchaseRestorationPreviousAttributes](GiftCardPurchaseRestorationPreviousAttributes.md)
 - [GiftCardPurchaseSnapshot](GiftCardPurchaseSnapshot.md)
@@ -95,11 +102,4 @@
 - [GiftCardTransactionCreatedMerchantEvent](GiftCardTransactionCreatedMerchantEvent.md)
 - [GiftCardTransactionListResponse](GiftCardTransactionListResponse.md)
 - [GiftCardUpdatedInstalledMerchantsEvent](GiftCardUpdatedInstalledMerchantsEvent.md)
-- [GiftCardUpdatedMerchantEvent](GiftCardUpdatedMerchantEvent.md)
-- [GiftCardVersionRequestInput](GiftCardVersionRequestInput.md)
-- [GuestPurchaseLink](GuestPurchaseLink.md)
-- [GuestPurchaseLinkResponse](GuestPurchaseLinkResponse.md)
-- [HoldFulfillmentRequest](HoldFulfillmentRequest.md)
-- [HoldFulfillmentRequestInput](HoldFulfillmentRequestInput.md)
-- [Image](Image.md)
 

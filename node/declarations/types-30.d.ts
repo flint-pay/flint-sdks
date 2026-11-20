@@ -1,19 +1,138 @@
-import type { GiftCardCustomAmountBoundsPreviousAttributes, GiftCardCustomAmountBoundsRequestInput, GiftCard } from './types-28.js';
-import type { MoneyValuePreviousAttributes, MoneyValueInput, MoneyValue } from './types-44.js';
-import type { GiftCardProductConfiguration, GiftCardFundingSource, GiftCardFundingSourcePreviousAttributes } from './types-29.js';
+import type { InputValue } from '../runtime.js';
+import type { CancelGiftCardNotificationRequestInput, CashOutGiftCardRequestInput } from './types-5.js';
+import type { CreateGiftCardNotificationRequestInput, CreateGiftCardRedemptionRequestInput } from './types-10.js';
+import type { DisputesAcceptParams } from './types-26.js';
+import type {
+    GiftCardCustomAmountBounds,
+    GiftCardCustomAmountBoundsPreviousAttributes,
+    GiftCardCustomAmountBoundsRequestInput,
+    GiftCard
+} from './types-28.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { ResponseMeta, ResourceReference } from './types-62.js';
-import type { InputValue } from '../runtime.js';
-import type { CreateGiftCardRedemptionRequestInput, CreateGiftCardRequestInput } from './types-10.js';
-import type { DisputesAcceptParams } from './types-26.js';
+import type { GiftCardFundingSource, GiftCardFundingSourcePreviousAttributes } from './types-29.js';
 import type { AdjustGiftCardBalanceRequestInput } from './types-0.js';
-import type { CashOutGiftCardRequestInput } from './types-5.js';
 import type { CloseGiftCardRequestInput } from './types-7.js';
-import type { FreezeGiftCardRequestInput } from './types-27.js';
-import type { LookupGiftCardRequestInput } from './types-40.js';
-import type { RotateGiftCardCodeRequestInput } from './types-67.js';
-import type { UnfreezeGiftCardRequestInput } from './types-75.js';
+export type GiftCardNotificationsCancelParams = (InputValue<CancelGiftCardNotificationRequestInput> | {})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type GiftCardNotificationsCreateParams = (InputValue<CreateGiftCardNotificationRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type GiftCardNotificationsGetParams = DisputesAcceptParams;
+export type GiftCardNotificationsListParams = {
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exact, case-sensitive filter. maxLength: 255. pattern: ^gc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact, case-sensitive filter. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "canceled", "failed", "pending", "scheduled", "sent", "unconfirmed". Value
+     * enum: "canceled", "failed", "pending", "scheduled", "sent", "unconfirmed". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "canceled", "failed", "pending", "scheduled", "sent",
+     * "unconfirmed". anyOf[1][] (Value): string. maxLength: 255. Value enum: "canceled", "failed",
+     * "pending", "scheduled", "sent", "unconfirmed". anyOf[2] (Value): string. maxLength: 255.
+     * Value enum: "canceled", "failed", "pending", "scheduled", "sent", "unconfirmed".
+     */
+    "status"?: InputValue<("canceled" | "failed" | "pending" | "scheduled" | "sent" | "unconfirmed")
+        | readonly ("canceled" | "failed" | "pending" | "scheduled" | "sent" | "unconfirmed")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/**
+ * Gift card settings on a product variant: its `face_value_money`, price mode (face value or
+ * discounted), and bounds for custom amounts.
+ */
+export type GiftCardProductConfiguration = {
+    /**
+     * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination. The
+     * minimum and maximum amounts a buyer can choose when buying a gift card with a custom amount.
+     */
+    "custom_amount_bounds"?: GiftCardCustomAmountBounds;
+    /**
+     * Gift card value issued for one unit of this variant, in the same currency as its unit price.
+     * Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "face_value_money": MoneyValue;
+    /**
+     * Whether the gift card is sold at its face value or at a discounted price. Value enum:
+     * "face_value", "discounted".
+     */
+    "price_mode": "face_value" | "discounted" | (string & {});
+};
 export type GiftCardProductConfigurationPreviousAttributes = {
     /**
      * Minimum and maximum gift card values buyers can choose. Omit for a fixed denomination.
@@ -84,19 +203,51 @@ export type GiftCardPurchaseDetailsRequestInput = {
  */
 export type GiftCardPurchaseRecipient = {
     /**
-     * Email address the gift card is delivered to. Format: email. minLength: 1. maxLength: 254.
-     * Example: "buyer@example.com".
+     * Email address the gift card is delivered to. The local part before @ must be at most 64
+     * octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254. Example:
+     * "buyer@example.com".
      */
     "email": string;
     /** Personal message included with the gift card. maxLength: 200. */
     "message"?: string;
-    /** Name of the person receiving the gift card. maxLength: 255. */
+    /**
+     * Name of the person receiving the gift card. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * maxLength: 255.
+     */
     "name"?: string;
     /**
      * Optional send time between now and 90 days from now. Omission requests immediate recipient
      * notification after funding. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
     "send_at"?: string;
+    /** Name to show as the sender in the gift card email, when provided. maxLength: 255. */
+    "sender_name"?: string;
+};
+/**
+ * The recipient of a purchased gift card: `email`, optional `name` and `message`, and an optional
+ * `send_at` time.
+ */
+export type GiftCardPurchaseRecipientInput = {
+    /**
+     * Email address the gift card is delivered to. The local part before @ must be at most 64
+     * octets (UTF-8 bytes). Format: email. minLength: 1. maxLength: 254. Example:
+     * "buyer@example.com".
+     */
+    "email": string;
+    /** Personal message included with the gift card. maxLength: 200. */
+    "message"?: string;
+    /**
+     * Name of the person receiving the gift card. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Optional send time between now and 90 days from now. Omission requests immediate recipient
+     * notification after funding. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "send_at"?: string | globalThis.Date;
     /** Name to show as the sender in the gift card email, when provided. maxLength: 255. */
     "sender_name"?: string;
 };
@@ -164,9 +315,10 @@ export type GiftCardPurchaseRecipientPatchRequestInput = {
 };
 export type GiftCardPurchaseRecipientPreviousAttributes = {
     /**
-     * Email address the gift card is delivered to. anyOf[1] (Value): string. Email address the
-     * gift card is delivered to. Format: email. minLength: 1. maxLength: 254. Example:
-     * "buyer@example.com". anyOf[2] (Value): null.
+     * Email address the gift card is delivered to. The local part before @ must be at most 64
+     * octets (UTF-8 bytes). anyOf[1] (Value): string. Email address the gift card is delivered to.
+     * The local part before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength:
+     * 1. maxLength: 254. Example: "buyer@example.com". anyOf[2] (Value): null.
      */
     "email"?: ((string) | (null));
     /**
@@ -175,8 +327,11 @@ export type GiftCardPurchaseRecipientPreviousAttributes = {
      */
     "message"?: ((string) | (null));
     /**
-     * Name of the person receiving the gift card. anyOf[1] (Value): string. Name of the person
-     * receiving the gift card. maxLength: 255. anyOf[2] (Value): null.
+     * Name of the person receiving the gift card. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported. anyOf[1]
+     * (Value): string. Name of the person receiving the gift card. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. maxLength: 255. anyOf[2] (Value): null.
      */
     "name"?: ((string) | (null));
     /**
@@ -522,6 +677,26 @@ export type GiftCardPurchaseRequest = {
      * gift card: `email`, optional `name` and `message`, and an optional `send_at` time.
      */
     "recipient"?: GiftCardPurchaseRecipient;
+};
+/**
+ * Gift card details for an order line item: the `face_value_money` and the `recipient` who
+ * receives the card.
+ */
+export type GiftCardPurchaseRequestInput = {
+    /**
+     * Buyer-selected face value within the gift card offer's limits. Currency must be USD. Amount
+     * must be between 1 and 200000 minor units, inclusive. The amount and every computed order
+     * amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
+     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+     * responsible input field. Lower payment option limits can apply. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "face_value_money"?: MoneyValueInput;
+    /**
+     * Who receives the gift card. `null` when no recipient was set. The recipient of a purchased
+     * gift card: `email`, optional `name` and `message`, and an optional `send_at` time.
+     */
+    "recipient"?: GiftCardPurchaseRecipientInput;
 };
 /**
  * Links a gift card load to the original card and load it restores value to after a purchase
@@ -5255,185 +5430,6 @@ export type GiftCardsCashOutParams = (InputValue<CashOutGiftCardRequestInput>)
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
 export type GiftCardsCloseParams = (InputValue<CloseGiftCardRequestInput> | {
-    "expected_version"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardsCreateParams = (InputValue<CreateGiftCardRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardsFreezeParams = (InputValue<FreezeGiftCardRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardsGetParams = DisputesAcceptParams;
-export type GiftCardsListParams = {
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Exact, case-sensitive filter on the customer stored on the gift card. An unknown customer
-     * returns an empty page. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: InputValue<string>;
-    /** Exact, case-sensitive filter. minLength: 1. maxLength: 255. Example: "warehouse-1842". */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns only resources created in your caller namespace, plus
-     * resources created before caller scoping under the original key. Returns current authorized
-     * resources, not the recorded response. A pending resource does not prove that the operation
-     * succeeded, and an empty list does not prove that it had no effect. A match can show
-     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
-     * reader isn't the caller that created it (another app install, a buyer, or the merchant
-     * reading an app's or buyer's record), or the caller that created an older record is unknown.
-     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
-     */
-    "idempotency_key"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Exact, case-sensitive filter. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "active", "closed", "frozen", "pending". Value enum: "active", "closed",
-     * "frozen", "pending". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "active",
-     * "closed", "frozen", "pending". anyOf[1][] (Value): string. maxLength: 255. Value enum:
-     * "active", "closed", "frozen", "pending". anyOf[2] (Value): string. maxLength: 255. Value
-     * enum: "active", "closed", "frozen", "pending".
-     */
-    "status"?: InputValue<("active" | "closed" | "frozen" | "pending")
-        | readonly ("active" | "closed" | "frozen" | "pending")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardsLookupParams = (InputValue<LookupGiftCardRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardsRotateCodeParams = (InputValue<RotateGiftCardCodeRequestInput>
-    | {
-    "expected_version"?: never;
-    "notification"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardsUnfreezeParams = (InputValue<UnfreezeGiftCardRequestInput> | {
     "expected_version"?: never;
 })
     & {

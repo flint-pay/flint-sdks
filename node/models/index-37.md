@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# SubscriptionPastDueInstalledMerchantsEvent to SubscriptionTermsRequest
+# SubscriptionLineItemPreviousAttributes to SubscriptionSettingsRequestInput
 
+- [SubscriptionLineItemPreviousAttributes](SubscriptionLineItemPreviousAttributes.md)
+- [SubscriptionLineItemsListResponse](SubscriptionLineItemsListResponse.md)
+- [SubscriptionListResponse](SubscriptionListResponse.md)
+- [SubscriptionOffer](SubscriptionOffer.md)
+- [SubscriptionOfferLineItemRequest](SubscriptionOfferLineItemRequest.md)
+- [SubscriptionOfferLineItemRequestInput](SubscriptionOfferLineItemRequestInput.md)
+- [SubscriptionOfferListResponse](SubscriptionOfferListResponse.md)
+- [SubscriptionOfferResponse](SubscriptionOfferResponse.md)
+- [SubscriptionOfferTermsRequest](SubscriptionOfferTermsRequest.md)
+- [SubscriptionOfferTermsRequestInput](SubscriptionOfferTermsRequestInput.md)
 - [SubscriptionPastDueInstalledMerchantsEvent](SubscriptionPastDueInstalledMerchantsEvent.md)
 - [SubscriptionPastDueMerchantEvent](SubscriptionPastDueMerchantEvent.md)
 - [SubscriptionPausedDeliveryHold](SubscriptionPausedDeliveryHold.md)
@@ -92,14 +102,4 @@
 - [SubscriptionServiceLocationRequestInput](SubscriptionServiceLocationRequestInput.md)
 - [SubscriptionSettings](SubscriptionSettings.md)
 - [SubscriptionSettingsRequestInput](SubscriptionSettingsRequestInput.md)
-- [SubscriptionSnapshotMetrics](SubscriptionSnapshotMetrics.md)
-- [SubscriptionStatusCounts](SubscriptionStatusCounts.md)
-- [SubscriptionSwapPreviewRequest](SubscriptionSwapPreviewRequest.md)
-- [SubscriptionSwapPreviewRequestInput](SubscriptionSwapPreviewRequestInput.md)
-- [SubscriptionTax](SubscriptionTax.md)
-- [SubscriptionTaxCalculationRequestInput](SubscriptionTaxCalculationRequestInput.md)
-- [SubscriptionTaxPreviousAttributes](SubscriptionTaxPreviousAttributes.md)
-- [SubscriptionTaxRequest](SubscriptionTaxRequest.md)
-- [SubscriptionTaxRequestInput](SubscriptionTaxRequestInput.md)
-- [SubscriptionTermsRequest](SubscriptionTermsRequest.md)
 

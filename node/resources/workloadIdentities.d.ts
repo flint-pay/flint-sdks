@@ -1,8 +1,10 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { WorkloadIdentitiesCreateParams, WorkloadIdentitiesDeleteParams, WorkloadIdentitiesGetParams } from '../declarations/types-79.js';
 import type {
+    WorkloadIdentitiesCreateParams,
+    WorkloadIdentitiesDeleteParams,
+    WorkloadIdentitiesGetParams,
     WorkloadIdentitiesListParams,
     WorkloadIdentitiesUpdateParams,
     WorkloadIdentity,
@@ -24,11 +26,12 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { WorkloadIdentitiesCreateParams, WorkloadIdentitiesDeleteParams, WorkloadIdentitiesGetParams } from '../declarations/types-79.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type {
+    WorkloadIdentitiesCreateParams,
     WorkloadIdentity,
     WorkloadIdentityResponse,
+    WorkloadIdentitiesDeleteParams,
+    WorkloadIdentitiesGetParams,
     _SdkWithoutIdempotency,
     WorkloadIdentitiesListParams,
     WorkloadIdentityListResponse,
@@ -36,15 +39,16 @@ export type {
     WorkloadIdentityClaimConditionRequestInput,
     WorkloadIdentityClaimCondition
 } from '../declarations/types-80.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateWorkloadIdentityRequestInput, Credentials } from '../declarations/types-14.js';
+export type { CreateWorkloadIdentityRequestInput, Credentials } from '../declarations/types-15.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-78.js';
-export { makeCreateWorkloadIdentityRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdateWorkloadIdentityRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-94.js';
+export { makeCreateWorkloadIdentityRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeUpdateWorkloadIdentityRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-95.js';
 export interface WorkloadIdentitiesResource {
     /**
  * Creates an active identity in the authenticated environment and validates issuer discovery.

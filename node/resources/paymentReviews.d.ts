@@ -1,7 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { PaymentReview, PaymentReviewListResponse } from '../declarations/types-53.js';
+import type { PaymentReview } from '../declarations/types-53.js';
 import type {
+    PaymentReviewListResponse,
     PaymentReviewResponse,
     PaymentReviewsApproveParams,
     PaymentReviewsDeclineParams,
@@ -30,19 +31,21 @@ export type {
     PaymentReviewsDeclineParams,
     PaymentReviewsGetParams,
     PaymentReviewsListParams,
+    PaymentReviewListResponse,
     PaymentReviewResolutionFailure,
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails,
+    PaymentReviewPaymentSummary,
     PaymentReviewRisk
 } from '../declarations/types-54.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
-export type { PaymentReview, PaymentReviewListResponse, PaymentReviewPaymentSummary } from '../declarations/types-53.js';
+export type { PaymentReview } from '../declarations/types-53.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type {
     ExpandedCustomerSummary,
     ExpandedOrderSummary,
@@ -57,7 +60,7 @@ export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeDeclinePaymentReviewRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface PaymentReviewsResource {
     /**
  * Approves the payment and closes the review with `closed_reason: approved`. Approving never

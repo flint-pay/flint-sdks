@@ -42,13 +42,14 @@ export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateDeviceRequestInput } from '../declarations/types-9.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateDeviceRequestInput } from '../declarations/types-76.js';
 export { makeCreateDeviceRequest } from '../declarations/types-82.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdateDeviceRequest } from '../declarations/types-93.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeUpdateDeviceRequest } from '../declarations/types-94.js';
 export interface DevicesResource {
     /**
  * Creates a device. If an active device already has the hardware_fingerprint, fails with

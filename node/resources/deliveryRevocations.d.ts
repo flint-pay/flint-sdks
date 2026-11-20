@@ -1,13 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type {
-    DeliveryRevocation,
-    DeliveryRevocationListResponse,
-    DeliveryRevocationResponse,
-    DeliveryRevocationsCreateParams,
-    DeliveryRevocationsGetParams,
-    DeliveryRevocationsListParams
-} from '../declarations/types-23.js';
+import type { DeliveryRevocation, DeliveryRevocationListResponse, DeliveryRevocationResponse } from '../declarations/types-23.js';
+import type { DeliveryRevocationsCreateParams, DeliveryRevocationsGetParams, DeliveryRevocationsListParams } from '../declarations/types-24.js';
 import type { RequestOptions } from '../declarations/types-62.js';
 import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -26,19 +20,21 @@ export type {
 } from '../runtime.js';
 export type {
     DeliveryRevocationsCreateParams,
-    DeliveryRevocation,
-    DeliveryRevocationResponse,
     DeliveryRevocationsGetParams,
     DeliveryRevocationsListParams,
+    DeliveryRevocationTargetLocationGeography,
+    DeliveryRevocationTargetDeliveryRateCallbackSigningKey
+} from '../declarations/types-24.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type {
+    DeliveryRevocation,
+    DeliveryRevocationResponse,
     DeliveryRevocationListResponse,
     DeliveryRevocationImpact,
     DeliveryRevocationTarget,
-    DeliveryRevocationTargetLocationGeography,
-    DeliveryRevocationTargetDeliveryRateCallbackSigningKey,
     DeliveryRevocationTargetDeliveryRateCallbackRevision,
     DeliveryRevocationTargetDeliveryMethodRevision
 } from '../declarations/types-23.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
@@ -50,7 +46,7 @@ export type {
     CreateDeliveryRevocationTargetDeliveryMethodRevisionInput
 } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
@@ -62,7 +58,7 @@ export {
     makeCreateDeliveryRevocationTargetDeliveryRateCallbackSigningKey,
     makeCreateDeliveryRevocationTargetLocationGeography
 } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface DeliveryRevocationsResource {
     /**
  * Permanently fences one exact delivery method revision, rate callback revision, callback HMAC

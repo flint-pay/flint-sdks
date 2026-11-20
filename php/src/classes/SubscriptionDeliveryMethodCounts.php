@@ -13,7 +13,7 @@ final class SubscriptionDeliveryMethodCounts extends Model {
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** Live subscriptions that use the method, by status. Counts of subscriptions by status: active, past due, and paused.
+    /** Live subscriptions that use the method, by status. Delivery usage counts by stored status, with separate subsets for active subscriptions that are canceling or on billing hold.
      * @return SubscriptionCounts
      */
     public function getSubscriptionCounts(): SubscriptionCounts { return $this->get('subscription_counts'); }

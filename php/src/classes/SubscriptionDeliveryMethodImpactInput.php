@@ -23,7 +23,7 @@ final class SubscriptionDeliveryMethodImpactInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Of those, the subscriptions the edit would leave unable to use the method, by status. Counts of subscriptions by status: active, past due, and paused.
+    /** Of those, the subscriptions the edit would leave unable to use the method, by status. Delivery usage counts by stored status, with separate subsets for active subscriptions that are canceling or on billing hold.
      * @return SubscriptionCountsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When no_longer_eligible_counts is omitted; use hasNoLongerEligibleCounts() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class SubscriptionDeliveryMethodImpactInput extends Model {
      */
     public function getNoLongerEligibleReasons(): array { return $this->get('no_longer_eligible_reasons'); }
     public function hasNoLongerEligibleReasons(): bool { return $this->has('no_longer_eligible_reasons'); }
-    /** Live subscriptions that use the method now, by status. Counts of subscriptions by status: active, past due, and paused.
+    /** Live subscriptions that use the method now, by status. Delivery usage counts by stored status, with separate subsets for active subscriptions that are canceling or on billing hold.
      * @return SubscriptionCountsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When subscription_counts is omitted; use hasSubscriptionCounts() or valueOrDefault().
      */

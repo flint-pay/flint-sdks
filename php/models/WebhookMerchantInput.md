@@ -2,7 +2,7 @@
 
 ## WebhookMerchantInput
 
-The resource snapshot, without expansions. Webhooks omit these fields: `banners`.
+The resource snapshot, without expansions. Webhooks omit these fields: `banners`, `timezone_inferred`.
 
 Request input.
 
@@ -28,7 +28,7 @@ Request input.
 | `support_email` | Optional | string | Support email address shown to buyers, for example on receipts and checkout. |
 | `support_phone` | Optional | string | Support phone number shown to buyers, in international format such as +12125551234. |
 | `support_url` | Optional | string | Support page shown to buyers. |
-| `timezone` | Optional | string | Business IANA time zone, such as America/New_York. Used for invoice deadlines, new locations, notifications, and reporting when a request omits its time zone. Omitted when unset; UTC then applies until the first live Location sets it. Sandbox Locations do not set the business time zone. Existing resources keep their saved time zone. |
+| `timezone` | Optional | string | Business IANA time zone, such as America/New_York. If no zone is saved, GET /v1/merchant returns a zone inferred from live business geography when one is available, and omits the field otherwise. Existing resources keep their saved time zone. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Merchant version. Profile, status, and API version changes advance this version, including business name and business type changes synced from the payment provider. Readiness updates alone do not. Format: `int64`. minimum: `1`. |
 | `website_url` | Optional | string | The business's website. |

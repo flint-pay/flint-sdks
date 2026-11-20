@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](GiftCardTransactionCreatedMerchantEvent.md#giftcardtransactioncreatedmerchanteventdata-fields-1).
 
+### GiftCardTransactionCreatedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### GiftCardTransactionCreatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [GiftCardTransactionCreatedMerchantEvent.data fields 1.object](../models/GiftCardTransactionCreatedMerchantEvent.md#giftcardtransactioncreatedmerchanteventdata-fields-1object).

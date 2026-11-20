@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# SubscriptionPromotionPreviousAttributesInput to TaxJurisdictionRequestModelInput
+# SubscriptionPlanSwapVariantPreviousAttributesInput to TaxIdentityInput
 
+- [SubscriptionPlanSwapVariantPreviousAttributesInput](SubscriptionPlanSwapVariantPreviousAttributesInput.md)
+- [SubscriptionPlanTermsRequestInput](SubscriptionPlanTermsRequestInput.md)
+- [SubscriptionPreviewInput](SubscriptionPreviewInput.md)
+- [SubscriptionPreviewErrorInput](SubscriptionPreviewErrorInput.md)
+- [SubscriptionPreviewResponseInput](SubscriptionPreviewResponseInput.md)
+- [SubscriptionPromotionInput](SubscriptionPromotionInput.md)
+- [SubscriptionPromotionApplyPreviewInput](SubscriptionPromotionApplyPreviewInput.md)
 - [SubscriptionPromotionPreviousAttributesInput](SubscriptionPromotionPreviousAttributesInput.md)
 - [SubscriptionPromotionRequestInput](SubscriptionPromotionRequestInput.md)
 - [SubscriptionQuantityChangeLineItemRequestInput](SubscriptionQuantityChangeLineItemRequestInput.md)
@@ -95,11 +102,4 @@
 - [TaxDisclosureStatementInput](TaxDisclosureStatementInput.md)
 - [TaxDisclosureStatementPreviousAttributesInput](TaxDisclosureStatementPreviousAttributesInput.md)
 - [TaxIdentityInput](TaxIdentityInput.md)
-- [TaxIdentityPatchInput](TaxIdentityPatchInput.md)
-- [TaxIdentityPreviousAttributesInput](TaxIdentityPreviousAttributesInput.md)
-- [TaxIdentityRequestInput](TaxIdentityRequestInput.md)
-- [TaxJurisdictionInput](TaxJurisdictionInput.md)
-- [TaxJurisdictionPreviousAttributesInput](TaxJurisdictionPreviousAttributesInput.md)
-- [TaxJurisdictionRequestInput](TaxJurisdictionRequestInput.md)
-- [TaxJurisdictionRequestModelInput](TaxJurisdictionRequestModelInput.md)
 

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
+ * @property-read array{'amount': string, 'currency': string}|object $amount_money
  * @property-read string $capture_method
  * @property-read string $customer_id
  * @property-read int $expected_order_version
@@ -20,13 +20,13 @@ namespace Flint;
  * @property-read string $transaction_purpose
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsCreateParams extends Model {
-    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'capture_method'?: string, 'customer_id'?: string, 'expected_order_version'?: int, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'payment_options'?: list<string>, 'payment_return_url'?: string, 'payment_source_selection'?: OrderPaymentSourceSelectionInput|array<array-key, mixed>|\stdClass, 'platform_fee'?: PlatformFeeRequestInput|array<array-key, mixed>|\stdClass, 'receipt_email'?: string, 'request_overcapture'?: bool, 'splits'?: list<PaymentSplitRequestInput|array<array-key, mixed>|\stdClass>, 'tip_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'transaction_purpose'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'amount_money'?: array{'amount': string, 'currency': string}|object, 'capture_method'?: string, 'customer_id'?: string, 'expected_order_version'?: int, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'payment_options'?: list<string>, 'payment_return_url'?: string, 'payment_source_selection'?: OrderPaymentSourceSelectionInput|array<array-key, mixed>|\stdClass, 'platform_fee'?: PlatformFeeRequestInput|array<array-key, mixed>|\stdClass, 'receipt_email'?: string, 'request_overcapture'?: bool, 'splits'?: list<PaymentSplitRequestInput|array<array-key, mixed>|\stdClass>, 'tip_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'transaction_purpose'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsCreateParams')); }
-    /** Amount to request from the buyer, including any standalone tip_money. Required for standalone payments. On an order, uses the order currency and defaults to its remaining balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules apply. With capture_method manual, this is the hold amount, and you can capture less later. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** Amount to request from the buyer, including any standalone tip_money. Required for standalone payments. On an order, uses the order currency and defaults to its remaining balance; the amount cannot exceed 99999999 minor units, and existing automatic tax rules apply. With capture_method manual, this is the hold amount, and you can capture less later. amount (Required): integer string. Positive amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * @return array{'amount': string, 'currency': string}|object
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
-    public function getAmountMoney(): mixed { return $this->get('amount_money'); }
+    public function getAmountMoney(): array|object { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** automatic collects the payment when it is confirmed. manual places a hold at confirmation that you capture or cancel later. Defaults to automatic. Default: "automatic". Value enum: "automatic", "manual".
      * @return string

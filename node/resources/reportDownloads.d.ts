@@ -22,7 +22,7 @@ export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-14.js';
+export type { Credentials } from '../declarations/types-15.js';
 export interface ReportDownloadsResource {
     /**
  * Authorizes the stable Flint download URL and redirects to a short-lived private file URL.

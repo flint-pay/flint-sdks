@@ -18,7 +18,7 @@ The request body for: Resolve payment link.
 | `quantity_overrides` | Optional | Map of integer | Quantities keyed by line item key (line_items[].key), each within that item's min_quantity and max_quantity. Event tiers accept 0. Whole-number quantities; fractional quantities are not supported. Map values: Whole-number quantity value; fractional quantities are not supported. Format: `int32`. |
 | `resolution_context` | Required | string | Private resolution context returned by GET /v1/payment-links/{payment_link_id}/public. Send it unchanged when resolving the same link; read the link again after checkout_start_due_at. minLength: `1`. |
 | `subscription_terms` | Optional | [CheckoutSubscriptionTermsRequest](../models/CheckoutSubscriptionTermsRequest.md#checkoutsubscriptiontermsrequest) | Buyer choices for a subscription plan link. Line quantities must obey the plan line adjustment policy exposed by subscription_preview.line_items. Subscription choices for a checkout session: billing interval, interval count, line quantities, and gift recipient. |
-| `unit_price_overrides` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Prices keyed by line item key, for items with allow_unit_price_adjustment, between min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed donation. `unit_price_overrides{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
+| `unit_price_overrides` | Optional | Map of object | Positive prices keyed by line item key, for items with allow_unit_price_adjustment, between min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed donation. `unit_price_overrides{}`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_suggested_amount_money_options). |
 | `variant_selections` | Optional | Map of string | Variant IDs keyed by line item key (line_items[].key), for lines with variant_ids. Each selection must be offered by that line and priced in its current currency. Omit a key to use default_variant_id; a line without a default requires a selection. Null is not accepted. Map values: minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### ResolvePaymentLinkRequest.prefill
@@ -29,5 +29,5 @@ Field definitions: [shared fields](PaymentLinkResolvePrefillRequestInput.md#paym
 
 ### ResolvePaymentLinkRequest.unit_price_overrides{}
 
-Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options).
+Field definitions: [CreatePaymentLinkRequest.donation_suggested_amount_money_options[]](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequestdonation_suggested_amount_money_options).
 

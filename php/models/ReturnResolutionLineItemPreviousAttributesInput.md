@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `quantity` | Optional | integer or null | Whole-number quantity; fractional quantities are not supported. `quantity`: [declared alternatives](../models/DeliveryQuoteLineItemResourcePreviousAttributesInput.md#deliveryquotelineitemresourcepreviousattributesinputquantity). |
-| `release_timing` | Optional | string or null | Release gate for every resolution type, including exchanges and replacements. Released after the Return is approved. Released after the buyer hands back the required merchandise. Released after the required merchandise is received. Released after the required merchandise passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. Values: `"after_approval"`, `"after_handoff"`, `"after_receipt"`, `"after_inspection"`, `"manual"`. `release_timing`: [declared alternatives](../models/ReturnPolicyEvaluationLineItemPreviousAttributesInput.md#returnpolicyevaluationlineitempreviousattributesinputrelease_timing). |
+| `release_timing` | Optional | string or null | Release gate for every resolution type, including exchanges and replacements. Released after the Return is approved. Released after the buyer hands back the required merchandise. Released after the required merchandise is received. Released after the required merchandise passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. Values: `"after_approval"`, `"after_handoff"`, `"after_receipt"`, `"after_inspection"`, `"manual"`. `release_timing`: [declared alternatives](../models/ReturnResolutionLineItemPreviousAttributesInput.md#returnresolutionlineitempreviousattributesinputrelease_timing). |
 | `return_id` | Optional | string or null | Return that owns return_line_item_id. `return_id`: [declared alternatives](../models/ReturnHandoffRequirementLineItemPreviousAttributesInput.md#returnhandoffrequirementlineitempreviousattributesinputreturn_id). |
 | `return_line_item_id` | Optional | string or null | ID of the Return line the resolution covers. `return_line_item_id`: [declared alternatives](../models/ReturnResolutionLineItemPreviousAttributesInput.md#returnresolutionlineitempreviousattributesinputreturn_line_item_id). |
 | `return_resolution_id` | Optional | string or null | ID of the resolution the line belongs to. `return_resolution_id`: [declared alternatives](../models/ReturnReplacementLineItemPreviousAttributesInput.md#returnreplacementlineitempreviousattributesinputreturn_resolution_id). |
@@ -22,7 +22,17 @@ Declared alternatives: [DeliveryQuoteLineItemResourcePreviousAttributesInput.qua
 
 ### ReturnResolutionLineItemPreviousAttributesInput.release_timing
 
-Declared alternatives: [ReturnPolicyEvaluationLineItemPreviousAttributesInput.release_timing](../models/ReturnPolicyEvaluationLineItemPreviousAttributesInput.md#returnpolicyevaluationlineitempreviousattributesinputrelease_timing).
+### ReturnResolutionLineItemPreviousAttributesInput.release_timing variant 1
+
+anyOf variant 1: Release gate for every resolution type, including exchanges and replacements. Released after the Return is approved. Released after the buyer hands back the required merchandise. Released after the required merchandise is received. Released after the required merchandise passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release..
+
+- Value shape: string. Release gate for every resolution type, including exchanges and replacements. Released after the Return is approved. Released after the buyer hands back the required merchandise. Released after the required merchandise is received. Released after the required merchandise passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. Values: `"after_approval"`, `"after_handoff"`, `"after_receipt"`, `"after_inspection"`, `"manual"`.
+
+### ReturnResolutionLineItemPreviousAttributesInput.release_timing variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Release gate for every resolution type, including exchanges and replacements. Released after the Return is approved. Released after the buyer hands back the required merchandise. Released after the required merchandise is received. Released after the required merchandise passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. 
 
 ### ReturnResolutionLineItemPreviousAttributesInput.return_id
 

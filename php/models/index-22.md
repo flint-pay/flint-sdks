@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# PartnerAppCredentialResponseInput to PaymentIntentOvercapturePreviousAttributesInput
+# PartnerAppCredentialJWKSURLInput to PaymentIntentExpiredMerchantEventInput
 
+- [PartnerAppCredentialJWKSURLInput](PartnerAppCredentialJWKSURLInput.md)
+- [PartnerAppCredentialJWKSURLRequestInput](PartnerAppCredentialJWKSURLRequestInput.md)
+- [PartnerAppCredentialListResponseInput](PartnerAppCredentialListResponseInput.md)
+- [PartnerAppCredentialPublicKeyInput](PartnerAppCredentialPublicKeyInput.md)
+- [PartnerAppCredentialPublicKeyRequestInput](PartnerAppCredentialPublicKeyRequestInput.md)
 - [PartnerAppCredentialResponseInput](PartnerAppCredentialResponseInput.md)
 - [PartnerAppCredentialWorkloadIdentityInput](PartnerAppCredentialWorkloadIdentityInput.md)
 - [PartnerAppCredentialWorkloadIdentityRequestInput](PartnerAppCredentialWorkloadIdentityRequestInput.md)
@@ -97,9 +102,4 @@
 - [PaymentIntentCreatedMerchantEventInput](PaymentIntentCreatedMerchantEventInput.md)
 - [PaymentIntentExpiredInstalledMerchantsEventInput](PaymentIntentExpiredInstalledMerchantsEventInput.md)
 - [PaymentIntentExpiredMerchantEventInput](PaymentIntentExpiredMerchantEventInput.md)
-- [PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEventInput](PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEventInput.md)
-- [PaymentIntentFulfillmentHoldUpdatedMerchantEventInput](PaymentIntentFulfillmentHoldUpdatedMerchantEventInput.md)
-- [PaymentIntentListResponseInput](PaymentIntentListResponseInput.md)
-- [PaymentIntentOvercaptureInput](PaymentIntentOvercaptureInput.md)
-- [PaymentIntentOvercapturePreviousAttributesInput](PaymentIntentOvercapturePreviousAttributesInput.md)
 

@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# PlatformFeePayoutCreatedEventInput to PromotionListResponseInput
+# PlatformFeeCapRequestInput to PromotionCreatedMerchantEventInput
 
+- [PlatformFeeCapRequestInput](PlatformFeeCapRequestInput.md)
+- [PlatformFeeCreatedEventInput](PlatformFeeCreatedEventInput.md)
+- [PlatformFeeListResponseInput](PlatformFeeListResponseInput.md)
+- [PlatformFeeMoneyInput](PlatformFeeMoneyInput.md)
+- [PlatformFeePayoutInput](PlatformFeePayoutInput.md)
 - [PlatformFeePayoutCreatedEventInput](PlatformFeePayoutCreatedEventInput.md)
 - [PlatformFeePayoutFailedEventInput](PlatformFeePayoutFailedEventInput.md)
 - [PlatformFeePayoutListResponseInput](PlatformFeePayoutListResponseInput.md)
@@ -97,9 +102,4 @@
 - [PromotionCombinesWithRequestInput](PromotionCombinesWithRequestInput.md)
 - [PromotionCreatedInstalledMerchantsEventInput](PromotionCreatedInstalledMerchantsEventInput.md)
 - [PromotionCreatedMerchantEventInput](PromotionCreatedMerchantEventInput.md)
-- [PromotionExclusivityInput](PromotionExclusivityInput.md)
-- [PromotionExclusivityPatchInput](PromotionExclusivityPatchInput.md)
-- [PromotionExclusivityPreviousAttributesInput](PromotionExclusivityPreviousAttributesInput.md)
-- [PromotionExclusivityRequestInput](PromotionExclusivityRequestInput.md)
-- [PromotionListResponseInput](PromotionListResponseInput.md)
 

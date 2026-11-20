@@ -49,7 +49,7 @@ final class ReturnRefundEstimateInput extends Model {
      */
     public function getStoreCreditDestination(): string { return $this->get('store_credit_destination'); }
     public function hasStoreCreditDestination(): bool { return $this->has('store_credit_destination'); }
-    /** Estimated original-payment funding in refund order. Amounts sum to buyer_refund_amount_money plus buyer_store_credit_amount_money less refund_shortfall_money. Empty when no value is payable. [] (Value): {@see ReturnRefundTenderEstimateInput}. One estimated original-payment destination for a return refund.
+    /** Estimated original-payment destinations for the payable part of buyer_refund_amount_money, in refund order. Excludes store credit. Empty when no refund is payable. [] (Value): {@see ReturnRefundTenderEstimateInput}. One estimated original-payment destination for a return refund.
      * @return list<ReturnRefundTenderEstimateInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When tender_estimates is omitted; use hasTenderEstimates() or valueOrDefault().
      */

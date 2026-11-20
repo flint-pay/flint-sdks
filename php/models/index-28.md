@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# ReturnCanceledMerchantEventInput to ReturnReopenedInstalledMerchantsEventInput
+# RetryReturnResolutionRequestInput to ReturnReceiptSupersededMerchantEventInput
 
+- [RetryReturnResolutionRequestInput](RetryReturnResolutionRequestInput.md)
+- [RetryReturnResolutionResponseInput](RetryReturnResolutionResponseInput.md)
+- [ReturnActivityInput](ReturnActivityInput.md)
+- [ReturnActorInput](ReturnActorInput.md)
+- [ReturnActorPreviousAttributesInput](ReturnActorPreviousAttributesInput.md)
+- [ReturnCanceledInstalledMerchantsEventInput](ReturnCanceledInstalledMerchantsEventInput.md)
 - [ReturnCanceledMerchantEventInput](ReturnCanceledMerchantEventInput.md)
 - [ReturnCompletedInstalledMerchantsEventInput](ReturnCompletedInstalledMerchantsEventInput.md)
 - [ReturnCompletedMerchantEventInput](ReturnCompletedMerchantEventInput.md)
@@ -27,6 +33,7 @@
 - [ReturnEligibilitySelectionLineItemsInput](ReturnEligibilitySelectionLineItemsInput.md)
 - [ReturnEligibilitySelectionLineItemsRequestInput](ReturnEligibilitySelectionLineItemsRequestInput.md)
 - [ReturnEligibilitySelectionRequestInput](ReturnEligibilitySelectionRequestInput.md)
+- [ReturnExchangeVariantInput](ReturnExchangeVariantInput.md)
 - [ReturnFinancialSummaryInput](ReturnFinancialSummaryInput.md)
 - [ReturnFinancialSummaryPreviousAttributesInput](ReturnFinancialSummaryPreviousAttributesInput.md)
 - [ReturnHandoffDestinationInput](ReturnHandoffDestinationInput.md)
@@ -95,11 +102,4 @@
 - [ReturnReceiptPreviousAttributesInput](ReturnReceiptPreviousAttributesInput.md)
 - [ReturnReceiptSupersededInstalledMerchantsEventInput](ReturnReceiptSupersededInstalledMerchantsEventInput.md)
 - [ReturnReceiptSupersededMerchantEventInput](ReturnReceiptSupersededMerchantEventInput.md)
-- [ReturnReceiptVerifiedInstalledMerchantsEventInput](ReturnReceiptVerifiedInstalledMerchantsEventInput.md)
-- [ReturnReceiptVerifiedMerchantEventInput](ReturnReceiptVerifiedMerchantEventInput.md)
-- [ReturnRefundEstimateInput](ReturnRefundEstimateInput.md)
-- [ReturnRefundTenderEstimateInput](ReturnRefundTenderEstimateInput.md)
-- [ReturnRefundTenderEstimateGiftCardRedemptionInput](ReturnRefundTenderEstimateGiftCardRedemptionInput.md)
-- [ReturnRefundTenderEstimatePaymentIntentInput](ReturnRefundTenderEstimatePaymentIntentInput.md)
-- [ReturnReopenedInstalledMerchantsEventInput](ReturnReopenedInstalledMerchantsEventInput.md)
 

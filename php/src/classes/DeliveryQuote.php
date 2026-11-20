@@ -17,6 +17,7 @@ namespace Flint;
  * @property-read string $expires_at
  * @property-read list<DeliveryInputRequirement> $input_requirements
  * @property-read ?list<string> $inventory_reservation_ids
+ * @property-read ?bool $inventory_unavailable
  * @property-read ?list<DeliveryMerchantDiagnostic> $merchant_diagnostics
  * @property-read ?list<DeliveryQuoteMethodResource> $methods
  * @property-read ?string $order_id
@@ -29,7 +30,7 @@ namespace Flint;
  * @property-read ?string $superseded_by_delivery_quote_id
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryQuote extends Model {
-    /** @param array{'basis_delivery_quote_id'?: string, 'basis_delivery_selection_id'?: string, 'buyer_location'?: mixed, 'buyer_reasons': list<string>, 'checkout_session_id'?: string, 'choice_groups': list<mixed>, 'created_at': string, 'delivery_quote_id': string, 'delivery_revocation_id': string|null, 'destination_address'?: mixed, 'evaluated_at': string, 'evaluation_status': string, 'expires_at': string, 'input_requirements': list<mixed>, 'inventory_reservation_ids'?: list<string>, 'merchant_diagnostics'?: list<mixed>, 'methods'?: list<mixed>, 'order_id'?: string, 'pending_caller_rate_requests'?: list<mixed>, 'revocation_reason'?: string, 'revoked_at'?: string, 'selection_required': bool, 'stale_reason'?: string, 'status': string, 'superseded_by_delivery_quote_id'?: string, ...}|object $values */
+    /** @param array{'basis_delivery_quote_id'?: string, 'basis_delivery_selection_id'?: string, 'buyer_location'?: mixed, 'buyer_reasons': list<string>, 'checkout_session_id'?: string, 'choice_groups': list<mixed>, 'created_at': string, 'delivery_quote_id': string, 'delivery_revocation_id': string|null, 'destination_address'?: mixed, 'evaluated_at': string, 'evaluation_status': string, 'expires_at': string, 'input_requirements': list<mixed>, 'inventory_reservation_ids'?: list<string>, 'inventory_unavailable'?: bool, 'merchant_diagnostics'?: list<mixed>, 'methods'?: list<mixed>, 'order_id'?: string, 'pending_caller_rate_requests'?: list<mixed>, 'revocation_reason'?: string, 'revoked_at'?: string, 'selection_required': bool, 'stale_reason'?: string, 'status': string, 'superseded_by_delivery_quote_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuote')); }
     /** The earlier delivery quote this quote was priced from. Omitted when it was not priced from one.
      * @return ?string
@@ -106,6 +107,11 @@ final class DeliveryQuote extends Model {
      */
     public function getInventoryReservationIds(): ?array { return $this->get('inventory_reservation_ids'); }
     public function hasInventoryReservationIds(): bool { return $this->has('inventory_reservation_ids'); }
+    /** True when a required delivery group has no option and a candidate lacks the requested stock.
+     * @return ?bool
+     */
+    public function getInventoryUnavailable(): ?bool { return $this->get('inventory_unavailable'); }
+    public function hasInventoryUnavailable(): bool { return $this->has('inventory_unavailable'); }
     /** Always present with an API key or dashboard credential. [] (Value): {@see DeliveryMerchantDiagnostic}. A merchant-only diagnostic explaining why a delivery method produced no option, with its outcome, recommended action, and eligibility mismatches.
      * @return ?list<DeliveryMerchantDiagnostic>
      */

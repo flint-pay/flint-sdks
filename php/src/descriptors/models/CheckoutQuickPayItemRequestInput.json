@@ -1,1 +1,1 @@
-{"shared":"CheckoutQuickPayItemRequest","dependencies":["CheckoutQuickPayItemRequest","MoneyValue","OrderLineItemTaxRequest"]}
+{"shared":"CheckoutQuickPayItemRequest","dependencies":["CheckoutQuickPayItemRequest","OrderLineItemTaxRequest","PlatformFeeMoney"]}

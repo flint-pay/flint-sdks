@@ -1,1 +1,1 @@
-{"shared":"WebhookSnapshotInventoryReservation","dependencies":["InventoryActionRequired","InventoryReservationLine","InventoryReservationOwner","InventoryRoutingSource","SharedCodec1444","SharedCodec1445","WebhookSnapshotInventoryReservation"]}
+{"shared":"WebhookSnapshotInventoryReservation","dependencies":["InventoryActionRequired","InventoryReservationLine","InventoryReservationOwner","InventoryRoutingSource","SharedCodec1445","SharedCodec1446","WebhookSnapshotInventoryReservation"]}

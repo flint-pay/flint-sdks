@@ -9,10 +9,11 @@ namespace Flint;
  * @property-read string|null $evaluation_status
  * @property-read string|null $expires_at
  * @property-read list<DeliveryInputRequirementPreviousAttributes>|null $input_requirements
+ * @property-read bool|null $inventory_unavailable
  * @property-read list<DeliveryMerchantDiagnosticPreviousAttributes>|null $merchant_diagnostics
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutDerivedDeliveryResourcePreviousAttributes extends Model {
-    /** @param array{'buyer_reasons'?: mixed, 'choice_groups'?: mixed, 'delivery_quote_id'?: mixed, 'delivery_selection_id'?: mixed, 'evaluation_status'?: mixed, 'expires_at'?: mixed, 'input_requirements'?: mixed, 'merchant_diagnostics'?: mixed, ...}|object $values */
+    /** @param array{'buyer_reasons'?: mixed, 'choice_groups'?: mixed, 'delivery_quote_id'?: mixed, 'delivery_selection_id'?: mixed, 'evaluation_status'?: mixed, 'expires_at'?: mixed, 'input_requirements'?: mixed, 'inventory_unavailable'?: mixed, 'merchant_diagnostics'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutDerivedDeliveryResourcePreviousAttributes')); }
     /** Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. anyOf[1] (Value): Array of string. Buyer-safe reasons a choice group has no available option. Groups with an available option contribute no reasons. anyOf[1][] (Value): string. anyOf[2] (Value): null.
      * @return list<string>|null
@@ -49,6 +50,11 @@ final class CheckoutDerivedDeliveryResourcePreviousAttributes extends Model {
      */
     public function getInputRequirements(): array|null { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
+    /** True when a required delivery group has no option and a candidate lacks the requested stock. anyOf[1] (Value): boolean. True when a required delivery group has no option and a candidate lacks the requested stock. anyOf[2] (Value): null.
+     * @return bool|null
+     */
+    public function getInventoryUnavailable(): bool|null { return $this->get('inventory_unavailable'); }
+    public function hasInventoryUnavailable(): bool { return $this->has('inventory_unavailable'); }
     /** Always present with an API key or dashboard credential. anyOf[1] (Value): Array of {@see DeliveryMerchantDiagnosticPreviousAttributes}. Always present with an API key or dashboard credential. anyOf[1][] (Value): {@see DeliveryMerchantDiagnosticPreviousAttributes}. anyOf[2] (Value): null.
      * @return list<DeliveryMerchantDiagnosticPreviousAttributes>|null
      */

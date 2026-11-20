@@ -8,7 +8,7 @@ namespace Flint;
 final class SplitReversalRequestInput extends Model {
     /** @param array{'amount_money': array{'amount': string, 'currency': string}|object, 'payment_split_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SplitReversalRequestInput')); }
-    /** Positive seller amount to take back, in the payment's currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency (Required): string. ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+    /** Positive seller amount to take back, in the payment's currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code. amount (Required): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      * @return array{'amount': string, 'currency': string}|object
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */

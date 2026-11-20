@@ -41,7 +41,7 @@ Field definitions: [shared fields](TaxCountryCoverageInput.md#taxcountrycoverage
 
 Legal business address used as the tax origin. In live mode, comes from processor-verified onboarding details before connect and the tax account snapshot once connected. In sandboxes, uses an explicit legal_address supplied at connect, otherwise verified live details or the merchant profile, and retains the attested snapshot for retries and reconnects. `null` when no legal address is available.
 
-Field definitions: [shared fields](SubscriptionResponse.md#subscriptionresponsedatadeliverydestinationaddress).
+Field definitions: [shared fields](OrderResponse.md#orderresponsedatacheckout_billing_contactaddress).
 
 ### TaxConnectionResponse.data.legal_address variant 1
 

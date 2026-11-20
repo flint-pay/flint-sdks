@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](MerchantReadinessUpdatedMerchantEvent.md#merchantreadinessupdatedmerchanteventdata-fields-1).
 
+### MerchantReadinessUpdatedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### MerchantReadinessUpdatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [MerchantReadinessUpdatedMerchantEvent.data fields 1.object](../models/MerchantReadinessUpdatedMerchantEvent.md#merchantreadinessupdatedmerchanteventdata-fields-1object).

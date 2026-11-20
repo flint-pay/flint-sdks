@@ -1,5 +1,23 @@
 # Changelog
 
+## 8.0.0-beta.9
+
+Node and PHP pin Flint `da08a16bf073a27374101e427430ade9f46cbf6d` at API date `2026-09-07` and SDK generator `06dde7ef2d3e39e1f608b8fe5b5a31d17e2d65a7`. This prerelease publishes to npm `next`. The `latest` tag stays on `7.0.0`.
+
+Local validation explains that currency codes must be uppercase, such as `USD`, and suggests `page_size` when a list call receives `limit`.
+
+The SDKs add `paymentIntents.blockAttemptSignals` (PHP `$client->paymentIntents->blockAttemptSignals()`) to block retained signals from a failed payment attempt. The refreshed contract also adds Quick Pay invoice draft updates, checkout billing contact details on eligible orders and order webhooks, and payment-link attribution on subscriptions.
+
+Tickets can return `payment_link_line_item_key` for the purchased ticket tier. Buyers can request a replacement variant when starting a return for exchange. Webhook entries in resource timelines can include recorded field changes.
+
+Subscription analytics report scheduled cancellations and billing holds separately. On paid orders, the price includes the original settled tip. Each tip reports its refund in `refunded_money`. Inventory level lists accept a `product_id` filter. Variant availability uses the sole active location that can allocate inventory when a merchant has no default routing source.
+
+Webhook test events can return a listener-stream result. Both result models expose the webhook event ID. Supported webhook events allow actor attribution, with event-specific actor models in PHP. Checkout session webhook snapshots omit the hosted checkout `url`.
+
+Delivery-method subscription counts require `billing_hold` and `canceling`. Older signed `delivery_method.*` snapshots, including resends, can omit those counts and fail SDK decoding. Buyer return eligibility lines require `exchange_variants`.
+
+Use the [beta.9 migration notes](MIGRATION.md#changes-in-800-beta9) to update calls and models affected by the refreshed contract.
+
 ## 8.0.0-beta.8
 
 Both SDKs pin Flint `dd5da3f91d534012098dcfabc95deb4fd4256c96` with API date `2026-09-07`. This prerelease publishes to npm `next`; `latest` stays on `7.0.0`.

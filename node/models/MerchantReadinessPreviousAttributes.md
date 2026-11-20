@@ -15,6 +15,7 @@
 | `payments` | Optional | [ReadinessAxisPreviousAttributes](../models/ReadinessAxisPreviousAttributes.md#readinessaxispreviousattributes) or null | Readiness to accept payments. |
 | `payouts` | Optional | [ReadinessAxisPreviousAttributes](../models/ReadinessAxisPreviousAttributes.md#readinessaxispreviousattributes) or null | Readiness to receive payouts. |
 | `requirements` | Optional | [ReadinessRequirementsPreviousAttributes](../models/ReadinessRequirementsPreviousAttributes.md#readinessrequirementspreviousattributes) or null | Account information still needed, grouped by when it is due. Each capability also lists the requirements that affect it. |
+| `review_blocks_captures` | Optional | boolean or null | `review_blocks_captures`: [declared alternatives](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributesreview_blocks_captures). |
 
 ### MerchantReadinessPreviousAttributes.capabilities
 
@@ -33,4 +34,18 @@ anyOf variant 2.
 ### MerchantReadinessPreviousAttributes.observed_at
 
 Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdataprevious_attributescreated_at).
+
+### MerchantReadinessPreviousAttributes.review_blocks_captures
+
+### MerchantReadinessPreviousAttributes.review_blocks_captures variant 1
+
+anyOf variant 1.
+
+- Value shape: boolean.  
+
+### MerchantReadinessPreviousAttributes.review_blocks_captures variant 2
+
+anyOf variant 2.
+
+- Value shape: null.  
 
