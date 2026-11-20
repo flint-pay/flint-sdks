@@ -34,7 +34,7 @@ function deliveryMethod(id) {
       current_delivery_method_revision_id: "dmetr_test",
       name: "Synthetic delivery method",
       status: "active",
-      subscription_counts: { active: 0, past_due: 0, paused: 0 },
+      subscription_counts: { active: 0, billing_hold: 0, canceling: 0, past_due: 0, paused: 0 },
       version: 1,
       type: "shipment",
       display_position: 0,
