@@ -12,7 +12,9 @@ Tickets can return `payment_link_line_item_key` for the purchased ticket tier. B
 
 Subscription analytics report scheduled cancellations and billing holds separately. On paid orders, the price includes the original settled tip. Each tip reports its refund in `refunded_money`. Inventory level lists accept a `product_id` filter. Variant availability uses the sole active location that can allocate inventory when a merchant has no default routing source.
 
-Webhook test events can return a listener-stream result. Both result models expose the webhook event ID. Webhook schemas allow actor attribution for supported events, and checkout session webhook snapshots omit the hosted checkout `url`.
+Webhook test events can return a listener-stream result. Both result models expose the webhook event ID. Supported webhook events allow actor attribution, with event-specific actor models in PHP. Checkout session webhook snapshots omit the hosted checkout `url`.
+
+Delivery-method subscription counts require `billing_hold` and `canceling`. Older signed `delivery_method.*` snapshots, including resends, can omit those counts and fail SDK decoding. Buyer return eligibility lines require `exchange_variants`.
 
 Use the [beta.9 migration notes](MIGRATION.md#changes-in-800-beta9) to update calls and models affected by the refreshed contract.
 
