@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# SubscriptionListResponse to SubscriptionStatusCounts
+# SubscriptionLineItemPreviousAttributes to SubscriptionSettingsRequestInput
 
+- [SubscriptionLineItemPreviousAttributes](SubscriptionLineItemPreviousAttributes.md)
+- [SubscriptionLineItemsListResponse](SubscriptionLineItemsListResponse.md)
 - [SubscriptionListResponse](SubscriptionListResponse.md)
 - [SubscriptionOffer](SubscriptionOffer.md)
 - [SubscriptionOfferLineItemRequest](SubscriptionOfferLineItemRequest.md)
@@ -100,6 +102,4 @@
 - [SubscriptionServiceLocationRequestInput](SubscriptionServiceLocationRequestInput.md)
 - [SubscriptionSettings](SubscriptionSettings.md)
 - [SubscriptionSettingsRequestInput](SubscriptionSettingsRequestInput.md)
-- [SubscriptionSnapshotMetrics](SubscriptionSnapshotMetrics.md)
-- [SubscriptionStatusCounts](SubscriptionStatusCounts.md)
 

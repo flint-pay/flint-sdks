@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# ReturnReceiptLineItemInputExcess to RiskPredicateNodeRequest
+# ReturnReceiptCreatedMerchantEvent to RiskPredicateNodeNotRequest
 
+- [ReturnReceiptCreatedMerchantEvent](ReturnReceiptCreatedMerchantEvent.md)
+- [ReturnReceiptLineItem](ReturnReceiptLineItem.md)
 - [ReturnReceiptLineItemInputExcess](ReturnReceiptLineItemInputExcess.md)
 - [ReturnReceiptLineItemInputExcessInput](ReturnReceiptLineItemInputExcessInput.md)
 - [ReturnReceiptLineItemInputMatched](ReturnReceiptLineItemInputMatched.md)
@@ -100,6 +102,4 @@
 - [RiskPredicateNodeMoneyComparisonRequestInput](RiskPredicateNodeMoneyComparisonRequestInput.md)
 - [RiskPredicateNodeNot](RiskPredicateNodeNot.md)
 - [RiskPredicateNodeNotRequest](RiskPredicateNodeNotRequest.md)
-- [RiskPredicateNodeNotRequestInput](RiskPredicateNodeNotRequestInput.md)
-- [RiskPredicateNodeRequest](RiskPredicateNodeRequest.md)
 

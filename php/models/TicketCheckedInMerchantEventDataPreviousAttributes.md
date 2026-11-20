@@ -18,6 +18,7 @@ Response model.
 | `order_id` | Optional | string or null | The order that purchased this ticket. `order_id`: [declared alternatives](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributesorder_id). |
 | `order_line_item_id` | Optional | string or null | The purchased ticket tier. `order_line_item_id`: [declared alternatives](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributesorder_line_item_id). |
 | `payment_link_id` | Optional | string or null | The event payment link. `payment_link_id`: [declared alternatives](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributespayment_link_id). |
+| `payment_link_line_item_key` | Optional | string or null | The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key. `payment_link_line_item_key`: [declared alternatives](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributespayment_link_line_item_key). |
 | `status` | Optional | string or null | The admission lifecycle. Values: `"issued"`, `"checked_in"`, `"voided"`. `status`: [declared alternatives](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributesstatus). |
 | `supported_actions` | Optional | Array of string or null | Actions currently offered for this ticket. Items values: `"check_in"`, `"undo_check_in"`, `"void"`. `supported_actions`: [declared alternatives](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributessupported_actions). |
 | `ticket_id` | Optional | string or null | Unique ticket identity with the tkt_ prefix. `ticket_id`: [declared alternatives](../models/TicketCheckedInMerchantEventDataPreviousAttributes.md#ticketcheckedinmerchanteventdatapreviousattributesticket_id). |
@@ -229,6 +230,20 @@ anyOf variant 1: The event payment link..
 anyOf variant 2.
 
 - Value shape: null. The event payment link. 
+
+### TicketCheckedInMerchantEventDataPreviousAttributes.payment_link_line_item_key
+
+### TicketCheckedInMerchantEventDataPreviousAttributes.payment_link_line_item_key variant 1
+
+anyOf variant 1: The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key..
+
+- Value shape: string. The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key. 
+
+### TicketCheckedInMerchantEventDataPreviousAttributes.payment_link_line_item_key variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key. 
 
 ### TicketCheckedInMerchantEventDataPreviousAttributes.status
 

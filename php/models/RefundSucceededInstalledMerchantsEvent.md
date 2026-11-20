@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](RefundFailedMerchantEvent.md#refundfailedmerchanteventdata-fields-1).
 
+### RefundSucceededInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### RefundSucceededInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [RefundCreatedMerchantEvent.data fields 1.object](../models/RefundCreatedMerchantEvent.md#refundcreatedmerchanteventdata-fields-1object).

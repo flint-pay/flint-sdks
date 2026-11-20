@@ -87,7 +87,7 @@ Identity that initiated this action, with its label recorded at the time. Null w
 
 ### PaymentIntentActivityListResponse.data[].actor variant 1
 
-anyOf PaymentActivityActor: The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed..
+anyOf PaymentActivityActor: The teammate, API key, or app that initiated the action..
 
 - Required: `label`, `resource_id`, `resource_type`.
 

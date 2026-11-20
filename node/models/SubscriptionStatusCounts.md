@@ -10,11 +10,13 @@ Counts of current subscriptions by status, across currencies.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `active_count` | Required | integer | Current subscriptions with this status, across currencies. Selected by current subscription status, independent of the requested half-open period. Format: `int64`. |
+| `active_count` | Required | integer | Active subscriptions across currencies, excluding subscriptions scheduled to cancel or on billing hold. Format: `int64`. |
+| `billing_hold_count` | Required | integer | Active subscriptions across currencies with billing on hold or being retried, excluding subscriptions scheduled to cancel. Format: `int64`. |
 | `canceled_count` | Required | integer | Current subscriptions with this status, across currencies. Selected by current subscription status, independent of the requested half-open period. Format: `int64`. |
+| `canceling_count` | Required | integer | Active or trialing subscriptions across currencies that are scheduled to cancel at the end of their current period. Format: `int64`. |
 | `incomplete_count` | Required | integer | Current subscriptions with this status, across currencies. Selected by current subscription status, independent of the requested half-open period. Format: `int64`. |
 | `past_due_count` | Required | integer | Current subscriptions with this status, across currencies. Selected by current subscription status, independent of the requested half-open period. Format: `int64`. |
 | `paused_count` | Required | integer | Current subscriptions with this status, across currencies. Selected by current subscription status, independent of the requested half-open period. Format: `int64`. |
 | `scheduled_count` | Required | integer | Current subscriptions with this status, across currencies. Selected by current subscription status, independent of the requested half-open period. Format: `int64`. |
-| `trialing_count` | Required | integer | Current subscriptions with this status, across currencies. Selected by current subscription status, independent of the requested half-open period. Format: `int64`. |
+| `trialing_count` | Required | integer | Trialing subscriptions across currencies, excluding subscriptions scheduled to cancel. Format: `int64`. |
 

@@ -54,7 +54,8 @@ export type {
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateInventoryBackorderPolicyRequest, makeCreateInventoryItemRequest } from '../declarations/types-83.js';
 export { makeInventoryBackorderPolicyRequest } from '../declarations/types-87.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateInventoryItemRequest } from '../declarations/types-94.js';
 export interface InventoryItemsResource {
     /**

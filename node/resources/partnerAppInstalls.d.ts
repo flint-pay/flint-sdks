@@ -44,7 +44,7 @@ export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { PartnerEnvironmentGrant, PartnerEnvironmentGrantPaymentSplits, PartnerAppPlatformContact } from '../declarations/types-50.js';
 export type { PlatformFeeCap } from '../declarations/types-56.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface PartnerAppInstallsResource {
     /**
  * Lists partner app installs on the authenticated merchant, across live and test mode. Requires a

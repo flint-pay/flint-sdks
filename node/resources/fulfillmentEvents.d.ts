@@ -47,7 +47,7 @@ export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeCreateFulfillmentEventRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface FulfillmentEventsResource {
     /**
  * Records an observational event for a fulfillment or one of its shipments or packages. Read

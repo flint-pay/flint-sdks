@@ -1,5 +1,7 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    MoneyValueInput,
+    OAuthRevokeRequestInput,
     OAuthTokenRequestInput,
     OAuthTokenRequestAuthorizationCodeInput,
     OAuthTokenRequestClientCredentialsInput,
@@ -73,10 +75,10 @@ import type {
 import type {
     PartnerAppPermissionManifestEntryRequestInput,
     PartnerAppPlatformProfileRequestInput,
-    PauseSubscriptionRequestInput,
-    PayOrderRequestInput,
-    PayOrderRequestConfirmPaymentIntentsInput
+    PauseSubscriptionRequestInput
 } from './types-50.js';
+export declare function makeMoneyValue(value: InputValue<MoneyValueInput>): Model<MoneyValueInput>;
+export declare function makeOAuthRevokeRequest(value: InputValue<OAuthRevokeRequestInput>): Model<OAuthRevokeRequestInput>;
 export declare function makeOAuthTokenRequest(value: InputValue<OAuthTokenRequestInput>): Model<OAuthTokenRequestInput>;
 export declare function makeOAuthTokenRequestAuthorizationCode(value: InputValue<OAuthTokenRequestAuthorizationCodeInput>): Model<OAuthTokenRequestAuthorizationCodeInput>;
 export declare function makeOAuthTokenRequestClientCredentials(value: InputValue<OAuthTokenRequestClientCredentialsInput>): Model<OAuthTokenRequestClientCredentialsInput>;
@@ -140,6 +142,3 @@ export declare function makePartnerAppPaymentSplitsRequest(value: InputValue<Par
 export declare function makePartnerAppPermissionManifestEntryRequest(value: InputValue<PartnerAppPermissionManifestEntryRequestInput>): Model<PartnerAppPermissionManifestEntryRequestInput>;
 export declare function makePartnerAppPlatformProfileRequest(value: InputValue<PartnerAppPlatformProfileRequestInput>): Model<PartnerAppPlatformProfileRequestInput>;
 export declare function makePauseSubscriptionRequest(value: InputValue<PauseSubscriptionRequestInput>): Model<PauseSubscriptionRequestInput>;
-export declare function makePayOrderRequest(value: InputValue<Exclude<PayOrderRequestInput & object, readonly unknown[]>>): Model<Exclude<PayOrderRequestInput & object, readonly unknown[]>>;
-export declare function makePayOrderRequest(value: InputValue<PayOrderRequestInput>): Model<PayOrderRequestInput>;
-export declare function makePayOrderRequestConfirmPaymentIntents(value: InputValue<PayOrderRequestConfirmPaymentIntentsInput>): Model<PayOrderRequestConfirmPaymentIntentsInput>;

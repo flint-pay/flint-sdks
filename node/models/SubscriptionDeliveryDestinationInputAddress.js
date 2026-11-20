@@ -1,8 +1,8 @@
-import { d8146 as c0, d8144 as c1, d8145 as c2 } from '../descriptors/data/357.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d7562 as c3 } from '../descriptors/data/316.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d7562 as d7562 } from '../descriptors/data/316.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import { d8148 as c0, d8146 as c1, d8147 as c2 } from '../descriptors/data/358.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d7564 as c3 } from '../descriptors/data/317.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d7564 as d7564 } from '../descriptors/data/317.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7562;
+const read = d7564;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["SharedCodec2"]:c1(),["SharedCodec3"]:c2(),["SubscriptionDeliveryDestinationInputAddress"]:c3()}); }
 export { codec as _validate };

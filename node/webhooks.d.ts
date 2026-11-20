@@ -282,13 +282,14 @@ export type {
 export type { PromotionUpdatedEvent, ReaderArchivedEvent, ReaderCreatedEvent } from './declarations/types-59.js';
 export type { ReaderUpdatedEvent, RefundCreatedEvent, RefundFailedEvent, RefundPartiallySucceededEvent } from './declarations/types-60.js';
 export type { RefundSucceededEvent, RefundUpdatedEvent, ReportFailedEvent } from './declarations/types-61.js';
-export type { ReportSucceededEvent, ReturnCanceledEvent, ReturnCompletedEvent } from './declarations/types-62.js';
+export type { ReportSucceededEvent, ReturnCanceledEvent } from './declarations/types-62.js';
 export type {
     ReturnDispositionCreatedEvent,
     ReturnDispositionUpdatedEvent,
     ReturnInspectionAcceptanceDecidedEvent,
     ReturnInspectionCreatedEvent,
     ReturnInspectionSupersededEvent,
+    ReturnCompletedEvent,
     ReturnCreatedEvent,
     ReturnDecisionRecordedEvent
 } from './declarations/types-63.js';

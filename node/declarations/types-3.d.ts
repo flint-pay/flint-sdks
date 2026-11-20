@@ -43,8 +43,8 @@ import type { GiftCardPurchaseSnapshot } from './types-30.js';
 import type { Image } from './types-31.js';
 import type { LineItemInventorySnapshot } from './types-40.js';
 import type { PurchasedGiftCard } from './types-59.js';
-import type { SelectedProductOption, StripeClientSetup } from './types-68.js';
-import type { SubscribedLine } from './types-69.js';
+import type { SelectedProductOption } from './types-68.js';
+import type { SubscribedLine, StripeClientSetup } from './types-69.js';
 import type { Weight } from './types-80.js';
 import type { PaymentAttemptGiftCardRedemption, PaymentErrorSummary, PaymentFulfillmentHold } from './types-51.js';
 import type { PendingPaymentAction } from './types-55.js';
@@ -52,7 +52,12 @@ import type { DeliveryChargeTaxCalculationRequest } from './types-18.js';
 import type { TaxBreakdown } from './types-73.js';
 import type { TaxReverseCharge } from './types-74.js';
 import type { Address } from './types-0.js';
-import type { ReturnHandoffRequirementLineItem, ReturnFinancialSummary, ReturnEligibilitySelection } from './types-63.js';
+import type {
+    ReturnHandoffRequirementLineItem,
+    ReturnFinancialSummary,
+    ReturnEligibilitySelection,
+    ReturnExchangeVariant
+} from './types-63.js';
 import type { PaymentSourceSummary } from './types-54.js';
 import type { ExpandedCustomerSummary, ExpandedCustomerSummaryPreviousAttributes } from './types-26.js';
 import type { RefundLineItemAllocation, RefundLineItemAllocationPreviousAttributes } from './types-60.js';
@@ -1053,10 +1058,12 @@ export type BuyerOrderTax = {
     /**
      * Read-only, sorted ISO 3166-1 alpha-2 destination countries where automatic tax can calculate
      * every taxable line. Present only when tax is enabled in automatic mode. US destinations are
-     * covered for every category. In Canada, EU member states, GB, AU and NZ, only digital_goods,
-     * software and saas are covered; services, professional_services, physical goods and taxable
-     * charges are unsupported there. Read tax-connection.coverage for category scopes. Intersect
-     * with delivery supported_countries when collecting a shipping address. [] (Value): string.
+     * covered for categories supported by automatic tax. In Canada, EU member states, GB, AU and
+     * NZ, only digital_goods, software and saas are covered. Services, professional services,
+     * physical goods and taxable charges are unsupported outside the US. The list is empty when an
+     * unsettled taxable item has an unsupported category or the checkout needs an active tax
+     * connection. Read tax-connection.coverage for category scopes. Intersect with delivery
+     * supported_countries when collecting a shipping address. [] (Value): string.
      */
     "supported_countries"?: Array<string>;
     /**
@@ -2979,6 +2986,13 @@ export type BuyerReturnEligibilityPreviewLineItem = {
      */
     "eligibility": BuyerReturnLineItemEligibility;
     /**
+     * Available alternatives for an exchange of this product. Empty when alternatives were omitted
+     * from the request or none are available. [] (Value): {@link ReturnExchangeVariant}. One
+     * in-stock or untracked alternative variant of the returned product. Price and stock can
+     * change before resolution.
+     */
+    "exchange_variants": Array<ReturnExchangeVariant>;
+    /**
      * ID of the fulfillment the units were delivered in. Example:
      * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      */
@@ -3240,6 +3254,11 @@ export type BuyerReturnLineItem = {
      * enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      */
     "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
+    /**
+     * ID of the variant requested for this exchange. The merchant chooses the replacement and
+     * confirms its price during resolution.
+     */
+    "requested_variant"?: string;
     /**
      * Whether the value for this line's approved quantity has been delivered. Value enum:
      * "not_selected", "pending", "requires_action", "completed", "failed".
@@ -3591,11 +3610,17 @@ export type BuyerReturnPolicyEvaluationLineItem = {
      * Release gate for every resolution type, including exchanges and replacements. Released after
      * the Return is approved. Released after the buyer hands back the required merchandise.
      * Released after the required merchandise is received. Released after the required merchandise
-     * passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release.
-     * Value enum: "after_approval", "after_handoff", "after_receipt", "after_inspection",
-     * "manual".
+     * passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. The
+     * policy evaluation did not assign a release gate to this line. Value enum: "after_approval",
+     * "after_handoff", "after_receipt", "after_inspection", "manual", "unspecified".
      */
-    "release_timing": "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
+    "release_timing": "after_approval"
+        | "after_handoff"
+        | "after_receipt"
+        | "after_inspection"
+        | "manual"
+        | "unspecified"
+        | (string & {});
     /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
     "requested_quantity": number;
     /**
@@ -3745,10 +3770,9 @@ export type BuyerReturnRefundEstimate = {
      */
     "store_credit_destination": "new_gift_card" | (string & {});
     /**
-     * Estimated original-payment funding in refund order. Amounts sum to buyer_refund_amount_money
-     * plus buyer_store_credit_amount_money less refund_shortfall_money. Empty when no value is
-     * payable. [] (Value): {@link ReturnRefundTenderEstimate}. One estimated original-payment
-     * destination for a return refund.
+     * Estimated original-payment destinations for the payable part of buyer_refund_amount_money,
+     * in refund order. Excludes store credit. Empty when no refund is payable. [] (Value): {@link
+     * ReturnRefundTenderEstimate}. One estimated original-payment destination for a return refund.
      */
     "tender_estimates": Array<ReturnRefundTenderEstimate>;
 };

@@ -72,7 +72,7 @@ export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-19.js';
 export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-82.js';
 export { makeDeliveryRateCallbackConfigurationPatchRequest, makeDeliveryRateCallbackConfigurationRequest } from '../declarations/types-86.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-93.js';
 export { makeWebhookSigningMethod } from '../declarations/types-95.js';
 export interface DeliveryRateCallbacksResource {

@@ -1,12 +1,12 @@
-import { d8056 as c0, d8057 as c1, d8063 as c2, d8068 as c8 } from '../descriptors/data/352.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d7918 as c3 } from '../descriptors/data/342.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d8048 as c4, d8049 as c5, d8047 as c6, d8039 as c7, d8045 as c9 } from '../descriptors/data/351.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d7736 as c10 } from '../descriptors/data/324.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d7736 as d7736 } from '../descriptors/data/324.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import { d8058 as c0, d8059 as c1, d8065 as c2, d8070 as c8 } from '../descriptors/data/353.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d7920 as c3 } from '../descriptors/data/343.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d8050 as c4, d8051 as c5, d8049 as c6, d8041 as c7, d8047 as c9 } from '../descriptors/data/352.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d7738 as c10 } from '../descriptors/data/325.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d7738 as d7738 } from '../descriptors/data/325.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7736;
+const read = d7738;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ImageInputFile"]:c0(),["ImageInputSourceURL"]:c1(),["ImageRequest"]:c2(),["MoneyValue"]:c3(),["SharedCodec3069"]:c4(),["SharedCodec3070"]:c5(),["SharedCodec3071"]:c6(),["SharedCodec3072"]:c7(),["SharedCodec3073"]:c8(),["UpdateBundleComponentRequest"]:c9(),["UpdateBundleRequest"]:c10()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ImageInputFile"]:c0(),["ImageInputSourceURL"]:c1(),["ImageRequest"]:c2(),["MoneyValue"]:c3(),["SharedCodec3071"]:c4(),["SharedCodec3072"]:c5(),["SharedCodec3073"]:c6(),["SharedCodec3074"]:c7(),["SharedCodec3075"]:c8(),["UpdateBundleComponentRequest"]:c9(),["UpdateBundleRequest"]:c10()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateBundleRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

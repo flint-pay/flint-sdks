@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](InvoiceDeliveryAttemptFailedMerchantEvent.md#invoicedeliveryattemptfailedmerchanteventdata-fields-1).
 
+### InvoiceDeliveryAttemptSuppressedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### InvoiceDeliveryAttemptSuppressedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [InvoiceDeliveryAttemptFailedMerchantEvent.data fields 1.object](../models/InvoiceDeliveryAttemptFailedMerchantEvent.md#invoicedeliveryattemptfailedmerchanteventdata-fields-1object).

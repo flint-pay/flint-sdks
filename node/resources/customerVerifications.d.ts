@@ -45,7 +45,7 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export type { CreateCustomerVerificationRequestInput } from '../declarations/types-9.js';
 export { makeConfirmCustomerVerificationRequest } from '../declarations/types-81.js';
 export { makeCreateCustomerVerificationRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface CustomerVerificationsResource {
     /**
  * Confirms the Flint-sent code and returns a verification that can link guest purchases for its

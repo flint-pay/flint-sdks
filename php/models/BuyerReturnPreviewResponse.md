@@ -65,6 +65,7 @@ An order line item's Return eligibility, catalog details, and suggested return r
 | `can_buyer_request` | Required | boolean | Whether the buyer can request this line themselves, through a customer session, right now. False when no policy covers the item, when it is not eligible, or when the store offers no reason for it. Read eligibility.reason and ineligibility_reason to say why. |
 | `description` | Optional | string | Description of the item as sold. |
 | `eligibility` | Required | [BuyerReturnLineItemEligibility](../models/BuyerReturnLineItemEligibility.md#buyerreturnlineitemeligibility) | How the policy judged this line. An item's Return eligibility, eligible quantity, allowed resolution types, and eligibility reasons shown to the buyer. `eligibility`: [field definitions](../models/BuyerReturnPreviewResponse.md#buyerreturnpreviewresponsedataeligibility-fields-1line_itemseligibility). |
+| `exchange_variants` | Required | Array of object | Available alternatives for an exchange of this product. Empty when alternatives were omitted from the request or none are available. `exchange_variants[]`: [field definitions](../models/BuyerReturnPreviewResponse.md#buyerreturnpreviewresponsedataeligibility-fields-1line_itemsexchange_variants). |
 | `fulfillment_id` | Required | string | ID of the fulfillment the units were delivered in. Example: `"ful_01KEZF7C00F24WVSTTWR1FQX5T"`. |
 | `image` | Optional | [Image](../models/Image.md#image) | Image of the item as sold. An image with its URL, size, and alt text. |
 | `modifiers` | Required | Array of [BuyerReturnLineItemModifier](../models/BuyerReturnLineItemModifier.md#buyerreturnlineitemmodifier) | Modifiers selected on the order line, with their prices. `modifiers[]`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedataline_itemsmodifiers). |
@@ -115,6 +116,17 @@ How the policy judged this line. An item's Return eligibility, eligible quantity
 ### BuyerReturnPreviewResponse.data.eligibility fields 1.line_items[].eligibility.decision_proposal
 
 Field definitions: [BuyerReturnResponse.data.line_items[].eligibility.decision_proposal](../models/BuyerReturnResponse.md#buyerreturnresponsedataline_itemseligibilitydecision_proposal).
+
+### BuyerReturnPreviewResponse.data.eligibility fields 1.line_items[].exchange_variants[]
+
+One in-stock or untracked alternative variant of the returned product. Price and stock can change before resolution.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `available_quantity` | Optional | integer | Available whole units, capped at the eligible return quantity. Omitted when stock is not tracked. Format: `int64`. |
+| `name` | Required | string | Name of the alternative variant. |
+| `unit_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Current unit price from the catalog. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `variant_id` | Required | string | Catalog variant ID to send as requested_variant. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
 
 ### BuyerReturnPreviewResponse.data.eligibility fields 1.line_items[].modifiers[]
 
@@ -182,7 +194,7 @@ An order line's eligibility, allowed resolutions, return requirements, and catal
 | `product_id` | Optional | string | ID of the catalog product the item was sold from. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
 | `reason` | Required | string | Why the line got this result. Values: [9 declared values](#buyerreturnpreviewresponsedataeligibility-fields-1policy_evaluationline_items-reason-values). |
 | `receiving_location_id` | Optional | string | ID of the Location the policy sends returned merchandise to. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
-| `release_timing` | Required | string | Release gate for every resolution type, including exchanges and replacements. Released after the Return is approved. Released after the buyer hands back the required merchandise. Released after the required merchandise is received. Released after the required merchandise passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. Values: `"after_approval"`, `"after_handoff"`, `"after_receipt"`, `"after_inspection"`, `"manual"`. |
+| `release_timing` | Required | string | Release gate for every resolution type, including exchanges and replacements. Released after the Return is approved. Released after the buyer hands back the required merchandise. Released after the required merchandise is received. Released after the required merchandise passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. The policy evaluation did not assign a release gate to this line. Values: `"after_approval"`, `"after_handoff"`, `"after_receipt"`, `"after_inspection"`, `"manual"`, `"unspecified"`. |
 | `requested_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `selected_options` | Required | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | Variant options selected for the item, such as size and color. `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
 | `sku` | Optional | string | SKU of the item as sold. |

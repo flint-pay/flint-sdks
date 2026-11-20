@@ -12,6 +12,7 @@ namespace Flint;
  * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read string $payment_link_id
+ * @property-read ?string $payment_link_line_item_key
  * @property-read string $status
  * @property-read list<string> $supported_actions
  * @property-read string $ticket_id
@@ -22,7 +23,7 @@ namespace Flint;
  * @property-read string|null $voided_at
  * Presence-aware response; omitted optional fields return null. */
 final class TicketCheckedInInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'admission_code'?: string, 'admission_code_last4': string, 'attendee_name': string|null, 'check_in_method': mixed, 'checked_in_at': string|null, 'created_at': string, 'order'?: mixed, 'order_id': string, 'order_line_item_id': string, 'payment_link_id': string, 'status': string, 'supported_actions': list<string>, 'ticket_id': string, 'ticket_number': string, 'tier_name'?: string, 'updated_at': string, 'version': int, 'voided_at': string|null, ...}|object $values */
+    /** @param array{'admission_code'?: string, 'admission_code_last4': string, 'attendee_name': string|null, 'check_in_method': mixed, 'checked_in_at': string|null, 'created_at': string, 'order'?: mixed, 'order_id': string, 'order_line_item_id': string, 'payment_link_id': string, 'payment_link_line_item_key'?: string, 'status': string, 'supported_actions': list<string>, 'ticket_id': string, 'ticket_number': string, 'tier_name'?: string, 'updated_at': string, 'version': int, 'voided_at': string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TicketCheckedInInstalledMerchantsEventDataObject')); }
     /** The ticket's 16-character Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid checkout session's own paying credential receives it, on its own order's tickets that aren't voided. A checkout credential from a launch URL a merchant reads or requests after payment never does. Returned only to the checkout credential; never in webhook payloads. minLength: 16.
      * @return ?string
@@ -74,6 +75,11 @@ final class TicketCheckedInInstalledMerchantsEventDataObject extends Model {
      */
     public function getPaymentLinkId(): string { return $this->get('payment_link_id'); }
     public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
+    /** The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key.
+     * @return ?string
+     */
+    public function getPaymentLinkLineItemKey(): ?string { return $this->get('payment_link_line_item_key'); }
+    public function hasPaymentLinkLineItemKey(): bool { return $this->has('payment_link_line_item_key'); }
     /** The admission lifecycle. Value enum: "issued", "checked_in", "voided".
      * @return string
      */

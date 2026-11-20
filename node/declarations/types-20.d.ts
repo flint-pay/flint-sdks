@@ -133,12 +133,13 @@ export type DeliveryMethodCreatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * first. Ties go to the lower display_position, then the method ID. Null never recommends the
      * method. Format: int32. object.status (Required): string. Current method lifecycle status.
      * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1.
+     * SubscriptionCounts}. How many subscriptions use this method, by status. Delivery usage
+     * counts by stored status, with separate subsets for active subscriptions that are canceling
+     * or on billing hold. object.type (Required): string. Delivery mode this method offers. Value
+     * enum: "shipment", "local_delivery", "pickup". object.updated_at (Required): string. Time the
+     * method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
+     * minimum: 1.
      */
     "data"?: {
         /**
@@ -169,12 +170,12 @@ export type DeliveryMethodCreatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * lower display_position, then the method ID. Null never recommends the method. Format:
          * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
          * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
+         * many subscriptions use this method, by status. Delivery usage counts by stored status,
+         * with separate subsets for active subscriptions that are canceling or on billing hold.
+         * type (Required): string. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". updated_at (Required): string. Time the method last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
          */
         "object": {
             /**
@@ -228,8 +229,9 @@ export type DeliveryMethodCreatedInstalledMerchantsEvent = (Exclude<PartnerWebho
             /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
             "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
+             * How many subscriptions use this method, by status. Delivery usage counts by stored
+             * status, with separate subsets for active subscriptions that are canceling or on
+             * billing hold.
              */
             "subscription_counts": SubscriptionCounts;
             /**
@@ -316,12 +318,13 @@ export type DeliveryMethodCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * first. Ties go to the lower display_position, then the method ID. Null never recommends the
      * method. Format: int32. object.status (Required): string. Current method lifecycle status.
      * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1.
+     * SubscriptionCounts}. How many subscriptions use this method, by status. Delivery usage
+     * counts by stored status, with separate subsets for active subscriptions that are canceling
+     * or on billing hold. object.type (Required): string. Delivery mode this method offers. Value
+     * enum: "shipment", "local_delivery", "pickup". object.updated_at (Required): string. Time the
+     * method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
+     * minimum: 1.
      */
     "data"?: {
         /**
@@ -352,12 +355,12 @@ export type DeliveryMethodCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * lower display_position, then the method ID. Null never recommends the method. Format:
          * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
          * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
+         * many subscriptions use this method, by status. Delivery usage counts by stored status,
+         * with separate subsets for active subscriptions that are canceling or on billing hold.
+         * type (Required): string. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". updated_at (Required): string. Time the method last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
          */
         "object": {
             /**
@@ -411,8 +414,9 @@ export type DeliveryMethodCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
             /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
             "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
+             * How many subscriptions use this method, by status. Delivery usage counts by stored
+             * status, with separate subsets for active subscriptions that are canceling or on
+             * billing hold.
              */
             "subscription_counts": SubscriptionCounts;
             /**
@@ -567,16 +571,17 @@ export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerW
      * first. Ties go to the lower display_position, then the method ID. Null never recommends the
      * method. Format: int32. object.status (Required): string. Current method lifecycle status.
      * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status. Delivery usage
+     * counts by stored status, with separate subsets for active subscriptions that are canceling
+     * or on billing hold. object.type (Required): string. Delivery mode this method offers. Value
+     * enum: "shipment", "local_delivery", "pickup". object.updated_at (Required): string. Time the
+     * method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
+     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link
      * DeliveryMethodConfigurationPreviousAttributes} or null. Current eligibility, pricing,
      * origin, estimate, and tax configuration. previous_attributes.configuration.anyOf[1] (Value):
      * {@link DeliveryMethodConfigurationPreviousAttributes}.
@@ -677,12 +682,12 @@ export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerW
          * lower display_position, then the method ID. Null never recommends the method. Format:
          * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
          * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
+         * many subscriptions use this method, by status. Delivery usage counts by stored status,
+         * with separate subsets for active subscriptions that are canceling or on billing hold.
+         * type (Required): string. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". updated_at (Required): string. Time the method last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
          */
         "object": {
             /**
@@ -736,8 +741,9 @@ export type DeliveryMethodDeactivatedInstalledMerchantsEvent = (Exclude<PartnerW
             /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
             "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
+             * How many subscriptions use this method, by status. Delivery usage counts by stored
+             * status, with separate subsets for active subscriptions that are canceling or on
+             * billing hold.
              */
             "subscription_counts": SubscriptionCounts;
             /**
@@ -993,16 +999,17 @@ export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * first. Ties go to the lower display_position, then the method ID. Null never recommends the
      * method. Format: int32. object.status (Required): string. Current method lifecycle status.
      * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status. Delivery usage
+     * counts by stored status, with separate subsets for active subscriptions that are canceling
+     * or on billing hold. object.type (Required): string. Delivery mode this method offers. Value
+     * enum: "shipment", "local_delivery", "pickup". object.updated_at (Required): string. Time the
+     * method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
+     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link
      * DeliveryMethodConfigurationPreviousAttributes} or null. Current eligibility, pricing,
      * origin, estimate, and tax configuration. previous_attributes.configuration.anyOf[1] (Value):
      * {@link DeliveryMethodConfigurationPreviousAttributes}.
@@ -1103,12 +1110,12 @@ export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * lower display_position, then the method ID. Null never recommends the method. Format:
          * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
          * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
+         * many subscriptions use this method, by status. Delivery usage counts by stored status,
+         * with separate subsets for active subscriptions that are canceling or on billing hold.
+         * type (Required): string. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". updated_at (Required): string. Time the method last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
          */
         "object": {
             /**
@@ -1162,8 +1169,9 @@ export type DeliveryMethodDeactivatedMerchantEvent = (Exclude<MerchantWebhookEnv
             /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
             "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
+             * How many subscriptions use this method, by status. Delivery usage counts by stored
+             * status, with separate subsets for active subscriptions that are canceling or on
+             * billing hold.
              */
             "subscription_counts": SubscriptionCounts;
             /**
@@ -2343,16 +2351,17 @@ export type DeliveryMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * first. Ties go to the lower display_position, then the method ID. Null never recommends the
      * method. Format: int32. object.status (Required): string. Current method lifecycle status.
      * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status. Delivery usage
+     * counts by stored status, with separate subsets for active subscriptions that are canceling
+     * or on billing hold. object.type (Required): string. Delivery mode this method offers. Value
+     * enum: "shipment", "local_delivery", "pickup". object.updated_at (Required): string. Time the
+     * method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
+     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link
      * DeliveryMethodConfigurationPreviousAttributes} or null. Current eligibility, pricing,
      * origin, estimate, and tax configuration. previous_attributes.configuration.anyOf[1] (Value):
      * {@link DeliveryMethodConfigurationPreviousAttributes}.
@@ -2453,12 +2462,12 @@ export type DeliveryMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * lower display_position, then the method ID. Null never recommends the method. Format:
          * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
          * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
+         * many subscriptions use this method, by status. Delivery usage counts by stored status,
+         * with separate subsets for active subscriptions that are canceling or on billing hold.
+         * type (Required): string. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". updated_at (Required): string. Time the method last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
          */
         "object": {
             /**
@@ -2512,8 +2521,9 @@ export type DeliveryMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebho
             /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
             "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
+             * How many subscriptions use this method, by status. Delivery usage counts by stored
+             * status, with separate subsets for active subscriptions that are canceling or on
+             * billing hold.
              */
             "subscription_counts": SubscriptionCounts;
             /**
@@ -2769,16 +2779,17 @@ export type DeliveryMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * first. Ties go to the lower display_position, then the method ID. Null never recommends the
      * method. Format: int32. object.status (Required): string. Current method lifecycle status.
      * Value enum: "active", "inactive", "archived". object.subscription_counts (Required): {@link
-     * SubscriptionCounts}. How many subscriptions use this method, by status. Counts of
-     * subscriptions by status: active, past due, and paused. object.type (Required): string.
-     * Delivery mode this method offers. Value enum: "shipment", "local_delivery", "pickup".
-     * object.updated_at (Required): string. Time the method last changed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency
-     * version for method writes. Format: uint64. minimum: 1. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events. previous_attributes.configuration (Optional): {@link
+     * SubscriptionCounts}. How many subscriptions use this method, by status. Delivery usage
+     * counts by stored status, with separate subsets for active subscriptions that are canceling
+     * or on billing hold. object.type (Required): string. Delivery mode this method offers. Value
+     * enum: "shipment", "local_delivery", "pickup". object.updated_at (Required): string. Time the
+     * method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
+     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.configuration (Optional): {@link
      * DeliveryMethodConfigurationPreviousAttributes} or null. Current eligibility, pricing,
      * origin, estimate, and tax configuration. previous_attributes.configuration.anyOf[1] (Value):
      * {@link DeliveryMethodConfigurationPreviousAttributes}.
@@ -2879,12 +2890,12 @@ export type DeliveryMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * lower display_position, then the method ID. Null never recommends the method. Format:
          * int32. status (Required): string. Current method lifecycle status. Value enum: "active",
          * "inactive", "archived". subscription_counts (Required): {@link SubscriptionCounts}. How
-         * many subscriptions use this method, by status. Counts of subscriptions by status:
-         * active, past due, and paused. type (Required): string. Delivery mode this method offers.
-         * Value enum: "shipment", "local_delivery", "pickup". updated_at (Required): string. Time
-         * the method last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Optimistic-concurrency version for method writes. Format: uint64.
-         * minimum: 1.
+         * many subscriptions use this method, by status. Delivery usage counts by stored status,
+         * with separate subsets for active subscriptions that are canceling or on billing hold.
+         * type (Required): string. Delivery mode this method offers. Value enum: "shipment",
+         * "local_delivery", "pickup". updated_at (Required): string. Time the method last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Optimistic-concurrency version for method writes. Format: uint64. minimum: 1.
          */
         "object": {
             /**
@@ -2938,8 +2949,9 @@ export type DeliveryMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelop
             /** Current method lifecycle status. Value enum: "active", "inactive", "archived". */
             "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * How many subscriptions use this method, by status. Counts of subscriptions by
-             * status: active, past due, and paused.
+             * How many subscriptions use this method, by status. Delivery usage counts by stored
+             * status, with separate subsets for active subscriptions that are canceling or on
+             * billing hold.
              */
             "subscription_counts": SubscriptionCounts;
             /**

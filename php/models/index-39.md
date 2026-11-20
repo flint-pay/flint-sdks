@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# SubscriptionDeliveryMigrationListResponse to TaxConnectionUpdatedEvent
+# ShipmentListResponse to TaxCalculationCallbackDeactivatedEvent
 
+- [ShipmentListResponse](ShipmentListResponse.md)
+- [SubscriptionDeliveryMigrationFailureListResponse](SubscriptionDeliveryMigrationFailureListResponse.md)
 - [SubscriptionDeliveryMigrationListResponse](SubscriptionDeliveryMigrationListResponse.md)
 - [SubscriptionLineItemsListResponse](SubscriptionLineItemsListResponse.md)
 - [SubscriptionOfferListResponse](SubscriptionOfferListResponse.md)
@@ -100,6 +102,4 @@
 - [TaxCalculationCallbackArchivedEvent](TaxCalculationCallbackArchivedEvent.md)
 - [TaxCalculationCallbackCreatedEvent](TaxCalculationCallbackCreatedEvent.md)
 - [TaxCalculationCallbackDeactivatedEvent](TaxCalculationCallbackDeactivatedEvent.md)
-- [TaxCalculationCallbackUpdatedEvent](TaxCalculationCallbackUpdatedEvent.md)
-- [TaxConnectionUpdatedEvent](TaxConnectionUpdatedEvent.md)
 

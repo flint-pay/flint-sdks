@@ -1,0 +1,1 @@
+{"shared":"WebhookStreamTestEvent","phpRepresentation":{"kind":"record","fields":{"delivery_method":{"kind":"value","type":"string"},"webhook_event_id":{"kind":"value","type":"string"}}},"dependencies":["WebhookStreamTestEvent"]}

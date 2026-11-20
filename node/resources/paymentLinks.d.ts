@@ -340,7 +340,7 @@ export {
     makeCheckoutTaxConfigRequest,
     makeCheckoutTipConfigRequest
 } from '../declarations/types-81.js';
-export { makeCreatePaymentLinkRequest } from '../declarations/types-83.js';
+export { makeCreatePaymentLinkRequest } from '../declarations/types-84.js';
 export { makeDeliveryWindowRequest } from '../declarations/types-86.js';
 export {
     makeGiftCardPurchaseRecipient,
@@ -352,8 +352,8 @@ export {
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest
 } from '../declarations/types-87.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeOrderLineItemTaxRequest } from '../declarations/types-89.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-89.js';
 export {
     makePaymentLinkCustomFieldPatchRequest,
     makePaymentLinkCustomFieldRequest,

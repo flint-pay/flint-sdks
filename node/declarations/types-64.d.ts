@@ -22,13 +22,313 @@ import type {
     ReturnSourceSystemRequest,
     ReturnSourceSystemRequestInput,
     ReturnResource,
-    ReturnSourceSystem,
-    ReturnUnverifiedItem
+    ReturnSourceSystem
 } from './types-66.js';
-import type { ReturnReplacementLineItemRequest, ReturnReplacementLineItemRequestInput, ReturnResolution } from './types-65.js';
+import type {
+    ReturnReplacementLineItemRequest,
+    ReturnReplacementLineItemRequestInput,
+    ReturnResolution,
+    ReturnReceiptLineItem
+} from './types-65.js';
 import type { ReturnDisposition, ReturnInspection } from './types-63.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { WebhookSnapshotReturnDisposition } from './types-79.js';
+/**
+ * Start from the pinned policy proposal recomputed for approved_quantity when the line has a
+ * policy evaluation and the proposal can be built. Otherwise start with return_required_quantity
+ * equal to approved_quantity, allowed_resolution_types containing refund, exchange, replacement,
+ * no_monetary_action, and store_credit in that order regardless of whether the original payment is
+ * refundable, no automatic_resolution_type, is_inspection_required false, and no
+ * receiving_location_id. Each supplied field replaces its starting value; allowed_resolution_types
+ * replaces the whole list. Omit automatic_resolution_type to keep its starting value, or send null
+ * to resolve manually. Then fill an omitted release_timing with after_inspection when merchandise
+ * is required and inspection is required, after_receipt when merchandise is required without
+ * inspection, or after_approval when no merchandise is required. Validate the merged decision for
+ * quantity bounds, allowed resolution types, and reachable timing and inspection requirements. A
+ * pinned policy always requires override_reason when approved_quantity exceeds evaluated
+ * eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal,
+ * other decision fields use these defaults and override_reason is otherwise optional. Example:
+ * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ","return_line_item_id":"retli_01KEZF7C001NHF6JPD83VD0MRK"}.
+ */
+export type ReturnLineDecision = ({
+    /**
+     * Optional replacement for the entire starting list. Defaults to the buildable pinned policy
+     * proposal; otherwise refund, exchange, replacement, no_monetary_action, and store_credit in
+     * that order, independent of the original payment's refundability. The resulting list must be
+     * valid and non-empty when approved_quantity is above zero. [] enum: "refund", "exchange",
+     * "replacement", "no_monetary_action", "store_credit". [] (Value): string. Value enum:
+     * "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     */
+    "allowed_resolution_types"?: Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>;
+    /**
+     * Required whole-number quantity from zero through the line's requested_quantity; fractional
+     * quantities are not supported. When approved_quantity is below requested_quantity, send
+     * decline_reason; decline_reason_message is optional. Both decline fields are forbidden when
+     * all requested quantity is approved. Format: int64. minimum: 0.
+     */
+    "approved_quantity": number;
+    /**
+     * Optional refund, store_credit, or no_monetary_action that Flint creates and confirms
+     * automatically. Omit to keep the policy proposal's value, or the absent value from no-policy
+     * defaults. Send null to resolve the line manually; clearing a policy proposal's automatic
+     * value requires override_reason. Must be in the resulting allowed_resolution_types. Exchange
+     * and replacement cannot be automated. An unavailable automatic refund or store credit fails
+     * with 409 ACTION_NOT_ALLOWED and reason refund_unavailable or store_credit_unavailable. Value
+     * enum: "refund", "store_credit", "no_monetary_action", null.
+     */
+    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | null | (string & {}) | null;
+    /**
+     * Why the line's declined quantity is declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason"?: "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /**
+     * Optional explanation accompanying decline_reason, up to 2048 characters (Unicode code
+     * points), counted before normalization. Requires decline_reason and is forbidden when all
+     * requested quantity is approved. minLength: 1. maxLength: 2048.
+     */
+    "decline_reason_message"?: string;
+    /**
+     * Optional inspection requirement. Defaults to the buildable pinned policy proposal or false
+     * when no proposal can be built. The resulting requirement must be reachable with the merged
+     * merchandise quantity and release timing.
+     */
+    "is_inspection_required"?: boolean;
+    /**
+     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
+     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
+     * when no proposal can be built. The release timing fill also applies to the proposal and does
+     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
+     * or no deviation exists. Forbidden without a pinned policy. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason"?: "customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /**
+     * Optional explanation accompanying override_reason. Requires override_reason and is forbidden
+     * without a pinned policy. minLength: 1.
+     */
+    "override_reason_message"?: string;
+    /**
+     * Optional receiving Location with a postal address. Defaults to the buildable pinned policy
+     * proposal or no location when no proposal can be built. Required when the resulting
+     * return_required_quantity is above zero and there is no starting location. A process receipt
+     * does not supply the decision's location. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id"?: string;
+    /**
+     * Optional gate for every resolution type. Defaults to the policy proposal's timing when set.
+     * After merging supplied fields, an unset timing becomes after_inspection when
+     * return_required_quantity is above zero and inspection is required, after_receipt when
+     * return_required_quantity is above zero without inspection, or after_approval when
+     * return_required_quantity is zero. Applies to every resolution type, including exchanges and
+     * replacements. manual is held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual".
+     */
+    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
+    /**
+     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * How much of the approved quantity the buyer must physically send back; fractional quantities
+     * are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and
+     * the Return still settles the money. Format: int64. minimum: 0.
+     */
+    "return_required_quantity"?: number;
+})
+    & (((unknown)
+    | ({
+    /**
+     * Why the line's declined quantity is declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason": "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+})
+    | (Record<string, unknown>)))
+    & (((unknown)
+    | ({
+    /**
+     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
+     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
+     * when no proposal can be built. The release timing fill also applies to the proposal and does
+     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
+     * or no deviation exists. Forbidden without a pinned policy. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason": "customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+})
+    | (Record<string, unknown>)));
+/**
+ * Start from the pinned policy proposal recomputed for approved_quantity when the line has a
+ * policy evaluation and the proposal can be built. Otherwise start with return_required_quantity
+ * equal to approved_quantity, allowed_resolution_types containing refund, exchange, replacement,
+ * no_monetary_action, and store_credit in that order regardless of whether the original payment is
+ * refundable, no automatic_resolution_type, is_inspection_required false, and no
+ * receiving_location_id. Each supplied field replaces its starting value; allowed_resolution_types
+ * replaces the whole list. Omit automatic_resolution_type to keep its starting value, or send null
+ * to resolve manually. Then fill an omitted release_timing with after_inspection when merchandise
+ * is required and inspection is required, after_receipt when merchandise is required without
+ * inspection, or after_approval when no merchandise is required. Validate the merged decision for
+ * quantity bounds, allowed resolution types, and reachable timing and inspection requirements. A
+ * pinned policy always requires override_reason when approved_quantity exceeds evaluated
+ * eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal,
+ * other decision fields use these defaults and override_reason is otherwise optional. Example:
+ * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ","return_line_item_id":"retli_01KEZF7C001NHF6JPD83VD0MRK"}.
+ */
+export type ReturnLineDecisionInput = ({
+    /**
+     * Optional replacement for the entire starting list. Defaults to the buildable pinned policy
+     * proposal; otherwise refund, exchange, replacement, no_monetary_action, and store_credit in
+     * that order, independent of the original payment's refundability. The resulting list must be
+     * valid and non-empty when approved_quantity is above zero. [] enum: "refund", "exchange",
+     * "replacement", "no_monetary_action", "store_credit". [] (Value): string. Value enum:
+     * "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     */
+    "allowed_resolution_types"?: Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit">;
+    /**
+     * Required whole-number quantity from zero through the line's requested_quantity; fractional
+     * quantities are not supported. When approved_quantity is below requested_quantity, send
+     * decline_reason; decline_reason_message is optional. Both decline fields are forbidden when
+     * all requested quantity is approved. Format: int64. minimum: 0.
+     */
+    "approved_quantity": number;
+    /**
+     * Optional refund, store_credit, or no_monetary_action that Flint creates and confirms
+     * automatically. Omit to keep the policy proposal's value, or the absent value from no-policy
+     * defaults. Send null to resolve the line manually; clearing a policy proposal's automatic
+     * value requires override_reason. Must be in the resulting allowed_resolution_types. Exchange
+     * and replacement cannot be automated. An unavailable automatic refund or store credit fails
+     * with 409 ACTION_NOT_ALLOWED and reason refund_unavailable or store_credit_unavailable. Value
+     * enum: "refund", "store_credit", "no_monetary_action", null.
+     */
+    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | null;
+    /**
+     * Why the line's declined quantity is declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason"?: "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other";
+    /**
+     * Optional explanation accompanying decline_reason, up to 2048 characters (Unicode code
+     * points), counted before normalization. Requires decline_reason and is forbidden when all
+     * requested quantity is approved. minLength: 1. maxLength: 2048.
+     */
+    "decline_reason_message"?: string;
+    /**
+     * Optional inspection requirement. Defaults to the buildable pinned policy proposal or false
+     * when no proposal can be built. The resulting requirement must be reachable with the merged
+     * merchandise quantity and release timing.
+     */
+    "is_inspection_required"?: boolean;
+    /**
+     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
+     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
+     * when no proposal can be built. The release timing fill also applies to the proposal and does
+     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
+     * or no deviation exists. Forbidden without a pinned policy. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason"?: "customer_service_exception" | "policy_correction" | "risk_review" | "merchant_discretion" | "other";
+    /**
+     * Optional explanation accompanying override_reason. Requires override_reason and is forbidden
+     * without a pinned policy. minLength: 1.
+     */
+    "override_reason_message"?: string;
+    /**
+     * Optional receiving Location with a postal address. Defaults to the buildable pinned policy
+     * proposal or no location when no proposal can be built. Required when the resulting
+     * return_required_quantity is above zero and there is no starting location. A process receipt
+     * does not supply the decision's location. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id"?: string;
+    /**
+     * Optional gate for every resolution type. Defaults to the policy proposal's timing when set.
+     * After merging supplied fields, an unset timing becomes after_inspection when
+     * return_required_quantity is above zero and inspection is required, after_receipt when
+     * return_required_quantity is above zero without inspection, or after_approval when
+     * return_required_quantity is zero. Applies to every resolution type, including exchanges and
+     * replacements. manual is held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual".
+     */
+    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual";
+    /**
+     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * How much of the approved quantity the buyer must physically send back; fractional quantities
+     * are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and
+     * the Return still settles the money. Format: int64. minimum: 0.
+     */
+    "return_required_quantity"?: number;
+})
+    & (((({
+    "decline_reason_message"?: never;
+}))
+    | ({
+    /**
+     * Why the line's declined quantity is declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason": "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other";
+})))
+    & (((({
+    "override_reason_message"?: never;
+}))
+    | ({
+    /**
+     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
+     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
+     * when no proposal can be built. The release timing fill also applies to the proposal and does
+     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
+     * or no deviation exists. Forbidden without a pinned policy. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason": "customer_service_exception" | "policy_correction" | "risk_review" | "merchant_discretion" | "other";
+})));
 /** An item included in a return request. */
 export type ReturnLineItem = {
     /**
@@ -246,6 +546,11 @@ export type ReturnLineItem = {
      * enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      */
     "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
+    /**
+     * ID of the variant requested for this exchange. The merchant chooses the replacement and
+     * confirms its price during resolution.
+     */
+    "requested_variant"?: string;
     /**
      * Whether the value for this line's approved quantity has been delivered. Value enum:
      * "not_selected", "pending", "requires_action", "completed", "failed".
@@ -957,6 +1262,13 @@ export type ReturnLineItemPreviousAttributes = {
     "requested_resolution_type"?: (("refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {}))
         | (null));
     /**
+     * ID of the variant requested for this exchange. The merchant chooses the replacement and
+     * confirms its price during resolution. anyOf[1] (Value): string. ID of the variant requested
+     * for this exchange. The merchant chooses the replacement and confirms its price during
+     * resolution. anyOf[2] (Value): null.
+     */
+    "requested_variant"?: ((string) | (null));
+    /**
      * Whether the value for this line's approved quantity has been delivered. Value enum:
      * "not_selected", "pending", "requires_action", "completed", "failed". anyOf[1] (Value):
      * string. Whether the value for this line's approved quantity has been delivered. Value enum:
@@ -1110,6 +1422,8 @@ export type ReturnLineItemRequest = {
      * "store_credit".
      */
     "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
+    /** ID of one variant of the same product. Set only for an exchange request. minLength: 1. */
+    "requested_variant"?: string;
     /**
      * ID of the return reason for this line. The reason must be active. minLength: 1. Example:
      * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
@@ -1145,6 +1459,8 @@ export type ReturnLineItemRequestInput = {
      * "store_credit".
      */
     "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
+    /** ID of one variant of the same product. Set only for an exchange request. minLength: 1. */
+    "requested_variant"?: string;
     /**
      * ID of the return reason for this line. The reason must be active. minLength: 1. Example:
      * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
@@ -1698,11 +2014,17 @@ export type ReturnPolicyEvaluationLineItem = {
      * Release gate for every resolution type, including exchanges and replacements. Released after
      * the Return is approved. Released after the buyer hands back the required merchandise.
      * Released after the required merchandise is received. Released after the required merchandise
-     * passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release.
-     * Value enum: "after_approval", "after_handoff", "after_receipt", "after_inspection",
-     * "manual".
+     * passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. The
+     * policy evaluation did not assign a release gate to this line. Value enum: "after_approval",
+     * "after_handoff", "after_receipt", "after_inspection", "manual", "unspecified".
      */
-    "release_timing": "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
+    "release_timing": "after_approval"
+        | "after_handoff"
+        | "after_receipt"
+        | "after_inspection"
+        | "manual"
+        | "unspecified"
+        | (string & {});
     /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
     "requested_quantity": number;
     /**
@@ -1873,16 +2195,24 @@ export type ReturnPolicyEvaluationLineItemPreviousAttributes = {
      * Release gate for every resolution type, including exchanges and replacements. Released after
      * the Return is approved. Released after the buyer hands back the required merchandise.
      * Released after the required merchandise is received. Released after the required merchandise
-     * passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release.
-     * Value enum: "after_approval", "after_handoff", "after_receipt", "after_inspection",
-     * "manual". anyOf[1] (Value): string. Release gate for every resolution type, including
-     * exchanges and replacements. Released after the Return is approved. Released after the buyer
-     * hands back the required merchandise. Released after the required merchandise is received.
-     * Released after the required merchandise passes inspection. Held until a merchant calls POST
-     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
-     * "after_receipt", "after_inspection", "manual". anyOf[2] (Value): null.
+     * passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. The
+     * policy evaluation did not assign a release gate to this line. Value enum: "after_approval",
+     * "after_handoff", "after_receipt", "after_inspection", "manual", "unspecified". anyOf[1]
+     * (Value): string. Release gate for every resolution type, including exchanges and
+     * replacements. Released after the Return is approved. Released after the buyer hands back the
+     * required merchandise. Released after the required merchandise is received. Released after
+     * the required merchandise passes inspection. Held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. The policy evaluation did not assign a release gate to
+     * this line. Value enum: "after_approval", "after_handoff", "after_receipt",
+     * "after_inspection", "manual", "unspecified". anyOf[2] (Value): null.
      */
-    "release_timing"?: (("after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {}))
+    "release_timing"?: (("after_approval"
+        | "after_handoff"
+        | "after_receipt"
+        | "after_inspection"
+        | "manual"
+        | "unspecified"
+        | (string & {}))
         | (null));
     /**
      * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
@@ -4933,91 +5263,3 @@ export type ReturnReceiptCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope
     /** Value enum: "return_receipt.created". */
     "event_type"?: "return_receipt.created";
 });
-/** A returned item recorded as received. */
-export type ReturnReceiptLineItem = {
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "available_disposition_quantity": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Return that owns return_line_item_id. `null` when return_line_item_id is null. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string | null;
-    /**
-     * ID of the Return line the units were matched to. Absent for unverified units. Example:
-     * "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id"?: string;
-    /** ID of the receipt the line belongs to. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
-    "return_receipt_id": string;
-    /**
-     * Unique identifier for this return receipt line item, prefixed `retrcli_`. Example:
-     * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-     */
-    "return_receipt_line_item_id": string;
-    /**
-     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
-     * left out. `verify` is listed while the receipt is current and the line's
-     * `verification_status` is `unverified`. Otherwise empty. [] enum: "verify". [] (Value):
-     * string. Value enum: "verify".
-     */
-    "supported_actions": Array<"verify" | (string & {})>;
-    /**
-     * What the operator recorded for units that match no line. Present on `unverified` lines.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item"?: ReturnUnverifiedItem;
-    /**
-     * Why the units were verified against the line. Value enum: "order_match_confirmed",
-     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
-     */
-    "verification_reason"?: "order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other"
-        | (string & {});
-    /** Detail about `verification_reason`. */
-    "verification_reason_message"?: string;
-    /** Whether the units are matched to a line. Value enum: "matched", "unverified", "excess". */
-    "verification_status": "matched" | "unverified" | "excess" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "verified_at"?: string;
-    /**
-     * Who verified the line. Who performed a return action: a buyer, merchant, integration, or the
-     * system, with an optional ID.
-     */
-    "verified_by"?: ReturnActor;
-};
-/** The `excess` variant of `ReturnReceiptLineItemInput`. */
-export type ReturnReceiptLineItemInputExcess = ({
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-    /**
-     * Whether this observation matches a Return line, is unverified merchandise, or is known
-     * excess merchandise. Value enum: "excess".
-     */
-    "type": "excess" | (string & {});
-    /**
-     * A buyer or catalog identity observation that has not been matched to a Return line.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item"?: ReturnUnverifiedItem;
-})
-    & (({
-    /** Value enum: "excess". */
-    "type": unknown;
-    /**
-     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-}));

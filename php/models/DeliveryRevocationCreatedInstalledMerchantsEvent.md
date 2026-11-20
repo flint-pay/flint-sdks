@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](DeliveryRevocationCreatedMerchantEvent.md#deliveryrevocationcreatedmerchanteventdata-fields-1).
 
+### DeliveryRevocationCreatedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### DeliveryRevocationCreatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [DeliveryRevocationCreatedMerchantEvent.data fields 1.object](../models/DeliveryRevocationCreatedMerchantEvent.md#deliveryrevocationcreatedmerchanteventdata-fields-1object).

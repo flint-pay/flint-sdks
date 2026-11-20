@@ -70,7 +70,7 @@ export type { UpdateRiskListRequestInput, UpdateRiskListRequest } from '../decla
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeAddRiskListItemsRequest } from '../declarations/types-80.js';
 export { makeCreateRiskListRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateRiskListRequest } from '../declarations/types-94.js';
 export interface RiskListsResource {
     /**

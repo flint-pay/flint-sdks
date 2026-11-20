@@ -63,7 +63,7 @@ export type {
     PaymentSourceCardPresentDetails
 } from '../declarations/types-54.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeSimulateDisputeRequest } from '../declarations/types-92.js';
 export interface DisputesResource {
     /**

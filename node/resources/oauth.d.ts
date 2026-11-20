@@ -65,8 +65,9 @@ export type { PartnerAppPaymentSplits, PartnerAppPermissionManifestEntry } from 
 export type { PlatformFeeCap } from '../declarations/types-56.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeCLIContextsRequest, makeCLIDeviceRequest, makeCLIReauthorizeRequest } from '../declarations/types-80.js';
-export { makeMoneyValue, makeOAuthRevokeRequest } from '../declarations/types-88.js';
 export {
+    makeMoneyValue,
+    makeOAuthRevokeRequest,
     makeOAuthTokenRequest,
     makeOAuthTokenRequestAuthorizationCode,
     makeOAuthTokenRequestClientCredentials,

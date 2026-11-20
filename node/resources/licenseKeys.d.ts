@@ -79,9 +79,9 @@ export {
     makeLicenseKeyVersionRequest,
     makeLookupLicenseKeyRequest,
     makeMetadataMap,
-    makeMetadataPatchRequest,
-    makeMoneyValue
+    makeMetadataPatchRequest
 } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeResendLicenseKeyRequest } from '../declarations/types-91.js';
 export { makeRevealLicenseKeyRequest } from '../declarations/types-92.js';
 export { makeUpdateLicenseKeyRequest } from '../declarations/types-94.js';

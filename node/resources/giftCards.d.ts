@@ -128,7 +128,8 @@ export {
     makeGiftCardNotificationRecipient,
     makeInitialGiftCardFunding
 } from '../declarations/types-87.js';
-export { makeLookupGiftCardRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeLookupGiftCardRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeRotateGiftCardCodeRequest, makeSignedMoneyRequest } from '../declarations/types-92.js';
 export { makeUnfreezeGiftCardRequest } from '../declarations/types-93.js';
 export { makeUpdateGiftCardRequest } from '../declarations/types-94.js';

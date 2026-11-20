@@ -29,6 +29,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1).
 
+### MerchantBillingInvoiceUpdatedEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### MerchantBillingInvoiceUpdatedEvent.data fields 1.object
 
 Field definitions: [MerchantBillingInvoiceIssuedEvent.data fields 1.object](../models/MerchantBillingInvoiceIssuedEvent.md#merchantbillinginvoiceissuedeventdata-fields-1object).

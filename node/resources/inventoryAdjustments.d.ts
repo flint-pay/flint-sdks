@@ -71,7 +71,8 @@ export {
     makeInventoryAdjustmentSetLineRequest,
     makeInventorySourceSystemRequest
 } from '../declarations/types-87.js';
-export { makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface InventoryAdjustmentsResource {
     /**
  * Record a stock change by what happened: stock received, returned, sold, stolen, lost, or moved

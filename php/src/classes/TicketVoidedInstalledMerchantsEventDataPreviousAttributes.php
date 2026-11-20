@@ -12,6 +12,7 @@ namespace Flint;
  * @property-read string|null $order_id
  * @property-read string|null $order_line_item_id
  * @property-read string|null $payment_link_id
+ * @property-read string|null $payment_link_line_item_key
  * @property-read string|null $status
  * @property-read list<string>|null $supported_actions
  * @property-read string|null $ticket_id
@@ -22,7 +23,7 @@ namespace Flint;
  * @property-read string|null $voided_at
  * Presence-aware response; omitted optional fields return null. */
 final class TicketVoidedInstalledMerchantsEventDataPreviousAttributes extends Model {
-    /** @param array{'admission_code'?: mixed, 'admission_code_last4'?: mixed, 'attendee_name'?: mixed, 'check_in_method'?: mixed, 'checked_in_at'?: mixed, 'created_at'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'order_line_item_id'?: mixed, 'payment_link_id'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'ticket_id'?: mixed, 'ticket_number'?: mixed, 'tier_name'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, 'voided_at'?: mixed, ...}|object $values */
+    /** @param array{'admission_code'?: mixed, 'admission_code_last4'?: mixed, 'attendee_name'?: mixed, 'check_in_method'?: mixed, 'checked_in_at'?: mixed, 'created_at'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'order_line_item_id'?: mixed, 'payment_link_id'?: mixed, 'payment_link_line_item_key'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'ticket_id'?: mixed, 'ticket_number'?: mixed, 'tier_name'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, 'voided_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TicketVoidedInstalledMerchantsEventDataPreviousAttributes')); }
     /** The ticket's 16-character Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid checkout session's own paying credential receives it, on its own order's tickets that aren't voided. A checkout credential from a launch URL a merchant reads or requests after payment never does. Returned only to the checkout credential; never in webhook payloads. anyOf[1] (Value): string. The ticket's 16-character Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid checkout session's own paying credential receives it, on its own order's tickets that aren't voided. A checkout credential from a launch URL a merchant reads or requests after payment never does. Returned only to the checkout credential; never in webhook payloads. minLength: 16. anyOf[2] (Value): null.
      * @return string|null
@@ -74,6 +75,11 @@ final class TicketVoidedInstalledMerchantsEventDataPreviousAttributes extends Mo
      */
     public function getPaymentLinkId(): string|null { return $this->get('payment_link_id'); }
     public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
+    /** The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key. anyOf[1] (Value): string. The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getPaymentLinkLineItemKey(): string|null { return $this->get('payment_link_line_item_key'); }
+    public function hasPaymentLinkLineItemKey(): bool { return $this->has('payment_link_line_item_key'); }
     /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". anyOf[1] (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided". anyOf[2] (Value): null.
      * @return string|null
      */

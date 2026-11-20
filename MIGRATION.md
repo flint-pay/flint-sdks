@@ -19,10 +19,11 @@ What changed, most common first:
 
 - Pass currency codes such as `USD` and use `page_size` on list calls. Both SDKs now explain these corrections when they reject the request locally.
 - Supply both `amount` and `currency` when setting payment intent amounts, Quick Pay prices, or payment-link price overrides. The generated request models now enforce the documented money shape.
-- When updating a Quick Pay invoice draft with `invoices.update`, send `quick_pay` with `expected_order_version` from the invoice's order. Use the current version after each update.
+- When updating a Quick Pay invoice draft with `invoices.update`, send the invoice's current version in `expected_version` with `quick_pay`. You can also pass the backing order's current version in `expected_order_version` to check both versions.
 - Use the same currency for the minimum, maximum, and suggested amounts on donation links. A maximum and each suggested amount must be positive. Send `null` to clear the maximum on an update.
-- Handle both results from `webhookEndpoints.createTestEvent`. When `delivery_method` is `listener_stream`, read the `webhook_event_id`. This result confirms publication to the stream.
+- Handle both results from `webhookEndpoints.createTestEvent`. Both expose `webhook_event_id` (PHP `getWebhookEventId()`). A result with `delivery_method: "listener_stream"` confirms publication to the stream.
 - Check for `checkout_billing_contact` before reading billing details on order responses or order webhook snapshots. Re-run TypeScript type checking or PHP integration tests for affected model and webhook handlers.
+- Read `canceling_count` and `billing_hold_count` separately in subscription analytics. `active_count` excludes both groups, and `trialing_count` excludes subscriptions scheduled to cancel.
 
 ## Changes in 8.0.0-beta.8
 

@@ -29,6 +29,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1).
 
+### PartnerAppPlatformLimitedEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### PartnerAppPlatformLimitedEvent.data fields 1.object
 
 Field definitions: [PartnerAppPlatformApprovedEvent.data fields 1.object](../models/PartnerAppPlatformApprovedEvent.md#partnerappplatformapprovedeventdata-fields-1object).

@@ -368,11 +368,11 @@ export {
     makeInvoicePaymentDueInputDate,
     makeInvoicePaymentDueInputMerchantDefault,
     makeInvoicePaymentDueInputNone,
-    makeInvoicePaymentDueInputPaymentTerms,
-    makeInvoicePaymentDueRequest,
-    makeInvoicePaymentOptionLimitRequest
+    makeInvoicePaymentDueInputPaymentTerms
 } from '../declarations/types-87.js';
 export {
+    makeInvoicePaymentDueRequest,
+    makeInvoicePaymentOptionLimitRequest,
     makeInvoicePaymentPolicyRequest,
     makeInvoiceScheduleAmountSpecificationFixedRequest,
     makeInvoiceScheduleAmountSpecificationPercentageRequest,
@@ -392,10 +392,10 @@ export {
     makeManualDiscountRequest,
     makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue
+    makeMetadataRequest
 } from '../declarations/types-88.js';
 export {
+    makeMoneyValue,
     makeOrderDeliveryDestinationRecipientRequest,
     makeOrderDeliveryDestinationRequest,
     makeOrderDraftLineItemInventoryDemandRequest,

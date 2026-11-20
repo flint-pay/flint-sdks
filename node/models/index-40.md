@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# UpdateMeSubscriptionRequestInput to UpdateTicketRequestInput
+# UpdateMeSubscriptionLineItemRequestInput to UpdateTaxRegistrationRequestInput
 
+- [UpdateMeSubscriptionLineItemRequestInput](UpdateMeSubscriptionLineItemRequestInput.md)
+- [UpdateMeSubscriptionRequest](UpdateMeSubscriptionRequest.md)
 - [UpdateMeSubscriptionRequestInput](UpdateMeSubscriptionRequestInput.md)
 - [UpdateModifierGroupRequest](UpdateModifierGroupRequest.md)
 - [UpdateModifierGroupRequestInput](UpdateModifierGroupRequestInput.md)
@@ -100,6 +102,4 @@
 - [UpdateTaxCalculationCallbackRequestInput](UpdateTaxCalculationCallbackRequestInput.md)
 - [UpdateTaxRegistrationRequest](UpdateTaxRegistrationRequest.md)
 - [UpdateTaxRegistrationRequestInput](UpdateTaxRegistrationRequestInput.md)
-- [UpdateTicketRequest](UpdateTicketRequest.md)
-- [UpdateTicketRequestInput](UpdateTicketRequestInput.md)
 

@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# PaymentMethodFailedInstalledMerchantsEvent to PayoutUpdatedMerchantEvent
+# PaymentMethodArchivedInstalledMerchantsEventData to PayoutSucceededMerchantEventData
 
+- [PaymentMethodArchivedInstalledMerchantsEventData](PaymentMethodArchivedInstalledMerchantsEventData.md)
+- [PaymentMethodArchivedInstalledMerchantsEventSource](PaymentMethodArchivedInstalledMerchantsEventSource.md)
+- [PaymentMethodArchivedInstalledMerchantsEvent](PaymentMethodArchivedInstalledMerchantsEvent.md)
+- [PaymentMethodFailedMerchantEventDataObject](PaymentMethodFailedMerchantEventDataObject.md)
+- [PaymentMethodFailedMerchantEventDataPreviousAttributes](PaymentMethodFailedMerchantEventDataPreviousAttributes.md)
+- [PaymentMethodFailedMerchantEventData](PaymentMethodFailedMerchantEventData.md)
+- [PaymentMethodFailedMerchantEventRequest](PaymentMethodFailedMerchantEventRequest.md)
+- [PaymentMethodFailedMerchantEvent](PaymentMethodFailedMerchantEvent.md)
+- [PaymentMethodFailedInstalledMerchantsEventDataObject](PaymentMethodFailedInstalledMerchantsEventDataObject.md)
+- [PaymentMethodFailedInstalledMerchantsEventDataPreviousAttributes](PaymentMethodFailedInstalledMerchantsEventDataPreviousAttributes.md)
+- [PaymentMethodFailedInstalledMerchantsEventData](PaymentMethodFailedInstalledMerchantsEventData.md)
+- [PaymentMethodFailedInstalledMerchantsEventSource](PaymentMethodFailedInstalledMerchantsEventSource.md)
 - [PaymentMethodFailedInstalledMerchantsEvent](PaymentMethodFailedInstalledMerchantsEvent.md)
 - [PaymentMethodUpdatedMerchantEventDataObject](PaymentMethodUpdatedMerchantEventDataObject.md)
 - [PaymentMethodUpdatedMerchantEventDataPreviousAttributes](PaymentMethodUpdatedMerchantEventDataPreviousAttributes.md)
@@ -90,16 +102,4 @@
 - [PayoutSucceededMerchantEventDataObject](PayoutSucceededMerchantEventDataObject.md)
 - [PayoutSucceededMerchantEventDataPreviousAttributes](PayoutSucceededMerchantEventDataPreviousAttributes.md)
 - [PayoutSucceededMerchantEventData](PayoutSucceededMerchantEventData.md)
-- [PayoutSucceededMerchantEventRequest](PayoutSucceededMerchantEventRequest.md)
-- [PayoutSucceededMerchantEvent](PayoutSucceededMerchantEvent.md)
-- [PayoutSucceededInstalledMerchantsEventDataObject](PayoutSucceededInstalledMerchantsEventDataObject.md)
-- [PayoutSucceededInstalledMerchantsEventDataPreviousAttributes](PayoutSucceededInstalledMerchantsEventDataPreviousAttributes.md)
-- [PayoutSucceededInstalledMerchantsEventData](PayoutSucceededInstalledMerchantsEventData.md)
-- [PayoutSucceededInstalledMerchantsEventSource](PayoutSucceededInstalledMerchantsEventSource.md)
-- [PayoutSucceededInstalledMerchantsEvent](PayoutSucceededInstalledMerchantsEvent.md)
-- [PayoutUpdatedMerchantEventDataObject](PayoutUpdatedMerchantEventDataObject.md)
-- [PayoutUpdatedMerchantEventDataPreviousAttributes](PayoutUpdatedMerchantEventDataPreviousAttributes.md)
-- [PayoutUpdatedMerchantEventData](PayoutUpdatedMerchantEventData.md)
-- [PayoutUpdatedMerchantEventRequest](PayoutUpdatedMerchantEventRequest.md)
-- [PayoutUpdatedMerchantEvent](PayoutUpdatedMerchantEvent.md)
 

@@ -8,8 +8,13 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `actor` | Optional | [ReturnActor](../models/ReturnActor.md#returnactor) | Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. `actor`: [field definitions](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor). |
 | `object` | Required | [CheckoutSessionInvalidatedInstalledMerchantsEventDataObject](../models/CheckoutSessionInvalidatedInstalledMerchantsEventDataObject.md#checkoutsessioninvalidatedinstalledmerchantseventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`, `save_payment_method_types`, `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`, `customer_account_url`. `object`: [field definitions](../models/CheckoutSessionInvalidatedInstalledMerchantsEventData.md#checkoutsessioninvalidatedinstalledmerchantseventdataobject-fields-1). |
 | `previous_attributes` | Optional | [CheckoutSessionInvalidatedInstalledMerchantsEventDataPreviousAttributes](../models/CheckoutSessionInvalidatedInstalledMerchantsEventDataPreviousAttributes.md#checkoutsessioninvalidatedinstalledmerchantseventdatapreviousattributes) | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+
+### CheckoutSessionInvalidatedInstalledMerchantsEventData.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
 
 ### CheckoutSessionInvalidatedInstalledMerchantsEventData.object fields 1
 

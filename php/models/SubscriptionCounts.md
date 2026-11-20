@@ -2,7 +2,7 @@
 
 ## SubscriptionCounts
 
-Counts of subscriptions by status: active, past due, and paused.
+Delivery usage counts by stored status, with separate subsets for active subscriptions that are canceling or on billing hold.
 
 Response model.
 

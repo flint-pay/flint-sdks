@@ -40,7 +40,7 @@ export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateGiftCardFundingDispositionRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface GiftCardFundingDispositionsResource {
     /**
  * Accepts a confirmed funding dispute loss and honors all gift card value funded by that payment,

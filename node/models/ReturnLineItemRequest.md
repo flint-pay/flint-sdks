@@ -15,5 +15,6 @@ An order line item to return, with the quantity, return reason, and optionally a
 | `order_line_item_id` | Required | string | ID of the order line item being returned. minLength: `1`. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
 | `requested_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `requested_resolution_type` | Optional | string | Outcome requested for this line. Eligibility checks it against the policy's allowed resolution types. Values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`. |
+| `requested_variant` | Optional | string | ID of one variant of the same product. Set only for an exchange request. minLength: `1`. |
 | `return_reason_id` | Required | string | ID of the return reason for this line. The reason must be active. minLength: `1`. Example: `"rrsn_01KEZF7C00SEE2T4EYP1NXAH3E"`. |
 

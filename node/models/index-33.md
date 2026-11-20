@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# ReturnActor to ReturnReceiptLineItem
+# ReturnActivity to ReturnReceiptCreatedInstalledMerchantsEvent
 
+- [ReturnActivity](ReturnActivity.md)
 - [ReturnActor](ReturnActor.md)
 - [ReturnActorPreviousAttributes](ReturnActorPreviousAttributes.md)
 - [ReturnCanceledInstalledMerchantsEvent](ReturnCanceledInstalledMerchantsEvent.md)
@@ -30,6 +31,7 @@
 - [ReturnEligibilitySelectionLineItems](ReturnEligibilitySelectionLineItems.md)
 - [ReturnEligibilitySelectionLineItemsRequestInput](ReturnEligibilitySelectionLineItemsRequestInput.md)
 - [ReturnEligibilitySelectionRequestInput](ReturnEligibilitySelectionRequestInput.md)
+- [ReturnExchangeVariant](ReturnExchangeVariant.md)
 - [ReturnFinancialSummary](ReturnFinancialSummary.md)
 - [ReturnFinancialSummaryPreviousAttributes](ReturnFinancialSummaryPreviousAttributes.md)
 - [ReturnHandoffDestination](ReturnHandoffDestination.md)
@@ -100,6 +102,4 @@
 - [ReturnReasonSummary](ReturnReasonSummary.md)
 - [ReturnReceipt](ReturnReceipt.md)
 - [ReturnReceiptCreatedInstalledMerchantsEvent](ReturnReceiptCreatedInstalledMerchantsEvent.md)
-- [ReturnReceiptCreatedMerchantEvent](ReturnReceiptCreatedMerchantEvent.md)
-- [ReturnReceiptLineItem](ReturnReceiptLineItem.md)
 

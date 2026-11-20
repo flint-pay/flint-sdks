@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# CheckoutTaxCalculation to CustomDomainDNSRecord
+# CheckoutSubscriptionRecurringShipping to CreditNoteAllocation
 
+- [CheckoutSubscriptionRecurringShipping](CheckoutSubscriptionRecurringShipping.md)
+- [CheckoutSubscriptionTerms](CheckoutSubscriptionTerms.md)
 - [CheckoutTaxCalculation](CheckoutTaxCalculation.md)
 - [CheckoutSessionTax](CheckoutSessionTax.md)
 - [CheckoutTheme](CheckoutTheme.md)
@@ -100,6 +102,4 @@
 - [CreditNoteLineItem](CreditNoteLineItem.md)
 - [CreditNote](CreditNote.md)
 - [CreditNoteAllocation](CreditNoteAllocation.md)
-- [CreditNoteAllocationResult](CreditNoteAllocationResult.md)
-- [CustomDomainDNSRecord](CustomDomainDNSRecord.md)
 

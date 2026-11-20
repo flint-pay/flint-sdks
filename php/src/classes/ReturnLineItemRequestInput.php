@@ -7,10 +7,11 @@ namespace Flint;
  * @property-read string $order_line_item_id
  * @property-read int $requested_quantity
  * @property-read string $requested_resolution_type
+ * @property-read string $requested_variant
  * @property-read string $return_reason_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnLineItemRequestInput extends Model {
-    /** @param array{'buyer_note'?: string, 'fulfillment_id'?: string, 'order_line_item_id': string, 'requested_quantity': int, 'requested_resolution_type'?: string, 'return_reason_id': string}|object $values */
+    /** @param array{'buyer_note'?: string, 'fulfillment_id'?: string, 'order_line_item_id': string, 'requested_quantity': int, 'requested_resolution_type'?: string, 'requested_variant'?: string, 'return_reason_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnLineItemRequestInput')); }
     /** Note about this line. Some return reasons require one. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string
@@ -42,6 +43,12 @@ final class ReturnLineItemRequestInput extends Model {
      */
     public function getRequestedResolutionType(): string { return $this->get('requested_resolution_type'); }
     public function hasRequestedResolutionType(): bool { return $this->has('requested_resolution_type'); }
+    /** ID of one variant of the same product. Set only for an exchange request. minLength: 1.
+     * @return string
+     * @throws SdkError When requested_variant is omitted; use hasRequestedVariant() or valueOrDefault().
+     */
+    public function getRequestedVariant(): string { return $this->get('requested_variant'); }
+    public function hasRequestedVariant(): bool { return $this->has('requested_variant'); }
     /** ID of the return reason for this line. The reason must be active. minLength: 1. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().

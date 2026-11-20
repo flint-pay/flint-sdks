@@ -1,9 +1,6 @@
 import type {
-    SubscriptionOfferTermsRequestInput,
-    SubscriptionPausedDeliveryHold,
-    SubscriptionPausedDeliveryHoldPreviousAttributes
-} from './types-71.js';
-import type {
+    SubscriptionTaxCalculationRequestInput,
+    SubscriptionPlanTermsRequest,
     SubscriptionPlanTermsRequestInput,
     SubscriptionPromotion,
     SubscriptionScheduledPlanChange,
@@ -14,6 +11,12 @@ import type {
     SubscriptionServiceLocationPreviousAttributes,
     SubscriptionTaxPreviousAttributes
 } from './types-72.js';
+import type {
+    SubscriptionOfferTermsRequest,
+    SubscriptionOfferTermsRequestInput,
+    SubscriptionPausedDeliveryHold,
+    SubscriptionPausedDeliveryHoldPreviousAttributes
+} from './types-71.js';
 import type {
     ExpandedCustomerSummary,
     ExpandedPaymentMethodSummary,
@@ -68,12 +71,28 @@ import type { CreditNotesListAllocationsParams } from './types-15.js';
 import type { RemoveSubscriptionPromotionsRequestInput, RenewSubscriptionRequestInput } from './types-61.js';
 import type { InvoicesMarkUncollectibleParams } from './types-38.js';
 import type { SkipSubscriptionCycleRequestInput } from './types-68.js';
-import type {
-    UpdateSubscriptionLineItemRequestInput,
-    UpdateSubscriptionRequestInput,
-    UpdateTaxCalculationCallbackRequestInput
-} from './types-78.js';
+import type { UpdateSubscriptionLineItemRequestInput, UpdateSubscriptionRequestInput } from './types-78.js';
 import type { TaxJurisdiction, TaxJurisdictionPreviousAttributes } from './types-74.js';
+/** Replaced as a whole: send every field you want to keep. */
+export type SubscriptionTaxRequestInput = {
+    /**
+     * How the subscription's orders calculate tax while `enabled` is `true`. Omit it, or send
+     * `null`, to use `tax.default_calculation` from your settings, where a `provided` default
+     * means automatic. Not allowed while `enabled` is `false`. anyOf[1] (Value): {@link
+     * SubscriptionTaxCalculationRequestInput}. Replaced as a whole: send every field you want to
+     * keep. `automatic` calculates tax through your tax connection. `external` takes the tax your
+     * tax calculation callback returns, and requires `components_source: callback`, because Flint
+     * creates the subscription's orders and nobody can send their components. anyOf[2] (Value):
+     * null.
+     */
+    "calculation"?: ((SubscriptionTaxCalculationRequestInput) | (null));
+    /** Whether the subscription's orders calculate tax. */
+    "enabled": boolean;
+};
+/**
+ * Subscription terms from either a subscription plan or subscription offers, selected by `type`.
+ */
+export type SubscriptionTermsRequest = ((SubscriptionPlanTermsRequest) | (SubscriptionOfferTermsRequest) | (Record<string, unknown>));
 /**
  * Subscription terms from either a subscription plan or subscription offers, selected by `type`.
  */
@@ -10773,5 +10792,3 @@ export type TaxCalculationCallbacksListParams = {
      */
     "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
 };
-export type TaxCalculationCallbacksRotateSecretParams = {};
-export type TaxCalculationCallbacksUpdateParams = (UpdateTaxCalculationCallbackRequestInput);

@@ -884,6 +884,43 @@ final class Codec
     {
         return in_array($instruction['kind'], ['exact-integer', 'decimal'], true);
     }
+    /** @internal Find the unique declared branch for a projected response model. */
+    public static function responseAlternative(mixed $value, array $codec, array $definitions): ?int
+    {
+        $keyword = isset($codec['exactlyOne']) ? 'exactlyOne' : 'some';
+        $matches = static function (array $branch, bool $allowUnknownFields) use (
+            $value,
+            $definitions,
+        ): bool|SdkError {
+            try {
+                self::execute($value, $branch, [
+                    'mode' => 'match',
+                    'direction' => 'response',
+                    'path' => 'response',
+                    'definitions' => $definitions,
+                    'allowUnknownResponseFields' => $allowUnknownFields,
+                ]);
+                return true;
+            } catch (SdkError $error) {
+                if (self::validationFailureMessage($error) !== null) {
+                    return $error;
+                }
+                throw $error;
+            }
+        };
+        [$selected] = self::selectAlternatives(
+            $value,
+            $codec,
+            $keyword,
+            'response',
+            true,
+            false,
+            false,
+            $matches,
+            $definitions,
+        );
+        return count($selected) === 1 ? array_key_first($selected) : null;
+    }
     /** Shared selection policy for numeric interpretation and validation. */
     private static function selectAlternatives(
         mixed $value,

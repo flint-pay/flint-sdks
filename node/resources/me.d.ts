@@ -318,7 +318,14 @@ export type {
     MeListFulfillmentEventsParams,
     MeListFulfillmentsParams
 } from '../declarations/types-41.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResourceVersionRequestInput } from '../declarations/types-62.js';
+export type {
+    RequestOptions,
+    ResponseMeta,
+    ResponseWarning,
+    ResourceReference,
+    ResourceVersionRequestInput,
+    ReturnActor
+} from '../declarations/types-62.js';
 export type {
     BuyerReturn,
     BuyerPaymentMethodWithSetup,
@@ -650,6 +657,7 @@ export type {
     ReturnEligibilityLineItemRequestModelInput,
     ReturnEligibilitySelectionAllRemainingFulfilledRequestInput,
     ReturnEligibilitySelectionLineItemsRequestInput,
+    ReturnExchangeVariant,
     ReturnEligibilitySelection,
     ReturnEligibilityLineItemRequest,
     ReturnEligibilitySelectionAllRemainingFulfilled,
@@ -659,8 +667,6 @@ export type { MoneyValue, NextAction, MoneyValuePreviousAttributes } from '../de
 export type { Address, AddressRequestInput, AddressPreviousAttributes, AddressRequest } from '../declarations/types-0.js';
 export type {
     SelectedProductOption,
-    StripeClientSetup,
-    StripeClientSetupStripe,
     StripeClientAuthority,
     ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
@@ -711,6 +717,7 @@ export type {
 export type {
     SubscriptionIntervalOption,
     SubscriptionDeliveryMethodSummary,
+    SubscriptionDeliveryDestination,
     SubscriptionDeliveryHold,
     SubscriptionEndAfter,
     SubscriptionEndAfterCycles,
@@ -718,17 +725,18 @@ export type {
     SubscriptionGiftRecipient,
     SubscriptionDeliveryDestinationRequestInput,
     SubscriptionDeliveryDestinationInputCustomerAddressInput,
+    SubscriptionDeliveryDestinationInputAddressInput,
     SubscriptionDeliveryRequestInput,
     SubscriptionDeliveryOption
 } from '../declarations/types-70.js';
 export type {
     SubscriptionDelivery,
     SubscriptionAddressVerification,
-    SubscriptionDeliveryDestination,
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
     StripeTerminalPaymentIntentClientAction,
-    SubscriptionDeliveryDestinationInputAddressInput,
+    StripeClientSetup,
+    StripeClientSetupStripe,
     SubscriptionChargeEstimate,
     SubscribedLine
 } from '../declarations/types-69.js';
@@ -739,7 +747,6 @@ export type {
     TipPaymentIntentAllocation,
     TipValueSettlementAllocation,
     UpdateCustomerAddressRequestInput,
-    UpdateCustomerEmailPreferencesRequestInput,
     UpdateCustomerEmailPreferencesRequest
 } from '../declarations/types-75.js';
 export type {
@@ -933,6 +940,7 @@ export type { RefundTaxBreakdownRefund, RefundTenderAllocation, RenewSubscriptio
 export type { PauseSubscriptionRequestInput, PartnerWebhookEnvelope, PauseSubscriptionRequest } from '../declarations/types-50.js';
 export type {
     UpdateMeRequestInput,
+    UpdateCustomerEmailPreferencesRequestInput,
     UpdateMeSubscriptionRequestInput,
     UpdateMeSubscriptionLineItemRequestInput,
     UpdateMerchantRequestInput,
@@ -986,10 +994,9 @@ export {
     makeMerchantSignupVersionRequest,
     makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue
+    makeMetadataRequest
 } from '../declarations/types-88.js';
-export { makePauseSubscriptionRequest } from '../declarations/types-89.js';
+export { makeMoneyValue, makePauseSubscriptionRequest } from '../declarations/types-89.js';
 export {
     makeRenewSubscriptionRequest,
     makeResourceVersionRequest,

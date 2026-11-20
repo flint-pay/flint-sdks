@@ -28,7 +28,8 @@ export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeLookupEmailPreferencesRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeLookupEmailPreferencesRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface EmailPreferencesResource {
     /**
  * Reads an address's email preferences without putting it in a URL. Matches after trimming

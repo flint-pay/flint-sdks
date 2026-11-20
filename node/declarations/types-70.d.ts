@@ -1,5 +1,5 @@
+import type { Address, AddressRequestInput } from './types-0.js';
 import type {
-    SubscriptionDeliveryDestinationInputAddressInput,
     SubscriptionCounts,
     SubscriptionBillingHold,
     SubscriptionCancellationDetails,
@@ -44,6 +44,44 @@ import type { CategoryReference, CategoryReferencePreviousAttributes } from './t
 import type { Image, ImagePreviousAttributes } from './types-31.js';
 import type { OrderLineItemModifier, OrderLineItemModifierPreviousAttributes } from './types-46.js';
 import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-68.js';
+/**
+ * The delivery address for a subscription's future shipments, with the saved customer address it
+ * came from.
+ */
+export type SubscriptionDeliveryDestination = {
+    /**
+     * Resolved delivery address used by future shipments. `null` when the saved destination has no
+     * address. anyOf[1] (Value): {@link Address}. A postal address. Every address has country.
+     * Addresses Flint checked as complete (customer and saved addresses, merchant, location,
+     * invoice, order delivery destination, tax identity, fulfillment recipient and pickup
+     * addresses) always have line1 and city, and US ones always have state and postal_code.
+     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
+     * was provided, such as postal_code and country. anyOf[2] (Value): null.
+     */
+    "address": ((Address) | (null));
+    /**
+     * Display reference to the saved customer address used when this destination was written.
+     * Editing that saved address does not change the subscription destination. Example:
+     * "caddr_01KEZF7C00K2Q127FBJAXWB0FP".
+     */
+    "customer_address_id"?: string;
+    /**
+     * Customer that owns customer_address_id. Null when customer_address_id is absent for an
+     * inline address. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string | null;
+};
+/** The `address` variant of `SubscriptionDeliveryDestinationInput`. */
+export type SubscriptionDeliveryDestinationInputAddressInput = {
+    /**
+     * Delivery address. Flint saves a copy with the subscription. A complete postal address. State
+     * and postal_code are required for US addresses and optional for other countries. Send null or
+     * omit line2, state, and postal_code when the address has none.
+     */
+    "address": AddressRequestInput;
+    /** Selects a new address as the destination. Value enum: "address". */
+    "type": "address";
+};
 /** The `customer_address` variant of `SubscriptionDeliveryDestinationInput`. */
 export type SubscriptionDeliveryDestinationInputCustomerAddressInput = {
     /**
@@ -122,8 +160,8 @@ export type SubscriptionDeliveryMethodCounts = {
     /** ID of the delivery method. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". */
     "delivery_method_id": string;
     /**
-     * Live subscriptions that use the method, by status. Counts of subscriptions by status:
-     * active, past due, and paused.
+     * Live subscriptions that use the method, by status. Delivery usage counts by stored status,
+     * with separate subsets for active subscriptions that are canceling or on billing hold.
      */
     "subscription_counts": SubscriptionCounts;
 };
@@ -140,8 +178,9 @@ export type SubscriptionDeliveryMethodImpact = {
     /** Selects the delivery method update preview. Value enum: "delivery_method_update". */
     "mode": "delivery_method_update" | (string & {});
     /**
-     * Of those, the subscriptions the edit would leave unable to use the method, by status. Counts
-     * of subscriptions by status: active, past due, and paused.
+     * Of those, the subscriptions the edit would leave unable to use the method, by status.
+     * Delivery usage counts by stored status, with separate subsets for active subscriptions that
+     * are canceling or on billing hold.
      */
     "no_longer_eligible_counts": SubscriptionCounts;
     /**
@@ -152,8 +191,9 @@ export type SubscriptionDeliveryMethodImpact = {
      */
     "no_longer_eligible_reasons"?: Array<"eligibility_no_match" | "method_type_not_allowed" | (string & {})>;
     /**
-     * Live subscriptions that use the method now, by status. Counts of subscriptions by status:
-     * active, past due, and paused.
+     * Live subscriptions that use the method now, by status. Delivery usage counts by stored
+     * status, with separate subsets for active subscriptions that are canceling or on billing
+     * hold.
      */
     "subscription_counts": SubscriptionCounts;
 };
@@ -19213,103 +19253,4 @@ export type SubscriptionListResponse = {
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
-};
-/**
- * Recurring terms offered on catalog products or variants. Updates affect new signups; existing
- * subscriptions keep their paid signup terms.
- */
-export type SubscriptionOffer = {
-    /**
-     * Offered billing interval and count pairs. Every option bills the same catalog line prices
-     * once per period; changing cadence does not scale prices. minItems: 1. maxItems: 12.
-     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such
-     * as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines
-     * that ship are per delivery, and each option charges for all deliveries in its period.
-     * Without a delivery cadence there is one delivery per period, so every option bills the same
-     * line prices once per period. With a delivery cadence, a longer period bills more deliveries
-     * of the lines that ship; other lines bill once per period. For a different price per interval
-     * with no delivery cadence, create separate plans.
-     */
-    "billing_interval_options": Array<SubscriptionIntervalOption>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata": MetadataMap;
-    /**
-     * Name of the offer. Buyers see it on the order lines it covers, so write it for them.
-     * minLength: 1. maxLength: 255.
-     */
-    "name": string;
-    /**
-     * Products whose active variants the offer covers, including variants added later. At most
-     * 100. Send at least one product or variant. Each product must be active and physical,
-     * digital, or a service. A variant can be in only one active offer; an overlap returns `409
-     * ALREADY_EXISTS` naming the other offer. maxItems: 100. uniqueItems: true. [] (Value):
-     * string. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-     */
-    "product_ids": Array<string>;
-    /**
-     * ID of the promotion that discounts new signups on this offer: an active promotion with
-     * forever recurrence. Null when the offer gives no discount. Example:
-     * "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id": string | null;
-    /**
-     * Whether new signups can use the offer. Existing subscriptions keep their signup terms
-     * whatever the offer's status. Value enum: "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /**
-     * Delivery methods offered at signup. An empty array uses the store's checkout defaults.
-     * Existing subscriptions keep their selected method. maxItems: 25. uniqueItems: true. []
-     * (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "subscription_delivery_method_ids": Array<string>;
-    /**
-     * Unique identifier for this subscription offer, prefixed `soffer_`. Example:
-     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
-     */
-    "subscription_offer_id": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Individual variants the offer covers. At most 100. Send at least one product or variant. A
-     * variant can be in only one active offer; an overlap returns `409 ALREADY_EXISTS` naming the
-     * other offer. maxItems: 100. uniqueItems: true. [] (Value): string. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_ids": Array<string>;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: uint64. minimum: 0.
-     */
-    "version": number;
-};
-/** A subscription offer and variant to include in subscription offer terms. */
-export type SubscriptionOfferLineItemRequest = {
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * ID of the active subscription offer that covers the variant. minLength: 1. Example:
-     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
-     */
-    "subscription_offer_id": string;
-    /**
-     * ID of the catalog variant to subscribe to. It must be one the offer covers, and no two lines
-     * can name the same variant. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id": string;
 };

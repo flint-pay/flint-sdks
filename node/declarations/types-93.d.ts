@@ -1,6 +1,7 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { SubscriptionDeliveryDestinationInputAddressInput } from './types-69.js';
+import type { SubscriptionBillingStartInputScheduledInput, SubscriptionBillingStartRequestInput } from './types-69.js';
 import type {
+    SubscriptionDeliveryDestinationInputAddressInput,
     SubscriptionDeliveryDestinationInputCustomerAddressInput,
     SubscriptionDeliveryDestinationRequestInput,
     SubscriptionDeliveryRequestInput,
@@ -17,10 +18,10 @@ import type {
     SubscriptionPlanChangeOptionRequestInput,
     SubscriptionPlanLineItemInputBundleInput,
     SubscriptionPlanLineItemInputCustomInput,
-    SubscriptionPlanLineItemInputVariantInput,
-    SubscriptionPlanLineItemRequestInput
+    SubscriptionPlanLineItemInputVariantInput
 } from './types-71.js';
 import type {
+    SubscriptionPlanLineItemRequestInput,
     SubscriptionPlanTermsRequestInput,
     SubscriptionPromotionRequestInput,
     SubscriptionQuantityChangeLineItemRequestInput,
@@ -29,10 +30,10 @@ import type {
     SubscriptionServiceLocationRequestInput,
     SubscriptionSettingsRequestInput,
     SubscriptionSwapPreviewRequestInput,
-    SubscriptionTaxCalculationRequestInput,
-    SubscriptionTaxRequestInput
+    SubscriptionTaxCalculationRequestInput
 } from './types-72.js';
 import type {
+    SubscriptionTaxRequestInput,
     SubscriptionTermsRequestInput,
     TaxCalculationCallbackConfigurationPatchRequestInput,
     TaxCalculationCallbackConfigurationRequestInput
@@ -47,10 +48,10 @@ import type {
     TaxIdentityRequestInput,
     TaxJurisdictionRequestInput,
     TaxJurisdictionRequestModelInput,
-    TaxSettingsRequestInput,
-    TextModifierConfigPatchRequestInput
+    TaxSettingsRequestInput
 } from './types-74.js';
 import type {
+    TextModifierConfigPatchRequestInput,
     TextModifierConfigRequestInput,
     TextModifierRequestInput,
     ThemeConfigRequestInput,
@@ -63,20 +64,21 @@ import type {
     UpdateCategoryRequestInput,
     UpdateCheckoutSessionRequestInput,
     UpdateCreditNoteRequestInput,
-    UpdateCustomerAddressRequestInput,
-    UpdateCustomerEmailPreferencesRequestInput
+    UpdateCustomerAddressRequestInput
 } from './types-75.js';
 import type {
+    UpdateCustomerEmailPreferencesRequestInput,
     UpdateCustomerRequestInput,
     UpdateCustomerTaxExemptionRequestInput,
     UpdateDeliveryFulfillmentDetailsInput,
     UpdateDeliveryLocationSetRequestInput,
     UpdateDeliveryMethodRequestInput,
     UpdateDeliveryProfileRequestInput,
-    UpdateDeliveryRateCallbackRequestInput,
-    UpdateDeliveryZoneRequestInput,
-    UpdateDeviceRequestInput
+    UpdateDeliveryRateCallbackRequestInput
 } from './types-76.js';
+export declare function makeSubscriptionBillingStartInputScheduled(value: InputValue<SubscriptionBillingStartInputScheduledInput>): Model<SubscriptionBillingStartInputScheduledInput>;
+export declare function makeSubscriptionBillingStartRequest(value: InputValue<Exclude<SubscriptionBillingStartRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionBillingStartRequestInput & object, readonly unknown[]>>;
+export declare function makeSubscriptionBillingStartRequest(value: InputValue<SubscriptionBillingStartRequestInput>): Model<SubscriptionBillingStartRequestInput>;
 export declare function makeSubscriptionDeliveryDestinationInputAddress(value: InputValue<SubscriptionDeliveryDestinationInputAddressInput>): Model<SubscriptionDeliveryDestinationInputAddressInput>;
 export declare function makeSubscriptionDeliveryDestinationInputCustomerAddress(value: InputValue<SubscriptionDeliveryDestinationInputCustomerAddressInput>): Model<SubscriptionDeliveryDestinationInputCustomerAddressInput>;
 export declare function makeSubscriptionDeliveryDestinationRequest(value: InputValue<Exclude<SubscriptionDeliveryDestinationRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionDeliveryDestinationRequestInput & object, readonly unknown[]>>;
@@ -143,5 +145,3 @@ export declare function makeUpdateDeliveryLocationSetRequest(value: InputValue<U
 export declare function makeUpdateDeliveryMethodRequest(value: InputValue<UpdateDeliveryMethodRequestInput>): Model<UpdateDeliveryMethodRequestInput>;
 export declare function makeUpdateDeliveryProfileRequest(value: InputValue<UpdateDeliveryProfileRequestInput>): Model<UpdateDeliveryProfileRequestInput>;
 export declare function makeUpdateDeliveryRateCallbackRequest(value: InputValue<UpdateDeliveryRateCallbackRequestInput>): Model<UpdateDeliveryRateCallbackRequestInput>;
-export declare function makeUpdateDeliveryZoneRequest(value: InputValue<UpdateDeliveryZoneRequestInput>): Model<UpdateDeliveryZoneRequestInput>;
-export declare function makeUpdateDeviceRequest(value: InputValue<UpdateDeviceRequestInput>): Model<UpdateDeviceRequestInput>;

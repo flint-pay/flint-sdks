@@ -67,7 +67,8 @@ export type { RemoveLicenseKeyPoolKeysRequestInput } from '../declarations/types
 export type { UpdateLicenseKeyPoolRequestInput } from '../declarations/types-76.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateLicenseKeyPoolKeysRequest, makeCreateLicenseKeyPoolRequest } from '../declarations/types-83.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeRemoveLicenseKeyPoolKeysRequest } from '../declarations/types-91.js';
 export { makeUpdateLicenseKeyPoolRequest } from '../declarations/types-94.js';
 export interface LicenseKeyPoolsResource {

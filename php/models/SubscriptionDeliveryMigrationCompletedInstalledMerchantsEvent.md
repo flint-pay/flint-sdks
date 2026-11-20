@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](SubscriptionDeliveryMigrationCompletedMerchantEvent.md#subscriptiondeliverymigrationcompletedmerchanteventdata-fields-1).
 
+### SubscriptionDeliveryMigrationCompletedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### SubscriptionDeliveryMigrationCompletedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [SubscriptionDeliveryMigrationCompletedMerchantEvent.data fields 1.object](../models/SubscriptionDeliveryMigrationCompletedMerchantEvent.md#subscriptiondeliverymigrationcompletedmerchanteventdata-fields-1object).

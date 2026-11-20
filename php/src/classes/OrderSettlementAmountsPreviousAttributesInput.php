@@ -61,7 +61,7 @@ final class OrderSettlementAmountsPreviousAttributesInput extends Model {
      */
     public function getReleasedMoney(): mixed { return $this->get('released_money'); }
     public function hasReleasedMoney(): bool { return $this->has('released_money'); }
-    /** Value order edits removed from the order, which it no longer owes: removed units' value plus each edit's charge_refunds[].amount_money, whether that value was refunded or applied to lines the edit added. Not collected money, so it never changes paid_money or refunded_money. outstanding_money is the total minus paid, written-off, released, and removed money, never below zero. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+    /** Value order edits removed from the order, which it no longer owes: removed units' value plus each edit's charge_refunds[].amount_money, whether that value was refunded or applied to lines the edit added. This reduces outstanding_money without changing paid_money or refunded_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When removed_money is omitted; use hasRemovedMoney() or valueOrDefault().
      */

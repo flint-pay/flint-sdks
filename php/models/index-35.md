@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# WebhookSnapshotInventoryTransferInput to DeliveryRateCallbackTestDeliveryResponse
+# WebhookSnapshotInventoryReceiptInput to DeliveryQuoteResponse
 
+- [WebhookSnapshotInventoryReceiptInput](WebhookSnapshotInventoryReceiptInput.md)
+- [WebhookSnapshotInventoryReservationInput](WebhookSnapshotInventoryReservationInput.md)
 - [WebhookSnapshotInventoryTransferInput](WebhookSnapshotInventoryTransferInput.md)
 - [WebhookSnapshotInvoiceManualPaymentInput](WebhookSnapshotInvoiceManualPaymentInput.md)
 - [WebhookSnapshotInvoicePaymentAttemptInput](WebhookSnapshotInvoicePaymentAttemptInput.md)
@@ -100,6 +102,4 @@
 - [DeliveryPreviewResponse](DeliveryPreviewResponse.md)
 - [DeliveryProfileResponse](DeliveryProfileResponse.md)
 - [DeliveryQuoteResponse](DeliveryQuoteResponse.md)
-- [DeliveryRateCallbackWithSecretResponse](DeliveryRateCallbackWithSecretResponse.md)
-- [DeliveryRateCallbackTestDeliveryResponse](DeliveryRateCallbackTestDeliveryResponse.md)
 

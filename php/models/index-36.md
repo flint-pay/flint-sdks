@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# DeliveryRevocationResponse to APIRequestLogDetailResponse
+# DeliveryRateCallbackWithSecretResponse to AnalyticsOverviewResponse
 
+- [DeliveryRateCallbackWithSecretResponse](DeliveryRateCallbackWithSecretResponse.md)
+- [DeliveryRateCallbackTestDeliveryResponse](DeliveryRateCallbackTestDeliveryResponse.md)
 - [DeliveryRevocationResponse](DeliveryRevocationResponse.md)
 - [DeliverySelectionResultResponse](DeliverySelectionResultResponse.md)
 - [DeliveryZoneResponse](DeliveryZoneResponse.md)
@@ -100,6 +102,4 @@
 - [DisconnectTaxConnectionResponse](DisconnectTaxConnectionResponse.md)
 - [OAuthTokenResponse](OAuthTokenResponse.md)
 - [AnalyticsOverviewResponse](AnalyticsOverviewResponse.md)
-- [APIKeyResponse](APIKeyResponse.md)
-- [APIRequestLogDetailResponse](APIRequestLogDetailResponse.md)
 

@@ -86,13 +86,13 @@ export type { BuyerInstructionsConfig } from '../declarations/types-2.js';
 export type { DeliveryRecipientRequirement } from '../declarations/types-23.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
+export { makeCallerSuppliedDeliveryMethodResultRequest, makeCallerSuppliedDeliveryOutcomeRequest } from '../declarations/types-80.js';
 export {
-    makeCallerSuppliedDeliveryMethodResultRequest,
-    makeCallerSuppliedDeliveryOutcomeRequest,
     makeCallerSuppliedDeliveryOutcomeRequestAvailable,
-    makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate
-} from '../declarations/types-80.js';
-export { makeCallerSuppliedDeliveryOutcomeRequestUnavailable, makeCreateCheckoutDeliveryQuoteRequest } from '../declarations/types-81.js';
+    makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate,
+    makeCallerSuppliedDeliveryOutcomeRequestUnavailable,
+    makeCreateCheckoutDeliveryQuoteRequest
+} from '../declarations/types-81.js';
 export {
     makeDeliveryAddressRequest,
     makeDeliveryBuyerLocationInputAddress,
@@ -102,7 +102,7 @@ export {
     makeDeliveryInventoryAssignmentRequest
 } from '../declarations/types-85.js';
 export { makeDeliveryWindowRequest } from '../declarations/types-86.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface DeliveryQuotesResource {
     /**
  * Creates an exact delivery quote for the checkout session named by checkout_session_id, without

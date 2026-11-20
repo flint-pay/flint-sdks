@@ -184,12 +184,17 @@ export type { BuyerInstructionsConfig, BuyerExpandedOrderSummary, BuyerExpandedP
 export type { DeliveryRecipientRequirement } from '../declarations/types-23.js';
 export type { PricingAmounts, PlatformFeeRequestInput, PlatformFeeMoneyInput } from '../declarations/types-56.js';
 export type { InvoiceSettlementAmounts } from '../declarations/types-38.js';
-export type { SettlementAmounts, SelectedProductOption, SetupCollection, SetupCollectionStripe } from '../declarations/types-68.js';
+export type {
+    SettlementAmounts,
+    SelectableOrderPaymentIntent,
+    SelectedProductOption,
+    SetupCollection,
+    SetupCollectionStripe
+} from '../declarations/types-68.js';
 export type { LegalSettings } from '../declarations/types-39.js';
 export type { Image } from '../declarations/types-31.js';
 export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
-export type { SelectableOrderPaymentIntent } from '../declarations/types-67.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
@@ -246,11 +251,11 @@ export {
     makeCheckoutTaxConfigRequest,
     makeCheckoutTipConfigRequest,
     makeCloseCheckoutSessionRequest,
-    makeConfirmCheckoutSessionCustomerVerificationRequest,
-    makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest,
-    makeCreateCheckoutSessionCustomerVerificationRequest
+    makeConfirmCheckoutSessionCustomerVerificationRequest
 } from '../declarations/types-81.js';
 export {
+    makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest,
+    makeCreateCheckoutSessionCustomerVerificationRequest,
     makeCreateCheckoutSessionDiscount,
     makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest,
     makeCreateCheckoutSessionInvoice,
@@ -266,8 +271,8 @@ export {
     makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest
 } from '../declarations/types-82.js';
 export { makeDeliveryWindowRequest } from '../declarations/types-86.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeOrderLineItemTaxRequest } from '../declarations/types-89.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-89.js';
 export {
     makePlatformFeeMoney,
     makePlatformFeeRequest,

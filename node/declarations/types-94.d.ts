@@ -1,5 +1,7 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    UpdateDeliveryZoneRequestInput,
+    UpdateDeviceRequestInput,
     UpdateDigitalFulfillmentDetailsInput,
     UpdateFulfillmentRequestInput,
     UpdateGiftCardRequestInput,
@@ -21,10 +23,10 @@ import type {
     UpdateMeSubscriptionRequestInput,
     UpdateMerchantRequestInput,
     UpdateModifierGroupRequestInput,
-    UpdateModifierSetRequestInput,
-    UpdateOrderChargeRequestInput
+    UpdateModifierSetRequestInput
 } from './types-76.js';
 import type {
+    UpdateOrderChargeRequestInput,
     UpdateOrderRequestInput,
     UpdatePackageItemRequestInput,
     UpdatePackageRequestInput,
@@ -54,10 +56,10 @@ import type {
     UpdateReturnReplacementLineItemRequestInput,
     UpdateReturnRequestInput,
     UpdateReturnResolutionAdjustmentRequestInput,
-    UpdateReturnResolutionLineItemRequestInput,
-    UpdateReturnResolutionRequestInput
+    UpdateReturnResolutionLineItemRequestInput
 } from './types-77.js';
 import type {
+    UpdateReturnResolutionRequestInput,
     UpdateRiskListRequestInput,
     UpdateRiskRuleRequestInput,
     UpdateServiceFulfillmentDetailsInput,
@@ -65,10 +67,10 @@ import type {
     UpdateShipmentRequestInput,
     UpdateSubscriptionLineItemRequestInput,
     UpdateSubscriptionOfferRequestInput,
-    UpdateSubscriptionPlanLineItemInputBundleInput,
-    UpdateSubscriptionPlanLineItemInputCustomInput,
-    UpdateSubscriptionPlanLineItemInputVariantInput
+    UpdateSubscriptionPlanLineItemInputBundleInput
 } from './types-78.js';
+export declare function makeUpdateDeliveryZoneRequest(value: InputValue<UpdateDeliveryZoneRequestInput>): Model<UpdateDeliveryZoneRequestInput>;
+export declare function makeUpdateDeviceRequest(value: InputValue<UpdateDeviceRequestInput>): Model<UpdateDeviceRequestInput>;
 export declare function makeUpdateDigitalFulfillmentDetails(value: InputValue<UpdateDigitalFulfillmentDetailsInput>): Model<UpdateDigitalFulfillmentDetailsInput>;
 export declare function makeUpdateFulfillmentRequest(value: InputValue<UpdateFulfillmentRequestInput>): Model<UpdateFulfillmentRequestInput>;
 export declare function makeUpdateGiftCardRequest(value: InputValue<UpdateGiftCardRequestInput>): Model<UpdateGiftCardRequestInput>;
@@ -131,5 +133,3 @@ export declare function makeUpdateShipmentRequest(value: InputValue<UpdateShipme
 export declare function makeUpdateSubscriptionLineItemRequest(value: InputValue<UpdateSubscriptionLineItemRequestInput>): Model<UpdateSubscriptionLineItemRequestInput>;
 export declare function makeUpdateSubscriptionOfferRequest(value: InputValue<UpdateSubscriptionOfferRequestInput>): Model<UpdateSubscriptionOfferRequestInput>;
 export declare function makeUpdateSubscriptionPlanLineItemInputBundle(value: InputValue<UpdateSubscriptionPlanLineItemInputBundleInput>): Model<UpdateSubscriptionPlanLineItemInputBundleInput>;
-export declare function makeUpdateSubscriptionPlanLineItemInputCustom(value: InputValue<UpdateSubscriptionPlanLineItemInputCustomInput>): Model<UpdateSubscriptionPlanLineItemInputCustomInput>;
-export declare function makeUpdateSubscriptionPlanLineItemInputVariant(value: InputValue<UpdateSubscriptionPlanLineItemInputVariantInput>): Model<UpdateSubscriptionPlanLineItemInputVariantInput>;

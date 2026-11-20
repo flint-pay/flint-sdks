@@ -60,7 +60,7 @@ export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeDeclinePaymentReviewRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface PaymentReviewsResource {
     /**
  * Approves the payment and closes the review with `closed_reason: approved`. Approving never

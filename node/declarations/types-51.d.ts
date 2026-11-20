@@ -2,8 +2,7 @@ import type { Order } from './types-45.js';
 import type { OrderPaymentAttempt } from './types-47.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { StripePaymentClientAction, StripePaymentClientActionPreviousAttributes } from './types-69.js';
-import type { SelectableOrderPaymentIntent } from './types-67.js';
-import type { SelectableOrderPaymentIntentPreviousAttributes } from './types-68.js';
+import type { SelectableOrderPaymentIntent, SelectableOrderPaymentIntentPreviousAttributes } from './types-68.js';
 import type {
     ErrorRemediation,
     ErrorRemediationPreviousAttributes,
@@ -44,10 +43,7 @@ export type PayOrderResult = {
      */
     "order_payment_attempt"?: OrderPaymentAttempt;
 };
-/**
- * The merchant identity that initiated the action. Labels are recorded with the activity and do
- * not change when the identity is renamed or removed.
- */
+/** The teammate, API key, or app that initiated the action. */
 export type PaymentActivityActor = {
     /**
      * Teammate name (or email), API key name, or app name. Empty when a display label was
@@ -1512,9 +1508,8 @@ export type PaymentIntentActivity = {
      * Identity that initiated this action, with its label recorded at the time. Null when the
      * action was automated or no initiating merchant identity was recorded. Refund creation
      * retains its initiating actor when a worker processes it. Later processor updates are
-     * automated activity. anyOf[1] (Value): {@link PaymentActivityActor}. The merchant identity
-     * that initiated the action. Labels are recorded with the activity and do not change when the
-     * identity is renamed or removed. anyOf[2] (Value): null.
+     * automated activity. anyOf[1] (Value): {@link PaymentActivityActor}. The teammate, API key,
+     * or app that initiated the action. anyOf[2] (Value): null.
      */
     "actor": ((PaymentActivityActor) | (null));
     /**

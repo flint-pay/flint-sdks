@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](EnvironmentGrantRevokedEvent.md#environmentgrantrevokedeventdata-fields-1).
 
+### EnvironmentGrantUpdatedEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### EnvironmentGrantUpdatedEvent.data fields 1.object
 
 Field definitions: [EnvironmentGrantCreatedEvent.data fields 1.object](../models/EnvironmentGrantCreatedEvent.md#environmentgrantcreatedeventdata-fields-1object).

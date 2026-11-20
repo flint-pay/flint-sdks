@@ -1,24 +1,16 @@
 import type {
-    ReturnUnverifiedItemInput,
+    ReturnActor,
+    ReturnActorPreviousAttributes,
+    ResourceReference,
+    ResourceReferencePreviousAttributes
+} from './types-62.js';
+import type {
     ReturnUnverifiedItem,
+    ReturnUnverifiedItemInput,
     ReturnUnverifiedItemPreviousAttributes,
     ReturnSourceSystemPreviousAttributes,
     ReturnSourceSystem
 } from './types-66.js';
-import type {
-    ReturnActorPreviousAttributes,
-    ReturnActor,
-    ResourceReference,
-    ResourceReferencePreviousAttributes,
-    RetryReturnResolutionRequestInput
-} from './types-62.js';
-import type {
-    ReturnReceiptLineItemInputExcess,
-    ReturnReceiptLineItem,
-    ReturnLineItemPreviousAttributes,
-    ReturnPolicyEvaluation,
-    ReturnPolicyEvaluationPreviousAttributes
-} from './types-64.js';
 import type {
     ReturnDispositionPreviousAttributes,
     ReturnCompletionBlocker,
@@ -36,7 +28,6 @@ import type {
     WebhookSnapshotReturnInspection,
     WebhookSnapshotReturnLineItem,
     WebhookSnapshotReturnReceipt,
-    WebhookSnapshotReturnResolution,
     WebhookSnapshotRefund
 } from './types-79.js';
 import type { InputValue } from '../runtime.js';
@@ -53,13 +44,107 @@ import type {
 import type { VerifyReturnReceiptLineItemRequestInput } from './types-78.js';
 import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-44.js';
 import type { ExpandedShipmentSummary, ExpandedShipmentSummaryPreviousAttributes } from './types-27.js';
+import type {
+    ReturnLineItemPreviousAttributes,
+    ReturnPolicyEvaluation,
+    ReturnPolicyEvaluationPreviousAttributes
+} from './types-64.js';
+import type { WebhookSnapshotReturnResolution } from './types-80.js';
 import type { LineItemFulfillmentRequest, LineItemFulfillmentRequestModelInput } from './types-40.js';
 import type { TaxCalculationRequest } from './types-74.js';
 import type { OrderDraftLineItemTaxCalculationRequestModelInput } from './types-45.js';
 import type { Refund } from './types-60.js';
-import type { RefundPreviousAttributes, ReleaseReturnResolutionRequestInput } from './types-61.js';
+import type { RefundPreviousAttributes } from './types-61.js';
 import type { CancelReturnResolutionRequestInput } from './types-5.js';
 import type { ConfirmReturnResolutionRequestInput } from './types-8.js';
+/** A returned item recorded as received. */
+export type ReturnReceiptLineItem = {
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "available_disposition_quantity": number;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Return that owns return_line_item_id. `null` when return_line_item_id is null. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string | null;
+    /**
+     * ID of the Return line the units were matched to. Absent for unverified units. Example:
+     * "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id"?: string;
+    /** ID of the receipt the line belongs to. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
+    "return_receipt_id": string;
+    /**
+     * Unique identifier for this return receipt line item, prefixed `retrcli_`. Example:
+     * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id": string;
+    /**
+     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
+     * left out. `verify` is listed while the receipt is current and the line's
+     * `verification_status` is `unverified`. Otherwise empty. [] enum: "verify". [] (Value):
+     * string. Value enum: "verify".
+     */
+    "supported_actions": Array<"verify" | (string & {})>;
+    /**
+     * What the operator recorded for units that match no line. Present on `unverified` lines.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItem;
+    /**
+     * Why the units were verified against the line. Value enum: "order_match_confirmed",
+     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
+     */
+    "verification_reason"?: "order_match_confirmed"
+        | "sku_match_confirmed"
+        | "inspection_confirmed"
+        | "merchant_review"
+        | "other"
+        | (string & {});
+    /** Detail about `verification_reason`. */
+    "verification_reason_message"?: string;
+    /** Whether the units are matched to a line. Value enum: "matched", "unverified", "excess". */
+    "verification_status": "matched" | "unverified" | "excess" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "verified_at"?: string;
+    /**
+     * Who verified the line. Who performed a return action: a buyer, merchant, integration, or the
+     * system, with an optional ID.
+     */
+    "verified_by"?: ReturnActor;
+};
+/** The `excess` variant of `ReturnReceiptLineItemInput`. */
+export type ReturnReceiptLineItemInputExcess = ({
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * Whether this observation matches a Return line, is unverified merchandise, or is known
+     * excess merchandise. Value enum: "excess".
+     */
+    "type": "excess" | (string & {});
+    /**
+     * A buyer or catalog identity observation that has not been matched to a Return line.
+     * Merchandise received in a return that does not match an expected return line, described by
+     * name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItem;
+})
+    & (({
+    /** Value enum: "excess". */
+    "type": unknown;
+    /**
+     * The expected Return line. Required for matched and excess merchandise. minLength: 1.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+}));
 /** The `excess` variant of `ReturnReceiptLineItemInput`. */
 export type ReturnReceiptLineItemInputExcessInput = ({
     /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
@@ -3261,10 +3346,9 @@ export type ReturnRefundEstimate = {
      */
     "store_credit_destination": "new_gift_card" | (string & {});
     /**
-     * Estimated original-payment funding in refund order. Amounts sum to buyer_refund_amount_money
-     * plus buyer_store_credit_amount_money less refund_shortfall_money. Empty when no value is
-     * payable. [] (Value): {@link ReturnRefundTenderEstimate}. One estimated original-payment
-     * destination for a return refund.
+     * Estimated original-payment destinations for the payable part of buyer_refund_amount_money,
+     * in refund order. Excludes store credit. Empty when no refund is payable. [] (Value): {@link
+     * ReturnRefundTenderEstimate}. One estimated original-payment destination for a return refund.
      */
     "tender_estimates": Array<ReturnRefundTenderEstimate>;
 };
@@ -13186,48 +13270,6 @@ export type ReturnResolutionsListParams = {
      * anyOf[2] (Value): string. Value enum: "replacement_order".
      */
     "expand"?: InputValue<("replacement_order") | readonly ("replacement_order")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ReturnResolutionsReleaseParams = (InputValue<ReleaseReturnResolutionRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ReturnResolutionsRetryParams = (InputValue<RetryReturnResolutionRequestInput>)
-    & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own

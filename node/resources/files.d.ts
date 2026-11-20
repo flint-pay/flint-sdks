@@ -28,7 +28,7 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export type { CreateFileRequestInput } from '../declarations/types-9.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateFileRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface FilesResource {
     /**
  * Completing a merchant_logo or merchant_icon file requires a live-mode credential or a Dashboard

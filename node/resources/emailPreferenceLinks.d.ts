@@ -38,7 +38,7 @@ export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export { makeEmailPreferenceLinkRequest } from '../declarations/types-86.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface EmailPreferenceLinksResource {
     /**
  * Reads an emailed preference token without signing the buyer in. The merchant key must match the

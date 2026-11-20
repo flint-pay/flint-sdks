@@ -34,13 +34,13 @@ export type {
     SubscriptionPlansListParams,
     SubscriptionPlanListResponse,
     SubscriptionPlansUpdateParams,
+    SubscriptionPlanLineItemRequestInput,
     SubscriptionPlanSwapVariant,
     SubscriptionPlanLineItemVariant
 } from '../declarations/types-72.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     SubscriptionPlan,
-    SubscriptionPlanLineItemRequestInput,
     SubscriptionPlanLineItemInputVariantInput,
     SubscriptionPlanLineItemInputBundleInput,
     SubscriptionPlanLineItemInputCustomInput,
@@ -101,8 +101,9 @@ export {
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest
 } from '../declarations/types-87.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
 export {
+    makeMoneyValue,
     makeOrderLineItemModifierInputCatalogRequest,
     makeOrderLineItemModifierInputTextRequest,
     makeOrderLineItemModifierRequestModel,
@@ -118,12 +119,13 @@ export {
     makeSubscriptionPlanLineItemRequest,
     makeTextModifierRequest
 } from '../declarations/types-93.js';
+export { makeUpdateSubscriptionPlanLineItemInputBundle } from '../declarations/types-94.js';
 export {
-    makeUpdateSubscriptionPlanLineItemInputBundle,
     makeUpdateSubscriptionPlanLineItemInputCustom,
-    makeUpdateSubscriptionPlanLineItemInputVariant
-} from '../declarations/types-94.js';
-export { makeUpdateSubscriptionPlanLineItemRequest, makeUpdateSubscriptionPlanRequest } from '../declarations/types-95.js';
+    makeUpdateSubscriptionPlanLineItemInputVariant,
+    makeUpdateSubscriptionPlanLineItemRequest,
+    makeUpdateSubscriptionPlanRequest
+} from '../declarations/types-95.js';
 export interface SubscriptionPlansResource {
     /**
  * Creates a subscription plan: the recurring price and terms customers sign up to. Send `name`,

@@ -160,9 +160,9 @@ export {
     makeLinkCustomerGuestPurchasesRequest,
     makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue
+    makeMetadataRequest
 } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export {
     makeTaxIdentityPatch,
     makeTaxIdentityRequest,

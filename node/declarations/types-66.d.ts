@@ -1,5 +1,17 @@
 import type { InputValue } from '../runtime.js';
-import type { UpdateReturnResolutionRequestInput, UpdateReturnLineItemRequestInput, UpdateReturnRequestInput } from './types-77.js';
+import type { ReleaseReturnResolutionRequestInput, ReopenReturnRequestInput } from './types-61.js';
+import type {
+    RetryReturnResolutionRequestInput,
+    ReturnActor,
+    ReturnActorPreviousAttributes,
+    ResponseMeta,
+    ResourceReference
+} from './types-62.js';
+import type {
+    UpdateReturnResolutionRequestInput,
+    WaiveReturnLineInspectionRequestInput,
+    UpdateRiskListRequestInput
+} from './types-78.js';
 import type {
     ExpandedCustomerSummary,
     ExpandedOrderSummary,
@@ -9,7 +21,6 @@ import type {
 } from './types-26.js';
 import type { ExpandedShipmentSummary, ExpandedShipmentSummaryPreviousAttributes, FilesCompleteParams } from './types-27.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
-import type { ReturnActor, ReturnActorPreviousAttributes, ResponseMeta, ResourceReference } from './types-62.js';
 import type {
     ReturnCompletionBlocker,
     ReturnDisposition,
@@ -36,27 +47,68 @@ import type {
     WebhookSnapshotReturnDisposition,
     WebhookSnapshotReturnInspection,
     WebhookSnapshotReturnLineItem,
-    WebhookSnapshotReturnReceipt,
-    WebhookSnapshotReturnResolution
+    WebhookSnapshotReturnReceipt
 } from './types-79.js';
+import type { WebhookSnapshotReturnResolution } from './types-80.js';
 import type { CancelReturnLineItemRequestInput, CancelReturnRequestInput } from './types-5.js';
 import type { CompleteReturnRequestInput } from './types-7.js';
 import type { AddReturnLineItemRequestInput, AddRiskListItemsRequestInput } from './types-0.js';
 import type { CreateReturnRequestInput, CreateRiskListRequestInput } from './types-13.js';
 import type { DecideReturnRequestInput } from './types-17.js';
 import type { ProcessExistingReturnRequestInput } from './types-57.js';
-import type { ReopenReturnRequestInput } from './types-61.js';
-import type { WaiveReturnLineInspectionRequestInput, UpdateRiskListRequestInput } from './types-78.js';
+import type { UpdateReturnLineItemRequestInput, UpdateReturnRequestInput } from './types-77.js';
 import type {
+    RiskPredicateNodeAny,
     RiskPredicateNodeComparison,
     RiskPredicateNodeIn,
     RiskPredicateNodeInList,
     RiskPredicateNodeIsMissing,
     RiskPredicateNodeMoneyComparison,
     RiskPredicateNodeNot,
-    RiskPredicateNodeRequest,
-    RiskPredicateNodeRequestInput
+    RiskPredicateNodeRequest
 } from './types-67.js';
+export type ReturnResolutionsReleaseParams = (InputValue<ReleaseReturnResolutionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnResolutionsRetryParams = (InputValue<RetryReturnResolutionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type ReturnResolutionsUpdateParams = (InputValue<UpdateReturnResolutionRequestInput>)
     & {
     /**
@@ -4921,22 +4973,4 @@ export type RiskPredicateNodeAllRequest = {
      * an `all`, `any`, or `not` group of other nodes.
      */
     "all": Array<RiskPredicateNodeRequest>;
-};
-/** The `All` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeAllRequestInput = {
-    /**
-     * Predicates that must all match. minItems: 1. maxItems: 50. [] (Value): {@link
-     * RiskPredicateNodeRequestInput}. A node in a risk rule condition: a comparison of an
-     * attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "all": Array<RiskPredicateNodeRequestInput>;
-};
-/** The `Any` variant of `RiskPredicateNode`. */
-export type RiskPredicateNodeAny = {
-    /**
-     * Predicates of which at least one must match. minItems: 1. maxItems: 50. [] (Value): {@link
-     * RiskPredicateNode}. A node in a risk rule condition: a comparison of an attribute, or an
-     * `all`, `any`, or `not` group of other nodes.
-     */
-    "any": Array<RiskPredicateNode>;
 };

@@ -66,7 +66,8 @@ export type { UpdateReaderRequestInput } from '../declarations/types-77.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateReaderRequest, makeCreateSmartReaderRequest } from '../declarations/types-84.js';
 export { makeCreateTapToPayReaderRequest } from '../declarations/types-85.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeSimulateReaderRequest } from '../declarations/types-92.js';
 export { makeUpdateReaderRequest } from '../declarations/types-94.js';
 export interface ReadersResource {

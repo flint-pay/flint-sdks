@@ -122,9 +122,9 @@ export {
     makeMarkPackageShippedRequest,
     makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue
+    makeMetadataRequest
 } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeReturnShipmentLineItemAllocationRequest } from '../declarations/types-92.js';
 export { makeUpdatePackageItemRequest, makeUpdatePackageRequest } from '../declarations/types-94.js';
 export { makeVoidPackageRequest, makeWeightRequest } from '../declarations/types-95.js';

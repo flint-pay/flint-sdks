@@ -53,13 +53,8 @@ export type { InventoryAllocationPoliciesDeleteParams } from '../declarations/ty
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeAddressRequest } from '../declarations/types-80.js';
 export { makeCreateLocationRequest } from '../declarations/types-83.js';
-export {
-    makeLocationCoordinateRequest,
-    makeMetadataMap,
-    makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue
-} from '../declarations/types-88.js';
+export { makeLocationCoordinateRequest, makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateLocationRequest } from '../declarations/types-94.js';
 export interface LocationsResource {
     /**

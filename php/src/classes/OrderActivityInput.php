@@ -30,7 +30,7 @@ final class OrderActivityInput extends Model {
      */
     public function getActivityType(): string { return $this->get('activity_type'); }
     public function hasActivityType(): bool { return $this->has('activity_type'); }
-    /** The merchant identity that initiated the refund, when available. Buyer activity lists omit it. The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed.
+    /** The merchant identity that initiated the action, when recorded. Buyer activity lists omit it. The teammate, API key, or app that initiated the action.
      * @return PaymentActivityActorInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When actor is omitted; use hasActor() or valueOrDefault().
      */

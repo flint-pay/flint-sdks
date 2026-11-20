@@ -1,13 +1,13 @@
-import { d7918 as c0 } from '../descriptors/data/342.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d9067 as c1 } from '../descriptors/data/410.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d10299 as c2 } from '../descriptors/data/482.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d10300 as c3, d10301 as c4, d10302 as c5, d10303 as c6, d10304 as c7 } from '../descriptors/data/483.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d7780 as c8 } from '../descriptors/data/328.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d7780 as d7780 } from '../descriptors/data/328.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import { d7920 as c0 } from '../descriptors/data/343.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d9069 as c1 } from '../descriptors/data/411.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d10302 as c2 } from '../descriptors/data/483.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d10303 as c3, d10304 as c4, d10305 as c5, d10306 as c6, d10307 as c7 } from '../descriptors/data/484.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d7782 as c8 } from '../descriptors/data/328.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d7782 as d7782 } from '../descriptors/data/328.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7780;
+const read = d7782;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["SharedCodec137"]:c1(),["SharedCodec3159"]:c2(),["SharedCodec3160"]:c3(),["SharedCodec3161"]:c4(),["SharedCodec3162"]:c5(),["SharedCodec3163"]:c6(),["SharedCodec3164"]:c7(),["UpdatePayoutSettingsRequest"]:c8()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["SharedCodec137"]:c1(),["SharedCodec3161"]:c2(),["SharedCodec3162"]:c3(),["SharedCodec3163"]:c4(),["SharedCodec3164"]:c5(),["SharedCodec3165"]:c6(),["SharedCodec3166"]:c7(),["UpdatePayoutSettingsRequest"]:c8()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdatePayoutSettingsRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

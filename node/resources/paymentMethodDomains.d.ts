@@ -44,8 +44,8 @@ export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdatePaymentMethodDomainRequestInput } from '../declarations/types-77.js';
-export { makeCreatePaymentMethodDomainRequest } from '../declarations/types-83.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeCreatePaymentMethodDomainRequest } from '../declarations/types-84.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdatePaymentMethodDomainRequest } from '../declarations/types-94.js';
 export interface PaymentMethodDomainsResource {
     /**

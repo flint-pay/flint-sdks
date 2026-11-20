@@ -63,7 +63,8 @@ export type { UpdatePromotionCodeRequestInput } from '../declarations/types-77.j
 export type { CategoriesDeleteParams } from '../declarations/types-5.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreatePromotionCodeRequest } from '../declarations/types-84.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdatePromotionCodeRequest } from '../declarations/types-94.js';
 export interface PromotionCodesResource {
     /**

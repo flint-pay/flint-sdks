@@ -1,3 +1,4 @@
+import type { StripeClientAuthority } from './types-68.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type {
     ExpandedCustomerSummary,
@@ -22,6 +23,7 @@ import type {
     SubscriptionIntervalOptionPreviousAttributes,
     SubscriptionInventoryWaitPreviousAttributes,
     SubscriptionLineItemPreviousAttributes,
+    SubscriptionDeliveryDestination,
     SubscriptionDeliveryMethodSummary
 } from './types-70.js';
 import type { SubscriptionPausedDeliveryHold, SubscriptionPausedDeliveryHoldPreviousAttributes } from './types-71.js';
@@ -47,7 +49,36 @@ import type {
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { ReturnActor, ResponseMeta } from './types-62.js';
 import type { DeliveryRecipientResource } from './types-23.js';
-import type { Address, AddressRequestInput } from './types-0.js';
+/**
+ * Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now.
+ * setup_collection is guidance instead and never carries a secret.
+ */
+export type StripeClientSetup = {
+    /**
+     * Stripe.js initialization context and the SetupIntent authority for saving the payment
+     * method. Stripe.js initialization context and SetupIntent setup authority.
+     */
+    "stripe"?: StripeClientSetupStripe;
+};
+/** Stripe.js initialization context and SetupIntent setup authority. */
+export type StripeClientSetupStripe = {
+    /**
+     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Example:
+     * "acct_1234567890".
+     */
+    "account_id"?: string;
+    /**
+     * Stripe publishable key for the active Flint payment mode; use this with account_id when
+     * loading Stripe.js.
+     */
+    "publishable_key"?: string;
+    /**
+     * One-time authority for the Stripe SetupIntent: its client secret and the Stripe.js call to
+     * make with it. One-time client authority for the named Stripe object. This payload always
+     * names the Stripe.js call and carries its client secret.
+     */
+    "setup_intent"?: StripeClientAuthority;
+};
 /**
  * Stripe initialization context plus one flow-specific authority object. Exactly one of
  * payment_intent, setup_intent, or terminal_payment_intent is present.
@@ -19489,10 +19520,26 @@ export type SubscriptionChargeEstimate = {
      */
     "total_money": MoneyValue;
 };
-/** Counts of subscriptions by status: active, past due, and paused. */
+/**
+ * Delivery usage counts by stored status, with separate subsets for active subscriptions that are
+ * canceling or on billing hold.
+ */
 export type SubscriptionCounts = {
-    /** Number of counted subscriptions with status `active`. Format: int64. */
+    /**
+     * Number of subscriptions with the stored status `active`, including the canceling and
+     * billing_hold subsets. Format: int64.
+     */
     "active": number;
+    /**
+     * Number of active subscriptions with billing on hold or being retried, excluding scheduled
+     * cancellations. Format: int64.
+     */
+    "billing_hold": number;
+    /**
+     * Number of active subscriptions scheduled to cancel at the end of their current period.
+     * Format: int64.
+     */
+    "canceling": number;
     /** Number of counted subscriptions with status `past_due`. Format: int64. */
     "past_due": number;
     /** Number of counted subscriptions with status `paused`. Format: int64. */
@@ -19500,10 +19547,25 @@ export type SubscriptionCounts = {
 };
 export type SubscriptionCountsPreviousAttributes = {
     /**
-     * Number of counted subscriptions with status `active`. anyOf[1] (Value): integer. Number of
-     * counted subscriptions with status `active`. Format: int64. anyOf[2] (Value): null.
+     * Number of subscriptions with the stored status `active`, including the canceling and
+     * billing_hold subsets. anyOf[1] (Value): integer. Number of subscriptions with the stored
+     * status `active`, including the canceling and billing_hold subsets. Format: int64. anyOf[2]
+     * (Value): null.
      */
     "active"?: ((number) | (null));
+    /**
+     * Number of active subscriptions with billing on hold or being retried, excluding scheduled
+     * cancellations. anyOf[1] (Value): integer. Number of active subscriptions with billing on
+     * hold or being retried, excluding scheduled cancellations. Format: int64. anyOf[2] (Value):
+     * null.
+     */
+    "billing_hold"?: ((number) | (null));
+    /**
+     * Number of active subscriptions scheduled to cancel at the end of their current period.
+     * anyOf[1] (Value): integer. Number of active subscriptions scheduled to cancel at the end of
+     * their current period. Format: int64. anyOf[2] (Value): null.
+     */
+    "canceling"?: ((number) | (null));
     /**
      * Number of counted subscriptions with status `past_due`. anyOf[1] (Value): integer. Number of
      * counted subscriptions with status `past_due`. Format: int64. anyOf[2] (Value): null.
@@ -34253,41 +34315,3 @@ export type SubscriptionDeliveryActionRequiredMerchantEvent = (Exclude<MerchantW
     /** Value enum: "subscription.delivery_action_required". */
     "event_type"?: "subscription.delivery_action_required";
 });
-/**
- * The delivery address for a subscription's future shipments, with the saved customer address it
- * came from.
- */
-export type SubscriptionDeliveryDestination = {
-    /**
-     * Resolved delivery address used by future shipments. `null` when the saved destination has no
-     * address. anyOf[1] (Value): {@link Address}. A postal address. Every address has country.
-     * Addresses Flint checked as complete (customer and saved addresses, merchant, location,
-     * invoice, order delivery destination, tax identity, fulfillment recipient and pickup
-     * addresses) always have line1 and city, and US ones always have state and postal_code.
-     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
-     * was provided, such as postal_code and country. anyOf[2] (Value): null.
-     */
-    "address": ((Address) | (null));
-    /**
-     * Display reference to the saved customer address used when this destination was written.
-     * Editing that saved address does not change the subscription destination. Example:
-     * "caddr_01KEZF7C00K2Q127FBJAXWB0FP".
-     */
-    "customer_address_id"?: string;
-    /**
-     * Customer that owns customer_address_id. Null when customer_address_id is absent for an
-     * inline address. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": string | null;
-};
-/** The `address` variant of `SubscriptionDeliveryDestinationInput`. */
-export type SubscriptionDeliveryDestinationInputAddressInput = {
-    /**
-     * Delivery address. Flint saves a copy with the subscription. A complete postal address. State
-     * and postal_code are required for US addresses and optional for other countries. Send null or
-     * omit line2, state, and postal_code when the address has none.
-     */
-    "address": AddressRequestInput;
-    /** Selects a new address as the destination. Value enum: "address". */
-    "type": "address";
-};

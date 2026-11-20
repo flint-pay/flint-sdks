@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# SubscriptionSwapPreviewRequest to ThemeConfigPreviousAttributes
+# SubscriptionSnapshotMetrics to TextModifierRequestPreviousAttributes
 
+- [SubscriptionSnapshotMetrics](SubscriptionSnapshotMetrics.md)
+- [SubscriptionStatusCounts](SubscriptionStatusCounts.md)
 - [SubscriptionSwapPreviewRequest](SubscriptionSwapPreviewRequest.md)
 - [SubscriptionSwapPreviewRequestInput](SubscriptionSwapPreviewRequestInput.md)
 - [SubscriptionTax](SubscriptionTax.md)
@@ -100,6 +102,4 @@
 - [TextModifierRequest](TextModifierRequest.md)
 - [TextModifierRequestInput](TextModifierRequestInput.md)
 - [TextModifierRequestPreviousAttributes](TextModifierRequestPreviousAttributes.md)
-- [ThemeConfig](ThemeConfig.md)
-- [ThemeConfigPreviousAttributes](ThemeConfigPreviousAttributes.md)
 

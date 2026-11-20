@@ -5297,6 +5297,12 @@ export type InventoryLevelsListParams = {
      */
     "inventory_item_id"?: InputValue<string>;
     /**
+     * Filter by inventory items linked to the product's non-deleted variants. An item shared by
+     * several variants returns one level per Location. pattern:
+     * ^prod_[0-7][0-9A-HJKMNP-TV-Z]{25}$. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: InputValue<string>;
+    /**
      * Filter by Location. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "loc_01KEZF7C00CMHRRYA3MV996JB2".
      */

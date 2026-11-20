@@ -1,9 +1,17 @@
-import type { CreateOrderTipInput } from './types-12.js';
-import type { InventoryRoutingSourceRequestInput } from './types-34.js';
 import type { MetadataPatchRequestInput, MetadataPatchRequest } from './types-43.js';
-import type { OrderDeliveryDestinationRequestInput, OrderDeliveryRequestInput } from './types-45.js';
-import type { OrderHandoverRequestInput } from './types-46.js';
-import type { OrderTaxUpdateRequestInput } from './types-48.js';
+import type { MoneyValueInput, MoneyValue } from './types-44.js';
+import type {
+    OrderCalculatedChargeTaxRequestInput,
+    OrderDeliveryDestinationRequest,
+    OrderDeliveryRequest,
+    OrderDeliveryDestinationRequestInput,
+    OrderDeliveryRequestInput
+} from './types-45.js';
+import type { CreateOrderTip, CreateOrderTipInput } from './types-12.js';
+import type { InventoryRoutingSourceRequest } from './types-33.js';
+import type { OrderHandover, OrderHandoverRequestInput } from './types-46.js';
+import type { OrderTaxUpdateRequest, OrderTaxUpdateRequestInput } from './types-48.js';
+import type { InventoryRoutingSourceRequestInput } from './types-34.js';
 import type { Dimensions, DimensionsRequestInput } from './types-25.js';
 import type { Weight, WeightRequestInput } from './types-80.js';
 import type { PartnerAppPaymentSplits, PartnerAppPermissionManifestEntry, PartnerAppPaymentSplitsRequestInput } from './types-49.js';
@@ -13,7 +21,6 @@ import type {
     PartnerAppPlatformProfileRequestInput
 } from './types-50.js';
 import type { PlatformFeeCap, PlatformFeeCapRequestInput } from './types-56.js';
-import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type {
     CheckoutBuyerFields,
     CheckoutPromotionConfig,
@@ -27,7 +34,6 @@ import type {
     CheckoutTipConfigRequestInput
 } from './types-7.js';
 import type { ImageRequest, ImageRequestInput } from './types-31.js';
-import type { InventoryRoutingSourceRequest } from './types-33.js';
 import type { LegalSettingsRequest, LicenseKeyConfigurationRequest, LicenseKeyConfigurationRequestInput } from './types-39.js';
 import type {
     PaymentLinkCustomFieldPatchRequest,
@@ -71,9 +77,205 @@ import type {
     PromotionCombinesWithPatchInput,
     PromotionExclusivityPatchInput
 } from './types-58.js';
-import type { GetReturnResponse, GetReturnPolicyResponse, GetReturnReasonResponse, GetReturnResolutionResponse } from './types-28.js';
+import type { GetReturnResponse, GetReturnPolicyResponse, GetReturnReasonResponse } from './types-28.js';
 import type { LineItemFulfillmentRequest, LineItemFulfillmentRequestModelInput } from './types-40.js';
 import type { ReturnReplacementTaxRequest, ReturnReplacementTaxRequestInput } from './types-65.js';
+/** The request body for: Update order charge. minProperties: 1. */
+export type UpdateOrderChargeRequestInput = ({
+    /**
+     * Replacement fixed charge amount in the order currency. The amount and every computed order
+     * amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
+     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+     * responsible input field. Lower payment option limits can apply. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
+     * "subtotal_post_discount".
+     */
+    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount";
+    /** Send null to clear description. minLength: 1. maxLength: 2048. */
+    "description"?: string | null;
+    /**
+     * Optional order version from the last order read. The mutation fails if the order changed.
+     * Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Send null to unlink the fulfillment. minLength: 1. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. Send null to clear all metadata. anyOf[1] (Value): {@link MetadataPatchRequestInput}.
+     * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
+     * sets a value, a null value deletes the key, and an empty object makes no change; send null
+     * for the whole field to clear all caller-owned metadata. The resulting map is limited the
+     * same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
+     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
+     * bytes. Deleting a key that does not exist is allowed, so the number of operations is not
+     * itself the stored-map limit. Values can't be empty strings, and keys starting with flint_
+     * are reserved for Flint. anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * What the buyer sees for this charge at checkout and on receipts. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
+     * use `amount_money` instead. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /**
+     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
+     * supplied by you, including the charge's tax category and whether it is taxable.
+     */
+    "tax"?: OrderCalculatedChargeTaxRequestInput;
+    /**
+     * What the charge is for. It classifies the charge in reporting and sets its default tax
+     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
+     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
+     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
+     * "restocking_fee", "rush_fee", "other".
+     */
+    "type"?: "service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other";
+})
+    & ({
+    "amount_money"?: never;
+} | {
+    "percent"?: never;
+});
+/** The request body for: Update order. minProperties: 1. */
+export type UpdateOrderRequest = ({
+    /**
+     * Buyer-provided note about this order, such as a gift message or purchase preference. Send
+     * null to clear it. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 1000.
+     */
+    "buyer_note"?: string | null;
+    /**
+     * Defaults to keep, preserving frozen prices. Send reprice with an explicit non-null
+     * customer_id to refresh every catalog variant line on an open, unpaid order. Reassigning
+     * resolves the new customer’s direct list, then segment list, then variant pricing.
+     * Subscription-owned prices remain locked. If any catalog line’s variant is no longer for
+     * sale, reprice is refused; remove that line first. Default: "keep". Value enum: "keep",
+     * "reprice".
+     */
+    "catalog_price_behavior"?: "keep" | "reprice" | (string & {});
+    /**
+     * Customer to attach. Cannot be null or cleared. Reassignment requires catalog_price_behavior:
+     * reprice, which resolves the new customer’s direct list, then segment list, then variant
+     * pricing. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Complete replacement delivery preference. Omit to leave unchanged. Requires
+     * expected_version, orders-write and delivery-write. Send null to clear a provisional
+     * direct-order selection, its charge and hold. Draft invoice orders are allowed until issue;
+     * checkout-owned, subscription-owned, paid and locked orders are refused. Change delivery
+     * separately from delivery_destination, handover and shipping charge calculations. anyOf[1]
+     * (Value): {@link OrderDeliveryRequest}. Complete delivery preference to quote and select
+     * together with the order's delivery charge and inventory hold. anyOf[2] (Value): null.
+     */
+    "delivery"?: ((OrderDeliveryRequest) | (null));
+    /**
+     * Complete replacement destination. Allowed while the order is open and unpaid and no delivery
+     * selection controls it. A merchant may also correct a paid subscription signup or renewal
+     * before shipment by sending expected_version, when the committed delivery methods remain
+     * eligible and shipping and tax totals stay the same. A paid destination cannot be cleared.
+     * Send null to clear an unpaid order's delivery destination. anyOf[1] (Value): {@link
+     * OrderDeliveryDestinationRequest}. The delivery destination you set when creating or updating
+     * an order, with an address and an optional recipient. anyOf[2] (Value): null.
+     */
+    "delivery_destination"?: ((OrderDeliveryDestinationRequest) | (null));
+    /**
+     * Order version from the last order read. Required when sending delivery or correcting a paid
+     * delivery destination. Optional for other updates; when supplied, the update fails if the
+     * order changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear
+     * external_reference_id. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Carry-out handover to set or replace. Allowed while the order is open, nothing is paid, and
+     * no checkout session or delivery selection controls its delivery. Can't be combined with
+     * delivery_destination. Send null to clear it. anyOf[1] (Value): {@link OrderHandover}. Every
+     * physical item is handed to the buyer at this location when the order is paid. Replaces a
+     * delivery selection. anyOf[2] (Value): null.
+     */
+    "handover"?: ((OrderHandover) | (null));
+    /**
+     * Internal note about this order, visible only to the merchant. Send null to clear it.
+     * Surrounding whitespace is trimmed before length validation. A supplied value cannot be
+     * blank; use null where clearing is supported. minLength: 1. maxLength: 1000.
+     */
+    "internal_note"?: string | null;
+    /**
+     * Where tracked demand is routed. When no source is stored or sent, Flint uses
+     * settings.inventory.default_routing_source, then the only active Location with
+     * inventory_allocation_enabled if exactly one exists in the current environment. Zero or
+     * multiple eligible Locations require an explicit source or merchant default. The order stores
+     * the resolved source. Where you want inventory routed from: a fixed Location, an inventory
+     * allocation policy, or one policy revision, selected by `type`.
+     */
+    "inventory_routing_source"?: InventoryRoutingSourceRequest;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. Send null to clear caller-owned metadata and preserve Flint-managed keys. anyOf[1]
+     * (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map. Omit the
+     * field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and
+     * an empty object makes no change; send null for the whole field to clear all caller-owned
+     * metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value
+     * pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and
+     * keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is
+     * allowed, so the number of operations is not itself the stored-map limit. Values can't be
+     * empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+    /**
+     * Requested tip to set or replace. Send null to clear the current requested tip. Refused with
+     * ACTION_NOT_ALLOWED and reason payment_collected once a payment's capture has set its own
+     * tip. anyOf[1] (Value): {@link CreateOrderTip}. Requested tip expressed as either a flat
+     * amount or a percentage. Send exactly one of amount_money or percent. anyOf[2] (Value): null.
+     */
+    "requested_tip"?: ((CreateOrderTip) | (null) | (unknown));
+    /**
+     * Tax settings for the order. Changes to an order's tax settings: whether tax is enabled, the
+     * calculation, the location, the exemption selection, and per-line-item or per-charge
+     * calculations.
+     */
+    "tax"?: OrderTaxUpdateRequest;
+});
 /** The request body for: Update order. minProperties: 1. */
 export type UpdateOrderRequestInput = ({
     /**
@@ -3081,6 +3283,12 @@ export type UpdateReturnLineItemRequest = {
      */
     "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | null | (string & {}) | null;
     /**
+     * ID of one variant of the same product for an exchange. Omit to preserve it or send null to
+     * clear it. Clear the variant when changing the requested outcome away from exchange.
+     * minLength: 1.
+     */
+    "requested_variant"?: string | null;
+    /**
      * ID of the return reason for this line. The reason must be active. minLength: 1. Example:
      * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      */
@@ -3106,6 +3314,12 @@ export type UpdateReturnLineItemRequestInput = {
      * "no_monetary_action", null.
      */
     "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | null;
+    /**
+     * ID of one variant of the same product for an exchange. Omit to preserve it or send null to
+     * clear it. Clear the variant when changing the requested outcome away from exchange.
+     * minLength: 1.
+     */
+    "requested_variant"?: string | null;
     /**
      * ID of the return reason for this line. The reason must be active. minLength: 1. Example:
      * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
@@ -4071,70 +4285,3 @@ export type UpdateReturnResolutionRequest = ({
      */
     "replacement_line_items"?: Array<UpdateReturnReplacementLineItemRequest>;
 });
-/** The request body for: Update return resolution. */
-export type UpdateReturnResolutionRequestInput = ({
-    /**
-     * Requires expected_version. [] (Value): {@link UpdateReturnResolutionAdjustmentRequestInput}.
-     * A fee or credit to keep or add when updating a return resolution. Include
-     * `return_resolution_adjustment_id` to update an existing one.
-     */
-    "adjustments"?: Array<UpdateReturnResolutionAdjustmentRequestInput>;
-    /**
-     * Required when any of these fields is present: line_items, replacement_line_items,
-     * adjustments. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination
-     * and conflicting_fields naming resolution_type. Store credit and its corrections always issue
-     * new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
-     * Requires expected_version. [] (Value): {@link UpdateReturnResolutionLineItemRequestInput}. A
-     * return line and quantity to keep or add when updating a return resolution.
-     */
-    "line_items"?: Array<UpdateReturnResolutionLineItemRequestInput>;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
-     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
-     * the key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequestInput) | (null));
-    /**
-     * Required for merchant exchange and replacement requests. original_price preserves the
-     * selected units' net paid amounts using refund allocation; current_price uses catalog prices;
-     * merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit
-     * pricing_basis: replacements use original_price; exchanges use original_price when every
-     * replacement matches selected returned merchandise by variant, bundle, or product, otherwise
-     * current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     * Requires expected_version. [] (Value): {@link UpdateReturnReplacementLineItemRequestInput}.
-     * A replacement item to keep or add when updating a return resolution. Include
-     * `return_replacement_line_item_id` to keep an existing one.
-     */
-    "replacement_line_items"?: Array<UpdateReturnReplacementLineItemRequestInput>;
-});
-export type UpdateReturnResolutionResponse = GetReturnResolutionResponse;

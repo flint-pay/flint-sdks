@@ -38,7 +38,7 @@ final class PricingAmountsInput extends Model {
      */
     public function getInclusiveTaxMoney(): mixed { return $this->get('inclusive_tax_money'); }
     public function hasInclusiveTaxMoney(): bool { return $this->has('inclusive_tax_money'); }
-    /** Tip money in the total: the requested tip before payment, and settled tips net of refunds after. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Tip money included in the price. After payment, it includes the original settled tip. Each tip reports any refund in its refunded_money field. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When requested_tip_money is omitted; use hasRequestedTipMoney() or valueOrDefault().
      */

@@ -158,11 +158,14 @@ export {
     makeDispatchFulfillmentRequest,
     makeFailFulfillmentRequest,
     makeFulfillmentItemizedPackagesRequest,
-    makeFulfillmentLineItemRequest,
-    makeFulfillmentPackagingRequest,
-    makeFulfillmentRecipientRequest
+    makeFulfillmentLineItemRequest
 } from '../declarations/types-86.js';
-export { makeFulfillmentSinglePackageRequest, makeHoldFulfillmentRequest } from '../declarations/types-87.js';
+export {
+    makeFulfillmentPackagingRequest,
+    makeFulfillmentRecipientRequest,
+    makeFulfillmentSinglePackageRequest,
+    makeHoldFulfillmentRequest
+} from '../declarations/types-87.js';
 export {
     makeMarkFulfillmentNoShowRequest,
     makeMarkFulfillmentPackedRequest,
@@ -171,10 +174,14 @@ export {
     makeMarkFulfillmentReadyRequest,
     makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue
+    makeMetadataRequest
 } from '../declarations/types-88.js';
-export { makePackageCreateInputCreated, makePackageCreateInputShipped, makePackageCreateRequest } from '../declarations/types-89.js';
+export {
+    makeMoneyValue,
+    makePackageCreateInputCreated,
+    makePackageCreateInputShipped,
+    makePackageCreateRequest
+} from '../declarations/types-89.js';
 export { makeReleaseFulfillmentHoldRequest } from '../declarations/types-91.js';
 export {
     makeReturnShipmentLineItemAllocationRequest,

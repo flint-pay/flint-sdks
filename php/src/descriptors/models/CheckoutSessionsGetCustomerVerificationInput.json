@@ -1,1 +1,1 @@
-{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec5378","objectOnlyAlternative":true},"dependencies":["SharedCodec5378"]}
+{"codec":{"value":{"kind":"dynamic"},"nullable":true,"modelObjectInput":true,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{},"reference":"SharedCodec5380","objectOnlyAlternative":true},"dependencies":["SharedCodec5380"]}

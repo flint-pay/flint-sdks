@@ -38,9 +38,9 @@ export type { Credentials } from '../declarations/types-15.js';
 export type { PublicDownload } from '../declarations/types-59.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeCreateIntervalReportRequest } from '../declarations/types-82.js';
+export { makeCreateIntervalReportRequest } from '../declarations/types-83.js';
 export { makeCreateReceivablesAgingReportRequest, makeCreateReportRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface ReportsResource {
     /**
  * Creates an idempotent asynchronous CSV report. receivables_aging_v1 takes as_of_date instead of

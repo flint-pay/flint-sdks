@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# ReturnLineItemValue to ReturnResource
+# BuyerReturnLineItemModifierMetadata to ReturnReplacementLineItem
 
+- [BuyerReturnLineItemModifierMetadata](BuyerReturnLineItemModifierMetadata.md)
+- [BuyerReturnLineItemModifier](BuyerReturnLineItemModifier.md)
 - [ReturnLineItemValue](ReturnLineItemValue.md)
 - [BuyerReturnLineItem](BuyerReturnLineItem.md)
 - [BuyerReturn](BuyerReturn.md)
@@ -100,6 +102,4 @@
 - [RefundUnissuedGiftCardRecovery](RefundUnissuedGiftCardRecovery.md)
 - [Refund](Refund.md)
 - [ReturnReplacementLineItem](ReturnReplacementLineItem.md)
-- [ReturnResolution](ReturnResolution.md)
-- [ReturnResource](ReturnResource.md)
 

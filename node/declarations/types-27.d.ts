@@ -780,9 +780,9 @@ export type File = {
      */
     "upload"?: FileUpload;
     /**
-     * The canonical image URL, present when ready. Attach the file with images[].file_id, or copy
-     * this URL into source_url on another resource. Format: uri. Example:
-     * "https://example.com/receipt".
+     * The canonical image URL, present when ready. It serves the image after the file is first
+     * attached. To preview before attaching, display the local image. Attach with images[].file_id
+     * or pass this URL as source_url. Format: uri. Example: "https://example.com/receipt".
      */
     "url"?: string;
     /** The stored image width in pixels, present only when ready. Format: int32. */

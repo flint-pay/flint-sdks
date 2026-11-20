@@ -63,7 +63,8 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export type { LookupTicketRequestInput, LookupTicketRequest } from '../declarations/types-40.js';
 export type { UpdateTicketRequestInput, UpdateTicketRequest } from '../declarations/types-78.js';
 export { makeCheckInTicketRequest } from '../declarations/types-81.js';
-export { makeLookupTicketRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeLookupTicketRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeTicketVersionRequest } from '../declarations/types-93.js';
 export { makeUpdateTicketRequest } from '../declarations/types-95.js';
 export interface TicketsResource {

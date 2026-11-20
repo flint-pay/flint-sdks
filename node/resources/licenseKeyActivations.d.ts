@@ -45,7 +45,7 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export type { ReleaseLicenseKeyActivationRequestInput, ReleaseLicenseKeyActivationRequest } from '../declarations/types-61.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateLicenseKeyActivationRequest } from '../declarations/types-83.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeReleaseLicenseKeyActivationRequest } from '../declarations/types-91.js';
 export interface LicenseKeyActivationsResource {
     /**

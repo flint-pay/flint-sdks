@@ -6,10 +6,10 @@ namespace Flint;
  *
  * @property-read string $return_id
  * @property-read string $return_line_item_id
- * @property-read array{'buyer_note'?: string|null, 'expected_version'?: int, 'requested_quantity'?: int, 'requested_resolution_type'?: string|null, 'return_reason_id'?: string}|object $body
+ * @property-read array{'buyer_note'?: string|null, 'expected_version'?: int, 'requested_quantity'?: int, 'requested_resolution_type'?: string|null, 'requested_variant'?: string|null, 'return_reason_id'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsUpdateLineItemInput extends Model {
-    /** @param array{'return_id': string, 'return_line_item_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'buyer_note'?: string|null, 'expected_version'?: int, 'requested_quantity'?: int, 'requested_resolution_type'?: string|null, 'return_reason_id'?: string}|object}|object $values */
+    /** @param array{'return_id': string, 'return_line_item_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'buyer_note'?: string|null, 'expected_version'?: int, 'requested_quantity'?: int, 'requested_resolution_type'?: string|null, 'requested_variant'?: string|null, 'return_reason_id'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsUpdateLineItemInput')); }
     /** Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
@@ -42,7 +42,7 @@ final class ReturnsUpdateLineItemInput extends Model {
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Update return line item. Example: {"buyer_note":"The size was too small.","expected_version":1}.
-     * @return array{'buyer_note'?: string|null, 'expected_version'?: int, 'requested_quantity'?: int, 'requested_resolution_type'?: string|null, 'return_reason_id'?: string}|object
+     * @return array{'buyer_note'?: string|null, 'expected_version'?: int, 'requested_quantity'?: int, 'requested_resolution_type'?: string|null, 'requested_variant'?: string|null, 'return_reason_id'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

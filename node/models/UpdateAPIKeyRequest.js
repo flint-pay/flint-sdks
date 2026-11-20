@@ -1,11 +1,11 @@
-import { d7983 as c0, d7984 as c1, d7997 as c2, d7998 as c4, d7999 as c5 } from '../descriptors/data/347.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d7973 as c3 } from '../descriptors/data/346.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d7735 as c6 } from '../descriptors/data/324.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d7735 as d7735 } from '../descriptors/data/324.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import { d7985 as c0, d7986 as c1, d7999 as c2, d8000 as c4, d8001 as c5 } from '../descriptors/data/348.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d7975 as c3 } from '../descriptors/data/347.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d7737 as c6 } from '../descriptors/data/325.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d7737 as d7737 } from '../descriptors/data/325.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7735;
+const read = d7737;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec3067"]:c0(),["SharedCodec3068"]:c1(),["SharedCodec339"]:c2(),["SharedCodec5"]:c3(),["SharedCodec574"]:c4(),["SharedCodec575"]:c5(),["UpdateAPIKeyRequest"]:c6()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec3069"]:c0(),["SharedCodec3070"]:c1(),["SharedCodec339"]:c2(),["SharedCodec5"]:c3(),["SharedCodec574"]:c4(),["SharedCodec575"]:c5(),["UpdateAPIKeyRequest"]:c6()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateAPIKeyRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

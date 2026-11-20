@@ -187,6 +187,7 @@ export type { PricingAmounts } from '../declarations/types-56.js';
 export type { InvoiceSettlementAmounts } from '../declarations/types-38.js';
 export type {
     SettlementAmounts,
+    SelectableOrderPaymentIntent,
     SelectedProductOption,
     SetupCollection,
     SetupCollectionStripe,
@@ -203,7 +204,6 @@ export type {
     CustomerTaxExemptionCoverageStates,
     CustomerTaxID
 } from '../declarations/types-17.js';
-export type { SelectableOrderPaymentIntent } from '../declarations/types-67.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
@@ -279,7 +279,8 @@ export {
     makeDeliveryWindowRequest
 } from '../declarations/types-86.js';
 export { makeGiftCardPurchaseRecipient } from '../declarations/types-87.js';
-export { makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeTextModifierRequest } from '../declarations/types-93.js';
 export interface DeliverySelectionsResource {
     /**

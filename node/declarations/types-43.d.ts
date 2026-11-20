@@ -12,7 +12,7 @@ import type { ImageAttachmentPreviousAttributes } from './types-31.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { WebhookMerchant } from './types-79.js';
 import type { Merchant } from './types-42.js';
-import type { ResponseMeta } from './types-62.js';
+import type { ResponseMeta, ReturnActor } from './types-62.js';
 import type { PlatformFeeCap } from './types-56.js';
 import type { LicenseKeyVersionRequestInput } from './types-40.js';
 import type { CreateMerchantSignupRequestInput, CreateModifierGroupRequestInput } from './types-11.js';
@@ -2312,14 +2312,23 @@ export type MerchantWebhookEnvelope = ({
     "created_at": string;
     /**
      * The resource snapshot recorded for this event and rendered at the delivery API version.
-     * object (Required): object. The affected public resource without expansions, client authority
-     * fields, or fields computed for an individual caller. previous_attributes (Optional): object.
-     * Previous values of changed top-level fields in data.object, at this delivery's API version.
-     * Nested changes include the whole previous top-level value. A value is null when the field
-     * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     * actor (Optional): {@link ReturnActor}. Who caused this event, captured when the change
+     * commits. Omitted when the event predates actor attribution or attribution is unavailable.
+     * Who performed a return action: a buyer, merchant, integration, or the system, with an
+     * optional ID. object (Required): object. The affected public resource without expansions,
+     * client authority fields, or fields computed for an individual caller. previous_attributes
+     * (Optional): object. Previous values of changed top-level fields in data.object, at this
+     * delivery's API version. Nested changes include the whole previous top-level value. A value
+     * is null when the field was absent before the change. Omitted when Flint did not record the
+     * previous state, including synthetic test events.
      */
     "data": {
+        /**
+         * Who caused this event, captured when the change commits. Omitted when the event predates
+         * actor attribution or attribution is unavailable. Who performed a return action: a buyer,
+         * merchant, integration, or the system, with an optional ID.
+         */
+        "actor"?: ReturnActor;
         /**
          * The affected public resource without expansions, client authority fields, or fields
          * computed for an individual caller.

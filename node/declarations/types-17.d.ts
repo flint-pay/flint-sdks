@@ -25,7 +25,7 @@ import type { LinkCustomerGuestPurchasesRequestInput } from './types-40.js';
 import type { UpdateCustomerAddressRequestInput } from './types-75.js';
 import type { UpdateCustomerRequestInput, UpdateCustomerTaxExemptionRequestInput } from './types-76.js';
 import type { GetReturnInspectionResponse, GetReturnResponse } from './types-28.js';
-import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-63.js';
+import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-64.js';
 /** A customer session's state without its authentication credentials. */
 export type CustomerSessionResponse = {
     /**

@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](ReturnDispositionUpdatedMerchantEvent.md#returndispositionupdatedmerchanteventdata-fields-1).
 
+### ReturnDispositionUpdatedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### ReturnDispositionUpdatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [ReturnDispositionCreatedMerchantEvent.data fields 1.object](../models/ReturnDispositionCreatedMerchantEvent.md#returndispositioncreatedmerchanteventdata-fields-1object).

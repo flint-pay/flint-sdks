@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# RefundResponse to ReturnActivity
+# RefundResponse to RetryReturnResolutionRequestInput
 
 - [RefundResponse](RefundResponse.md)
 - [RefundSucceededInstalledMerchantsEvent](RefundSucceededInstalledMerchantsEvent.md)
@@ -83,6 +83,7 @@
 - [ResourceTimeline](ResourceTimeline.md)
 - [ResourceTimelineAPIRequestEntry](ResourceTimelineAPIRequestEntry.md)
 - [ResourceTimelineEntry](ResourceTimelineEntry.md)
+- [ResourceTimelineFieldChange](ResourceTimelineFieldChange.md)
 - [ResourceTimelineImageMutationEntry](ResourceTimelineImageMutationEntry.md)
 - [ResourceTimelineLicenseKeyRestrictionChangeEntry](ResourceTimelineLicenseKeyRestrictionChangeEntry.md)
 - [ResourceTimelinePoolAttestationEntry](ResourceTimelinePoolAttestationEntry.md)
@@ -101,5 +102,4 @@
 - [RetryReturnDispositionRequestInput](RetryReturnDispositionRequestInput.md)
 - [RetryReturnResolutionRequest](RetryReturnResolutionRequest.md)
 - [RetryReturnResolutionRequestInput](RetryReturnResolutionRequestInput.md)
-- [ReturnActivity](ReturnActivity.md)
 

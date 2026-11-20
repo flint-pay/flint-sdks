@@ -1,5 +1,7 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    PromotionRuleRequestInput,
+    PromotionRuleValueRequestInput,
     PromotionSchedulePatchInput,
     PromotionScheduleRequestInput,
     PromotionSettingsRequestInput,
@@ -60,10 +62,10 @@ import type {
     ReturnEligibilitySelectionLineItemsRequestInput,
     ReturnEligibilitySelectionRequestInput,
     ReturnInspectionLineItemRequestInput,
-    ReturnInventoryTransferToOriginRequestInput,
-    ReturnLineDecisionInput
+    ReturnInventoryTransferToOriginRequestInput
 } from './types-63.js';
 import type {
+    ReturnLineDecisionInput,
     ReturnLineItemRequestInput,
     ReturnPolicyRevisionInputIneligibleInput,
     ReturnPolicyRevisionInputReturnableInput,
@@ -71,10 +73,11 @@ import type {
     ReturnPolicyScopeAllRequestInput,
     ReturnPolicyScopeIncludeRequestInput,
     ReturnPolicyScopeRequestInput,
-    ReturnProcessDecisionInput,
-    ReturnProcessDispositionRequestInput,
-    ReturnProcessInspectionRequestInput
+    ReturnProcessDecisionInput
 } from './types-64.js';
+export declare function makePromotionRuleRequest(value: InputValue<PromotionRuleRequestInput>): Model<PromotionRuleRequestInput>;
+export declare function makePromotionRuleValueRequest(value: InputValue<Exclude<PromotionRuleValueRequestInput & object, readonly unknown[]>>): Model<Exclude<PromotionRuleValueRequestInput & object, readonly unknown[]>>;
+export declare function makePromotionRuleValueRequest(value: InputValue<PromotionRuleValueRequestInput>): Model<PromotionRuleValueRequestInput>;
 export declare function makePromotionSchedulePatch(value: InputValue<PromotionSchedulePatchInput>): Model<PromotionSchedulePatchInput>;
 export declare function makePromotionScheduleRequest(value: InputValue<PromotionScheduleRequestInput>): Model<PromotionScheduleRequestInput>;
 export declare function makePromotionSettingsRequest(value: InputValue<PromotionSettingsRequestInput>): Model<PromotionSettingsRequestInput>;
@@ -138,5 +141,3 @@ export declare function makeReturnPolicyScopeAllRequest(value: InputValue<Return
 export declare function makeReturnPolicyScopeIncludeRequest(value: InputValue<ReturnPolicyScopeIncludeRequestInput>): Model<ReturnPolicyScopeIncludeRequestInput>;
 export declare function makeReturnPolicyScopeRequest(value: InputValue<ReturnPolicyScopeRequestInput>): Model<ReturnPolicyScopeRequestInput>;
 export declare function makeReturnProcessDecision(value: InputValue<ReturnProcessDecisionInput>): Model<ReturnProcessDecisionInput>;
-export declare function makeReturnProcessDispositionRequest(value: InputValue<ReturnProcessDispositionRequestInput>): Model<ReturnProcessDispositionRequestInput>;
-export declare function makeReturnProcessInspectionRequest(value: InputValue<ReturnProcessInspectionRequestInput>): Model<ReturnProcessInspectionRequestInput>;

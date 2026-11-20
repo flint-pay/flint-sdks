@@ -1,5 +1,10 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { ReturnProcessReceiptRequestInput, ReturnProcessResolutionRequestInput } from './types-64.js';
+import type {
+    ReturnProcessDispositionRequestInput,
+    ReturnProcessInspectionRequestInput,
+    ReturnProcessReceiptRequestInput,
+    ReturnProcessResolutionRequestInput
+} from './types-64.js';
 import type {
     ReturnReceiptLineItemInputExcessInput,
     ReturnReceiptLineItemInputMatchedInput,
@@ -21,10 +26,10 @@ import type {
     ReturnUnverifiedItemInput,
     ReturnWindowRequestInput,
     RevealLicenseKeyRequestInput,
-    ReverseInvoiceManualPaymentRequestInput,
-    RiskPredicateNodeAllRequestInput
+    ReverseInvoiceManualPaymentRequestInput
 } from './types-66.js';
 import type {
+    RiskPredicateNodeAllRequestInput,
     RiskPredicateNodeAnyRequestInput,
     RiskPredicateNodeComparisonRequestInput,
     RiskPredicateNodeInListRequestInput,
@@ -68,10 +73,10 @@ import type {
     SubscriptionBillingScheduleUpdateInputFlintInput,
     SubscriptionBillingScheduleUpdateRequestInput,
     SubscriptionBillingStartInputImmediateInput,
-    SubscriptionBillingStartInputImportedInput,
-    SubscriptionBillingStartInputScheduledInput,
-    SubscriptionBillingStartRequestInput
+    SubscriptionBillingStartInputImportedInput
 } from './types-69.js';
+export declare function makeReturnProcessDispositionRequest(value: InputValue<ReturnProcessDispositionRequestInput>): Model<ReturnProcessDispositionRequestInput>;
+export declare function makeReturnProcessInspectionRequest(value: InputValue<ReturnProcessInspectionRequestInput>): Model<ReturnProcessInspectionRequestInput>;
 export declare function makeReturnProcessReceiptRequest(value: InputValue<ReturnProcessReceiptRequestInput>): Model<ReturnProcessReceiptRequestInput>;
 export declare function makeReturnProcessResolutionRequest(value: InputValue<ReturnProcessResolutionRequestInput>): Model<ReturnProcessResolutionRequestInput>;
 export declare function makeReturnReceiptLineItemInputExcess(value: InputValue<ReturnReceiptLineItemInputExcessInput>): Model<ReturnReceiptLineItemInputExcessInput>;
@@ -136,6 +141,3 @@ export declare function makeSubscriptionBillingScheduleUpdateRequest(value: Inpu
 export declare function makeSubscriptionBillingScheduleUpdateRequest(value: InputValue<SubscriptionBillingScheduleUpdateRequestInput>): Model<SubscriptionBillingScheduleUpdateRequestInput>;
 export declare function makeSubscriptionBillingStartInputImmediate(value: InputValue<SubscriptionBillingStartInputImmediateInput>): Model<SubscriptionBillingStartInputImmediateInput>;
 export declare function makeSubscriptionBillingStartInputImported(value: InputValue<SubscriptionBillingStartInputImportedInput>): Model<SubscriptionBillingStartInputImportedInput>;
-export declare function makeSubscriptionBillingStartInputScheduled(value: InputValue<SubscriptionBillingStartInputScheduledInput>): Model<SubscriptionBillingStartInputScheduledInput>;
-export declare function makeSubscriptionBillingStartRequest(value: InputValue<Exclude<SubscriptionBillingStartRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionBillingStartRequestInput & object, readonly unknown[]>>;
-export declare function makeSubscriptionBillingStartRequest(value: InputValue<SubscriptionBillingStartRequestInput>): Model<SubscriptionBillingStartRequestInput>;

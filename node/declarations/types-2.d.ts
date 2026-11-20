@@ -19,10 +19,11 @@ import type { PricingAmounts, PricingAmountsPreviousAttributes } from './types-5
 import type { PaymentSourceSummary, PaymentSourceSummaryPreviousAttributes } from './types-54.js';
 import type { SubscriptionIntervalOption } from './types-70.js';
 import type { CardDetails } from './types-5.js';
-import type { StripeClientSetup, ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from './types-68.js';
+import type { StripeClientSetup } from './types-69.js';
 import type { FulfillmentChargeLink } from './types-27.js';
 import type { FulfillmentRecipient } from './types-28.js';
 import type { PickupFulfillmentDetails } from './types-55.js';
+import type { ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from './types-68.js';
 import type { BuyerOrderLineItemModifier, BuyerPaymentErrorSummary, BuyerOrderTaxExemption } from './types-3.js';
 import type { CheckoutMerchantSupport } from './types-6.js';
 import type { CheckoutTheme } from './types-7.js';

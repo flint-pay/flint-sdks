@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptions.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import r0 from '../descriptors/resources/subscriptions.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import settings from '../descriptors/settings.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["applySubscriptionPromotion"]:r0,["cancelSubscription"]:r0,["changeSubscriptionPlan"]:r0,["changeSubscriptionQuantity"]:r0,["createSubscription"]:r0,["createSubscriptionAccessLink"]:r0,["createSubscriptionLineItem"]:r0,["createSubscriptionPaymentRetry"]:r0,["deleteSubscriptionLineItem"]:r0,["getSubscription"]:r0,["getSubscriptionPaymentRetry"]:r0,["listSubscriptionLineItems"]:r0,["listSubscriptionPaymentRetries"]:r0,["listSubscriptions"]:r0,["pauseSubscription"]:r0,["removeSubscriptionPromotions"]:r0,["renewSubscription"]:r0,["resumeSubscription"]:r0,["skipSubscriptionCycle"]:r0,["updateSubscription"]:r0,["updateSubscriptionLineItem"]:r0});
 export class Client {

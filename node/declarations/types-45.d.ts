@@ -861,9 +861,8 @@ export type OrderActivity = {
         | "fulfillment_state_changed"
         | (string & {});
     /**
-     * The merchant identity that initiated the refund, when available. Buyer activity lists omit
-     * it. The merchant identity that initiated the action. Labels are recorded with the activity
-     * and do not change when the identity is renamed or removed.
+     * The merchant identity that initiated the action, when recorded. Buyer activity lists omit
+     * it. The teammate, API key, or app that initiated the action.
      */
     "actor"?: PaymentActivityActor;
     /**

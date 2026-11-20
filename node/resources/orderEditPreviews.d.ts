@@ -75,10 +75,10 @@ export {
     makeLineItemFulfillmentOriginRequestModel,
     makeLineItemFulfillmentRequestModel,
     makeMetadataMap,
-    makeMetadataRequest,
-    makeMoneyValue
+    makeMetadataRequest
 } from '../declarations/types-88.js';
 export {
+    makeMoneyValue,
     makeOrderDraftLineItemInventoryDemandRequest,
     makeOrderDraftLineItemTaxCalculationRequestModel,
     makeOrderDraftLineItemTaxRequestModel,

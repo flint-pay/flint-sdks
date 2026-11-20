@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# RiskPredicateNodeRequestInput to SubscribedLineRequestModelInput
+# RiskPredicateNodeNotRequestInput to SubscribedLinePreviousAttributes
 
+- [RiskPredicateNodeNotRequestInput](RiskPredicateNodeNotRequestInput.md)
+- [RiskPredicateNodeRequest](RiskPredicateNodeRequest.md)
 - [RiskPredicateNodeRequestInput](RiskPredicateNodeRequestInput.md)
 - [RiskPreview](RiskPreview.md)
 - [RiskPreviewResponse](RiskPreviewResponse.md)
@@ -100,6 +102,4 @@
 - [StripeTerminalPaymentIntentClientActionPreviousAttributes](StripeTerminalPaymentIntentClientActionPreviousAttributes.md)
 - [SubscribedLine](SubscribedLine.md)
 - [SubscribedLinePreviousAttributes](SubscribedLinePreviousAttributes.md)
-- [SubscribedLineRequest](SubscribedLineRequest.md)
-- [SubscribedLineRequestModelInput](SubscribedLineRequestModelInput.md)
 

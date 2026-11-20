@@ -44,7 +44,7 @@ export type { PricingAmounts } from '../declarations/types-56.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface BalanceTransactionsResource {
     /**
  * Returns one balance transaction by ID, with optional related order expansion.

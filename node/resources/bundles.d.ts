@@ -67,7 +67,8 @@ export type { SelectedProductOption } from '../declarations/types-68.js';
 export type { UpdateBundleRequestInput, UpdateBundleComponentRequestInput, UpdateBundleComponentRequest } from '../declarations/types-75.js';
 export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-81.js';
 export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-87.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-93.js';
 export interface BundlesResource {
     /**

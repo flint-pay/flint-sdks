@@ -53,7 +53,8 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateReturnInspectionRequest } from '../declarations/types-84.js';
 export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-85.js';
-export { makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeReturnInspectionLineItemRequest } from '../declarations/types-91.js';
 export { makeReturnSourceSystemRequest } from '../declarations/types-92.js';
 export interface ReturnInspectionsResource {

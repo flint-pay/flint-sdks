@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# UpdateWebhookEndpointRequest to WorkloadIdentityResponse
+# UpdateTicketRequest to WorkloadIdentityResponse
 
+- [UpdateTicketRequest](UpdateTicketRequest.md)
+- [UpdateTicketRequestInput](UpdateTicketRequestInput.md)
 - [UpdateWebhookEndpointRequest](UpdateWebhookEndpointRequest.md)
 - [UpdateWebhookEndpointRequestInput](UpdateWebhookEndpointRequestInput.md)
 - [UpdateWorkloadIdentityRequest](UpdateWorkloadIdentityRequest.md)

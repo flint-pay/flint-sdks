@@ -1,8 +1,8 @@
-import { d10546 as c0 } from '../descriptors/data/497.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d8046 as c1 } from '../descriptors/data/351.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d10546 as d10546 } from '../descriptors/data/497.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import { d10551 as c0 } from '../descriptors/data/498.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d8048 as c1 } from '../descriptors/data/352.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d10551 as d10551 } from '../descriptors/data/498.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d10546;
+const read = d10551;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreateReturnDispositionRequestReceiptLine"]:c0(),["MetadataRequest"]:c1()}); }
 export { codec as _validate };

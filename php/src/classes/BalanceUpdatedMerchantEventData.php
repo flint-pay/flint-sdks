@@ -2,12 +2,18 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read ?ReturnActor $actor
  * @property-read BalanceUpdatedMerchantEventDataObject $object
  * @property-read ?BalanceUpdatedMerchantEventDataPreviousAttributes $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class BalanceUpdatedMerchantEventData extends Model {
-    /** @param array{'object': object{'available_by_source_type'?: \stdClass, 'available_money': mixed, 'balance_id': string, 'currency': string, 'held_money': mixed, 'merchant_id': string, 'observed_at': string, 'payouts_enabled': bool, 'pending_by_source_type'?: \stdClass, 'pending_money': mixed, 'reserve_money': mixed}, 'previous_attributes'?: object{'available_by_source_type'?: mixed, 'available_money'?: mixed, 'balance_id'?: mixed, 'currency'?: mixed, 'held_money'?: mixed, 'merchant_id'?: mixed, 'observed_at'?: mixed, 'payouts_enabled'?: mixed, 'pending_by_source_type'?: mixed, 'pending_money'?: mixed, 'reserve_money'?: mixed}, ...}|object $values */
+    /** @param array{'actor'?: mixed, 'object': object{'available_by_source_type'?: \stdClass, 'available_money': mixed, 'balance_id': string, 'currency': string, 'held_money': mixed, 'merchant_id': string, 'observed_at': string, 'payouts_enabled': bool, 'pending_by_source_type'?: \stdClass, 'pending_money': mixed, 'reserve_money': mixed}, 'previous_attributes'?: object{'available_by_source_type'?: mixed, 'available_money'?: mixed, 'balance_id'?: mixed, 'currency'?: mixed, 'held_money'?: mixed, 'merchant_id'?: mixed, 'observed_at'?: mixed, 'payouts_enabled'?: mixed, 'pending_by_source_type'?: mixed, 'pending_money'?: mixed, 'reserve_money'?: mixed}, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BalanceUpdatedMerchantEventData')); }
+    /** Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+     * @return ?ReturnActor
+     */
+    public function getActor(): ?ReturnActor { return $this->get('actor'); }
+    public function hasActor(): bool { return $this->has('actor'); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return BalanceUpdatedMerchantEventDataObject
      */

@@ -186,7 +186,8 @@ export {
     makeCreditNoteLineItemRequest,
     makeCreditNoteRefundRequest
 } from '../declarations/types-85.js';
-export { makeIssueCreditNoteRequest, makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
+export { makeIssueCreditNoteRequest, makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeResourceVersionRequest } from '../declarations/types-91.js';
 export { makeTextModifierRequest, makeUpdateCreditNoteRequest } from '../declarations/types-93.js';
 export interface CreditNotesResource {

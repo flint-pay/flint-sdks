@@ -91,9 +91,9 @@ export {
     makeInvoicePaymentTermCalculationDaysAfterMonthEndRequest,
     makeInvoicePaymentTermCalculationNetDaysRequest,
     makeInvoicePaymentTermCalculationOnReceiptRequest,
-    makeInvoicePaymentTermCalculationRequest,
-    makeMoneyValue
+    makeInvoicePaymentTermCalculationRequest
 } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateInvoicePaymentTermRequest } from '../declarations/types-94.js';
 export interface InvoicePaymentTermsResource {
     /**

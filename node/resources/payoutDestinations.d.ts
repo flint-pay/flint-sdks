@@ -44,7 +44,8 @@ export type { NextAction, MoneyValue, MoneyMovementListMeta, MoneyMovementHistor
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdatePayoutDestinationRequestInput } from '../declarations/types-77.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataPatchRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdatePayoutDestinationRequest } from '../declarations/types-94.js';
 export interface PayoutDestinationsResource {
     /**

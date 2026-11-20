@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read array{'actor_id'?: string, 'actor_type': string, ...}|object|null $actor
  * @property-read string $api_request_log_id
  * @property-read ResourceReferenceInput|array<array-key, mixed>|\stdClass $attributed_resource
+ * @property-read list<ResourceTimelineFieldChangeInput|array<array-key, mixed>|\stdClass> $changes
  * @property-read string $entry_type
  * @property-read string $event_type
  * @property-read PaymentActivityActorInput|array<array-key, mixed>|\stdClass $initiator
@@ -14,7 +15,7 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResourceTimelineWebhookEventEntryInput extends Model {
-    /** @param array{'actor': array{'actor_id'?: string, 'actor_type': string, ...}|object|null, 'api_request_log_id'?: string, 'attributed_resource'?: ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'entry_type': string, 'event_type': string, 'initiator'?: PaymentActivityActorInput|array<array-key, mixed>|\stdClass, 'occurred_at': string|\DateTimeInterface, 'request_id'?: string, 'resource_timeline_entry_id': string, 'webhook_event_id': string}|object $values */
+    /** @param array{'actor': array{'actor_id'?: string, 'actor_type': string, ...}|object|null, 'api_request_log_id'?: string, 'attributed_resource'?: ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'changes'?: list<ResourceTimelineFieldChangeInput|array<array-key, mixed>|\stdClass>, 'entry_type': string, 'event_type': string, 'initiator'?: PaymentActivityActorInput|array<array-key, mixed>|\stdClass, 'occurred_at': string|\DateTimeInterface, 'request_id'?: string, 'resource_timeline_entry_id': string, 'webhook_event_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineWebhookEventEntryInput')); }
     /** Who caused the change, captured with the event. Null when the event predates actor attribution, its payload has been redacted, its resource type does not record an actor, or attribution is unavailable. Uses the same actor model as returns. anyOf[1] (Value): {@see ReturnActorInput}. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID. anyOf[2] (Value): null.
      * @return array{'actor_id'?: string, 'actor_type': string, ...}|object|null
@@ -28,12 +29,18 @@ final class ResourceTimelineWebhookEventEntryInput extends Model {
      */
     public function getApiRequestLogId(): string { return $this->get('api_request_log_id'); }
     public function hasApiRequestLogId(): bool { return $this->has('api_request_log_id'); }
-    /** The activation this entry refers to. Present for license key activation entries. A reference to another resource by `resource_type` and `resource_id`.
+    /** The related activation, product variant, or return resolution described by this event. A reference to another resource by `resource_type` and `resource_id`.
      * @return ResourceReferenceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When attributed_resource is omitted; use hasAttributedResource() or valueOrDefault().
      */
     public function getAttributedResource(): mixed { return $this->get('attributed_resource'); }
     public function hasAttributedResource(): bool { return $this->has('attributed_resource'); }
+    /** Recorded before-and-after values for selected product, delivery option, and return fields. A null value means the field was unset. [] (Value): {@see ResourceTimelineFieldChangeInput}. The recorded before and after values of one field.
+     * @return list<ResourceTimelineFieldChangeInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When changes is omitted; use hasChanges() or valueOrDefault().
+     */
+    public function getChanges(): array { return $this->get('changes'); }
+    public function hasChanges(): bool { return $this->has('changes'); }
     /** Always `webhook_event` for this kind of entry. Value enum: "webhook_event".
      * @return string
      * @throws SdkError When entry_type is omitted; use hasEntryType() or valueOrDefault().
@@ -46,7 +53,7 @@ final class ResourceTimelineWebhookEventEntryInput extends Model {
      */
     public function getEventType(): string { return $this->get('event_type'); }
     public function hasEventType(): bool { return $this->has('event_type'); }
-    /** The merchant identity associated with a product event's API request, when available. The label reflects the identity's current name. The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed.
+    /** The teammate, API key, or app that initiated the change, when recorded and visible under request-log permissions. The label reflects its current name when available. The teammate, API key, or app that initiated the action.
      * @return PaymentActivityActorInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When initiator is omitted; use hasInitiator() or valueOrDefault().
      */

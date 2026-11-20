@@ -10,6 +10,7 @@ import type {
     SplitReversalReference,
     SplitReversalReferencePreviousAttributes,
     SimulateDisputeRequestInput,
+    SelectableErrorResource,
     Shipment
 } from './types-68.js';
 import type { Dispute } from './types-25.js';
@@ -33,7 +34,7 @@ import type { Fulfillment } from './types-27.js';
 import type { GiftCardRestriction } from './types-30.js';
 import type { Package } from './types-48.js';
 import type { QuotaDetails } from './types-59.js';
-import type { ScopeRequirement, SelectableErrorResource } from './types-67.js';
+import type { ScopeRequirement } from './types-67.js';
 import type { InvoiceSettlementAmounts, InvoiceSettlementAmountsPreviousAttributes } from './types-38.js';
 import type { CheckoutBuyerContact, CheckoutBuyerContactPreviousAttributes } from './types-6.js';
 import type { DeferredPromotion, DeferredPromotionPreviousAttributes } from './types-17.js';
@@ -9098,7 +9099,8 @@ export type ErrorDetail = {
      * "payments.payment_intents.manage", "payments.payment_method_domains.manage",
      * "payments.payment_methods.manage", "receive_payouts", "risk.controls.manage", "risk.read",
      * "risk.reviews.resolve", "save_payment_methods", "settings.policies.manage",
-     * "settings.policies.read", "settings.write", "settings.write.restricted", "webhooks.manage".
+     * "settings.policies.read", "settings.write", "settings.write.restricted",
+     * "webhook_endpoints.read", "webhooks.manage".
      */
     "capability"?: "accept_ach_debit_payments"
         | "accept_affirm_payments"
@@ -9174,6 +9176,7 @@ export type ErrorDetail = {
         | "settings.policies.read"
         | "settings.write"
         | "settings.write.restricted"
+        | "webhook_endpoints.read"
         | "webhooks.manage"
         | (string & {});
     /**

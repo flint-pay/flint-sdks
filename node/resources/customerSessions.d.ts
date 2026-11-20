@@ -51,7 +51,7 @@ export type {
     RefreshCustomerSessionRequest
 } from '../declarations/types-60.js';
 export { makeCreateCustomerSessionRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeRefreshCustomerSessionRequest } from '../declarations/types-91.js';
 export interface CustomerSessionsResource {
     /**

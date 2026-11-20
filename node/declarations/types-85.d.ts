@@ -1,5 +1,7 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    CreateSubscriptionPreviewRequestQuantityChangeInput,
+    CreateSubscriptionRequestInput,
     CreateTapToPayReaderRequestInput,
     CreateTaxCalculationCallbackRequestInput,
     CreateTaxRegistrationRequestInput,
@@ -73,12 +75,9 @@ import type {
     DeliveryPostalCodeConditionRequestInput,
     DeliveryPostalCodeValueRequestInput
 } from './types-20.js';
-import type {
-    DeliveryPricingRateCreateRequestInput,
-    DeliveryPricingRateRequestInput,
-    DeliveryPricingStrategyCreateInputCalculatedInput,
-    DeliveryPricingStrategyCreateInputCallbackInput
-} from './types-21.js';
+import type { DeliveryPricingRateCreateRequestInput, DeliveryPricingRateRequestInput } from './types-21.js';
+export declare function makeCreateSubscriptionPreviewRequestQuantityChange(value: InputValue<CreateSubscriptionPreviewRequestQuantityChangeInput>): Model<CreateSubscriptionPreviewRequestQuantityChangeInput>;
+export declare function makeCreateSubscriptionRequest(value: InputValue<CreateSubscriptionRequestInput>): Model<CreateSubscriptionRequestInput>;
 export declare function makeCreateTapToPayReaderRequest(value: InputValue<CreateTapToPayReaderRequestInput>): Model<CreateTapToPayReaderRequestInput>;
 export declare function makeCreateTaxCalculationCallbackRequest(value: InputValue<CreateTaxCalculationCallbackRequestInput>): Model<CreateTaxCalculationCallbackRequestInput>;
 export declare function makeCreateTaxRegistrationRequest(value: InputValue<CreateTaxRegistrationRequestInput>): Model<CreateTaxRegistrationRequestInput>;
@@ -141,5 +140,3 @@ export declare function makeDeliveryPostalCodeConditionRequest(value: InputValue
 export declare function makeDeliveryPostalCodeValueRequest(value: InputValue<DeliveryPostalCodeValueRequestInput>): Model<DeliveryPostalCodeValueRequestInput>;
 export declare function makeDeliveryPricingRateCreateRequest(value: InputValue<DeliveryPricingRateCreateRequestInput>): Model<DeliveryPricingRateCreateRequestInput>;
 export declare function makeDeliveryPricingRateRequest(value: InputValue<DeliveryPricingRateRequestInput>): Model<DeliveryPricingRateRequestInput>;
-export declare function makeDeliveryPricingStrategyCreateInputCalculated(value: InputValue<DeliveryPricingStrategyCreateInputCalculatedInput>): Model<DeliveryPricingStrategyCreateInputCalculatedInput>;
-export declare function makeDeliveryPricingStrategyCreateInputCallback(value: InputValue<DeliveryPricingStrategyCreateInputCallbackInput>): Model<DeliveryPricingStrategyCreateInputCallbackInput>;

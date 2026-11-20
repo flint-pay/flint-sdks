@@ -1,5 +1,7 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    CreatePaymentLinkRequestInput,
+    CreatePaymentMethodDomainRequestInput,
     CreatePayoutRequestInput,
     CreatePickupFulfillmentDetailsInput,
     CreatePriceListPricesRequestInput,
@@ -65,10 +67,10 @@ import type {
     CreateSubscriptionPreviewRequestDeliveryOptionsInput,
     CreateSubscriptionPreviewRequestNextRenewalInput,
     CreateSubscriptionPreviewRequestPlanChangeInput,
-    CreateSubscriptionPreviewRequestPromotionApplyInput,
-    CreateSubscriptionPreviewRequestQuantityChangeInput,
-    CreateSubscriptionRequestInput
+    CreateSubscriptionPreviewRequestPromotionApplyInput
 } from './types-14.js';
+export declare function makeCreatePaymentLinkRequest(value: InputValue<CreatePaymentLinkRequestInput>): Model<CreatePaymentLinkRequestInput>;
+export declare function makeCreatePaymentMethodDomainRequest(value: InputValue<CreatePaymentMethodDomainRequestInput>): Model<CreatePaymentMethodDomainRequestInput>;
 export declare function makeCreatePayoutRequest(value: InputValue<CreatePayoutRequestInput>): Model<CreatePayoutRequestInput>;
 export declare function makeCreatePickupFulfillmentDetails(value: InputValue<CreatePickupFulfillmentDetailsInput>): Model<CreatePickupFulfillmentDetailsInput>;
 export declare function makeCreatePriceListPricesRequest(value: InputValue<CreatePriceListPricesRequestInput>): Model<CreatePriceListPricesRequestInput>;
@@ -133,5 +135,3 @@ export declare function makeCreateSubscriptionPreviewRequestDeliveryOptions(valu
 export declare function makeCreateSubscriptionPreviewRequestNextRenewal(value: InputValue<CreateSubscriptionPreviewRequestNextRenewalInput>): Model<CreateSubscriptionPreviewRequestNextRenewalInput>;
 export declare function makeCreateSubscriptionPreviewRequestPlanChange(value: InputValue<CreateSubscriptionPreviewRequestPlanChangeInput>): Model<CreateSubscriptionPreviewRequestPlanChangeInput>;
 export declare function makeCreateSubscriptionPreviewRequestPromotionApply(value: InputValue<CreateSubscriptionPreviewRequestPromotionApplyInput>): Model<CreateSubscriptionPreviewRequestPromotionApplyInput>;
-export declare function makeCreateSubscriptionPreviewRequestQuantityChange(value: InputValue<CreateSubscriptionPreviewRequestQuantityChangeInput>): Model<CreateSubscriptionPreviewRequestQuantityChangeInput>;
-export declare function makeCreateSubscriptionRequest(value: InputValue<CreateSubscriptionRequestInput>): Model<CreateSubscriptionRequestInput>;

@@ -2475,6 +2475,8 @@ export type CreateReturnDispositionRequestReceiptLineInput = ({
 export type CreateReturnDispositionResponse = GetReturnDispositionResponse;
 /** A request to preview which items of an order can be returned, given an order and a selection. */
 export type CreateReturnEligibilityPreviewRequest = {
+    /** Include eligible exchange alternatives with current catalog prices and stock. */
+    "include_exchange_variants"?: boolean;
     /**
      * ID of the Order to return items from. minLength: 1. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A".
@@ -2488,6 +2490,8 @@ export type CreateReturnEligibilityPreviewRequest = {
 };
 /** A request to preview which items of an order can be returned, given an order and a selection. */
 export type CreateReturnEligibilityPreviewRequestInput = {
+    /** Include eligible exchange alternatives with current catalog prices and stock. */
+    "include_exchange_variants"?: boolean;
     /**
      * ID of the Order to return items from. minLength: 1. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A".

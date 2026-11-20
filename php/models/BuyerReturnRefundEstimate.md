@@ -13,7 +13,7 @@ Response model.
 | `deduction_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Sum of the policy deduction proposals for this selection. Zero when none apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `returned_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What the buyer paid for these quantities after discounts, including tax. Uses the same allocation as a return resolution. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `store_credit_destination` | Required | string | Store credit is issued as a new gift card by email. Applies to buyer_store_credit_amount_money. Values: `"new_gift_card"`. |
-| `tender_estimates` | Required | Array of (object and Alternative shapes (see declared variants)) | Estimated original-payment funding in refund order. Amounts sum to buyer_refund_amount_money plus buyer_store_credit_amount_money less refund_shortfall_money. Empty when no value is payable. `tender_estimates[]`: [declared alternatives](../models/BuyerReturnRefundEstimate.md#buyerreturnrefundestimatetender_estimates). |
+| `tender_estimates` | Required | Array of (object and Alternative shapes (see declared variants)) | Estimated original-payment destinations for the payable part of buyer_refund_amount_money, in refund order. Excludes store credit. Empty when no refund is payable. `tender_estimates[]`: [declared alternatives](../models/BuyerReturnRefundEstimate.md#buyerreturnrefundestimatetender_estimates). |
 
 ### BuyerReturnRefundEstimate.tender_estimates[]
 

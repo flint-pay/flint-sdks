@@ -1,5 +1,10 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { CallerSuppliedDeliveryOutcomeRequestUnavailableInput, CancelFulfillmentRequestInput } from './types-4.js';
+import type {
+    CallerSuppliedDeliveryOutcomeRequestAvailableInput,
+    CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput,
+    CallerSuppliedDeliveryOutcomeRequestUnavailableInput,
+    CancelFulfillmentRequestInput
+} from './types-4.js';
 import type {
     CancelGiftCardNotificationRequestInput,
     CancelInventoryCountRequestInput,
@@ -66,10 +71,10 @@ import type {
     CreateBundleComponentRequestInput,
     CreateBundleRequestInput,
     CreateCategoryRequestInput,
-    CreateCheckoutDeliveryQuoteRequestInput,
-    CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput,
-    CreateCheckoutSessionCustomerVerificationRequestInput
+    CreateCheckoutDeliveryQuoteRequestInput
 } from './types-8.js';
+export declare function makeCallerSuppliedDeliveryOutcomeRequestAvailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestAvailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestAvailableInput>;
+export declare function makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate(value: InputValue<CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput>): Model<CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput>;
 export declare function makeCallerSuppliedDeliveryOutcomeRequestUnavailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>;
 export declare function makeCancelFulfillmentRequest(value: InputValue<CancelFulfillmentRequestInput>): Model<CancelFulfillmentRequestInput>;
 export declare function makeCancelGiftCardNotificationRequest(value: InputValue<CancelGiftCardNotificationRequestInput>): Model<CancelGiftCardNotificationRequestInput>;
@@ -132,6 +137,3 @@ export declare function makeCreateBundleComponentRequest(value: InputValue<Creat
 export declare function makeCreateBundleRequest(value: InputValue<CreateBundleRequestInput>): Model<CreateBundleRequestInput>;
 export declare function makeCreateCategoryRequest(value: InputValue<CreateCategoryRequestInput>): Model<CreateCategoryRequestInput>;
 export declare function makeCreateCheckoutDeliveryQuoteRequest(value: InputValue<CreateCheckoutDeliveryQuoteRequestInput>): Model<CreateCheckoutDeliveryQuoteRequestInput>;
-export declare function makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest(value: InputValue<CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput>): Model<CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput>;
-export declare function makeCreateCheckoutSessionCustomerVerificationRequest(value: InputValue<Exclude<CreateCheckoutSessionCustomerVerificationRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateCheckoutSessionCustomerVerificationRequestInput & object, readonly unknown[]>>;
-export declare function makeCreateCheckoutSessionCustomerVerificationRequest(value: InputValue<CreateCheckoutSessionCustomerVerificationRequestInput>): Model<CreateCheckoutSessionCustomerVerificationRequestInput>;

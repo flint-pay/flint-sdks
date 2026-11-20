@@ -66,8 +66,9 @@ import type {
     ExpandedOrderSummary,
     ExpandedOrderSummaryPreviousAttributes
 } from './types-26.js';
-import type { StripeClientSetup, SplitReversalReference, SplitReversalReferencePreviousAttributes } from './types-68.js';
+import type { StripeClientSetup } from './types-69.js';
 import type { SavePaymentMethodRequestInput } from './types-67.js';
+import type { SplitReversalReference, SplitReversalReferencePreviousAttributes } from './types-68.js';
 import type {
     PaymentReviewPaymentSummary,
     PaymentReviewResolutionFailure,
@@ -8727,10 +8728,16 @@ export type PaymentProcessingFeeDetail = {
     "amount_money": MoneyValue;
     /**
      * Applied fee component: base percentage, international card, manual entry, currency
-     * conversion, or fixed amount. Value enum: "base", "international_card", "manual_entry",
-     * "currency_conversion", "fixed".
+     * conversion, fixed amount, or Tap to Pay. Value enum: "base", "international_card",
+     * "manual_entry", "currency_conversion", "fixed", "tap_to_pay".
      */
-    "type": "base" | "international_card" | "manual_entry" | "currency_conversion" | "fixed" | (string & {});
+    "type": "base"
+        | "international_card"
+        | "manual_entry"
+        | "currency_conversion"
+        | "fixed"
+        | "tap_to_pay"
+        | (string & {});
 };
 /**
  * The part of a refund returned through one payment, with the amount, tip, status, and any failure

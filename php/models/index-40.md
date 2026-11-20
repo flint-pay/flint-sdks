@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# TestClockAdvancingEvent to PendingPaymentActionPaymentIntentSubject
+# TaxCalculationCallbackUpdatedEvent to StripePaymentClientAction
 
+- [TaxCalculationCallbackUpdatedEvent](TaxCalculationCallbackUpdatedEvent.md)
+- [TaxConnectionUpdatedEvent](TaxConnectionUpdatedEvent.md)
 - [TestClockAdvancingEvent](TestClockAdvancingEvent.md)
 - [TestClockArchivedEvent](TestClockArchivedEvent.md)
 - [TestClockCreatedEvent](TestClockCreatedEvent.md)
@@ -100,6 +102,4 @@
 - [StripeSetupIntentClientAction](StripeSetupIntentClientAction.md)
 - [StripeTerminalPaymentIntentClientAction](StripeTerminalPaymentIntentClientAction.md)
 - [StripePaymentClientAction](StripePaymentClientAction.md)
-- [PendingPaymentActionClientActionStripe](PendingPaymentActionClientActionStripe.md)
-- [PendingPaymentActionPaymentIntentSubject](PendingPaymentActionPaymentIntentSubject.md)
 

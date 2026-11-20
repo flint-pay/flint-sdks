@@ -13,6 +13,7 @@ Request input.
 | `can_buyer_request` | Required | boolean | Whether the buyer can request this line themselves, through a customer session, right now. False when no policy covers the item, when it is not eligible, or when the store offers no reason for it. Read eligibility.reason and ineligibility_reason to say why. |
 | `description` | Optional | string | Description of the item as sold. |
 | `eligibility` | Required | [BuyerReturnLineItemEligibilityInput](../models/BuyerReturnLineItemEligibilityInput.md#buyerreturnlineitemeligibilityinput) | How the policy judged this line. An item's Return eligibility, eligible quantity, allowed resolution types, and eligibility reasons shown to the buyer. |
+| `exchange_variants` | Required | Array of [ReturnExchangeVariantInput](../models/ReturnExchangeVariantInput.md#returnexchangevariantinput) | Available alternatives for an exchange of this product. Empty when alternatives were omitted from the request or none are available. |
 | `fulfillment_id` | Required | string | ID of the fulfillment the units were delivered in. Example: `"ful_01KEZF7C00F24WVSTTWR1FQX5T"`. |
 | `image` | Optional | [ImageInput](../models/ImageInput.md#imageinput) | Image of the item as sold. An image with its URL, size, and alt text. |
 | `modifiers` | Required | Array of [BuyerReturnLineItemModifierInput](../models/BuyerReturnLineItemModifierInput.md#buyerreturnlineitemmodifierinput) | Modifiers selected on the order line, with their prices. |

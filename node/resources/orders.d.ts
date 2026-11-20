@@ -347,6 +347,7 @@ export type {
     SettlementAmounts,
     ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
+    SelectableOrderPaymentIntent,
     SetupCollection,
     SetupCollectionStripe,
     SelectedProductOption,
@@ -368,7 +369,6 @@ export type {
     InventoryRoutingSourceInputPolicyInput,
     InventoryRoutingSourceInputPolicyRevisionInput
 } from '../declarations/types-33.js';
-export type { SelectableOrderPaymentIntent } from '../declarations/types-67.js';
 export type {
     ReadinessMerchantAccountSession,
     RefundChargeInput,
@@ -397,7 +397,8 @@ export type {
 export type {
     SubscriptionIntervalOption,
     SubscriptionDeliveryDestinationRequestInput,
-    SubscriptionDeliveryDestinationInputCustomerAddressInput
+    SubscriptionDeliveryDestinationInputCustomerAddressInput,
+    SubscriptionDeliveryDestinationInputAddressInput
 } from '../declarations/types-70.js';
 export type { SubscriptionPlanLineItem, SubscriptionPlanLineItemBundle, SubscriptionPlanLineItemCustom } from '../declarations/types-71.js';
 export type { Image, ImageReferenceRequestInput, ImageReferenceRequest } from '../declarations/types-31.js';
@@ -425,14 +426,6 @@ export type {
     CreateOrderTipAmountInput,
     CreateOrderTipPercentInput
 } from '../declarations/types-12.js';
-export type {
-    SubscriptionDeliveryDestinationInputAddressInput,
-    SubscribedLineRequestModelInput,
-    StripePaymentClientAction,
-    StripeSetupIntentClientAction,
-    StripeTerminalPaymentIntentClientAction,
-    SubscribedLine
-} from '../declarations/types-69.js';
 export type { DeliverySelectionRecipientRequestInput, DeliverySelectionRecipientRequest } from '../declarations/types-24.js';
 export type { InventoryRoutingSourceRequestInput } from '../declarations/types-34.js';
 export type {
@@ -444,14 +437,21 @@ export type {
     GiftCardPurchaseRecipientPatchRequestInput
 } from '../declarations/types-30.js';
 export type {
+    SubscribedLineRequestModelInput,
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
+    StripeTerminalPaymentIntentClientAction,
+    SubscribedLine
+} from '../declarations/types-69.js';
+export type {
     RefundTaxBreakdownRefund,
     RefundTenderAllocation,
     RefundUnissuedGiftCardRecovery,
     RemoveDiscountsRequestInput
 } from '../declarations/types-61.js';
 export type { PaymentRefund } from '../declarations/types-53.js';
-export type { UpdateOrderRequestInput } from '../declarations/types-77.js';
-export type { UpdateOrderChargeRequestInput, UpdateLineItemRequestInput } from '../declarations/types-76.js';
+export type { UpdateOrderRequestInput, UpdateOrderChargeRequestInput } from '../declarations/types-77.js';
+export type { UpdateLineItemRequestInput } from '../declarations/types-76.js';
 export {
     makeAddLineItemsRequest,
     makeAddOrderChargeRequest,
@@ -505,10 +505,10 @@ export {
     makeManualDiscountRequest,
     makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue
+    makeMetadataRequest
 } from '../declarations/types-88.js';
 export {
+    makeMoneyValue,
     makeOrderCalculatedChargeTaxRequest,
     makeOrderCalculatedLineItemTaxRequest,
     makeOrderChargeInputAmount,
@@ -546,9 +546,7 @@ export {
     makeOrderTaxLocationPostalAddressRequest,
     makeOrderTaxLocationRequest,
     makeOrderTaxRequest,
-    makeOrderTaxUpdateRequest,
-    makePayOrderRequest,
-    makePayOrderRequestConfirmPaymentIntents
+    makeOrderTaxUpdateRequest
 } from '../declarations/types-89.js';
 export {
     makePaymentSourceCredential,
@@ -557,6 +555,8 @@ export {
     makePaymentSourceCredentialStripeConfirmationToken,
     makePaymentSourceCredentialStripePaymentMethod,
     makePaymentSplitRequest,
+    makePayOrderRequest,
+    makePayOrderRequestConfirmPaymentIntents,
     makePayOrderRequestPay,
     makePayOrderRequestResume,
     makePayOrderRequestSetup,

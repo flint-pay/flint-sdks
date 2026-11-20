@@ -45,7 +45,8 @@ export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { FulfillmentEventsGetParams } from '../declarations/types-27.js';
-export { makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface FulfillmentNotificationsResource {
     /**
  * Retrieves one fulfillment notification audit record by ID.

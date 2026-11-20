@@ -48,6 +48,7 @@ export type {
     WebhookEndpointsRotateSecretParams,
     WebhookEndpointsSignDeliveryParams,
     WebhookEndpointsUpdateParams,
+    WebhookDeliveryActionResponse,
     WebhookSigningMethodInput
 } from '../declarations/types-79.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
@@ -68,7 +69,7 @@ export type { RotateWebhookSecretRequestInput } from '../declarations/types-67.j
 export type { UpdateWebhookEndpointRequestInput } from '../declarations/types-78.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeRotateWebhookSecretRequest, makeSignWebhookEndpointDeliveryRequest } from '../declarations/types-92.js';
 export { makeUpdateWebhookEndpointRequest, makeWebhookSigningMethod } from '../declarations/types-95.js';
 export interface WebhookEndpointsResource {
@@ -113,7 +114,15 @@ export interface WebhookEndpointsResource {
  * client.webhookEndpoints.createTestEvent("whep_01KEZF7C006FXYTAJRZCGCBJTN", {event_type:
  * "payment_intent.succeeded"}, { idempotencyKey: idempotencyKey })
  */
-    createTestEvent(webhook_endpoint_id: InputValue<string>, params: WebhookEndpointsCreateTestEventParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<((WebhookDeliveryAction) | (WebhookStreamTestEvent) | (Record<string, unknown>)), WebhookTestEventResponse>>;
+    createTestEvent(webhook_endpoint_id: InputValue<string>, params: WebhookEndpointsCreateTestEventParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<(((WebhookDeliveryAction) | (WebhookStreamTestEvent) | (Record<string, unknown>)))
+        & {
+        "webhook_event_id": string;
+    }, (WebhookTestEventResponse)
+        & ({
+        "data": {
+            "webhook_event_id": string;
+        };
+    })>>;
     /**
  * Permanently deletes the webhook endpoint and returns it with status deleted. Its pending
  * deliveries are suppressed. The endpoint cannot be retrieved afterward, and its past deliveries

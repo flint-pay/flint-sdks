@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# RetryReturnResolutionResponseInput to ReturnReceiptVerifiedMerchantEventInput
+# RetryReturnResolutionRequestInput to ReturnReceiptSupersededMerchantEventInput
 
+- [RetryReturnResolutionRequestInput](RetryReturnResolutionRequestInput.md)
 - [RetryReturnResolutionResponseInput](RetryReturnResolutionResponseInput.md)
 - [ReturnActivityInput](ReturnActivityInput.md)
 - [ReturnActorInput](ReturnActorInput.md)
@@ -32,6 +33,7 @@
 - [ReturnEligibilitySelectionLineItemsInput](ReturnEligibilitySelectionLineItemsInput.md)
 - [ReturnEligibilitySelectionLineItemsRequestInput](ReturnEligibilitySelectionLineItemsRequestInput.md)
 - [ReturnEligibilitySelectionRequestInput](ReturnEligibilitySelectionRequestInput.md)
+- [ReturnExchangeVariantInput](ReturnExchangeVariantInput.md)
 - [ReturnFinancialSummaryInput](ReturnFinancialSummaryInput.md)
 - [ReturnFinancialSummaryPreviousAttributesInput](ReturnFinancialSummaryPreviousAttributesInput.md)
 - [ReturnHandoffDestinationInput](ReturnHandoffDestinationInput.md)
@@ -100,6 +102,4 @@
 - [ReturnReceiptPreviousAttributesInput](ReturnReceiptPreviousAttributesInput.md)
 - [ReturnReceiptSupersededInstalledMerchantsEventInput](ReturnReceiptSupersededInstalledMerchantsEventInput.md)
 - [ReturnReceiptSupersededMerchantEventInput](ReturnReceiptSupersededMerchantEventInput.md)
-- [ReturnReceiptVerifiedInstalledMerchantsEventInput](ReturnReceiptVerifiedInstalledMerchantsEventInput.md)
-- [ReturnReceiptVerifiedMerchantEventInput](ReturnReceiptVerifiedMerchantEventInput.md)
 

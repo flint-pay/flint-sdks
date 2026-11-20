@@ -99,7 +99,8 @@ export {
     makeCreateRefundRequestFull,
     makeCreateRefundRequestTargets
 } from '../declarations/types-84.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export {
     makeRefundAdjustmentAudit,
     makeRefundAdjustmentReasonRequest,

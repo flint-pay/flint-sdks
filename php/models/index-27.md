@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# RefundDestinationsInput to RetryReturnResolutionRequestInput
+# RefundDestinationsInput to RetryReturnDispositionResponseInput
 
 - [RefundDestinationsInput](RefundDestinationsInput.md)
 - [RefundFailedInstalledMerchantsEventInput](RefundFailedInstalledMerchantsEventInput.md)
@@ -86,6 +86,7 @@
 - [ResourceTimelineInput](ResourceTimelineInput.md)
 - [ResourceTimelineAPIRequestEntryInput](ResourceTimelineAPIRequestEntryInput.md)
 - [ResourceTimelineEntryInput](ResourceTimelineEntryInput.md)
+- [ResourceTimelineFieldChangeInput](ResourceTimelineFieldChangeInput.md)
 - [ResourceTimelineImageMutationEntryInput](ResourceTimelineImageMutationEntryInput.md)
 - [ResourceTimelineLicenseKeyRestrictionChangeEntryInput](ResourceTimelineLicenseKeyRestrictionChangeEntryInput.md)
 - [ResourceTimelinePoolAttestationEntryInput](ResourceTimelinePoolAttestationEntryInput.md)
@@ -101,5 +102,4 @@
 - [RetryOrderEditRefundResultInput](RetryOrderEditRefundResultInput.md)
 - [RetryReturnDispositionRequestInput](RetryReturnDispositionRequestInput.md)
 - [RetryReturnDispositionResponseInput](RetryReturnDispositionResponseInput.md)
-- [RetryReturnResolutionRequestInput](RetryReturnResolutionRequestInput.md)
 

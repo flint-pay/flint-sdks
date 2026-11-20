@@ -6,10 +6,11 @@ namespace Flint;
  * @property-read int $expected_version
  * @property-read int $requested_quantity
  * @property-read string|null $requested_resolution_type
+ * @property-read string|null $requested_variant
  * @property-read string $return_reason_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateReturnLineItemRequestInput extends Model {
-    /** @param array{'buyer_note'?: string|null, 'expected_version'?: int, 'requested_quantity'?: int, 'requested_resolution_type'?: string|null, 'return_reason_id'?: string}|object $values */
+    /** @param array{'buyer_note'?: string|null, 'expected_version'?: int, 'requested_quantity'?: int, 'requested_resolution_type'?: string|null, 'requested_variant'?: string|null, 'return_reason_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateReturnLineItemRequestInput')); }
     /** Send null to clear it. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: 1.
      * @return string|null
@@ -35,6 +36,12 @@ final class UpdateReturnLineItemRequestInput extends Model {
      */
     public function getRequestedResolutionType(): string|null { return $this->get('requested_resolution_type'); }
     public function hasRequestedResolutionType(): bool { return $this->has('requested_resolution_type'); }
+    /** ID of one variant of the same product for an exchange. Omit to preserve it or send null to clear it. Clear the variant when changing the requested outcome away from exchange. minLength: 1.
+     * @return string|null
+     * @throws SdkError When requested_variant is omitted; use hasRequestedVariant() or valueOrDefault().
+     */
+    public function getRequestedVariant(): string|null { return $this->get('requested_variant'); }
+    public function hasRequestedVariant(): bool { return $this->has('requested_variant'); }
     /** ID of the return reason for this line. The reason must be active. minLength: 1. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().

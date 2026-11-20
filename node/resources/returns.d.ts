@@ -101,8 +101,8 @@ export type {
     ReturnPolicyEvaluationLineItem,
     ReturnPolicyAdjustmentProposal,
     ReturnReceipt,
-    ReturnReceiptLineItem,
     ReturnLineItemRequestInput,
+    ReturnLineDecisionInput,
     ReturnLineItemEligibility,
     ReturnLineItemDecisionProposal,
     ReturnReason,
@@ -140,8 +140,7 @@ export type {
     ReturnHandoffRequirementLineItem,
     ReturnDisposition,
     ReturnInspection,
-    ReturnInspectionLineItem,
-    ReturnLineDecisionInput
+    ReturnInspectionLineItem
 } from '../declarations/types-63.js';
 export type {
     ExpandedCustomerSummary,
@@ -166,6 +165,7 @@ export type { Image } from '../declarations/types-31.js';
 export type { OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-46.js';
 export type { TextModifierRequest } from '../declarations/types-75.js';
 export type {
+    ReturnReceiptLineItem,
     ReturnResolution,
     ReturnResolutionAdjustment,
     ReturnResolutionExecutionBlocker,
@@ -220,10 +220,10 @@ export {
     makeLineItemFulfillmentRequestModel,
     makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeMoneyValue
+    makeMetadataRequest
 } from '../declarations/types-88.js';
 export {
+    makeMoneyValue,
     makeOrderDraftLineItemTaxCalculationRequestModel,
     makeOrderDraftTaxComponentRequestModel,
     makeOrderDraftTaxJurisdictionRequestModel
@@ -233,11 +233,11 @@ export {
     makeReopenReturnRequest,
     makeReturnLineDecision,
     makeReturnLineItemRequest,
-    makeReturnProcessDecision,
-    makeReturnProcessDispositionRequest,
-    makeReturnProcessInspectionRequest
+    makeReturnProcessDecision
 } from '../declarations/types-91.js';
 export {
+    makeReturnProcessDispositionRequest,
+    makeReturnProcessInspectionRequest,
     makeReturnProcessReceiptRequest,
     makeReturnProcessResolutionRequest,
     makeReturnReplacementLineItemInputBundle,
@@ -593,8 +593,9 @@ export interface ReturnsResource {
  */
     update(return_id: InputValue<string>, params: ReturnsUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnResource, UpdateReturnResponse>>;
     /**
- * Update a requested Return line item. Send null to clear buyer_note or requested_resolution_type.
- * The response is the updated Return.
+ * Update a requested Return line item. Send null to clear buyer_note, requested_resolution_type,
+ * or requested_variant. Send requested_variant as null when changing the requested outcome away
+ * from exchange on a line with a requested variant. The response is the updated Return.
  *
  * `PATCH /v1/returns/{return_id}/line-items/{return_line_item_id}`
  * @param return_id Flint return id. Must be a valid ID with prefix ret_. Malformed IDs return 400

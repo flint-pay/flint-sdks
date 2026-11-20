@@ -1,7 +1,7 @@
-import { d9448 as c0 } from '../descriptors/data/429.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d9448 as d9448 } from '../descriptors/data/429.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import { d9450 as c0 } from '../descriptors/data/430.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d9450 as d9450 } from '../descriptors/data/430.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d9448;
+const read = d9450;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["LocationCoordinateRequest"]:c0()}); }
 export { codec as _validate };

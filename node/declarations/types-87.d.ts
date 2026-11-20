@@ -1,5 +1,7 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    FulfillmentPackagingRequestInput,
+    FulfillmentRecipientRequestInput,
     FulfillmentSettingsRequestInput,
     FulfillmentSinglePackageRequestInput,
     GeneratedLicenseKeyConfigurationRequestInput,
@@ -77,10 +79,10 @@ import type {
     InvoicePaymentDueInputDateInput,
     InvoicePaymentDueInputMerchantDefaultInput,
     InvoicePaymentDueInputNoneInput,
-    InvoicePaymentDueInputPaymentTermsInput,
-    InvoicePaymentDueRequestInput,
-    InvoicePaymentOptionLimitRequestInput
+    InvoicePaymentDueInputPaymentTermsInput
 } from './types-36.js';
+export declare function makeFulfillmentPackagingRequest(value: InputValue<FulfillmentPackagingRequestInput>): Model<FulfillmentPackagingRequestInput>;
+export declare function makeFulfillmentRecipientRequest(value: InputValue<FulfillmentRecipientRequestInput>): Model<FulfillmentRecipientRequestInput>;
 export declare function makeFulfillmentSettingsRequest(value: InputValue<FulfillmentSettingsRequestInput>): Model<FulfillmentSettingsRequestInput>;
 export declare function makeFulfillmentSinglePackageRequest(value: InputValue<FulfillmentSinglePackageRequestInput>): Model<FulfillmentSinglePackageRequestInput>;
 export declare function makeGeneratedLicenseKeyConfigurationRequest(value: InputValue<GeneratedLicenseKeyConfigurationRequestInput>): Model<GeneratedLicenseKeyConfigurationRequestInput>;
@@ -144,5 +146,3 @@ export declare function makeInvoicePaymentDueInputDate(value: InputValue<Invoice
 export declare function makeInvoicePaymentDueInputMerchantDefault(value: InputValue<InvoicePaymentDueInputMerchantDefaultInput>): Model<InvoicePaymentDueInputMerchantDefaultInput>;
 export declare function makeInvoicePaymentDueInputNone(value: InputValue<InvoicePaymentDueInputNoneInput>): Model<InvoicePaymentDueInputNoneInput>;
 export declare function makeInvoicePaymentDueInputPaymentTerms(value: InputValue<InvoicePaymentDueInputPaymentTermsInput>): Model<InvoicePaymentDueInputPaymentTermsInput>;
-export declare function makeInvoicePaymentDueRequest(value: InputValue<InvoicePaymentDueRequestInput>): Model<InvoicePaymentDueRequestInput>;
-export declare function makeInvoicePaymentOptionLimitRequest(value: InputValue<InvoicePaymentOptionLimitRequestInput>): Model<InvoicePaymentOptionLimitRequestInput>;

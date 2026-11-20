@@ -1,4 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
+import type { InvoicePaymentDueRequestInput, InvoicePaymentOptionLimitRequestInput } from './types-36.js';
 import type {
     InvoicePaymentPolicyRequestInput,
     InvoicePaymentTermCalculationDayOfMonthRequestInput,
@@ -69,10 +70,10 @@ import type {
 import type {
     ModifierSetGroupInputExistingInput,
     ModifierSetGroupInputInlineInput,
-    ModifierSetGroupRequestInput,
-    MoneyValueInput,
-    OAuthRevokeRequestInput
+    ModifierSetGroupRequestInput
 } from './types-44.js';
+export declare function makeInvoicePaymentDueRequest(value: InputValue<InvoicePaymentDueRequestInput>): Model<InvoicePaymentDueRequestInput>;
+export declare function makeInvoicePaymentOptionLimitRequest(value: InputValue<InvoicePaymentOptionLimitRequestInput>): Model<InvoicePaymentOptionLimitRequestInput>;
 export declare function makeInvoicePaymentPolicyRequest(value: InputValue<InvoicePaymentPolicyRequestInput>): Model<InvoicePaymentPolicyRequestInput>;
 export declare function makeInvoicePaymentTermCalculationDayOfMonthRequest(value: InputValue<InvoicePaymentTermCalculationDayOfMonthRequestInput>): Model<InvoicePaymentTermCalculationDayOfMonthRequestInput>;
 export declare function makeInvoicePaymentTermCalculationDayOfNextMonthRequest(value: InputValue<InvoicePaymentTermCalculationDayOfNextMonthRequestInput>): Model<InvoicePaymentTermCalculationDayOfNextMonthRequestInput>;
@@ -135,5 +136,3 @@ export declare function makeModifierRequest(value: InputValue<ModifierRequestInp
 export declare function makeModifierSetGroupInputExisting(value: InputValue<ModifierSetGroupInputExistingInput>): Model<ModifierSetGroupInputExistingInput>;
 export declare function makeModifierSetGroupInputInline(value: InputValue<ModifierSetGroupInputInlineInput>): Model<ModifierSetGroupInputInlineInput>;
 export declare function makeModifierSetGroupRequest(value: InputValue<ModifierSetGroupRequestInput>): Model<ModifierSetGroupRequestInput>;
-export declare function makeMoneyValue(value: InputValue<MoneyValueInput>): Model<MoneyValueInput>;
-export declare function makeOAuthRevokeRequest(value: InputValue<OAuthRevokeRequestInput>): Model<OAuthRevokeRequestInput>;

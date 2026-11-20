@@ -26,6 +26,7 @@ export type {
     ResourceReference,
     ResourceTimelineWebhookEventEntry,
     ReturnActor,
+    ResourceTimelineFieldChange,
     ResourceTimelineWebhookDeliveryAttemptEntry,
     ResourceTimelineImageMutationEntry,
     ResourceTimelinePoolAttestationEntry,
@@ -37,10 +38,10 @@ export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { PaymentActivityActor } from '../declarations/types-51.js';
-export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface ResourceTimelinesResource {
     /**
  * Returns summary-only API request, webhook event, webhook delivery attempt, image mutation,

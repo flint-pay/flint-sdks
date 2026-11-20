@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](BundleArchivedMerchantEvent.md#bundlearchivedmerchanteventdata-fields-1).
 
+### BundleUpdatedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### BundleUpdatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [BundleArchivedMerchantEvent.data fields 1.object](../models/BundleArchivedMerchantEvent.md#bundlearchivedmerchanteventdata-fields-1object).

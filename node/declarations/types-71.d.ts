@@ -1,6 +1,6 @@
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type {
-    SubscriptionOfferLineItemRequest,
-    SubscriptionOffer,
+    SubscriptionIntervalOption,
     SubscriptionDeliveryHold,
     SubscriptionDeliveryHoldPreviousAttributes,
     SubscriptionDeliveryPreviousAttributes,
@@ -8,7 +8,6 @@ import type {
     SubscriptionEndAfterPreviousAttributes,
     SubscriptionGiftRecipient,
     SubscriptionGiftRecipientPreviousAttributes,
-    SubscriptionIntervalOption,
     SubscriptionIntervalOptionPreviousAttributes,
     SubscriptionInventoryWait,
     SubscriptionInventoryWaitPreviousAttributes,
@@ -29,7 +28,6 @@ import type {
 } from './types-26.js';
 import type { UpdateSubscriptionOfferRequestInput } from './types-78.js';
 import type { ExpandedSubscriptionPlanSummary, ExpandedSubscriptionPlanSummaryPreviousAttributes } from './types-27.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { PaymentErrorSummary, PaymentErrorSummaryPreviousAttributes } from './types-51.js';
@@ -72,6 +70,105 @@ import type { BundleComponent, BundleComponentPreviousAttributes } from './types
 import type { CategoryReference, CategoryReferencePreviousAttributes } from './types-5.js';
 import type { OrderLineItemModifier, OrderLineItemModifierPreviousAttributes } from './types-46.js';
 import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-68.js';
+/**
+ * Recurring terms offered on catalog products or variants. Updates affect new signups; existing
+ * subscriptions keep their paid signup terms.
+ */
+export type SubscriptionOffer = {
+    /**
+     * Offered billing interval and count pairs. Every option bills the same catalog line prices
+     * once per period; changing cadence does not scale prices. minItems: 1. maxItems: 12.
+     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such
+     * as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines
+     * that ship are per delivery, and each option charges for all deliveries in its period.
+     * Without a delivery cadence there is one delivery per period, so every option bills the same
+     * line prices once per period. With a delivery cadence, a longer period bills more deliveries
+     * of the lines that ship; other lines bill once per period. For a different price per interval
+     * with no delivery cadence, create separate plans.
+     */
+    "billing_interval_options": Array<SubscriptionIntervalOption>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata": MetadataMap;
+    /**
+     * Name of the offer. Buyers see it on the order lines it covers, so write it for them.
+     * minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Products whose active variants the offer covers, including variants added later. At most
+     * 100. Send at least one product or variant. Each product must be active and physical,
+     * digital, or a service. A variant can be in only one active offer; an overlap returns `409
+     * ALREADY_EXISTS` naming the other offer. maxItems: 100. uniqueItems: true. [] (Value):
+     * string. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_ids": Array<string>;
+    /**
+     * ID of the promotion that discounts new signups on this offer: an active promotion with
+     * forever recurrence. Null when the offer gives no discount. Example:
+     * "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     */
+    "promotion_id": string | null;
+    /**
+     * Whether new signups can use the offer. Existing subscriptions keep their signup terms
+     * whatever the offer's status. Value enum: "active", "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * Delivery methods offered at signup. An empty array uses the store's checkout defaults.
+     * Existing subscriptions keep their selected method. maxItems: 25. uniqueItems: true. []
+     * (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "subscription_delivery_method_ids": Array<string>;
+    /**
+     * Unique identifier for this subscription offer, prefixed `soffer_`. Example:
+     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
+     */
+    "subscription_offer_id": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Individual variants the offer covers. At most 100. Send at least one product or variant. A
+     * variant can be in only one active offer; an overlap returns `409 ALREADY_EXISTS` naming the
+     * other offer. maxItems: 100. uniqueItems: true. [] (Value): string. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids": Array<string>;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: uint64. minimum: 0.
+     */
+    "version": number;
+};
+/** A subscription offer and variant to include in subscription offer terms. */
+export type SubscriptionOfferLineItemRequest = {
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     * maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * ID of the active subscription offer that covers the variant. minLength: 1. Example:
+     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
+     */
+    "subscription_offer_id": string;
+    /**
+     * ID of the catalog variant to subscribe to. It must be one the offer covers, and no two lines
+     * can name the same variant. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+};
 /** A subscription offer and variant to include in subscription offer terms. */
 export type SubscriptionOfferLineItemRequestInput = SubscriptionOfferLineItemRequest;
 /** A page of `SubscriptionOffer` objects. */
@@ -40774,224 +40871,3 @@ export type SubscriptionPlanLineItemPreviousAttributes = ({
     | (Exclude<SubscriptionPlanLineItemBundlePreviousAttributes & object, readonly unknown[]>)
     | (Exclude<SubscriptionPlanLineItemCustomPreviousAttributes & object, readonly unknown[]>)
     | (Record<string, unknown>)));
-/**
- * A line item to put on a new subscription plan, from a variant, a bundle, or a custom name and
- * price.
- */
-export type SubscriptionPlanLineItemRequest = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /**
-     * ID of the catalog bundle to sell on this line. Send it with `type` bundle and without
-     * `variant_id`, `name`, `unit_price_money`, `description`, or `tax`: Flint takes those from
-     * the bundle. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Description of the line. Optional on a custom line, and not allowed on a variant or bundle
-     * line, which take the catalog description. minLength: 1.
-     */
-    "description"?: string;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    /**
-     * Modifiers to apply to a variant or bundle line. Omit to apply the catalog item's default
-     * modifiers; send an empty array to skip the defaults. Not allowed on a custom line, and
-     * `null` is rejected. [] (Value): {@link OrderLineItemModifierRequest}. A modifier selection
-     * you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity.
-     * [].metadata (Optional): {@link MetadataMap}. Caller-owned metadata for this selection,
-     * returned on the order line item's modifier. Values can't be empty strings. Keys starting
-     * with flint_ are reserved for Flint, are not returned, and cannot be written through the
-     * public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata.
-     * Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096
-     * Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be
-     * empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     * [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque
-     * resource reference; accepted spellings follow resource ID validation. Its resolved price and
-     * the resulting line subtotal must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
-     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. [].text (Optional): {@link TextModifierRequest}. The text to use. Send it with a
-     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
-     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalog}. The `catalog` variant of
-     * `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link OrderLineItemModifierInputText}.
-     * The `text` variant of `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
-    /**
-     * Name of the line. Required for a custom line, and not allowed on a variant or bundle line,
-     * which take the catalog name. Surrounding whitespace is trimmed before length validation. A
-     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
-     */
-    "name"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * Variants a subscriber can swap this line to. Only for a variant line. At most 25, with no
-     * repeats, none equal to the line's own variant, and all from the same product. Omit for none.
-     * maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids"?: Array<string>;
-    /**
-     * Whether the line is taxable and its tax category. A custom line needs `taxable` when it
-     * sends `tax`. Not allowed on a variant or bundle line, which take the catalog tax settings. A
-     * line item's tax category and whether it is taxable.
-     */
-    "tax"?: OrderLineItemTax;
-    /**
-     * The kind of line to add. It must match the other fields: `variant` needs `variant_id`,
-     * `bundle` needs `bundle_id`, and `custom` needs `name` and `unit_price_money`. Value enum:
-     * "variant", "bundle", "custom".
-     */
-    "type": "variant" | "bundle" | "custom" | (string & {});
-    /**
-     * Price of one unit, in the plan's currency. Required for a custom line, with an amount above
-     * zero, and not allowed on a variant or bundle line, which take the catalog price. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValue;
-    /**
-     * ID of the catalog variant to sell on this line. Send it with `type` variant and without
-     * `bundle_id`, `name`, `unit_price_money`, `description`, or `tax`: Flint takes those from the
-     * variant. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-})
-    & ((Exclude<SubscriptionPlanLineItemInputVariant & object, readonly unknown[]>)
-    | (Exclude<SubscriptionPlanLineItemInputBundle & object, readonly unknown[]>)
-    | (Exclude<SubscriptionPlanLineItemInputCustom & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * A line item to put on a new subscription plan, from a variant, a bundle, or a custom name and
- * price.
- */
-export type SubscriptionPlanLineItemRequestInput = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /**
-     * ID of the catalog bundle to sell on this line. Send it with `type` bundle and without
-     * `variant_id`, `name`, `unit_price_money`, `description`, or `tax`: Flint takes those from
-     * the bundle. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Description of the line. Optional on a custom line, and not allowed on a variant or bundle
-     * line, which take the catalog description. minLength: 1.
-     */
-    "description"?: string;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    /**
-     * Modifiers to apply to a variant or bundle line. Omit to apply the catalog item's default
-     * modifiers; send an empty array to skip the defaults. Not allowed on a custom line, and
-     * `null` is rejected. [] (Value): {@link OrderLineItemModifierRequestModelInput}. A modifier
-     * selection you supply on a line item: a catalog modifier by ID or a text modifier, with a
-     * quantity. [].metadata (Optional): {@link MetadataRequestInput}. Caller-owned metadata for
-     * this selection, returned on the order line item's modifier. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50. [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque
-     * resource reference; accepted spellings follow resource ID validation. Its resolved price and
-     * the resulting line subtotal must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
-     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. [].text (Optional): {@link TextModifierRequestInput}. The text to use. Send it with a
-     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
-     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalogRequestInput}. The `catalog`
-     * variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
-     * OrderLineItemModifierInputTextRequestInput}. The `text` variant of
-     * `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestModelInput & object, readonly unknown[]>)
-        & (({
-        "order_line_item_modifier_id"?: never;
-    }))>;
-    /**
-     * Name of the line. Required for a custom line, and not allowed on a variant or bundle line,
-     * which take the catalog name. Surrounding whitespace is trimmed before length validation. A
-     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
-     */
-    "name"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * Variants a subscriber can swap this line to. Only for a variant line. At most 25, with no
-     * repeats, none equal to the line's own variant, and all from the same product. Omit for none.
-     * maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids"?: Array<string>;
-    /**
-     * Whether the line is taxable and its tax category. A custom line needs `taxable` when it
-     * sends `tax`. Not allowed on a variant or bundle line, which take the catalog tax settings. A
-     * line item's tax category and whether it is taxable.
-     */
-    "tax"?: OrderLineItemTaxRequestInput;
-    /**
-     * The kind of line to add. It must match the other fields: `variant` needs `variant_id`,
-     * `bundle` needs `bundle_id`, and `custom` needs `name` and `unit_price_money`. Value enum:
-     * "variant", "bundle", "custom".
-     */
-    "type": "variant" | "bundle" | "custom";
-    /**
-     * Price of one unit, in the plan's currency. Required for a custom line, with an amount above
-     * zero, and not allowed on a variant or bundle line, which take the catalog price. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValueInput;
-    /**
-     * ID of the catalog variant to sell on this line. Send it with `type` variant and without
-     * `bundle_id`, `name`, `unit_price_money`, `description`, or `tax`: Flint takes those from the
-     * variant. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-})
-    & ((Exclude<SubscriptionPlanLineItemInputVariantInput & object, readonly unknown[]>)
-    | (Exclude<SubscriptionPlanLineItemInputBundleInput & object, readonly unknown[]>)
-    | (Exclude<SubscriptionPlanLineItemInputCustomInput & object, readonly unknown[]>));

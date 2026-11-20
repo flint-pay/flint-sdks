@@ -106,7 +106,7 @@ Body model: [CreateWebhookTestEventRequestInput](../models/CreateWebhookTestEven
 
 #### Response
 
-Returned payload: (([WebhookDeliveryAction](../models/WebhookDeliveryAction.md#webhookdeliveryaction)) | ([WebhookStreamTestEvent](../models/WebhookStreamTestEvent.md#webhookstreamtestevent)) | (Record&lt;string, unknown&gt;)).
+Returned payload: ((([WebhookDeliveryAction](../models/WebhookDeliveryAction.md#webhookdeliveryaction)) | ([WebhookStreamTestEvent](../models/WebhookStreamTestEvent.md#webhookstreamtestevent)) | (Record&lt;string, unknown&gt;))) & { "webhook_event_id": string }.
 
 ##### Response variant 1
 

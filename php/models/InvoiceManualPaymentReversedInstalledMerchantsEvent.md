@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](InvoiceManualPaymentReversedMerchantEvent.md#invoicemanualpaymentreversedmerchanteventdata-fields-1).
 
+### InvoiceManualPaymentReversedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### InvoiceManualPaymentReversedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [InvoiceManualPaymentCreatedMerchantEvent.data fields 1.object](../models/InvoiceManualPaymentCreatedMerchantEvent.md#invoicemanualpaymentcreatedmerchanteventdata-fields-1object).

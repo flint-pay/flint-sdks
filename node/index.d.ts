@@ -48,11 +48,11 @@ export {
     makeBuyerSkipCapability,
     makeCallerSuppliedDeliveryMethodResultRequest,
     makeCallerSuppliedDeliveryOutcomeRequest,
-    makeCallerSuppliedDeliveryOutcomeRequestAvailable,
-    makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate,
     makeCLIContextsRequest,
     makeCLIDeviceRequest,
     makeCLIReauthorizeRequest,
+    WebhookSnapshotReturnResolution,
+    WebhookSnapshotSubscription,
     WebhookStreamDisconnect,
     WebhookStreamGap,
     WebhookStreamReady,
@@ -77,6 +77,8 @@ export {
 } from './declarations/types-80.js';
 export {
     workloadIdentityCredentials,
+    makeUpdateSubscriptionPlanLineItemInputCustom,
+    makeUpdateSubscriptionPlanLineItemInputVariant,
     makeUpdateSubscriptionPlanLineItemRequest,
     makeUpdateSubscriptionPlanRequest,
     makeUpdateSubscriptionRequest,
@@ -378,13 +380,14 @@ export type {
 export type { PromotionUpdatedEvent, ReaderArchivedEvent, ReaderCreatedEvent } from './declarations/types-59.js';
 export type { ReaderUpdatedEvent, RefundCreatedEvent, RefundFailedEvent, RefundPartiallySucceededEvent } from './declarations/types-60.js';
 export type { RefundSucceededEvent, RefundUpdatedEvent, ReportFailedEvent } from './declarations/types-61.js';
-export type { ReportSucceededEvent, ReturnCanceledEvent, ReturnCompletedEvent } from './declarations/types-62.js';
+export type { ReportSucceededEvent, ReturnCanceledEvent } from './declarations/types-62.js';
 export type {
     ReturnDispositionCreatedEvent,
     ReturnDispositionUpdatedEvent,
     ReturnInspectionAcceptanceDecidedEvent,
     ReturnInspectionCreatedEvent,
     ReturnInspectionSupersededEvent,
+    ReturnCompletedEvent,
     ReturnCreatedEvent,
     ReturnDecisionRecordedEvent
 } from './declarations/types-63.js';
@@ -659,6 +662,7 @@ export {
     ResourceTimeline,
     ResourceTimelineAPIRequestEntry,
     ResourceTimelineEntry,
+    ResourceTimelineFieldChange,
     ResourceTimelineImageMutationEntry,
     ResourceTimelineLicenseKeyRestrictionChangeEntry,
     ResourceTimelinePoolAttestationEntry,
@@ -951,6 +955,8 @@ export {
     CLIReauthorizeRequestInput
 } from './declarations/types-4.js';
 export {
+    makeCallerSuppliedDeliveryOutcomeRequestAvailable,
+    makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate,
     makeCallerSuppliedDeliveryOutcomeRequestUnavailable,
     makeCancelFulfillmentRequest,
     makeCancelGiftCardNotificationRequest,
@@ -1012,9 +1018,7 @@ export {
     makeCreateBundleComponentRequest,
     makeCreateBundleRequest,
     makeCreateCategoryRequest,
-    makeCreateCheckoutDeliveryQuoteRequest,
-    makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest,
-    makeCreateCheckoutSessionCustomerVerificationRequest
+    makeCreateCheckoutDeliveryQuoteRequest
 } from './declarations/types-81.js';
 export {
     CancelGiftCardNotificationRequestInput,
@@ -1208,6 +1212,8 @@ export {
     ConfirmReturnResolutionResponse
 } from './declarations/types-8.js';
 export {
+    makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest,
+    makeCreateCheckoutSessionCustomerVerificationRequest,
     makeCreateCheckoutSessionDiscount,
     makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest,
     makeCreateCheckoutSessionInvoice,
@@ -1269,9 +1275,7 @@ export {
     makeCreateGiftCardRedemptionRequest,
     makeCreateGiftCardRedemptionRequestAutomatic,
     makeCreateGiftCardRedemptionRequestManual,
-    makeCreateGiftCardRequest,
-    makeCreateInlineModifierGroupRequest,
-    makeCreateIntervalReportRequest
+    makeCreateGiftCardRequest
 } from './declarations/types-82.js';
 export {
     CreateCreditNoteAllocationRequestInput,
@@ -1406,6 +1410,8 @@ export {
     CreateInvoicePaymentTermRequestInput
 } from './declarations/types-10.js';
 export {
+    makeCreateInlineModifierGroupRequest,
+    makeCreateIntervalReportRequest,
     makeCreateInventoryAdjustmentConditionChangeRequest,
     makeCreateInventoryAdjustmentCorrectionRequest,
     makeCreateInventoryAdjustmentCountedRequest,
@@ -1467,9 +1473,7 @@ export {
     makeCreatePartnerAppCredentialRequest,
     makeCreatePartnerAppCredentialWorkloadIdentityRequest,
     makeCreatePartnerAppRequest,
-    makeCreatePaymentIntentRequest,
-    makeCreatePaymentLinkRequest,
-    makeCreatePaymentMethodDomainRequest
+    makeCreatePaymentIntentRequest
 } from './declarations/types-83.js';
 export {
     CreateInvoiceQuickPayRequest,
@@ -1604,6 +1608,8 @@ export {
     CreateReaderRequestInput
 } from './declarations/types-12.js';
 export {
+    makeCreatePaymentLinkRequest,
+    makeCreatePaymentMethodDomainRequest,
     makeCreatePayoutRequest,
     makeCreatePickupFulfillmentDetails,
     makeCreatePriceListPricesRequest,
@@ -1665,9 +1671,7 @@ export {
     makeCreateSubscriptionPreviewRequestDeliveryOptions,
     makeCreateSubscriptionPreviewRequestNextRenewal,
     makeCreateSubscriptionPreviewRequestPlanChange,
-    makeCreateSubscriptionPreviewRequestPromotionApply,
-    makeCreateSubscriptionPreviewRequestQuantityChange,
-    makeCreateSubscriptionRequest
+    makeCreateSubscriptionPreviewRequestPromotionApply
 } from './declarations/types-84.js';
 export {
     CreateReceivablesAgingReportRequest,
@@ -1802,6 +1806,8 @@ export {
     CreateWebhookEndpointRequestInput
 } from './declarations/types-14.js';
 export {
+    makeCreateSubscriptionPreviewRequestQuantityChange,
+    makeCreateSubscriptionRequest,
     makeCreateTapToPayReaderRequest,
     makeCreateTaxCalculationCallbackRequest,
     makeCreateTaxRegistrationRequest,
@@ -1863,9 +1869,7 @@ export {
     makeDeliveryPostalCodeConditionRequest,
     makeDeliveryPostalCodeValueRequest,
     makeDeliveryPricingRateCreateRequest,
-    makeDeliveryPricingRateRequest,
-    makeDeliveryPricingStrategyCreateInputCalculated,
-    makeDeliveryPricingStrategyCreateInputCallback
+    makeDeliveryPricingRateRequest
 } from './declarations/types-85.js';
 export {
     CustomDomainListResponse,
@@ -2245,6 +2249,8 @@ export {
     DeliveryProfileConfigurationInputQuoteInput
 } from './declarations/types-21.js';
 export {
+    makeDeliveryPricingStrategyCreateInputCalculated,
+    makeDeliveryPricingStrategyCreateInputCallback,
     makeDeliveryPricingStrategyCreateInputCallerSupplied,
     makeDeliveryPricingStrategyCreateInputFixed,
     makeDeliveryPricingStrategyCreateInputRateTable,
@@ -2306,9 +2312,7 @@ export {
     makeFailFulfillmentRequest,
     makeFreezeGiftCardRequest,
     makeFulfillmentItemizedPackagesRequest,
-    makeFulfillmentLineItemRequest,
-    makeFulfillmentPackagingRequest,
-    makeFulfillmentRecipientRequest
+    makeFulfillmentLineItemRequest
 } from './declarations/types-86.js';
 export {
     DeliveryProfileConfigurationInputRequired,
@@ -2742,6 +2746,8 @@ export {
     FulfillmentsUpdateParams
 } from './declarations/types-28.js';
 export {
+    makeFulfillmentPackagingRequest,
+    makeFulfillmentRecipientRequest,
     makeFulfillmentSettingsRequest,
     makeFulfillmentSinglePackageRequest,
     makeGeneratedLicenseKeyConfigurationRequest,
@@ -2803,9 +2809,7 @@ export {
     makeInvoicePaymentDueInputDate,
     makeInvoicePaymentDueInputMerchantDefault,
     makeInvoicePaymentDueInputNone,
-    makeInvoicePaymentDueInputPaymentTerms,
-    makeInvoicePaymentDueRequest,
-    makeInvoicePaymentOptionLimitRequest
+    makeInvoicePaymentDueInputPaymentTerms
 } from './declarations/types-87.js';
 export {
     GiftCardFundingDispute,
@@ -3284,6 +3288,72 @@ export {
     InvoicePaymentPolicyPreviousAttributes
 } from './declarations/types-36.js';
 export {
+    makeInvoicePaymentDueRequest,
+    makeInvoicePaymentOptionLimitRequest,
+    makeInvoicePaymentPolicyRequest,
+    makeInvoicePaymentTermCalculationDayOfMonthRequest,
+    makeInvoicePaymentTermCalculationDayOfNextMonthRequest,
+    makeInvoicePaymentTermCalculationDaysAfterMonthEndRequest,
+    makeInvoicePaymentTermCalculationNetDaysRequest,
+    makeInvoicePaymentTermCalculationOnReceiptRequest,
+    makeInvoicePaymentTermCalculationRequest,
+    makeInvoiceReminderPolicy,
+    makeInvoiceReminderRule,
+    makeInvoiceScheduleAmountSpecificationFixedRequest,
+    makeInvoiceScheduleAmountSpecificationPercentageRequest,
+    makeInvoiceScheduleAmountSpecificationRemainingBalanceRequest,
+    makeInvoiceScheduleAmountSpecificationRequest,
+    makeInvoiceScheduleDueWrite,
+    makeInvoiceScheduleDueWriteAtIssue,
+    makeInvoiceScheduleDueWriteDate,
+    makeInvoiceScheduleDueWriteInvoiceDueDate,
+    makeInvoiceScheduleEntryWrite,
+    makeInvoiceScheduleEntryWriteBalance,
+    makeInvoiceScheduleEntryWriteDeposit,
+    makeInvoiceScheduleEntryWriteInstallment,
+    makeInvoiceSettingsPatch,
+    makeIssueCreditNoteRequest,
+    makeIssueInvoiceRequest,
+    makeLegalSettingsRequest,
+    makeLicenseKeyConfigurationRequest,
+    makeLicenseKeyVersionRequest,
+    makeLineItemFulfillmentOriginRequestModel,
+    makeLineItemFulfillmentRequestModel,
+    makeLinkCustomerGuestPurchasesRequest,
+    makeLocationCoordinateRequest,
+    makeLookupEmailPreferencesRequest,
+    makeLookupGiftCardRequest,
+    makeLookupLicenseKeyRequest,
+    makeLookupTicketRequest,
+    makeManualDiscountRequest,
+    makeMarkFulfillmentNoShowRequest,
+    makeMarkFulfillmentPackedRequest,
+    makeMarkFulfillmentPickedRequest,
+    makeMarkFulfillmentPreparingRequest,
+    makeMarkFulfillmentReadyRequest,
+    makeMarkPackageDeliveredRequest,
+    makeMarkPackageDeliveryAttemptedRequest,
+    makeMarkPackageExceptionRequest,
+    makeMarkPackageInTransitRequest,
+    makeMarkPackageOutForDeliveryRequest,
+    makeMarkPackagePackedRequest,
+    makeMarkPackageReturnedRequest,
+    makeMarkPackageShippedRequest,
+    makeMerchantAccountSessionCreateRequest,
+    makeMerchantAccountSessionRefreshRequest,
+    makeMerchantSignupOwnerRequest,
+    makeMerchantSignupTermsAcceptanceRequest,
+    makeMerchantSignupVersionRequest,
+    makeMetadataMap,
+    makeMetadataPatchRequest,
+    makeMetadataRequest,
+    makeModifierOverrideRequest,
+    makeModifierRequest,
+    makeModifierSetGroupInputExisting,
+    makeModifierSetGroupInputInline,
+    makeModifierSetGroupRequest
+} from './declarations/types-88.js';
+export {
     InvoicePaymentPolicyRequestInput,
     InvoicePaymentTerm,
     InvoicePaymentTermCalculation,
@@ -3346,72 +3416,6 @@ export {
     InvoicePaymentTermsListParams,
     InvoicePaymentTermsUpdateParams
 } from './declarations/types-37.js';
-export {
-    makeInvoicePaymentPolicyRequest,
-    makeInvoicePaymentTermCalculationDayOfMonthRequest,
-    makeInvoicePaymentTermCalculationDayOfNextMonthRequest,
-    makeInvoicePaymentTermCalculationDaysAfterMonthEndRequest,
-    makeInvoicePaymentTermCalculationNetDaysRequest,
-    makeInvoicePaymentTermCalculationOnReceiptRequest,
-    makeInvoicePaymentTermCalculationRequest,
-    makeInvoiceReminderPolicy,
-    makeInvoiceReminderRule,
-    makeInvoiceScheduleAmountSpecificationFixedRequest,
-    makeInvoiceScheduleAmountSpecificationPercentageRequest,
-    makeInvoiceScheduleAmountSpecificationRemainingBalanceRequest,
-    makeInvoiceScheduleAmountSpecificationRequest,
-    makeInvoiceScheduleDueWrite,
-    makeInvoiceScheduleDueWriteAtIssue,
-    makeInvoiceScheduleDueWriteDate,
-    makeInvoiceScheduleDueWriteInvoiceDueDate,
-    makeInvoiceScheduleEntryWrite,
-    makeInvoiceScheduleEntryWriteBalance,
-    makeInvoiceScheduleEntryWriteDeposit,
-    makeInvoiceScheduleEntryWriteInstallment,
-    makeInvoiceSettingsPatch,
-    makeIssueCreditNoteRequest,
-    makeIssueInvoiceRequest,
-    makeLegalSettingsRequest,
-    makeLicenseKeyConfigurationRequest,
-    makeLicenseKeyVersionRequest,
-    makeLineItemFulfillmentOriginRequestModel,
-    makeLineItemFulfillmentRequestModel,
-    makeLinkCustomerGuestPurchasesRequest,
-    makeLocationCoordinateRequest,
-    makeLookupEmailPreferencesRequest,
-    makeLookupGiftCardRequest,
-    makeLookupLicenseKeyRequest,
-    makeLookupTicketRequest,
-    makeManualDiscountRequest,
-    makeMarkFulfillmentNoShowRequest,
-    makeMarkFulfillmentPackedRequest,
-    makeMarkFulfillmentPickedRequest,
-    makeMarkFulfillmentPreparingRequest,
-    makeMarkFulfillmentReadyRequest,
-    makeMarkPackageDeliveredRequest,
-    makeMarkPackageDeliveryAttemptedRequest,
-    makeMarkPackageExceptionRequest,
-    makeMarkPackageInTransitRequest,
-    makeMarkPackageOutForDeliveryRequest,
-    makeMarkPackagePackedRequest,
-    makeMarkPackageReturnedRequest,
-    makeMarkPackageShippedRequest,
-    makeMerchantAccountSessionCreateRequest,
-    makeMerchantAccountSessionRefreshRequest,
-    makeMerchantSignupOwnerRequest,
-    makeMerchantSignupTermsAcceptanceRequest,
-    makeMerchantSignupVersionRequest,
-    makeMetadataMap,
-    makeMetadataPatchRequest,
-    makeMetadataRequest,
-    makeModifierOverrideRequest,
-    makeModifierRequest,
-    makeModifierSetGroupInputExisting,
-    makeModifierSetGroupInputInline,
-    makeModifierSetGroupRequest,
-    makeMoneyValue,
-    makeOAuthRevokeRequest
-} from './declarations/types-88.js';
 export {
     InvoiceScheduleDueWriteInput,
     InvoiceScheduleDueWriteAtIssue,
@@ -3849,6 +3853,8 @@ export {
     ModifierSetsUpdateParams
 } from './declarations/types-44.js';
 export {
+    makeMoneyValue,
+    makeOAuthRevokeRequest,
     makeOAuthTokenRequest,
     makeOAuthTokenRequestAuthorizationCode,
     makeOAuthTokenRequestClientCredentials,
@@ -3910,9 +3916,7 @@ export {
     makePartnerAppPaymentSplitsRequest,
     makePartnerAppPermissionManifestEntryRequest,
     makePartnerAppPlatformProfileRequest,
-    makePauseSubscriptionRequest,
-    makePayOrderRequest,
-    makePayOrderRequestConfirmPaymentIntents
+    makePauseSubscriptionRequest
 } from './declarations/types-89.js';
 export {
     OnboardingProfileRequestInput,
@@ -4440,6 +4444,8 @@ export {
     makePaymentSourceCredentialStripeConfirmationToken,
     makePaymentSourceCredentialStripePaymentMethod,
     makePaymentSplitRequest,
+    makePayOrderRequest,
+    makePayOrderRequestConfirmPaymentIntents,
     makePayOrderRequestPay,
     makePayOrderRequestResume,
     makePayOrderRequestSetup,
@@ -4469,9 +4475,7 @@ export {
     makePromotionRefInputPromotionCode,
     makePromotionRefInputPromotionID,
     makePromotionRefRequest,
-    makePromotionRuleGroupRequest,
-    makePromotionRuleRequest,
-    makePromotionRuleValueRequest
+    makePromotionRuleGroupRequest
 } from './declarations/types-90.js';
 export {
     PaymentLinkLineItemPatchRequestInput,
@@ -4888,6 +4892,8 @@ export {
     PromotionsUpdateParams
 } from './declarations/types-59.js';
 export {
+    makePromotionRuleRequest,
+    makePromotionRuleValueRequest,
     makePromotionSchedulePatch,
     makePromotionScheduleRequest,
     makePromotionSettingsRequest,
@@ -4949,9 +4955,7 @@ export {
     makeReturnPolicyScopeAllRequest,
     makeReturnPolicyScopeIncludeRequest,
     makeReturnPolicyScopeRequest,
-    makeReturnProcessDecision,
-    makeReturnProcessDispositionRequest,
-    makeReturnProcessInspectionRequest
+    makeReturnProcessDecision
 } from './declarations/types-91.js';
 export {
     ReaderUpdatedInstalledMerchantsEvent,
@@ -5103,6 +5107,7 @@ export {
     ReturnEligibilitySelectionLineItems,
     ReturnEligibilitySelectionLineItemsRequestInput,
     ReturnEligibilitySelectionRequestInput,
+    ReturnExchangeVariant,
     ReturnFinancialSummary,
     ReturnFinancialSummaryPreviousAttributes,
     ReturnHandoffDestination,
@@ -5125,8 +5130,6 @@ export {
     ReturnInspectionSupersededMerchantEvent,
     ReturnInventoryTransferToOriginRequest,
     ReturnInventoryTransferToOriginRequestInput,
-    ReturnLineDecision,
-    ReturnLineDecisionInput,
     ReturnDispositionsCancelParams,
     ReturnDispositionsCreateParams,
     ReturnInspectionsCreateParams,
@@ -5138,6 +5141,8 @@ export {
     ReturnDispositionsRetryParams
 } from './declarations/types-63.js';
 export {
+    ReturnLineDecision,
+    ReturnLineDecisionInput,
     ReturnLineItem,
     ReturnLineItemDecisionProposal,
     ReturnLineItemDecisionProposalPreviousAttributes,
@@ -5185,8 +5190,6 @@ export {
     ReturnReceipt,
     ReturnReceiptCreatedInstalledMerchantsEvent,
     ReturnReceiptCreatedMerchantEvent,
-    ReturnReceiptLineItem,
-    ReturnReceiptLineItemInputExcess,
     ReturnPoliciesCreateParams,
     ReturnPoliciesCreateRevisionParams,
     ReturnPreviewsCreateParams,
@@ -5203,6 +5206,8 @@ export {
     ReturnReasonsUpdateParams
 } from './declarations/types-64.js';
 export {
+    makeReturnProcessDispositionRequest,
+    makeReturnProcessInspectionRequest,
     makeReturnProcessReceiptRequest,
     makeReturnProcessResolutionRequest,
     makeReturnReceiptLineItemInputExcess,
@@ -5264,11 +5269,11 @@ export {
     makeSubscriptionBillingScheduleUpdateInputFlint,
     makeSubscriptionBillingScheduleUpdateRequest,
     makeSubscriptionBillingStartInputImmediate,
-    makeSubscriptionBillingStartInputImported,
-    makeSubscriptionBillingStartInputScheduled,
-    makeSubscriptionBillingStartRequest
+    makeSubscriptionBillingStartInputImported
 } from './declarations/types-92.js';
 export {
+    ReturnReceiptLineItem,
+    ReturnReceiptLineItemInputExcess,
     ReturnReceiptLineItemInputExcessInput,
     ReturnReceiptLineItemInputMatched,
     ReturnReceiptLineItemInputMatchedInput,
@@ -5325,8 +5330,6 @@ export {
     ReturnResolutionsGetParams,
     ReturnReceiptsListParams,
     ReturnResolutionsListParams,
-    ReturnResolutionsReleaseParams,
-    ReturnResolutionsRetryParams,
     ReturnReceiptsVerifyLineItemParams
 } from './declarations/types-65.js';
 export {
@@ -5363,8 +5366,6 @@ export {
     RiskPredicateNode,
     RiskPredicateNodeAll,
     RiskPredicateNodeAllRequest,
-    RiskPredicateNodeAllRequestInput,
-    RiskPredicateNodeAny,
     ReturnsCancelParams,
     ReturnsCancelLineItemParams,
     ReturnsCompleteParams,
@@ -5387,7 +5388,9 @@ export {
     RiskListsListRiskListItemsParams,
     RiskListsListParams,
     ReturnsProcessParams,
+    ReturnResolutionsReleaseParams,
     ReturnsReopenParams,
+    ReturnResolutionsRetryParams,
     ReturnsUpdateParams,
     ReturnsUpdateLineItemParams,
     ReturnResolutionsUpdateParams,
@@ -5395,6 +5398,8 @@ export {
     ReturnsWaiveLineItemInspectionParams
 } from './declarations/types-66.js';
 export {
+    RiskPredicateNodeAllRequestInput,
+    RiskPredicateNodeAny,
     RiskPredicateNodeAnyRequest,
     RiskPredicateNodeAnyRequestInput,
     RiskPredicateNodeComparison,
@@ -5445,8 +5450,6 @@ export {
     ScheduleFulfillmentRequest,
     ScheduleFulfillmentRequestInput,
     ScopeRequirement,
-    SelectableErrorResource,
-    SelectableOrderPaymentIntent,
     RiskPreviewsCreateParams,
     RiskRulesCreateParams,
     SandboxesCreateParams,
@@ -5461,6 +5464,8 @@ export {
     RiskRulesUpdateParams
 } from './declarations/types-67.js';
 export {
+    SelectableErrorResource,
+    SelectableOrderPaymentIntent,
     SelectableOrderPaymentIntentPreviousAttributes,
     SelectedProductOption,
     SelectedProductOptionPreviousAttributes,
@@ -5513,8 +5518,6 @@ export {
     StartFulfillmentRequestInput,
     StatementDescriptorStatus,
     StripeClientAuthority,
-    StripeClientSetup,
-    StripeClientSetupStripe,
     ShipmentsCreateParams,
     SettingsGetEffectiveParams,
     SettingsGetParams,
@@ -5525,6 +5528,8 @@ export {
     ShipmentsVoidParams
 } from './declarations/types-68.js';
 export {
+    StripeClientSetup,
+    StripeClientSetupStripe,
     StripePaymentClientAction,
     StripePaymentClientActionPreviousAttributes,
     StripeSetupIntentClientAction,
@@ -5580,11 +5585,11 @@ export {
     SubscriptionCycleSkippedMerchantEvent,
     SubscriptionDelivery,
     SubscriptionDeliveryActionRequiredInstalledMerchantsEvent,
-    SubscriptionDeliveryActionRequiredMerchantEvent,
-    SubscriptionDeliveryDestination,
-    SubscriptionDeliveryDestinationInputAddressInput
+    SubscriptionDeliveryActionRequiredMerchantEvent
 } from './declarations/types-69.js';
 export {
+    makeSubscriptionBillingStartInputScheduled,
+    makeSubscriptionBillingStartRequest,
     makeSubscriptionDeliveryDestinationInputAddress,
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
     makeSubscriptionDeliveryDestinationRequest,
@@ -5646,11 +5651,11 @@ export {
     makeUpdateDeliveryLocationSetRequest,
     makeUpdateDeliveryMethodRequest,
     makeUpdateDeliveryProfileRequest,
-    makeUpdateDeliveryRateCallbackRequest,
-    makeUpdateDeliveryZoneRequest,
-    makeUpdateDeviceRequest
+    makeUpdateDeliveryRateCallbackRequest
 } from './declarations/types-93.js';
 export {
+    SubscriptionDeliveryDestination,
+    SubscriptionDeliveryDestinationInputAddressInput,
     SubscriptionDeliveryDestinationInputCustomerAddressInput,
     SubscriptionDeliveryDestinationRequestInput,
     SubscriptionDeliveryHold,
@@ -5704,14 +5709,14 @@ export {
     SubscriptionLineItemPreviousAttributes,
     SubscriptionLineItemsListResponse,
     SubscriptionListResponse,
-    SubscriptionOffer,
-    SubscriptionOfferLineItemRequest,
     SubscriptionDeliveryMigrationsCreateParams,
     SubscriptionDeliveryMigrationsGetParams,
     SubscriptionDeliveryMigrationsListFailuresParams,
     SubscriptionDeliveryMigrationsListParams
 } from './declarations/types-70.js';
 export {
+    SubscriptionOffer,
+    SubscriptionOfferLineItemRequest,
     SubscriptionOfferLineItemRequestInput,
     SubscriptionOfferListResponse,
     SubscriptionOfferResponse,
@@ -5760,8 +5765,6 @@ export {
     SubscriptionPlanLineItemInputVariant,
     SubscriptionPlanLineItemInputVariantInput,
     SubscriptionPlanLineItemPreviousAttributes,
-    SubscriptionPlanLineItemRequest,
-    SubscriptionPlanLineItemRequestInput,
     SubscriptionOffersCreateParams,
     SubscriptionOffersDeleteParams,
     SubscriptionOffersGetParams,
@@ -5769,6 +5772,8 @@ export {
     SubscriptionOffersUpdateParams
 } from './declarations/types-71.js';
 export {
+    SubscriptionPlanLineItemRequest,
+    SubscriptionPlanLineItemRequestInput,
     SubscriptionPlanLineItemVariant,
     SubscriptionPlanLineItemVariantPreviousAttributes,
     SubscriptionPlanListResponse,
@@ -5822,8 +5827,6 @@ export {
     SubscriptionTaxCalculationRequestInput,
     SubscriptionTaxPreviousAttributes,
     SubscriptionTaxRequest,
-    SubscriptionTaxRequestInput,
-    SubscriptionTermsRequest,
     SubscriptionPlansCreateParams,
     SubscriptionPreviewsCreateParams,
     SubscriptionPlansDeleteParams,
@@ -5832,6 +5835,8 @@ export {
     SubscriptionPlansUpdateParams
 } from './declarations/types-72.js';
 export {
+    SubscriptionTaxRequestInput,
+    SubscriptionTermsRequest,
     SubscriptionTermsRequestInput,
     SubscriptionTrialEndingInstalledMerchantsEvent,
     SubscriptionTrialEndingMerchantEvent,
@@ -5884,11 +5889,9 @@ export {
     SubscriptionsRemovePromotionsParams,
     SubscriptionsRenewParams,
     SubscriptionsResumeParams,
-    TaxCalculationCallbacksRotateSecretParams,
     SubscriptionsSkipCycleParams,
     SubscriptionsUpdateParams,
-    SubscriptionsUpdateLineItemParams,
-    TaxCalculationCallbacksUpdateParams
+    SubscriptionsUpdateLineItemParams
 } from './declarations/types-73.js';
 export {
     TaxCalculationRequest,
@@ -5934,8 +5937,6 @@ export {
     TestClockListResponse,
     TestClockResponse,
     TextModifierConfig,
-    TextModifierConfigPatchRequest,
-    TextModifierConfigPatchRequestInput,
     TestClocksAdvanceParams,
     TaxConnectionConnectParams,
     TaxConnectionCreateRegistrationParams,
@@ -5948,9 +5949,13 @@ export {
     TestClocksGetParams,
     TaxConnectionListRegistrationsParams,
     TestClocksListParams,
+    TaxCalculationCallbacksRotateSecretParams,
+    TaxCalculationCallbacksUpdateParams,
     TaxConnectionUpdateRegistrationParams
 } from './declarations/types-74.js';
 export {
+    TextModifierConfigPatchRequest,
+    TextModifierConfigPatchRequestInput,
     TextModifierConfigPreviousAttributes,
     TextModifierConfigRequest,
     TextModifierConfigRequestInput,
@@ -6001,8 +6006,6 @@ export {
     UpdateCustomerAddressRequest,
     UpdateCustomerAddressRequestInput,
     UpdateCustomerEmailPreferencesRequest,
-    UpdateCustomerEmailPreferencesRequestInput,
-    UpdateCustomerRequest,
     TicketsCheckInParams,
     TicketsGetParams,
     TicketsListParams,
@@ -6013,6 +6016,8 @@ export {
     TicketsVoidParams
 } from './declarations/types-75.js';
 export {
+    UpdateCustomerEmailPreferencesRequestInput,
+    UpdateCustomerRequest,
     UpdateCustomerRequestInput,
     UpdateCustomerTaxExemptionRequest,
     UpdateCustomerTaxExemptionRequestInput,
@@ -6074,11 +6079,11 @@ export {
     UpdateModifierGroupRequestInput,
     UpdateModifierSetRequest,
     UpdateModifierSetRequestInput,
-    UpdateOrderChargeRequest,
-    UpdateOrderChargeRequestInput,
-    UpdateOrderRequest
+    UpdateOrderChargeRequest
 } from './declarations/types-76.js';
 export {
+    makeUpdateDeliveryZoneRequest,
+    makeUpdateDeviceRequest,
     makeUpdateDigitalFulfillmentDetails,
     makeUpdateFulfillmentRequest,
     makeUpdateGiftCardRequest,
@@ -6140,11 +6145,11 @@ export {
     makeUpdateShipmentRequest,
     makeUpdateSubscriptionLineItemRequest,
     makeUpdateSubscriptionOfferRequest,
-    makeUpdateSubscriptionPlanLineItemInputBundle,
-    makeUpdateSubscriptionPlanLineItemInputCustom,
-    makeUpdateSubscriptionPlanLineItemInputVariant
+    makeUpdateSubscriptionPlanLineItemInputBundle
 } from './declarations/types-94.js';
 export {
+    UpdateOrderChargeRequestInput,
+    UpdateOrderRequest,
     UpdateOrderRequestInput,
     UpdatePackageItemRequest,
     UpdatePackageItemRequestInput,
@@ -6204,13 +6209,12 @@ export {
     UpdateReturnResolutionLineItemRequest,
     UpdateReturnResolutionLineItemRequestInput,
     UpdateReturnResolutionRequest,
-    UpdateReturnResolutionRequestInput,
     UpdateReturnLineItemResponse,
     UpdateReturnPolicyResponse,
-    UpdateReturnReasonResponse,
-    UpdateReturnResolutionResponse
+    UpdateReturnReasonResponse
 } from './declarations/types-77.js';
 export {
+    UpdateReturnResolutionRequestInput,
     UpdateRiskListRequest,
     UpdateRiskListRequestInput,
     UpdateRiskRuleRequest,
@@ -6265,17 +6269,17 @@ export {
     WaiveReturnLineInspectionRequestInput,
     WebhookBundle,
     WebhookCheckoutSession,
-    WebhookDelivery,
     WebhookDeliveriesCreateParams,
     WebhookDeliveriesGetParams,
     WebhookDeliveriesListParams,
     WebhookDeliveriesListAttemptsParams,
-    WebhookDeliveriesResendParams,
     UpdateReturnResponse,
+    UpdateReturnResolutionResponse,
     VerifyReturnReceiptLineItemResponse,
     WaiveReturnLineInspectionResponse
 } from './declarations/types-78.js';
 export {
+    WebhookDelivery,
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse,
     WebhookDeliveryAttempt,
@@ -6325,8 +6329,6 @@ export {
     WebhookSnapshotReturnInspection,
     WebhookSnapshotReturnLineItem,
     WebhookSnapshotReturnReceipt,
-    WebhookSnapshotReturnResolution,
-    WebhookSnapshotSubscription,
     WebhookEndpointsCreateParams,
     WebhookEndpointsCreateTestEventParams,
     WebhookEndpointsDeleteParams,
@@ -6335,6 +6337,7 @@ export {
     WebhookEndpointsListParams,
     WebhookEventsListParams,
     WebhookEventTypesListParams,
+    WebhookDeliveriesResendParams,
     WebhookEndpointsRotateSecretParams,
     WebhookEndpointsSignDeliveryParams,
     WebhookEventsStreamParams,

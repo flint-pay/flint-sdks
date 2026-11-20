@@ -99,7 +99,7 @@ export type {
 export type { FailedPaymentAttempt } from '../declarations/types-27.js';
 export type { PricingAmounts, PlatformFeeRequestInput, PlatformFeeMoneyInput } from '../declarations/types-56.js';
 export type { InvoiceSettlementAmounts } from '../declarations/types-38.js';
-export type { SettlementAmounts, SendPaymentIntentReceiptRequestInput } from '../declarations/types-68.js';
+export type { SettlementAmounts, SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput } from '../declarations/types-68.js';
 export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-17.js';
@@ -138,7 +138,6 @@ export type {
     StripeTerminalPaymentIntentClientAction
 } from '../declarations/types-69.js';
 export type { CreatePaymentIntentRequestInput } from '../declarations/types-12.js';
-export type { SelectableOrderPaymentIntent } from '../declarations/types-67.js';
 export type { UpdatePaymentIntentRequestInput } from '../declarations/types-77.js';
 export {
     makeCancelPaymentIntentRequest,
@@ -147,8 +146,8 @@ export {
     makeConfirmPaymentIntentRequest
 } from '../declarations/types-81.js';
 export { makeCreatePaymentIntentRequest } from '../declarations/types-83.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeOrderPaymentSourceCardSelection, makeOrderPaymentSourceSelection } from '../declarations/types-89.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue, makeOrderPaymentSourceCardSelection, makeOrderPaymentSourceSelection } from '../declarations/types-89.js';
 export {
     makePaymentSourceCredential,
     makePaymentSourceCredentialPaymentMethod,

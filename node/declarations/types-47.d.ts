@@ -14466,9 +14466,8 @@ export type OrderSettlementAmounts = ({
     /**
      * Value order edits removed from the order, which it no longer owes: removed units' value plus
      * each edit's charge_refunds[].amount_money, whether that value was refunded or applied to
-     * lines the edit added. Not collected money, so it never changes paid_money or refunded_money.
-     * outstanding_money is the total minus paid, written-off, released, and removed money, never
-     * below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * lines the edit added. This reduces outstanding_money without changing paid_money or
+     * refunded_money. Monetary amount represented as integer minor units plus an ISO 4217 currency
      * code.
      */
     "removed_money": MoneyValue;
@@ -14551,9 +14550,9 @@ export type OrderSettlementAmountsPreviousAttributes = ({
     /**
      * Value order edits removed from the order, which it no longer owes: removed units' value plus
      * each edit's charge_refunds[].amount_money, whether that value was refunded or applied to
-     * lines the edit added. Not collected money, so it never changes paid_money or refunded_money.
-     * outstanding_money is the total minus paid, written-off, released, and removed money, never
-     * below zero. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * lines the edit added. This reduces outstanding_money without changing paid_money or
+     * refunded_money. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value):
+     * null.
      */
     "removed_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
@@ -14658,10 +14657,12 @@ export type OrderTax = {
     /**
      * Read-only, sorted ISO 3166-1 alpha-2 destination countries where automatic tax can calculate
      * every taxable line. Present only when tax is enabled in automatic mode. US destinations are
-     * covered for every category. In Canada, EU member states, GB, AU and NZ, only digital_goods,
-     * software and saas are covered; services, professional_services, physical goods and taxable
-     * charges are unsupported there. Read tax-connection.coverage for category scopes. Intersect
-     * with delivery supported_countries when collecting a shipping address. [] (Value): string.
+     * covered for categories supported by automatic tax. In Canada, EU member states, GB, AU and
+     * NZ, only digital_goods, software and saas are covered. Services, professional services,
+     * physical goods and taxable charges are unsupported outside the US. The list is empty when an
+     * unsettled taxable item has an unsupported category or the checkout needs an active tax
+     * connection. Read tax-connection.coverage for category scopes. Intersect with delivery
+     * supported_countries when collecting a shipping address. [] (Value): string.
      */
     "supported_countries"?: Array<string>;
     /**

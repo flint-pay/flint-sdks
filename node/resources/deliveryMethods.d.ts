@@ -204,11 +204,11 @@ export {
     makeDeliveryPostalCodeConditionRequest,
     makeDeliveryPostalCodeValueRequest,
     makeDeliveryPricingRateCreateRequest,
-    makeDeliveryPricingRateRequest,
-    makeDeliveryPricingStrategyCreateInputCalculated,
-    makeDeliveryPricingStrategyCreateInputCallback
+    makeDeliveryPricingRateRequest
 } from '../declarations/types-85.js';
 export {
+    makeDeliveryPricingStrategyCreateInputCalculated,
+    makeDeliveryPricingStrategyCreateInputCallback,
     makeDeliveryPricingStrategyCreateInputCallerSupplied,
     makeDeliveryPricingStrategyCreateInputFixed,
     makeDeliveryPricingStrategyCreateInputRateTable,
@@ -238,7 +238,8 @@ export {
     makeDeliveryWindowTimeCondition,
     makeDeliveryZoneConditionRequest
 } from '../declarations/types-86.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateDeliveryMethodRequest } from '../declarations/types-93.js';
 export interface DeliveryMethodsResource {
     /**

@@ -2,12 +2,18 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read ?ReturnActor $actor
  * @property-read OrderEditCompletedMerchantEventDataObject $object
  * @property-read ?OrderEditCompletedMerchantEventDataPreviousAttributes $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class OrderEditCompletedMerchantEventData extends Model {
-    /** @param array{'object': \stdClass, 'previous_attributes'?: object{'add_line_items'?: mixed, 'added_total_money'?: mixed, 'amount_due_money'?: mixed, 'canceled_at'?: mixed, 'cancellation_reason'?: mixed, 'charge_refunds'?: mixed, 'completed_at'?: mixed, 'created_at'?: mixed, 'expires_at'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'payment_intent_id'?: mixed, 'reason'?: mixed, 'refund_ids'?: mixed, 'refund_money'?: mixed, 'remove_line_items'?: mixed, 'removed_total_money'?: mixed, 'small_balance_adjustment_money'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'unrefunded_money'?: mixed, 'version'?: mixed}, ...}|object $values */
+    /** @param array{'actor'?: mixed, 'object': \stdClass, 'previous_attributes'?: object{'add_line_items'?: mixed, 'added_total_money'?: mixed, 'amount_due_money'?: mixed, 'canceled_at'?: mixed, 'cancellation_reason'?: mixed, 'charge_refunds'?: mixed, 'completed_at'?: mixed, 'created_at'?: mixed, 'expires_at'?: mixed, 'order_edit_id'?: mixed, 'order_id'?: mixed, 'payment_intent_id'?: mixed, 'reason'?: mixed, 'refund_ids'?: mixed, 'refund_money'?: mixed, 'remove_line_items'?: mixed, 'removed_total_money'?: mixed, 'small_balance_adjustment_money'?: mixed, 'status'?: mixed, 'supported_actions'?: mixed, 'unrefunded_money'?: mixed, 'version'?: mixed}, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditCompletedMerchantEventData')); }
+    /** Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+     * @return ?ReturnActor
+     */
+    public function getActor(): ?ReturnActor { return $this->get('actor'); }
+    public function hasActor(): bool { return $this->has('actor'); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `note`.
      * @return OrderEditCompletedMerchantEventDataObject
      */

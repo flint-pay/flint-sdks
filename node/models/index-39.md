@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# ThemeConfigRequestInput to UpdateMeSubscriptionRequest
+# ThemeConfig to UpdateMeSubscriptionLineItemRequest
 
+- [ThemeConfig](ThemeConfig.md)
+- [ThemeConfigPreviousAttributes](ThemeConfigPreviousAttributes.md)
 - [ThemeConfigRequestInput](ThemeConfigRequestInput.md)
 - [Ticket](Ticket.md)
 - [TicketCheckedInInstalledMerchantsEvent](TicketCheckedInInstalledMerchantsEvent.md)
@@ -100,6 +102,4 @@
 - [UpdateMeRequest](UpdateMeRequest.md)
 - [UpdateMeRequestInput](UpdateMeRequestInput.md)
 - [UpdateMeSubscriptionLineItemRequest](UpdateMeSubscriptionLineItemRequest.md)
-- [UpdateMeSubscriptionLineItemRequestInput](UpdateMeSubscriptionLineItemRequestInput.md)
-- [UpdateMeSubscriptionRequest](UpdateMeSubscriptionRequest.md)
 

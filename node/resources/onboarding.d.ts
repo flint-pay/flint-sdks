@@ -90,8 +90,9 @@ export type { CapabilityReadiness } from '../declarations/types-5.js';
 export type { User } from '../declarations/types-78.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateOnboardingAccessLinkRequest } from '../declarations/types-83.js';
-export { makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap } from '../declarations/types-88.js';
 export {
+    makeMoneyValue,
     makeOnboardingAdvanceRequest,
     makeOnboardingProfileRequest,
     makeOnboardingStartRequest,

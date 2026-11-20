@@ -42,7 +42,8 @@ export type { MetadataMap } from '../declarations/types-43.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateInventoryLevelRequestInput, UpdateInventoryLevelRequest } from '../declarations/types-76.js';
-export { makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateInventoryLevelRequest } from '../declarations/types-94.js';
 export interface InventoryLevelsResource {
     /**

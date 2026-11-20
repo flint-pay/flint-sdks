@@ -82,7 +82,7 @@ final class DeliveryMethodActivatedMerchantEventDataObject extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** How many subscriptions use this method, by status. Counts of subscriptions by status: active, past due, and paused.
+    /** How many subscriptions use this method, by status. Delivery usage counts by stored status, with separate subsets for active subscriptions that are canceling or on billing hold.
      * @return SubscriptionCounts
      */
     public function getSubscriptionCounts(): SubscriptionCounts { return $this->get('subscription_counts'); }

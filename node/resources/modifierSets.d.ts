@@ -73,8 +73,8 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export type { UpdateModifierSetRequestInput } from '../declarations/types-76.js';
 export type { InlineModifierGroupRequestInput } from '../declarations/types-31.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateInlineModifierGroupRequest } from '../declarations/types-82.js';
 export {
+    makeCreateInlineModifierGroupRequest,
     makeCreateModifierRequest,
     makeCreateModifierSetGroupInputExisting,
     makeCreateModifierSetGroupInputInline,
@@ -90,9 +90,9 @@ export {
     makeModifierRequest,
     makeModifierSetGroupInputExisting,
     makeModifierSetGroupInputInline,
-    makeModifierSetGroupRequest,
-    makeMoneyValue
+    makeModifierSetGroupRequest
 } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeTextModifierConfigRequest } from '../declarations/types-93.js';
 export { makeUpdateModifierSetRequest } from '../declarations/types-94.js';
 export interface ModifierSetsResource {

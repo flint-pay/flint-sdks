@@ -84,8 +84,8 @@ import type {
     RetryOrderEditRefundRequestInput
 } from './types-62.js';
 import type { SendOrderReceiptRequestInput } from './types-68.js';
-import type { UpdateOrderChargeRequestInput, UpdateLineItemRequestInput } from './types-76.js';
-import type { UpdateOrderRequestInput } from './types-77.js';
+import type { UpdateOrderChargeRequestInput, UpdateOrderRequestInput } from './types-77.js';
+import type { UpdateLineItemRequestInput } from './types-76.js';
 import type { Dimensions, DimensionsRequestInput } from './types-25.js';
 import type { ReturnHandoffRequirementLineItem } from './types-63.js';
 import type { Weight, WeightRequestInput } from './types-80.js';
@@ -648,17 +648,21 @@ export type OrderTaxPreviousAttributes = {
     /**
      * Read-only, sorted ISO 3166-1 alpha-2 destination countries where automatic tax can calculate
      * every taxable line. Present only when tax is enabled in automatic mode. US destinations are
-     * covered for every category. In Canada, EU member states, GB, AU and NZ, only digital_goods,
-     * software and saas are covered; services, professional_services, physical goods and taxable
-     * charges are unsupported there. Read tax-connection.coverage for category scopes. Intersect
-     * with delivery supported_countries when collecting a shipping address. anyOf[1] (Value):
-     * Array of string. Read-only, sorted ISO 3166-1 alpha-2 destination countries where automatic
-     * tax can calculate every taxable line. Present only when tax is enabled in automatic mode. US
-     * destinations are covered for every category. In Canada, EU member states, GB, AU and NZ,
-     * only digital_goods, software and saas are covered; services, professional_services, physical
-     * goods and taxable charges are unsupported there. Read tax-connection.coverage for category
-     * scopes. Intersect with delivery supported_countries when collecting a shipping address.
-     * anyOf[1][] (Value): string. anyOf[2] (Value): null.
+     * covered for categories supported by automatic tax. In Canada, EU member states, GB, AU and
+     * NZ, only digital_goods, software and saas are covered. Services, professional services,
+     * physical goods and taxable charges are unsupported outside the US. The list is empty when an
+     * unsettled taxable item has an unsupported category or the checkout needs an active tax
+     * connection. Read tax-connection.coverage for category scopes. Intersect with delivery
+     * supported_countries when collecting a shipping address. anyOf[1] (Value): Array of string.
+     * Read-only, sorted ISO 3166-1 alpha-2 destination countries where automatic tax can calculate
+     * every taxable line. Present only when tax is enabled in automatic mode. US destinations are
+     * covered for categories supported by automatic tax. In Canada, EU member states, GB, AU and
+     * NZ, only digital_goods, software and saas are covered. Services, professional services,
+     * physical goods and taxable charges are unsupported outside the US. The list is empty when an
+     * unsettled taxable item has an unsupported category or the checkout needs an active tax
+     * connection. Read tax-connection.coverage for category scopes. Intersect with delivery
+     * supported_countries when collecting a shipping address. anyOf[1][] (Value): string. anyOf[2]
+     * (Value): null.
      */
     "supported_countries"?: ((Array<string>) | (null));
     /**

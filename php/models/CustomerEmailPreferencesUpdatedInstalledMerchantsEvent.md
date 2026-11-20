@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](CustomerEmailPreferencesUpdatedMerchantEvent.md#customeremailpreferencesupdatedmerchanteventdata-fields-1).
 
+### CustomerEmailPreferencesUpdatedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### CustomerEmailPreferencesUpdatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [CustomerEmailPreferencesUpdatedMerchantEvent.data fields 1.object](../models/CustomerEmailPreferencesUpdatedMerchantEvent.md#customeremailpreferencesupdatedmerchanteventdata-fields-1object).

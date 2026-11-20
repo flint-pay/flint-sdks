@@ -1,5 +1,7 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    CreateInlineModifierGroupRequestInput,
+    CreateIntervalReportRequestInput,
     CreateInventoryAdjustmentConditionChangeRequestInput,
     CreateInventoryAdjustmentCorrectionRequestInput,
     CreateInventoryAdjustmentCountedRequestInput,
@@ -65,10 +67,10 @@ import type {
     CreatePartnerAppCredentialRequestInput,
     CreatePartnerAppCredentialWorkloadIdentityRequestInput,
     CreatePartnerAppRequestInput,
-    CreatePaymentIntentRequestInput,
-    CreatePaymentLinkRequestInput,
-    CreatePaymentMethodDomainRequestInput
+    CreatePaymentIntentRequestInput
 } from './types-12.js';
+export declare function makeCreateInlineModifierGroupRequest(value: InputValue<CreateInlineModifierGroupRequestInput>): Model<CreateInlineModifierGroupRequestInput>;
+export declare function makeCreateIntervalReportRequest(value: InputValue<CreateIntervalReportRequestInput>): Model<CreateIntervalReportRequestInput>;
 export declare function makeCreateInventoryAdjustmentConditionChangeRequest(value: InputValue<CreateInventoryAdjustmentConditionChangeRequestInput>): Model<CreateInventoryAdjustmentConditionChangeRequestInput>;
 export declare function makeCreateInventoryAdjustmentCorrectionRequest(value: InputValue<CreateInventoryAdjustmentCorrectionRequestInput>): Model<CreateInventoryAdjustmentCorrectionRequestInput>;
 export declare function makeCreateInventoryAdjustmentCountedRequest(value: InputValue<CreateInventoryAdjustmentCountedRequestInput>): Model<CreateInventoryAdjustmentCountedRequestInput>;
@@ -134,5 +136,3 @@ export declare function makeCreatePartnerAppCredentialRequest(value: InputValue<
 export declare function makeCreatePartnerAppCredentialWorkloadIdentityRequest(value: InputValue<CreatePartnerAppCredentialWorkloadIdentityRequestInput>): Model<CreatePartnerAppCredentialWorkloadIdentityRequestInput>;
 export declare function makeCreatePartnerAppRequest(value: InputValue<CreatePartnerAppRequestInput>): Model<CreatePartnerAppRequestInput>;
 export declare function makeCreatePaymentIntentRequest(value: InputValue<CreatePaymentIntentRequestInput>): Model<CreatePaymentIntentRequestInput>;
-export declare function makeCreatePaymentLinkRequest(value: InputValue<CreatePaymentLinkRequestInput>): Model<CreatePaymentLinkRequestInput>;
-export declare function makeCreatePaymentMethodDomainRequest(value: InputValue<CreatePaymentMethodDomainRequestInput>): Model<CreatePaymentMethodDomainRequestInput>;

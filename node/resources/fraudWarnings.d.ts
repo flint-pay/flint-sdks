@@ -51,7 +51,7 @@ export type {
     PaymentSourceCardPresentDetails
 } from '../declarations/types-54.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface FraudWarningsResource {
     /**
  * Retrieves an early fraud warning. Expand `payment_intent` or `dispute` to include them.

@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# SubscriptionPreviewInput to TaxIdentityPreviousAttributesInput
+# SubscriptionPlanSwapVariantPreviousAttributesInput to TaxIdentityInput
 
+- [SubscriptionPlanSwapVariantPreviousAttributesInput](SubscriptionPlanSwapVariantPreviousAttributesInput.md)
+- [SubscriptionPlanTermsRequestInput](SubscriptionPlanTermsRequestInput.md)
 - [SubscriptionPreviewInput](SubscriptionPreviewInput.md)
 - [SubscriptionPreviewErrorInput](SubscriptionPreviewErrorInput.md)
 - [SubscriptionPreviewResponseInput](SubscriptionPreviewResponseInput.md)
@@ -100,6 +102,4 @@
 - [TaxDisclosureStatementInput](TaxDisclosureStatementInput.md)
 - [TaxDisclosureStatementPreviousAttributesInput](TaxDisclosureStatementPreviousAttributesInput.md)
 - [TaxIdentityInput](TaxIdentityInput.md)
-- [TaxIdentityPatchInput](TaxIdentityPatchInput.md)
-- [TaxIdentityPreviousAttributesInput](TaxIdentityPreviousAttributesInput.md)
 

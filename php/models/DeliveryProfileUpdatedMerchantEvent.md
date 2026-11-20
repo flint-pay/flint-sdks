@@ -29,6 +29,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](DeliveryProfileArchivedMerchantEvent.md#deliveryprofilearchivedmerchanteventdata-fields-1).
 
+### DeliveryProfileUpdatedMerchantEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### DeliveryProfileUpdatedMerchantEvent.data fields 1.object
 
 Field definitions: [DeliveryProfileArchivedMerchantEvent.data fields 1.object](../models/DeliveryProfileArchivedMerchantEvent.md#deliveryprofilearchivedmerchanteventdata-fields-1object).

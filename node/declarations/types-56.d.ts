@@ -3389,8 +3389,9 @@ export type PricingAmounts = {
      */
     "inclusive_tax_money": MoneyValue;
     /**
-     * Tip money in the total: the requested tip before payment, and settled tips net of refunds
-     * after. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * Tip money included in the price. After payment, it includes the original settled tip. Each
+     * tip reports any refund in its refunded_money field. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
     "requested_tip_money": MoneyValue;
     /**
@@ -3435,8 +3436,9 @@ export type PricingAmountsPreviousAttributes = {
      */
     "inclusive_tax_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**
-     * Tip money in the total: the requested tip before payment, and settled tips net of refunds
-     * after. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * Tip money included in the price. After payment, it includes the original settled tip. Each
+     * tip reports any refund in its refunded_money field. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
     "requested_tip_money"?: ((MoneyValuePreviousAttributes) | (null));
     /**

@@ -38,7 +38,7 @@ export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface PaymentSplitsResource {
     /**
  * Read splits you collected or received, with your own credentials and

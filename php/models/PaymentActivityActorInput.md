@@ -2,7 +2,7 @@
 
 ## PaymentActivityActorInput
 
-The merchant identity that initiated the action. Labels are recorded with the activity and do not change when the identity is renamed or removed.
+The teammate, API key, or app that initiated the action.
 
 Request input.
 

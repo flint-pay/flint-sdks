@@ -146,7 +146,7 @@ final class BuyerReturnPolicyEvaluationLineItemInput extends Model {
      */
     public function getReceivingLocationId(): string { return $this->get('receiving_location_id'); }
     public function hasReceivingLocationId(): bool { return $this->has('receiving_location_id'); }
-    /** Release gate for every resolution type, including exchanges and replacements. Released after the Return is approved. Released after the buyer hands back the required merchandise. Released after the required merchandise is received. Released after the required merchandise passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff", "after_receipt", "after_inspection", "manual".
+    /** Release gate for every resolution type, including exchanges and replacements. Released after the Return is approved. Released after the buyer hands back the required merchandise. Released after the required merchandise is received. Released after the required merchandise passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release. The policy evaluation did not assign a release gate to this line. Value enum: "after_approval", "after_handoff", "after_receipt", "after_inspection", "manual", "unspecified".
      * @return string
      * @throws SdkError When release_timing is omitted; use hasReleaseTiming() or valueOrDefault().
      */

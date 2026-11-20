@@ -1,7 +1,7 @@
-import { d10868 as c0 } from '../descriptors/data/515.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
-import { d10868 as d10868 } from '../descriptors/data/515.js?sdk=43dc6c744919085ecdf80ac9d931a06e9a99dcbbc9a91ebe7e5477b1d820ee31';
+import { d10873 as c0 } from '../descriptors/data/517.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d10873 as d10873 } from '../descriptors/data/517.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d10868;
+const read = d10873;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["BuyerPauseCapability"]:c0()}); }
 export { codec as _validate };

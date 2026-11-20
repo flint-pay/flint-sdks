@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# AuthContextResponse to GiftCardTransactionListResponse
+# APIKeyResponse to GiftCardRedemptionListResponse
 
+- [APIKeyResponse](APIKeyResponse.md)
+- [APIRequestLogDetailResponse](APIRequestLogDetailResponse.md)
 - [AuthContextResponse](AuthContextResponse.md)
 - [BalanceTransactionResponse](BalanceTransactionResponse.md)
 - [CreditNoteAllocationResponse](CreditNoteAllocationResponse.md)
@@ -100,6 +102,4 @@
 - [GiftCardLoadListResponse](GiftCardLoadListResponse.md)
 - [GiftCardNotificationListResponse](GiftCardNotificationListResponse.md)
 - [GiftCardRedemptionListResponse](GiftCardRedemptionListResponse.md)
-- [GiftCardListResponse](GiftCardListResponse.md)
-- [GiftCardTransactionListResponse](GiftCardTransactionListResponse.md)
 

@@ -47,7 +47,7 @@ export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-78.js';
 export { makeCreateWorkloadIdentityRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateWorkloadIdentityRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-95.js';
 export interface WorkloadIdentitiesResource {
     /**

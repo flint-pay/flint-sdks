@@ -14,7 +14,7 @@ final class PaymentProcessingFeeDetailInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Applied fee component: base percentage, international card, manual entry, currency conversion, or fixed amount. Value enum: "base", "international_card", "manual_entry", "currency_conversion", "fixed".
+    /** Applied fee component: base percentage, international card, manual entry, currency conversion, fixed amount, or Tap to Pay. Value enum: "base", "international_card", "manual_entry", "currency_conversion", "fixed", "tap_to_pay".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

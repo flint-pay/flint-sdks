@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# UpdatePaymentMethodDomainRequestInput to WebhookSnapshotInventoryReservationInput
+# UpdatePaymentIntentRequestInput to WebhookSnapshotInventoryCountInput
 
+- [UpdatePaymentIntentRequestInput](UpdatePaymentIntentRequestInput.md)
+- [UpdatePaymentLinkRequestInput](UpdatePaymentLinkRequestInput.md)
 - [UpdatePaymentMethodDomainRequestInput](UpdatePaymentMethodDomainRequestInput.md)
 - [UpdatePayoutDestinationRequestInput](UpdatePayoutDestinationRequestInput.md)
 - [UpdatePayoutSettingsRequestInput](UpdatePayoutSettingsRequestInput.md)
@@ -100,6 +102,4 @@
 - [WebhookSnapshotFulfillmentPreviousAttributesInput](WebhookSnapshotFulfillmentPreviousAttributesInput.md)
 - [WebhookSnapshotGiftCardInput](WebhookSnapshotGiftCardInput.md)
 - [WebhookSnapshotInventoryCountInput](WebhookSnapshotInventoryCountInput.md)
-- [WebhookSnapshotInventoryReceiptInput](WebhookSnapshotInventoryReceiptInput.md)
-- [WebhookSnapshotInventoryReservationInput](WebhookSnapshotInventoryReservationInput.md)
 

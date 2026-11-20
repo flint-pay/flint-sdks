@@ -58,7 +58,7 @@ export {
     makeCreateDeliveryRevocationTargetDeliveryRateCallbackSigningKey,
     makeCreateDeliveryRevocationTargetLocationGeography
 } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface DeliveryRevocationsResource {
     /**
  * Permanently fences one exact delivery method revision, rate callback revision, callback HMAC

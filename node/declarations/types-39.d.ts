@@ -294,8 +294,9 @@ import type {
     ReportFailedEvent,
     ReleaseLicenseKeyActivationRequestInput
 } from './types-61.js';
-import type { ReportSucceededEvent, ReturnCanceledEvent, ReturnCompletedEvent, ResponseMeta } from './types-62.js';
+import type { ReportSucceededEvent, ReturnCanceledEvent, ResponseMeta } from './types-62.js';
 import type {
+    ReturnCompletedEvent,
     ReturnCreatedEvent,
     ReturnDecisionRecordedEvent,
     ReturnDispositionCreatedEvent,

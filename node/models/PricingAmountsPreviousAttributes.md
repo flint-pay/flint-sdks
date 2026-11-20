@@ -14,7 +14,7 @@
 | `charge_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Total of the order's service charges after service-charge discounts. `charge_money`: [declared alternatives](../models/PricingAmountsPreviousAttributes.md#pricingamountspreviousattributescharge_money). |
 | `discount_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Total of order and line-item discounts. Service-charge discounts, such as free shipping, are not included; they reduce charge_money. `discount_money`: [declared alternatives](../models/PricingAmountsPreviousAttributes.md#pricingamountspreviousattributesdiscount_money). |
 | `inclusive_tax_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Tax already included in subtotal_money and charge_money. Informational; it is not added again to total_money. `inclusive_tax_money`: [declared alternatives](../models/PricingAmountsPreviousAttributes.md#pricingamountspreviousattributesinclusive_tax_money). |
-| `requested_tip_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Tip money in the total: the requested tip before payment, and settled tips net of refunds after. `requested_tip_money`: [declared alternatives](../models/PricingAmountsPreviousAttributes.md#pricingamountspreviousattributesrequested_tip_money). |
+| `requested_tip_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Tip money included in the price. After payment, it includes the original settled tip. Each tip reports any refund in its refunded_money field. `requested_tip_money`: [declared alternatives](../models/PricingAmountsPreviousAttributes.md#pricingamountspreviousattributesrequested_tip_money). |
 | `subtotal_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Sum of the line items' subtotal_money: prices with modifiers, before discounts. Lines with tax-inclusive prices include their tax here. `subtotal_money`: [declared alternatives](../models/PricingAmountsPreviousAttributes.md#pricingamountspreviousattributessubtotal_money). |
 | `tax_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Total tax, equal to additive_tax_money + inclusive_tax_money. `tax_money`: [declared alternatives](../models/PricingAmountsPreviousAttributes.md#pricingamountspreviousattributestax_money). |
 | `total_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | subtotal_money - discount_money + charge_money + additive_tax_money + requested_tip_money, never below zero. `total_money`: [declared alternatives](../models/PricingAmountsPreviousAttributes.md#pricingamountspreviousattributestotal_money). |
@@ -129,7 +129,7 @@ Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_mon
 
 ### PricingAmountsPreviousAttributes.requested_tip_money
 
-Tip money in the total: the requested tip before payment, and settled tips net of refunds after.
+Tip money included in the price. After payment, it includes the original settled tip. Each tip reports any refund in its refunded_money field.
 
 Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
 
@@ -144,7 +144,7 @@ anyOf MoneyValuePreviousAttributes.
 anyOf variant 2.
 
 - Undeclared: `amount`, `currency`.
-- Value shape: null. Tip money in the total: the requested tip before payment, and settled tips net of refunds after. 
+- Value shape: null. Tip money included in the price. After payment, it includes the original settled tip. Each tip reports any refund in its refunded_money field. 
 
 ### PricingAmountsPreviousAttributes.requested_tip_money variant 1.amount
 

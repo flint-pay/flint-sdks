@@ -45,7 +45,7 @@ export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateCustomDomainRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface CustomDomainsResource {
     /**
  * Configures a checkout or customer account hostname in this environment. Remove an existing

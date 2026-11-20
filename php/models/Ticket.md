@@ -18,6 +18,7 @@ Response model.
 | `order_id` | Required | string | The order that purchased this ticket. |
 | `order_line_item_id` | Required | string | The purchased ticket tier. |
 | `payment_link_id` | Required | string | The event payment link. |
+| `payment_link_line_item_key` | Optional | string | The payment link's line item key at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted when the order line has no stored key. |
 | `status` | Required | string | The admission lifecycle. Values: `"issued"`, `"checked_in"`, `"voided"`. |
 | `supported_actions` | Required | Array of string | Actions currently offered for this ticket. Items values: `"check_in"`, `"undo_check_in"`, `"void"`. |
 | `ticket_id` | Required | string | Unique ticket identity with the tkt_ prefix. |

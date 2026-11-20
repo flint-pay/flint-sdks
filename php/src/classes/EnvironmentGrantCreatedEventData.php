@@ -2,12 +2,18 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read ?ReturnActor $actor
  * @property-read EnvironmentGrantCreatedEventDataObject $object
  * @property-read ?array<array-key, mixed> $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class EnvironmentGrantCreatedEventData extends Model {
-    /** @param array{'object': object{'created_at': string, 'environment_grant_id': string, 'granted_permissions': list<mixed>, 'granted_scopes': list<string>, 'merchant_readiness'?: mixed, 'mode': string, 'partner_app_install_id': string, 'payment_splits'?: mixed, 'platform_fee_cap'?: mixed, 'revoked_at'?: string, 'revoked_by_user_id'?: string, 'sandbox_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string}, 'previous_attributes'?: \stdClass, ...}|object $values */
+    /** @param array{'actor'?: mixed, 'object': object{'created_at': string, 'environment_grant_id': string, 'granted_permissions': list<mixed>, 'granted_scopes': list<string>, 'merchant_readiness'?: mixed, 'mode': string, 'partner_app_install_id': string, 'payment_splits'?: mixed, 'platform_fee_cap'?: mixed, 'revoked_at'?: string, 'revoked_by_user_id'?: string, 'sandbox_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string}, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EnvironmentGrantCreatedEventData')); }
+    /** Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+     * @return ?ReturnActor
+     */
+    public function getActor(): ?ReturnActor { return $this->get('actor'); }
+    public function hasActor(): bool { return $this->has('actor'); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return EnvironmentGrantCreatedEventDataObject
      */

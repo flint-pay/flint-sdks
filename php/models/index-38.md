@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# InventoryAdjustmentListResponse to SubscriptionDeliveryMigrationFailureListResponse
+# GiftCardListResponse to SandboxListResponse
 
+- [GiftCardListResponse](GiftCardListResponse.md)
+- [GiftCardTransactionListResponse](GiftCardTransactionListResponse.md)
 - [InventoryAdjustmentListResponse](InventoryAdjustmentListResponse.md)
 - [InventoryAllocationPolicyListResponse](InventoryAllocationPolicyListResponse.md)
 - [InventoryAllocationPolicyRevisionListResponse](InventoryAllocationPolicyRevisionListResponse.md)
@@ -100,6 +102,4 @@
 - [RiskListListResponse](RiskListListResponse.md)
 - [RiskRuleListResponse](RiskRuleListResponse.md)
 - [SandboxListResponse](SandboxListResponse.md)
-- [ShipmentListResponse](ShipmentListResponse.md)
-- [SubscriptionDeliveryMigrationFailureListResponse](SubscriptionDeliveryMigrationFailureListResponse.md)
 

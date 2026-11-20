@@ -86,7 +86,7 @@ export {
     makeGiftCardFundingSourceRequest,
     makeGiftCardFundingSourceStoreCreditRequest
 } from '../declarations/types-87.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface GiftCardLoadsResource {
     /**
  * Adds positive value with separately recorded consideration and funding provenance. Limits apply

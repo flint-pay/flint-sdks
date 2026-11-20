@@ -27,6 +27,10 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 Field definitions: [shared fields](BalanceTransactionCreatedMerchantEvent.md#balancetransactioncreatedmerchanteventdata-fields-1).
 
+### BalanceTransactionCreatedInstalledMerchantsEvent.data fields 1.actor
+
+Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCreatedEvent.md#apikeycreatedeventdata-fields-1actor).
+
 ### BalanceTransactionCreatedInstalledMerchantsEvent.data fields 1.object
 
 Field definitions: [BalanceTransactionCreatedMerchantEvent.data fields 1.object](../models/BalanceTransactionCreatedMerchantEvent.md#balancetransactioncreatedmerchanteventdata-fields-1object).

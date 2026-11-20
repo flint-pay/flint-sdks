@@ -38,7 +38,7 @@ final class PricingAmountsPreviousAttributesInput extends Model {
      */
     public function getInclusiveTaxMoney(): mixed { return $this->get('inclusive_tax_money'); }
     public function hasInclusiveTaxMoney(): bool { return $this->has('inclusive_tax_money'); }
-    /** Tip money in the total: the requested tip before payment, and settled tips net of refunds after. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
+    /** Tip money included in the price. After payment, it includes the original settled tip. Each tip reports any refund in its refunded_money field. anyOf[1] (Value): {@see MoneyValuePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When requested_tip_money is omitted; use hasRequestedTipMoney() or valueOrDefault().
      */

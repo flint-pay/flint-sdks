@@ -1,4 +1,17 @@
 import type {
+    MetadataPatchRequestInput,
+    MetadataPatchRequest,
+    MerchantSignupTermsAcceptanceRequest,
+    MerchantSignupTermsAcceptanceRequestInput,
+    MetadataMap
+} from './types-43.js';
+import type {
+    UpdateReturnReplacementLineItemRequestInput,
+    UpdateReturnResolutionAdjustmentRequestInput,
+    UpdateReturnResolutionLineItemRequestInput
+} from './types-77.js';
+import type {
+    GetReturnResolutionResponse,
     GetReturnResponse,
     FulfillmentSettings,
     FulfillmentSettingsRequestInput,
@@ -24,23 +37,11 @@ import type {
 import type { InventorySettingsRequest, InventorySettingsRequestInput, InventoryRoutingSourceRequestInput } from './types-34.js';
 import type { InvoiceSettingsPatch, InvoiceSettingsPatchInput } from './types-38.js';
 import type { LegalSettingsRequest, LegalSettingsRequestInput, KnownWebhookEvent, LegalSettings } from './types-39.js';
-import type {
-    MetadataPatchRequest,
-    MetadataPatchRequestInput,
-    MerchantSignupTermsAcceptanceRequest,
-    MerchantSignupTermsAcceptanceRequestInput,
-    MetadataMap
-} from './types-43.js';
 import type { PaymentLimitSettingsPatch, PaymentLimitSettingsPatchInput } from './types-52.js';
 import type { PaymentSettingsPatch, PaymentSettingsPatchInput } from './types-54.js';
 import type { PromotionSettings, PromotionSettingsRequestInput } from './types-59.js';
 import type { ReceiptSettingsPatch, ReceiptSettingsPatchInput } from './types-60.js';
-import type {
-    SubscriptionSettings,
-    SubscriptionSettingsRequestInput,
-    SubscriptionTaxRequest,
-    SubscriptionTaxRequestInput
-} from './types-72.js';
+import type { SubscriptionSettings, SubscriptionSettingsRequestInput, SubscriptionTaxRequest } from './types-72.js';
 import type { TaxIdentityPatch, TaxSettingsRequest, TaxIdentityPatchInput, TaxSettingsRequestInput } from './types-74.js';
 import type { TippingSettingsPatch, TippingSettingsPatchInput } from './types-75.js';
 import type {
@@ -67,12 +68,13 @@ import type { InventoryRoutingSourceRequest } from './types-33.js';
 import type { SubscriptionPlanChangeOption, SubscriptionPlanChangeOptionRequestInput } from './types-71.js';
 import type { SubscriptionBillingScheduleUpdateRequest, SubscriptionBillingScheduleUpdateRequestInput } from './types-69.js';
 import type {
+    SubscriptionTaxRequestInput,
     TaxCalculationCallbackConfigurationPatchRequest,
     TaxCalculationCallbackConfigurationPatchRequestInput
 } from './types-73.js';
 import type { WebhookSigningMethod, WebhookSigningMethodInput, WebhookSnapshotOrderPaymentAttempt } from './types-79.js';
 import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-80.js';
-import type { ResponseMeta, ResendWebhookDeliveryRequestInput } from './types-62.js';
+import type { ResponseMeta } from './types-62.js';
 import type { Package } from './types-48.js';
 import type { Shipment, SetupCollection } from './types-68.js';
 import type { CategoryReference } from './types-5.js';
@@ -101,6 +103,73 @@ import type { PaymentCollection } from './types-51.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateWebhookDeliveryRequestInput } from './types-14.js';
 import type { CustomersListAddressesParams } from './types-17.js';
+/** The request body for: Update return resolution. */
+export type UpdateReturnResolutionRequestInput = ({
+    /**
+     * Requires expected_version. [] (Value): {@link UpdateReturnResolutionAdjustmentRequestInput}.
+     * A fee or credit to keep or add when updating a return resolution. Include
+     * `return_resolution_adjustment_id` to update an existing one.
+     */
+    "adjustments"?: Array<UpdateReturnResolutionAdjustmentRequestInput>;
+    /**
+     * Required when any of these fields is present: line_items, replacement_line_items,
+     * adjustments. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Where the gift-card-paid portion is refunded. original credits the original gift card;
+     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
+     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
+     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination
+     * and conflicting_fields naming resolution_type. Store credit and its corrections always issue
+     * new gift cards. PATCH can change it only while proposed. Retry persists the chosen
+     * destination before starting the new attempt. Default: "original". Value enum: "original",
+     * "new_gift_card".
+     */
+    "gift_card_refund_destination"?: "original" | "new_gift_card";
+    /**
+     * Requires expected_version. [] (Value): {@link UpdateReturnResolutionLineItemRequestInput}. A
+     * return line and quantity to keep or add when updating a return resolution.
+     */
+    "line_items"?: Array<UpdateReturnResolutionLineItemRequestInput>;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * Required for merchant exchange and replacement requests. original_price preserves the
+     * selected units' net paid amounts using refund allocation; current_price uses catalog prices;
+     * merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit
+     * pricing_basis: replacements use original_price; exchanges use original_price when every
+     * replacement matches selected returned merchandise by variant, bundle, or product, otherwise
+     * current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
+     */
+    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
+    /**
+     * Requires expected_version. [] (Value): {@link UpdateReturnReplacementLineItemRequestInput}.
+     * A replacement item to keep or add when updating a return resolution. Include
+     * `return_replacement_line_item_id` to keep an existing one.
+     */
+    "replacement_line_items"?: Array<UpdateReturnReplacementLineItemRequestInput>;
+});
+export type UpdateReturnResolutionResponse = GetReturnResolutionResponse;
 export type UpdateReturnResponse = GetReturnResponse;
 /** The request body for: Update a risk list. minProperties: 1. */
 export type UpdateRiskListRequest = {
@@ -4037,92 +4106,4 @@ export type WebhookDeliveriesListParams = {
      * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type WebhookDeliveriesResendParams = (InputValue<ResendWebhookDeliveryRequestInput>);
-/** An attempt to deliver an event to a webhook endpoint. */
-export type WebhookDelivery = {
-    /**
-     * Attempts made by Flint's automatic schedule. Manual resends and the first attempt of a
-     * delivery you create don't count. Format: int32.
-     */
-    "automatic_attempt_count": number;
-    /**
-     * When the delivery was created: when Flint prepared the event, or when you created it.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "created_at": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "delivered_at"?: string;
-    /**
-     * The kind of failure on the most recent failed attempt. Absent before any attempt, and when
-     * delivered or suppressed. Value enum: "webhook_timeout", "webhook_dns", "webhook_tls",
-     * "webhook_connection", "webhook_blocked_target", "webhook_request", "webhook_redirect",
-     * "webhook_http_4xx", "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
-     */
-    "error_category"?: "webhook_timeout"
-        | "webhook_dns"
-        | "webhook_tls"
-        | "webhook_connection"
-        | "webhook_blocked_target"
-        | "webhook_request"
-        | "webhook_redirect"
-        | "webhook_http_4xx"
-        | "webhook_http_5xx"
-        | "webhook_payload_render"
-        | "webhook_delivery"
-        | (string & {});
-    /**
-     * A concise explanation of the failed attempt. Absent before any attempt, and when delivered
-     * or suppressed.
-     */
-    "error_summary"?: string;
-    /**
-     * HTTP status returned by the receiver on the latest recorded attempt. Omitted when no HTTP
-     * response was received. Format: int32.
-     */
-    "last_response_code"?: number;
-    /** Maximum automatic attempts. Format: int32. */
-    "max_attempts": number;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "next_retry_at"?: string;
-    /** The next step to resolve the failed delivery attempt. */
-    "recommended_action"?: string;
-    /**
-     * Whether sending this delivery again without changing your endpoint is likely to succeed.
-     * While the delivery is pending, Flint retries automatically either way.
-     */
-    "retryable"?: boolean;
-    /**
-     * Current state of this endpoint delivery and its automatic retry schedule. Value enum:
-     * "pending", "delivered", "failed", "suppressed".
-     */
-    "status": "pending" | "delivered" | "failed" | "suppressed" | (string & {});
-    /**
-     * Why this delivery was suppressed. Present exactly when status is suppressed. Suppressed
-     * deliveries have no failure explanation. Value enum: "endpoint_inactive", "endpoint_deleted",
-     * "authorization_revoked", "scope_missing", "event_not_allowed",
-     * "partner_app_install_revoked", "sandbox_reset".
-     */
-    "suppression_reason"?: "endpoint_inactive"
-        | "endpoint_deleted"
-        | "authorization_revoked"
-        | "scope_missing"
-        | "event_not_allowed"
-        | "partner_app_install_revoked"
-        | "sandbox_reset"
-        | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Unique identifier for this webhook delivery, prefixed `wdel_`. Example:
-     * "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
-     */
-    "webhook_delivery_id": string;
-    /**
-     * ID of the receiving endpoint, retained even after the endpoint is deleted. Example:
-     * "whep_01KEZF7C006FXYTAJRZCGCBJTN".
-     */
-    "webhook_endpoint_id": string;
-    /** ID of the event this delivery sends. Example: "whev_01KEZF7C00362MS3HV970TRZGS". */
-    "webhook_event_id": string;
 };

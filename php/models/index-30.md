@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# SelectableErrorResourceInput to SubscriptionDeliveryDestinationPreviousAttributesInput
+# ScheduleFulfillmentRequestInput to SubscriptionDeliveryDestinationInputAddressInput
 
+- [ScheduleFulfillmentRequestInput](ScheduleFulfillmentRequestInput.md)
+- [ScopeRequirementInput](ScopeRequirementInput.md)
 - [SelectableErrorResourceInput](SelectableErrorResourceInput.md)
 - [SelectableOrderPaymentIntentInput](SelectableOrderPaymentIntentInput.md)
 - [SelectableOrderPaymentIntentPreviousAttributesInput](SelectableOrderPaymentIntentPreviousAttributesInput.md)
@@ -100,6 +102,4 @@
 - [SubscriptionDeliveryActionRequiredMerchantEventInput](SubscriptionDeliveryActionRequiredMerchantEventInput.md)
 - [SubscriptionDeliveryDestinationInput](SubscriptionDeliveryDestinationInput.md)
 - [SubscriptionDeliveryDestinationInputAddressInput](SubscriptionDeliveryDestinationInputAddressInput.md)
-- [SubscriptionDeliveryDestinationInputCustomerAddressInput](SubscriptionDeliveryDestinationInputCustomerAddressInput.md)
-- [SubscriptionDeliveryDestinationPreviousAttributesInput](SubscriptionDeliveryDestinationPreviousAttributesInput.md)
 

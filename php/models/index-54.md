@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# PartnerAppCredentialPublicKey to RefundWithGiftCardCodesLineItemAllocationsItemModifiersItemAmountMoney
+# OrderEditPreview to RefundWithGiftCardCodesLineItemAllocationsItemAutomaticRefundDiscountMoney
 
+- [OrderEditPreview](OrderEditPreview.md)
+- [ReturnShipmentLineItemAllocation](ReturnShipmentLineItemAllocation.md)
+- [Package](Package.md)
+- [PackageItem](PackageItem.md)
+- [PartnerAppWithSecret](PartnerAppWithSecret.md)
+- [PartnerAppCredentialJWKSURL](PartnerAppCredentialJWKSURL.md)
 - [PartnerAppCredentialPublicKey](PartnerAppCredentialPublicKey.md)
 - [WorkloadIdentityClaimCondition](WorkloadIdentityClaimCondition.md)
 - [PartnerAppCredentialWorkloadIdentity](PartnerAppCredentialWorkloadIdentity.md)
@@ -96,10 +102,4 @@
 - [RefundWithGiftCardCodesLineItemAllocationsItemAdjustmentsItemRemainingMoney](RefundWithGiftCardCodesLineItemAllocationsItemAdjustmentsItemRemainingMoney.md)
 - [RefundWithGiftCardCodesLineItemAllocationsItemAdjustmentsItem](RefundWithGiftCardCodesLineItemAllocationsItemAdjustmentsItem.md)
 - [RefundWithGiftCardCodesLineItemAllocationsItemAutomaticRefundDiscountMoney](RefundWithGiftCardCodesLineItemAllocationsItemAutomaticRefundDiscountMoney.md)
-- [RefundWithGiftCardCodesLineItemAllocationsItemAutomaticRefundSubtotalMoney](RefundWithGiftCardCodesLineItemAllocationsItemAutomaticRefundSubtotalMoney.md)
-- [RefundWithGiftCardCodesLineItemAllocationsItemAutomaticRefundTaxMoney](RefundWithGiftCardCodesLineItemAllocationsItemAutomaticRefundTaxMoney.md)
-- [RefundWithGiftCardCodesLineItemAllocationsItemAutomaticRefundTotalMoney](RefundWithGiftCardCodesLineItemAllocationsItemAutomaticRefundTotalMoney.md)
-- [RefundWithGiftCardCodesLineItemAllocationsItemAutomaticRefund](RefundWithGiftCardCodesLineItemAllocationsItemAutomaticRefund.md)
-- [RefundWithGiftCardCodesLineItemAllocationsItemCategoriesItem](RefundWithGiftCardCodesLineItemAllocationsItemCategoriesItem.md)
-- [RefundWithGiftCardCodesLineItemAllocationsItemModifiersItemAmountMoney](RefundWithGiftCardCodesLineItemAllocationsItemModifiersItemAmountMoney.md)
 

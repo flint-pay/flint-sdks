@@ -76,8 +76,9 @@ export {
     makeDeliveryStateConditionRequest,
     makeDeliveryZoneConfigurationRequest
 } from '../declarations/types-86.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdateDeliveryZoneRequest } from '../declarations/types-93.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeUpdateDeliveryZoneRequest } from '../declarations/types-94.js';
 export interface DeliveryZonesResource {
     /**
  * Delivery zones define versioned geographic eligibility. Creation publishes immutable revision 1.

@@ -139,8 +139,8 @@ export {
     makeCreatePartnerAppCredentialWorkloadIdentityRequest,
     makeCreatePartnerAppRequest
 } from '../declarations/types-83.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
 export {
+    makeMoneyValue,
     makePartnerAppCredentialJWKSURLRequest,
     makePartnerAppCredentialPublicKeyRequest,
     makePartnerAppCredentialWorkloadIdentityRequest,

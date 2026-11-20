@@ -2392,15 +2392,16 @@ export type ProductVariant = {
      */
     "images": Array<ImageAttachment>;
     /**
-     * Whether one order line can buy this variant now, evaluated at read time against
-     * `settings.inventory.default_routing_source` with the same routing pay uses. Returned by `GET
-     * /v1/products/{product_id}/variants/{variant_id}`, `GET /v1/products/{product_id}/variants`,
-     * and variants included by `expand=variants` on product reads; write responses and webhooks
-     * omit it. Advisory: it holds no stock, so pay can still find the stock gone. Variants that
-     * share an inventory item are each evaluated alone. It ignores the variant's `status`, so also
-     * check `is_available_for_sale`. It is outside `version` and sends no event of its own: read
-     * the variant again after `inventory_level.updated`. Stock availability of a variant for one
-     * order line, computed when the variant is read.
+     * Whether one order line can buy this variant now. Flint uses
+     * `settings.inventory.default_routing_source` when it is set. With no default, Flint uses the
+     * only active Location with inventory allocation enabled if exactly one exists. Returned by
+     * `GET /v1/products/{product_id}/variants/{variant_id}`, `GET
+     * /v1/products/{product_id}/variants`, and variants included by `expand=variants` on product
+     * reads. Write responses and webhooks omit it. The check holds no stock, so pay can still find
+     * the stock gone. Variants that share an inventory item are each evaluated alone. Check
+     * `is_available_for_sale` for the variant's sale status. Availability has no effect on
+     * `version`. Read the variant again after `inventory_level.updated`. Stock availability of a
+     * variant for one order line, computed when the variant is read.
      */
     "inventory_availability"?: ProductVariantInventoryAvailability;
     /**
@@ -4103,12 +4104,12 @@ export type ProductVariantInventoryAvailability = {
      */
     "available_quantity"?: number | null;
     /**
-     * The routing source evaluated: the merchant's default, with
-     * `inventory_allocation_policy_revision_id` set to the revision current at the read when it is
-     * a policy. `null` when nothing was evaluated, because `status` is `not_tracked` or no default
-     * is set. anyOf[1] (Value): {@link InventoryRoutingSource}. Where an order, payment link, or
-     * reservation routes inventory from: a fixed Location, an inventory allocation policy, or one
-     * policy revision. anyOf[2] (Value): null.
+     * The merchant's default routing source or the Location Flint selected when no default is set.
+     * For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` for
+     * untracked variants or when no default or single eligible Location applies. anyOf[1] (Value):
+     * {@link InventoryRoutingSource}. Where an order, payment link, or reservation routes
+     * inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
+     * anyOf[2] (Value): null.
      */
     "inventory_routing_source": ((InventoryRoutingSource) | (null));
     /**
@@ -4134,11 +4135,10 @@ export type ProductVariantInventoryAvailabilityPreviousAttributes = {
      */
     "available_quantity"?: ((number) | (null));
     /**
-     * The routing source evaluated: the merchant's default, with
-     * `inventory_allocation_policy_revision_id` set to the revision current at the read when it is
-     * a policy. `null` when nothing was evaluated, because `status` is `not_tracked` or no default
-     * is set. anyOf[1] (Value): {@link InventoryRoutingSourcePreviousAttributes}. anyOf[2]
-     * (Value): null.
+     * The merchant's default routing source or the Location Flint selected when no default is set.
+     * For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` for
+     * untracked variants or when no default or single eligible Location applies. anyOf[1] (Value):
+     * {@link InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
      */
     "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
     /**
@@ -4262,14 +4262,15 @@ export type ProductVariantPreviousAttributes = {
      */
     "images"?: ((Array<ImageAttachmentPreviousAttributes>) | (null));
     /**
-     * Whether one order line can buy this variant now, evaluated at read time against
-     * `settings.inventory.default_routing_source` with the same routing pay uses. Returned by `GET
-     * /v1/products/{product_id}/variants/{variant_id}`, `GET /v1/products/{product_id}/variants`,
-     * and variants included by `expand=variants` on product reads; write responses and webhooks
-     * omit it. Advisory: it holds no stock, so pay can still find the stock gone. Variants that
-     * share an inventory item are each evaluated alone. It ignores the variant's `status`, so also
-     * check `is_available_for_sale`. It is outside `version` and sends no event of its own: read
-     * the variant again after `inventory_level.updated`. anyOf[1] (Value): {@link
+     * Whether one order line can buy this variant now. Flint uses
+     * `settings.inventory.default_routing_source` when it is set. With no default, Flint uses the
+     * only active Location with inventory allocation enabled if exactly one exists. Returned by
+     * `GET /v1/products/{product_id}/variants/{variant_id}`, `GET
+     * /v1/products/{product_id}/variants`, and variants included by `expand=variants` on product
+     * reads. Write responses and webhooks omit it. The check holds no stock, so pay can still find
+     * the stock gone. Variants that share an inventory item are each evaluated alone. Check
+     * `is_available_for_sale` for the variant's sale status. Availability has no effect on
+     * `version`. Read the variant again after `inventory_level.updated`. anyOf[1] (Value): {@link
      * ProductVariantInventoryAvailabilityPreviousAttributes}. anyOf[2] (Value): null.
      */
     "inventory_availability"?: ((ProductVariantInventoryAvailabilityPreviousAttributes) | (null));

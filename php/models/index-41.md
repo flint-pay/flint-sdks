@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# PendingPaymentActionSetupPaymentSourceSubject to ExpandedSubscriptionPlanSummaryLineItemsItemBundle
+# PendingPaymentActionClientActionStripe to ExpandedSubscriptionPlanSummaryLineItemsItemBundleTax
 
+- [PendingPaymentActionClientActionStripe](PendingPaymentActionClientActionStripe.md)
+- [PendingPaymentActionPaymentIntentSubject](PendingPaymentActionPaymentIntentSubject.md)
 - [PendingPaymentActionSetupPaymentSourceSubject](PendingPaymentActionSetupPaymentSourceSubject.md)
 - [PendingPaymentActionSubject](PendingPaymentActionSubject.md)
 - [PendingPaymentAction](PendingPaymentAction.md)
@@ -100,6 +102,4 @@
 - [ExpandedSubscriptionPlanSummaryLineItemsItemBundleSwapVariantsItemUnitPriceMoney](ExpandedSubscriptionPlanSummaryLineItemsItemBundleSwapVariantsItemUnitPriceMoney.md)
 - [ExpandedSubscriptionPlanSummaryLineItemsItemBundleSwapVariantsItem](ExpandedSubscriptionPlanSummaryLineItemsItemBundleSwapVariantsItem.md)
 - [ExpandedSubscriptionPlanSummaryLineItemsItemBundleTax](ExpandedSubscriptionPlanSummaryLineItemsItemBundleTax.md)
-- [ExpandedSubscriptionPlanSummaryLineItemsItemBundleUnitPriceMoney](ExpandedSubscriptionPlanSummaryLineItemsItemBundleUnitPriceMoney.md)
-- [ExpandedSubscriptionPlanSummaryLineItemsItemBundle](ExpandedSubscriptionPlanSummaryLineItemsItemBundle.md)
 

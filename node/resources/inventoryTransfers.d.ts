@@ -75,7 +75,8 @@ export {
     makeInventorySourceSystemRequest,
     makeInventoryTransferLineRequest
 } from '../declarations/types-87.js';
-export { makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export {
     makeReceiveInventoryTransferRequest,
     makeReportInventoryTransferLossRequest,

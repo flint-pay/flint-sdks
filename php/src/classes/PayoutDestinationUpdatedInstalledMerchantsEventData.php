@@ -2,12 +2,18 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read ?ReturnActor $actor
  * @property-read PayoutDestinationUpdatedInstalledMerchantsEventDataObject $object
  * @property-read ?PayoutDestinationUpdatedInstalledMerchantsEventDataPreviousAttributes $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class PayoutDestinationUpdatedInstalledMerchantsEventData extends Model {
-    /** @param array{'object': object{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at': string, 'currency': string, 'disabled_at'?: string, 'disabled_reason'?: string, 'is_default_for_currency': bool, 'last4'?: string, 'merchant_id': string, 'metadata'?: mixed, 'payout_destination_id': string, 'status': string, 'status_updated_at'?: string, 'type': string, 'updated_at': string, 'version': int}, 'previous_attributes'?: object{'available_payout_methods'?: mixed, 'bank_name'?: mixed, 'country'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'disabled_at'?: mixed, 'disabled_reason'?: mixed, 'is_default_for_currency'?: mixed, 'last4'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'payout_destination_id'?: mixed, 'status'?: mixed, 'status_updated_at'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'version'?: mixed}, ...}|object $values */
+    /** @param array{'actor'?: mixed, 'object': object{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at': string, 'currency': string, 'disabled_at'?: string, 'disabled_reason'?: string, 'is_default_for_currency': bool, 'last4'?: string, 'merchant_id': string, 'metadata'?: mixed, 'payout_destination_id': string, 'status': string, 'status_updated_at'?: string, 'type': string, 'updated_at': string, 'version': int}, 'previous_attributes'?: object{'available_payout_methods'?: mixed, 'bank_name'?: mixed, 'country'?: mixed, 'created_at'?: mixed, 'currency'?: mixed, 'disabled_at'?: mixed, 'disabled_reason'?: mixed, 'is_default_for_currency'?: mixed, 'last4'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'payout_destination_id'?: mixed, 'status'?: mixed, 'status_updated_at'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'version'?: mixed}, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutDestinationUpdatedInstalledMerchantsEventData')); }
+    /** Who caused this event, captured when the change commits. Omitted when the event predates actor attribution or attribution is unavailable. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+     * @return ?ReturnActor
+     */
+    public function getActor(): ?ReturnActor { return $this->get('actor'); }
+    public function hasActor(): bool { return $this->has('actor'); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return PayoutDestinationUpdatedInstalledMerchantsEventDataObject
      */

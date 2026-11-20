@@ -118,7 +118,7 @@ export type {
     MetadataPatchRequest
 } from '../declarations/types-43.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ReturnActor } from '../declarations/types-62.js';
 export type {
     Merchant,
     MerchantAccountSession,
@@ -193,9 +193,9 @@ export {
     makeMerchantSignupTermsAcceptanceRequest,
     makeMerchantSignupVersionRequest,
     makeMetadataMap,
-    makeMetadataPatchRequest,
-    makeMoneyValue
+    makeMetadataPatchRequest
 } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateMerchantRequest } from '../declarations/types-94.js';
 export { makeVerifyMerchantSignupRequest } from '../declarations/types-95.js';
 export interface MerchantResource {

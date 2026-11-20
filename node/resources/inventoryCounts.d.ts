@@ -66,7 +66,8 @@ export { makeApplyInventoryCountRequest } from '../declarations/types-80.js';
 export { makeCancelInventoryCountRequest } from '../declarations/types-81.js';
 export { makeCreateInventoryCountRequest } from '../declarations/types-83.js';
 export { makeInventoryCountObservationRequest, makeInventorySourceSystemRequest } from '../declarations/types-87.js';
-export { makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
+export { makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateInventoryCountRequest } from '../declarations/types-94.js';
 export interface InventoryCountsResource {
     /**

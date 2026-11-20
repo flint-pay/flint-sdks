@@ -43,12 +43,13 @@ export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
-export type { StripeClientSetup, StripeClientSetupStripe, StripeClientAuthority } from '../declarations/types-68.js';
+export type { StripeClientSetup, StripeClientSetupStripe } from '../declarations/types-69.js';
+export type { StripeClientAuthority } from '../declarations/types-68.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CardDetails } from '../declarations/types-5.js';
 export type { ExpandedCustomerSummary, DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeSavePaymentMethodRequest } from '../declarations/types-92.js';
 export interface PaymentMethodsResource {
     /**

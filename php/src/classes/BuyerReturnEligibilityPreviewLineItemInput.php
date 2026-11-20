@@ -7,6 +7,7 @@ namespace Flint;
  * @property-read bool $can_buyer_request
  * @property-read string $description
  * @property-read BuyerReturnLineItemEligibilityInput|array<array-key, mixed>|\stdClass $eligibility
+ * @property-read list<ReturnExchangeVariantInput|array<array-key, mixed>|\stdClass> $exchange_variants
  * @property-read string $fulfillment_id
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $image
  * @property-read list<BuyerReturnLineItemModifierInput|array<array-key, mixed>|\stdClass> $modifiers
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerReturnEligibilityPreviewLineItemInput extends Model {
-    /** @param array{'bundle_components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'can_buyer_request': bool, 'description'?: string, 'eligibility': BuyerReturnLineItemEligibilityInput|array<array-key, mixed>|\stdClass, 'fulfillment_id': string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'modifiers': list<BuyerReturnLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_id': string, 'order_line_item_id': string, 'product_id'?: string, 'requested_quantity'?: int, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'suggested_return_reasons': list<ReturnReasonSummaryInput|array<array-key, mixed>|\stdClass>, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'bundle_components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'can_buyer_request': bool, 'description'?: string, 'eligibility': BuyerReturnLineItemEligibilityInput|array<array-key, mixed>|\stdClass, 'exchange_variants': list<ReturnExchangeVariantInput|array<array-key, mixed>|\stdClass>, 'fulfillment_id': string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'modifiers': list<BuyerReturnLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_id': string, 'order_line_item_id': string, 'product_id'?: string, 'requested_quantity'?: int, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'suggested_return_reasons': list<ReturnReasonSummaryInput|array<array-key, mixed>|\stdClass>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnEligibilityPreviewLineItemInput')); }
     /** Components of the bundle the line was sold from. [] (Value): {@see BundleComponentInput}. An item included in a bundle.
      * @return list<BundleComponentInput|array<array-key, mixed>|\stdClass>
@@ -53,6 +54,12 @@ final class BuyerReturnEligibilityPreviewLineItemInput extends Model {
      */
     public function getEligibility(): mixed { return $this->get('eligibility'); }
     public function hasEligibility(): bool { return $this->has('eligibility'); }
+    /** Available alternatives for an exchange of this product. Empty when alternatives were omitted from the request or none are available. [] (Value): {@see ReturnExchangeVariantInput}. One in-stock or untracked alternative variant of the returned product. Price and stock can change before resolution.
+     * @return list<ReturnExchangeVariantInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When exchange_variants is omitted; use hasExchangeVariants() or valueOrDefault().
+     */
+    public function getExchangeVariants(): array { return $this->get('exchange_variants'); }
+    public function hasExchangeVariants(): bool { return $this->has('exchange_variants'); }
     /** ID of the fulfillment the units were delivered in. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().

@@ -1,1 +1,1 @@
-{"shared":"LicenseKeyPoolCreatedMerchantEvent","dependencies":["LicenseKeyPool","LicenseKeyPoolCreatedMerchantEvent","MetadataMap","SharedCodec10","SharedCodec11","SharedCodec12","SharedCodec1767","SharedCodec1768","SharedCodec8","SharedCodec9"]}
+{"shared":"LicenseKeyPoolCreatedMerchantEvent","dependencies":["LicenseKeyPool","LicenseKeyPoolCreatedMerchantEvent","MetadataMap","ReturnActor","SharedCodec10","SharedCodec11","SharedCodec12","SharedCodec1767","SharedCodec1768","SharedCodec8","SharedCodec9"]}

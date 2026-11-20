@@ -159,6 +159,10 @@ export interface CompiledOperation extends Omit<Operation, 'parameters' | 'body'
         & {
         codec?: CodecPlan;
         phpRepresentation?: PhpRepresentation;
+        phpPayloadAlternatives?: {
+            codec: CodecPlan;
+            models: string[];
+        };
         model?: string;
         variants?: Record<string, string>;
     }>;

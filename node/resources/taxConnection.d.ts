@@ -112,7 +112,8 @@ export { makeConnectTaxConnectionRequest } from '../declarations/types-81.js';
 export { makeCreateTaxRegistrationRequest } from '../declarations/types-85.js';
 export { makeDisconnectTaxConnectionRequest } from '../declarations/types-86.js';
 export { makeInvoiceAutopayRetryPolicy } from '../declarations/types-87.js';
-export { makeInvoiceReminderPolicy, makeInvoiceReminderRule, makeMetadataMap, makeMoneyValue } from '../declarations/types-88.js';
+export { makeInvoiceReminderPolicy, makeInvoiceReminderRule, makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeSellerTaxAttestationRequest } from '../declarations/types-92.js';
 export { makeUpdateTaxRegistrationRequest } from '../declarations/types-95.js';
 export interface TaxConnectionResource {

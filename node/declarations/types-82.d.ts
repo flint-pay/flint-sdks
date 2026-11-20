@@ -1,5 +1,7 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput,
+    CreateCheckoutSessionCustomerVerificationRequestInput,
     CreateCheckoutSessionDiscountInput,
     CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput,
     CreateCheckoutSessionInvoiceInput,
@@ -65,10 +67,11 @@ import type {
     CreateGiftCardRedemptionRequestInput,
     CreateGiftCardRedemptionRequestAutomaticInput,
     CreateGiftCardRedemptionRequestManualInput,
-    CreateGiftCardRequestInput,
-    CreateInlineModifierGroupRequestInput,
-    CreateIntervalReportRequestInput
+    CreateGiftCardRequestInput
 } from './types-10.js';
+export declare function makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest(value: InputValue<CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput>): Model<CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput>;
+export declare function makeCreateCheckoutSessionCustomerVerificationRequest(value: InputValue<Exclude<CreateCheckoutSessionCustomerVerificationRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateCheckoutSessionCustomerVerificationRequestInput & object, readonly unknown[]>>;
+export declare function makeCreateCheckoutSessionCustomerVerificationRequest(value: InputValue<CreateCheckoutSessionCustomerVerificationRequestInput>): Model<CreateCheckoutSessionCustomerVerificationRequestInput>;
 export declare function makeCreateCheckoutSessionDiscount(value: InputValue<CreateCheckoutSessionDiscountInput>): Model<CreateCheckoutSessionDiscountInput>;
 export declare function makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest(value: InputValue<CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput>): Model<CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput>;
 export declare function makeCreateCheckoutSessionInvoice(value: InputValue<CreateCheckoutSessionInvoiceInput>): Model<CreateCheckoutSessionInvoiceInput>;
@@ -132,5 +135,3 @@ export declare function makeCreateGiftCardRedemptionRequest(value: InputValue<Cr
 export declare function makeCreateGiftCardRedemptionRequestAutomatic(value: InputValue<CreateGiftCardRedemptionRequestAutomaticInput>): Model<CreateGiftCardRedemptionRequestAutomaticInput>;
 export declare function makeCreateGiftCardRedemptionRequestManual(value: InputValue<CreateGiftCardRedemptionRequestManualInput>): Model<CreateGiftCardRedemptionRequestManualInput>;
 export declare function makeCreateGiftCardRequest(value: InputValue<CreateGiftCardRequestInput>): Model<CreateGiftCardRequestInput>;
-export declare function makeCreateInlineModifierGroupRequest(value: InputValue<CreateInlineModifierGroupRequestInput>): Model<CreateInlineModifierGroupRequestInput>;
-export declare function makeCreateIntervalReportRequest(value: InputValue<CreateIntervalReportRequestInput>): Model<CreateIntervalReportRequestInput>;

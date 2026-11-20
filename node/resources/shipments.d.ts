@@ -72,8 +72,13 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export { makeCreatePackageItemRequest } from '../declarations/types-83.js';
 export { makeCreateShipmentRequest, makeCreateShipmentRequestOutbound, makeCreateShipmentRequestReturn } from '../declarations/types-84.js';
 export { makeDimensionsRequest } from '../declarations/types-86.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makePackageCreateInputCreated, makePackageCreateInputShipped, makePackageCreateRequest } from '../declarations/types-89.js';
+export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
+export {
+    makeMoneyValue,
+    makePackageCreateInputCreated,
+    makePackageCreateInputShipped,
+    makePackageCreateRequest
+} from '../declarations/types-89.js';
 export { makeReturnShipmentLineItemAllocationRequest } from '../declarations/types-92.js';
 export { makeUpdateShipmentRequest } from '../declarations/types-94.js';
 export { makeVoidPackageRequest, makeVoidShipmentRequest, makeWeightRequest } from '../declarations/types-95.js';

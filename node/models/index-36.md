@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# Subscription to SubscriptionLineItemsListResponse
+# SubscribedLineRequest to SubscriptionLineItem
 
+- [SubscribedLineRequest](SubscribedLineRequest.md)
+- [SubscribedLineRequestModelInput](SubscribedLineRequestModelInput.md)
 - [Subscription](Subscription.md)
 - [SubscriptionActivatedInstalledMerchantsEvent](SubscriptionActivatedInstalledMerchantsEvent.md)
 - [SubscriptionActivatedMerchantEvent](SubscriptionActivatedMerchantEvent.md)
@@ -100,6 +102,4 @@
 - [SubscriptionInventoryWait](SubscriptionInventoryWait.md)
 - [SubscriptionInventoryWaitPreviousAttributes](SubscriptionInventoryWaitPreviousAttributes.md)
 - [SubscriptionLineItem](SubscriptionLineItem.md)
-- [SubscriptionLineItemPreviousAttributes](SubscriptionLineItemPreviousAttributes.md)
-- [SubscriptionLineItemsListResponse](SubscriptionLineItemsListResponse.md)
 

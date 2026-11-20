@@ -11,7 +11,37 @@ import type { CloseGiftCardRequest, CheckoutSubscriptionTermsRequest, CheckoutSu
 import type { ImageRequest, ImageRequestInput } from './types-31.js';
 import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-15.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { TaxIdentityPatch } from './types-74.js';
+/**
+ * Send only text fields to change. Omitted fields keep their stored values. null clears min_length
+ * or max_length. An empty object is invalid. The merged configuration is validated. minProperties:
+ * 1.
+ */
+export type TextModifierConfigPatchRequest = {
+    /**
+     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Omit it to keep the current limit; send null to clear it. Format: int32. minimum: 1.
+     * maximum: 500.
+     */
+    "max_length"?: number | null;
+    /**
+     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Omit it to keep the current minimum; send null to clear it. Format: int32. minimum: 0.
+     */
+    "min_length"?: number | null;
+    /** Whether the buyer's text can include line breaks. */
+    "multiline"?: boolean;
+    /**
+     * Whether buyers must enter text for this group. A modifier set's required override takes
+     * precedence.
+     */
+    "required"?: boolean;
+};
+/**
+ * Send only text fields to change. Omitted fields keep their stored values. null clears min_length
+ * or max_length. An empty object is invalid. The merged configuration is validated. minProperties:
+ * 1.
+ */
+export type TextModifierConfigPatchRequestInput = TextModifierConfigPatchRequest;
 export type TextModifierConfigPreviousAttributes = {
     /**
      * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
@@ -179,6 +209,11 @@ export type Ticket = {
     "order_line_item_id": string;
     /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
     "payment_link_id": string;
+    /**
+     * The payment link's line item key at purchase. Use it with payment_link_id to identify the
+     * tier when names repeat. Omitted when the order line has no stored key.
+     */
+    "payment_link_line_item_key"?: string;
     /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
     "status": "issued" | "checked_in" | "voided" | (string & {});
     /**
@@ -222,6 +257,7 @@ export type TicketCheckedInEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "order_id": string;
             "order_line_item_id": string;
             "payment_link_id": string;
+            "payment_link_line_item_key"?: string;
             "status": "issued" | "checked_in" | "voided" | (string & {});
             "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
             "ticket_id": string;
@@ -245,6 +281,7 @@ export type TicketCheckedInEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "order_id"?: ((string) | (null));
             "order_line_item_id"?: ((string) | (null));
             "payment_link_id"?: ((string) | (null));
+            "payment_link_line_item_key"?: ((string) | (null));
             "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
             "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
             "ticket_id"?: ((string) | (null));
@@ -272,6 +309,7 @@ export type TicketCheckedInEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "order_id": string;
             "order_line_item_id": string;
             "payment_link_id": string;
+            "payment_link_line_item_key"?: string;
             "status": "issued" | "checked_in" | "voided" | (string & {});
             "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
             "ticket_id": string;
@@ -295,6 +333,7 @@ export type TicketCheckedInEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "order_id"?: ((string) | (null));
             "order_line_item_id"?: ((string) | (null));
             "payment_link_id"?: ((string) | (null));
+            "payment_link_line_item_key"?: ((string) | (null));
             "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
             "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
             "ticket_id"?: ((string) | (null));
@@ -347,12 +386,14 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
      * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
-     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
-     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * object.supported_actions (Required): Array of string. Actions currently offered for this
-     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
-     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
-     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_line_item_key
+     * (Optional): string. The payment link's line item key at purchase. Use it with
+     * payment_link_id to identify the tier when names repeat. Omitted when the order line has no
+     * stored key. object.status (Required): string. The admission lifecycle. Value enum: "issued",
+     * "checked_in", "voided". object.supported_actions (Required): Array of string. Actions
+     * currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+     * object.supported_actions[] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+     * object.ticket_id (Required): string. Unique ticket identity with the tkt_ prefix. Example:
      * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
      * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
      * object.tier_name (Optional): string. Name of the ticket tier on the purchased order line.
@@ -409,9 +450,16 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * previous_attributes.payment_link_id (Optional): string or null. The event payment link.
      * previous_attributes.payment_link_id.anyOf[1] (Value): string. The event payment link.
      * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. The admission
-     * lifecycle. Value enum: "issued", "checked_in", "voided". previous_attributes.status.anyOf[1]
-     * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * (Value): null. previous_attributes.payment_link_line_item_key (Optional): string or null.
+     * The payment link's line item key at purchase. Use it with payment_link_id to identify the
+     * tier when names repeat. Omitted when the order line has no stored key.
+     * previous_attributes.payment_link_line_item_key.anyOf[1] (Value): string. The payment link's
+     * line item key at purchase. Use it with payment_link_id to identify the tier when names
+     * repeat. Omitted when the order line has no stored key.
+     * previous_attributes.payment_link_line_item_key.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. The admission lifecycle. Value enum:
+     * "issued", "checked_in", "voided". previous_attributes.status.anyOf[1] (Value): string. The
+     * admission lifecycle. Value enum: "issued", "checked_in", "voided".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
      * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
      * "check_in", "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1] (Value):
@@ -468,19 +516,22 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
          * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
          * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". supported_actions (Required): Array of string. Actions currently offered for
-         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
-         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
-         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
-         * are never reused and do not authorize entry. tier_name (Optional): string. Name of the
-         * ticket tier on the purchased order line. updated_at (Required): string. When the ticket
-         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1. voided_at
-         * (Required): string or null. When the ticket was permanently voided. Null when the ticket
-         * has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * payment_link_line_item_key (Optional): string. The payment link's line item key at
+         * purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. status (Required): string. The admission
+         * lifecycle. Value enum: "issued", "checked_in", "voided". supported_actions (Required):
+         * Array of string. Actions currently offered for this ticket. [] enum: "check_in",
+         * "undo_check_in", "void". supported_actions[] (Value): string. Value enum: "check_in",
+         * "undo_check_in", "void". ticket_id (Required): string. Unique ticket identity with the
+         * tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_number (Required):
+         * string. The event prefix and sequence, such as GAL001. Numbers are never reused and do
+         * not authorize entry. tier_name (Optional): string. Name of the ticket tier on the
+         * purchased order line. updated_at (Required): string. When the ticket last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. voided_at (Required):
+         * string or null. When the ticket was permanently voided. Null when the ticket has not
+         * been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
          */
         "object": {
             /**
@@ -520,6 +571,11 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
             "order_line_item_id": string;
             /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
             "payment_link_id": string;
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             */
+            "payment_link_line_item_key"?: string;
             /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
             "status": "issued" | "checked_in" | "voided" | (string & {});
             /**
@@ -594,34 +650,40 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * order_line_item_id.anyOf[2] (Value): null. payment_link_id (Optional): string or null.
          * The event payment link. payment_link_id.anyOf[1] (Value): string. The event payment
          * link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * status (Optional): string or null. The admission lifecycle. Value enum: "issued",
-         * "checked_in", "voided". status.anyOf[1] (Value): string. The admission lifecycle. Value
-         * enum: "issued", "checked_in", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
-         * "check_in", "undo_check_in", "void". supported_actions.anyOf[1] (Value): Array of
-         * string. Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-         * "void". supported_actions.anyOf[1][] (Value): string. Value enum: "check_in",
-         * "undo_check_in", "void". supported_actions.anyOf[2] (Value): null. ticket_id (Optional):
-         * string or null. Unique ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value):
-         * string. Unique ticket identity with the tkt_ prefix. Example:
-         * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_id.anyOf[2] (Value): null. ticket_number
-         * (Optional): string or null. The event prefix and sequence, such as GAL001. Numbers are
-         * never reused and do not authorize entry. ticket_number.anyOf[1] (Value): string. The
-         * event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
-         * entry. ticket_number.anyOf[2] (Value): null. tier_name (Optional): string or null. Name
-         * of the ticket tier on the purchased order line. tier_name.anyOf[1] (Value): string. Name
-         * of the ticket tier on the purchased order line. tier_name.anyOf[2] (Value): null.
-         * updated_at (Optional): string or null. When the ticket last changed. updated_at.anyOf[1]
-         * (Value): string. When the ticket last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. version.anyOf[1] (Value): integer.
-         * Persisted version of this resource's owned state. Expanded resources and external
-         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
-         * (Value): null. voided_at (Optional): string or null. When the ticket was permanently
-         * voided. Null when the ticket has not been voided. voided_at.anyOf[1] (Value): string.
-         * When the ticket was permanently voided. Null when the ticket has not been voided.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". voided_at.anyOf[2] (Value): null.
+         * payment_link_line_item_key (Optional): string or null. The payment link's line item key
+         * at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. payment_link_line_item_key.anyOf[1] (Value):
+         * string. The payment link's line item key at purchase. Use it with payment_link_id to
+         * identify the tier when names repeat. Omitted when the order line has no stored key.
+         * payment_link_line_item_key.anyOf[2] (Value): null. status (Optional): string or null.
+         * The admission lifecycle. Value enum: "issued", "checked_in", "voided". status.anyOf[1]
+         * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+         * status.anyOf[2] (Value): null. supported_actions (Optional): Array of string or null.
+         * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions currently offered for this
+         * ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions.anyOf[1][]
+         * (Value): string. Value enum: "check_in", "undo_check_in", "void".
+         * supported_actions.anyOf[2] (Value): null. ticket_id (Optional): string or null. Unique
+         * ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value): string. Unique ticket
+         * identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_id.anyOf[2] (Value): null. ticket_number (Optional): string or null. The event
+         * prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
+         * entry. ticket_number.anyOf[1] (Value): string. The event prefix and sequence, such as
+         * GAL001. Numbers are never reused and do not authorize entry. ticket_number.anyOf[2]
+         * (Value): null. tier_name (Optional): string or null. Name of the ticket tier on the
+         * purchased order line. tier_name.anyOf[1] (Value): string. Name of the ticket tier on the
+         * purchased order line. tier_name.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. When the ticket last changed. updated_at.anyOf[1] (Value): string. When the ticket
+         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
+         * owned state. Expanded resources and external observations can change independently.
+         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
+         * Expanded resources and external observations can change independently. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null. When
+         * the ticket was permanently voided. Null when the ticket has not been voided.
+         * voided_at.anyOf[1] (Value): string. When the ticket was permanently voided. Null when
+         * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
@@ -691,6 +753,14 @@ export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
              */
             "payment_link_id"?: ((string) | (null));
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             * anyOf[1] (Value): string. The payment link's line item key at purchase. Use it with
+             * payment_link_id to identify the tier when names repeat. Omitted when the order line
+             * has no stored key. anyOf[2] (Value): null.
+             */
+            "payment_link_line_item_key"?: ((string) | (null));
             /**
              * The admission lifecycle. Value enum: "issued", "checked_in", "voided". anyOf[1]
              * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in",
@@ -810,12 +880,14 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
      * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
-     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
-     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * object.supported_actions (Required): Array of string. Actions currently offered for this
-     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
-     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
-     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_line_item_key
+     * (Optional): string. The payment link's line item key at purchase. Use it with
+     * payment_link_id to identify the tier when names repeat. Omitted when the order line has no
+     * stored key. object.status (Required): string. The admission lifecycle. Value enum: "issued",
+     * "checked_in", "voided". object.supported_actions (Required): Array of string. Actions
+     * currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+     * object.supported_actions[] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+     * object.ticket_id (Required): string. Unique ticket identity with the tkt_ prefix. Example:
      * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
      * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
      * object.tier_name (Optional): string. Name of the ticket tier on the purchased order line.
@@ -872,9 +944,16 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * previous_attributes.payment_link_id (Optional): string or null. The event payment link.
      * previous_attributes.payment_link_id.anyOf[1] (Value): string. The event payment link.
      * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. The admission
-     * lifecycle. Value enum: "issued", "checked_in", "voided". previous_attributes.status.anyOf[1]
-     * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * (Value): null. previous_attributes.payment_link_line_item_key (Optional): string or null.
+     * The payment link's line item key at purchase. Use it with payment_link_id to identify the
+     * tier when names repeat. Omitted when the order line has no stored key.
+     * previous_attributes.payment_link_line_item_key.anyOf[1] (Value): string. The payment link's
+     * line item key at purchase. Use it with payment_link_id to identify the tier when names
+     * repeat. Omitted when the order line has no stored key.
+     * previous_attributes.payment_link_line_item_key.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. The admission lifecycle. Value enum:
+     * "issued", "checked_in", "voided". previous_attributes.status.anyOf[1] (Value): string. The
+     * admission lifecycle. Value enum: "issued", "checked_in", "voided".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
      * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
      * "check_in", "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1] (Value):
@@ -931,19 +1010,22 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
          * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
          * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". supported_actions (Required): Array of string. Actions currently offered for
-         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
-         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
-         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
-         * are never reused and do not authorize entry. tier_name (Optional): string. Name of the
-         * ticket tier on the purchased order line. updated_at (Required): string. When the ticket
-         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1. voided_at
-         * (Required): string or null. When the ticket was permanently voided. Null when the ticket
-         * has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * payment_link_line_item_key (Optional): string. The payment link's line item key at
+         * purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. status (Required): string. The admission
+         * lifecycle. Value enum: "issued", "checked_in", "voided". supported_actions (Required):
+         * Array of string. Actions currently offered for this ticket. [] enum: "check_in",
+         * "undo_check_in", "void". supported_actions[] (Value): string. Value enum: "check_in",
+         * "undo_check_in", "void". ticket_id (Required): string. Unique ticket identity with the
+         * tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_number (Required):
+         * string. The event prefix and sequence, such as GAL001. Numbers are never reused and do
+         * not authorize entry. tier_name (Optional): string. Name of the ticket tier on the
+         * purchased order line. updated_at (Required): string. When the ticket last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. voided_at (Required):
+         * string or null. When the ticket was permanently voided. Null when the ticket has not
+         * been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
          */
         "object": {
             /**
@@ -983,6 +1065,11 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
             "order_line_item_id": string;
             /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
             "payment_link_id": string;
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             */
+            "payment_link_line_item_key"?: string;
             /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
             "status": "issued" | "checked_in" | "voided" | (string & {});
             /**
@@ -1057,34 +1144,40 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * order_line_item_id.anyOf[2] (Value): null. payment_link_id (Optional): string or null.
          * The event payment link. payment_link_id.anyOf[1] (Value): string. The event payment
          * link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * status (Optional): string or null. The admission lifecycle. Value enum: "issued",
-         * "checked_in", "voided". status.anyOf[1] (Value): string. The admission lifecycle. Value
-         * enum: "issued", "checked_in", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
-         * "check_in", "undo_check_in", "void". supported_actions.anyOf[1] (Value): Array of
-         * string. Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-         * "void". supported_actions.anyOf[1][] (Value): string. Value enum: "check_in",
-         * "undo_check_in", "void". supported_actions.anyOf[2] (Value): null. ticket_id (Optional):
-         * string or null. Unique ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value):
-         * string. Unique ticket identity with the tkt_ prefix. Example:
-         * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_id.anyOf[2] (Value): null. ticket_number
-         * (Optional): string or null. The event prefix and sequence, such as GAL001. Numbers are
-         * never reused and do not authorize entry. ticket_number.anyOf[1] (Value): string. The
-         * event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
-         * entry. ticket_number.anyOf[2] (Value): null. tier_name (Optional): string or null. Name
-         * of the ticket tier on the purchased order line. tier_name.anyOf[1] (Value): string. Name
-         * of the ticket tier on the purchased order line. tier_name.anyOf[2] (Value): null.
-         * updated_at (Optional): string or null. When the ticket last changed. updated_at.anyOf[1]
-         * (Value): string. When the ticket last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. version.anyOf[1] (Value): integer.
-         * Persisted version of this resource's owned state. Expanded resources and external
-         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
-         * (Value): null. voided_at (Optional): string or null. When the ticket was permanently
-         * voided. Null when the ticket has not been voided. voided_at.anyOf[1] (Value): string.
-         * When the ticket was permanently voided. Null when the ticket has not been voided.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". voided_at.anyOf[2] (Value): null.
+         * payment_link_line_item_key (Optional): string or null. The payment link's line item key
+         * at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. payment_link_line_item_key.anyOf[1] (Value):
+         * string. The payment link's line item key at purchase. Use it with payment_link_id to
+         * identify the tier when names repeat. Omitted when the order line has no stored key.
+         * payment_link_line_item_key.anyOf[2] (Value): null. status (Optional): string or null.
+         * The admission lifecycle. Value enum: "issued", "checked_in", "voided". status.anyOf[1]
+         * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+         * status.anyOf[2] (Value): null. supported_actions (Optional): Array of string or null.
+         * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions currently offered for this
+         * ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions.anyOf[1][]
+         * (Value): string. Value enum: "check_in", "undo_check_in", "void".
+         * supported_actions.anyOf[2] (Value): null. ticket_id (Optional): string or null. Unique
+         * ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value): string. Unique ticket
+         * identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_id.anyOf[2] (Value): null. ticket_number (Optional): string or null. The event
+         * prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
+         * entry. ticket_number.anyOf[1] (Value): string. The event prefix and sequence, such as
+         * GAL001. Numbers are never reused and do not authorize entry. ticket_number.anyOf[2]
+         * (Value): null. tier_name (Optional): string or null. Name of the ticket tier on the
+         * purchased order line. tier_name.anyOf[1] (Value): string. Name of the ticket tier on the
+         * purchased order line. tier_name.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. When the ticket last changed. updated_at.anyOf[1] (Value): string. When the ticket
+         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
+         * owned state. Expanded resources and external observations can change independently.
+         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
+         * Expanded resources and external observations can change independently. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null. When
+         * the ticket was permanently voided. Null when the ticket has not been voided.
+         * voided_at.anyOf[1] (Value): string. When the ticket was permanently voided. Null when
+         * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
@@ -1155,6 +1248,14 @@ export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              */
             "payment_link_id"?: ((string) | (null));
             /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             * anyOf[1] (Value): string. The payment link's line item key at purchase. Use it with
+             * payment_link_id to identify the tier when names repeat. Omitted when the order line
+             * has no stored key. anyOf[2] (Value): null.
+             */
+            "payment_link_line_item_key"?: ((string) | (null));
+            /**
              * The admission lifecycle. Value enum: "issued", "checked_in", "voided". anyOf[1]
              * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in",
              * "voided". anyOf[2] (Value): null.
@@ -1224,6 +1325,7 @@ export type TicketCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "order_id": string;
             "order_line_item_id": string;
             "payment_link_id": string;
+            "payment_link_line_item_key"?: string;
             "status": "issued" | "checked_in" | "voided" | (string & {});
             "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
             "ticket_id": string;
@@ -1251,6 +1353,7 @@ export type TicketCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "order_id": string;
             "order_line_item_id": string;
             "payment_link_id": string;
+            "payment_link_line_item_key"?: string;
             "status": "issued" | "checked_in" | "voided" | (string & {});
             "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
             "ticket_id": string;
@@ -1303,12 +1406,14 @@ export type TicketCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
      * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
-     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
-     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * object.supported_actions (Required): Array of string. Actions currently offered for this
-     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
-     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
-     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_line_item_key
+     * (Optional): string. The payment link's line item key at purchase. Use it with
+     * payment_link_id to identify the tier when names repeat. Omitted when the order line has no
+     * stored key. object.status (Required): string. The admission lifecycle. Value enum: "issued",
+     * "checked_in", "voided". object.supported_actions (Required): Array of string. Actions
+     * currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+     * object.supported_actions[] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+     * object.ticket_id (Required): string. Unique ticket identity with the tkt_ prefix. Example:
      * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
      * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
      * object.tier_name (Optional): string. Name of the ticket tier on the purchased order line.
@@ -1343,19 +1448,22 @@ export type TicketCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
          * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
          * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". supported_actions (Required): Array of string. Actions currently offered for
-         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
-         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
-         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
-         * are never reused and do not authorize entry. tier_name (Optional): string. Name of the
-         * ticket tier on the purchased order line. updated_at (Required): string. When the ticket
-         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1. voided_at
-         * (Required): string or null. When the ticket was permanently voided. Null when the ticket
-         * has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * payment_link_line_item_key (Optional): string. The payment link's line item key at
+         * purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. status (Required): string. The admission
+         * lifecycle. Value enum: "issued", "checked_in", "voided". supported_actions (Required):
+         * Array of string. Actions currently offered for this ticket. [] enum: "check_in",
+         * "undo_check_in", "void". supported_actions[] (Value): string. Value enum: "check_in",
+         * "undo_check_in", "void". ticket_id (Required): string. Unique ticket identity with the
+         * tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_number (Required):
+         * string. The event prefix and sequence, such as GAL001. Numbers are never reused and do
+         * not authorize entry. tier_name (Optional): string. Name of the ticket tier on the
+         * purchased order line. updated_at (Required): string. When the ticket last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. voided_at (Required):
+         * string or null. When the ticket was permanently voided. Null when the ticket has not
+         * been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
          */
         "object": {
             /**
@@ -1395,6 +1503,11 @@ export type TicketCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
             "order_line_item_id": string;
             /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
             "payment_link_id": string;
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             */
+            "payment_link_line_item_key"?: string;
             /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
             "status": "issued" | "checked_in" | "voided" | (string & {});
             /**
@@ -1496,12 +1609,14 @@ export type TicketCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
      * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
-     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
-     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * object.supported_actions (Required): Array of string. Actions currently offered for this
-     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
-     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
-     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_line_item_key
+     * (Optional): string. The payment link's line item key at purchase. Use it with
+     * payment_link_id to identify the tier when names repeat. Omitted when the order line has no
+     * stored key. object.status (Required): string. The admission lifecycle. Value enum: "issued",
+     * "checked_in", "voided". object.supported_actions (Required): Array of string. Actions
+     * currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+     * object.supported_actions[] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+     * object.ticket_id (Required): string. Unique ticket identity with the tkt_ prefix. Example:
      * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
      * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
      * object.tier_name (Optional): string. Name of the ticket tier on the purchased order line.
@@ -1536,19 +1651,22 @@ export type TicketCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
          * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
          * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". supported_actions (Required): Array of string. Actions currently offered for
-         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
-         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
-         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
-         * are never reused and do not authorize entry. tier_name (Optional): string. Name of the
-         * ticket tier on the purchased order line. updated_at (Required): string. When the ticket
-         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1. voided_at
-         * (Required): string or null. When the ticket was permanently voided. Null when the ticket
-         * has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * payment_link_line_item_key (Optional): string. The payment link's line item key at
+         * purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. status (Required): string. The admission
+         * lifecycle. Value enum: "issued", "checked_in", "voided". supported_actions (Required):
+         * Array of string. Actions currently offered for this ticket. [] enum: "check_in",
+         * "undo_check_in", "void". supported_actions[] (Value): string. Value enum: "check_in",
+         * "undo_check_in", "void". ticket_id (Required): string. Unique ticket identity with the
+         * tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_number (Required):
+         * string. The event prefix and sequence, such as GAL001. Numbers are never reused and do
+         * not authorize entry. tier_name (Optional): string. Name of the ticket tier on the
+         * purchased order line. updated_at (Required): string. When the ticket last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. voided_at (Required):
+         * string or null. When the ticket was permanently voided. Null when the ticket has not
+         * been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
          */
         "object": {
             /**
@@ -1588,6 +1706,11 @@ export type TicketCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
             "order_line_item_id": string;
             /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
             "payment_link_id": string;
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             */
+            "payment_link_line_item_key"?: string;
             /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
             "status": "issued" | "checked_in" | "voided" | (string & {});
             /**
@@ -1683,6 +1806,7 @@ export type TicketUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "order_id": string;
             "order_line_item_id": string;
             "payment_link_id": string;
+            "payment_link_line_item_key"?: string;
             "status": "issued" | "checked_in" | "voided" | (string & {});
             "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
             "ticket_id": string;
@@ -1706,6 +1830,7 @@ export type TicketUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "order_id"?: ((string) | (null));
             "order_line_item_id"?: ((string) | (null));
             "payment_link_id"?: ((string) | (null));
+            "payment_link_line_item_key"?: ((string) | (null));
             "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
             "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
             "ticket_id"?: ((string) | (null));
@@ -1733,6 +1858,7 @@ export type TicketUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "order_id": string;
             "order_line_item_id": string;
             "payment_link_id": string;
+            "payment_link_line_item_key"?: string;
             "status": "issued" | "checked_in" | "voided" | (string & {});
             "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
             "ticket_id": string;
@@ -1756,6 +1882,7 @@ export type TicketUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
             "order_id"?: ((string) | (null));
             "order_line_item_id"?: ((string) | (null));
             "payment_link_id"?: ((string) | (null));
+            "payment_link_line_item_key"?: ((string) | (null));
             "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
             "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
             "ticket_id"?: ((string) | (null));
@@ -1808,12 +1935,14 @@ export type TicketUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
      * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
-     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
-     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * object.supported_actions (Required): Array of string. Actions currently offered for this
-     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
-     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
-     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_line_item_key
+     * (Optional): string. The payment link's line item key at purchase. Use it with
+     * payment_link_id to identify the tier when names repeat. Omitted when the order line has no
+     * stored key. object.status (Required): string. The admission lifecycle. Value enum: "issued",
+     * "checked_in", "voided". object.supported_actions (Required): Array of string. Actions
+     * currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+     * object.supported_actions[] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+     * object.ticket_id (Required): string. Unique ticket identity with the tkt_ prefix. Example:
      * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
      * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
      * object.tier_name (Optional): string. Name of the ticket tier on the purchased order line.
@@ -1870,9 +1999,16 @@ export type TicketUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * previous_attributes.payment_link_id (Optional): string or null. The event payment link.
      * previous_attributes.payment_link_id.anyOf[1] (Value): string. The event payment link.
      * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. The admission
-     * lifecycle. Value enum: "issued", "checked_in", "voided". previous_attributes.status.anyOf[1]
-     * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * (Value): null. previous_attributes.payment_link_line_item_key (Optional): string or null.
+     * The payment link's line item key at purchase. Use it with payment_link_id to identify the
+     * tier when names repeat. Omitted when the order line has no stored key.
+     * previous_attributes.payment_link_line_item_key.anyOf[1] (Value): string. The payment link's
+     * line item key at purchase. Use it with payment_link_id to identify the tier when names
+     * repeat. Omitted when the order line has no stored key.
+     * previous_attributes.payment_link_line_item_key.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. The admission lifecycle. Value enum:
+     * "issued", "checked_in", "voided". previous_attributes.status.anyOf[1] (Value): string. The
+     * admission lifecycle. Value enum: "issued", "checked_in", "voided".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
      * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
      * "check_in", "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1] (Value):
@@ -1929,19 +2065,22 @@ export type TicketUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
          * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
          * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". supported_actions (Required): Array of string. Actions currently offered for
-         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
-         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
-         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
-         * are never reused and do not authorize entry. tier_name (Optional): string. Name of the
-         * ticket tier on the purchased order line. updated_at (Required): string. When the ticket
-         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1. voided_at
-         * (Required): string or null. When the ticket was permanently voided. Null when the ticket
-         * has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * payment_link_line_item_key (Optional): string. The payment link's line item key at
+         * purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. status (Required): string. The admission
+         * lifecycle. Value enum: "issued", "checked_in", "voided". supported_actions (Required):
+         * Array of string. Actions currently offered for this ticket. [] enum: "check_in",
+         * "undo_check_in", "void". supported_actions[] (Value): string. Value enum: "check_in",
+         * "undo_check_in", "void". ticket_id (Required): string. Unique ticket identity with the
+         * tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_number (Required):
+         * string. The event prefix and sequence, such as GAL001. Numbers are never reused and do
+         * not authorize entry. tier_name (Optional): string. Name of the ticket tier on the
+         * purchased order line. updated_at (Required): string. When the ticket last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. voided_at (Required):
+         * string or null. When the ticket was permanently voided. Null when the ticket has not
+         * been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
          */
         "object": {
             /**
@@ -1981,6 +2120,11 @@ export type TicketUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
             "order_line_item_id": string;
             /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
             "payment_link_id": string;
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             */
+            "payment_link_line_item_key"?: string;
             /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
             "status": "issued" | "checked_in" | "voided" | (string & {});
             /**
@@ -2055,34 +2199,40 @@ export type TicketUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * order_line_item_id.anyOf[2] (Value): null. payment_link_id (Optional): string or null.
          * The event payment link. payment_link_id.anyOf[1] (Value): string. The event payment
          * link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * status (Optional): string or null. The admission lifecycle. Value enum: "issued",
-         * "checked_in", "voided". status.anyOf[1] (Value): string. The admission lifecycle. Value
-         * enum: "issued", "checked_in", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
-         * "check_in", "undo_check_in", "void". supported_actions.anyOf[1] (Value): Array of
-         * string. Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-         * "void". supported_actions.anyOf[1][] (Value): string. Value enum: "check_in",
-         * "undo_check_in", "void". supported_actions.anyOf[2] (Value): null. ticket_id (Optional):
-         * string or null. Unique ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value):
-         * string. Unique ticket identity with the tkt_ prefix. Example:
-         * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_id.anyOf[2] (Value): null. ticket_number
-         * (Optional): string or null. The event prefix and sequence, such as GAL001. Numbers are
-         * never reused and do not authorize entry. ticket_number.anyOf[1] (Value): string. The
-         * event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
-         * entry. ticket_number.anyOf[2] (Value): null. tier_name (Optional): string or null. Name
-         * of the ticket tier on the purchased order line. tier_name.anyOf[1] (Value): string. Name
-         * of the ticket tier on the purchased order line. tier_name.anyOf[2] (Value): null.
-         * updated_at (Optional): string or null. When the ticket last changed. updated_at.anyOf[1]
-         * (Value): string. When the ticket last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. version.anyOf[1] (Value): integer.
-         * Persisted version of this resource's owned state. Expanded resources and external
-         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
-         * (Value): null. voided_at (Optional): string or null. When the ticket was permanently
-         * voided. Null when the ticket has not been voided. voided_at.anyOf[1] (Value): string.
-         * When the ticket was permanently voided. Null when the ticket has not been voided.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". voided_at.anyOf[2] (Value): null.
+         * payment_link_line_item_key (Optional): string or null. The payment link's line item key
+         * at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. payment_link_line_item_key.anyOf[1] (Value):
+         * string. The payment link's line item key at purchase. Use it with payment_link_id to
+         * identify the tier when names repeat. Omitted when the order line has no stored key.
+         * payment_link_line_item_key.anyOf[2] (Value): null. status (Optional): string or null.
+         * The admission lifecycle. Value enum: "issued", "checked_in", "voided". status.anyOf[1]
+         * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+         * status.anyOf[2] (Value): null. supported_actions (Optional): Array of string or null.
+         * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions currently offered for this
+         * ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions.anyOf[1][]
+         * (Value): string. Value enum: "check_in", "undo_check_in", "void".
+         * supported_actions.anyOf[2] (Value): null. ticket_id (Optional): string or null. Unique
+         * ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value): string. Unique ticket
+         * identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_id.anyOf[2] (Value): null. ticket_number (Optional): string or null. The event
+         * prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
+         * entry. ticket_number.anyOf[1] (Value): string. The event prefix and sequence, such as
+         * GAL001. Numbers are never reused and do not authorize entry. ticket_number.anyOf[2]
+         * (Value): null. tier_name (Optional): string or null. Name of the ticket tier on the
+         * purchased order line. tier_name.anyOf[1] (Value): string. Name of the ticket tier on the
+         * purchased order line. tier_name.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. When the ticket last changed. updated_at.anyOf[1] (Value): string. When the ticket
+         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
+         * owned state. Expanded resources and external observations can change independently.
+         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
+         * Expanded resources and external observations can change independently. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null. When
+         * the ticket was permanently voided. Null when the ticket has not been voided.
+         * voided_at.anyOf[1] (Value): string. When the ticket was permanently voided. Null when
+         * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
@@ -2152,6 +2302,14 @@ export type TicketUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
              */
             "payment_link_id"?: ((string) | (null));
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             * anyOf[1] (Value): string. The payment link's line item key at purchase. Use it with
+             * payment_link_id to identify the tier when names repeat. Omitted when the order line
+             * has no stored key. anyOf[2] (Value): null.
+             */
+            "payment_link_line_item_key"?: ((string) | (null));
             /**
              * The admission lifecycle. Value enum: "issued", "checked_in", "voided". anyOf[1]
              * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in",
@@ -2271,12 +2429,14 @@ export type TicketUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
      * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
-     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
-     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * object.supported_actions (Required): Array of string. Actions currently offered for this
-     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
-     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
-     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_line_item_key
+     * (Optional): string. The payment link's line item key at purchase. Use it with
+     * payment_link_id to identify the tier when names repeat. Omitted when the order line has no
+     * stored key. object.status (Required): string. The admission lifecycle. Value enum: "issued",
+     * "checked_in", "voided". object.supported_actions (Required): Array of string. Actions
+     * currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+     * object.supported_actions[] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+     * object.ticket_id (Required): string. Unique ticket identity with the tkt_ prefix. Example:
      * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
      * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
      * object.tier_name (Optional): string. Name of the ticket tier on the purchased order line.
@@ -2333,9 +2493,16 @@ export type TicketUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * previous_attributes.payment_link_id (Optional): string or null. The event payment link.
      * previous_attributes.payment_link_id.anyOf[1] (Value): string. The event payment link.
      * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. The admission
-     * lifecycle. Value enum: "issued", "checked_in", "voided". previous_attributes.status.anyOf[1]
-     * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * (Value): null. previous_attributes.payment_link_line_item_key (Optional): string or null.
+     * The payment link's line item key at purchase. Use it with payment_link_id to identify the
+     * tier when names repeat. Omitted when the order line has no stored key.
+     * previous_attributes.payment_link_line_item_key.anyOf[1] (Value): string. The payment link's
+     * line item key at purchase. Use it with payment_link_id to identify the tier when names
+     * repeat. Omitted when the order line has no stored key.
+     * previous_attributes.payment_link_line_item_key.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. The admission lifecycle. Value enum:
+     * "issued", "checked_in", "voided". previous_attributes.status.anyOf[1] (Value): string. The
+     * admission lifecycle. Value enum: "issued", "checked_in", "voided".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
      * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
      * "check_in", "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1] (Value):
@@ -2392,19 +2559,22 @@ export type TicketUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
          * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
          * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". supported_actions (Required): Array of string. Actions currently offered for
-         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
-         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
-         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
-         * are never reused and do not authorize entry. tier_name (Optional): string. Name of the
-         * ticket tier on the purchased order line. updated_at (Required): string. When the ticket
-         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1. voided_at
-         * (Required): string or null. When the ticket was permanently voided. Null when the ticket
-         * has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * payment_link_line_item_key (Optional): string. The payment link's line item key at
+         * purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. status (Required): string. The admission
+         * lifecycle. Value enum: "issued", "checked_in", "voided". supported_actions (Required):
+         * Array of string. Actions currently offered for this ticket. [] enum: "check_in",
+         * "undo_check_in", "void". supported_actions[] (Value): string. Value enum: "check_in",
+         * "undo_check_in", "void". ticket_id (Required): string. Unique ticket identity with the
+         * tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_number (Required):
+         * string. The event prefix and sequence, such as GAL001. Numbers are never reused and do
+         * not authorize entry. tier_name (Optional): string. Name of the ticket tier on the
+         * purchased order line. updated_at (Required): string. When the ticket last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. voided_at (Required):
+         * string or null. When the ticket was permanently voided. Null when the ticket has not
+         * been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
          */
         "object": {
             /**
@@ -2444,6 +2614,11 @@ export type TicketUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
             "order_line_item_id": string;
             /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
             "payment_link_id": string;
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             */
+            "payment_link_line_item_key"?: string;
             /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
             "status": "issued" | "checked_in" | "voided" | (string & {});
             /**
@@ -2518,34 +2693,40 @@ export type TicketUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * order_line_item_id.anyOf[2] (Value): null. payment_link_id (Optional): string or null.
          * The event payment link. payment_link_id.anyOf[1] (Value): string. The event payment
          * link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * status (Optional): string or null. The admission lifecycle. Value enum: "issued",
-         * "checked_in", "voided". status.anyOf[1] (Value): string. The admission lifecycle. Value
-         * enum: "issued", "checked_in", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
-         * "check_in", "undo_check_in", "void". supported_actions.anyOf[1] (Value): Array of
-         * string. Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-         * "void". supported_actions.anyOf[1][] (Value): string. Value enum: "check_in",
-         * "undo_check_in", "void". supported_actions.anyOf[2] (Value): null. ticket_id (Optional):
-         * string or null. Unique ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value):
-         * string. Unique ticket identity with the tkt_ prefix. Example:
-         * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_id.anyOf[2] (Value): null. ticket_number
-         * (Optional): string or null. The event prefix and sequence, such as GAL001. Numbers are
-         * never reused and do not authorize entry. ticket_number.anyOf[1] (Value): string. The
-         * event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
-         * entry. ticket_number.anyOf[2] (Value): null. tier_name (Optional): string or null. Name
-         * of the ticket tier on the purchased order line. tier_name.anyOf[1] (Value): string. Name
-         * of the ticket tier on the purchased order line. tier_name.anyOf[2] (Value): null.
-         * updated_at (Optional): string or null. When the ticket last changed. updated_at.anyOf[1]
-         * (Value): string. When the ticket last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. version.anyOf[1] (Value): integer.
-         * Persisted version of this resource's owned state. Expanded resources and external
-         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
-         * (Value): null. voided_at (Optional): string or null. When the ticket was permanently
-         * voided. Null when the ticket has not been voided. voided_at.anyOf[1] (Value): string.
-         * When the ticket was permanently voided. Null when the ticket has not been voided.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". voided_at.anyOf[2] (Value): null.
+         * payment_link_line_item_key (Optional): string or null. The payment link's line item key
+         * at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. payment_link_line_item_key.anyOf[1] (Value):
+         * string. The payment link's line item key at purchase. Use it with payment_link_id to
+         * identify the tier when names repeat. Omitted when the order line has no stored key.
+         * payment_link_line_item_key.anyOf[2] (Value): null. status (Optional): string or null.
+         * The admission lifecycle. Value enum: "issued", "checked_in", "voided". status.anyOf[1]
+         * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+         * status.anyOf[2] (Value): null. supported_actions (Optional): Array of string or null.
+         * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions currently offered for this
+         * ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions.anyOf[1][]
+         * (Value): string. Value enum: "check_in", "undo_check_in", "void".
+         * supported_actions.anyOf[2] (Value): null. ticket_id (Optional): string or null. Unique
+         * ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value): string. Unique ticket
+         * identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_id.anyOf[2] (Value): null. ticket_number (Optional): string or null. The event
+         * prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
+         * entry. ticket_number.anyOf[1] (Value): string. The event prefix and sequence, such as
+         * GAL001. Numbers are never reused and do not authorize entry. ticket_number.anyOf[2]
+         * (Value): null. tier_name (Optional): string or null. Name of the ticket tier on the
+         * purchased order line. tier_name.anyOf[1] (Value): string. Name of the ticket tier on the
+         * purchased order line. tier_name.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. When the ticket last changed. updated_at.anyOf[1] (Value): string. When the ticket
+         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
+         * owned state. Expanded resources and external observations can change independently.
+         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
+         * Expanded resources and external observations can change independently. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null. When
+         * the ticket was permanently voided. Null when the ticket has not been voided.
+         * voided_at.anyOf[1] (Value): string. When the ticket was permanently voided. Null when
+         * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
@@ -2615,6 +2796,14 @@ export type TicketUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
              */
             "payment_link_id"?: ((string) | (null));
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             * anyOf[1] (Value): string. The payment link's line item key at purchase. Use it with
+             * payment_link_id to identify the tier when names repeat. Omitted when the order line
+             * has no stored key. anyOf[2] (Value): null.
+             */
+            "payment_link_line_item_key"?: ((string) | (null));
             /**
              * The admission lifecycle. Value enum: "issued", "checked_in", "voided". anyOf[1]
              * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in",
@@ -2694,6 +2883,7 @@ export type TicketVoidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
             "order_id": string;
             "order_line_item_id": string;
             "payment_link_id": string;
+            "payment_link_line_item_key"?: string;
             "status": "issued" | "checked_in" | "voided" | (string & {});
             "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
             "ticket_id": string;
@@ -2717,6 +2907,7 @@ export type TicketVoidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
             "order_id"?: ((string) | (null));
             "order_line_item_id"?: ((string) | (null));
             "payment_link_id"?: ((string) | (null));
+            "payment_link_line_item_key"?: ((string) | (null));
             "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
             "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
             "ticket_id"?: ((string) | (null));
@@ -2744,6 +2935,7 @@ export type TicketVoidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
             "order_id": string;
             "order_line_item_id": string;
             "payment_link_id": string;
+            "payment_link_line_item_key"?: string;
             "status": "issued" | "checked_in" | "voided" | (string & {});
             "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
             "ticket_id": string;
@@ -2767,6 +2959,7 @@ export type TicketVoidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
             "order_id"?: ((string) | (null));
             "order_line_item_id"?: ((string) | (null));
             "payment_link_id"?: ((string) | (null));
+            "payment_link_line_item_key"?: ((string) | (null));
             "status"?: (("issued" | "checked_in" | "voided" | (string & {})) | (null));
             "supported_actions"?: ((Array<"check_in" | "undo_check_in" | "void" | (string & {})>) | (null));
             "ticket_id"?: ((string) | (null));
@@ -2819,12 +3012,14 @@ export type TicketVoidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
      * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
      * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
-     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
-     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * object.supported_actions (Required): Array of string. Actions currently offered for this
-     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
-     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
-     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_line_item_key
+     * (Optional): string. The payment link's line item key at purchase. Use it with
+     * payment_link_id to identify the tier when names repeat. Omitted when the order line has no
+     * stored key. object.status (Required): string. The admission lifecycle. Value enum: "issued",
+     * "checked_in", "voided". object.supported_actions (Required): Array of string. Actions
+     * currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+     * object.supported_actions[] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+     * object.ticket_id (Required): string. Unique ticket identity with the tkt_ prefix. Example:
      * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
      * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
      * object.tier_name (Optional): string. Name of the ticket tier on the purchased order line.
@@ -2881,9 +3076,16 @@ export type TicketVoidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
      * previous_attributes.payment_link_id (Optional): string or null. The event payment link.
      * previous_attributes.payment_link_id.anyOf[1] (Value): string. The event payment link.
      * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. The admission
-     * lifecycle. Value enum: "issued", "checked_in", "voided". previous_attributes.status.anyOf[1]
-     * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * (Value): null. previous_attributes.payment_link_line_item_key (Optional): string or null.
+     * The payment link's line item key at purchase. Use it with payment_link_id to identify the
+     * tier when names repeat. Omitted when the order line has no stored key.
+     * previous_attributes.payment_link_line_item_key.anyOf[1] (Value): string. The payment link's
+     * line item key at purchase. Use it with payment_link_id to identify the tier when names
+     * repeat. Omitted when the order line has no stored key.
+     * previous_attributes.payment_link_line_item_key.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. The admission lifecycle. Value enum:
+     * "issued", "checked_in", "voided". previous_attributes.status.anyOf[1] (Value): string. The
+     * admission lifecycle. Value enum: "issued", "checked_in", "voided".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
      * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
      * "check_in", "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1] (Value):
@@ -2940,19 +3142,22 @@ export type TicketVoidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
          * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
          * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
          * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". supported_actions (Required): Array of string. Actions currently offered for
-         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
-         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
-         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
-         * are never reused and do not authorize entry. tier_name (Optional): string. Name of the
-         * ticket tier on the purchased order line. updated_at (Required): string. When the ticket
-         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1. voided_at
-         * (Required): string or null. When the ticket was permanently voided. Null when the ticket
-         * has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * payment_link_line_item_key (Optional): string. The payment link's line item key at
+         * purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. status (Required): string. The admission
+         * lifecycle. Value enum: "issued", "checked_in", "voided". supported_actions (Required):
+         * Array of string. Actions currently offered for this ticket. [] enum: "check_in",
+         * "undo_check_in", "void". supported_actions[] (Value): string. Value enum: "check_in",
+         * "undo_check_in", "void". ticket_id (Required): string. Unique ticket identity with the
+         * tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_number (Required):
+         * string. The event prefix and sequence, such as GAL001. Numbers are never reused and do
+         * not authorize entry. tier_name (Optional): string. Name of the ticket tier on the
+         * purchased order line. updated_at (Required): string. When the ticket last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. voided_at (Required):
+         * string or null. When the ticket was permanently voided. Null when the ticket has not
+         * been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
          */
         "object": {
             /**
@@ -2992,6 +3197,11 @@ export type TicketVoidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
             "order_line_item_id": string;
             /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
             "payment_link_id": string;
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             */
+            "payment_link_line_item_key"?: string;
             /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
             "status": "issued" | "checked_in" | "voided" | (string & {});
             /**
@@ -3066,34 +3276,40 @@ export type TicketVoidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
          * order_line_item_id.anyOf[2] (Value): null. payment_link_id (Optional): string or null.
          * The event payment link. payment_link_id.anyOf[1] (Value): string. The event payment
          * link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * status (Optional): string or null. The admission lifecycle. Value enum: "issued",
-         * "checked_in", "voided". status.anyOf[1] (Value): string. The admission lifecycle. Value
-         * enum: "issued", "checked_in", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
-         * "check_in", "undo_check_in", "void". supported_actions.anyOf[1] (Value): Array of
-         * string. Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-         * "void". supported_actions.anyOf[1][] (Value): string. Value enum: "check_in",
-         * "undo_check_in", "void". supported_actions.anyOf[2] (Value): null. ticket_id (Optional):
-         * string or null. Unique ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value):
-         * string. Unique ticket identity with the tkt_ prefix. Example:
-         * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_id.anyOf[2] (Value): null. ticket_number
-         * (Optional): string or null. The event prefix and sequence, such as GAL001. Numbers are
-         * never reused and do not authorize entry. ticket_number.anyOf[1] (Value): string. The
-         * event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
-         * entry. ticket_number.anyOf[2] (Value): null. tier_name (Optional): string or null. Name
-         * of the ticket tier on the purchased order line. tier_name.anyOf[1] (Value): string. Name
-         * of the ticket tier on the purchased order line. tier_name.anyOf[2] (Value): null.
-         * updated_at (Optional): string or null. When the ticket last changed. updated_at.anyOf[1]
-         * (Value): string. When the ticket last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. version.anyOf[1] (Value): integer.
-         * Persisted version of this resource's owned state. Expanded resources and external
-         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
-         * (Value): null. voided_at (Optional): string or null. When the ticket was permanently
-         * voided. Null when the ticket has not been voided. voided_at.anyOf[1] (Value): string.
-         * When the ticket was permanently voided. Null when the ticket has not been voided.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". voided_at.anyOf[2] (Value): null.
+         * payment_link_line_item_key (Optional): string or null. The payment link's line item key
+         * at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. payment_link_line_item_key.anyOf[1] (Value):
+         * string. The payment link's line item key at purchase. Use it with payment_link_id to
+         * identify the tier when names repeat. Omitted when the order line has no stored key.
+         * payment_link_line_item_key.anyOf[2] (Value): null. status (Optional): string or null.
+         * The admission lifecycle. Value enum: "issued", "checked_in", "voided". status.anyOf[1]
+         * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+         * status.anyOf[2] (Value): null. supported_actions (Optional): Array of string or null.
+         * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions currently offered for this
+         * ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions.anyOf[1][]
+         * (Value): string. Value enum: "check_in", "undo_check_in", "void".
+         * supported_actions.anyOf[2] (Value): null. ticket_id (Optional): string or null. Unique
+         * ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value): string. Unique ticket
+         * identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_id.anyOf[2] (Value): null. ticket_number (Optional): string or null. The event
+         * prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
+         * entry. ticket_number.anyOf[1] (Value): string. The event prefix and sequence, such as
+         * GAL001. Numbers are never reused and do not authorize entry. ticket_number.anyOf[2]
+         * (Value): null. tier_name (Optional): string or null. Name of the ticket tier on the
+         * purchased order line. tier_name.anyOf[1] (Value): string. Name of the ticket tier on the
+         * purchased order line. tier_name.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. When the ticket last changed. updated_at.anyOf[1] (Value): string. When the ticket
+         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
+         * owned state. Expanded resources and external observations can change independently.
+         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
+         * Expanded resources and external observations can change independently. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null. When
+         * the ticket was permanently voided. Null when the ticket has not been voided.
+         * voided_at.anyOf[1] (Value): string. When the ticket was permanently voided. Null when
+         * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
@@ -3163,6 +3379,14 @@ export type TicketVoidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
              * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
              */
             "payment_link_id"?: ((string) | (null));
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             * anyOf[1] (Value): string. The payment link's line item key at purchase. Use it with
+             * payment_link_id to identify the tier when names repeat. Omitted when the order line
+             * has no stored key. anyOf[2] (Value): null.
+             */
+            "payment_link_line_item_key"?: ((string) | (null));
             /**
              * The admission lifecycle. Value enum: "issued", "checked_in", "voided". anyOf[1]
              * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in",
@@ -3282,12 +3506,14 @@ export type TicketVoidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
      * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
      * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
-     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
-     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
-     * object.supported_actions (Required): Array of string. Actions currently offered for this
-     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
-     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
-     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_line_item_key
+     * (Optional): string. The payment link's line item key at purchase. Use it with
+     * payment_link_id to identify the tier when names repeat. Omitted when the order line has no
+     * stored key. object.status (Required): string. The admission lifecycle. Value enum: "issued",
+     * "checked_in", "voided". object.supported_actions (Required): Array of string. Actions
+     * currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+     * object.supported_actions[] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+     * object.ticket_id (Required): string. Unique ticket identity with the tkt_ prefix. Example:
      * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
      * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
      * object.tier_name (Optional): string. Name of the ticket tier on the purchased order line.
@@ -3344,9 +3570,16 @@ export type TicketVoidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
      * previous_attributes.payment_link_id (Optional): string or null. The event payment link.
      * previous_attributes.payment_link_id.anyOf[1] (Value): string. The event payment link.
      * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". previous_attributes.payment_link_id.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. The admission
-     * lifecycle. Value enum: "issued", "checked_in", "voided". previous_attributes.status.anyOf[1]
-     * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * (Value): null. previous_attributes.payment_link_line_item_key (Optional): string or null.
+     * The payment link's line item key at purchase. Use it with payment_link_id to identify the
+     * tier when names repeat. Omitted when the order line has no stored key.
+     * previous_attributes.payment_link_line_item_key.anyOf[1] (Value): string. The payment link's
+     * line item key at purchase. Use it with payment_link_id to identify the tier when names
+     * repeat. Omitted when the order line has no stored key.
+     * previous_attributes.payment_link_line_item_key.anyOf[2] (Value): null.
+     * previous_attributes.status (Optional): string or null. The admission lifecycle. Value enum:
+     * "issued", "checked_in", "voided". previous_attributes.status.anyOf[1] (Value): string. The
+     * admission lifecycle. Value enum: "issued", "checked_in", "voided".
      * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.supported_actions
      * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
      * "check_in", "undo_check_in", "void". previous_attributes.supported_actions.anyOf[1] (Value):
@@ -3403,19 +3636,22 @@ export type TicketVoidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
          * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
          * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
          * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
-         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
-         * "voided". supported_actions (Required): Array of string. Actions currently offered for
-         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
-         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
-         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
-         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
-         * are never reused and do not authorize entry. tier_name (Optional): string. Name of the
-         * ticket tier on the purchased order line. updated_at (Required): string. When the ticket
-         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1. voided_at
-         * (Required): string or null. When the ticket was permanently voided. Null when the ticket
-         * has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * payment_link_line_item_key (Optional): string. The payment link's line item key at
+         * purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. status (Required): string. The admission
+         * lifecycle. Value enum: "issued", "checked_in", "voided". supported_actions (Required):
+         * Array of string. Actions currently offered for this ticket. [] enum: "check_in",
+         * "undo_check_in", "void". supported_actions[] (Value): string. Value enum: "check_in",
+         * "undo_check_in", "void". ticket_id (Required): string. Unique ticket identity with the
+         * tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_number (Required):
+         * string. The event prefix and sequence, such as GAL001. Numbers are never reused and do
+         * not authorize entry. tier_name (Optional): string. Name of the ticket tier on the
+         * purchased order line. updated_at (Required): string. When the ticket last changed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required): integer.
+         * Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. Format: uint64. minimum: 1. voided_at (Required):
+         * string or null. When the ticket was permanently voided. Null when the ticket has not
+         * been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
          */
         "object": {
             /**
@@ -3455,6 +3691,11 @@ export type TicketVoidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
             "order_line_item_id": string;
             /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
             "payment_link_id": string;
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             */
+            "payment_link_line_item_key"?: string;
             /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
             "status": "issued" | "checked_in" | "voided" | (string & {});
             /**
@@ -3529,34 +3770,40 @@ export type TicketVoidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
          * order_line_item_id.anyOf[2] (Value): null. payment_link_id (Optional): string or null.
          * The event payment link. payment_link_id.anyOf[1] (Value): string. The event payment
          * link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null.
-         * status (Optional): string or null. The admission lifecycle. Value enum: "issued",
-         * "checked_in", "voided". status.anyOf[1] (Value): string. The admission lifecycle. Value
-         * enum: "issued", "checked_in", "voided". status.anyOf[2] (Value): null. supported_actions
-         * (Optional): Array of string or null. Actions currently offered for this ticket. [] enum:
-         * "check_in", "undo_check_in", "void". supported_actions.anyOf[1] (Value): Array of
-         * string. Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
-         * "void". supported_actions.anyOf[1][] (Value): string. Value enum: "check_in",
-         * "undo_check_in", "void". supported_actions.anyOf[2] (Value): null. ticket_id (Optional):
-         * string or null. Unique ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value):
-         * string. Unique ticket identity with the tkt_ prefix. Example:
-         * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". ticket_id.anyOf[2] (Value): null. ticket_number
-         * (Optional): string or null. The event prefix and sequence, such as GAL001. Numbers are
-         * never reused and do not authorize entry. ticket_number.anyOf[1] (Value): string. The
-         * event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
-         * entry. ticket_number.anyOf[2] (Value): null. tier_name (Optional): string or null. Name
-         * of the ticket tier on the purchased order line. tier_name.anyOf[1] (Value): string. Name
-         * of the ticket tier on the purchased order line. tier_name.anyOf[2] (Value): null.
-         * updated_at (Optional): string or null. When the ticket last changed. updated_at.anyOf[1]
-         * (Value): string. When the ticket last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. version.anyOf[1] (Value): integer.
-         * Persisted version of this resource's owned state. Expanded resources and external
-         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
-         * (Value): null. voided_at (Optional): string or null. When the ticket was permanently
-         * voided. Null when the ticket has not been voided. voided_at.anyOf[1] (Value): string.
-         * When the ticket was permanently voided. Null when the ticket has not been voided.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". voided_at.anyOf[2] (Value): null.
+         * payment_link_line_item_key (Optional): string or null. The payment link's line item key
+         * at purchase. Use it with payment_link_id to identify the tier when names repeat. Omitted
+         * when the order line has no stored key. payment_link_line_item_key.anyOf[1] (Value):
+         * string. The payment link's line item key at purchase. Use it with payment_link_id to
+         * identify the tier when names repeat. Omitted when the order line has no stored key.
+         * payment_link_line_item_key.anyOf[2] (Value): null. status (Optional): string or null.
+         * The admission lifecycle. Value enum: "issued", "checked_in", "voided". status.anyOf[1]
+         * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+         * status.anyOf[2] (Value): null. supported_actions (Optional): Array of string or null.
+         * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void".
+         * supported_actions.anyOf[1] (Value): Array of string. Actions currently offered for this
+         * ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions.anyOf[1][]
+         * (Value): string. Value enum: "check_in", "undo_check_in", "void".
+         * supported_actions.anyOf[2] (Value): null. ticket_id (Optional): string or null. Unique
+         * ticket identity with the tkt_ prefix. ticket_id.anyOf[1] (Value): string. Unique ticket
+         * identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_id.anyOf[2] (Value): null. ticket_number (Optional): string or null. The event
+         * prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
+         * entry. ticket_number.anyOf[1] (Value): string. The event prefix and sequence, such as
+         * GAL001. Numbers are never reused and do not authorize entry. ticket_number.anyOf[2]
+         * (Value): null. tier_name (Optional): string or null. Name of the ticket tier on the
+         * purchased order line. tier_name.anyOf[1] (Value): string. Name of the ticket tier on the
+         * purchased order line. tier_name.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. When the ticket last changed. updated_at.anyOf[1] (Value): string. When the ticket
+         * last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
+         * owned state. Expanded resources and external observations can change independently.
+         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
+         * Expanded resources and external observations can change independently. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null. voided_at (Optional): string or null. When
+         * the ticket was permanently voided. Null when the ticket has not been voided.
+         * voided_at.anyOf[1] (Value): string. When the ticket was permanently voided. Null when
+         * the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * voided_at.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
@@ -3626,6 +3873,14 @@ export type TicketVoidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
              * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". anyOf[2] (Value): null.
              */
             "payment_link_id"?: ((string) | (null));
+            /**
+             * The payment link's line item key at purchase. Use it with payment_link_id to
+             * identify the tier when names repeat. Omitted when the order line has no stored key.
+             * anyOf[1] (Value): string. The payment link's line item key at purchase. Use it with
+             * payment_link_id to identify the tier when names repeat. Omitted when the order line
+             * has no stored key. anyOf[2] (Value): null.
+             */
+            "payment_link_line_item_key"?: ((string) | (null));
             /**
              * The admission lifecycle. Value enum: "issued", "checked_in", "voided". anyOf[1]
              * (Value): string. The admission lifecycle. Value enum: "issued", "checked_in",
@@ -5735,122 +5990,3 @@ export type UpdateCustomerEmailPreferencesRequest = {
     /** Emails about shipments and deliveries, such as shipped, out for delivery, and delivered. */
     "shipping_updates"?: boolean;
 };
-/** The request body for: Update the current buyer's email preferences. minProperties: 1. */
-export type UpdateCustomerEmailPreferencesRequestInput = UpdateCustomerEmailPreferencesRequest;
-/** The request body for: Update customer. minProperties: 1. */
-export type UpdateCustomerRequest = ({
-    /**
-     * Default payment term for this customer's invoices. Send null to clear it. minLength: 1.
-     * Example: "ipt_01KEZF7C0064N1V301BBMQ37R4".
-     */
-    "default_invoice_payment_term_id"?: string | null;
-    /**
-     * The active off_session payment method to use by default. Existing subscriptions keep their
-     * payment_method_id. Omit to leave unchanged; null clears it. A change sends customer.updated.
-     * minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "default_payment_method_id"?: string | null;
-    /**
-     * The customer's email. Omit to leave unchanged; null clears it. In `flint_hosted` mode, you
-     * can set, correct, or clear the email until the buyer authenticates or verifies ownership of
-     * it. Existing identities with unknown sign-in history remain protected and require a
-     * buyer-confirmed change. In `merchant_hosted` mode, you can set, change, or clear it. An
-     * email change ends customer sessions and access links for the old address. The local part
-     * before @ must be at most 64 octets (UTF-8 bytes). Format: email. minLength: 1. maxLength:
-     * 320. Example: "buyer@example.com".
-     */
-    "email"?: string | null;
-    /**
-     * Required when tax_identity is null or tax_identity.tax_ids is present. Stale versions return
-     * a conflict. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Omit to leave unchanged;
-     * null clears it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Internal note about this customer. Omit to leave unchanged; null clears it. Surrounding
-     * whitespace is trimmed before length validation. A supplied value cannot be blank; use null
-     * where clearing is supported. minLength: 1. maxLength: 1000.
-     */
-    "internal_note"?: string | null;
-    /**
-     * Flag you set on the customer, for example after checking ID in store. Promotion and delivery
-     * rules can match it. Flint does not set it; it is unrelated to customer verifications, which
-     * prove a buyer controls an email address.
-     */
-    "is_merchant_verified"?: boolean;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. This operation also limits the metadata object you send, before merging: at most 50
-     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
-     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to
-     * a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
-     * value, a null value deletes the key, and an empty object makes no change; send null for the
-     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
-     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
-     * a key that does not exist is allowed, so the number of operations is not itself the
-     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to
-     * leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty
-     * object makes no change; send null for the whole field to clear all caller-owned metadata.
-     * The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys
-     * are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus
-     * values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so
-     * the number of operations is not itself the stored-map limit. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null.
-     * minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequest & object, readonly unknown[]>)) | (null) | (unknown));
-    /**
-     * Customer name, up to 255 characters (Unicode code points) after trimming surrounding
-     * whitespace. Omit to leave unchanged; null clears it. Surrounding whitespace is trimmed
-     * before length validation. A supplied value cannot be blank; use null where clearing is
-     * supported. minLength: 1.
-     */
-    "name"?: string | null;
-    /**
-     * Customer phone number in E.164 format: a leading `+`, then the country code and number as
-     * digits only, such as `+14155551234`, matching `^\+[1-9][0-9]{1,14}$`. Flint trims
-     * surrounding whitespace but rejects spaces, hyphens, dots, and parentheses inside the number,
-     * so send `+14155550100`, not `+1 (415) 555-0100`. Leave out a national trunk prefix: send
-     * `+442079460958`, not `+4402079460958`. Omit to leave unchanged; null clears it. minLength:
-     * 1. Example: "+14155551234".
-     */
-    "phone"?: string | null;
-    /**
-     * ID of a wholesale price list in this merchant environment. Omit to leave unchanged; null
-     * clears it. An inactive list can be assigned but does not apply. An archived list returns 409
-     * ACTION_NOT_ALLOWED; a missing list returns 404 RESOURCE_NOT_FOUND. minLength: 1. pattern:
-     * ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
-     */
-    "price_list_id"?: string | null;
-    /**
-     * Free-form label you assign, such as wholesale, so promotion and delivery rules can match
-     * groups of customers. It is not an ID; Flint does not check it against any resource. Omit to
-     * leave unchanged; null clears it. minLength: 1.
-     */
-    "segment"?: string | null;
-    /**
-     * Whether Flint treats this customer as exempt from tax on their orders, so it skips tax
-     * calculation for them. Omit to leave unchanged; `null` is not accepted.
-     */
-    "tax_exempt"?: boolean;
-    /**
-     * Legal name, registered address and tax IDs printed on this customer's invoices and credit
-     * notes. Omit to leave unchanged; null clears it. anyOf[1] (Value): {@link TaxIdentityPatch}.
-     * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not
-     * verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
-     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
-     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
-     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
-     * an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
-     */
-    "tax_identity"?: ((TaxIdentityPatch) | (null));
-});
