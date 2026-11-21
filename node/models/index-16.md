@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# ExpandedPaymentIntentSummary to GiftCardFundingDispositionResponse
+# ExpandedOrderSummaryPreviousAttributes to GiftCardCustomAmountBoundsRequestInput
 
+- [ExpandedOrderSummaryPreviousAttributes](ExpandedOrderSummaryPreviousAttributes.md)
+- [ExpandedPackageSummary](ExpandedPackageSummary.md)
+- [ExpandedPackageSummaryPreviousAttributes](ExpandedPackageSummaryPreviousAttributes.md)
 - [ExpandedPaymentIntentSummary](ExpandedPaymentIntentSummary.md)
 - [ExpandedPaymentIntentSummaryPreviousAttributes](ExpandedPaymentIntentSummaryPreviousAttributes.md)
 - [ExpandedPaymentLinkSummary](ExpandedPaymentLinkSummary.md)
@@ -99,7 +102,4 @@
 - [GiftCardCustomAmountBounds](GiftCardCustomAmountBounds.md)
 - [GiftCardCustomAmountBoundsPreviousAttributes](GiftCardCustomAmountBoundsPreviousAttributes.md)
 - [GiftCardCustomAmountBoundsRequestInput](GiftCardCustomAmountBoundsRequestInput.md)
-- [GiftCardFundingDisposition](GiftCardFundingDisposition.md)
-- [GiftCardFundingDispositionListResponse](GiftCardFundingDispositionListResponse.md)
-- [GiftCardFundingDispositionResponse](GiftCardFundingDispositionResponse.md)
 

@@ -102,7 +102,7 @@ export type { InvoiceSettlementAmounts } from '../declarations/types-38.js';
 export type { SettlementAmounts, SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput } from '../declarations/types-68.js';
 export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
-export type { DeferredPromotion } from '../declarations/types-17.js';
+export type { DeferredPromotion } from '../declarations/types-18.js';
 export type {
     OrderSettlementAmounts,
     OrderPaymentSourceSelectionInput,
@@ -146,8 +146,8 @@ export {
     makeConfirmPaymentIntentRequest
 } from '../declarations/types-81.js';
 export { makeCreatePaymentIntentRequest } from '../declarations/types-83.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
-export { makeMoneyValue, makeOrderPaymentSourceCardSelection, makeOrderPaymentSourceSelection } from '../declarations/types-89.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeOrderPaymentSourceCardSelection, makeOrderPaymentSourceSelection } from '../declarations/types-89.js';
 export {
     makePaymentSourceCredential,
     makePaymentSourceCredentialPaymentMethod,

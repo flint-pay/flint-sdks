@@ -1,1 +1,1 @@
-{"shared":"ReturnResolutionPreview","dependencies":["MoneyValue","ReturnActor","ReturnReplacementLineItem","ReturnResolutionAdjustment","ReturnResolutionLineItem","ReturnResolutionPreview","SharedCodec129"]}
+{"shared":"ReturnResolutionPreview","dependencies":["MoneyValue","ReturnActor","ReturnRefundTenderEstimate","ReturnReplacementLineItem","ReturnResolutionAdjustment","ReturnResolutionLineItem","ReturnResolutionPreview","SharedCodec130","SharedCodec2780","SharedCodec2781","SharedCodec2782","SharedCodec2783"]}

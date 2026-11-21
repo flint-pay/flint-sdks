@@ -25,13 +25,13 @@ export type {
     BundleUpdatedEvent
 } from './declarations/types-1.js';
 export type { CategoryCreatedEvent, CategoryDeletedEvent, CategoryUpdatedEvent } from './declarations/types-5.js';
+export type { CheckoutSessionClosedEvent, CheckoutSessionCreatedEvent, CheckoutSessionExpiredEvent } from './declarations/types-6.js';
 export type {
-    CheckoutSessionClosedEvent,
-    CheckoutSessionCreatedEvent,
-    CheckoutSessionExpiredEvent,
-    CheckoutSessionInvalidatedEvent
-} from './declarations/types-6.js';
-export type { CheckoutSessionPaidEvent, CheckoutSessionPartiallyPaidEvent, CheckoutSessionUpdatedEvent } from './declarations/types-7.js';
+    CheckoutSessionInvalidatedEvent,
+    CheckoutSessionPaidEvent,
+    CheckoutSessionPartiallyPaidEvent,
+    CheckoutSessionUpdatedEvent
+} from './declarations/types-7.js';
 export type {
     CreditNoteAllocationCreatedEvent,
     CreditNoteAllocationReversedEvent,
@@ -193,9 +193,8 @@ export type {
 } from './declarations/types-46.js';
 export type { OrderClosedEvent, OrderCreatedEvent } from './declarations/types-45.js';
 export type { OrderPaidEvent, OrderPartiallyPaidEvent, OrderPartiallyRefundedEvent, OrderRefundedEvent } from './declarations/types-47.js';
-export type { OrderUpdatedEvent } from './declarations/types-48.js';
+export type { OrderUpdatedEvent, PackageCreatedEvent } from './declarations/types-48.js';
 export type {
-    PackageCreatedEvent,
     PackageUpdatedEvent,
     PartnerAppInstallCreatedEvent,
     PartnerAppInstallPermissionsUpdatedEvent,
@@ -279,17 +278,16 @@ export type {
     PromotionArchivedEvent,
     PromotionCreatedEvent
 } from './declarations/types-58.js';
-export type { PromotionUpdatedEvent, ReaderArchivedEvent, ReaderCreatedEvent } from './declarations/types-59.js';
-export type { ReaderUpdatedEvent, RefundCreatedEvent, RefundFailedEvent, RefundPartiallySucceededEvent } from './declarations/types-60.js';
+export type { PromotionUpdatedEvent, ReaderArchivedEvent, ReaderCreatedEvent, ReaderUpdatedEvent } from './declarations/types-59.js';
+export type { RefundCreatedEvent, RefundFailedEvent, RefundPartiallySucceededEvent } from './declarations/types-60.js';
 export type { RefundSucceededEvent, RefundUpdatedEvent, ReportFailedEvent } from './declarations/types-61.js';
-export type { ReportSucceededEvent, ReturnCanceledEvent } from './declarations/types-62.js';
+export type { ReportSucceededEvent, ReturnCanceledEvent, ReturnCompletedEvent } from './declarations/types-62.js';
 export type {
     ReturnDispositionCreatedEvent,
     ReturnDispositionUpdatedEvent,
     ReturnInspectionAcceptanceDecidedEvent,
     ReturnInspectionCreatedEvent,
     ReturnInspectionSupersededEvent,
-    ReturnCompletedEvent,
     ReturnCreatedEvent,
     ReturnDecisionRecordedEvent
 } from './declarations/types-63.js';

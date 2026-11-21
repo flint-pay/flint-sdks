@@ -123,7 +123,7 @@ One in-stock or untracked alternative variant of the returned product. Price and
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_quantity` | Optional | integer | Available whole units, capped at the eligible return quantity. Omitted when stock is not tracked. Format: `int64`. |
+| `available_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Capped at the eligible return quantity. Omitted when stock is not tracked. Format: `int64`. |
 | `name` | Required | string | Name of the alternative variant. |
 | `unit_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Current unit price from the catalog. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `variant_id` | Required | string | Catalog variant ID to send as requested_variant. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
@@ -276,6 +276,7 @@ The priced resolution. Present when `mode` is `resolution`. The buyer's preview 
 | `resolution_type` | Required | string | What the buyer gets for the approved quantity. Values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. |
 | `return_id` | Required | string | ID of the Return the resolution is for. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
 | `returned_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Value of the returned units the proposed resolution covers. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `tender_estimates` | Required | Array of (object and Alternative shapes (see declared variants)) | Estimated amounts by original tender and refund destination. For a replacement return, order_id identifies the order that collected each tender. Empty when no amount is payable. `tender_estimates[]`: [declared alternatives](../models/BuyerReturnPreviewResponse.md#buyerreturnpreviewresponsedataresolution-fields-1tender_estimates). |
 
 ### BuyerReturnPreviewResponse.data.resolution fields 1.adjustments[]
 
@@ -301,6 +302,37 @@ Field definitions: [CancelReturnResponse.data.return_resolutions[].line_items[]]
 ### BuyerReturnPreviewResponse.data.resolution fields 1.replacement_line_items[]
 
 Field definitions: [CancelReturnResponse.data.return_resolutions[].replacement_line_items[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsreplacement_line_items).
+
+### BuyerReturnPreviewResponse.data.resolution fields 1.tender_estimates[]
+
+One original tender and its estimated share of a return refund.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Estimated amount returned to this destination. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `destination` | Optional | string | Where this share would go. Present on resolution previews. Values: `"original"`, `"new_gift_card"`. |
+| `gift_card_id` | Conditional | string | Original gift card. Present for gift_card_redemption tenders. Example: `"gc_01KEZF7C00RT1618WYBM1Y94CG"`. |
+| `order_id` | Optional | string | The order that collected this tender when refunding an exchange replacement. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
+| `payment_intent_id` | Conditional | string | Original payment intent. Present for payment_intent tenders. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
+| `tender_type` | Required | string | Original tender that funds this share of the estimate. Values: `"payment_intent"`, `"gift_card_redemption"`. |
+
+### BuyerReturnPreviewResponse.data.resolution fields 1.tender_estimates[] variant 1: `tender_type` = `"payment_intent"`
+
+oneOf with tender_type: "payment_intent": One original tender and its estimated share of a return refund..
+
+- Condition: not (present(`gift_card_id`)).
+- Required: `payment_intent_id`.
+- Optional: `gift_card_id`.
+- Constraints for `tender_type`: Values: `"payment_intent"`.
+
+### BuyerReturnPreviewResponse.data.resolution fields 1.tender_estimates[] variant 2: `tender_type` = `"gift_card_redemption"`
+
+oneOf with tender_type: "gift_card_redemption": One original tender and its estimated share of a return refund..
+
+- Condition: not (present(`payment_intent_id`)).
+- Required: `gift_card_id`.
+- Optional: `payment_intent_id`.
+- Constraints for `tender_type`: Values: `"gift_card_redemption"`.
 
 ### BuyerReturnPreviewResponse.meta
 

@@ -73,8 +73,7 @@ export type { QuantityPriceBreakRequestInput, QuantityPriceBreak } from '../decl
 export type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from '../declarations/types-77.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreatePriceListPricesRequest, makeCreatePriceListRequest } from '../declarations/types-84.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makePriceListPriceRequest } from '../declarations/types-90.js';
 export { makeQuantityPriceBreakRequest } from '../declarations/types-91.js';
 export { makeUpdatePriceListPriceRequest, makeUpdatePriceListRequest } from '../declarations/types-94.js';

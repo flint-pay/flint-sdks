@@ -1,10 +1,9 @@
+import type { ResponseMeta } from './types-62.js';
 import type {
-    DeliveryRateCallbackConnectionCheck,
     DeliveryRateCallbackConfiguration,
     DeliveryRateCallbackConfigurationPreviousAttributes,
     DeliveryRateCallback
 } from './types-22.js';
-import type { ResponseMeta } from './types-62.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { InputValue } from '../runtime.js';
@@ -22,9 +21,75 @@ import type {
     DeliveryPricingRateRequestInput
 } from './types-21.js';
 import type {
+    DeliveryRevocationTargetDeliveryMethodRevision,
+    DeliveryRevocationTargetDeliveryRateCallbackRevision,
     DeliveryRevocationTargetDeliveryRateCallbackSigningKey,
     DeliveryRevocationTargetLocationGeography
 } from './types-24.js';
+/**
+ * Result of checking the connection to a delivery rate callback endpoint, with its status,
+ * latency, HTTP status code, and failure category if it failed.
+ */
+export type DeliveryRateCallbackConnectionCheck = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "checked_at": string;
+    /**
+     * ID of the delivery rate callback that was called. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id": string;
+    /** ID of the callback revision that was called. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J". */
+    "delivery_rate_callback_revision_id": string;
+    /**
+     * ID of the HMAC signing key that signed this request, as sent in the Flint-Signing-Key-Ids
+     * header. Empty for a JWT-only callback, which has no shared secret. Example:
+     * "cbkey_00112233445566778899aabb".
+     */
+    "delivery_rate_callback_signing_key_id": string;
+    /**
+     * Why the callback connection check failed and the action that can make the next check
+     * succeed. - `authentication_or_http_error`: Return a 2xx status after verifying the enabled
+     * signing methods. For a 401, check JWT verification with Flint's JWKS, issuer,
+     * delivery_rate_callback_id audience, expiration, and body_sha256 of the exact request bytes.
+     * For HMAC, check the shared secret and verify the raw body before parsing it. -
+     * `blocked_target`: Use a public HTTPS callback target allowed by Flint's outbound network
+     * policy. - `connection_error`: Restore network connectivity to the callback host, then test
+     * again. - `dns_error`: Fix the callback hostname or its DNS records, then test again. -
+     * `invalid_response`: Return a 2xx application/json response within maximum_response_bytes.
+     * For a test delivery, the body must also follow the callback response rules. Then test again.
+     * - `request_error`: Flint couldn't complete the request for another reason. Check the URL and
+     * your server logs, then test again. - `timeout`: Acknowledge the callback within its
+     * configured timeout, then test again. - `tls_error`: Fix the callback certificate and TLS
+     * configuration, then test again. Value enum: "authentication_or_http_error",
+     * "blocked_target", "connection_error", "dns_error", "invalid_response", "request_error",
+     * "timeout", "tls_error".
+     */
+    "failure_category"?: "authentication_or_http_error"
+        | "blocked_target"
+        | "connection_error"
+        | "dns_error"
+        | "invalid_response"
+        | "request_error"
+        | "timeout"
+        | "tls_error"
+        | (string & {});
+    /** HTTP status code the callback returned. Omitted when it returned none. */
+    "http_status_code"?: number;
+    /** Time the callback took to answer, in milliseconds. Format: int64. */
+    "latency_milliseconds": number;
+    /**
+     * Whether the callback answered the request successfully. Value enum: "succeeded", "failed".
+     */
+    "status": "succeeded" | "failed" | (string & {});
+};
+/**
+ * The body of a connection check, which Flint sends to a delivery rate callback's URL to confirm
+ * it is reachable and verifies signatures. Return any 2xx status; Flint doesn't read the response
+ * body.
+ */
+export type DeliveryRateCallbackConnectionCheckRequest = {
+    /** Always `connection_check`. Value enum: "connection_check". */
+    "type": "connection_check" | (string & {});
+};
 /** A response containing `DeliveryRateCallbackConnectionCheck` data. */
 export type DeliveryRateCallbackConnectionCheckResponse = {
     /**
@@ -4417,39 +4482,3 @@ export type DeliveryRevocationTarget = ({
     | (Exclude<DeliveryRevocationTargetDeliveryRateCallbackRevision & object, readonly unknown[]>)
     | (Exclude<DeliveryRevocationTargetDeliveryMethodRevision & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/** Fences one immutable revision of the named delivery method. */
-export type DeliveryRevocationTargetDeliveryMethodRevision = {
-    /**
-     * ID of the delivery method that owns the targeted revision. Example:
-     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "delivery_method_id": string;
-    /**
-     * ID of the immutable revision to fence. It must belong to delivery_method_id. Example:
-     * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
-     */
-    "delivery_method_revision_id": string;
-    /**
-     * Fences one immutable revision of the named delivery method. Value enum:
-     * "delivery_method_revision".
-     */
-    "target_type": "delivery_method_revision" | (string & {});
-};
-/** Fences one immutable revision of the named delivery rate callback. */
-export type DeliveryRevocationTargetDeliveryRateCallbackRevision = {
-    /**
-     * ID of the delivery rate callback that owns the targeted revision or signing key. Example:
-     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     */
-    "delivery_rate_callback_id": string;
-    /**
-     * ID of the immutable revision to fence. It must belong to delivery_rate_callback_id. Example:
-     * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     */
-    "delivery_rate_callback_revision_id": string;
-    /**
-     * Fences one immutable revision of the named delivery rate callback. Value enum:
-     * "delivery_rate_callback_revision".
-     */
-    "target_type": "delivery_rate_callback_revision" | (string & {});
-};

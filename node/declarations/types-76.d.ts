@@ -1,10 +1,5 @@
-import type {
-    UpdateCustomerEmailPreferencesRequest,
-    TextModifierConfigPatchRequest,
-    TextModifierConfigPatchRequestInput
-} from './types-75.js';
 import type { MetadataPatchRequest, MetadataPatchRequestInput, ModifierRequest, ModifierRequestInput } from './types-43.js';
-import type { TaxIdentityPatch, TaxIdentityPatchInput } from './types-74.js';
+import type { TaxIdentityPatch, TaxIdentityPatchInput, TextModifierConfigPatchRequest } from './types-74.js';
 import type { CustomerTaxExemptionCoverage, CustomerTaxExemptionCoverageRequestInput } from './types-17.js';
 import type {
     DeliveryLocationSetConfiguration,
@@ -40,25 +35,26 @@ import type {
     InvoiceCollectionRequestInput
 } from './types-35.js';
 import type { InvoicePaymentTermCalculation, InvoicePaymentTermCalculationRequestInput } from './types-37.js';
-import type {
-    CreateOrderDiscount,
-    CreateOrderLineItemCustom,
-    CreateOrderDiscountInput,
-    CreateOrderLineItemCustomRequestInput
-} from './types-11.js';
+import type { CreateOrderDiscount, CreateOrderDiscountInput } from './types-11.js';
+import type { CreateOrderLineItemInputCustom, CreateOrderLineItemInputCustomInput } from './types-12.js';
 import type { OrderTaxRequest, OrderTaxRequestInput } from './types-48.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
 import type { InvoicePaymentDueRequest, InvoicePaymentDueRequestInput } from './types-36.js';
 import type { InvoiceScheduleEntryWrite, InvoiceScheduleEntryWriteInput } from './types-38.js';
 import type { GiftCardPurchaseRecipientPatchRequest, GiftCardPurchaseRecipientPatchRequestInput } from './types-30.js';
 import type { MoneyValue, MoneyValueInput, ModifierSetGroupRequest, ModifierSetGroupRequestInput } from './types-44.js';
-import type { OrderCalculatedLineItemTax, OrderCalculatedLineItemTaxRequestInput, OrderCalculatedChargeTax } from './types-45.js';
-import type { OrderLineItemModifierRequest, OrderLineItemModifierRequestModelInput } from './types-47.js';
+import type {
+    OrderCalculatedLineItemTax,
+    OrderCalculatedLineItemTaxRequestInput,
+    OrderCalculatedChargeTax,
+    OrderCalculatedChargeTaxRequestInput
+} from './types-45.js';
+import type { OrderLineItemModifierRequest } from './types-46.js';
 import type { SubscribedLineRequest, SubscribedLineRequestModelInput } from './types-69.js';
+import type { OrderLineItemModifierRequestModelInput } from './types-47.js';
 import type { LocationCoordinate, LocationCoordinateRequestInput } from './types-40.js';
 import type { SubscriptionDeliveryRequest, SubscriptionDeliveryRequestInput } from './types-70.js';
-/** The request body for: Update the current buyer's email preferences. minProperties: 1. */
-export type UpdateCustomerEmailPreferencesRequestInput = UpdateCustomerEmailPreferencesRequest;
+import type { TextModifierConfigPatchRequestInput } from './types-75.js';
 /** The request body for: Update customer. minProperties: 1. */
 export type UpdateCustomerRequest = ({
     /**
@@ -2623,30 +2619,30 @@ export type UpdateInvoiceQuickPayRequest = {
     "discounts"?: Array<CreateOrderDiscount>;
     /**
      * All replacement lines. Use custom lines with fulfillment.requirement set to none and the
-     * invoice's existing currency. minItems: 1. [] (Value): {@link CreateOrderLineItemCustom} and
-     * object. The `custom` variant of `CreateOrderLineItem`. [].bundle_id (Optional): string. ID
-     * of the bundle to add. A catalog line item sends this or `variant_id`; a custom line item
-     * sends neither. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". [].description (Optional): string.
-     * Description of the item as it appears on the order. [].fulfillment (Required): {@link
-     * LineItemFulfillmentRequest} and object. Required on line items without variant_id or
-     * bundle_id, and rejected on catalog lines, which use the catalog's delivery settings. Send
-     * {"requirement": "none"} when nothing is delivered. For manual digital or service delivery,
-     * send requirement required, resolution_mode manual, and allowed_types containing digital or
-     * service. Fulfillment requirements you supply for an order line item, such as allowed
-     * fulfillment types, package size and weight, and origin. [].fulfillment.allowed_types
-     * (Optional): Array of string. Fulfillment types allowed for this item. Send a non-empty
-     * unique list when `requirement` is `required`. `quote` accepts shipment, pickup, and
-     * local_delivery. `manual` accepts digital and service. [].fulfillment.allowed_types[]
-     * (Value): string. minLength: 1. [].fulfillment.combination_policy (Optional): string.
-     * Controls which delivery obligations can share a choice group. Required for `quote`
-     * resolution; not accepted when `requirement` is `none` or `resolution_mode` is `manual`.
-     * Value enum: "combine_when_compatible", "separate_profile", "separate_line_item",
-     * "fulfill_alone". [].fulfillment.origin_policy (Optional): {@link
-     * LineItemFulfillmentOriginRequest}. Where the item ships from. Required for `quote`
-     * resolution; not accepted for `none` or `manual` resolution. Where a line item ships or is
-     * fulfilled from: a fixed location, inventory routing, or the origin of the fulfillment
-     * method. [].fulfillment.requirement (Required): string. Whether this item needs fulfillment.
-     * `none` forbids every other fulfillment field. Value enum: "none".
+     * invoice's existing currency. minItems: 1. [] (Value): {@link CreateOrderLineItemInputCustom}
+     * and object. The `custom` variant of `CreateOrderLineItemInput`. [].bundle_id (Optional):
+     * string. ID of the bundle to add. A catalog line item sends this or `variant_id`; a custom
+     * line item sends neither. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     * [].description (Optional): string. Description of the item as it appears on the order.
+     * minLength: 1. [].fulfillment (Required): {@link LineItemFulfillmentRequest} and object.
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} when nothing is delivered.
+     * For manual digital or service delivery, send requirement required, resolution_mode manual,
+     * and allowed_types containing digital or service. Fulfillment requirements you supply for an
+     * order line item, such as allowed fulfillment types, package size and weight, and origin.
+     * [].fulfillment.allowed_types (Optional): Array of string. Fulfillment types allowed for this
+     * item. Send a non-empty unique list when `requirement` is `required`. `quote` accepts
+     * shipment, pickup, and local_delivery. `manual` accepts digital and service.
+     * [].fulfillment.allowed_types[] (Value): string. minLength: 1.
+     * [].fulfillment.combination_policy (Optional): string. Controls which delivery obligations
+     * can share a choice group. Required for `quote` resolution; not accepted when `requirement`
+     * is `none` or `resolution_mode` is `manual`. Value enum: "combine_when_compatible",
+     * "separate_profile", "separate_line_item", "fulfill_alone". [].fulfillment.origin_policy
+     * (Optional): {@link LineItemFulfillmentOriginRequest}. Where the item ships from. Required
+     * for `quote` resolution; not accepted for `none` or `manual` resolution. Where a line item
+     * ships or is fulfilled from: a fixed location, inventory routing, or the origin of the
+     * fulfillment method. [].fulfillment.requirement (Required): string. Whether this item needs
+     * fulfillment. `none` forbids every other fulfillment field. Value enum: "none".
      * [].fulfillment.resolution_mode (Optional): string. How Flint resolves fulfillment. Required
      * when `requirement` is `required`. Value enum: "quote", "manual".
      * [].fulfillment.splitting_policy (Optional): string. Controls whether a line item's quantity
@@ -2655,66 +2651,65 @@ export type UpdateInvoiceQuickPayRequest = {
      * "quantity_split_allowed". [].gift_card_purchase (Optional): {@link GiftCardPurchaseRequest}.
      * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
      * offer and resolves consideration per unit. Omit to purchase the reference denomination
-     * without a recipient. Gift card details for an order line item: the `face_value_money` and
-     * the `recipient` who receives the card. [].image (Optional): {@link ImageReferenceRequest}.
-     * Image of the item as it appears on the order. A reference to an image by `url`, with
-     * optional `alt` text, used on an order line item. [].inventory_demands (Optional): Array of
-     * {@link OrderDraftLineItemInventoryDemandRequest}. Inventory items and quantities each unit
-     * of the line takes from stock. maxItems: 0. [].inventory_demands[] (Value): {@link
-     * OrderDraftLineItemInventoryDemandRequest}. The quantity of one inventory item that each unit
-     * of a draft order line item uses, supplied when creating the line item.
+     * without a recipient. Gift card details you supply for an order line item: the
+     * `face_value_money` and the `recipient` who receives the card. [].image (Optional): {@link
+     * ImageReferenceRequest}. Image of the item as it appears on the order. A reference to an
+     * image by `url`, with optional `alt` text, used on an order line item. [].inventory_demands
+     * (Optional): Array of {@link OrderDraftLineItemInventoryDemandRequest}. Inventory items and
+     * quantities each unit of the line takes from stock. maxItems: 0. [].inventory_demands[]
+     * (Value): {@link OrderDraftLineItemInventoryDemandRequest}. The quantity of one inventory
+     * item that each unit of a draft order line item uses, supplied when creating the line item.
      * [].inventory_demands[] (Value): any. [].metadata (Optional): {@link MetadataMap}.
      * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
      * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. [].modifiers (Optional): Array of {@link
-     * OrderLineItemModifierRequest}. Modifiers sold with the item, each chosen from the catalog or
-     * typed as text. [].modifiers[] (Value): {@link OrderLineItemModifierRequest}. A modifier
-     * selection you supply on a line item: a catalog modifier by ID or a text modifier, with a
-     * quantity. [].modifiers[].metadata (Optional): {@link MetadataMap}. Caller-owned metadata for
-     * this selection, returned on the order line item's modifier. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
-     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
-     * 50. [].modifiers[].modifier_id (Optional): string. ID of the existing modifier. Treated as
-     * an opaque resource reference; accepted spellings follow resource ID validation. Its resolved
-     * price and the resulting line subtotal must satisfy the order money ceiling. The amount and
-     * every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint
-     * rejects an input or calculation above this ceiling with INVALID_REQUEST and detail
-     * INVALID_VALUE at the responsible input field. Lower payment option limits can apply.
-     * minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
-     * [].modifiers[].order_line_item_modifier_id (Optional): string. Existing selection ID to
-     * retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].modifiers[].quantity (Optional): integer. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64. [].modifiers[].text
-     * (Optional): {@link TextModifierRequest}. The text to use. Send it with a `text` modifier.
-     * Text a buyer entered for a text modifier group on an order line item. [].modifiers[].type
-     * (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].modifiers[].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalog}. The `catalog`
-     * variant of `OrderLineItemModifierInput`. [].modifiers[].oneOf[2] (Value): {@link
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50. [].modifiers (Optional):
+     * Array of {@link OrderLineItemModifierRequest}. Modifiers sold with the item, each chosen
+     * from the catalog or typed as text. [].modifiers[] (Value): {@link
+     * OrderLineItemModifierRequest}. A modifier selection you supply on a line item: a catalog
+     * modifier by ID or a text modifier, with a quantity. [].modifiers[].metadata (Optional):
+     * {@link MetadataMap}. Caller-owned metadata for this selection, returned on the order line
+     * item's modifier. Values can't be empty strings. Keys starting with flint_ are reserved for
+     * Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50. [].modifiers[].modifier_id
+     * (Optional): string. ID of the existing modifier. Treated as an opaque resource reference;
+     * accepted spellings follow resource ID validation. Its resolved price and the resulting line
+     * subtotal must satisfy the order money ceiling. The amount and every computed order amount
+     * must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
+     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+     * responsible input field. Lower payment option limits can apply. minLength: 1. Example:
+     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].modifiers[].order_line_item_modifier_id (Optional):
+     * string. Existing selection ID to retain during replacement. minLength: 1. pattern:
+     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z".
+     * [].modifiers[].quantity (Optional): integer. Whole-number quantity; fractional quantities
+     * are not supported. Format: int64. [].modifiers[].text (Optional): {@link
+     * TextModifierRequest}. The text to use. Send it with a `text` modifier. Text a buyer entered
+     * for a text modifier group on an order line item. [].modifiers[].type (Required): string.
+     * Selects the type branch. Value enum: "catalog", "text". [].modifiers[].oneOf[1] (Value):
+     * {@link OrderLineItemModifierInputCatalog}. The `catalog` variant of
+     * `OrderLineItemModifierInput`. [].modifiers[].oneOf[2] (Value): {@link
      * OrderLineItemModifierInputText}. The `text` variant of `OrderLineItemModifierInput`. [].name
      * (Required): string. Name of the item as it appears on the order. Surrounding whitespace is
      * trimmed before length validation. A supplied value cannot be blank; use null where clearing
-     * is supported. maxLength: 255. [].product_id (Optional): string. Parent product of
-     * variant_id, resolved by the preview. Required for variant lines; absent on bundle and custom
-     * lines, which have no parent product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-     * [].product_type (Optional): string. Classification of a custom line for ACH debit: physical,
-     * digital, service, or fee. Omit to leave it unclassified; no default is inferred from
-     * fulfillment. Null is not accepted. Does not change tax, delivery, or inventory. On an order
-     * line PATCH, omission preserves the classification. Catalog lines use their product's type
-     * and reject this input. Value enum: "physical", "service", "fee", "digital". [].quantity
-     * (Optional): integer. Number of units, from 1 through 9999. The extended line subtotal,
-     * including modifiers, must satisfy the order money ceiling. Format: int64. minimum: 1.
-     * maximum: 9999. Default: 1. [].subscription (Optional): {@link SubscribedLineRequest}.
-     * Selected recurring terms for this variant. Lines with the same cadence start one
-     * subscription after payment. Makes an order line a subscription purchase, with the
-     * subscription offer and billing interval. [].tax (Optional): {@link
-     * OrderCalculatedLineItemTax}. How tax applies to this line item. Tax settings you supply for
-     * a draft order line item: its tax category, whether it is taxable, and an optional tax
-     * calculation. [].type (Required): string. Selects the type branch. Value enum: "custom".
+     * is supported. minLength: 1. maxLength: 255. [].product_type (Optional): string.
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital". [].quantity (Optional): integer. Number of units,
+     * from 1 through 9999. The extended line subtotal, including modifiers, must satisfy the order
+     * money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1. [].subscription
+     * (Optional): {@link SubscribedLineRequest}. Selected recurring terms for this variant. Lines
+     * with the same cadence start one subscription after payment. Makes an order line a
+     * subscription purchase, with the subscription offer and billing interval. [].tax (Optional):
+     * {@link OrderCalculatedLineItemTax}. How tax applies to this line item. Tax settings you
+     * supply for a draft order line item: its tax category, whether it is taxable, and an optional
+     * tax calculation. [].type (Required): string. Selects the type branch. Value enum: "custom".
      * [].unit_dimensions (Optional): {@link Dimensions}. Dimensions of one unit. Accepted only for
      * custom lines without variant_id or bundle_id. Package or item dimensions as `length`,
      * `width`, and `height` in the given `unit`. [].unit_price_money (Required): {@link
@@ -2726,9 +2721,10 @@ export type UpdateInvoiceQuickPayRequest = {
      * Accepted only for custom lines without variant_id or bundle_id. A weight value in grams,
      * kilograms, ounces, or pounds, used in delivery profile configuration. [].variant_id
      * (Optional): string. ID of the product variant to add. A catalog line item sends this or
-     * `bundle_id`; a custom line item sends neither. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     * `bundle_id`; a custom line item sends neither. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
      */
-    "line_items": Array<(Exclude<CreateOrderLineItemCustom & object, readonly unknown[]>)
+    "line_items": Array<(Exclude<CreateOrderLineItemInputCustom & object, readonly unknown[]>)
         & (({
         /**  requirement (Optional): string.  Value enum: "none". */
         "fulfillment"?: {
@@ -2756,11 +2752,11 @@ export type UpdateInvoiceQuickPayRequestInput = {
     /**
      * All replacement lines. Use custom lines with fulfillment.requirement set to none and the
      * invoice's existing currency. minItems: 1. [] (Value): {@link
-     * CreateOrderLineItemCustomRequestInput} and object. The `custom` variant of
-     * `CreateOrderLineItem`. [].bundle_id (Optional): string. ID of the bundle to add. A catalog
-     * line item sends this or `variant_id`; a custom line item sends neither. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". [].description (Optional): string. Description of the item
-     * as it appears on the order. [].fulfillment (Required): {@link
+     * CreateOrderLineItemInputCustomInput} and object. The `custom` variant of
+     * `CreateOrderLineItemInput`. [].bundle_id (Optional): string. ID of the bundle to add. A
+     * catalog line item sends this or `variant_id`; a custom line item sends neither. minLength:
+     * 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". [].description (Optional): string. Description
+     * of the item as it appears on the order. minLength: 1. [].fulfillment (Required): {@link
      * LineItemFulfillmentRequestModelInput} and object. Required on line items without variant_id
      * or bundle_id, and rejected on catalog lines, which use the catalog's delivery settings. Send
      * {"requirement": "none"} when nothing is delivered. For manual digital or service delivery,
@@ -2786,25 +2782,26 @@ export type UpdateInvoiceQuickPayRequestInput = {
      * can be split across delivery assignments. Required for `quote` resolution; not accepted when
      * `requirement` is `none` or `resolution_mode` is `manual`. Value enum: "whole_line_item",
      * "quantity_split_allowed". [].gift_card_purchase (Optional): {@link
-     * GiftCardPurchaseRequestInput}. Buyer-selected face value and recipient for a gift_card
-     * variant. The server freezes the offer and resolves consideration per unit. Omit to purchase
-     * the reference denomination without a recipient. Gift card details for an order line item:
-     * the `face_value_money` and the `recipient` who receives the card. [].image (Optional):
-     * {@link ImageReferenceRequestInput}. Image of the item as it appears on the order. A
-     * reference to an image by `url`, with optional `alt` text, used on an order line item.
-     * [].inventory_demands (Optional): Array of {@link
+     * GiftCardPurchaseDetailsRequestInput}. Buyer-selected face value and recipient for a
+     * gift_card variant. The server freezes the offer and resolves consideration per unit. Omit to
+     * purchase the reference denomination without a recipient. Gift card details you supply for an
+     * order line item: the `face_value_money` and the `recipient` who receives the card. [].image
+     * (Optional): {@link ImageReferenceRequestInput}. Image of the item as it appears on the
+     * order. A reference to an image by `url`, with optional `alt` text, used on an order line
+     * item. [].inventory_demands (Optional): Array of {@link
      * OrderDraftLineItemInventoryDemandRequestInput}. Inventory items and quantities each unit of
      * the line takes from stock. maxItems: 0. [].inventory_demands[] (Value): {@link
      * OrderDraftLineItemInventoryDemandRequestInput}. The quantity of one inventory item that each
      * unit of a draft order line item uses, supplied when creating the line item.
-     * [].inventory_demands[] (Value): any. [].metadata (Optional): {@link MetadataMapInput}.
+     * [].inventory_demands[] (Value): any. [].metadata (Optional): {@link MetadataRequestInput}.
      * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
      * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. [].modifiers (Optional): Array of {@link
-     * OrderLineItemModifierRequestModelInput}. Modifiers sold with the item, each chosen from the
-     * catalog or typed as text. [].modifiers[] (Value): {@link
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50. [].modifiers (Optional):
+     * Array of {@link OrderLineItemModifierRequestModelInput}. Modifiers sold with the item, each
+     * chosen from the catalog or typed as text. [].modifiers[] (Value): {@link
      * OrderLineItemModifierRequestModelInput}. A modifier selection you supply on a line item: a
      * catalog modifier by ID or a text modifier, with a quantity. [].modifiers[].metadata
      * (Optional): {@link MetadataRequestInput}. Caller-owned metadata for this selection, returned
@@ -2834,38 +2831,36 @@ export type UpdateInvoiceQuickPayRequestInput = {
      * OrderLineItemModifierInputTextRequestInput}. The `text` variant of
      * `OrderLineItemModifierInput`. [].name (Required): string. Name of the item as it appears on
      * the order. Surrounding whitespace is trimmed before length validation. A supplied value
-     * cannot be blank; use null where clearing is supported. maxLength: 255. [].product_id
-     * (Optional): string. Parent product of variant_id, resolved by the preview. Required for
-     * variant lines; absent on bundle and custom lines, which have no parent product. Example:
-     * "prod_01KEZF7C00BVSHCNWVH528HB66". [].product_type (Optional): string. Classification of a
-     * custom line for ACH debit: physical, digital, service, or fee. Omit to leave it
-     * unclassified; no default is inferred from fulfillment. Null is not accepted. Does not change
-     * tax, delivery, or inventory. On an order line PATCH, omission preserves the classification.
-     * Catalog lines use their product's type and reject this input. Value enum: "physical",
-     * "service", "fee", "digital". [].quantity (Optional): integer. Number of units, from 1
-     * through 9999. The extended line subtotal, including modifiers, must satisfy the order money
-     * ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1. [].subscription (Optional):
-     * {@link SubscribedLineRequestModelInput}. Selected recurring terms for this variant. Lines
-     * with the same cadence start one subscription after payment. Makes an order line a
-     * subscription purchase, with the subscription offer and billing interval. [].tax (Optional):
-     * {@link OrderDraftLineItemTaxRequestModelInput}. How tax applies to this line item. Tax
-     * settings you supply for a draft order line item: its tax category, whether it is taxable,
-     * and an optional tax calculation. [].type (Required): string. Selects the type branch. Value
-     * enum: "custom". [].unit_dimensions (Optional): {@link DimensionsRequestInput}. Dimensions of
-     * one unit. Accepted only for custom lines without variant_id or bundle_id. Package or item
-     * dimensions as `length`, `width`, and `height` in the given `unit`. [].unit_price_money
-     * (Required): {@link MoneyValueInput}. Price of one unit. The amount and every computed order
-     * amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
-     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
-     * responsible input field. Lower payment option limits can apply. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code. [].unit_weight (Optional): {@link
-     * WeightRequestInput}. Weight of one unit. Accepted only for custom lines without variant_id
-     * or bundle_id. A weight value in grams, kilograms, ounces, or pounds, used in delivery
-     * profile configuration. [].variant_id (Optional): string. ID of the product variant to add. A
-     * catalog line item sends this or `bundle_id`; a custom line item sends neither. Example:
+     * cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
+     * [].product_type (Optional): string. Classification of a custom line for ACH debit: physical,
+     * digital, service, or fee. Omit to leave it unclassified; no default is inferred from
+     * fulfillment. Null is not accepted. Does not change tax, delivery, or inventory. On an order
+     * line PATCH, omission preserves the classification. Catalog lines use their product's type
+     * and reject this input. Value enum: "physical", "service", "fee", "digital". [].quantity
+     * (Optional): integer. Number of units, from 1 through 9999. The extended line subtotal,
+     * including modifiers, must satisfy the order money ceiling. Format: int64. minimum: 1.
+     * maximum: 9999. Default: 1. [].subscription (Optional): {@link
+     * SubscribedLineRequestModelInput}. Selected recurring terms for this variant. Lines with the
+     * same cadence start one subscription after payment. Makes an order line a subscription
+     * purchase, with the subscription offer and billing interval. [].tax (Optional): {@link
+     * OrderDraftLineItemTaxRequestModelInput}. How tax applies to this line item. Tax settings you
+     * supply for a draft order line item: its tax category, whether it is taxable, and an optional
+     * tax calculation. [].type (Required): string. Selects the type branch. Value enum: "custom".
+     * [].unit_dimensions (Optional): {@link DimensionsRequestInput}. Dimensions of one unit.
+     * Accepted only for custom lines without variant_id or bundle_id. Package or item dimensions
+     * as `length`, `width`, and `height` in the given `unit`. [].unit_price_money (Required):
+     * {@link MoneyValueInput}. Price of one unit. The amount and every computed order amount must
+     * not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation
+     * above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input
+     * field. Lower payment option limits can apply. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. [].unit_weight (Optional): {@link WeightRequestInput}.
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     * [].variant_id (Optional): string. ID of the product variant to add. A catalog line item
+     * sends this or `bundle_id`; a custom line item sends neither. minLength: 1. Example:
      * "var_01KEZF7C004GSH2KT8CNYVMHGX".
      */
-    "line_items": Array<(Exclude<CreateOrderLineItemCustomRequestInput & object, readonly unknown[]>)
+    "line_items": Array<(Exclude<CreateOrderLineItemInputCustomInput & object, readonly unknown[]>)
         & (({
         /**  requirement (Optional): string.  Value enum: "none". */
         "fulfillment"?: {
@@ -4496,4 +4491,93 @@ export type UpdateOrderChargeRequest = ({
         | "rush_fee"
         | "other"
         | (string & {});
+});
+/** The request body for: Update order charge. minProperties: 1. */
+export type UpdateOrderChargeRequestInput = ({
+    /**
+     * Replacement fixed charge amount in the order currency. The amount and every computed order
+     * amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
+     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+     * responsible input field. Lower payment option limits can apply. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
+     * "subtotal_post_discount".
+     */
+    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount";
+    /** Send null to clear description. minLength: 1. maxLength: 2048. */
+    "description"?: string | null;
+    /**
+     * Optional order version from the last order read. The mutation fails if the order changed.
+     * Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Send null to unlink the fulfillment. minLength: 1. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. Send null to clear all metadata. anyOf[1] (Value): {@link MetadataPatchRequestInput}.
+     * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
+     * sets a value, a null value deletes the key, and an empty object makes no change; send null
+     * for the whole field to clear all caller-owned metadata. The resulting map is limited the
+     * same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
+     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
+     * bytes. Deleting a key that does not exist is allowed, so the number of operations is not
+     * itself the stored-map limit. Values can't be empty strings, and keys starting with flint_
+     * are reserved for Flint. anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * What the buyer sees for this charge at checkout and on receipts. Surrounding whitespace is
+     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
+     * is supported. minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
+     * use `amount_money` instead. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+    /**
+     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
+     * supplied by you, including the charge's tax category and whether it is taxable.
+     */
+    "tax"?: OrderCalculatedChargeTaxRequestInput;
+    /**
+     * What the charge is for. It classifies the charge in reporting and sets its default tax
+     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
+     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
+     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
+     * "restocking_fee", "rush_fee", "other".
+     */
+    "type"?: "service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other";
+})
+    & ({
+    "amount_money"?: never;
+} | {
+    "percent"?: never;
 });

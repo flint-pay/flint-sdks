@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# CreateReturnPreviewDataResolution to CreditNoteAllocationCreatedMerchantEvent
+# CreateReturnPolicyRequestInput to CreditNote
 
+- [CreateReturnPolicyRequestInput](CreateReturnPolicyRequestInput.md)
+- [CreateReturnPreviewData](CreateReturnPreviewData.md)
+- [CreateReturnPreviewDataEligibility](CreateReturnPreviewDataEligibility.md)
 - [CreateReturnPreviewDataResolution](CreateReturnPreviewDataResolution.md)
 - [CreateReturnPreviewRequest](CreateReturnPreviewRequest.md)
 - [CreateReturnPreviewRequestInput](CreateReturnPreviewRequestInput.md)
@@ -99,7 +102,4 @@
 - [CreateWorkloadIdentityRequest](CreateWorkloadIdentityRequest.md)
 - [CreateWorkloadIdentityRequestInput](CreateWorkloadIdentityRequestInput.md)
 - [CreditNote](CreditNote.md)
-- [CreditNoteAllocation](CreditNoteAllocation.md)
-- [CreditNoteAllocationCreatedInstalledMerchantsEvent](CreditNoteAllocationCreatedInstalledMerchantsEvent.md)
-- [CreditNoteAllocationCreatedMerchantEvent](CreditNoteAllocationCreatedMerchantEvent.md)
 

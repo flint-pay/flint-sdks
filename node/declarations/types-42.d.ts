@@ -4,13 +4,8 @@ import type { RenewSubscriptionRequestInput } from './types-61.js';
 import type { ResourceVersionRequestInput, ResponseMeta } from './types-62.js';
 import type { SaveMeGiftCardRequestInput } from './types-67.js';
 import type { SkipMeSubscriptionCycleRequestInput } from './types-68.js';
-import type { UpdateCustomerAddressRequestInput } from './types-75.js';
-import type {
-    UpdateCustomerEmailPreferencesRequestInput,
-    UpdateMeRequestInput,
-    UpdateMeSubscriptionLineItemRequestInput,
-    UpdateMeSubscriptionRequestInput
-} from './types-76.js';
+import type { UpdateCustomerAddressRequestInput, UpdateCustomerEmailPreferencesRequestInput } from './types-75.js';
+import type { UpdateMeRequestInput, UpdateMeSubscriptionLineItemRequestInput, UpdateMeSubscriptionRequestInput } from './types-76.js';
 import type { Address } from './types-0.js';
 import type { ImageAttachment } from './types-31.js';
 import type { MerchantReadiness, MetadataMap, MerchantWebhookEnvelope } from './types-43.js';

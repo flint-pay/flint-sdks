@@ -20,7 +20,7 @@ Request input.
 | `partner_app_install_id` | Optional | string | ID of the partner app's install on this merchant, from a code exchange. Example: `"pinst_01KEZF7C003HVKZR3GZAW6AFAZ"`. |
 | `refresh_token` | Optional | string | Rotating flint-cli refresh token. Absent for partner app tokens and workload access tokens. minLength: `1`. |
 | `sandbox_id` | Optional | string | Present exactly when mode is test, except for partner app tokens from client_credentials, which use each merchant's test grant. Example: `"test_01KEZF7C00JC77HTMTB2XHNPE0"`. |
-| `scope` | Optional | string | Space-separated granted scope, in the vocabulary the client requested: permission IDs for a partner code exchange, API scope names for flint-cli and workload identities. Empty when a workload identity has no scopes. Absent from client_credentials responses, because a partner app token's scopes are each install's grant. |
+| `scope` | Optional | string | Space-separated granted scope, in the vocabulary the client requested: permission IDs for a partner code exchange, API scope names for flint-cli and workload identities. Empty when the merchant granted no permissions or a workload identity has no scopes. Absent from client_credentials responses, because a partner app token's scopes are each install's grant. |
 | `token_type` | Required | string | The token type, as RFC 6749 defines it. Values: `"Bearer"`. |
 | `workload_identity_id` | Optional | string | Workload identity that authorized the token exchange. Present only for workload access tokens. Example: `"wid_01KEZF7C00GKCN7Y1482VY8TWP"`. |
 

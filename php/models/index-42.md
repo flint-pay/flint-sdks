@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# ExpandedSubscriptionPlanSummaryLineItemsItemBundleUnitPriceMoney to BuyerReturnLineItemEligibility
+# ExpandedSubscriptionPlanSummaryLineItemsItemBundleTax to ReturnPolicyAdjustmentProposal
 
+- [ExpandedSubscriptionPlanSummaryLineItemsItemBundleTax](ExpandedSubscriptionPlanSummaryLineItemsItemBundleTax.md)
 - [ExpandedSubscriptionPlanSummaryLineItemsItemBundleUnitPriceMoney](ExpandedSubscriptionPlanSummaryLineItemsItemBundleUnitPriceMoney.md)
 - [ExpandedSubscriptionPlanSummaryLineItemsItemBundle](ExpandedSubscriptionPlanSummaryLineItemsItemBundle.md)
 - [ExpandedSubscriptionPlanSummaryLineItemsItemCustomBundleComponentsItemVariantSelectedOptionsItem](ExpandedSubscriptionPlanSummaryLineItemsItemCustomBundleComponentsItemVariantSelectedOptionsItem.md)
@@ -101,5 +102,4 @@
 - [BuyerReturnHandoffRequirement](BuyerReturnHandoffRequirement.md)
 - [ReturnLineItemDecisionProposal](ReturnLineItemDecisionProposal.md)
 - [ReturnPolicyAdjustmentProposal](ReturnPolicyAdjustmentProposal.md)
-- [BuyerReturnLineItemEligibility](BuyerReturnLineItemEligibility.md)
 

@@ -69,7 +69,7 @@ final class PartnerEnvironmentGrantPreviousAttributesInput extends Model {
      */
     public function getPaymentSplits(): mixed { return $this->get('payment_splits'); }
     public function hasPaymentSplits(): bool { return $this->has('payment_splits'); }
-    /** The platform fee cap the merchant approved for this mode: what the app's cap was when the merchant approved it, lowered at once whenever the app lowers its cap. Absent when the merchant approved none. A higher app cap applies only after the merchant authorizes again. No request accepts a platform fee yet. anyOf[1] (Value): {@see PlatformFeeCapPreviousAttributesInput}. anyOf[2] (Value): null.
+    /** The platform fee cap the merchant approved for this mode: what the app's cap was when the merchant approved it, lowered at once whenever the app lowers its cap. Absent when the merchant approved none. A higher app cap applies only after the merchant authorizes again. anyOf[1] (Value): {@see PlatformFeeCapPreviousAttributesInput}. anyOf[2] (Value): null.
      * @return PlatformFeeCapPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When platform_fee_cap is omitted; use hasPlatformFeeCap() or valueOrDefault().
      */

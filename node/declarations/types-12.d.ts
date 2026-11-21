@@ -16,21 +16,14 @@ import type {
 } from './types-45.js';
 import type {
     OrderLineItemModifierRequestModelInput,
-    OrderLineItemModifierRequest,
     OrderPaymentSourceSelection,
     OrderPaymentSourceSelectionInput
 } from './types-47.js';
 import type { SubscribedLineRequestModelInput, SubscribedLineRequest } from './types-69.js';
 import type { WeightRequestInput, Weight } from './types-80.js';
-import type {
-    CreateOrderLineItemInputBundle,
-    CreateOrderLineItemInputCustom,
-    CreateOrderLineItemInputBundleInput,
-    CreateOrderDiscount,
-    CreateOrderDiscountInput
-} from './types-11.js';
+import type { OrderLineItemModifierRequest, OrderHandover, OrderHandoverRequestInput } from './types-46.js';
+import type { CreateOrderLineItemInputBundle, CreateOrderDiscount, CreateOrderDiscountInput } from './types-11.js';
 import type { InventoryRoutingSourceRequest } from './types-33.js';
-import type { OrderHandover, OrderHandoverRequestInput } from './types-46.js';
 import type { OrderTaxRequest, OrderTaxRequestInput } from './types-48.js';
 import type { InventoryRoutingSourceRequestInput } from './types-34.js';
 import type { ReturnResolutionLineItemRequest } from './types-65.js';
@@ -96,12 +89,16 @@ import type {
 import type { ThemeConfig } from './types-75.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
 import type { ResponseMeta } from './types-62.js';
-import type { ProductVariantRequest, ProductVariantRequestInput, PromotionApplicationMethodRequest } from './types-57.js';
+import type {
+    ProductVariantRequest,
+    ProductVariantRequestInput,
+    PromotionApplicationMethodRequest,
+    PromotionApplicationMethodRequestInput
+} from './types-57.js';
 import type {
     PromotionCodeRequest,
     PromotionCombinesWithPatch,
     PromotionExclusivityRequest,
-    PromotionApplicationMethodRequestInput,
     PromotionCodeRequestInput,
     PromotionCombinesWithRequestInput,
     PromotionExclusivityRequestInput
@@ -112,12 +109,342 @@ import type {
     PromotionRuleGroupRequestInput,
     PromotionScheduleRequestInput
 } from './types-59.js';
-import type {
-    CreateSmartReaderRequest,
-    CreateTapToPayReaderRequest,
-    CreateSmartReaderRequestInput,
-    CreateTapToPayReaderRequestInput
-} from './types-14.js';
+/** The `bundle` variant of `CreateOrderLineItemInput`. */
+export type CreateOrderLineItemInputBundleInput = ({
+    /**
+     * ID of the bundle to add. A catalog line item sends this or `variant_id`; a custom line item
+     * sends neither. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /** Description of the item as it appears on the order. minLength: 1. */
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} when nothing is delivered.
+     * For manual digital or service delivery, send requirement required, resolution_mode manual,
+     * and allowed_types containing digital or service. Fulfillment requirements you supply for an
+     * order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequestModelInput;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details you supply for an order line item: the
+     * `face_value_money` and the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseDetailsRequestInput;
+    /**
+     * Image of the item as it appears on the order. A reference to an image by `url`, with
+     * optional `alt` text, used on an order line item.
+     */
+    "image"?: ImageReferenceRequestInput;
+    /**
+     * Inventory items and quantities each unit of the line takes from stock. [] (Value): {@link
+     * OrderDraftLineItemInventoryDemandRequestInput}. The quantity of one inventory item that each
+     * unit of a draft order line item uses, supplied when creating the line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Modifiers sold with the item, each chosen from the catalog or typed as text. [] (Value):
+     * {@link OrderLineItemModifierRequestModelInput}. A modifier selection you supply on a line
+     * item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional):
+     * {@link MetadataRequestInput}. Caller-owned metadata for this selection, returned on the
+     * order line item's modifier. Values can't be empty strings. Keys starting with flint_ are
+     * reserved for Flint, are not returned, and cannot be written through the public API.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id
+     * (Optional): string. ID of the existing modifier. Treated as an opaque resource reference;
+     * accepted spellings follow resource ID validation. Its resolved price and the resulting line
+     * subtotal must satisfy the order money ceiling. The amount and every computed order amount
+     * must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
+     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
+     * responsible input field. Lower payment option limits can apply. minLength: 1. Example:
+     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
+     * Existing selection ID to retain during replacement. minLength: 1. pattern:
+     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
+     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
+     * int64. [].text (Optional): {@link TextModifierRequestInput}. The text to use. Send it with a
+     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
+     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
+     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalogRequestInput}. The `catalog`
+     * variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
+     * OrderLineItemModifierInputTextRequestInput}. The `text` variant of
+     * `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestModelInput & object, readonly unknown[]>)
+        & (({
+        "order_line_item_modifier_id"?: never;
+    }))>;
+    /**
+     * Name of the item as it appears on the order. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequestModelInput;
+    /**
+     * How tax applies to this line item. Tax settings you supply for a draft order line item: its
+     * tax category, whether it is taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderDraftLineItemTaxRequestModelInput;
+    /** Selects the type branch. Value enum: "bundle". */
+    "type": "bundle";
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: DimensionsRequestInput;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: WeightRequestInput;
+    /**
+     * ID of the product variant to add. A catalog line item sends this or `bundle_id`; a custom
+     * line item sends neither. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & (({
+    /** How tax applies to this line item. */
+    "tax"?: (({
+        "taxable"?: never;
+    }) & ({
+        "line_item_tax_category"?: never;
+    }));
+    /** Selects the type branch. Value enum: "bundle". */
+    "type": ("bundle") & ("bundle");
+    /**
+     * ID of the bundle to add. A catalog line item sends this or `variant_id`; a custom line item
+     * sends neither. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "product_type"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "unit_weight"?: never;
+})
+    & ({
+    "unit_dimensions"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "image"?: never;
+})
+    & ({
+    "inventory_demands"?: never;
+})
+    & ({
+    "fulfillment"?: never;
+})
+    & ({
+    "gift_card_purchase"?: never;
+})));
+/** The `custom` variant of `CreateOrderLineItemInput`. */
+export type CreateOrderLineItemInputCustom = ({
+    /**
+     * ID of the bundle to add. A catalog line item sends this or `variant_id`; a custom line item
+     * sends neither. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /** Description of the item as it appears on the order. minLength: 1. */
+    "description"?: string;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} when nothing is delivered.
+     * For manual digital or service delivery, send requirement required, resolution_mode manual,
+     * and allowed_types containing digital or service. Fulfillment requirements you supply for an
+     * order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment": LineItemFulfillmentRequest;
+    /**
+     * Buyer-selected face value and recipient for a gift_card variant. The server freezes the
+     * offer and resolves consideration per unit. Omit to purchase the reference denomination
+     * without a recipient. Gift card details you supply for an order line item: the
+     * `face_value_money` and the `recipient` who receives the card.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseRequest;
+    /**
+     * Image of the item as it appears on the order. A reference to an image by `url`, with
+     * optional `alt` text, used on an order line item.
+     */
+    "image"?: ImageReferenceRequest;
+    /**
+     * Inventory items and quantities each unit of the line takes from stock. [] (Value): {@link
+     * OrderDraftLineItemInventoryDemandRequest}. The quantity of one inventory item that each unit
+     * of a draft order line item uses, supplied when creating the line item.
+     */
+    "inventory_demands"?: Array<OrderDraftLineItemInventoryDemandRequest>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Modifiers sold with the item, each chosen from the catalog or typed as text. [] (Value):
+     * {@link OrderLineItemModifierRequest}. A modifier selection you supply on a line item: a
+     * catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional): {@link
+     * MetadataMap}. Caller-owned metadata for this selection, returned on the order line item's
+     * modifier. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
+     * are not returned, and cannot be written through the public API. Caller-owned key-value data
+     * for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to
+     * 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values
+     * total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with
+     * flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional): string. ID of
+     * the existing modifier. Treated as an opaque resource reference; accepted spellings follow
+     * resource ID validation. Its resolved price and the resulting line subtotal must satisfy the
+     * order money ceiling. The amount and every computed order amount must not exceed 99999999
+     * minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     * [].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
+     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity (Optional): integer. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64. [].text (Optional): {@link
+     * TextModifierRequest}. The text to use. Send it with a `text` modifier. Text a buyer entered
+     * for a text modifier group on an order line item. [].type (Required): string. Selects the
+     * type branch. Value enum: "catalog", "text". [].oneOf[1] (Value): {@link
+     * OrderLineItemModifierInputCatalog}. The `catalog` variant of `OrderLineItemModifierInput`.
+     * [].oneOf[2] (Value): {@link OrderLineItemModifierInputText}. The `text` variant of
+     * `OrderLineItemModifierInput`.
+     */
+    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
+    /**
+     * Name of the item as it appears on the order. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
+     * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Selected recurring terms for this variant. Lines with the same cadence start one
+     * subscription after payment. Makes an order line a subscription purchase, with the
+     * subscription offer and billing interval.
+     */
+    "subscription"?: SubscribedLineRequest;
+    /**
+     * How tax applies to this line item. Tax settings you supply for a draft order line item: its
+     * tax category, whether it is taxable, and an optional tax calculation.
+     */
+    "tax"?: OrderCalculatedLineItemTax;
+    /** Selects the type branch. Value enum: "custom". */
+    "type": "custom" | (string & {});
+    /**
+     * Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: Dimensions;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight
+     * value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "unit_weight"?: Weight;
+    /**
+     * ID of the product variant to add. A catalog line item sends this or `bundle_id`; a custom
+     * line item sends neither. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & (({
+    /** Selects the type branch. Value enum: "custom". */
+    "type": "custom" | (string & {});
+    /**
+     * Name of the item as it appears on the order. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit. The amount and every computed order amount must not exceed 99999999 minor
+     * units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * Required on line items without variant_id or bundle_id, and rejected on catalog lines, which
+     * use the catalog's delivery settings. Send {"requirement": "none"} when nothing is delivered.
+     * For manual digital or service delivery, send requirement required, resolution_mode manual,
+     * and allowed_types containing digital or service. Fulfillment requirements you supply for an
+     * order line item, such as allowed fulfillment types, package size and weight, and origin.
+     */
+    "fulfillment": LineItemFulfillmentRequest;
+}));
 /** The `custom` variant of `CreateOrderLineItemInput`. */
 export type CreateOrderLineItemInputCustomInput = ({
     /**
@@ -1072,10 +1399,10 @@ export type CreateOrderRequest = {
     "internal_note"?: string;
     /**
      * Where tracked demand is routed. When no source is stored or sent, Flint uses
-     * settings.inventory.default_routing_source, then the only active Location with
-     * inventory_allocation_enabled if exactly one exists in the current environment. Zero or
-     * multiple eligible Locations require an explicit source or merchant default. The order stores
-     * the resolved source. Where you want inventory routed from: a fixed Location, an inventory
+     * settings.inventory.default_routing_source, then the active Location in the current
+     * environment that has had inventory allocation enabled the longest. If no Location is
+     * eligible, send a routing source or configure the merchant default. The order stores the
+     * resolved source. Where you want inventory routed from: a fixed Location, an inventory
      * allocation policy, or one policy revision, selected by `type`.
      */
     "inventory_routing_source"?: InventoryRoutingSourceRequest;
@@ -1158,10 +1485,10 @@ export type CreateOrderRequestInput = {
     "internal_note"?: string;
     /**
      * Where tracked demand is routed. When no source is stored or sent, Flint uses
-     * settings.inventory.default_routing_source, then the only active Location with
-     * inventory_allocation_enabled if exactly one exists in the current environment. Zero or
-     * multiple eligible Locations require an explicit source or merchant default. The order stores
-     * the resolved source. Where you want inventory routed from: a fixed Location, an inventory
+     * settings.inventory.default_routing_source, then the active Location in the current
+     * environment that has had inventory allocation enabled the longest. If no Location is
+     * eligible, send a routing source or configure the merchant default. The order stores the
+     * resolved source. Where you want inventory routed from: a fixed Location, an inventory
      * allocation policy, or one policy revision, selected by `type`.
      */
     "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
@@ -3016,14 +3343,13 @@ export type CreatePaymentLinkRequest = {
     "inactive_message"?: string;
     /**
      * Routing source for tracked demand. When omitted, Flint stores
-     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
-     * with inventory_allocation_enabled in the current environment supplies the demand; this
-     * implicit source is not stored and is resolved again on use. Zero or multiple eligible
-     * Locations require an explicit source or merchant default. Create, activation, and
-     * sellability edits require at least one active routing location with
-     * inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where
-     * you want inventory routed from: a fixed Location, an inventory allocation policy, or one
-     * policy revision, selected by `type`.
+     * settings.inventory.default_routing_source if set. Otherwise, Flint uses the active Location
+     * in the current environment that has had inventory allocation enabled the longest. The link
+     * resolves that fallback again each time it is used. If no Location is eligible, send a
+     * routing source or configure the merchant default. Create, activation, and sellability edits
+     * require at least one active routing location with inventory_allocation_enabled; temporary
+     * stock shortages do not prevent these writes. Where you want inventory routed from: a fixed
+     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
      */
     "inventory_routing_source"?: InventoryRoutingSourceRequest;
     /**
@@ -3225,14 +3551,13 @@ export type CreatePaymentLinkRequestInput = {
     "inactive_message"?: string;
     /**
      * Routing source for tracked demand. When omitted, Flint stores
-     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
-     * with inventory_allocation_enabled in the current environment supplies the demand; this
-     * implicit source is not stored and is resolved again on use. Zero or multiple eligible
-     * Locations require an explicit source or merchant default. Create, activation, and
-     * sellability edits require at least one active routing location with
-     * inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where
-     * you want inventory routed from: a fixed Location, an inventory allocation policy, or one
-     * policy revision, selected by `type`.
+     * settings.inventory.default_routing_source if set. Otherwise, Flint uses the active Location
+     * in the current environment that has had inventory allocation enabled the longest. The link
+     * resolves that fallback again each time it is used. If no Location is eligible, send a
+     * routing source or configure the merchant default. Create, activation, and sellability edits
+     * require at least one active routing location with inventory_allocation_enabled; temporary
+     * stock shortages do not prevent these writes. Where you want inventory routed from: a fixed
+     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
      */
     "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
     /**
@@ -4580,7 +4905,3 @@ export type CreatePromotionRequestInput = {
      */
     "status"?: "active" | "inactive";
 };
-/** A reader registration selected by type. */
-export type CreateReaderRequest = ((CreateSmartReaderRequest) | (CreateTapToPayReaderRequest) | (Record<string, unknown>));
-/** A reader registration selected by type. */
-export type CreateReaderRequestInput = ((CreateSmartReaderRequestInput) | (CreateTapToPayReaderRequestInput));

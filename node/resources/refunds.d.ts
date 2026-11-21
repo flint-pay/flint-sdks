@@ -80,7 +80,7 @@ export type { Credentials } from '../declarations/types-15.js';
 export type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from '../declarations/types-26.js';
 export type { CategoryReference } from '../declarations/types-5.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
-export type { DeferredPromotion } from '../declarations/types-17.js';
+export type { DeferredPromotion } from '../declarations/types-18.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type {
@@ -99,8 +99,7 @@ export {
     makeCreateRefundRequestFull,
     makeCreateRefundRequestTargets
 } from '../declarations/types-84.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export {
     makeRefundAdjustmentAudit,
     makeRefundAdjustmentReasonRequest,
@@ -128,7 +127,9 @@ export interface RefundsResource {
  * redemption made outside a Flint order, set refund_type to amount and send one tender_allocations
  * entry per redemption, with no order_id. A created refund is returned even when processing fails;
  * inspect `status` and `failure_reason`. A same-key replay returns the original refund without
- * another money attempt. This is a financial operation.
+ * another money attempt. For a subscription renewal, choosing reason out_of_stock also requests
+ * cancellation of any eligible unshipped shipment once the order is fully refunded. Flint releases
+ * its committed stock. Read the order to see its fulfillment status.
  *
  * `POST /v1/refunds`
  * @see https://developers.withflintpay.com/docs/api/refunds#createRefund

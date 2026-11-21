@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# InventorySettingsInput to InvoiceMarkedUncollectibleInstalledMerchantsEventInput
+# InventoryRoutingSourceRequestInput to InvoiceManualPaymentReversedMerchantEventInput
 
+- [InventoryRoutingSourceRequestInput](InventoryRoutingSourceRequestInput.md)
 - [InventorySettingsInput](InventorySettingsInput.md)
 - [InventorySettingsRequestInput](InventorySettingsRequestInput.md)
 - [InventorySourceSystemInput](InventorySourceSystemInput.md)
@@ -101,5 +102,4 @@
 - [InvoiceManualPaymentResultResponseInput](InvoiceManualPaymentResultResponseInput.md)
 - [InvoiceManualPaymentReversedInstalledMerchantsEventInput](InvoiceManualPaymentReversedInstalledMerchantsEventInput.md)
 - [InvoiceManualPaymentReversedMerchantEventInput](InvoiceManualPaymentReversedMerchantEventInput.md)
-- [InvoiceMarkedUncollectibleInstalledMerchantsEventInput](InvoiceMarkedUncollectibleInstalledMerchantsEventInput.md)
 

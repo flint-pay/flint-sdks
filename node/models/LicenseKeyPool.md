@@ -16,7 +16,7 @@ A merchant's pool of uploaded license keys.
 | `issued_quantity` | Required | integer | Count of keys assigned to licenses, expressed as a whole number because fractional quantities are not supported. Format: `int64`. |
 | `license_key_pool_id` | Required | string | The license key pool ID. pattern: `^lkp_[0-7][0-9A-HJKMNP-TV-Z]{25}$`. Example: `"lkp_01KEZF7C00AQV1X2DPWG2NXS7H"`. |
 | `low_stock_threshold` | Required | integer or null | Available quantity at or below which the pool is low on stock. Null when no threshold is set. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
-| `metadata` | Required | [MetadataMap](../models/MetadataMap.md#metadatamap) | Merchant-defined key-value pairs. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/LicenseKey.md#licensekeymetadata). |
+| `metadata` | Required | [MetadataMap](../models/MetadataMap.md#metadatamap) | Merchant-defined key-value pairs. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CheckoutLicenseKey.md#checkoutlicensekeymetadata). |
 | `name` | Required | string | The name of the pool. minLength: `1`. maxLength: `255`. |
 | `pending_quantity` | Required | integer | Count of paid units waiting for a key, expressed as a whole number because fractional quantities are not supported. Format: `int64`. |
 | `public_validation_enabled` | Required | boolean | Whether the pool permits validation without a credential. All keys that have not been removed must have at least 16 characters. |
@@ -27,5 +27,5 @@ A merchant's pool of uploaded license keys.
 
 ### LicenseKeyPool.metadata
 
-Field definitions: [LicenseKey.metadata](../models/LicenseKey.md#licensekeymetadata).
+Field definitions: [CheckoutLicenseKey.metadata](../models/CheckoutLicenseKey.md#checkoutlicensekeymetadata).
 

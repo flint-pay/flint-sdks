@@ -1,15 +1,13 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    CreateSubscriptionPreviewRequestQuantityChangeInput,
-    CreateSubscriptionRequestInput,
     CreateTapToPayReaderRequestInput,
     CreateTaxCalculationCallbackRequestInput,
     CreateTaxRegistrationRequestInput,
     CreateTestClockRequestInput,
-    CreateWebhookDeliveryRequestInput,
-    CreateWebhookEndpointRequestInput
+    CreateWebhookDeliveryRequestInput
 } from './types-14.js';
 import type {
+    CreateWebhookEndpointRequestInput,
     CreateWebhookTestEventRequestInput,
     CreateWorkloadIdentityRequestInput,
     CreditNoteCorrectionRequestAmountRequestInput,
@@ -48,10 +46,10 @@ import type {
     DeliveryCoordinateRequestInput,
     DeliveryCountryConditionRequestInput,
     DeliveryCustomerBooleanConditionInput,
-    DeliveryCustomerSegmentConditionInput,
-    DeliveryDistanceRequestInput
+    DeliveryCustomerSegmentConditionInput
 } from './types-18.js';
 import type {
+    DeliveryDistanceRequestInput,
     DeliveryDistanceUnitPriceRequestInput,
     DeliveryEligibilityExpressionRequestInput,
     DeliveryEstimateRuleRequestInput,
@@ -59,10 +57,10 @@ import type {
     DeliveryInventoryAssignmentRequestInput,
     DeliveryLocationSetConfigurationInput,
     DeliveryMethodConfigurationCreateRequestInput,
-    DeliveryMethodConfigurationPatchRequestInput,
-    DeliveryMethodConfigurationRequestInput
+    DeliveryMethodConfigurationPatchRequestInput
 } from './types-19.js';
 import type {
+    DeliveryMethodConfigurationRequestInput,
     DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput,
     DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput,
     DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocationsInput,
@@ -75,9 +73,12 @@ import type {
     DeliveryPostalCodeConditionRequestInput,
     DeliveryPostalCodeValueRequestInput
 } from './types-20.js';
-import type { DeliveryPricingRateCreateRequestInput, DeliveryPricingRateRequestInput } from './types-21.js';
-export declare function makeCreateSubscriptionPreviewRequestQuantityChange(value: InputValue<CreateSubscriptionPreviewRequestQuantityChangeInput>): Model<CreateSubscriptionPreviewRequestQuantityChangeInput>;
-export declare function makeCreateSubscriptionRequest(value: InputValue<CreateSubscriptionRequestInput>): Model<CreateSubscriptionRequestInput>;
+import type {
+    DeliveryPricingRateCreateRequestInput,
+    DeliveryPricingRateRequestInput,
+    DeliveryPricingStrategyCreateInputCalculatedInput,
+    DeliveryPricingStrategyCreateInputCallbackInput
+} from './types-21.js';
 export declare function makeCreateTapToPayReaderRequest(value: InputValue<CreateTapToPayReaderRequestInput>): Model<CreateTapToPayReaderRequestInput>;
 export declare function makeCreateTaxCalculationCallbackRequest(value: InputValue<CreateTaxCalculationCallbackRequestInput>): Model<CreateTaxCalculationCallbackRequestInput>;
 export declare function makeCreateTaxRegistrationRequest(value: InputValue<CreateTaxRegistrationRequestInput>): Model<CreateTaxRegistrationRequestInput>;
@@ -140,3 +141,5 @@ export declare function makeDeliveryPostalCodeConditionRequest(value: InputValue
 export declare function makeDeliveryPostalCodeValueRequest(value: InputValue<DeliveryPostalCodeValueRequestInput>): Model<DeliveryPostalCodeValueRequestInput>;
 export declare function makeDeliveryPricingRateCreateRequest(value: InputValue<DeliveryPricingRateCreateRequestInput>): Model<DeliveryPricingRateCreateRequestInput>;
 export declare function makeDeliveryPricingRateRequest(value: InputValue<DeliveryPricingRateRequestInput>): Model<DeliveryPricingRateRequestInput>;
+export declare function makeDeliveryPricingStrategyCreateInputCalculated(value: InputValue<DeliveryPricingStrategyCreateInputCalculatedInput>): Model<DeliveryPricingStrategyCreateInputCalculatedInput>;
+export declare function makeDeliveryPricingStrategyCreateInputCallback(value: InputValue<DeliveryPricingStrategyCreateInputCallbackInput>): Model<DeliveryPricingStrategyCreateInputCallbackInput>;

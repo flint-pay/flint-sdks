@@ -1,6 +1,6 @@
 # SDK 8.0.0
 
-This guide covers upgrading from `7.0.0` to the `8.0.0-beta.9` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.9` or `flintpay/flint:8.0.0-beta.9`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
+This guide covers upgrading from `7.0.0` to the `8.0.0-beta.10` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.10` or `flintpay/flint:8.0.0-beta.10`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
 
 TypeScript reports most of these changes as compile errors, so run `tsc` after upgrading and work through the output. PHP reports them when the call runs; use the search patterns in [Finding call sites](#finding-call-sites).
 
@@ -14,6 +14,16 @@ What changed, most common first:
 - [Results](#results-carry-lastresponse): results carry `lastResponse`, and the `*WithResponse` methods are removed.
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
+
+## Changes in 8.0.0-beta.10
+
+- Type checkout launch results as `CheckoutSessionLaunch` (`checkoutSessions.create`) or `BuyerCheckoutSessionLaunch` (`me.createCheckoutSession`). `CheckoutSessionWithSecret` remains the result of checkout customer verification confirmation. In PHP, `getData()` on the launch responses returns `Flint\CheckoutSessionLaunch` or `Flint\BuyerCheckoutSessionLaunch`, and `Flint\BuyerCheckoutSessionWithSecret` is removed. Update parameter and return type declarations that named the old classes.
+- Handle `type: "return_resolution"` on launch results. A return balance launch reports it, while later reads and checkout session events report `order` for the same session.
+- In Node, build Quick Pay invoice line items with `makeCreateOrderLineItemInputCustom` instead of `makeCreateOrderLineItemCustomRequest`. Use `makeGiftCardPurchaseDetailsRequest`, `makeGiftCardPurchaseRecipientRequest` and `makeMetadataRequest` in place of the removed `makeGiftCardPurchaseRequest`, `makeGiftCardPurchaseRecipient` and `makeMetadataMap`. The `GiftCardPurchaseRecipient` response type remains. In PHP, `Flint\CreateOrderLineItemCustomRequestInput` is removed; pass each Quick Pay line item as an array with the same fields.
+- Include `tender_estimates` in typed return resolution preview fixtures, for both merchant and buyer previews. Use an empty array when no amount is payable.
+- When inspecting return line items, send `return_line_item_id` and `verification_reason` together. `verification_reason_message` also requires `return_line_item_id`.
+- Expect `IDEMPOTENCY_OUTCOME_UNCONFIRMED` from shipment create, update and void, and the new `automatic_tax_origin_unsupported`, `seller_origin_unsupported`, `quantity_unavailable`, `pickup_unavailable` and `list_fulfillment_events` values in the enums that report them.
+- `webhookEndpoints.signDelivery` now uses the client's default timeout and deadline. Pass `timeoutMs` and `deadlineMs` in the request options if you relied on the longer payment budget.
 
 ## Changes in 8.0.0-beta.9
 

@@ -1,7 +1,7 @@
+import type { GetReturnResponse, GetReturnResolutionResponse } from './types-28.js';
 import type { PaymentSourceCredential, PaymentSourceCredentialInput } from './types-54.js';
 import type { PaymentIntentWithAction } from './types-52.js';
 import type { ResponseMeta } from './types-62.js';
-import type { GetReturnResolutionResponse } from './types-28.js';
 import type { AddressRequest, AddressRequestInput, APIKeyWithSecret } from './types-0.js';
 import type { SellerTaxAttestationRequest, SellerTaxAttestationRequestInput } from './types-68.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
@@ -16,6 +16,10 @@ import type {
     DeliveryBuyerLocationRequestInput
 } from './types-18.js';
 import type { DeliveryInventoryAssignmentRequest, DeliveryInventoryAssignmentRequestInput } from './types-19.js';
+import type {
+    CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest,
+    CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput
+} from './types-9.js';
 import type { PromotionRefRequest, PromotionRefRequestInput } from './types-59.js';
 import type {
     CheckoutRedirects,
@@ -45,6 +49,39 @@ import type {
 import type { LegalSettings } from './types-39.js';
 import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-56.js';
 import type { ThemeConfig, ThemeConfigRequestInput } from './types-75.js';
+/** The request body for: Complete return. */
+export type CompleteReturnRequest = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Why you are completing the Return by hand. Value enum: "manual_completion",
+     * "exception_waived", "other".
+     */
+    "reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+};
+/** The request body for: Complete return. */
+export type CompleteReturnRequestInput = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Why you are completing the Return by hand. Value enum: "manual_completion",
+     * "exception_waived", "other".
+     */
+    "reason"?: "manual_completion" | "exception_waived" | "other";
+    /** Optional detail about `reason`, kept with the record. minLength: 1. */
+    "reason_message"?: string;
+};
+export type CompleteReturnResponse = GetReturnResponse;
 /** The request body for: Revoke an API key. */
 export type ConfigurationVersionRequestInput = {
     /**
@@ -5080,94 +5117,4 @@ export type CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestI
      * ^rbt_[A-Za-z0-9_-]{43}$.
      */
     "remembered_buyer_token": string;
-};
-/**
- * The buyer asked to use details saved at this merchant. By auto, the default, Flint texts the
- * number saved with the email's details, or emails a code when they have cards saved by email and
- * no number; otherwise it sends nothing and returns 409 ACTION_NOT_ALLOWED with reason
- * not_offered. The response's channel says which. By email, Flint sends a code only when the email
- * has saved details and an active card saved by email or with a number; the response is the same
- * either way. By sms, Flint texts the saved number or returns 409 ACTION_NOT_ALLOWED with reason
- * not_offered and param channel. Auto and sms reveal whether the email has saved details; sms also
- * reveals the number's last two digits. Always offer email alongside sms. A texted code opens only
- * cards saved with that number; an emailed code opens only cards saved by email. Send exactly one
- * of email or remembered_buyer_token. A token request always uses recognition's caps and masks the
- * email, and returns not_offered when nothing is sent. With explicit email, the token has the same
- * send eligibility and email caps as a typed email, forces a resend, and also uses recognition's
- * network caps. With auto it keeps recognition's routing and reuse.
- */
-export type CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest = ({
-    /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto". */
-    "channel"?: "email" | "sms" | "auto" | (string & {});
-    /**
-     * Email the buyer typed, with no surrounding spaces. Customers are matched by email without
-     * regard to case. The local part before @ must be at most 64 octets (UTF-8 bytes). Format:
-     * email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
-     */
-    "email"?: string;
-    /**
-     * What the buyer is confirming their email or number for. Value enum:
-     * "use_saved_payment_methods".
-     */
-    "purpose": "use_saved_payment_methods" | (string & {});
-    /**
-     * Use this remembered identity instead of email, only with purpose use_saved_payment_methods.
-     * It never opens saved cards without a right code. minLength: 47. maxLength: 47. pattern:
-     * ^rbt_[A-Za-z0-9_-]{43}$.
-     */
-    "remembered_buyer_token"?: string;
-})
-    & ((Exclude<CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest & object, readonly unknown[]>)
-    | (Exclude<CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * The buyer asked to use details saved at this merchant. By auto, the default, Flint texts the
- * number saved with the email's details, or emails a code when they have cards saved by email and
- * no number; otherwise it sends nothing and returns 409 ACTION_NOT_ALLOWED with reason
- * not_offered. The response's channel says which. By email, Flint sends a code only when the email
- * has saved details and an active card saved by email or with a number; the response is the same
- * either way. By sms, Flint texts the saved number or returns 409 ACTION_NOT_ALLOWED with reason
- * not_offered and param channel. Auto and sms reveal whether the email has saved details; sms also
- * reveals the number's last two digits. Always offer email alongside sms. A texted code opens only
- * cards saved with that number; an emailed code opens only cards saved by email. Send exactly one
- * of email or remembered_buyer_token. A token request always uses recognition's caps and masks the
- * email, and returns not_offered when nothing is sent. With explicit email, the token has the same
- * send eligibility and email caps as a typed email, forces a resend, and also uses recognition's
- * network caps. With auto it keeps recognition's routing and reuse.
- */
-export type CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput = ({
-    /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto". */
-    "channel"?: "email" | "sms" | "auto";
-    /**
-     * Email the buyer typed, with no surrounding spaces. Customers are matched by email without
-     * regard to case. The local part before @ must be at most 64 octets (UTF-8 bytes). Format:
-     * email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
-     */
-    "email"?: string;
-    /**
-     * What the buyer is confirming their email or number for. Value enum:
-     * "use_saved_payment_methods".
-     */
-    "purpose": "use_saved_payment_methods";
-    /**
-     * Use this remembered identity instead of email, only with purpose use_saved_payment_methods.
-     * It never opens saved cards without a right code. minLength: 47. maxLength: 47. pattern:
-     * ^rbt_[A-Za-z0-9_-]{43}$.
-     */
-    "remembered_buyer_token"?: string;
-})
-    & ((Exclude<CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput & object, readonly unknown[]>)
-    | (Exclude<CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput & object, readonly unknown[]>));
-/** The request body for: Allocate credit note. */
-export type CreateCreditNoteAllocationRequest = {
-    /**
-     * Credit to apply, no more than the credit note's available_money or the invoice's outstanding
-     * balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
-     * int64. minimum: 1.
-     */
-    "expected_credit_note_version"?: number;
 };

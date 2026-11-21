@@ -39,7 +39,7 @@ import type { WebhookInvoice } from './types-79.js';
 import type { InvoiceAutopayRetryPolicy, InvoiceAutopayRetryPolicyInput, Invoice } from './types-34.js';
 import type { SettlementAmounts, SettlementAmountsPreviousAttributes } from './types-68.js';
 import type { OrderCharge, OrderChargePreviousAttributes } from './types-45.js';
-import type { OrderTaxExemption } from './types-47.js';
+import type { OrderTaxExemption, OrderTaxExemptionPreviousAttributes } from './types-47.js';
 import type { TaxBreakdown, TaxBreakdownPreviousAttributes } from './types-73.js';
 import type {
     TaxCurrencyConversion,
@@ -49,11 +49,9 @@ import type {
     TaxIdentityPreviousAttributes,
     TaxReverseChargePreviousAttributes
 } from './types-74.js';
-import type { OrderTaxExemptionPreviousAttributes } from './types-48.js';
 import type { InputValue } from '../runtime.js';
 import type { CollectInvoiceRequestInput } from './types-7.js';
-import type { CreateInvoiceManualPaymentRequestInput } from './types-10.js';
-import type { CreateInvoiceRequestInput } from './types-11.js';
+import type { CreateInvoiceManualPaymentRequestInput, CreateInvoiceRequestInput } from './types-11.js';
 import type { CustomersListAddressesParams } from './types-17.js';
 import type {
     CreditNotesListAllocationsParams,

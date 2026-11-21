@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CreateGiftCardNotificationRequestInput to CreateOrderEditResult
+# CreateGiftCardLoadRequestInput to CreateOrderDiscountPromotionInput
 
+- [CreateGiftCardLoadRequestInput](CreateGiftCardLoadRequestInput.md)
+- [CreateGiftCardLoadResult](CreateGiftCardLoadResult.md)
+- [CreateGiftCardLoadResultResponse](CreateGiftCardLoadResultResponse.md)
+- [CreateGiftCardNotificationRequest](CreateGiftCardNotificationRequest.md)
 - [CreateGiftCardNotificationRequestInput](CreateGiftCardNotificationRequestInput.md)
 - [CreateGiftCardRedemptionRequest](CreateGiftCardRedemptionRequest.md)
 - [CreateGiftCardRedemptionRequestInput](CreateGiftCardRedemptionRequestInput.md)
@@ -98,8 +102,4 @@
 - [CreateOrderDiscountManualInput](CreateOrderDiscountManualInput.md)
 - [CreateOrderDiscountPromotion](CreateOrderDiscountPromotion.md)
 - [CreateOrderDiscountPromotionInput](CreateOrderDiscountPromotionInput.md)
-- [CreateOrderEditRequest](CreateOrderEditRequest.md)
-- [CreateOrderEditRequestInput](CreateOrderEditRequestInput.md)
-- [CreateOrderEditResponse](CreateOrderEditResponse.md)
-- [CreateOrderEditResult](CreateOrderEditResult.md)
 

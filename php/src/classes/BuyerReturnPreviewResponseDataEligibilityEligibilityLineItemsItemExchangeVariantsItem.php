@@ -10,7 +10,7 @@ namespace Flint;
 final class BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemExchangeVariantsItem extends Model {
     /** @param array{'available_quantity'?: int, 'name': string, 'unit_price_money': mixed, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemExchangeVariantsItem')); }
-    /** Available whole units, capped at the eligible return quantity. Omitted when stock is not tracked. Format: int64.
+    /** Whole-number quantity; fractional quantities are not supported. Capped at the eligible return quantity. Omitted when stock is not tracked. Format: int64.
      * @return ?int
      */
     public function getAvailableQuantity(): ?int { return $this->get('available_quantity'); }

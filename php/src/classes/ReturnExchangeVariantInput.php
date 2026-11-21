@@ -10,7 +10,7 @@ namespace Flint;
 final class ReturnExchangeVariantInput extends Model {
     /** @param array{'available_quantity'?: int, 'name': string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnExchangeVariantInput')); }
-    /** Available whole units, capped at the eligible return quantity. Omitted when stock is not tracked. Format: int64.
+    /** Whole-number quantity; fractional quantities are not supported. Capped at the eligible return quantity. Omitted when stock is not tracked. Format: int64.
      * @return int
      * @throws SdkError When available_quantity is omitted; use hasAvailableQuantity() or valueOrDefault().
      */

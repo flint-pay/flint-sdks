@@ -22,7 +22,6 @@ export type {
     RiskPreview,
     RiskPreviewResponse,
     RiskPredicateNodeRequestInput,
-    RiskPredicateNodeAllRequestInput,
     RiskPredicateNodeAnyRequestInput,
     RiskPredicateNodeNotRequestInput,
     RiskPredicateNodeComparisonRequestInput,
@@ -41,6 +40,7 @@ export type {
     CreateRiskPreviewRequestInlineInput,
     CreateRiskPreviewRequestStoredRuleInput
 } from '../declarations/types-14.js';
+export type { RiskPredicateNodeAllRequestInput } from '../declarations/types-66.js';
 export type { MoneyValueInput, NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
@@ -50,7 +50,7 @@ export {
     makeCreateRiskPreviewRequestInline,
     makeCreateRiskPreviewRequestStoredRule
 } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export {
     makeRiskPredicateNodeAllRequest,
     makeRiskPredicateNodeAnyRequest,

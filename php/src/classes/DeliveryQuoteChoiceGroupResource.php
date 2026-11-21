@@ -13,11 +13,12 @@ namespace Flint;
  * @property-read list<DeliveryQuoteLineItemResource> $line_items
  * @property-read list<string> $method_types
  * @property-read list<DeliveryQuoteChoiceGroupResourceOptionsItem> $options
+ * @property-read ?bool $pickup_unavailable
  * @property-read ?string $previously_selected_delivery_method_id
  * @property-read string $stable_key
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryQuoteChoiceGroupResource extends Model {
-    /** @param array{'address_advisories'?: list<mixed>, 'allowed_types'?: list<string>, 'availability_status': string, 'candidate_outcomes'?: \stdClass, 'delivery_choice_group_id': string, 'evaluation_status': string, 'execution_legs'?: list<mixed>, 'input_requirements': list<mixed>, 'line_items': list<mixed>, 'method_types': list<string>, 'options': list<object{'amount_money': mixed, 'arrival_estimate'?: mixed, 'buyer_instructions': mixed, 'charge_tax_category'?: string, 'consumed_by_delivery_selection_id'?: string, 'delivery_method_id': string, 'delivery_method_revision_id'?: string, 'delivery_option_id': string, 'delivery_plan': mixed, 'description'?: string, 'display_position': int, 'execution_legs'?: list<mixed>, 'expires_at'?: string, 'local_delivery'?: mixed, 'name': string, 'offered_windows'?: list<mixed>, 'pickup'?: mixed, 'recipient_requirements'?: list<mixed>, 'recommended': bool, 'shipment'?: mixed, 'taxable': bool, 'timezone'?: string, 'type': string, 'window_end_at'?: string, 'window_pricing'?: string, 'window_selection': string, 'window_start_at'?: string}>, 'previously_selected_delivery_method_id'?: string, 'stable_key': string, ...}|object $values */
+    /** @param array{'address_advisories'?: list<mixed>, 'allowed_types'?: list<string>, 'availability_status': string, 'candidate_outcomes'?: \stdClass, 'delivery_choice_group_id': string, 'evaluation_status': string, 'execution_legs'?: list<mixed>, 'input_requirements': list<mixed>, 'line_items': list<mixed>, 'method_types': list<string>, 'options': list<object{'amount_money': mixed, 'arrival_estimate'?: mixed, 'buyer_instructions': mixed, 'charge_tax_category'?: string, 'consumed_by_delivery_selection_id'?: string, 'delivery_method_id': string, 'delivery_method_revision_id'?: string, 'delivery_option_id': string, 'delivery_plan': mixed, 'description'?: string, 'display_position': int, 'execution_legs'?: list<mixed>, 'expires_at'?: string, 'local_delivery'?: mixed, 'name': string, 'offered_windows'?: list<mixed>, 'pickup'?: mixed, 'recipient_requirements'?: list<mixed>, 'recommended': bool, 'shipment'?: mixed, 'taxable': bool, 'timezone'?: string, 'type': string, 'window_end_at'?: string, 'window_pricing'?: string, 'window_selection': string, 'window_start_at'?: string}>, 'pickup_unavailable'?: bool, 'previously_selected_delivery_method_id'?: string, 'stable_key': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuoteChoiceGroupResource')); }
     /** Buyer-actionable address verification results that affected this choice group. A suggested_address is an explicit correction the buyer may confirm; Flint does not apply it silently. [] (Value): {@see DeliveryAddressAdvisoryResource}. An address verification result for a delivery address or buyer location. `suggested_address` may offer a correction.
      * @return ?list<DeliveryAddressAdvisoryResource>
@@ -74,6 +75,11 @@ final class DeliveryQuoteChoiceGroupResource extends Model {
      */
     public function getOptions(): array { return $this->get('options'); }
     public function hasOptions(): bool { return $this->has('options'); }
+    /** The requested pickup Location or the order's fixed inventory Location cannot be served by this group's pickup methods.
+     * @return ?bool
+     */
+    public function getPickupUnavailable(): ?bool { return $this->get('pickup_unavailable'); }
+    public function hasPickupUnavailable(): bool { return $this->has('pickup_unavailable'); }
     /** Method chosen for this group in the previous selection. Omitted when there is none.
      * @return ?string
      */

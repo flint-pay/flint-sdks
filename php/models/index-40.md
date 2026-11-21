@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# TaxCalculationCallbackUpdatedEvent to StripePaymentClientAction
+# TaxCalculationCallbackDeactivatedEvent to StripeTerminalPaymentIntentClientAction
 
+- [TaxCalculationCallbackDeactivatedEvent](TaxCalculationCallbackDeactivatedEvent.md)
 - [TaxCalculationCallbackUpdatedEvent](TaxCalculationCallbackUpdatedEvent.md)
 - [TaxConnectionUpdatedEvent](TaxConnectionUpdatedEvent.md)
 - [TestClockAdvancingEvent](TestClockAdvancingEvent.md)
@@ -101,5 +102,4 @@
 - [StripePaymentIntentClientAction](StripePaymentIntentClientAction.md)
 - [StripeSetupIntentClientAction](StripeSetupIntentClientAction.md)
 - [StripeTerminalPaymentIntentClientAction](StripeTerminalPaymentIntentClientAction.md)
-- [StripePaymentClientAction](StripePaymentClientAction.md)
 

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# RefundDestinationsInput to RetryReturnDispositionResponseInput
+# RefundCreatedMerchantEventInput to RetryReturnDispositionRequestInput
 
+- [RefundCreatedMerchantEventInput](RefundCreatedMerchantEventInput.md)
 - [RefundDestinationsInput](RefundDestinationsInput.md)
 - [RefundFailedInstalledMerchantsEventInput](RefundFailedInstalledMerchantsEventInput.md)
 - [RefundFailedMerchantEventInput](RefundFailedMerchantEventInput.md)
@@ -101,5 +102,4 @@
 - [RetryOrderEditRefundResponseInput](RetryOrderEditRefundResponseInput.md)
 - [RetryOrderEditRefundResultInput](RetryOrderEditRefundResultInput.md)
 - [RetryReturnDispositionRequestInput](RetryReturnDispositionRequestInput.md)
-- [RetryReturnDispositionResponseInput](RetryReturnDispositionResponseInput.md)
 

@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/me.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import r0 from '../descriptors/resources/me.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import settings from '../descriptors/settings.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionPlan"]:r0,["changeMeSubscriptionQuantity"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeCheckoutSession"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeFlintWalletStoreSetup"]:r0,["createMePaymentMethod"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeSubscriptionPaymentRetry"]:r0,["createMeSubscriptionPreview"]:r0,["deleteMeAddress"]:r0,["deleteMePaymentMethod"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailChangeRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeFulfillment"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMeOrderReceiptPDF"]:r0,["getMePackage"]:r0,["getMePaymentIntent"]:r0,["getMePaymentMethod"]:r0,["getMeRefund"]:r0,["getMeReturn"]:r0,["getMeReturnResolution"]:r0,["getMeShipment"]:r0,["getMeSubscription"]:r0,["getMeSubscriptionPaymentRetry"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeEmailChangeRequests"]:r0,["listMeFlintWalletCards"]:r0,["listMeFulfillmentEvents"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeLicenseKeyActivations"]:r0,["listMeLicenseKeys"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentIntents"]:r0,["listMePaymentMethods"]:r0,["listMeRefunds"]:r0,["listMeRememberedBuyers"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptionPaymentRetries"]:r0,["listMeSubscriptions"]:r0,["listMeTickets"]:r0,["pauseMeSubscription"]:r0,["releaseMeLicenseKeyActivation"]:r0,["removeMeGiftCard"]:r0,["renewMeSubscription"]:r0,["resendMeLicenseKey"]:r0,["resumeMeSubscription"]:r0,["revokeMeRememberedBuyer"]:r0,["revokeMeSession"]:r0,["saveMeGiftCard"]:r0,["sendMeOrderReceipt"]:r0,["skipMeSubscriptionCycle"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0,["updateMeSubscription"]:r0,["updateMeSubscriptionLineItem"]:r0});
 export class Client {
@@ -1254,7 +1254,6 @@ export { makeCreateMeSubscriptionPreviewRequestQuantityChange } from '../models/
 export { makeCreateReturnEligibilityPreviewRequest } from '../models/CreateReturnEligibilityPreviewRequest.js';
 export { makeDeliverySelectionRecipientRequest } from '../models/DeliverySelectionRecipientRequest.js';
 export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
-export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
 export { makeImageInputFile } from '../models/ImageInputFile.js';
 export { makeImageInputSourceURL } from '../models/ImageInputSourceURL.js';
 export { makeImageRequest } from '../models/ImageRequest.js';
@@ -1264,7 +1263,6 @@ export { makeMerchantAccountSessionRefreshRequest } from '../models/MerchantAcco
 export { makeMerchantSignupOwnerRequest } from '../models/MerchantSignupOwnerRequest.js';
 export { makeMerchantSignupTermsAcceptanceRequest } from '../models/MerchantSignupTermsAcceptanceRequest.js';
 export { makeMerchantSignupVersionRequest } from '../models/MerchantSignupVersionRequest.js';
-export { makeMetadataMap } from '../models/MetadataMap.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';

@@ -46,7 +46,6 @@ export type {
     PaymentLinkProductOptionValue,
     PaymentLinkSubscriptionPreview,
     PaymentLinkResolvePrefillRequestInput,
-    PaymentLinkLineItemPatchRequestInput,
     PaymentLinkPaymentPatchRequestInput,
     PaymentLinkRedirectsPatchRequestInput,
     PaymentLinkThemePatchRequestInput,
@@ -88,6 +87,7 @@ export type {
     PaymentLinkCustomTextPatchRequestInput,
     PaymentLinkEventConfigPatchRequestInput,
     PaymentLinkLegalPatchRequestInput,
+    PaymentLinkLineItemPatchRequestInput,
     PaymentLinkLineItemPatchInputVariantInput,
     PaymentLinkLineItemPatchInputBundleInput,
     PaymentLinkLineItemPatchInputCustomFixedInput,
@@ -286,6 +286,7 @@ export type {
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
     DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
+    DeferredPromotion,
     DeliveryChargeTaxCalculationRequest
 } from '../declarations/types-18.js';
 export type {
@@ -301,13 +302,6 @@ export type { DeliveryRecipientRequirement, DeliveryRecipientResource } from '..
 export type { BuyerSelectableOrderPaymentIntent, BuyerSetupCollection, BuyerSetupCollectionStripe, BuyerTip } from '../declarations/types-4.js';
 export type { ExpandedCustomerSummary } from '../declarations/types-26.js';
 export type { RefundTaxBreakdownRefund, RefundTenderAllocation } from '../declarations/types-61.js';
-export type {
-    DeferredPromotion,
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates,
-    CustomerTaxID
-} from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
 export type {
     PaymentSourceSummary,
@@ -329,6 +323,12 @@ export type { GiftCardPurchaseSnapshot, GiftCardProductConfiguration, GiftCardPu
 export type { LineItemInventorySnapshot, LineItemInventoryDemand } from '../declarations/types-40.js';
 export type { TaxCalculationRequest, TaxComponentRequest, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-74.js';
 export type { Dimensions } from '../declarations/types-25.js';
+export type {
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates,
+    CustomerTaxID
+} from '../declarations/types-17.js';
 export type { TaxBreakdown, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-73.js';
 export type { UpdatePaymentLinkRequestInput } from '../declarations/types-77.js';
 export {
@@ -340,10 +340,9 @@ export {
     makeCheckoutTaxConfigRequest,
     makeCheckoutTipConfigRequest
 } from '../declarations/types-81.js';
-export { makeCreatePaymentLinkRequest } from '../declarations/types-84.js';
+export { makeCreatePaymentLinkRequest } from '../declarations/types-83.js';
 export { makeDeliveryWindowRequest } from '../declarations/types-86.js';
 export {
-    makeGiftCardPurchaseRecipient,
     makeImageInputFile,
     makeImageInputSourceURL,
     makeImageRequest,
@@ -352,8 +351,8 @@ export {
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest
 } from '../declarations/types-87.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
-export { makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-89.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeOrderLineItemTaxRequest } from '../declarations/types-89.js';
 export {
     makePaymentLinkCustomFieldPatchRequest,
     makePaymentLinkCustomFieldRequest,

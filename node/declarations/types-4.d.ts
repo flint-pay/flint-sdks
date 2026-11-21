@@ -2,7 +2,6 @@ import type {
     BuyerReturnReplacementLineItemInputBundle,
     BuyerReturnReplacementLineItemInputVariant,
     BuyerReturnReplacementLineItemInputBundleInput,
-    BuyerReturnReplacementLineItemInputVariantInput,
     BuyerReturn,
     BuyerPaymentMethodWithSetup,
     BuyerPaymentCollection,
@@ -13,7 +12,7 @@ import type {
     BuyerOrderPaymentAttempt
 } from './types-3.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
-import type { ReturnReplacementLineItem, ReturnResolutionLineItem } from './types-65.js';
+import type { ReturnReplacementLineItem, ReturnResolutionLineItem, ReturnRefundTenderEstimate } from './types-65.js';
 import type { ResponseMeta } from './types-62.js';
 import type { ReturnHandoffRequirementLineItem } from './types-63.js';
 import type { BuyerAction } from './types-1.js';
@@ -39,10 +38,41 @@ import type { Image } from './types-31.js';
 import type { SelectedProductOption } from './types-68.js';
 import type { PaymentErrorSummary } from './types-51.js';
 import type { OrderLineItemTax } from './types-47.js';
-import type { Address, AcceptFulfillmentRequestInput } from './types-0.js';
+import type { Address } from './types-0.js';
 import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-75.js';
 import type { ContextSummary } from './types-8.js';
 import type { DeliveryWindowRequest, DeliveryWindowRequestInput } from './types-24.js';
+/** The `variant` variant of `BuyerReturnReplacementLineItemInput`. */
+export type BuyerReturnReplacementLineItemInputVariantInput = ({
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 1.
+     */
+    "quantity": number;
+    /** The catalog source of the replacement merchandise. Value enum: "variant". */
+    "type": "variant";
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    & (({
+    /** The catalog source of the replacement merchandise. Value enum: "variant". */
+    "type": "variant";
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    & (({
+    "bundle_id"?: never;
+})));
 /**
  * A catalog variant or bundle and quantity the buyer requests as a replacement in a Return
  * resolution preview.
@@ -439,6 +469,13 @@ export type BuyerReturnResolutionPreview = {
      * integer minor units plus an ISO 4217 currency code.
      */
     "returned_total_money": MoneyValue;
+    /**
+     * Estimated amounts by original tender and refund destination. For a replacement return,
+     * order_id identifies the order that collected each tender. Empty when no amount is payable.
+     * [] (Value): {@link ReturnRefundTenderEstimate}. One original tender and its estimated share
+     * of a return refund.
+     */
+    "tender_estimates": Array<ReturnRefundTenderEstimate>;
 };
 /** A response containing `BuyerReturnResolution` data. */
 export type BuyerReturnResolutionResponse = {
@@ -3427,5 +3464,3 @@ export type CallerSuppliedDeliveryOutcomeRequestUnavailableInput = ({
     & ({
     "retryable"?: never;
 })));
-/** Cancels fulfillment work that has not completed. */
-export type CancelFulfillmentRequestInput = AcceptFulfillmentRequestInput;

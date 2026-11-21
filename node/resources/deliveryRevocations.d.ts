@@ -23,7 +23,9 @@ export type {
     DeliveryRevocationsGetParams,
     DeliveryRevocationsListParams,
     DeliveryRevocationTargetLocationGeography,
-    DeliveryRevocationTargetDeliveryRateCallbackSigningKey
+    DeliveryRevocationTargetDeliveryRateCallbackSigningKey,
+    DeliveryRevocationTargetDeliveryRateCallbackRevision,
+    DeliveryRevocationTargetDeliveryMethodRevision
 } from '../declarations/types-24.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
@@ -31,9 +33,7 @@ export type {
     DeliveryRevocationResponse,
     DeliveryRevocationListResponse,
     DeliveryRevocationImpact,
-    DeliveryRevocationTarget,
-    DeliveryRevocationTargetDeliveryRateCallbackRevision,
-    DeliveryRevocationTargetDeliveryMethodRevision
+    DeliveryRevocationTarget
 } from '../declarations/types-23.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
@@ -58,7 +58,7 @@ export {
     makeCreateDeliveryRevocationTargetDeliveryRateCallbackSigningKey,
     makeCreateDeliveryRevocationTargetLocationGeography
 } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface DeliveryRevocationsResource {
     /**
  * Permanently fences one exact delivery method revision, rate callback revision, callback HMAC

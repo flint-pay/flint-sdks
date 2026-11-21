@@ -45,10 +45,11 @@ test("publication verifies version, source state and archive hashes before invok
       JSON.stringify({ version }),
     );
     writeFileSync(join(dir, "release", npm), "reviewed tarball");
-    // Intercept npm completely; this test never contacts a registry.
+    // Intercept npm completely; this test never contacts a registry. The shim
+    // avoids require() so it runs whether a parent package.json selects ESM or CommonJS.
     writeFileSync(
       join(dir, "bin/npm"),
-      `#!${process.execPath}\nrequire('node:fs').writeFileSync(process.env.NPM_CALL_LOG, JSON.stringify(process.argv.slice(2)));\n`,
+      `#!${process.execPath}\nprocess.getBuiltinModule('node:fs').writeFileSync(process.env.NPM_CALL_LOG, JSON.stringify(process.argv.slice(2)));\n`,
     );
     chmodSync(join(dir, "bin/npm"), 0o755);
     const invoke = (confirmed = version) =>

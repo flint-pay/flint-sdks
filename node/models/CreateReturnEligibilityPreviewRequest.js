@@ -1,9 +1,9 @@
-import { d9690 as c0, d9692 as c1, d9694 as c2, d9699 as c3, d9701 as c4, d9702 as c5, d9703 as c6 } from '../descriptors/data/448.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
-import { d9690 as d9690 } from '../descriptors/data/448.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d9702 as c0, d9704 as c1, d9706 as c2, d9711 as c3, d9713 as c4, d9714 as c5, d9715 as c6 } from '../descriptors/data/448.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
+import { d9702 as d9702 } from '../descriptors/data/448.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d9690;
+const read = d9702;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateReturnEligibilityPreviewRequest"]:c0(),["ReturnEligibilityLineItemRequestModel"]:c1(),["ReturnEligibilitySelectionRequest"]:c2(),["SharedCodec2669"]:c3(),["SharedCodec2671"]:c4(),["SharedCodec2672"]:c5(),["SharedCodec2673"]:c6()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateReturnEligibilityPreviewRequest"]:c0(),["ReturnEligibilityLineItemRequestModel"]:c1(),["ReturnEligibilitySelectionRequest"]:c2(),["SharedCodec2674"]:c3(),["SharedCodec2676"]:c4(),["SharedCodec2677"]:c5(),["SharedCodec2678"]:c6()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateReturnEligibilityPreviewRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

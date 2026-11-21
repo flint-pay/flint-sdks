@@ -43,7 +43,7 @@ export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { SubscriptionSnapshotMetrics, SubscriptionStatusCounts } from '../declarations/types-72.js';
 export type { SubscriptionWindowMetrics } from '../declarations/types-73.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface AnalyticsResource {
     /**
  * Returns high-level merchant analytics for the requested half-open period.

@@ -15,9 +15,10 @@ namespace Flint;
  * @property-read string $resolution_type
  * @property-read string $return_id
  * @property-read BuyerReturnPreviewResponseDataEligibilityResolutionReturnedTotalMoney $returned_total_money
+ * @property-read list<BuyerReturnPreviewResponseDataEligibilityResolutionTenderEstimatesItemPaymentIntent|BuyerReturnPreviewResponseDataEligibilityResolutionTenderEstimatesItemGiftCardRedemption|\stdClass> $tender_estimates
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerReturnPreviewResponseDataEligibilityResolution extends Model {
-    /** @param array{'adjustments': list<mixed>, 'based_on_return_version': int, 'buyer_payment_amount_money': mixed, 'buyer_refund_amount_money': mixed, 'calculated_at': string, 'credit_adjustment_money': mixed, 'deduction_money': mixed, 'line_items': list<mixed>, 'replacement_line_items': list<mixed>, 'replacement_total_money': mixed, 'resolution_type': string, 'return_id': string, 'returned_total_money': mixed, ...}|object $values */
+    /** @param array{'adjustments': list<mixed>, 'based_on_return_version': int, 'buyer_payment_amount_money': mixed, 'buyer_refund_amount_money': mixed, 'calculated_at': string, 'credit_adjustment_money': mixed, 'deduction_money': mixed, 'line_items': list<mixed>, 'replacement_line_items': list<mixed>, 'replacement_total_money': mixed, 'resolution_type': string, 'return_id': string, 'returned_total_money': mixed, 'tender_estimates': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnPreviewResponseDataEligibilityResolution')); }
     /** Fees and credits to apply to the resolution, at most 50. [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityResolutionAdjustmentsItem}. An adjustment to a Return resolution shown to the buyer, with its assessed amount, applied amount, status, and reason.
      * @return list<BuyerReturnPreviewResponseDataEligibilityResolutionAdjustmentsItem>
@@ -84,4 +85,9 @@ final class BuyerReturnPreviewResponseDataEligibilityResolution extends Model {
      */
     public function getReturnedTotalMoney(): BuyerReturnPreviewResponseDataEligibilityResolutionReturnedTotalMoney { return $this->get('returned_total_money'); }
     public function hasReturnedTotalMoney(): bool { return $this->has('returned_total_money'); }
+    /** Estimated amounts by original tender and refund destination. For a replacement return, order_id identifies the order that collected each tender. Empty when no amount is payable. [] (Value): {@see ReturnRefundTenderEstimate}. One original tender and its estimated share of a return refund.
+     * @return list<BuyerReturnPreviewResponseDataEligibilityResolutionTenderEstimatesItemPaymentIntent|BuyerReturnPreviewResponseDataEligibilityResolutionTenderEstimatesItemGiftCardRedemption|\stdClass>
+     */
+    public function getTenderEstimates(): array { return $this->get('tender_estimates'); }
+    public function hasTenderEstimates(): bool { return $this->has('tender_estimates'); }
 }

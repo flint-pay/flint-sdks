@@ -6,7 +6,7 @@ import type {
     DisputesAcceptParams
 } from './types-26.js';
 import type { ExpandedShipmentSummary, ExpandedShipmentSummaryPreviousAttributes } from './types-27.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { ReturnActor, ReturnActorPreviousAttributes, RetryReturnDispositionRequestInput } from './types-62.js';
 import type {
@@ -21,9 +21,9 @@ import type {
     WebhookSnapshotReturnDisposition,
     WebhookSnapshotReturnInspection,
     WebhookSnapshotReturnLineItem,
-    WebhookSnapshotReturnReceipt
+    WebhookSnapshotReturnReceipt,
+    WebhookSnapshotReturnResolution
 } from './types-79.js';
-import type { WebhookSnapshotReturnResolution } from './types-80.js';
 import type { InputValue } from '../runtime.js';
 import type { CancelReturnDispositionRequestInput } from './types-5.js';
 import type { CreateReturnDispositionRequestInput, CreateReturnInspectionRequestInput } from './types-13.js';
@@ -36,312 +36,6 @@ import type { Address, AddressPreviousAttributes } from './types-0.js';
 import type { ReturnSourceSystem, ReturnSourceSystemPreviousAttributes } from './types-66.js';
 import type { DecideReturnInspectionLineItemRequestInput } from './types-17.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
-export type ReturnCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "actor"?: ReturnActor;
-        "object": {
-            "canceled_at"?: string;
-            "canceled_by"?: ReturnActor;
-            "cancellation_reason"?: "buyer_request"
-                | "merchant_request"
-                | "duplicate"
-                | "expired"
-                | "created_in_error"
-                | "other"
-                | (string & {});
-            "cancellation_reason_message"?: string;
-            "completed_at"?: string;
-            "completed_by"?: ReturnActor;
-            "completion_blockers": Array<ReturnCompletionBlocker>;
-            "completion_mode"?: "manual" | "automatic" | (string & {});
-            "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
-            "completion_reason_message"?: string;
-            "created_at": string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id"?: string;
-            "decision_at"?: string;
-            "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
-            "external_reference_id"?: string;
-            "financial_summary": ReturnFinancialSummary;
-            "handoff_requirements": Array<ReturnHandoffRequirement>;
-            "idempotency_key"?: string | null;
-            "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
-            "line_items": Array<WebhookSnapshotReturnLineItem>;
-            "merchandise_status": "not_required"
-                | "awaiting_handoff"
-                | "in_transit"
-                | "partially_received"
-                | "inspection_required"
-                | "partially_inspected"
-                | "inspection_review_required"
-                | "disposition_required"
-                | "resolved"
-                | "exception"
-                | (string & {});
-            "metadata": MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "policy_evaluation"?: ReturnPolicyEvaluation;
-            "resolution_status": "not_selected"
-                | "pending"
-                | "partially_completed"
-                | "requires_action"
-                | "completed"
-                | "failed"
-                | (string & {});
-            "return_disposition_ids": Array<string>;
-            "return_dispositions"?: Array<WebhookSnapshotReturnDisposition>;
-            "return_id": string;
-            "return_inspection_ids": Array<string>;
-            "return_inspections"?: Array<WebhookSnapshotReturnInspection>;
-            "return_number": string;
-            "return_receipt_ids": Array<string>;
-            "return_receipts"?: Array<WebhookSnapshotReturnReceipt>;
-            "return_resolution_ids": Array<string>;
-            "return_resolutions"?: Array<WebhookSnapshotReturnResolution>;
-            "shipment_ids": Array<string>;
-            "shipments"?: Array<ExpandedShipmentSummary>;
-            "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
-            "supported_actions": Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "canceled_at"?: ((string) | (null));
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
-            "cancellation_reason"?: (("buyer_request"
-                | "merchant_request"
-                | "duplicate"
-                | "expired"
-                | "created_in_error"
-                | "other"
-                | (string & {}))
-                | (null));
-            "cancellation_reason_message"?: ((string) | (null));
-            "completed_at"?: ((string) | (null));
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
-            "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
-            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
-            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
-            "completion_reason_message"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "decision_at"?: ((string) | (null));
-            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
-            "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
-            "idempotency_key"?: ((string) | (null));
-            "initiated_by"?: (("buyer" | "merchant" | "integration" | "system" | (string & {})) | (null));
-            "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
-            "merchandise_status"?: (("not_required"
-                | "awaiting_handoff"
-                | "in_transit"
-                | "partially_received"
-                | "inspection_required"
-                | "partially_inspected"
-                | "inspection_review_required"
-                | "disposition_required"
-                | "resolved"
-                | "exception"
-                | (string & {}))
-                | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
-            "resolution_status"?: (("not_selected"
-                | "pending"
-                | "partially_completed"
-                | "requires_action"
-                | "completed"
-                | "failed"
-                | (string & {}))
-                | (null));
-            "return_disposition_ids"?: ((Array<string>) | (null));
-            "return_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
-            "return_id"?: ((string) | (null));
-            "return_inspection_ids"?: ((Array<string>) | (null));
-            "return_inspections"?: ((Array<ReturnInspectionPreviousAttributes>) | (null));
-            "return_number"?: ((string) | (null));
-            "return_receipt_ids"?: ((Array<string>) | (null));
-            "return_receipts"?: ((Array<ReturnReceiptPreviousAttributes>) | (null));
-            "return_resolution_ids"?: ((Array<string>) | (null));
-            "return_resolutions"?: ((Array<ReturnResolutionPreviousAttributes>) | (null));
-            "shipment_ids"?: ((Array<string>) | (null));
-            "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
-            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "return.completed";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "actor"?: ReturnActor;
-        "object": {
-            "canceled_at"?: string;
-            "canceled_by"?: ReturnActor;
-            "cancellation_reason"?: "buyer_request"
-                | "merchant_request"
-                | "duplicate"
-                | "expired"
-                | "created_in_error"
-                | "other"
-                | (string & {});
-            "cancellation_reason_message"?: string;
-            "completed_at"?: string;
-            "completed_by"?: ReturnActor;
-            "completion_blockers": Array<ReturnCompletionBlocker>;
-            "completion_mode"?: "manual" | "automatic" | (string & {});
-            "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
-            "completion_reason_message"?: string;
-            "created_at": string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id"?: string;
-            "decision_at"?: string;
-            "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
-            "external_reference_id"?: string;
-            "financial_summary": ReturnFinancialSummary;
-            "handoff_requirements": Array<ReturnHandoffRequirement>;
-            "idempotency_key"?: string | null;
-            "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
-            "line_items": Array<WebhookSnapshotReturnLineItem>;
-            "merchandise_status": "not_required"
-                | "awaiting_handoff"
-                | "in_transit"
-                | "partially_received"
-                | "inspection_required"
-                | "partially_inspected"
-                | "inspection_review_required"
-                | "disposition_required"
-                | "resolved"
-                | "exception"
-                | (string & {});
-            "metadata": MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "policy_evaluation"?: ReturnPolicyEvaluation;
-            "resolution_status": "not_selected"
-                | "pending"
-                | "partially_completed"
-                | "requires_action"
-                | "completed"
-                | "failed"
-                | (string & {});
-            "return_disposition_ids": Array<string>;
-            "return_dispositions"?: Array<WebhookSnapshotReturnDisposition>;
-            "return_id": string;
-            "return_inspection_ids": Array<string>;
-            "return_inspections"?: Array<WebhookSnapshotReturnInspection>;
-            "return_number": string;
-            "return_receipt_ids": Array<string>;
-            "return_receipts"?: Array<WebhookSnapshotReturnReceipt>;
-            "return_resolution_ids": Array<string>;
-            "return_resolutions"?: Array<WebhookSnapshotReturnResolution>;
-            "shipment_ids": Array<string>;
-            "shipments"?: Array<ExpandedShipmentSummary>;
-            "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
-            "supported_actions": Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "canceled_at"?: ((string) | (null));
-            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
-            "cancellation_reason"?: (("buyer_request"
-                | "merchant_request"
-                | "duplicate"
-                | "expired"
-                | "created_in_error"
-                | "other"
-                | (string & {}))
-                | (null));
-            "cancellation_reason_message"?: ((string) | (null));
-            "completed_at"?: ((string) | (null));
-            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
-            "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
-            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
-            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
-            "completion_reason_message"?: ((string) | (null));
-            "created_at"?: ((string) | (null));
-            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
-            "customer_id"?: ((string) | (null));
-            "decision_at"?: ((string) | (null));
-            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
-            "external_reference_id"?: ((string) | (null));
-            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
-            "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
-            "idempotency_key"?: ((string) | (null));
-            "initiated_by"?: (("buyer" | "merchant" | "integration" | "system" | (string & {})) | (null));
-            "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
-            "merchandise_status"?: (("not_required"
-                | "awaiting_handoff"
-                | "in_transit"
-                | "partially_received"
-                | "inspection_required"
-                | "partially_inspected"
-                | "inspection_review_required"
-                | "disposition_required"
-                | "resolved"
-                | "exception"
-                | (string & {}))
-                | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
-            "order_id"?: ((string) | (null));
-            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
-            "resolution_status"?: (("not_selected"
-                | "pending"
-                | "partially_completed"
-                | "requires_action"
-                | "completed"
-                | "failed"
-                | (string & {}))
-                | (null));
-            "return_disposition_ids"?: ((Array<string>) | (null));
-            "return_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
-            "return_id"?: ((string) | (null));
-            "return_inspection_ids"?: ((Array<string>) | (null));
-            "return_inspections"?: ((Array<ReturnInspectionPreviousAttributes>) | (null));
-            "return_number"?: ((string) | (null));
-            "return_receipt_ids"?: ((Array<string>) | (null));
-            "return_receipts"?: ((Array<ReturnReceiptPreviousAttributes>) | (null));
-            "return_resolution_ids"?: ((Array<string>) | (null));
-            "return_resolutions"?: ((Array<ReturnResolutionPreviousAttributes>) | (null));
-            "shipment_ids"?: ((Array<string>) | (null));
-            "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
-            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
-            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "return.completed";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "return.completed";
-});
 /**
  * The `return.completed` webhook payload for the `installed_merchants` event source. Fields shared
  * by partner webhook payloads.
@@ -11559,8 +11253,8 @@ export type ReturnEligibilitySelectionRequestInput = ({
  */
 export type ReturnExchangeVariant = {
     /**
-     * Available whole units, capped at the eligible return quantity. Omitted when stock is not
-     * tracked. Format: int64.
+     * Whole-number quantity; fractional quantities are not supported. Capped at the eligible
+     * return quantity. Omitted when stock is not tracked. Format: int64.
      */
     "available_quantity"?: number;
     /** Name of the alternative variant. */
@@ -13967,7 +13661,7 @@ export type ReturnInspectionLineItemPreviousAttributes = {
 /**
  * The inspection result for one received return line: acceptance status, condition, and findings.
  */
-export type ReturnInspectionLineItemRequest = {
+export type ReturnInspectionLineItemRequest = ({
     /**
      * Whether the inspected units were accepted, rejected, or need a merchant's decision. Value
      * enum: "accepted", "rejected", "review_required".
@@ -14012,7 +13706,8 @@ export type ReturnInspectionLineItemRequest = {
     /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
     "quantity": number;
     /**
-     * ID of the Return line inspected. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     * ID of the Return line to verify the receipt line against. Send with `verification_reason`.
+     * minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      */
     "return_line_item_id"?: string;
     /**
@@ -14021,9 +13716,9 @@ export type ReturnInspectionLineItemRequest = {
      */
     "return_receipt_line_item_id": string;
     /**
-     * Why the receipt line was verified against the Return line. Value enum:
-     * "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review",
-     * "other".
+     * Why the receipt line was verified against the Return line. Required when you send
+     * `return_line_item_id`. Value enum: "order_match_confirmed", "sku_match_confirmed",
+     * "inspection_confirmed", "merchant_review", "other".
      */
     "verification_reason"?: "order_match_confirmed"
         | "sku_match_confirmed"
@@ -14031,13 +13726,16 @@ export type ReturnInspectionLineItemRequest = {
         | "merchant_review"
         | "other"
         | (string & {});
-    /** Detail about `verification_reason`. minLength: 1. */
+    /**
+     * Detail about `verification_reason`. Send only with `return_line_item_id` and
+     * `verification_reason`. minLength: 1.
+     */
     "verification_reason_message"?: string;
-};
+});
 /**
  * The inspection result for one received return line: acceptance status, condition, and findings.
  */
-export type ReturnInspectionLineItemRequestInput = {
+export type ReturnInspectionLineItemRequestInput = ({
     /**
      * Whether the inspected units were accepted, rejected, or need a merchant's decision. Value
      * enum: "accepted", "rejected", "review_required".
@@ -14073,7 +13771,8 @@ export type ReturnInspectionLineItemRequestInput = {
     /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
     "quantity": number;
     /**
-     * ID of the Return line inspected. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     * ID of the Return line to verify the receipt line against. Send with `verification_reason`.
+     * minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      */
     "return_line_item_id"?: string;
     /**
@@ -14082,18 +13781,21 @@ export type ReturnInspectionLineItemRequestInput = {
      */
     "return_receipt_line_item_id": string;
     /**
-     * Why the receipt line was verified against the Return line. Value enum:
-     * "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review",
-     * "other".
+     * Why the receipt line was verified against the Return line. Required when you send
+     * `return_line_item_id`. Value enum: "order_match_confirmed", "sku_match_confirmed",
+     * "inspection_confirmed", "merchant_review", "other".
      */
     "verification_reason"?: "order_match_confirmed"
         | "sku_match_confirmed"
         | "inspection_confirmed"
         | "merchant_review"
         | "other";
-    /** Detail about `verification_reason`. minLength: 1. */
+    /**
+     * Detail about `verification_reason`. Send only with `return_line_item_id` and
+     * `verification_reason`. minLength: 1.
+     */
     "verification_reason_message"?: string;
-};
+});
 export type ReturnInspectionPreviousAttributes = {
     /**
      * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
@@ -15745,3 +15447,156 @@ export type ReturnInventoryTransferToOriginRequestInput = {
      */
     "provenance"?: InventoryProvenanceRequestInput;
 };
+/**
+ * Start from the pinned policy proposal recomputed for approved_quantity when the line has a
+ * policy evaluation and the proposal can be built. Otherwise start with return_required_quantity
+ * equal to approved_quantity, allowed_resolution_types containing refund, exchange, replacement,
+ * no_monetary_action, and store_credit in that order regardless of whether the original payment is
+ * refundable, no automatic_resolution_type, is_inspection_required false, and no
+ * receiving_location_id. Each supplied field replaces its starting value; allowed_resolution_types
+ * replaces the whole list. Omit automatic_resolution_type to keep its starting value, or send null
+ * to resolve manually. Then fill an omitted release_timing with after_inspection when merchandise
+ * is required and inspection is required, after_receipt when merchandise is required without
+ * inspection, or after_approval when no merchandise is required. Validate the merged decision for
+ * quantity bounds, allowed resolution types, and reachable timing and inspection requirements. A
+ * pinned policy always requires override_reason when approved_quantity exceeds evaluated
+ * eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal,
+ * other decision fields use these defaults and override_reason is otherwise optional. Example:
+ * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ","return_line_item_id":"retli_01KEZF7C001NHF6JPD83VD0MRK"}.
+ */
+export type ReturnLineDecision = ({
+    /**
+     * Optional replacement for the entire starting list. Defaults to the buildable pinned policy
+     * proposal; otherwise refund, exchange, replacement, no_monetary_action, and store_credit in
+     * that order, independent of the original payment's refundability. The resulting list must be
+     * valid and non-empty when approved_quantity is above zero. [] enum: "refund", "exchange",
+     * "replacement", "no_monetary_action", "store_credit". [] (Value): string. Value enum:
+     * "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     */
+    "allowed_resolution_types"?: Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>;
+    /**
+     * Required whole-number quantity from zero through the line's requested_quantity; fractional
+     * quantities are not supported. When approved_quantity is below requested_quantity, send
+     * decline_reason; decline_reason_message is optional. Both decline fields are forbidden when
+     * all requested quantity is approved. Format: int64. minimum: 0.
+     */
+    "approved_quantity": number;
+    /**
+     * Optional refund, store_credit, or no_monetary_action that Flint creates and confirms
+     * automatically. Omit to keep the policy proposal's value, or the absent value from no-policy
+     * defaults. Send null to resolve the line manually; clearing a policy proposal's automatic
+     * value requires override_reason. Must be in the resulting allowed_resolution_types. Exchange
+     * and replacement cannot be automated. An unavailable automatic refund or store credit fails
+     * with 409 ACTION_NOT_ALLOWED and reason refund_unavailable or store_credit_unavailable. Value
+     * enum: "refund", "store_credit", "no_monetary_action", null.
+     */
+    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | null | (string & {}) | null;
+    /**
+     * Why the line's declined quantity is declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason"?: "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /**
+     * Optional explanation accompanying decline_reason, up to 2048 characters (Unicode code
+     * points), counted before normalization. Requires decline_reason and is forbidden when all
+     * requested quantity is approved. minLength: 1. maxLength: 2048.
+     */
+    "decline_reason_message"?: string;
+    /**
+     * Optional inspection requirement. Defaults to the buildable pinned policy proposal or false
+     * when no proposal can be built. The resulting requirement must be reachable with the merged
+     * merchandise quantity and release timing.
+     */
+    "is_inspection_required"?: boolean;
+    /**
+     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
+     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
+     * when no proposal can be built. The release timing fill also applies to the proposal and does
+     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
+     * or no deviation exists. Forbidden without a pinned policy. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason"?: "customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /**
+     * Optional explanation accompanying override_reason. Requires override_reason and is forbidden
+     * without a pinned policy. minLength: 1.
+     */
+    "override_reason_message"?: string;
+    /**
+     * Optional receiving Location with a postal address. Defaults to the buildable pinned policy
+     * proposal or no location when no proposal can be built. Required when the resulting
+     * return_required_quantity is above zero and there is no starting location. A process receipt
+     * does not supply the decision's location. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id"?: string;
+    /**
+     * Optional gate for every resolution type. Defaults to the policy proposal's timing when set.
+     * After merging supplied fields, an unset timing becomes after_inspection when
+     * return_required_quantity is above zero and inspection is required, after_receipt when
+     * return_required_quantity is above zero without inspection, or after_approval when
+     * return_required_quantity is zero. Applies to every resolution type, including exchanges and
+     * replacements. manual is held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual".
+     */
+    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
+    /**
+     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * How much of the approved quantity the buyer must physically send back; fractional quantities
+     * are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and
+     * the Return still settles the money. Format: int64. minimum: 0.
+     */
+    "return_required_quantity"?: number;
+})
+    & (((unknown)
+    | ({
+    /**
+     * Why the line's declined quantity is declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason": "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+})
+    | (Record<string, unknown>)))
+    & (((unknown)
+    | ({
+    /**
+     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
+     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
+     * when no proposal can be built. The release timing fill also applies to the proposal and does
+     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
+     * or no deviation exists. Forbidden without a pinned policy. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason": "customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+})
+    | (Record<string, unknown>)));

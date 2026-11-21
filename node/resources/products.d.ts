@@ -79,7 +79,7 @@ export type {
     CreateProductRequestSimpleInput,
     CreateProductRequestOptionedInput
 } from '../declarations/types-12.js';
-export type { MoneyValueInput, ModifierSet, ModifierSetGroup, MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { MoneyValueInput, ModifierSetGroup, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { GiftCardProductConfigurationRequestInput, GiftCardProductConfiguration } from '../declarations/types-30.js';
 export type {
     GiftCardCustomAmountBoundsRequestInput,
@@ -92,6 +92,7 @@ export type { InventoryItemCreateRequestInput } from '../declarations/types-32.j
 export type {
     MetadataRequestInput,
     MetadataMap,
+    ModifierSet,
     ModifierGroup,
     Modifier,
     ModifierOverride,
@@ -135,11 +136,10 @@ export {
 } from '../declarations/types-87.js';
 export {
     makeLicenseKeyConfigurationRequest,
-    makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest
+    makeMetadataRequest,
+    makeMoneyValue
 } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
 export {
     makePoolLicenseKeyConfigurationRequest,
     makeProductVariantRequest,

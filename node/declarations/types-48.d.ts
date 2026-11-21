@@ -1,8 +1,6 @@
 import type {
-    CustomerTaxExemptionCoveragePreviousAttributes,
     CustomerTaxExemptionCoverage,
     CustomerTaxExemptionCoverageRequestInput,
-    DeferredPromotionPreviousAttributes,
     CustomersListAddressesParams
 } from './types-17.js';
 import type {
@@ -14,6 +12,7 @@ import type {
     OrderTaxExemptionInputOrderInput,
     OrderTaxAttentionPreviousAttributes,
     OrderTaxCallbackEvaluationPreviousAttributes,
+    OrderTaxExemptionPreviousAttributes,
     OrderTaxCalculationRequest,
     OrderTaxCalculationRequestInput,
     OrderLineItemTaxAssignment,
@@ -33,7 +32,8 @@ import type {
 import type {
     DeliveryChargeTaxCalculationRequestPreviousAttributes,
     DeliveryChargeTaxCalculationRequest,
-    DeliveryChargeTaxCalculationRequestModelInput
+    DeliveryChargeTaxCalculationRequestModelInput,
+    DeferredPromotionPreviousAttributes
 } from './types-18.js';
 import type { TaxBreakdownPreviousAttributes } from './types-73.js';
 import type { TaxReverseChargePreviousAttributes } from './types-74.js';
@@ -84,100 +84,13 @@ import type {
     RetryOrderEditRefundRequestInput
 } from './types-62.js';
 import type { SendOrderReceiptRequestInput } from './types-68.js';
-import type { UpdateOrderChargeRequestInput, UpdateOrderRequestInput } from './types-77.js';
-import type { UpdateLineItemRequestInput } from './types-76.js';
+import type { UpdateOrderChargeRequestInput, UpdateLineItemRequestInput } from './types-76.js';
+import type { UpdateOrderRequestInput } from './types-77.js';
 import type { Dimensions, DimensionsRequestInput } from './types-25.js';
 import type { ReturnHandoffRequirementLineItem } from './types-63.js';
 import type { Weight, WeightRequestInput } from './types-80.js';
 import type { ReturnResolutionLineItemRequest } from './types-65.js';
 import type { ReturnShipmentLineItemAllocationRequestInput } from './types-66.js';
-export type OrderTaxExemptionPreviousAttributes = {
-    /**
-     * Certificate number recorded at assessment. Omitted when none was recorded. anyOf[1] (Value):
-     * string. Certificate number recorded at assessment. Omitted when none was recorded. anyOf[2]
-     * (Value): null.
-     */
-    "certificate_number"?: ((string) | (null));
-    /**
-     * Jurisdictions covered by the exemption at assessment. Omitted when no coverage was recorded.
-     * anyOf[1] (Value): {@link CustomerTaxExemptionCoveragePreviousAttributes}. anyOf[2] (Value):
-     * null.
-     */
-    "coverage"?: ((CustomerTaxExemptionCoveragePreviousAttributes) | (null));
-    /**
-     * ID of the customer the exemption was assessed from, when one was linked. anyOf[1] (Value):
-     * string. ID of the customer the exemption was assessed from, when one was linked. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
-     */
-    "customer_id"?: ((string) | (null));
-    /**
-     * Customer exemption record used for this assessment. Omitted for blanket flags, order
-     * declarations, and older snapshots. anyOf[1] (Value): string. Customer exemption record used
-     * for this assessment. Omitted for blanket flags, order declarations, and older snapshots.
-     * Example: "ctex_01KEZF7C009N0YTK0NMWP1XZPW". anyOf[2] (Value): null.
-     */
-    "customer_tax_exemption_id"?: ((string) | (null));
-    /**
-     * Last day of the selected record's exemption, inclusive. Omitted when no end date was
-     * recorded. anyOf[1] (Value): string. Last day of the selected record's exemption, inclusive.
-     * Omitted when no end date was recorded. Format: date. Example: "2026-08-02". anyOf[2]
-     * (Value): null.
-     */
-    "end_date"?: ((string) | (null));
-    /**
-     * Merchant-only reference to supporting evidence recorded at assessment. Buyer views omit it.
-     * Never printed on buyer documents. anyOf[1] (Value): string. Merchant-only reference to
-     * supporting evidence recorded at assessment. Buyer views omit it. Never printed on buyer
-     * documents. anyOf[2] (Value): null.
-     */
-    "evidence_reference"?: ((string) | (null));
-    /**
-     * Exemption reason recorded at assessment. Omitted when no reason was recorded. Value enum:
-     * "federal_government", "state_or_local_government", "tribal_government", "foreign_diplomat",
-     * "charitable_organization", "religious_organization", "educational_organization", "resale",
-     * "agricultural_production", "industrial_production", "direct_pay_permit", "direct_mail",
-     * "other". anyOf[1] (Value): string. Exemption reason recorded at assessment. Omitted when no
-     * reason was recorded. Value enum: "federal_government", "state_or_local_government",
-     * "tribal_government", "foreign_diplomat", "charitable_organization",
-     * "religious_organization", "educational_organization", "resale", "agricultural_production",
-     * "industrial_production", "direct_pay_permit", "direct_mail", "other". anyOf[2] (Value):
-     * null.
-     */
-    "reason"?: (("federal_government"
-        | "state_or_local_government"
-        | "tribal_government"
-        | "foreign_diplomat"
-        | "charitable_organization"
-        | "religious_organization"
-        | "educational_organization"
-        | "resale"
-        | "agricultural_production"
-        | "industrial_production"
-        | "direct_pay_permit"
-        | "direct_mail"
-        | "other"
-        | (string & {}))
-        | (null));
-    /**
-     * The source of the tax exemption assessment. Omitted when the source has not been
-     * established. Value enum: "none", "customer", "order". anyOf[1] (Value): string. The source
-     * of the tax exemption assessment. Omitted when the source has not been established. Value
-     * enum: "none", "customer", "order". anyOf[2] (Value): null.
-     */
-    "source"?: (("none" | "customer" | "order" | (string & {})) | (null));
-    /**
-     * First day of the selected record's exemption, inclusive. Omitted when no date was recorded.
-     * anyOf[1] (Value): string. First day of the selected record's exemption, inclusive. Omitted
-     * when no date was recorded. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
-     */
-    "start_date"?: ((string) | (null));
-    /**
-     * Whether an exemption applied to this sale. An exempt sale has zero tax and taxability_reason
-     * customer_exempt. anyOf[1] (Value): boolean. Whether an exemption applied to this sale. An
-     * exempt sale has zero tax and taxability_reason customer_exempt. anyOf[2] (Value): null.
-     */
-    "tax_exempt"?: ((boolean) | (null));
-};
 /**
  * Replaced as a whole: send every field you want to keep. Choose customer assessment, no
  * exemption, or a one-off order declaration. Write-only: responses return the exemption that
@@ -5919,3 +5832,121 @@ export type PackageCreateRequestInput = ({
 })
     & ((Exclude<PackageCreateInputCreatedInput & object, readonly unknown[]>)
     | (Exclude<PackageCreateInputShippedInput & object, readonly unknown[]>));
+export type PackageCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "carrier"?: string;
+            "created_at": string;
+            "delivered_at"?: string;
+            "dimensions"?: Dimensions;
+            "expected_delivery_at"?: string | null;
+            "external_reference_id"?: string;
+            "external_system"?: string;
+            "fulfillment_id": string;
+            "label_url"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "package_id": string;
+            "return_id"?: string;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
+            "service_code"?: string;
+            "shipment_id": string;
+            "shipped_at"?: string;
+            "status": "created"
+                | "packed"
+                | "shipped"
+                | "in_transit"
+                | "out_for_delivery"
+                | "delivered"
+                | "delivery_attempted"
+                | "exception"
+                | "returned"
+                | "voided"
+                | (string & {});
+            "status_reason"?: string;
+            "supported_actions": Array<"mark_delivered"
+                | "mark_delivery_attempted"
+                | "mark_exception"
+                | "mark_in_transit"
+                | "mark_out_for_delivery"
+                | "mark_packed"
+                | "mark_returned"
+                | "mark_shipped"
+                | "void"
+                | (string & {})>;
+            "tracking_number"?: string;
+            "tracking_url"?: string;
+            "updated_at": string;
+            "version": number;
+            "weight"?: Weight;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "package.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "carrier"?: string;
+            "created_at": string;
+            "delivered_at"?: string;
+            "dimensions"?: Dimensions;
+            "expected_delivery_at"?: string | null;
+            "external_reference_id"?: string;
+            "external_system"?: string;
+            "fulfillment_id": string;
+            "label_url"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "package_id": string;
+            "return_id"?: string;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
+            "service_code"?: string;
+            "shipment_id": string;
+            "shipped_at"?: string;
+            "status": "created"
+                | "packed"
+                | "shipped"
+                | "in_transit"
+                | "out_for_delivery"
+                | "delivered"
+                | "delivery_attempted"
+                | "exception"
+                | "returned"
+                | "voided"
+                | (string & {});
+            "status_reason"?: string;
+            "supported_actions": Array<"mark_delivered"
+                | "mark_delivery_attempted"
+                | "mark_exception"
+                | "mark_in_transit"
+                | "mark_out_for_delivery"
+                | "mark_packed"
+                | "mark_returned"
+                | "mark_shipped"
+                | "void"
+                | (string & {})>;
+            "tracking_number"?: string;
+            "tracking_url"?: string;
+            "updated_at": string;
+            "version": number;
+            "weight"?: Weight;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "package.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "package.created";
+});

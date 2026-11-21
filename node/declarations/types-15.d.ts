@@ -1,3 +1,4 @@
+import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-79.js';
 import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-80.js';
 import type { CredentialProvider, InputValue } from '../runtime.js';
 import type { ExpandedInvoiceSummary, ExpandedInvoiceSummaryPreviousAttributes, DisputesAcceptParams } from './types-26.js';
@@ -15,6 +16,135 @@ import type { Invoice } from './types-34.js';
 import type { CreateCreditNoteAllocationRequestInput, CreateCreditNoteRequestInput } from './types-9.js';
 import type { IssueCreditNoteRequestInput, InvoicesMarkUncollectibleParams } from './types-38.js';
 import type { UpdateCreditNoteRequestInput } from './types-75.js';
+import type { CustomDomainDNSRecord, CustomDomainDNSRecordPreviousAttributes } from './types-16.js';
+/** The request body for: Create webhook endpoint. */
+export type CreateWebhookEndpointRequest = ({
+    /**
+     * Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this
+     * endpoint. Omission pins the API version this create request is served at (Flint-Version, or
+     * the merchant default when the header is absent). Null is not accepted. minLength: 1.
+     */
+    "api_version"?: string;
+    /**
+     * Your description of this endpoint. `null` is the same as omitting the field. minLength: 1.
+     * maxLength: 500.
+     */
+    "description"?: string;
+    /**
+     * Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver,
+     * including types added later; * must be the only entry and is not available with
+     * installed_merchants. At least one entry is required. Use only current event type names;
+     * previous and removed names are rejected. Stored subscriptions map previous names permanently
+     * and drop removed names on read. See the [changelog](/changelog). minItems: 1. [] (Value):
+     * string. minLength: 1.
+     */
+    "enabled_events": Array<string>;
+    /**
+     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
+     * lifecycle events and installed_merchants for events from merchants that installed the
+     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
+     * Value enum: "merchant", "partner_app", "installed_merchants".
+     */
+    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
+    /**
+     * Modes of installed-merchant events this endpoint receives. Required when event_sources
+     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
+     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
+     * "test", "live". [] (Value): string. Value enum: "test", "live".
+     */
+    "installed_merchant_modes"?: Array<"test" | "live" | (string & {})>;
+    /**
+     * Partner app that owns partner_app or installed_merchants event sources. minLength: 1.
+     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: string;
+    /**
+     * Links this endpoint to a connected app's install. Revoking the install, or its grant for
+     * this endpoint's environment, deletes the endpoint. The install must be active and authorized
+     * for this environment. Set only at creation; it never changes. Omit for an endpoint not tied
+     * to an app. Endpoints created by a linked key are linked to the same install. At most 25
+     * endpoints may link to one install in each environment. minLength: 1. pattern:
+     * ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     */
+    "partner_app_install_id"?: string;
+    /**
+     * Methods Flint uses to sign deliveries. Defaults to jwt. Including hmac issues a shared
+     * secret returned once. minItems: 1. uniqueItems: true. Default: ["jwt"]. [] enum: "jwt",
+     * "hmac". [] (Value): {@link WebhookSigningMethod}. How Flint signs requests to this endpoint.
+     * Value enum: "jwt", "hmac".
+     */
+    "signing_methods"?: Array<WebhookSigningMethod>;
+    /**
+     * Whether this endpoint receives events. Defaults to active. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /** Public HTTPS URL to receive webhook deliveries. minLength: 1. maxLength: 2048. */
+    "url": string;
+});
+/** The request body for: Create webhook endpoint. */
+export type CreateWebhookEndpointRequestInput = ({
+    /**
+     * Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this
+     * endpoint. Omission pins the API version this create request is served at (Flint-Version, or
+     * the merchant default when the header is absent). Null is not accepted. minLength: 1.
+     */
+    "api_version"?: string;
+    /**
+     * Your description of this endpoint. `null` is the same as omitting the field. minLength: 1.
+     * maxLength: 500.
+     */
+    "description"?: string;
+    /**
+     * Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver,
+     * including types added later; * must be the only entry and is not available with
+     * installed_merchants. At least one entry is required. Use only current event type names;
+     * previous and removed names are rejected. Stored subscriptions map previous names permanently
+     * and drop removed names on read. See the [changelog](/changelog). minItems: 1. [] (Value):
+     * string. minLength: 1.
+     */
+    "enabled_events": Array<string>;
+    /**
+     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
+     * lifecycle events and installed_merchants for events from merchants that installed the
+     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
+     * Value enum: "merchant", "partner_app", "installed_merchants".
+     */
+    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants">;
+    /**
+     * Modes of installed-merchant events this endpoint receives. Required when event_sources
+     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
+     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
+     * "test", "live". [] (Value): string. Value enum: "test", "live".
+     */
+    "installed_merchant_modes"?: Array<"test" | "live">;
+    /**
+     * Partner app that owns partner_app or installed_merchants event sources. minLength: 1.
+     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: string;
+    /**
+     * Links this endpoint to a connected app's install. Revoking the install, or its grant for
+     * this endpoint's environment, deletes the endpoint. The install must be active and authorized
+     * for this environment. Set only at creation; it never changes. Omit for an endpoint not tied
+     * to an app. Endpoints created by a linked key are linked to the same install. At most 25
+     * endpoints may link to one install in each environment. minLength: 1. pattern:
+     * ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     */
+    "partner_app_install_id"?: string;
+    /**
+     * Methods Flint uses to sign deliveries. Defaults to jwt. Including hmac issues a shared
+     * secret returned once. minItems: 1. uniqueItems: true. Default: ["jwt"]. [] enum: "jwt",
+     * "hmac". [] (Value): {@link WebhookSigningMethodInput}. How Flint signs requests to this
+     * endpoint. Value enum: "jwt", "hmac".
+     */
+    "signing_methods"?: Array<WebhookSigningMethodInput>;
+    /**
+     * Whether this endpoint receives events. Defaults to active. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /** Public HTTPS URL to receive webhook deliveries. minLength: 1. maxLength: 2048. */
+    "url": string;
+});
 /** The request body for: Create webhook test event. */
 export type CreateWebhookTestEventRequest = {
     /**
@@ -880,22 +1010,24 @@ export type CreateWorkloadIdentityRequest = {
      */
     "name": string;
     /**
-     * Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only
-     * scopes they hold in the same environment. Only a full-access key or a freshly verified user
-     * session can grant accounts.api_keys.write, accounts.workload_identities.write or
-     * commerce.gift_cards.secrets.write, in every mode. [] enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.license_keys.read",
+     * Complete scope set to grant. A Dashboard session needs fresh verification to grant scopes
+     * outside this list: commerce.products.read, commerce.subscription_plans.read,
+     * commerce.bundles.read, commerce.catalog.read. API credentials may grant only scopes they
+     * hold in the same environment. Among API credentials, only full-access keys may grant these
+     * scopes: accounts.api_keys.write, commerce.gift_cards.secrets.write,
+     * accounts.workload_identities.write, commerce.license_keys.secrets.write. [] enum:
+     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
      * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
      * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
      * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
@@ -1106,22 +1238,24 @@ export type CreateWorkloadIdentityRequestInput = {
      */
     "name": string;
     /**
-     * Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only
-     * scopes they hold in the same environment. Only a full-access key or a freshly verified user
-     * session can grant accounts.api_keys.write, accounts.workload_identities.write or
-     * commerce.gift_cards.secrets.write, in every mode. [] enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.license_keys.read",
+     * Complete scope set to grant. A Dashboard session needs fresh verification to grant scopes
+     * outside this list: commerce.products.read, commerce.subscription_plans.read,
+     * commerce.bundles.read, commerce.catalog.read. API credentials may grant only scopes they
+     * hold in the same environment. Among API credentials, only full-access keys may grant these
+     * scopes: accounts.api_keys.write, commerce.gift_cards.secrets.write,
+     * accounts.workload_identities.write, commerce.license_keys.secrets.write. [] enum:
+     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
      * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
      * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
      * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
@@ -9289,30 +9423,3 @@ export type CustomDomainArchivedEvent = ((Exclude<MerchantWebhookEnvelope & obje
     & {
     "event_type": "custom_domain.archived";
 });
-/** A DNS record for configuring or verifying a custom hostname. */
-export type CustomDomainDNSRecord = {
-    /** DNS name at which to publish this record. */
-    "name": string;
-    /** DNS record type to publish, such as cname or txt. Value enum: "cname", "txt". */
-    "type": "cname" | "txt" | (string & {});
-    /** DNS record value to publish at name. */
-    "value": string;
-};
-export type CustomDomainDNSRecordPreviousAttributes = {
-    /**
-     * DNS name at which to publish this record. anyOf[1] (Value): string. DNS name at which to
-     * publish this record. anyOf[2] (Value): null.
-     */
-    "name"?: ((string) | (null));
-    /**
-     * DNS record type to publish, such as cname or txt. Value enum: "cname", "txt". anyOf[1]
-     * (Value): string. DNS record type to publish, such as cname or txt. Value enum: "cname",
-     * "txt". anyOf[2] (Value): null.
-     */
-    "type"?: (("cname" | "txt" | (string & {})) | (null));
-    /**
-     * DNS record value to publish at name. anyOf[1] (Value): string. DNS record value to publish
-     * at name. anyOf[2] (Value): null.
-     */
-    "value"?: ((string) | (null));
-};

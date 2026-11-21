@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/fulfillments.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import r0 from '../descriptors/resources/fulfillments.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import settings from '../descriptors/settings.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["acceptFulfillment"]:r0,["cancelFulfillment"]:r0,["completeFulfillment"]:r0,["createFulfillment"]:r0,["dispatchFulfillment"]:r0,["failFulfillment"]:r0,["getFulfillment"]:r0,["holdFulfillment"]:r0,["listFulfillments"]:r0,["markFulfillmentNoShow"]:r0,["markFulfillmentPacked"]:r0,["markFulfillmentPicked"]:r0,["markFulfillmentPreparing"]:r0,["markFulfillmentReady"]:r0,["releaseFulfillmentHold"]:r0,["scheduleFulfillment"]:r0,["startFulfillment"]:r0,["updateFulfillment"]:r0});
 export class Client {
@@ -309,7 +309,6 @@ export { makeMarkFulfillmentPackedRequest } from '../models/MarkFulfillmentPacke
 export { makeMarkFulfillmentPickedRequest } from '../models/MarkFulfillmentPickedRequest.js';
 export { makeMarkFulfillmentPreparingRequest } from '../models/MarkFulfillmentPreparingRequest.js';
 export { makeMarkFulfillmentReadyRequest } from '../models/MarkFulfillmentReadyRequest.js';
-export { makeMetadataMap } from '../models/MetadataMap.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';

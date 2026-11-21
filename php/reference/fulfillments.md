@@ -1268,7 +1268,7 @@ $result = $client->fulfillments->start('ful_01KEZF7C00F24WVSTTWR1FQX5T', null, n
 
 ### fulfillments.update
 
-Updates mutable fulfillment fields and fulfillment-specific details. Fulfillment line item allocation is set when the fulfillment is created. expected_version is optional and rejects a stale resource version when supplied.
+Updates mutable fulfillment fields and fulfillment-specific details. Before handoff, changing location_id moves committed stock to the new Location. If the Location has insufficient available stock, the update returns INVENTORY_INSUFFICIENT. expected_version is optional and rejects a stale resource version when supplied.
 
 `PATCH /v1/fulfillments/{fulfillment_id}`
 

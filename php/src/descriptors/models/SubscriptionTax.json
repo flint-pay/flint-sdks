@@ -1,1 +1,1 @@
-{"shared":"SubscriptionTax","phpRepresentation":{"kind":"record","fields":{"calculation":{"kind":"nullable","value":{"kind":"entity","name":"SubscriptionTaxCalculation"}},"enabled":{"kind":"value","type":"bool"}}},"dependencies":["SharedCodec2846","SharedCodec2847","SubscriptionTax"]}
+{"shared":"SubscriptionTax","phpRepresentation":{"kind":"record","fields":{"calculation":{"kind":"nullable","value":{"kind":"entity","name":"SubscriptionTaxCalculation"}},"enabled":{"kind":"value","type":"bool"}}},"dependencies":["SharedCodec2854","SharedCodec2855","SubscriptionTax"]}

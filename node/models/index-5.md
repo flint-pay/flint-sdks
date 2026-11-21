@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CheckoutSessionPartiallyPaidMerchantEvent to CreateCheckoutSessionQuickPayInput
+# CheckoutSessionListResponse to CreateCheckoutSessionOrderInput
 
+- [CheckoutSessionListResponse](CheckoutSessionListResponse.md)
+- [CheckoutSessionPaidInstalledMerchantsEvent](CheckoutSessionPaidInstalledMerchantsEvent.md)
+- [CheckoutSessionPaidMerchantEvent](CheckoutSessionPaidMerchantEvent.md)
+- [CheckoutSessionPartiallyPaidInstalledMerchantsEvent](CheckoutSessionPartiallyPaidInstalledMerchantsEvent.md)
 - [CheckoutSessionPartiallyPaidMerchantEvent](CheckoutSessionPartiallyPaidMerchantEvent.md)
 - [CheckoutSessionPlatformFee](CheckoutSessionPlatformFee.md)
 - [CheckoutSessionResponse](CheckoutSessionResponse.md)
@@ -98,8 +102,4 @@
 - [CreateCheckoutSessionInvoiceInput](CreateCheckoutSessionInvoiceInput.md)
 - [CreateCheckoutSessionOrder](CreateCheckoutSessionOrder.md)
 - [CreateCheckoutSessionOrderInput](CreateCheckoutSessionOrderInput.md)
-- [CreateCheckoutSessionPayToNewAddressVerificationRequest](CreateCheckoutSessionPayToNewAddressVerificationRequest.md)
-- [CreateCheckoutSessionPayToNewAddressVerificationRequestInput](CreateCheckoutSessionPayToNewAddressVerificationRequestInput.md)
-- [CreateCheckoutSessionQuickPay](CreateCheckoutSessionQuickPay.md)
-- [CreateCheckoutSessionQuickPayInput](CreateCheckoutSessionQuickPayInput.md)
 

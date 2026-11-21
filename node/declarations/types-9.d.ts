@@ -1,4 +1,10 @@
-import type { MoneyValueInput } from './types-44.js';
+import type {
+    CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest,
+    CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest,
+    CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput,
+    CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput
+} from './types-8.js';
+import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-15.js';
 import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
 import type { MetadataMap, MetadataRequestInput } from './types-43.js';
@@ -8,11 +14,11 @@ import type {
     DeliveryLocationSetConfiguration,
     DeliveryLocationSetConfigurationInput,
     DeliveryMethodConfigurationCreateRequest,
-    DeliveryMethodConfigurationCreateRequestInput,
-    DeliveryMethodConfigurationRequest,
-    DeliveryMethodConfigurationRequestInput
+    DeliveryMethodConfigurationCreateRequestInput
 } from './types-19.js';
 import type {
+    DeliveryMethodConfigurationRequest,
+    DeliveryMethodConfigurationRequestInput,
     DeliveryMethodOriginSelectorRequest,
     DeliveryMethodOriginSelectorRequestInput,
     DeliveryPickupAvailabilityMaximumDistanceRequestInput
@@ -43,6 +49,96 @@ import type {
 } from './types-24.js';
 import type { DeliveryZoneConfigurationRequest, DeliveryZoneConfigurationRequestInput } from './types-25.js';
 import type { Sandbox } from './types-67.js';
+/**
+ * The buyer asked to use details saved at this merchant. By auto, the default, Flint texts the
+ * number saved with the email's details, or emails a code when they have cards saved by email and
+ * no number; otherwise it sends nothing and returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered. The response's channel says which. By email, Flint sends a code only when the email
+ * has saved details and an active card saved by email or with a number; the response is the same
+ * either way. By sms, Flint texts the saved number or returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered and param channel. Auto and sms reveal whether the email has saved details; sms also
+ * reveals the number's last two digits. Always offer email alongside sms. A texted code opens only
+ * cards saved with that number; an emailed code opens only cards saved by email. Send exactly one
+ * of email or remembered_buyer_token. A token request always uses recognition's caps and masks the
+ * email, and returns not_offered when nothing is sent. With explicit email, the token has the same
+ * send eligibility and email caps as a typed email, forces a resend, and also uses recognition's
+ * network caps. With auto it keeps recognition's routing and reuse.
+ */
+export type CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest = ({
+    /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto". */
+    "channel"?: "email" | "sms" | "auto" | (string & {});
+    /**
+     * Email the buyer typed, with no surrounding spaces. Customers are matched by email without
+     * regard to case. The local part before @ must be at most 64 octets (UTF-8 bytes). Format:
+     * email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+     */
+    "email"?: string;
+    /**
+     * What the buyer is confirming their email or number for. Value enum:
+     * "use_saved_payment_methods".
+     */
+    "purpose": "use_saved_payment_methods" | (string & {});
+    /**
+     * Use this remembered identity instead of email, only with purpose use_saved_payment_methods.
+     * It never opens saved cards without a right code. minLength: 47. maxLength: 47. pattern:
+     * ^rbt_[A-Za-z0-9_-]{43}$.
+     */
+    "remembered_buyer_token"?: string;
+})
+    & ((Exclude<CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest & object, readonly unknown[]>)
+    | (Exclude<CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * The buyer asked to use details saved at this merchant. By auto, the default, Flint texts the
+ * number saved with the email's details, or emails a code when they have cards saved by email and
+ * no number; otherwise it sends nothing and returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered. The response's channel says which. By email, Flint sends a code only when the email
+ * has saved details and an active card saved by email or with a number; the response is the same
+ * either way. By sms, Flint texts the saved number or returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered and param channel. Auto and sms reveal whether the email has saved details; sms also
+ * reveals the number's last two digits. Always offer email alongside sms. A texted code opens only
+ * cards saved with that number; an emailed code opens only cards saved by email. Send exactly one
+ * of email or remembered_buyer_token. A token request always uses recognition's caps and masks the
+ * email, and returns not_offered when nothing is sent. With explicit email, the token has the same
+ * send eligibility and email caps as a typed email, forces a resend, and also uses recognition's
+ * network caps. With auto it keeps recognition's routing and reuse.
+ */
+export type CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput = ({
+    /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto". */
+    "channel"?: "email" | "sms" | "auto";
+    /**
+     * Email the buyer typed, with no surrounding spaces. Customers are matched by email without
+     * regard to case. The local part before @ must be at most 64 octets (UTF-8 bytes). Format:
+     * email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+     */
+    "email"?: string;
+    /**
+     * What the buyer is confirming their email or number for. Value enum:
+     * "use_saved_payment_methods".
+     */
+    "purpose": "use_saved_payment_methods";
+    /**
+     * Use this remembered identity instead of email, only with purpose use_saved_payment_methods.
+     * It never opens saved cards without a right code. minLength: 47. maxLength: 47. pattern:
+     * ^rbt_[A-Za-z0-9_-]{43}$.
+     */
+    "remembered_buyer_token"?: string;
+})
+    & ((Exclude<CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput & object, readonly unknown[]>)
+    | (Exclude<CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput & object, readonly unknown[]>));
+/** The request body for: Allocate credit note. */
+export type CreateCreditNoteAllocationRequest = {
+    /**
+     * Credit to apply, no more than the credit note's available_money or the invoice's outstanding
+     * balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
+     * int64. minimum: 1.
+     */
+    "expected_credit_note_version"?: number;
+};
 /** The request body for: Allocate credit note. */
 export type CreateCreditNoteAllocationRequestInput = {
     /**
@@ -1161,9 +1257,23 @@ export type CreateDeliveryMethodRequestLocalDelivery = ({
      * evaluation Flint guarantees a selected price, when that is later than the option expiry.
      * Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart
      * without tracked inventory hold until the checkout's calculation expiry. Format: int64.
-     * minimum: 0. taxable (Optional): boolean or null. Whether the delivery charge is taxable.
-     * Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it
-     * on PATCH to preserve the current value, or send null to clear it back to inheriting.
+     * minimum: 0. tax_exempt_us_states (Optional): Array of string. US destinations where this
+     * shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes
+     * such as CA. All other destinations use the method's taxable setting or the merchant default.
+     * For a taxable shipment method with exemptions, quoting requires a destination country and,
+     * for US destinations, a state. uniqueItems: true. maxItems: 0. [] enum: "AA", "AE", "AK",
+     * "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA",
+     * "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT",
+     * "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC",
+     * "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY".
+     * tax_exempt_us_states[] (Value): string. Value enum: "AA", "AE", "AK", "AL", "AP", "AR",
+     * "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN",
+     * "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE",
+     * "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX",
+     * "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY". taxable (Optional): boolean or null.
+     * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
+     * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
+     * to clear it back to inheriting.
      */
     "configuration": (Exclude<DeliveryMethodConfigurationRequest & object, readonly unknown[]>)
         & ({
@@ -1172,6 +1282,8 @@ export type CreateDeliveryMethodRequestLocalDelivery = ({
             /** Value enum: "on_demand", "same_day", "scheduled". */
             "service_level"?: "on_demand" | "same_day" | "scheduled" | (string & {});
         });
+        /** maxItems: 0. */
+        "tax_exempt_us_states"?: unknown;
     });
     /**
      * Delivery type of the method. It cannot change after you create the method. Value enum:
@@ -1309,9 +1421,23 @@ export type CreateDeliveryMethodRequestLocalDeliveryInput = ({
      * evaluation Flint guarantees a selected price, when that is later than the option expiry.
      * Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart
      * without tracked inventory hold until the checkout's calculation expiry. Format: int64.
-     * minimum: 0. taxable (Optional): boolean or null. Whether the delivery charge is taxable.
-     * Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it
-     * on PATCH to preserve the current value, or send null to clear it back to inheriting.
+     * minimum: 0. tax_exempt_us_states (Optional): Array of string. US destinations where this
+     * shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes
+     * such as CA. All other destinations use the method's taxable setting or the merchant default.
+     * For a taxable shipment method with exemptions, quoting requires a destination country and,
+     * for US destinations, a state. uniqueItems: true. maxItems: 0. [] enum: "AA", "AE", "AK",
+     * "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA",
+     * "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT",
+     * "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC",
+     * "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY".
+     * tax_exempt_us_states[] (Value): string. Value enum: "AA", "AE", "AK", "AL", "AP", "AR",
+     * "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN",
+     * "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE",
+     * "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX",
+     * "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY". taxable (Optional): boolean or null.
+     * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
+     * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
+     * to clear it back to inheriting.
      */
     "configuration": (Exclude<DeliveryMethodConfigurationRequestInput & object, readonly unknown[]>)
         & ({
@@ -1323,6 +1449,8 @@ export type CreateDeliveryMethodRequestLocalDeliveryInput = ({
             & ({
             "pickup_mode"?: never;
         });
+        /** maxItems: 0. */
+        "tax_exempt_us_states"?: unknown;
     });
     /**
      * Delivery type of the method. It cannot change after you create the method. Value enum:
@@ -1479,9 +1607,23 @@ export type CreateDeliveryMethodRequestPickup = ({
      * evaluation Flint guarantees a selected price, when that is later than the option expiry.
      * Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart
      * without tracked inventory hold until the checkout's calculation expiry. Format: int64.
-     * minimum: 0. taxable (Optional): boolean or null. Whether the delivery charge is taxable.
-     * Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it
-     * on PATCH to preserve the current value, or send null to clear it back to inheriting.
+     * minimum: 0. tax_exempt_us_states (Optional): Array of string. US destinations where this
+     * shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes
+     * such as CA. All other destinations use the method's taxable setting or the merchant default.
+     * For a taxable shipment method with exemptions, quoting requires a destination country and,
+     * for US destinations, a state. uniqueItems: true. maxItems: 0. [] enum: "AA", "AE", "AK",
+     * "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA",
+     * "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT",
+     * "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC",
+     * "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY".
+     * tax_exempt_us_states[] (Value): string. Value enum: "AA", "AE", "AK", "AL", "AP", "AR",
+     * "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN",
+     * "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE",
+     * "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX",
+     * "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY". taxable (Optional): boolean or null.
+     * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
+     * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
+     * to clear it back to inheriting.
      */
     "configuration": (Exclude<DeliveryMethodConfigurationRequest & object, readonly unknown[]>)
         & ({
@@ -1524,6 +1666,8 @@ export type CreateDeliveryMethodRequestPickup = ({
             /** Value enum: "in_store", "curbside", "locker", "other". */
             "pickup_mode": "in_store" | "curbside" | "locker" | "other" | (string & {});
         });
+        /** maxItems: 0. */
+        "tax_exempt_us_states"?: unknown;
     });
     /**
      * Delivery type of the method. It cannot change after you create the method. Value enum:
@@ -1680,9 +1824,23 @@ export type CreateDeliveryMethodRequestPickupInput = ({
      * evaluation Flint guarantees a selected price, when that is later than the option expiry.
      * Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart
      * without tracked inventory hold until the checkout's calculation expiry. Format: int64.
-     * minimum: 0. taxable (Optional): boolean or null. Whether the delivery charge is taxable.
-     * Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it
-     * on PATCH to preserve the current value, or send null to clear it back to inheriting.
+     * minimum: 0. tax_exempt_us_states (Optional): Array of string. US destinations where this
+     * shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes
+     * such as CA. All other destinations use the method's taxable setting or the merchant default.
+     * For a taxable shipment method with exemptions, quoting requires a destination country and,
+     * for US destinations, a state. uniqueItems: true. maxItems: 0. [] enum: "AA", "AE", "AK",
+     * "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA",
+     * "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT",
+     * "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC",
+     * "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY".
+     * tax_exempt_us_states[] (Value): string. Value enum: "AA", "AE", "AK", "AL", "AP", "AR",
+     * "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN",
+     * "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE",
+     * "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX",
+     * "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY". taxable (Optional): boolean or null.
+     * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
+     * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
+     * to clear it back to inheriting.
      */
     "configuration": (Exclude<DeliveryMethodConfigurationRequestInput & object, readonly unknown[]>)
         & ({
@@ -1728,6 +1886,8 @@ export type CreateDeliveryMethodRequestPickupInput = ({
             & ({
             "service_level"?: never;
         });
+        /** maxItems: 0. */
+        "tax_exempt_us_states"?: unknown;
     });
     /**
      * Delivery type of the method. It cannot change after you create the method. Value enum:
@@ -1865,9 +2025,22 @@ export type CreateDeliveryMethodRequestShipment = ({
      * evaluation Flint guarantees a selected price, when that is later than the option expiry.
      * Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart
      * without tracked inventory hold until the checkout's calculation expiry. Format: int64.
-     * minimum: 0. taxable (Optional): boolean or null. Whether the delivery charge is taxable.
-     * Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it
-     * on PATCH to preserve the current value, or send null to clear it back to inheriting.
+     * minimum: 0. tax_exempt_us_states (Optional): Array of string. US destinations where this
+     * shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes
+     * such as CA. All other destinations use the method's taxable setting or the merchant default.
+     * For a taxable shipment method with exemptions, quoting requires a destination country and,
+     * for US destinations, a state. uniqueItems: true. [] enum: "AA", "AE", "AK", "AL", "AP",
+     * "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL",
+     * "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND",
+     * "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN",
+     * "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY". tax_exempt_us_states[] (Value):
+     * string. Value enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC",
+     * "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME",
+     * "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH",
+     * "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA",
+     * "WI", "WV", "WY". taxable (Optional): boolean or null. Whether the delivery charge is
+     * taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit,
+     * omit it on PATCH to preserve the current value, or send null to clear it back to inheriting.
      */
     "configuration": (Exclude<DeliveryMethodConfigurationRequest & object, readonly unknown[]>)
         & ({
@@ -2018,9 +2191,22 @@ export type CreateDeliveryMethodRequestShipmentInput = ({
      * evaluation Flint guarantees a selected price, when that is later than the option expiry.
      * Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart
      * without tracked inventory hold until the checkout's calculation expiry. Format: int64.
-     * minimum: 0. taxable (Optional): boolean or null. Whether the delivery charge is taxable.
-     * Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it
-     * on PATCH to preserve the current value, or send null to clear it back to inheriting.
+     * minimum: 0. tax_exempt_us_states (Optional): Array of string. US destinations where this
+     * shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes
+     * such as CA. All other destinations use the method's taxable setting or the merchant default.
+     * For a taxable shipment method with exemptions, quoting requires a destination country and,
+     * for US destinations, a state. uniqueItems: true. [] enum: "AA", "AE", "AK", "AL", "AP",
+     * "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL",
+     * "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND",
+     * "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN",
+     * "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY". tax_exempt_us_states[] (Value):
+     * string. Value enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC",
+     * "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME",
+     * "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH",
+     * "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA",
+     * "WI", "WV", "WY". taxable (Optional): boolean or null. Whether the delivery charge is
+     * taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit,
+     * omit it on PATCH to preserve the current value, or send null to clear it back to inheriting.
      */
     "configuration": (Exclude<DeliveryMethodConfigurationRequestInput & object, readonly unknown[]>)
         & ({
@@ -2767,65 +2953,4 @@ export type CreateEmailChangeRequest = {
      * 320. Example: "buyer@example.com".
      */
     "new_email": string;
-};
-/** The request body for: Request a customer email change; Request an email change. */
-export type CreateEmailChangeRequestInput = CreateEmailChangeRequest;
-/** The request body for: Create a file. */
-export type CreateFileRequest = {
-    /**
-     * Media type of the image you will upload. Value enum: "image/jpeg", "image/png",
-     * "image/webp".
-     */
-    "content_type": "image/jpeg" | "image/png" | "image/webp" | (string & {});
-    /**
-     * What the image will be used for. Creating or completing merchant_logo and merchant_icon
-     * files changes shared branding and requires a live-mode credential or a Dashboard session in
-     * any selected environment. Test credentials receive 403 FORBIDDEN with reason
-     * live_mode_required. Partner install tokens need the purpose's scope too; merchant_logo and
-     * merchant_icon need merchants.profile.write and a live install token. Value enum: "product",
-     * "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo",
-     * "merchant_icon".
-     */
-    "purpose": "product"
-        | "product_variant"
-        | "bundle"
-        | "payment_link"
-        | "subscription_plan"
-        | "merchant_logo"
-        | "merchant_icon"
-        | (string & {});
-    /**
-     * Size of the image you will upload, in bytes, from 1 to 5,242,880 (5 MiB). Format: int64.
-     * minimum: 1. maximum: 5242880.
-     */
-    "size_bytes": number;
-};
-/** The request body for: Create a file. */
-export type CreateFileRequestInput = {
-    /**
-     * Media type of the image you will upload. Value enum: "image/jpeg", "image/png",
-     * "image/webp".
-     */
-    "content_type": "image/jpeg" | "image/png" | "image/webp";
-    /**
-     * What the image will be used for. Creating or completing merchant_logo and merchant_icon
-     * files changes shared branding and requires a live-mode credential or a Dashboard session in
-     * any selected environment. Test credentials receive 403 FORBIDDEN with reason
-     * live_mode_required. Partner install tokens need the purpose's scope too; merchant_logo and
-     * merchant_icon need merchants.profile.write and a live install token. Value enum: "product",
-     * "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo",
-     * "merchant_icon".
-     */
-    "purpose": "product"
-        | "product_variant"
-        | "bundle"
-        | "payment_link"
-        | "subscription_plan"
-        | "merchant_logo"
-        | "merchant_icon";
-    /**
-     * Size of the image you will upload, in bytes, from 1 to 5,242,880 (5 MiB). Format: int64.
-     * minimum: 1. maximum: 5242880.
-     */
-    "size_bytes": number;
 };

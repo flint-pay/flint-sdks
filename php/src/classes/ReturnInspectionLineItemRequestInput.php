@@ -45,7 +45,7 @@ final class ReturnInspectionLineItemRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** ID of the Return line inspected. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+    /** ID of the Return line to verify the receipt line against. Send with `verification_reason`. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
@@ -57,13 +57,13 @@ final class ReturnInspectionLineItemRequestInput extends Model {
      */
     public function getReturnReceiptLineItemId(): string { return $this->get('return_receipt_line_item_id'); }
     public function hasReturnReceiptLineItemId(): bool { return $this->has('return_receipt_line_item_id'); }
-    /** Why the receipt line was verified against the Return line. Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
+    /** Why the receipt line was verified against the Return line. Required when you send `return_line_item_id`. Value enum: "order_match_confirmed", "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
      * @return string
      * @throws SdkError When verification_reason is omitted; use hasVerificationReason() or valueOrDefault().
      */
     public function getVerificationReason(): string { return $this->get('verification_reason'); }
     public function hasVerificationReason(): bool { return $this->has('verification_reason'); }
-    /** Detail about `verification_reason`. minLength: 1.
+    /** Detail about `verification_reason`. Send only with `return_line_item_id` and `verification_reason`. minLength: 1.
      * @return string
      * @throws SdkError When verification_reason_message is omitted; use hasVerificationReasonMessage() or valueOrDefault().
      */

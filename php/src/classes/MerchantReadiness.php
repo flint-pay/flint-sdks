@@ -37,7 +37,7 @@ final class MerchantReadiness extends Model {
      */
     public function getRequirements(): ReadinessRequirements { return $this->get('requirements'); }
     public function hasRequirements(): bool { return $this->has('requirements'); }
-    /** review_blocks_captures
+    /** Whether Flint's review prevents capturing authorized payments. Omitted when capture review status is unavailable.
      * @return ?bool
      */
     public function getReviewBlocksCaptures(): ?bool { return $this->get('review_blocks_captures'); }

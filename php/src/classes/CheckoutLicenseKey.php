@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read int|null $activation_limit
  * @property-read int $active_activation_count
  * @property-read string $created_at
- * @property-read ?ExpandedCustomerSummary $customer
+ * @property-read ExpandedCustomerSummary|null $customer
  * @property-read string|null $customer_id
  * @property-read string|null $expires_at
  * @property-read ?string $key
@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read string $license_key_id
  * @property-read string|null $license_key_pool_id
  * @property-read array<array-key, string> $metadata
- * @property-read ?ExpandedOrderSummary $order
+ * @property-read ExpandedOrderSummary|null $order
  * @property-read string|null $order_id
  * @property-read string|null $order_line_item_id
  * @property-read string $product_id
@@ -46,10 +46,10 @@ final class CheckoutLicenseKey extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Customer summary when requested with expand=customer. Null when the key has no customer. Omitted when no customer expansion is requested. A customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * @return ?ExpandedCustomerSummary
+    /** The linked customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
+     * @return ExpandedCustomerSummary|null
      */
-    public function getCustomer(): ?ExpandedCustomerSummary { return $this->get('customer'); }
+    public function getCustomer(): ExpandedCustomerSummary|null { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
     /** The current customer of the owning order or subscription. Null when the order has no linked customer.
      * @return string|null
@@ -86,10 +86,10 @@ final class CheckoutLicenseKey extends Model {
      */
     public function getMetadata(): array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Order summary when requested with expand=order. Null when the key has no order. Omitted when no order expansion is requested. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * @return ?ExpandedOrderSummary
+    /** The linked order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
+     * @return ExpandedOrderSummary|null
      */
-    public function getOrder(): ?ExpandedOrderSummary { return $this->get('order'); }
+    public function getOrder(): ExpandedOrderSummary|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
     /** The owning order or the order that started the subscription. Null when a subscription has no starting order.
      * @return string|null

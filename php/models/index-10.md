@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# DeliveryMethodOriginSelectorPickupLocationCollectionInput to DeliveryQuoteListResponseInput
+# DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput to DeliveryQuoteLineItemResourcePreviousAttributesInput
 
+- [DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput](DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput.md)
 - [DeliveryMethodOriginSelectorPickupLocationCollectionInput](DeliveryMethodOriginSelectorPickupLocationCollectionInput.md)
 - [DeliveryMethodOriginSelectorPickupLocationCollectionPreviousAttributesInput](DeliveryMethodOriginSelectorPickupLocationCollectionPreviousAttributesInput.md)
 - [DeliveryMethodOriginSelectorPreviousAttributesInput](DeliveryMethodOriginSelectorPreviousAttributesInput.md)
@@ -101,5 +102,4 @@
 - [DeliveryQuoteExecutionLegResourcePreviousAttributesInput](DeliveryQuoteExecutionLegResourcePreviousAttributesInput.md)
 - [DeliveryQuoteLineItemResourceInput](DeliveryQuoteLineItemResourceInput.md)
 - [DeliveryQuoteLineItemResourcePreviousAttributesInput](DeliveryQuoteLineItemResourcePreviousAttributesInput.md)
-- [DeliveryQuoteListResponseInput](DeliveryQuoteListResponseInput.md)
 

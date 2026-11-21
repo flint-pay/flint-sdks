@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# GiftCardListResponse to SandboxListResponse
+# GiftCardRedemptionListResponse to RiskRuleListResponse
 
+- [GiftCardRedemptionListResponse](GiftCardRedemptionListResponse.md)
 - [GiftCardListResponse](GiftCardListResponse.md)
 - [GiftCardTransactionListResponse](GiftCardTransactionListResponse.md)
 - [InventoryAdjustmentListResponse](InventoryAdjustmentListResponse.md)
@@ -101,5 +102,4 @@
 - [RiskListItemListResponse](RiskListItemListResponse.md)
 - [RiskListListResponse](RiskListListResponse.md)
 - [RiskRuleListResponse](RiskRuleListResponse.md)
-- [SandboxListResponse](SandboxListResponse.md)
 

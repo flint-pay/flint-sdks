@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CreateReturnPreviewDataResolutionInput to CustomerAccountPresentationInput
+# CreateReturnPreviewDataEligibilityInput to CustomerAccessLinkReturnedInput
 
+- [CreateReturnPreviewDataEligibilityInput](CreateReturnPreviewDataEligibilityInput.md)
 - [CreateReturnPreviewDataResolutionInput](CreateReturnPreviewDataResolutionInput.md)
 - [CreateReturnPreviewRequestInput](CreateReturnPreviewRequestInput.md)
 - [CreateReturnPreviewRequestEligibilityInput](CreateReturnPreviewRequestEligibilityInput.md)
@@ -101,5 +102,4 @@
 - [CustomerAccessLinkEmailedInput](CustomerAccessLinkEmailedInput.md)
 - [CustomerAccessLinkResponseInput](CustomerAccessLinkResponseInput.md)
 - [CustomerAccessLinkReturnedInput](CustomerAccessLinkReturnedInput.md)
-- [CustomerAccountPresentationInput](CustomerAccountPresentationInput.md)
 

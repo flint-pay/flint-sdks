@@ -1,7 +1,7 @@
-import { d8262 as c0, d8261 as c1 } from '../descriptors/data/365.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
-import { d8261 as d8261 } from '../descriptors/data/365.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d8272 as c0, d8271 as c1 } from '../descriptors/data/365.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
+import { d8271 as d8271 } from '../descriptors/data/365.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8261;
+const read = d8271;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["PlatformFeeMoney"]:c0(),["PlatformFeeRequest"]:c1()}); }
 export { codec as _validate };

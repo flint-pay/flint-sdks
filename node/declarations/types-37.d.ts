@@ -7,7 +7,7 @@ import type {
 } from './types-35.js';
 import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateInvoicePaymentTermRequestInput } from './types-10.js';
+import type { CreateInvoicePaymentTermRequestInput } from './types-11.js';
 import type {
     DisputesAcceptParams,
     ExpandedCustomerSummaryPreviousAttributes,

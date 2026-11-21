@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# GiftCardFundingDispute to GiftCardUpdatedInstalledMerchantsEvent
+# GiftCardFundingDisposition to GiftCardTransactionListResponse
 
+- [GiftCardFundingDisposition](GiftCardFundingDisposition.md)
+- [GiftCardFundingDispositionListResponse](GiftCardFundingDispositionListResponse.md)
+- [GiftCardFundingDispositionResponse](GiftCardFundingDispositionResponse.md)
 - [GiftCardFundingDispute](GiftCardFundingDispute.md)
 - [GiftCardFundingDisputePreviousAttributes](GiftCardFundingDisputePreviousAttributes.md)
 - [GiftCardFundingLossResolution](GiftCardFundingLossResolution.md)
@@ -62,7 +65,6 @@
 - [GiftCardProductConfigurationRequestInput](GiftCardProductConfigurationRequestInput.md)
 - [GiftCardPurchaseDetailsRequestInput](GiftCardPurchaseDetailsRequestInput.md)
 - [GiftCardPurchaseRecipient](GiftCardPurchaseRecipient.md)
-- [GiftCardPurchaseRecipientInput](GiftCardPurchaseRecipientInput.md)
 - [GiftCardPurchaseRecipientPatchRequest](GiftCardPurchaseRecipientPatchRequest.md)
 - [GiftCardPurchaseRecipientPatchRequestInput](GiftCardPurchaseRecipientPatchRequestInput.md)
 - [GiftCardPurchaseRecipientPreviousAttributes](GiftCardPurchaseRecipientPreviousAttributes.md)
@@ -78,7 +80,6 @@
 - [GiftCardPurchaseRefundValueHold](GiftCardPurchaseRefundValueHold.md)
 - [GiftCardPurchaseRefundValueHoldPreviousAttributes](GiftCardPurchaseRefundValueHoldPreviousAttributes.md)
 - [GiftCardPurchaseRequest](GiftCardPurchaseRequest.md)
-- [GiftCardPurchaseRequestInput](GiftCardPurchaseRequestInput.md)
 - [GiftCardPurchaseRestoration](GiftCardPurchaseRestoration.md)
 - [GiftCardPurchaseRestorationPreviousAttributes](GiftCardPurchaseRestorationPreviousAttributes.md)
 - [GiftCardPurchaseSnapshot](GiftCardPurchaseSnapshot.md)
@@ -101,5 +102,4 @@
 - [GiftCardTransactionCreatedInstalledMerchantsEvent](GiftCardTransactionCreatedInstalledMerchantsEvent.md)
 - [GiftCardTransactionCreatedMerchantEvent](GiftCardTransactionCreatedMerchantEvent.md)
 - [GiftCardTransactionListResponse](GiftCardTransactionListResponse.md)
-- [GiftCardUpdatedInstalledMerchantsEvent](GiftCardUpdatedInstalledMerchantsEvent.md)
 

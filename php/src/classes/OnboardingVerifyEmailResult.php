@@ -17,7 +17,7 @@ final class OnboardingVerifyEmailResult extends Model {
      */
     public function getDefaultSandboxId(): ?string { return $this->get('default_sandbox_id'); }
     public function hasDefaultSandboxId(): bool { return $this->has('default_sandbox_id'); }
-    /** The last instant this session counts as freshly verified, 5 minutes after verification. Until then it can create keys with full or read_only access or with accounts.api_keys.write, accounts.workload_identities.write or commerce.gift_cards.secrets.write. Create the first sandbox key with POST /v1/api-keys before this time; afterward verify the email again for a fresh session. Format: date-time.
+    /** The last instant this session counts as freshly verified, five minutes after verification. Afterward, it can grant only restricted keys with these scopes: commerce.products.read, commerce.subscription_plans.read, commerce.bundles.read, commerce.catalog.read. Verify your email again to grant more access. Format: date-time.
      * @return string
      */
     public function getFreshVerificationExpiresAt(): string { return $this->get('fresh_verification_expires_at'); }

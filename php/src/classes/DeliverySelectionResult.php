@@ -20,7 +20,7 @@ final class DeliverySelectionResult extends Model {
      */
     public function getDeliverySelection(): DeliverySelection { return $this->get('delivery_selection'); }
     public function hasDeliverySelection(): bool { return $this->has('delivery_selection'); }
-    /** The stock held for this selection. Omitted when the order holds no stock reservation, and for checkout credentials. The inventory reservation held for a delivery selection: its owner, status, and expiry.
+    /** The stock held for this selection for up to two minutes. If the hold expires before payment, Flint checks stock again. Omitted when the order holds no stock reservation, and for checkout credentials. The inventory reservation held for a delivery selection: its owner, status, and expiry.
      * @return ?DeliveryInventoryReservationSummary
      */
     public function getInventoryReservation(): ?DeliveryInventoryReservationSummary { return $this->get('inventory_reservation'); }

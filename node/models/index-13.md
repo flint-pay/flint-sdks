@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# DeliveryPricingStrategyCallback to DeliveryRateCallbackConfigurationPatchRequest
+# DeliveryPricingStrategy to DeliveryRateCallbackArchivedInstalledMerchantsEvent
 
+- [DeliveryPricingStrategy](DeliveryPricingStrategy.md)
+- [DeliveryPricingStrategyCalculated](DeliveryPricingStrategyCalculated.md)
+- [DeliveryPricingStrategyCalculatedPreviousAttributes](DeliveryPricingStrategyCalculatedPreviousAttributes.md)
 - [DeliveryPricingStrategyCallback](DeliveryPricingStrategyCallback.md)
 - [DeliveryPricingStrategyCallbackPreviousAttributes](DeliveryPricingStrategyCallbackPreviousAttributes.md)
 - [DeliveryPricingStrategyCallerSupplied](DeliveryPricingStrategyCallerSupplied.md)
@@ -99,7 +102,4 @@
 - [DeliveryRateCallbackActivatedInstalledMerchantsEvent](DeliveryRateCallbackActivatedInstalledMerchantsEvent.md)
 - [DeliveryRateCallbackActivatedMerchantEvent](DeliveryRateCallbackActivatedMerchantEvent.md)
 - [DeliveryRateCallbackArchivedInstalledMerchantsEvent](DeliveryRateCallbackArchivedInstalledMerchantsEvent.md)
-- [DeliveryRateCallbackArchivedMerchantEvent](DeliveryRateCallbackArchivedMerchantEvent.md)
-- [DeliveryRateCallbackConfiguration](DeliveryRateCallbackConfiguration.md)
-- [DeliveryRateCallbackConfigurationPatchRequest](DeliveryRateCallbackConfigurationPatchRequest.md)
 

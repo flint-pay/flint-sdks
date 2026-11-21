@@ -139,8 +139,8 @@ export {
     makeCreatePartnerAppCredentialWorkloadIdentityRequest,
     makeCreatePartnerAppRequest
 } from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export {
-    makeMoneyValue,
     makePartnerAppCredentialJWKSURLRequest,
     makePartnerAppCredentialPublicKeyRequest,
     makePartnerAppCredentialWorkloadIdentityRequest,
@@ -176,8 +176,9 @@ export interface PartnerAppsResource {
  */
     acceptPlatformTerms(partner_app_id: InputValue<string>, params: PartnerAppsAcceptPlatformTermsParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerApp, PartnerAppResponse>>;
     /**
- * Creates a partner app owned by the authenticated merchant. A live API key or a live dashboard
- * session is required.
+ * Creates a partner app owned by the authenticated merchant. A live API key or a live Dashboard
+ * session is required. If client_secret_enabled is true, a Dashboard session must verify its
+ * identity within the last five minutes, including on retry.
  *
  * `POST /v1/partner-apps`
  * @see https://developers.withflintpay.com/docs/api/partner-apps#createPartnerApp

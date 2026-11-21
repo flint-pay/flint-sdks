@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# DeliveryInputConstraint to DeliveryPricingStrategyCalculatedPreviousAttributes
+# DeliveryFixedPricingStrategyRequestInput to DeliveryPricingRateRequestInput
 
+- [DeliveryFixedPricingStrategyRequestInput](DeliveryFixedPricingStrategyRequestInput.md)
+- [DeliveryFulfillmentDetails](DeliveryFulfillmentDetails.md)
+- [DeliveryFulfillmentDetailsPreviousAttributes](DeliveryFulfillmentDetailsPreviousAttributes.md)
 - [DeliveryInputConstraint](DeliveryInputConstraint.md)
 - [DeliveryInputConstraintPreviousAttributes](DeliveryInputConstraintPreviousAttributes.md)
 - [DeliveryInputRequirement](DeliveryInputRequirement.md)
@@ -99,7 +102,4 @@
 - [DeliveryPricingRatePreviousAttributes](DeliveryPricingRatePreviousAttributes.md)
 - [DeliveryPricingRateRequest](DeliveryPricingRateRequest.md)
 - [DeliveryPricingRateRequestInput](DeliveryPricingRateRequestInput.md)
-- [DeliveryPricingStrategy](DeliveryPricingStrategy.md)
-- [DeliveryPricingStrategyCalculated](DeliveryPricingStrategyCalculated.md)
-- [DeliveryPricingStrategyCalculatedPreviousAttributes](DeliveryPricingStrategyCalculatedPreviousAttributes.md)
 

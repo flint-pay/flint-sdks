@@ -22,14 +22,14 @@ Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
 
 ### ResourceTimelineFieldChange.after variant 1
 
-oneOf variant 1.
+oneOf Unset.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Value after the change. Null when the field was unset. 
 
 ### ResourceTimelineFieldChange.after variant 2
 
-oneOf variant 2.
+oneOf Text.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: string. Value after the change. Null when the field was unset. 
@@ -48,14 +48,14 @@ Field definitions: [shared fields](PromotionRuleValue.md#promotionrulevalue).
 
 ### ResourceTimelineFieldChange.before variant 1
 
-oneOf variant 1.
+oneOf Unset.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: null. Value before the change. Null when the field was unset. 
 
 ### ResourceTimelineFieldChange.before variant 2
 
-oneOf variant 2.
+oneOf Text.
 
 - Undeclared: `amount`, `currency`.
 - Value shape: string. Value before the change. Null when the field was unset. 

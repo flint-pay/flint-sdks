@@ -47,15 +47,14 @@ export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-78.js';
 export { makeCreateWorkloadIdentityRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeUpdateWorkloadIdentityRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-95.js';
 export interface WorkloadIdentitiesResource {
     /**
- * Creates an active identity in the authenticated environment and validates issuer discovery.
- * Dashboard callers creating live identities, or granting accounts.api_keys.write,
- * accounts.workload_identities.write or commerce.gift_cards.secrets.write in any mode, need fresh
- * identity verification. Other callers may grant only scopes they hold in this environment, and
- * only a full-access key can grant those three.
+ * Creates an active identity in the authenticated environment and validates issuer discovery. A
+ * Dashboard session needs fresh identity verification to create a live identity or to grant scopes
+ * outside the low-risk read allowlist. Other callers may grant only scopes they hold in this
+ * environment. Only a full-access key can grant scopes that require full authority.
  *
  * `POST /v1/workload-identities`
  * @see https://developers.withflintpay.com/docs/api/workload-identities#createWorkloadIdentity

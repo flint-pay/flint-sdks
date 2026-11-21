@@ -13,10 +13,11 @@ namespace Flint;
  * @property-read list<string> $quote_input_fields
  * @property-read list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass> $recipient_requirements
  * @property-read int $selection_guarantee_seconds
+ * @property-read list<string> $tax_exempt_us_states
  * @property-read bool|null $taxable
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodConfigurationInput extends Model {
-    /** @param array{'buyer_instructions'?: BuyerInstructionsConfigInput|array<array-key, mixed>|\stdClass, 'charge_tax_category': string|null, 'eligibility'?: DeliveryEligibilityExpressionInput|array<array-key, mixed>|\stdClass, 'estimate': DeliveryEstimateRuleInput|array<array-key, mixed>|\stdClass, 'minimum_option_lifetime_seconds': int, 'origin': DeliveryMethodOriginSelectorInput|array<array-key, mixed>|\stdClass, 'pricing': DeliveryPricingStrategyInput|array<array-key, mixed>|\stdClass, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds': int, 'taxable': bool|null}|object $values */
+    /** @param array{'buyer_instructions'?: BuyerInstructionsConfigInput|array<array-key, mixed>|\stdClass, 'charge_tax_category': string|null, 'eligibility'?: DeliveryEligibilityExpressionInput|array<array-key, mixed>|\stdClass, 'estimate': DeliveryEstimateRuleInput|array<array-key, mixed>|\stdClass, 'minimum_option_lifetime_seconds': int, 'origin': DeliveryMethodOriginSelectorInput|array<array-key, mixed>|\stdClass, 'pricing': DeliveryPricingStrategyInput|array<array-key, mixed>|\stdClass, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds': int, 'tax_exempt_us_states'?: list<string>, 'taxable': bool|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationInput')); }
     /** Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection.
      * @return BuyerInstructionsConfigInput|array<array-key, mixed>|\stdClass
@@ -84,6 +85,12 @@ final class DeliveryMethodConfigurationInput extends Model {
      */
     public function getSelectionGuaranteeSeconds(): int { return $this->get('selection_guarantee_seconds'); }
     public function hasSelectionGuaranteeSeconds(): bool { return $this->has('selection_guarantee_seconds'); }
+    /** US destinations where this shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes such as CA. All other destinations use the method's taxable setting or the merchant default. For a taxable shipment method with exemptions, quoting requires a destination country and, for US destinations, a state. uniqueItems: true. [] enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY". [] (Value): string.  Value enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY".
+     * @return list<string>
+     * @throws SdkError When tax_exempt_us_states is omitted; use hasTaxExemptUsStates() or valueOrDefault().
+     */
+    public function getTaxExemptUsStates(): array { return $this->get('tax_exempt_us_states'); }
+    public function hasTaxExemptUsStates(): bool { return $this->has('tax_exempt_us_states'); }
     /** Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. `null` when the method inherits `settings.tax.default_delivery_taxable`.
      * @return bool|null
      * @throws SdkError When taxable is omitted; use hasTaxable() or valueOrDefault().

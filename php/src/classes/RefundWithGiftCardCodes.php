@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read RefundWithGiftCardCodesAmountMoney $amount_money
+ * @property-read ?list<string> $canceled_shipment_fulfillment_ids
  * @property-read ?list<RefundWithGiftCardCodesChargeAllocationsItem> $charge_allocations
  * @property-read string $created_at
  * @property-read RefundWithGiftCardCodesCreditAdjustmentMoney $credit_adjustment_money
@@ -45,13 +46,18 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class RefundWithGiftCardCodes extends Model {
-    /** @param array{'amount_money': mixed, 'charge_allocations'?: list<mixed>, 'created_at': string, 'credit_adjustment_money': mixed, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'failure_reason'?: string, 'gift_card_codes'?: list<mixed>, 'idempotency_key': string|null, 'initiated_by': string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'payment_review_id'?: string, 'pending_reason': string|null, 'processed_by': string, 'reason': string|null, 'reason_message'?: string, 'refund_id': string, 'refund_platform_fee': bool, 'refund_reference'?: string, 'refunded_at'?: string, 'refunded_tip_money': mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'status': string, 'succeeded_at'?: string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'unissued_gift_card_recoveries'?: list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'canceled_shipment_fulfillment_ids'?: list<string>, 'charge_allocations'?: list<mixed>, 'created_at': string, 'credit_adjustment_money': mixed, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'failure_reason'?: string, 'gift_card_codes'?: list<mixed>, 'idempotency_key': string|null, 'initiated_by': string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'payment_review_id'?: string, 'pending_reason': string|null, 'processed_by': string, 'reason': string|null, 'reason_message'?: string, 'refund_id': string, 'refund_platform_fee': bool, 'refund_reference'?: string, 'refunded_at'?: string, 'refunded_tip_money': mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'status': string, 'succeeded_at'?: string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'unissued_gift_card_recoveries'?: list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundWithGiftCardCodes')); }
     /** Total refunded across all tenders, including `refunded_tip_money`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return RefundWithGiftCardCodesAmountMoney
      */
     public function getAmountMoney(): RefundWithGiftCardCodesAmountMoney { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
+    /** Canceled shipment fulfillment IDs on a fully refunded subscription renewal with reason out_of_stock. Present when the caller can read the order and shipment cancellations have been recorded. Read the order for later changes. [] (Value): string.
+     * @return ?list<string>
+     */
+    public function getCanceledShipmentFulfillmentIds(): ?array { return $this->get('canceled_shipment_fulfillment_ids'); }
+    public function hasCanceledShipmentFulfillmentIds(): bool { return $this->has('canceled_shipment_fulfillment_ids'); }
     /** Money returned for each order charge, including subtotal, discount, and tax, combined across payment refunds. [] (Value): {@see RefundWithGiftCardCodesChargeAllocationsItem}. Money returned for one order charge, including subtotal, discount, and tax.
      * @return ?list<RefundWithGiftCardCodesChargeAllocationsItem>
      */

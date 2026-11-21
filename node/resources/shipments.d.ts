@@ -63,7 +63,7 @@ export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
 export type { ExpandedOrderSummary, ExpandedPackageSummary } from '../declarations/types-26.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
-export type { DeferredPromotion } from '../declarations/types-17.js';
+export type { DeferredPromotion } from '../declarations/types-18.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
@@ -72,13 +72,8 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export { makeCreatePackageItemRequest } from '../declarations/types-83.js';
 export { makeCreateShipmentRequest, makeCreateShipmentRequestOutbound, makeCreateShipmentRequestReturn } from '../declarations/types-84.js';
 export { makeDimensionsRequest } from '../declarations/types-86.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
-export {
-    makeMoneyValue,
-    makePackageCreateInputCreated,
-    makePackageCreateInputShipped,
-    makePackageCreateRequest
-} from '../declarations/types-89.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makePackageCreateInputCreated, makePackageCreateInputShipped, makePackageCreateRequest } from '../declarations/types-89.js';
 export { makeReturnShipmentLineItemAllocationRequest } from '../declarations/types-92.js';
 export { makeUpdateShipmentRequest } from '../declarations/types-94.js';
 export { makeVoidPackageRequest, makeVoidShipmentRequest, makeWeightRequest } from '../declarations/types-95.js';

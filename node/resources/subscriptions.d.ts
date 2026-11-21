@@ -82,7 +82,6 @@ export type {
     TaxBreakdown,
     TaxBreakdownPercentage,
     TaxBreakdownFlatAmount,
-    SubscriptionTaxRequestInput,
     SubscriptionTermsRequestInput
 } from '../declarations/types-73.js';
 export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning, ResourceVersionRequestInput } from '../declarations/types-62.js';
@@ -92,6 +91,7 @@ export type {
     SubscriptionCancellationDetails,
     SubscriptionDelivery,
     SubscriptionAddressVerification,
+    SubscriptionDeliveryDestination,
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
     StripeTerminalPaymentIntentClientAction,
@@ -124,6 +124,7 @@ export type {
     SubscriptionServiceLocationRequestInput,
     SubscriptionServiceLocationInputCustomerAddressInput,
     SubscriptionServiceLocationInputAddressInput,
+    SubscriptionTaxRequestInput,
     SubscriptionTaxCalculationRequestInput,
     SubscriptionPlanTermsRequestInput,
     SubscriptionQuantityChangeLineItemRequest
@@ -159,7 +160,6 @@ export type {
     SubscriptionListResponse,
     SubscriptionIntervalOption,
     SubscriptionDeliveryMethodSummary,
-    SubscriptionDeliveryDestination,
     SubscriptionDeliveryHold,
     SubscriptionEndAfter,
     SubscriptionEndAfterCycles,
@@ -177,8 +177,9 @@ export type {
     SubscriptionGiftRecipientRequest
 } from '../declarations/types-70.js';
 export type { ClientOptions, CheckoutTaxCalculation } from '../declarations/types-7.js';
-export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput, PurchasedGiftCard } from '../declarations/types-59.js';
+export type { PromotionRefRequestInput, PurchasedGiftCard } from '../declarations/types-59.js';
 export type {
+    PromotionRefInputPromotionIDInput,
     PromotionRefInputPromotionCodeInput,
     PromotionRecurrence,
     PromotionRecurrenceOnce,
@@ -306,14 +307,7 @@ export type {
     CustomFieldAnswerDropdown,
     CustomFieldAnswerCheckbox
 } from '../declarations/types-16.js';
-export type {
-    DeferredPromotion,
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates,
-    CustomerTaxID,
-    CustomersListAddressesParams
-} from '../declarations/types-17.js';
+export type { DeferredPromotion, DeliveryChargeTaxCalculationRequest } from '../declarations/types-18.js';
 export type { DigitalFulfillmentDetails, Dimensions } from '../declarations/types-25.js';
 export type { DeliveryFulfillmentDetails } from '../declarations/types-19.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
@@ -328,7 +322,13 @@ export type {
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
 } from '../declarations/types-54.js';
-export type { DeliveryChargeTaxCalculationRequest } from '../declarations/types-18.js';
+export type {
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates,
+    CustomerTaxID,
+    CustomersListAddressesParams
+} from '../declarations/types-17.js';
 export type { OrderTaxLocation } from '../declarations/types-48.js';
 export type {
     CreateSubscriptionRequestInput,
@@ -364,13 +364,12 @@ export {
     makeCreateSubscriptionAccessLinkRequest,
     makeCreateSubscriptionLineItemRequest,
     makeCreateSubscriptionLineItemRequestBundle,
-    makeCreateSubscriptionLineItemRequestVariant
+    makeCreateSubscriptionLineItemRequestVariant,
+    makeCreateSubscriptionRequest
 } from '../declarations/types-84.js';
-export { makeCreateSubscriptionRequest } from '../declarations/types-85.js';
 export { makeDeliverySelectionRecipientRequest } from '../declarations/types-86.js';
-export { makeGiftCardPurchaseRecipient } from '../declarations/types-87.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
-export { makeMoneyValue, makePauseSubscriptionRequest } from '../declarations/types-89.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makePauseSubscriptionRequest } from '../declarations/types-89.js';
 export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-90.js';
 export {
     makeRemoveSubscriptionPromotionsRequest,
@@ -386,14 +385,14 @@ export {
     makeSubscriptionBillingScheduleUpdateInputFlint,
     makeSubscriptionBillingScheduleUpdateRequest,
     makeSubscriptionBillingStartInputImmediate,
-    makeSubscriptionBillingStartInputImported
-} from '../declarations/types-92.js';
-export {
+    makeSubscriptionBillingStartInputImported,
     makeSubscriptionBillingStartInputScheduled,
     makeSubscriptionBillingStartRequest,
     makeSubscriptionDeliveryDestinationInputAddress,
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
-    makeSubscriptionDeliveryDestinationRequest,
+    makeSubscriptionDeliveryDestinationRequest
+} from '../declarations/types-92.js';
+export {
     makeSubscriptionDeliveryRequest,
     makeSubscriptionEndAfterCyclesRequest,
     makeSubscriptionEndAfterDateRequest,
@@ -413,8 +412,7 @@ export {
     makeSubscriptionTermsRequest,
     makeTextModifierRequest
 } from '../declarations/types-93.js';
-export { makeUpdateSubscriptionLineItemRequest } from '../declarations/types-94.js';
-export { makeUpdateSubscriptionRequest } from '../declarations/types-95.js';
+export { makeUpdateSubscriptionLineItemRequest, makeUpdateSubscriptionRequest } from '../declarations/types-94.js';
 export interface SubscriptionsResource {
     /**
  * Attaches a promotion to a subscription for future charged cycles. Send exactly one of
@@ -484,9 +482,9 @@ export interface SubscriptionsResource {
  * result. Returns status 200 for a decline, with a closed unpaid order, failed
  * order_payment_attempt, and unchanged subscription. Inspect
  * order_payment_attempt.last_payment_error and update the subscription payment method before
- * trying again. Send expected_version to reject a concurrent change. After a confirmed
- * CONCURRENT_MODIFICATION with billing_starts now, refresh the subscription and send a new
- * Idempotency-Key.
+ * trying again. Send expected_version to reject a concurrent change. A competing paid change
+ * returns 409. The same key replays that conflict. Read the subscription and use a new key if you
+ * still want to make the change.
  *
  * `POST /v1/subscriptions/{subscription_id}/change-plan`
  * @param subscription_id Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs
@@ -517,9 +515,10 @@ export interface SubscriptionsResource {
  * failed order_payment_attempt, and unchanged subscription. Inspect
  * order_payment_attempt.last_payment_error before trying again. The order and
  * order_payment_attempt are null when the net charge is zero. Send expected_version to reject a
- * concurrent change. If the outcome remains uncertain, retrieve the subscription and its orders;
- * contact Flint support with the original key and request ID when those reads cannot establish the
- * result.
+ * concurrent change. A competing prorated_now request returns 409. The same key replays that
+ * conflict. Read the subscription and use a new key if you still want to change the quantity. If
+ * the outcome remains uncertain, retrieve the subscription and its orders; contact Flint support
+ * with the original key and request ID when those reads cannot establish the result.
  *
  * `POST /v1/subscriptions/{subscription_id}/change-quantity`
  * @param subscription_id Subscription ID. Must be a valid ID with prefix sub_. Malformed IDs

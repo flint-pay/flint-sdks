@@ -6,11 +6,6 @@ import type {
     WorkloadIdentityOptions
 } from '../runtime.js';
 import type {
-    UpdateSubscriptionPlanLineItemInputCustomInput,
-    UpdateSubscriptionPlanLineItemInputVariantInput,
-    UpdateSubscriptionPlanLineItemRequestInput,
-    UpdateSubscriptionPlanRequestInput,
-    UpdateSubscriptionRequestInput,
     UpdateTaxCalculationCallbackRequestInput,
     UpdateTaxRegistrationRequestInput,
     UpdateTicketRequestInput,
@@ -27,11 +22,6 @@ import type {
 } from './types-78.js';
 import type { WebhookSigningMethodInput } from './types-79.js';
 import type { WeightRequestInput, WorkloadIdentityClaimConditionRequestInput, WebhookVerificationOptions } from './types-80.js';
-export declare function makeUpdateSubscriptionPlanLineItemInputCustom(value: InputValue<UpdateSubscriptionPlanLineItemInputCustomInput>): Model<UpdateSubscriptionPlanLineItemInputCustomInput>;
-export declare function makeUpdateSubscriptionPlanLineItemInputVariant(value: InputValue<UpdateSubscriptionPlanLineItemInputVariantInput>): Model<UpdateSubscriptionPlanLineItemInputVariantInput>;
-export declare function makeUpdateSubscriptionPlanLineItemRequest(value: InputValue<UpdateSubscriptionPlanLineItemRequestInput>): Model<UpdateSubscriptionPlanLineItemRequestInput>;
-export declare function makeUpdateSubscriptionPlanRequest(value: InputValue<UpdateSubscriptionPlanRequestInput>): Model<UpdateSubscriptionPlanRequestInput>;
-export declare function makeUpdateSubscriptionRequest(value: InputValue<UpdateSubscriptionRequestInput>): Model<UpdateSubscriptionRequestInput>;
 export declare function makeUpdateTaxCalculationCallbackRequest(value: InputValue<UpdateTaxCalculationCallbackRequestInput>): Model<UpdateTaxCalculationCallbackRequestInput>;
 export declare function makeUpdateTaxRegistrationRequest(value: InputValue<UpdateTaxRegistrationRequestInput>): Model<UpdateTaxRegistrationRequestInput>;
 export declare function makeUpdateTicketRequest(value: InputValue<UpdateTicketRequestInput>): Model<UpdateTicketRequestInput>;

@@ -1,14 +1,12 @@
-import type { MetadataPatchRequestInput, MetadataPatchRequest } from './types-43.js';
-import type { MoneyValueInput, MoneyValue } from './types-44.js';
+import type { CreateOrderTip, CreateOrderTipInput } from './types-12.js';
+import type { InventoryRoutingSourceRequest } from './types-33.js';
+import type { MetadataPatchRequest, MetadataPatchRequestInput } from './types-43.js';
 import type {
-    OrderCalculatedChargeTaxRequestInput,
     OrderDeliveryDestinationRequest,
     OrderDeliveryRequest,
     OrderDeliveryDestinationRequestInput,
     OrderDeliveryRequestInput
 } from './types-45.js';
-import type { CreateOrderTip, CreateOrderTipInput } from './types-12.js';
-import type { InventoryRoutingSourceRequest } from './types-33.js';
 import type { OrderHandover, OrderHandoverRequestInput } from './types-46.js';
 import type { OrderTaxUpdateRequest, OrderTaxUpdateRequestInput } from './types-48.js';
 import type { InventoryRoutingSourceRequestInput } from './types-34.js';
@@ -21,6 +19,7 @@ import type {
     PartnerAppPlatformProfileRequestInput
 } from './types-50.js';
 import type { PlatformFeeCap, PlatformFeeCapRequestInput } from './types-56.js';
+import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type {
     CheckoutBuyerFields,
     CheckoutPromotionConfig,
@@ -43,13 +42,13 @@ import type {
     PaymentLinkCustomFieldPatchRequestInput,
     PaymentLinkCustomTextPatchRequestInput,
     PaymentLinkEventConfigPatchRequestInput,
-    PaymentLinkLegalPatchRequestInput
+    PaymentLinkLegalPatchRequestInput,
+    PaymentLinkLineItemPatchRequestInput
 } from './types-52.js';
 import type {
     PaymentLinkPaymentPatchRequest,
     PaymentLinkRedirectsPatchRequest,
     PaymentLinkThemePatchRequest,
-    PaymentLinkLineItemPatchRequestInput,
     PaymentLinkPaymentPatchRequestInput,
     PaymentLinkRedirectsPatchRequestInput,
     PaymentLinkThemePatchRequestInput
@@ -80,95 +79,6 @@ import type {
 import type { GetReturnResponse, GetReturnPolicyResponse, GetReturnReasonResponse } from './types-28.js';
 import type { LineItemFulfillmentRequest, LineItemFulfillmentRequestModelInput } from './types-40.js';
 import type { ReturnReplacementTaxRequest, ReturnReplacementTaxRequestInput } from './types-65.js';
-/** The request body for: Update order charge. minProperties: 1. */
-export type UpdateOrderChargeRequestInput = ({
-    /**
-     * Replacement fixed charge amount in the order currency. The amount and every computed order
-     * amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
-     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
-     * responsible input field. Lower payment option limits can apply. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * The amount a percent charge is calculated from. Value enum: "subtotal_pre_discount",
-     * "subtotal_post_discount".
-     */
-    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount";
-    /** Send null to clear description. minLength: 1. maxLength: 2048. */
-    "description"?: string | null;
-    /**
-     * Optional order version from the last order read. The mutation fails if the order changed.
-     * Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Send null to unlink the fulfillment. minLength: 1. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. Send null to clear all metadata. anyOf[1] (Value): {@link MetadataPatchRequestInput}.
-     * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
-     * sets a value, a null value deletes the key, and an empty object makes no change; send null
-     * for the whole field to clear all caller-owned metadata. The resulting map is limited the
-     * same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
-     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
-     * bytes. Deleting a key that does not exist is allowed, so the number of operations is not
-     * itself the stored-map limit. Values can't be empty strings, and keys starting with flint_
-     * are reserved for Flint. anyOf[2] (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequestInput) | (null));
-    /**
-     * What the buyer sees for this charge at checkout and on receipts. Surrounding whitespace is
-     * trimmed before length validation. A supplied value cannot be blank; use null where clearing
-     * is supported. minLength: 1. maxLength: 255.
-     */
-    "name"?: string;
-    /**
-     * Percentage points of the base `calculation_basis` names, such as `3` for 3%. Fixed charges
-     * use `amount_money` instead. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /**
-     * How tax applies to this charge. Tax settings for an order charge calculated by Flint or
-     * supplied by you, including the charge's tax category and whether it is taxable.
-     */
-    "tax"?: OrderCalculatedChargeTaxRequestInput;
-    /**
-     * What the charge is for. It classifies the charge in reporting and sets its default tax
-     * category. Value enum: "service_fee", "delivery_fee", "shipping_fee", "handling_fee",
-     * "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee", "installation_fee",
-     * "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee", "fulfillment_fee",
-     * "restocking_fee", "rush_fee", "other".
-     */
-    "type"?: "service_fee"
-        | "delivery_fee"
-        | "shipping_fee"
-        | "handling_fee"
-        | "packaging_fee"
-        | "small_order_fee"
-        | "service_area_fee"
-        | "setup_fee"
-        | "installation_fee"
-        | "cleaning_fee"
-        | "booking_fee"
-        | "reservation_fee"
-        | "ticket_fee"
-        | "fulfillment_fee"
-        | "restocking_fee"
-        | "rush_fee"
-        | "other";
-})
-    & ({
-    "amount_money"?: never;
-} | {
-    "percent"?: never;
-});
 /** The request body for: Update order. minProperties: 1. */
 export type UpdateOrderRequest = ({
     /**
@@ -239,10 +149,10 @@ export type UpdateOrderRequest = ({
     "internal_note"?: string | null;
     /**
      * Where tracked demand is routed. When no source is stored or sent, Flint uses
-     * settings.inventory.default_routing_source, then the only active Location with
-     * inventory_allocation_enabled if exactly one exists in the current environment. Zero or
-     * multiple eligible Locations require an explicit source or merchant default. The order stores
-     * the resolved source. Where you want inventory routed from: a fixed Location, an inventory
+     * settings.inventory.default_routing_source, then the active Location in the current
+     * environment that has had inventory allocation enabled the longest. If no Location is
+     * eligible, send a routing source or configure the merchant default. The order stores the
+     * resolved source. Where you want inventory routed from: a fixed Location, an inventory
      * allocation policy, or one policy revision, selected by `type`.
      */
     "inventory_routing_source"?: InventoryRoutingSourceRequest;
@@ -346,10 +256,10 @@ export type UpdateOrderRequestInput = ({
     "internal_note"?: string | null;
     /**
      * Where tracked demand is routed. When no source is stored or sent, Flint uses
-     * settings.inventory.default_routing_source, then the only active Location with
-     * inventory_allocation_enabled if exactly one exists in the current environment. Zero or
-     * multiple eligible Locations require an explicit source or merchant default. The order stores
-     * the resolved source. Where you want inventory routed from: a fixed Location, an inventory
+     * settings.inventory.default_routing_source, then the active Location in the current
+     * environment that has had inventory allocation enabled the longest. If no Location is
+     * eligible, send a routing source or configure the merchant default. The order stores the
+     * resolved source. Where you want inventory routed from: a fixed Location, an inventory
      * allocation policy, or one policy revision, selected by `type`.
      */
     "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
@@ -1258,14 +1168,13 @@ export type UpdatePaymentLinkRequest = ({
     "inactive_message"?: string | null;
     /**
      * Routing source for tracked demand. When omitted, Flint stores
-     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
-     * with inventory_allocation_enabled in the current environment supplies the demand; this
-     * implicit source is not stored and is resolved again on use. Zero or multiple eligible
-     * Locations require an explicit source or merchant default. Create, activation, and
-     * sellability edits require at least one active routing location with
-     * inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where
-     * you want inventory routed from: a fixed Location, an inventory allocation policy, or one
-     * policy revision, selected by `type`.
+     * settings.inventory.default_routing_source if set. Otherwise, Flint uses the active Location
+     * in the current environment that has had inventory allocation enabled the longest. The link
+     * resolves that fallback again each time it is used. If no Location is eligible, send a
+     * routing source or configure the merchant default. Create, activation, and sellability edits
+     * require at least one active routing location with inventory_allocation_enabled; temporary
+     * stock shortages do not prevent these writes. Where you want inventory routed from: a fixed
+     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
      */
     "inventory_routing_source"?: InventoryRoutingSourceRequest;
     /**
@@ -1496,14 +1405,13 @@ export type UpdatePaymentLinkRequestInput = ({
     "inactive_message"?: string | null;
     /**
      * Routing source for tracked demand. When omitted, Flint stores
-     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
-     * with inventory_allocation_enabled in the current environment supplies the demand; this
-     * implicit source is not stored and is resolved again on use. Zero or multiple eligible
-     * Locations require an explicit source or merchant default. Create, activation, and
-     * sellability edits require at least one active routing location with
-     * inventory_allocation_enabled; temporary stock shortages do not prevent these writes. Where
-     * you want inventory routed from: a fixed Location, an inventory allocation policy, or one
-     * policy revision, selected by `type`.
+     * settings.inventory.default_routing_source if set. Otherwise, Flint uses the active Location
+     * in the current environment that has had inventory allocation enabled the longest. The link
+     * resolves that fallback again each time it is used. If no Location is eligible, send a
+     * routing source or configure the merchant default. Create, activation, and sellability edits
+     * require at least one active routing location with inventory_allocation_enabled; temporary
+     * stock shortages do not prevent these writes. Where you want inventory routed from: a fixed
+     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
      */
     "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
     /**
@@ -4284,4 +4192,70 @@ export type UpdateReturnResolutionRequest = ({
      * `return_replacement_line_item_id` to keep an existing one.
      */
     "replacement_line_items"?: Array<UpdateReturnReplacementLineItemRequest>;
+});
+/** The request body for: Update return resolution. */
+export type UpdateReturnResolutionRequestInput = ({
+    /**
+     * Requires expected_version. [] (Value): {@link UpdateReturnResolutionAdjustmentRequestInput}.
+     * A fee or credit to keep or add when updating a return resolution. Include
+     * `return_resolution_adjustment_id` to update an existing one.
+     */
+    "adjustments"?: Array<UpdateReturnResolutionAdjustmentRequestInput>;
+    /**
+     * Required when any of these fields is present: line_items, replacement_line_items,
+     * adjustments. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Where the gift-card-paid portion is refunded. original credits the original gift card;
+     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
+     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
+     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination
+     * and conflicting_fields naming resolution_type. Store credit and its corrections always issue
+     * new gift cards. PATCH can change it only while proposed. Retry persists the chosen
+     * destination before starting the new attempt. Default: "original". Value enum: "original",
+     * "new_gift_card".
+     */
+    "gift_card_refund_destination"?: "original" | "new_gift_card";
+    /**
+     * Requires expected_version. [] (Value): {@link UpdateReturnResolutionLineItemRequestInput}. A
+     * return line and quantity to keep or add when updating a return resolution.
+     */
+    "line_items"?: Array<UpdateReturnResolutionLineItemRequestInput>;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * Required for merchant exchange and replacement requests. original_price preserves the
+     * selected units' net paid amounts using refund allocation; current_price uses catalog prices;
+     * merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit
+     * pricing_basis: replacements use original_price; exchanges use original_price when every
+     * replacement matches selected returned merchandise by variant, bundle, or product, otherwise
+     * current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
+     */
+    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
+    /**
+     * Requires expected_version. [] (Value): {@link UpdateReturnReplacementLineItemRequestInput}.
+     * A replacement item to keep or add when updating a return resolution. Include
+     * `return_replacement_line_item_id` to keep an existing one.
+     */
+    "replacement_line_items"?: Array<UpdateReturnReplacementLineItemRequestInput>;
 });

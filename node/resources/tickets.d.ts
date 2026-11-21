@@ -54,7 +54,7 @@ export type { CheckInTicketRequestInput, CheckoutBuyerContact, CheckInTicketRequ
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
 export type { ExpandedOrderSummary } from '../declarations/types-26.js';
-export type { DeferredPromotion } from '../declarations/types-17.js';
+export type { DeferredPromotion } from '../declarations/types-18.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
@@ -63,8 +63,7 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export type { LookupTicketRequestInput, LookupTicketRequest } from '../declarations/types-40.js';
 export type { UpdateTicketRequestInput, UpdateTicketRequest } from '../declarations/types-78.js';
 export { makeCheckInTicketRequest } from '../declarations/types-81.js';
-export { makeLookupTicketRequest } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeLookupTicketRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeTicketVersionRequest } from '../declarations/types-93.js';
 export { makeUpdateTicketRequest } from '../declarations/types-95.js';
 export interface TicketsResource {

@@ -589,7 +589,7 @@ $result = $client->licenseKeys->update('lk_01KEZF7C000QD7VJ83G43V0NSN', [
 
 ### licenseKeys.validate
 
-Checks whether a key can be used for one of the listed products. You can omit Authorization or send a merchant API key with commerce.license_keys.read. API key calls use the read rate-limit class. Every product must belong to the same merchant and environment. An invalid key returns 200 with is_valid set to false. A product outside the selected merchant or environment returns 404 at its index in product_ids.
+Checks whether a key can be used for one of the listed products. You can omit Authorization or send a merchant API key with commerce.license_keys.read. API key calls use the read rate-limit class. Every product must belong to the same merchant and environment. An invalid key returns 200 with is_valid set to false. Without an API key, missing or out-of-scope products also return 200 with invalid_reason set to not_found. With an API key, unavailable products return 404 at their index in product_ids.
 
 `POST /v1/license-keys/validate`
 

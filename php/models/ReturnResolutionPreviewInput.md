@@ -23,4 +23,5 @@ Request input.
 | `resolution_type` | Required | string | What the buyer gets for the approved quantity. Values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. |
 | `return_id` | Required | string | ID of the Return the resolution is for. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
 | `returned_total_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Value of the returned units the proposed resolution covers. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `tender_estimates` | Required | Array of [ReturnRefundTenderEstimateInput](../models/ReturnRefundTenderEstimateInput.md#returnrefundtenderestimateinput) | Estimated amounts by original tender and refund destination. For a replacement return, order_id identifies the order that collected each tender. Empty when no amount is payable. |
 

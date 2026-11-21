@@ -47,7 +47,7 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export type { CreateTestClockRequestInput } from '../declarations/types-14.js';
 export { makeAdvanceTestClockRequest } from '../declarations/types-80.js';
 export { makeCreateTestClockRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface TestClocksResource {
     /**
  * Sandbox only. Moves the test clock forward to `frozen_at`. Flint accepts the request and returns

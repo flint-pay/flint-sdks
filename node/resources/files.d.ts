@@ -25,10 +25,10 @@ export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { CreateFileRequestInput } from '../declarations/types-9.js';
+export type { CreateFileRequestInput } from '../declarations/types-10.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateFileRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface FilesResource {
     /**
  * Completing a merchant_logo or merchant_icon file requires a live-mode credential or a Dashboard

@@ -1,16 +1,16 @@
 import type {
-    ReturnActor,
-    ReturnActorPreviousAttributes,
-    ResourceReference,
-    ResourceReferencePreviousAttributes
-} from './types-62.js';
-import type {
     ReturnUnverifiedItem,
     ReturnUnverifiedItemInput,
     ReturnUnverifiedItemPreviousAttributes,
     ReturnSourceSystemPreviousAttributes,
     ReturnSourceSystem
 } from './types-66.js';
+import type {
+    ReturnActorPreviousAttributes,
+    ReturnActor,
+    ResourceReference,
+    ResourceReferencePreviousAttributes
+} from './types-62.js';
 import type {
     ReturnDispositionPreviousAttributes,
     ReturnCompletionBlocker,
@@ -24,10 +24,17 @@ import type {
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type {
+    ReturnReceiptLineItem,
+    ReturnLineItemPreviousAttributes,
+    ReturnPolicyEvaluation,
+    ReturnPolicyEvaluationPreviousAttributes
+} from './types-64.js';
+import type {
     WebhookSnapshotReturnDisposition,
     WebhookSnapshotReturnInspection,
     WebhookSnapshotReturnLineItem,
     WebhookSnapshotReturnReceipt,
+    WebhookSnapshotReturnResolution,
     WebhookSnapshotRefund
 } from './types-79.js';
 import type { InputValue } from '../runtime.js';
@@ -44,77 +51,13 @@ import type {
 import type { VerifyReturnReceiptLineItemRequestInput } from './types-78.js';
 import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-44.js';
 import type { ExpandedShipmentSummary, ExpandedShipmentSummaryPreviousAttributes } from './types-27.js';
-import type {
-    ReturnLineItemPreviousAttributes,
-    ReturnPolicyEvaluation,
-    ReturnPolicyEvaluationPreviousAttributes
-} from './types-64.js';
-import type { WebhookSnapshotReturnResolution } from './types-80.js';
 import type { LineItemFulfillmentRequest, LineItemFulfillmentRequestModelInput } from './types-40.js';
 import type { TaxCalculationRequest } from './types-74.js';
 import type { OrderDraftLineItemTaxCalculationRequestModelInput } from './types-45.js';
 import type { Refund } from './types-60.js';
-import type { RefundPreviousAttributes } from './types-61.js';
+import type { RefundPreviousAttributes, ReleaseReturnResolutionRequestInput } from './types-61.js';
 import type { CancelReturnResolutionRequestInput } from './types-5.js';
 import type { ConfirmReturnResolutionRequestInput } from './types-8.js';
-/** A returned item recorded as received. */
-export type ReturnReceiptLineItem = {
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "available_disposition_quantity": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Return that owns return_line_item_id. `null` when return_line_item_id is null. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string | null;
-    /**
-     * ID of the Return line the units were matched to. Absent for unverified units. Example:
-     * "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id"?: string;
-    /** ID of the receipt the line belongs to. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
-    "return_receipt_id": string;
-    /**
-     * Unique identifier for this return receipt line item, prefixed `retrcli_`. Example:
-     * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-     */
-    "return_receipt_line_item_id": string;
-    /**
-     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
-     * left out. `verify` is listed while the receipt is current and the line's
-     * `verification_status` is `unverified`. Otherwise empty. [] enum: "verify". [] (Value):
-     * string. Value enum: "verify".
-     */
-    "supported_actions": Array<"verify" | (string & {})>;
-    /**
-     * What the operator recorded for units that match no line. Present on `unverified` lines.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item"?: ReturnUnverifiedItem;
-    /**
-     * Why the units were verified against the line. Value enum: "order_match_confirmed",
-     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
-     */
-    "verification_reason"?: "order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other"
-        | (string & {});
-    /** Detail about `verification_reason`. */
-    "verification_reason_message"?: string;
-    /** Whether the units are matched to a line. Value enum: "matched", "unverified", "excess". */
-    "verification_status": "matched" | "unverified" | "excess" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "verified_at"?: string;
-    /**
-     * Who verified the line. Who performed a return action: a buyer, merchant, integration, or the
-     * system, with an optional ID.
-     */
-    "verified_by"?: ReturnActor;
-};
 /** The `excess` variant of `ReturnReceiptLineItemInput`. */
 export type ReturnReceiptLineItemInputExcess = ({
     /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
@@ -3348,11 +3291,11 @@ export type ReturnRefundEstimate = {
     /**
      * Estimated original-payment destinations for the payable part of buyer_refund_amount_money,
      * in refund order. Excludes store credit. Empty when no refund is payable. [] (Value): {@link
-     * ReturnRefundTenderEstimate}. One estimated original-payment destination for a return refund.
+     * ReturnRefundTenderEstimate}. One original tender and its estimated share of a return refund.
      */
     "tender_estimates": Array<ReturnRefundTenderEstimate>;
 };
-/** One estimated original-payment destination for a return refund. */
+/** One original tender and its estimated share of a return refund. */
 export type ReturnRefundTenderEstimate = ({
     /**
      * Estimated amount returned to this destination. Monetary amount represented as integer minor
@@ -3360,25 +3303,35 @@ export type ReturnRefundTenderEstimate = ({
      */
     "amount_money": MoneyValue;
     /**
+     * Where this share would go. Present on resolution previews. Value enum: "original",
+     * "new_gift_card".
+     */
+    "destination"?: "original" | "new_gift_card" | (string & {});
+    /**
      * Original gift card. Present for gift_card_redemption tenders. Example:
      * "gc_01KEZF7C00RT1618WYBM1Y94CG".
      */
     "gift_card_id"?: string;
+    /**
+     * The order that collected this tender when refunding an exchange replacement. pattern:
+     * ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
     /**
      * Original payment intent. Present for payment_intent tenders. Example:
      * "pi_01KEZF7C00G8H9D509YEV22P7R".
      */
     "payment_intent_id"?: string;
     /**
-     * Original payment destination receiving this estimated refund: a payment intent or a gift
-     * card redemption. Value enum: "payment_intent", "gift_card_redemption".
+     * Original tender that funds this share of the estimate. Value enum: "payment_intent",
+     * "gift_card_redemption".
      */
     "tender_type": "payment_intent" | "gift_card_redemption" | (string & {});
 })
     & ((Exclude<ReturnRefundTenderEstimatePaymentIntent & object, readonly unknown[]>)
     | (Exclude<ReturnRefundTenderEstimateGiftCardRedemption & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/** One estimated original-payment destination for a return refund. */
+/** One original tender and its estimated share of a return refund. */
 export type ReturnRefundTenderEstimateGiftCardRedemption = ({
     /**
      * Estimated amount returned to this destination. Monetary amount represented as integer minor
@@ -3386,25 +3339,33 @@ export type ReturnRefundTenderEstimateGiftCardRedemption = ({
      */
     "amount_money": MoneyValue;
     /**
+     * Where this share would go. Present on resolution previews. Value enum: "original",
+     * "new_gift_card".
+     */
+    "destination"?: "original" | "new_gift_card" | (string & {});
+    /**
      * Original gift card. Present for gift_card_redemption tenders. Example:
      * "gc_01KEZF7C00RT1618WYBM1Y94CG".
      */
     "gift_card_id": string;
+    /**
+     * The order that collected this tender when refunding an exchange replacement. pattern:
+     * ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
     /**
      * Original payment intent. Present for payment_intent tenders. Example:
      * "pi_01KEZF7C00G8H9D509YEV22P7R".
      */
     "payment_intent_id"?: string;
     /**
-     * Original payment destination receiving this estimated refund: a payment intent or a gift
-     * card redemption. Value enum: "gift_card_redemption".
+     * Original tender that funds this share of the estimate. Value enum: "gift_card_redemption".
      */
     "tender_type": "gift_card_redemption" | (string & {});
 })
     & (({
     /**
-     * Original payment destination receiving this estimated refund: a payment intent or a gift
-     * card redemption. Value enum: "gift_card_redemption".
+     * Original tender that funds this share of the estimate. Value enum: "gift_card_redemption".
      */
     "tender_type": unknown;
     /**
@@ -3418,7 +3379,7 @@ export type ReturnRefundTenderEstimateGiftCardRedemption = ({
      */
     "amount_money": MoneyValue;
 }));
-/** One estimated original-payment destination for a return refund. */
+/** One original tender and its estimated share of a return refund. */
 export type ReturnRefundTenderEstimatePaymentIntent = ({
     /**
      * Estimated amount returned to this destination. Monetary amount represented as integer minor
@@ -3426,26 +3387,30 @@ export type ReturnRefundTenderEstimatePaymentIntent = ({
      */
     "amount_money": MoneyValue;
     /**
+     * Where this share would go. Present on resolution previews. Value enum: "original",
+     * "new_gift_card".
+     */
+    "destination"?: "original" | "new_gift_card" | (string & {});
+    /**
      * Original gift card. Present for gift_card_redemption tenders. Example:
      * "gc_01KEZF7C00RT1618WYBM1Y94CG".
      */
     "gift_card_id"?: string;
     /**
+     * The order that collected this tender when refunding an exchange replacement. pattern:
+     * ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
      * Original payment intent. Present for payment_intent tenders. Example:
      * "pi_01KEZF7C00G8H9D509YEV22P7R".
      */
     "payment_intent_id": string;
-    /**
-     * Original payment destination receiving this estimated refund: a payment intent or a gift
-     * card redemption. Value enum: "payment_intent".
-     */
+    /** Original tender that funds this share of the estimate. Value enum: "payment_intent". */
     "tender_type": "payment_intent" | (string & {});
 })
     & (({
-    /**
-     * Original payment destination receiving this estimated refund: a payment intent or a gift
-     * card redemption. Value enum: "payment_intent".
-     */
+    /** Original tender that funds this share of the estimate. Value enum: "payment_intent". */
     "tender_type": unknown;
     /**
      * Original payment intent. Present for payment_intent tenders. Example:
@@ -9498,6 +9463,13 @@ export type ReturnResolutionPreview = {
      * integer minor units plus an ISO 4217 currency code.
      */
     "returned_total_money": MoneyValue;
+    /**
+     * Estimated amounts by original tender and refund destination. For a replacement return,
+     * order_id identifies the order that collected each tender. Empty when no amount is payable.
+     * [] (Value): {@link ReturnRefundTenderEstimate}. One original tender and its estimated share
+     * of a return refund.
+     */
+    "tender_estimates": Array<ReturnRefundTenderEstimate>;
 };
 export type ReturnResolutionPreviousAttributes = {
     /**
@@ -13270,6 +13242,27 @@ export type ReturnResolutionsListParams = {
      * anyOf[2] (Value): string. Value enum: "replacement_order".
      */
     "expand"?: InputValue<("replacement_order") | readonly ("replacement_order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnResolutionsReleaseParams = (InputValue<ReleaseReturnResolutionRequestInput>)
+    & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own

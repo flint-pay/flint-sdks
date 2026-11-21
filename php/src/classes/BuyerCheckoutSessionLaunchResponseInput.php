@@ -2,15 +2,15 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read BuyerCheckoutSessionWithSecretInput|array<array-key, mixed>|\stdClass $data
+ * @property-read BuyerCheckoutSessionLaunchInput|array<array-key, mixed>|\stdClass $data
  * @property-read ResponseMetaInput|array<array-key, mixed>|\stdClass $meta
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerCheckoutSessionLaunchResponseInput extends Model {
-    /** @param array{'data': BuyerCheckoutSessionWithSecretInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
+    /** @param array{'data': BuyerCheckoutSessionLaunchInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCheckoutSessionLaunchResponseInput')); }
-    /** Resource, collection, or operation result returned by this request. The checkout session with any newly issued checkout credential. Hosted launches return url without checkout_auth_token. Headless launches return checkout_auth_token without url. Customer binding confirmation returns its newly issued credential for either surface. A session in which a buyer completes an order's payment.
-     * @return BuyerCheckoutSessionWithSecretInput|array<array-key, mixed>|\stdClass
+    /** Resource, collection, or operation result returned by this request. The session returned when launching checkout. A hosted launch includes url. A headless launch includes checkout_auth_token. A session in which a buyer completes an order's payment.
+     * @return BuyerCheckoutSessionLaunchInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): mixed { return $this->get('data'); }

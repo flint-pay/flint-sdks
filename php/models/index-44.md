@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# ReturnResolution to DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredAddressAdvisoriesItem
+# ReturnReplacementLineItem to DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredAddressAdvisoriesItemSuggestedAddress
 
+- [ReturnReplacementLineItem](ReturnReplacementLineItem.md)
 - [ReturnResolution](ReturnResolution.md)
 - [ReturnResource](ReturnResource.md)
 - [CashOutGiftCardResult](CashOutGiftCardResult.md)
@@ -101,5 +102,4 @@
 - [DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueUnavailableOption](DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueUnavailableOption.md)
 - [DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueUnavailable](DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueUnavailable.md)
 - [DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredAddressAdvisoriesItemSuggestedAddress](DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredAddressAdvisoriesItemSuggestedAddress.md)
-- [DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredAddressAdvisoriesItem](DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredAddressAdvisoriesItem.md)
 

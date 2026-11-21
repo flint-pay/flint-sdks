@@ -5,10 +5,10 @@ import type {
     WebhookDeliveriesCreateParams,
     WebhookDeliveriesGetParams,
     WebhookDeliveriesListAttemptsParams,
-    WebhookDeliveriesListParams
+    WebhookDeliveriesListParams,
+    WebhookDeliveriesResendParams
 } from '../declarations/types-78.js';
 import type {
-    WebhookDeliveriesResendParams,
     WebhookDelivery,
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse,
@@ -36,7 +36,8 @@ export type {
     WebhookDeliveriesCreateParams,
     WebhookDeliveriesGetParams,
     WebhookDeliveriesListParams,
-    WebhookDeliveriesListAttemptsParams
+    WebhookDeliveriesListAttemptsParams,
+    WebhookDeliveriesResendParams
 } from '../declarations/types-78.js';
 export type {
     RequestOptions,
@@ -52,7 +53,6 @@ export type {
     WebhookDeliveryListResponse,
     WebhookDeliveryAttemptListResponse,
     WebhookDeliveryAttempt,
-    WebhookDeliveriesResendParams,
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse
 } from '../declarations/types-79.js';
@@ -66,7 +66,7 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export type { CustomersListAddressesParams } from '../declarations/types-17.js';
 export { makeCreateWebhookDeliveryRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeResendWebhookDeliveryRequest } from '../declarations/types-91.js';
 export interface WebhookDeliveriesResource {
     /**

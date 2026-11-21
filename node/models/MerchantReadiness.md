@@ -15,5 +15,5 @@ A merchant's readiness to accept payments and receive payouts, with per-capabili
 | `payments` | Required | [ReadinessAxis](../models/ReadinessAxis.md#readinessaxis) | Readiness to accept payments. Readiness for one area of a merchant account, with its `status`, the reason for it, and the actions that would advance it. |
 | `payouts` | Required | [ReadinessAxis](../models/ReadinessAxis.md#readinessaxis) | Readiness to receive payouts. Readiness for one area of a merchant account, with its `status`, the reason for it, and the actions that would advance it. |
 | `requirements` | Required | [ReadinessRequirements](../models/ReadinessRequirements.md#readinessrequirements) | Account information still needed, grouped by when it is due. Each capability also lists the requirements that affect it. Account information requirements for a merchant, grouped as currently due, eventually due, past due, and pending verification. |
-| `review_blocks_captures` | Optional | boolean |  |
+| `review_blocks_captures` | Optional | boolean | Whether Flint's review prevents capturing authorized payments. Omitted when capture review status is unavailable. |
 

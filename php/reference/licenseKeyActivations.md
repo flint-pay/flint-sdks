@@ -4,7 +4,7 @@
 
 ### licenseKeyActivations.create
 
-Registers a device for a key in one of the listed products. Returns 201 for a new activation or 200 when the fingerprint already has an active activation. Returns 409 when the key is inactive or has no slots. You can omit Authorization or send an API key with commerce.license_keys.write.
+Registers a device for a key in one of the listed products. Returns 201 for a new activation or 200 when the fingerprint already has an active activation. Returns 409 when the key is inactive or has no slots. You can omit Authorization or send an API key with commerce.license_keys.write. Without an API key, missing products, out-of-scope products, and unmatched keys return 404 at key.
 
 `POST /v1/license-key-activations`
 
@@ -188,7 +188,7 @@ $result = $client->licenseKeyActivations->list([
 
 ### licenseKeyActivations.release
 
-Releases an activation and frees its slot. Send a merchant API key with commerce.license_keys.write, or send both product_ids and the activation's own key. If a merchant sends a key, it must belong to this activation. Returns 401 when neither form of authority is present, 404 when the activation is unavailable to the caller, and 409 when it is already released.
+Releases an activation and frees its slot. Send a merchant API key with commerce.license_keys.write, or send both product_ids and the activation's own key. If a merchant sends a key, it must belong to this activation. Returns 401 when neither form of authority is present, 404 when the activation is unavailable to the caller, and 409 when it is already released. For a request that proves authority with a license key, missing products, out-of-scope products, and unmatched keys also return 404 at license_key_activation_id.
 
 `POST /v1/license-key-activations/{license_key_activation_id}/release`
 

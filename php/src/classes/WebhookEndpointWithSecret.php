@@ -61,7 +61,7 @@ final class WebhookEndpointWithSecret extends Model {
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Subscribed event types. ["*"] includes every type the endpoint's event_sources deliver, including types added later; * is not available with installed_merchants. Stored subscriptions map previous names permanently and drop removed names on read. Empty when no current subscriptions remain. See the [changelog](/docs/changelog). [] (Value): string. minLength: 1.
+    /** Subscribed event types. ["*"] includes every type the endpoint's event_sources deliver, including types added later; * is not available with installed_merchants. Stored subscriptions map previous names permanently and drop removed names on read. Empty when no current subscriptions remain. See the [changelog](/changelog). [] (Value): string. minLength: 1.
      * @return list<string>
      */
     public function getEnabledEvents(): array { return $this->get('enabled_events'); }

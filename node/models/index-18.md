@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# GiftCardUpdatedMerchantEvent to InventoryReservationClosedMerchantEvent
+# GiftCardUpdatedInstalledMerchantsEvent to InventoryReservationClosedInstalledMerchantsEvent
 
+- [GiftCardUpdatedInstalledMerchantsEvent](GiftCardUpdatedInstalledMerchantsEvent.md)
 - [GiftCardUpdatedMerchantEvent](GiftCardUpdatedMerchantEvent.md)
 - [GiftCardVersionRequestInput](GiftCardVersionRequestInput.md)
 - [GuestPurchaseLink](GuestPurchaseLink.md)
@@ -101,5 +102,4 @@
 - [InventoryReservationAtRiskInstalledMerchantsEvent](InventoryReservationAtRiskInstalledMerchantsEvent.md)
 - [InventoryReservationAtRiskMerchantEvent](InventoryReservationAtRiskMerchantEvent.md)
 - [InventoryReservationClosedInstalledMerchantsEvent](InventoryReservationClosedInstalledMerchantsEvent.md)
-- [InventoryReservationClosedMerchantEvent](InventoryReservationClosedMerchantEvent.md)
 

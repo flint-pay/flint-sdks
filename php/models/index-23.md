@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEventInput to PaymentReviewOpenedInstalledMerchantsEventInput
+# PaymentIntentExpiredMerchantEventInput to PaymentReviewListResponseInput
 
+- [PaymentIntentExpiredMerchantEventInput](PaymentIntentExpiredMerchantEventInput.md)
 - [PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEventInput](PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEventInput.md)
 - [PaymentIntentFulfillmentHoldUpdatedMerchantEventInput](PaymentIntentFulfillmentHoldUpdatedMerchantEventInput.md)
 - [PaymentIntentListResponseInput](PaymentIntentListResponseInput.md)
@@ -101,5 +102,4 @@
 - [PaymentReviewClosedInstalledMerchantsEventInput](PaymentReviewClosedInstalledMerchantsEventInput.md)
 - [PaymentReviewClosedMerchantEventInput](PaymentReviewClosedMerchantEventInput.md)
 - [PaymentReviewListResponseInput](PaymentReviewListResponseInput.md)
-- [PaymentReviewOpenedInstalledMerchantsEventInput](PaymentReviewOpenedInstalledMerchantsEventInput.md)
 

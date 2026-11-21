@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CreateCheckoutSessionRequest to CreateGiftCardNotificationRequest
+# CreateCheckoutSessionPayToNewAddressVerificationRequest to CreateGiftCardLoadRequest
 
+- [CreateCheckoutSessionPayToNewAddressVerificationRequest](CreateCheckoutSessionPayToNewAddressVerificationRequest.md)
+- [CreateCheckoutSessionPayToNewAddressVerificationRequestInput](CreateCheckoutSessionPayToNewAddressVerificationRequestInput.md)
+- [CreateCheckoutSessionQuickPay](CreateCheckoutSessionQuickPay.md)
+- [CreateCheckoutSessionQuickPayInput](CreateCheckoutSessionQuickPayInput.md)
 - [CreateCheckoutSessionRequest](CreateCheckoutSessionRequest.md)
 - [CreateCheckoutSessionRequestInput](CreateCheckoutSessionRequestInput.md)
 - [CreateCheckoutSessionReturnResolution](CreateCheckoutSessionReturnResolution.md)
@@ -98,8 +102,4 @@
 - [CreateGiftCardFundingDispositionRequest](CreateGiftCardFundingDispositionRequest.md)
 - [CreateGiftCardFundingDispositionRequestInput](CreateGiftCardFundingDispositionRequestInput.md)
 - [CreateGiftCardLoadRequest](CreateGiftCardLoadRequest.md)
-- [CreateGiftCardLoadRequestInput](CreateGiftCardLoadRequestInput.md)
-- [CreateGiftCardLoadResult](CreateGiftCardLoadResult.md)
-- [CreateGiftCardLoadResultResponse](CreateGiftCardLoadResultResponse.md)
-- [CreateGiftCardNotificationRequest](CreateGiftCardNotificationRequest.md)
 

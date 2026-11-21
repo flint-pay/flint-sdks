@@ -2,9 +2,13 @@
 
 ## CheckoutSessionLaunchResponseInput
 
-A response containing `CheckoutSessionWithSecret` data.
+A response containing `CheckoutSessionLaunch` data.
 
 Request input.
 
-Fields, types, descriptions and enum values: [CheckoutSessionCustomerVerificationConfirmationResponseInput](../models/CheckoutSessionCustomerVerificationConfirmationResponseInput.md#checkoutsessioncustomerverificationconfirmationresponseinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | [CheckoutSessionLaunchInput](../models/CheckoutSessionLaunchInput.md#checkoutsessionlaunchinput) | Resource, collection, or operation result returned by this request. The session returned when launching checkout. A hosted launch includes url. A headless launch includes checkout_auth_token. A session in which a buyer completes an order's payment. A session in which a buyer completes an order's payment. |
+| `meta` | Optional | [ResponseMetaInput](../models/ResponseMetaInput.md#responsemetainput) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
+| `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"`. |
 

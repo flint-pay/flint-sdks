@@ -38,7 +38,7 @@ Response model.
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. `external_reference_id`: [declared alternatives](../models/TaxCalculationCallbackActivatedEvent.md#taxcalculationcallbackactivatedeventdata-fields-1previous_attributesexternal_reference_id). |
 | `gift_recipient` | Optional | [SubscriptionGiftRecipientPreviousAttributes](../models/SubscriptionGiftRecipientPreviousAttributes.md#subscriptiongiftrecipientpreviousattributes) or null | Who receives the gift, when this is a gift subscription. customer_id stays the purchaser. Flint clears it when the subscription ends and when the purchaser's data is erased. Null when the subscription isn't a gift. `gift_recipient`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesgift_recipient). |
 | `idempotency_key` | Optional | string or null | The Idempotency-Key of the request that created this resource. `null` when that request sent no key, Flint created the resource, the reader isn't the caller that created it (another app install, a buyer, or the merchant reading an app's or buyer's record), or the caller that created an older record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including replayed responses and webhook events, can return `null`. To find a key that a replay returns as `null`, read the resource. Buyer sessions on routes shared with merchants get `null`. `/v1/me` responses do not include this field. `idempotency_key`: [declared alternatives](../models/WebhookSnapshotOrderPaymentAttemptPreviousAttributes.md#webhooksnapshotorderpaymentattemptpreviousattributesidempotency_key). |
-| `inventory_wait` | Optional | [SubscriptionInventoryWaitPreviousAttributes](../models/SubscriptionInventoryWaitPreviousAttributes.md#subscriptioninventorywaitpreviousattributes) or null | Renewal waiting for stock. Buyers receive only started_at. `inventory_wait`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesinventory_wait). |
+| `inventory_wait` | Optional | [SubscriptionInventoryWaitPreviousAttributes](../models/SubscriptionInventoryWaitPreviousAttributes.md#subscriptioninventorywaitpreviousattributes) or null | Renewal or prepaid delivery waiting for stock. Buyers receive only started_at. `inventory_wait`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesinventory_wait). |
 | `is_awaiting_billing_schedule` | Optional | boolean or null | True while an active or trialing subscription on an external billing schedule has no next billing date. `is_awaiting_billing_schedule`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesis_awaiting_billing_schedule). |
 | `last_payment_error` | Optional | [PaymentErrorSummaryPreviousAttributes](../models/PaymentErrorSummaryPreviousAttributes.md#paymenterrorsummarypreviousattributes) or null | Latest renewal payment failure, present only while status is past_due and the latest payment failed. Buyer responses omit merchant remediation and sensitive decline signals. `last_payment_error`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributeslast_payment_error). |
 | `line_items` | Optional | Array of [SubscriptionLineItemPreviousAttributes](../models/SubscriptionLineItemPreviousAttributes.md#subscriptionlineitempreviousattributes) or null | What each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes that variant's current catalog price, which then stays until the line changes again. `line_items`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesline_items). |
@@ -634,12 +634,12 @@ Declared alternatives: [WebhookSnapshotOrderPaymentAttemptPreviousAttributes.ide
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.inventory_wait
 
-Renewal waiting for stock. Buyers receive only started_at.
+Renewal or prepaid delivery waiting for stock. Buyers receive only started_at.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Conditional | string or null | ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Always present with merchant credentials. `invoice_id`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesinventory_wait-variant-1invoice_id). |
-| `order_id` | Conditional | string or null | ID of the renewal order waiting for stock. Merchant credentials only. Always present with merchant credentials. `order_id`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesinventory_wait-variant-1order_id). |
+| `invoice_id` | Conditional | string or null | ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. `invoice_id`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesinventory_wait-variant-1invoice_id). |
+| `order_id` | Conditional | string or null | ID of the order waiting for stock, if one was created. Merchant credentials only. `order_id`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesinventory_wait-variant-1order_id). |
 | `started_at` | Conditional | string or null | RFC3339 timestamp. `started_at`: [declared alternatives](../models/PartnerAppInstallPermissionsUpdatedEvent.md#partnerappinstallpermissionsupdatedeventdata-fields-1previous_attributesenvironment_grants-variant-1-fields-1created_at). |
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.inventory_wait variant 1
@@ -653,35 +653,35 @@ anyOf SubscriptionInventoryWaitPreviousAttributes.
 anyOf variant 2.
 
 - Undeclared: `invoice_id`, `order_id`, `started_at`.
-- Value shape: null. Renewal waiting for stock. Buyers receive only started_at. 
+- Value shape: null. Renewal or prepaid delivery waiting for stock. Buyers receive only started_at. 
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.inventory_wait variant 1.invoice_id
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.inventory_wait variant 1.invoice_id variant 1
 
-anyOf variant 1: ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Always present with merchant credentials..
+anyOf variant 1: ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only..
 
-- Value shape: string. ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Always present with merchant credentials. ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Always present with merchant credentials. Example: `"inv_01KEZF7C00A5GEBMWHEAJFSAR4"`. 
+- Value shape: string. ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Example: `"inv_01KEZF7C00A5GEBMWHEAJFSAR4"`. 
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.inventory_wait variant 1.invoice_id variant 2
 
 anyOf variant 2.
 
-- Value shape: null. ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Always present with merchant credentials. 
+- Value shape: null. ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. 
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.inventory_wait variant 1.order_id
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.inventory_wait variant 1.order_id variant 1
 
-anyOf variant 1: ID of the renewal order waiting for stock. Merchant credentials only. Always present with merchant credentials..
+anyOf variant 1: ID of the order waiting for stock, if one was created. Merchant credentials only..
 
-- Value shape: string. ID of the renewal order waiting for stock. Merchant credentials only. Always present with merchant credentials. ID of the renewal order waiting for stock. Merchant credentials only. Always present with merchant credentials. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. 
+- Value shape: string. ID of the order waiting for stock, if one was created. Merchant credentials only. ID of the order waiting for stock, if one was created. Merchant credentials only. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. 
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.inventory_wait variant 1.order_id variant 2
 
 anyOf variant 2.
 
-- Value shape: null. ID of the renewal order waiting for stock. Merchant credentials only. Always present with merchant credentials. 
+- Value shape: null. ID of the order waiting for stock, if one was created. Merchant credentials only. 
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.inventory_wait variant 1.started_at
 

@@ -200,19 +200,12 @@ export type {
     CreateOrderDiscountInput,
     CreateOrderDiscountPromotionInput,
     CreateOrderDiscountManualInput,
-    CreateOrderLineItemInputBundleInput,
     CreateInvoiceRequestOrderInput,
     CreateInvoiceRequestQuickPayInput,
-    CreateOrderLineItemCustomRequestInput
+    CreateInvoiceManualPaymentRequestInput
 } from '../declarations/types-11.js';
-export type { CreateInvoiceIssueRequestInput, CreateInvoiceManualPaymentRequestInput } from '../declarations/types-10.js';
-export type {
-    MetadataRequestInput,
-    MetadataMap,
-    MetadataPatchRequestInput,
-    MetadataMapInput,
-    MetadataPatchRequest
-} from '../declarations/types-43.js';
+export type { CreateInvoiceIssueRequestInput } from '../declarations/types-10.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type {
     OrderDeliveryDestinationRequestInput,
     OrderDeliveryDestinationRecipientRequestInput,
@@ -238,8 +231,8 @@ export type {
     LineItemFulfillmentRequestModelInput,
     LineItemFulfillmentOriginRequestModelInput
 } from '../declarations/types-40.js';
-export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput } from '../declarations/types-59.js';
-export type { PromotionRefInputPromotionCodeInput } from '../declarations/types-58.js';
+export type { PromotionRefRequestInput } from '../declarations/types-59.js';
+export type { PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-58.js';
 export type {
     InventoryRoutingSourceInputFixedLocationInput,
     InventoryRoutingSourceInputPolicyInput,
@@ -248,17 +241,13 @@ export type {
 export type {
     CreateOrderLineItemRequestInput,
     CreateOrderLineItemInputVariantInput,
+    CreateOrderLineItemInputBundleInput,
     CreateOrderLineItemInputCustomInput,
     CreateOrderTipInput,
     CreateOrderTipAmountInput,
     CreateOrderTipPercentInput
 } from '../declarations/types-12.js';
-export type {
-    GiftCardPurchaseDetailsRequestInput,
-    GiftCardPurchaseRecipientRequestInput,
-    GiftCardPurchaseRequestInput,
-    GiftCardPurchaseRecipientInput
-} from '../declarations/types-30.js';
+export type { GiftCardPurchaseDetailsRequestInput, GiftCardPurchaseRecipientRequestInput } from '../declarations/types-30.js';
 export type { ImageReferenceRequestInput, Image, ImageReferenceRequest } from '../declarations/types-31.js';
 export type {
     OrderLineItemModifierRequestModelInput,
@@ -292,7 +281,7 @@ export type {
     OrderTaxLocationPostalAddressRequest,
     OrderTaxLocationFullAddressRequest
 } from '../declarations/types-48.js';
-export type { DeliveryChargeTaxCalculationRequestModelInput } from '../declarations/types-18.js';
+export type { DeliveryChargeTaxCalculationRequestModelInput, DeferredPromotion } from '../declarations/types-18.js';
 export type {
     TaxComponentRequestModelInput,
     TaxJurisdictionRequestModelInput,
@@ -305,7 +294,6 @@ export type {
     CustomerTaxExemptionCoverageRequestInput,
     CustomerTaxExemptionCoverageAllStatesRequestInput,
     CustomerTaxExemptionCoverageStatesRequestInput,
-    DeferredPromotion,
     CustomerTaxExemptionCoverage,
     CustomerTaxExemptionCoverageAllStates,
     CustomerTaxExemptionCoverageStates,
@@ -333,7 +321,6 @@ export {
     makeCreateOrderDiscount,
     makeCreateOrderDiscountManual,
     makeCreateOrderDiscountPromotion,
-    makeCreateOrderLineItemCustomRequest,
     makeCreateOrderLineItemInputBundle,
     makeCreateOrderLineItemInputCustom,
     makeCreateOrderLineItemInputVariant,
@@ -351,9 +338,7 @@ export {
 export { makeDimensionsRequest } from '../declarations/types-86.js';
 export {
     makeGiftCardPurchaseDetailsRequest,
-    makeGiftCardPurchaseRecipient,
     makeGiftCardPurchaseRecipientRequest,
-    makeGiftCardPurchaseRequest,
     makeImageReferenceRequest,
     makeInventoryRoutingSourceInputFixedLocation,
     makeInventoryRoutingSourceInputPolicy,
@@ -368,12 +353,12 @@ export {
     makeInvoicePaymentDueInputDate,
     makeInvoicePaymentDueInputMerchantDefault,
     makeInvoicePaymentDueInputNone,
-    makeInvoicePaymentDueInputPaymentTerms
-} from '../declarations/types-87.js';
-export {
+    makeInvoicePaymentDueInputPaymentTerms,
     makeInvoicePaymentDueRequest,
     makeInvoicePaymentOptionLimitRequest,
-    makeInvoicePaymentPolicyRequest,
+    makeInvoicePaymentPolicyRequest
+} from '../declarations/types-87.js';
+export {
     makeInvoiceScheduleAmountSpecificationFixedRequest,
     makeInvoiceScheduleAmountSpecificationPercentageRequest,
     makeInvoiceScheduleAmountSpecificationRemainingBalanceRequest,
@@ -390,12 +375,11 @@ export {
     makeLineItemFulfillmentOriginRequestModel,
     makeLineItemFulfillmentRequestModel,
     makeManualDiscountRequest,
-    makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest
+    makeMetadataRequest,
+    makeMoneyValue
 } from '../declarations/types-88.js';
 export {
-    makeMoneyValue,
     makeOrderDeliveryDestinationRecipientRequest,
     makeOrderDeliveryDestinationRequest,
     makeOrderDraftLineItemInventoryDemandRequest,

@@ -13,11 +13,12 @@ namespace Flint;
  * @property-read list<DeliveryQuoteLineItemResourcePreviousAttributes>|null $line_items
  * @property-read list<string>|null $method_types
  * @property-read list<DeliveryQuoteChoiceGroupResourcePreviousAttributesOptionsItem>|null $options
+ * @property-read bool|null $pickup_unavailable
  * @property-read string|null $previously_selected_delivery_method_id
  * @property-read string|null $stable_key
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryQuoteChoiceGroupResourcePreviousAttributes extends Model {
-    /** @param array{'address_advisories'?: mixed, 'allowed_types'?: mixed, 'availability_status'?: mixed, 'candidate_outcomes'?: mixed, 'delivery_choice_group_id'?: mixed, 'evaluation_status'?: mixed, 'execution_legs'?: mixed, 'input_requirements'?: mixed, 'line_items'?: mixed, 'method_types'?: mixed, 'options'?: mixed, 'previously_selected_delivery_method_id'?: mixed, 'stable_key'?: mixed, ...}|object $values */
+    /** @param array{'address_advisories'?: mixed, 'allowed_types'?: mixed, 'availability_status'?: mixed, 'candidate_outcomes'?: mixed, 'delivery_choice_group_id'?: mixed, 'evaluation_status'?: mixed, 'execution_legs'?: mixed, 'input_requirements'?: mixed, 'line_items'?: mixed, 'method_types'?: mixed, 'options'?: mixed, 'pickup_unavailable'?: mixed, 'previously_selected_delivery_method_id'?: mixed, 'stable_key'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuoteChoiceGroupResourcePreviousAttributes')); }
     /** Buyer-actionable address verification results that affected this choice group. A suggested_address is an explicit correction the buyer may confirm; Flint does not apply it silently. anyOf[1] (Value): Array of {@see DeliveryAddressAdvisoryResourcePreviousAttributes}. Buyer-actionable address verification results that affected this choice group. A suggested_address is an explicit correction the buyer may confirm; Flint does not apply it silently. anyOf[1][] (Value): {@see DeliveryAddressAdvisoryResourcePreviousAttributes}. anyOf[2] (Value): null.
      * @return list<DeliveryAddressAdvisoryResourcePreviousAttributes>|null
@@ -74,6 +75,11 @@ final class DeliveryQuoteChoiceGroupResourcePreviousAttributes extends Model {
      */
     public function getOptions(): array|null { return $this->get('options'); }
     public function hasOptions(): bool { return $this->has('options'); }
+    /** The requested pickup Location or the order's fixed inventory Location cannot be served by this group's pickup methods. anyOf[1] (Value): boolean. The requested pickup Location or the order's fixed inventory Location cannot be served by this group's pickup methods. anyOf[2] (Value): null.
+     * @return bool|null
+     */
+    public function getPickupUnavailable(): bool|null { return $this->get('pickup_unavailable'); }
+    public function hasPickupUnavailable(): bool { return $this->has('pickup_unavailable'); }
     /** Method chosen for this group in the previous selection. Omitted when there is none. anyOf[1] (Value): string. Method chosen for this group in the previous selection. Omitted when there is none. anyOf[2] (Value): null.
      * @return string|null
      */

@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateCallbackConfigurationPatchRequestInput to DeliveryWeightUnitPricePreviousAttributes
+# DeliveryRateCallbackArchivedMerchantEvent to DeliveryWeeklyIntervalPreviousAttributes
 
+- [DeliveryRateCallbackArchivedMerchantEvent](DeliveryRateCallbackArchivedMerchantEvent.md)
+- [DeliveryRateCallbackConfiguration](DeliveryRateCallbackConfiguration.md)
+- [DeliveryRateCallbackConfigurationPatchRequest](DeliveryRateCallbackConfigurationPatchRequest.md)
 - [DeliveryRateCallbackConfigurationPatchRequestInput](DeliveryRateCallbackConfigurationPatchRequestInput.md)
 - [DeliveryRateCallbackConfigurationPreviousAttributes](DeliveryRateCallbackConfigurationPreviousAttributes.md)
 - [DeliveryRateCallbackConfigurationRequestInput](DeliveryRateCallbackConfigurationRequestInput.md)
@@ -99,7 +102,4 @@
 - [DeliveryTransitTimeRuleRequestInput](DeliveryTransitTimeRuleRequestInput.md)
 - [DeliveryWeeklyInterval](DeliveryWeeklyInterval.md)
 - [DeliveryWeeklyIntervalPreviousAttributes](DeliveryWeeklyIntervalPreviousAttributes.md)
-- [DeliveryWeeklyIntervalRequestInput](DeliveryWeeklyIntervalRequestInput.md)
-- [DeliveryWeightUnitPrice](DeliveryWeightUnitPrice.md)
-- [DeliveryWeightUnitPricePreviousAttributes](DeliveryWeightUnitPricePreviousAttributes.md)
 

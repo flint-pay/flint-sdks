@@ -25,7 +25,7 @@ Resource, collection, or operation result returned by this request. A customer's
 | `buyer_contact` | Optional | [CheckoutBuyerContact](../models/CheckoutBuyerContact.md#checkoutbuyercontact) | Email and phone saved when payment started, from the pay request's buyer_contact or the paying checkout session's saved contact. It does not change the linked customer. Buyer contact supplied with payment or saved during checkout. `buyer_contact`: [field definitions](../models/OrderResponse.md#orderresponsedatabuyer_contact). |
 | `buyer_note` | Optional | string | A note to the buyer. |
 | `charges` | Required | Array of [OrderCharge](../models/OrderCharge.md#ordercharge) | Charges added to the order, such as delivery or service fees, each with its applied amount, tax, and refunded amount. `charges[]`: [field definitions](../models/OrderResponse.md#orderresponsedatacharges). |
-| `checkout_billing_contact` | Optional | [CheckoutBillingContact](../models/CheckoutBillingContact.md#checkoutbillingcontact) | Billing name and address collected in Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not collect the details. `checkout_billing_contact`: [field definitions](../models/OrderResponse.md#orderresponsedatacheckout_billing_contact). |
+| `checkout_billing_contact` | Optional | [CheckoutBillingContact](../models/CheckoutBillingContact.md#checkoutbillingcontact) | Billing name and address collected in Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not collect the details. Billing details collected in Checkout for a successful payment. `checkout_billing_contact`: [field definitions](../models/OrderResponse.md#orderresponsedatacheckout_billing_contact). |
 | `checkout_session_ids` | Required | Array of string | IDs of the checkout sessions opened for this order. Items: Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `client_reference` | Optional | string or null | The reference the payment link URL or resolve request carried, such as your user ID. `null` when none was sent or checkout did not start from a payment link. Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity. Always present with merchant credentials. minLength: `1`. maxLength: `255`. |
 | `closed_at` | Optional | string | When the order closed. Present exactly when status is closed. Set once at the transition and never changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -312,14 +312,16 @@ Value shape: Map of string. Stored caller-owned key-value data. See `MetadataInp
 
 ### OrderResponse.data.checkout_billing_contact
 
-Billing name and address collected in Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not collect the details.
+Billing name and address collected in Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not collect the details. Billing details collected in Checkout for a successful payment.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Required | [Address](../models/Address.md#address) or null | `address`: [declared alternatives](../models/OrderResponse.md#orderresponsedatacheckout_billing_contactaddress). |
-| `name` | Required | string |  |
+| `address` | Required | [Address](../models/Address.md#address) or null | Billing address entered by the buyer. Null when no billing address was collected. `address`: [declared alternatives](../models/OrderResponse.md#orderresponsedatacheckout_billing_contactaddress). |
+| `name` | Required | string | Billing name entered by the buyer. |
 
 ### OrderResponse.data.checkout_billing_contact.address
+
+Billing address entered by the buyer. Null when no billing address was collected.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -342,7 +344,7 @@ anyOf Address: A postal address. Every address has country. Addresses Flint chec
 anyOf variant 2.
 
 - Undeclared: `city`, `country`, `line1`, `line2`, `postal_code`, `state`.
-- Value shape: null.  
+- Value shape: null. Billing address entered by the buyer. Null when no billing address was collected. 
 
 ### OrderResponse.data.custom_field_answers[]
 

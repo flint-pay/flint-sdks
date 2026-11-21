@@ -68,9 +68,9 @@ export {
     makeLicenseKeyVersionRequest,
     makeMerchantSignupOwnerRequest,
     makeMerchantSignupTermsAcceptanceRequest,
-    makeMerchantSignupVersionRequest
+    makeMerchantSignupVersionRequest,
+    makeMoneyValue
 } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeVerifyMerchantSignupRequest } from '../declarations/types-95.js';
 export interface MerchantSignupsResource {
     /**

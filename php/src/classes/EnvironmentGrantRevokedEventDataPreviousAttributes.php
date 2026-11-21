@@ -61,7 +61,7 @@ final class EnvironmentGrantRevokedEventDataPreviousAttributes extends Model {
      */
     public function getPaymentSplits(): PartnerEnvironmentGrantPaymentSplitsPreviousAttributes|null { return $this->get('payment_splits'); }
     public function hasPaymentSplits(): bool { return $this->has('payment_splits'); }
-    /** The platform fee cap the merchant approved for this mode: what the app's cap was when the merchant approved it, lowered at once whenever the app lowers its cap. Absent when the merchant approved none. A higher app cap applies only after the merchant authorizes again. No request accepts a platform fee yet. anyOf[1] (Value): {@see PlatformFeeCapPreviousAttributes}. anyOf[2] (Value): null.
+    /** The platform fee cap the merchant approved for this mode: what the app's cap was when the merchant approved it, lowered at once whenever the app lowers its cap. Absent when the merchant approved none. A higher app cap applies only after the merchant authorizes again. anyOf[1] (Value): {@see PlatformFeeCapPreviousAttributes}. anyOf[2] (Value): null.
      * @return PlatformFeeCapPreviousAttributes|null
      */
     public function getPlatformFeeCap(): PlatformFeeCapPreviousAttributes|null { return $this->get('platform_fee_cap'); }

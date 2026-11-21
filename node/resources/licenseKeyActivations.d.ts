@@ -45,13 +45,15 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export type { ReleaseLicenseKeyActivationRequestInput, ReleaseLicenseKeyActivationRequest } from '../declarations/types-61.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateLicenseKeyActivationRequest } from '../declarations/types-83.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeReleaseLicenseKeyActivationRequest } from '../declarations/types-91.js';
 export interface LicenseKeyActivationsResource {
     /**
  * Registers a device for a key in one of the listed products. Returns 201 for a new activation or
  * 200 when the fingerprint already has an active activation. Returns 409 when the key is inactive
  * or has no slots. You can omit Authorization or send an API key with commerce.license_keys.write.
+ * Without an API key, missing products, out-of-scope products, and unmatched keys return 404 at
+ * key.
  *
  * `POST /v1/license-key-activations`
  * @see https://developers.withflintpay.com/docs/api/license-keys#createLicenseKeyActivation
@@ -101,7 +103,8 @@ export interface LicenseKeyActivationsResource {
  * commerce.license_keys.write, or send both product_ids and the activation's own key. If a
  * merchant sends a key, it must belong to this activation. Returns 401 when neither form of
  * authority is present, 404 when the activation is unavailable to the caller, and 409 when it is
- * already released.
+ * already released. For a request that proves authority with a license key, missing products,
+ * out-of-scope products, and unmatched keys also return 404 at license_key_activation_id.
  *
  * `POST /v1/license-key-activations/{license_key_activation_id}/release`
  * @param license_key_activation_id The activation to release. Must be a valid ID with prefix lka_.

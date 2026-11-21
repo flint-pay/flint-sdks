@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# BuyerReturnLineItemModifierMetadata to ReturnReplacementLineItem
+# BuyerReturnLineItemEligibility to Refund
 
+- [BuyerReturnLineItemEligibility](BuyerReturnLineItemEligibility.md)
 - [BuyerReturnLineItemModifierMetadata](BuyerReturnLineItemModifierMetadata.md)
 - [BuyerReturnLineItemModifier](BuyerReturnLineItemModifier.md)
 - [ReturnLineItemValue](ReturnLineItemValue.md)
@@ -101,5 +102,4 @@
 - [RefundTenderAllocation](RefundTenderAllocation.md)
 - [RefundUnissuedGiftCardRecovery](RefundUnissuedGiftCardRecovery.md)
 - [Refund](Refund.md)
-- [ReturnReplacementLineItem](ReturnReplacementLineItem.md)
 

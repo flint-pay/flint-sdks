@@ -42,19 +42,20 @@ Current eligibility, pricing, origin, estimate, and tax configuration.
 | `quote_input_fields` | Conditional | Array of string or null | Address and coordinate fields a callback method requires and is allowed to receive. Items values: [15 declared values](CreateDeliveryMethodRequestInput.md#createdeliverymethodrequestinput-variant-1configuration-quote_input_fields--values). `quote_input_fields`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributesquote_input_fields). |
 | `recipient_requirements` | Conditional | Array of [DeliveryRecipientRequirementPreviousAttributes](../models/DeliveryRecipientRequirementPreviousAttributes.md#deliveryrecipientrequirementpreviousattributes) or null | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. `recipient_requirements`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributesrecipient_requirements). |
 | `selection_guarantee_seconds` | Conditional | integer or null | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. `selection_guarantee_seconds`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributesselection_guarantee_seconds). |
+| `tax_exempt_us_states` | Conditional | Array of string or null | US destinations where this shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes such as CA. All other destinations use the method's taxable setting or the merchant default. For a taxable shipment method with exemptions, quoting requires a destination country and, for US destinations, a state. Items values: [60 declared values](CreateDeliveryMethodRequestInput.md#createdeliverymethodrequestinput-variant-1configuration-tax_exempt_us_states--values). `tax_exempt_us_states`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributestax_exempt_us_states). |
 | `taxable` | Conditional | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. `null` when the method inherits `settings.tax.default_delivery_taxable`. `taxable`: [declared alternatives](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributestaxable). |
 
 ### DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1
 
 anyOf DeliveryMethodConfigurationPreviousAttributes.
 
-- Optional: `buyer_instructions`, `charge_tax_category`, `eligibility`, `estimate`, `minimum_option_lifetime_seconds`, `origin`, `pricing`, `public_details`, `quote_input_fields`, `recipient_requirements`, `selection_guarantee_seconds`, `taxable`.
+- Optional: `buyer_instructions`, `charge_tax_category`, `eligibility`, `estimate`, `minimum_option_lifetime_seconds`, `origin`, `pricing`, `public_details`, `quote_input_fields`, `recipient_requirements`, `selection_guarantee_seconds`, `tax_exempt_us_states`, `taxable`.
 
 ### DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 2
 
 anyOf variant 2.
 
-- Undeclared: `buyer_instructions`, `charge_tax_category`, `eligibility`, `estimate`, `minimum_option_lifetime_seconds`, `origin`, `pricing`, `public_details`, `quote_input_fields`, `recipient_requirements`, `selection_guarantee_seconds`, `taxable`.
+- Undeclared: `buyer_instructions`, `charge_tax_category`, `eligibility`, `estimate`, `minimum_option_lifetime_seconds`, `origin`, `pricing`, `public_details`, `quote_input_fields`, `recipient_requirements`, `selection_guarantee_seconds`, `tax_exempt_us_states`, `taxable`.
 - Value shape: null. Current eligibility, pricing, origin, estimate, and tax configuration. 
 
 ### DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.charge_tax_category
@@ -123,6 +124,10 @@ Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.recipient_
 ### DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.selection_guarantee_seconds
 
 Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.selection_guarantee_seconds](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributesselection_guarantee_seconds).
+
+### DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.tax_exempt_us_states
+
+Declared alternatives: [DeliveryMethodConfigurationPreviousAttributes.tax_exempt_us_states](../models/DeliveryMethodConfigurationPreviousAttributes.md#deliverymethodconfigurationpreviousattributestax_exempt_us_states).
 
 ### DeliveryMethodActivatedMerchantEventDataPreviousAttributes.configuration variant 1.taxable
 

@@ -7,8 +7,8 @@ import type { InputValue } from '../runtime.js';
 import type { DisputesAcceptParams, ExpandedOrderSummary, ExpandedOrderSummaryPreviousAttributes } from './types-26.js';
 import type { ResponseMeta, ResourceReference, ResourceReferencePreviousAttributes } from './types-62.js';
 import type { Credentials } from './types-15.js';
-import type { MoneyValue, MoneyMovementListMeta, MoneyValuePreviousAttributes, ModifierSet } from './types-44.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { MoneyValue, MoneyMovementListMeta, MoneyValuePreviousAttributes } from './types-44.js';
+import type { MerchantWebhookEnvelope, MetadataMap, ModifierSet } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { CategoryReference, CategoryReferencePreviousAttributes } from './types-5.js';
 import type { ImageAttachment, ImageAttachmentPreviousAttributes, Image } from './types-31.js';
@@ -28,7 +28,7 @@ import type {
     BuyerPaymentCollection,
     BuyerRefund
 } from './types-3.js';
-import type { BuyerErrorRemediation, BuyerCheckoutSessionWithSecret } from './types-2.js';
+import type { BuyerErrorRemediation } from './types-2.js';
 import type {
     CheckoutBuyerContact,
     CheckoutBuyerFields,
@@ -7047,24 +7047,429 @@ export type BuyerCheckoutSession = {
      */
     "version": number;
 };
-/** A response containing `BuyerCheckoutSessionWithSecret` data. */
-export type BuyerCheckoutSessionLaunchResponse = {
+/**
+ * The session returned when launching checkout. A hosted launch includes url. A headless launch
+ * includes checkout_auth_token. A session in which a buyer completes an order's payment.
+ */
+export type BuyerCheckoutSessionLaunch = ({
     /**
-     * Resource, collection, or operation result returned by this request. The checkout session
-     * with any newly issued checkout credential. Hosted launches return url without
-     * checkout_auth_token. Headless launches return checkout_auth_token without url. Customer
-     * binding confirmation returns its newly issued credential for either surface. A session in
-     * which a buyer completes an order's payment.
+     * The payment attempt now collecting this checkout's order, the same attempt as the order's
+     * active_payment_attempt. Read it to recover after losing a pay response, and resume it only
+     * when is_resumable is true. Omitted when no attempt is active. Pending actions that open a
+     * URL are left out; the pay response carries them. An attempt to pay an order.
      */
-    "data": BuyerCheckoutSessionWithSecret;
+    "active_payment_attempt"?: BuyerOrderPaymentAttempt;
     /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Contact the buyer entered in checkout before paying, saved with the session's checkout
+     * credential. Separate from merchant-supplied prefill and customer_prefill from the customer
+     * record. Omitted until the buyer saves or clears a field. When a checkout session payment
+     * omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout.
      */
-    "meta"?: ResponseMeta;
+    "buyer_contact"?: CheckoutBuyerContact;
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
+    "buyer_fields"?: CheckoutBuyerFields;
     /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply.
      */
-    "request_id": string;
-};
+    "can_apply_promotion_code": boolean;
+    /**
+     * Whether checkout offers the buyer the option to save the card they type for faster checkout
+     * at this merchant. When true, PayOrder accepts save_payment_method: true for one newly
+     * collected card. False when the merchant turned checkout.saved_payment_details off, customer
+     * accounts are merchant hosted, card is not an available payment option, the checkout collects
+     * an invoice, a subscription, or a return, or the checkout acts for no customer and Flint
+     * cannot email the buyer a verification code. Returned only to the checkout credential; never
+     * in webhook payloads.
+     */
+    "can_save_payment_method"?: boolean;
+    /**
+     * Whether the buyer can save the card they type by giving a US or Canadian mobile phone number
+     * with the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
+     * confirming it with a texted code after paying. True while Flint can send texts and either
+     * save_payment_method_requires_verification is true, so the number replaces confirming an
+     * email before paying, or the checkout acts for the customer whose email the buyer confirmed
+     * with this credential, so the number joins that customer's saved details once the buyer
+     * confirms it. Returned only to the checkout credential; never in webhook payloads.
+     */
+    "can_save_payment_method_with_phone"?: boolean;
+    /** Example: "cs_01KEZF7C004JRWFW43H037MQRN". */
+    "checkout_session_id": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The custom text this session shows in checkout. Custom text shown in checkout: an order
+     * summary message and a shipping address label.
+     */
+    "custom_text"?: CheckoutCustomTextConfig;
+    /**
+     * The store's customer account, where the buyer can see this purchase and manage a
+     * subscription it starts. A stable link that opens the account wherever the merchant's
+     * `customer_account` settings put it; the buyer signs in there if needed. Pass it as Apple
+     * Pay's `managementURL` for a subscription. Omitted from webhooks, and when the account can't
+     * be resolved. Format: uri. Example: "https://example.com/receipt".
+     */
+    "customer_account_url"?: string;
+    /**
+     * The customer of the session's order. Omitted when the order has none. A checkout credential
+     * issued for this session acts for this customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Contact and default addresses of the customer the checkout acts for, with the recipient name
+     * on its default shipping address: the customer the merchant created the session for, or the
+     * customer whose email the buyer confirmed in it. Present on GET and PATCH responses while the
+     * session is open and acts for a customer. Separate from merchant-supplied prefill and
+     * buyer_contact saved by the buyer. Returned only to the checkout credential; never in webhook
+     * payloads. Details the buyer's checkout can prefill from the customer it acts for.
+     */
+    "customer_prefill"?: CheckoutCustomerPrefill;
+    /**
+     * Current delivery choices for Flint-owned pricing. External pricing reports
+     * requires_explicit_quote; reading this field does not request a delivery quote. Omitted when
+     * the session is not open, has no order, or Flint cannot read its delivery. The delivery
+     * options Flint derived for a checkout as a buyer sees them: choice groups, input
+     * requirements, and evaluation status.
+     */
+    "delivery"?: CheckoutDerivedDeliveryResource;
+    /**
+     * Immutable delivery method assignment captured when the checkout was created. [] (Value):
+     * string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids": Array<string>;
+    /**
+     * Whether the order has at least one remaining quote-resolved fulfillment choice that must be
+     * selected before payment.
+     */
+    "delivery_selection_required": boolean;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /**
+     * The lifetime the session got. expires_at is its deadline. Omitted for invoice sessions,
+     * which take their deadline from the invoice. Format: int64.
+     */
+    "expires_in_seconds"?: number;
+    /**
+     * Where the buyer completes a gift card challenge for this checkout. Returned on
+     * single-session reads, session create and update responses, checkout launch results, and
+     * customer verification confirmation results while the session is open and can show the
+     * challenge. Omitted from lists, webhooks, expanded resources, and delivery selection results.
+     * A URL to load in an iframe when applying a gift card returns `GIFT_CARD_CHALLENGE_REQUIRED`.
+     */
+    "gift_card_challenge"?: CheckoutGiftCardChallenge;
+    /**
+     * ID of the invoice a session of type `invoice` collects payment for. Absent for other types.
+     * Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     */
+    "invoice_id"?: string;
+    /**
+     * Whether the checkout is in its payment recovery window after its deadline. The checkout
+     * credential can recover only an attempt it started. Merchant reads can also report a
+     * merchant-started attempt.
+     */
+    "is_in_recovery": boolean;
+    /**
+     * The terms and policy links this session shows the buyer, and whether the buyer must accept
+     * the terms. Legal settings for a checkout: whether buyers must accept terms, and links to the
+     * terms, refund policy, shipping policy, and contract.
+     */
+    "legal"?: LegalSettings;
+    /**
+     * The merchant's square icon, shown in browser tabs and compact headers. Returned by `GET
+     * /v1/checkout-sessions/{checkout_session_id}` when the merchant has one; other responses and
+     * webhooks omit it. An image with its URL, size, and alt text.
+     */
+    "merchant_icon"?: Image;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * The merchant's logo. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when the
+     * merchant has one; other responses and webhooks omit it. An image with its URL, size, and alt
+     * text.
+     */
+    "merchant_logo"?: Image;
+    /**
+     * The merchant's business name, which hosted checkout shows when `theme.title` is unset. Reads
+     * `Merchant` when the merchant has not set a business name. Returned by `GET
+     * /v1/checkout-sessions/{checkout_session_id}`; other responses and webhooks omit it.
+     */
+    "merchant_name"?: string;
+    /**
+     * How the buyer can reach the merchant for help: the support email, phone, and URL the
+     * merchant set. Present on GET and PATCH responses when the merchant set at least one of them.
+     * Show it where your checkout tells the buyer to contact the merchant, such as an expired or
+     * closed checkout, or your receipt. Returned only to the checkout credential; never in webhook
+     * payloads. The merchant's support contact. Each field is omitted when the merchant has not
+     * set it.
+     */
+    "merchant_support"?: CheckoutMerchantSupport;
+    /**
+     * ID of the order the session collects payment for, fixed at creation. Absent when the session
+     * has no order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /** Origin of the page that renders this headless checkout. Omitted when not set. */
+    "page_origin"?: string;
+    /**
+     * Whether at least one saved card this checkout lists would be refused for the current
+     * delivery destination because the paying credential last confirmed a code more than 15
+     * minutes ago. Request a code with purpose pay_to_new_address, without email or channel, and
+     * confirm it with this credential before paying. A Flint wallet card can still pay to an
+     * address in that wallet while this is true for a store saved card. Pickup and orders that
+     * ship nothing never require this verification. Returned only to the checkout credential.
+     * Returned only to the checkout credential; never in webhook payloads.
+     */
+    "pay_to_new_address_requires_verification"?: boolean;
+    /**
+     * Guidance for collecting a payment source. Checkout-credential reads include it only while
+     * the session is open. Returned only to the checkout credential; never in webhook payloads.
+     * What a client needs to collect payment for a buyer's order. The `stripe` field holds the
+     * Stripe values.
+     */
+    "payment_collection"?: BuyerPaymentCollection;
+    /**
+     * IDs of the payment intents for the session's order. Absent when the order has none. []
+     * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_ids"?: Array<string>;
+    /**
+     * ID of the payment link the session was started from. Absent when it was not started from a
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     */
+    "payment_link_id"?: string;
+    /**
+     * The current image of the payment link that opened this session. Returned by `GET
+     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
+     * and webhooks omit it. An image with its URL, size, and alt text.
+     */
+    "payment_link_image"?: Image;
+    /**
+     * The card the buyer saved pending with this checkout's payment, and whether they confirmed
+     * it. Present on GET and PATCH responses after a payment that paid the order in full, or that
+     * was approved for the merchant to capture later, and saved a card this way. Without a number,
+     * confirmation requires an emailed code. A checkout whose payment is approved stays open until
+     * the capture. Returned only to the checkout credential; never in webhook payloads. A card the
+     * buyer saved with this checkout's payment that waits for a code. It works for nothing until
+     * the buyer confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method.
+     */
+    "payment_method_save"?: CheckoutPaymentMethodSave;
+    /**
+     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
+     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
+     * result. Required when the session offers affirm. It can't contain credentials, a query
+     * string, or a fragment. Query strings are deliberately excluded so credentials and provider
+     * state cannot cross Flint's payment relay. Put merchant identifiers in the URL path, such as
+     * https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048
+     * characters. Format: uri. maxLength: 2048. Example: "https://example.com/receipt".
+     */
+    "payment_return_url"?: string;
+    /**
+     * Configured payment options for merchant credentials; currently available payment options for
+     * the checkout credential. Payment settings for a checkout: the enabled payment options and a
+     * note shown with payment.
+     */
+    "payments"?: CheckoutPaymentConfig;
+    /**
+     * Contact details and addresses to fill in for the buyer, who can change them. For a customer
+     * with saved addresses, Flint fills in any address you leave out, and reads include it. With
+     * quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's
+     * tax location. Not changed by what the buyer types; for that, read buyer_contact.
+     * customer_prefill is what the checkout credential reads from the customer record.
+     */
+    "prefill"?: CheckoutPrefill;
+    /**
+     * Named conditions that affect checkout completion. Follow each problem's remediation action
+     * instead of reconstructing delivery lifecycle rules in the client. payment_in_progress means
+     * another payment for the order must finish before this checkout can complete. When Flint
+     * cannot read the checkout's delivery, the read still succeeds and reports
+     * delivery_unreadable; its remediation says whether reading the session again can succeed, and
+     * its next action's reason_code names the error. [] (Value): {@link
+     * BuyerCheckoutProblemResource}. A checkout problem shown to the buyer, including whether it
+     * blocks completion and how to resolve it.
+     */
+    "problems": Array<BuyerCheckoutProblemResource>;
+    /**
+     * Whether automatic promotions apply to this session and whether the buyer can enter promotion
+     * codes. Promotion settings for a checkout: whether automatic promotions apply and whether the
+     * buyer can apply promotion codes.
+     */
+    "promotion_config"?: CheckoutPromotionConfig;
+    /**
+     * When the restricted payment-attempt recovery window ends. `null` when the session has no
+     * recovery window. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "recovery_expires_at"?: string | null;
+    /**
+     * The payment attempt in the recovery window. Only merchant reads report a merchant-started
+     * attempt. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
+     */
+    "recovery_payment_attempt_id"?: string;
+    /**
+     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
+     * payment_return_url.
+     */
+    "redirects"?: CheckoutRedirects;
+    /**
+     * All buyer-visible refunds on this session’s order, including refunds made by the store. Uses
+     * the same buyer projection as /v1/me/refunds. Included on GET single-session reads as an
+     * array, with [] when there are none, and omitted from other responses and webhooks. A failed
+     * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+     * contact the store to get their money back. [] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment.
+     */
+    "refunds"?: Array<BuyerRefund>;
+    /**
+     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
+     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
+     * saved cards still needs the code before paying. True when can_save_payment_method is true
+     * and the checkout acts for no customer for this credential: the merchant created it without
+     * one, and either the buyer has not confirmed an email with this credential, or the customer
+     * whose email they confirmed has since changed that email or been deleted. A credential other
+     * than the one a confirmation returned, such as the hosted checkout link opened on another
+     * device, reads true. Send the code with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
+     * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
+     * checkout credential; never in webhook payloads.
+     */
+    "save_payment_method_requires_verification"?: boolean;
+    /**
+     * What save_payment_method keeps, present when can_save_payment_method is true: card, a card
+     * the buyer types into checkout. Show the save option with that payment method only. A pay
+     * request that sends save_payment_method: true with Apple Pay, Google Pay, a bank account, or
+     * Affirm, through a confirmation token created with setup_future_usage none, still pays, and
+     * its payment attempt's payment_method_save reports not_saved. The values can grow. Returned
+     * only to the checkout credential; never in webhook payloads. [] enum: "card". [] (Value):
+     * string. Value enum: "card".
+     */
+    "save_payment_method_types"?: Array<"card" | (string & {})>;
+    /**
+     * Guidance for collecting a payment method to save. Checkout-credential reads include it only
+     * while the session is open. Returned only to the checkout credential; never in webhook
+     * payloads. Client guidance for saving a payment method on the merchant's connected account.
+     */
+    "setup_collection"?: BuyerSetupCollection;
+    /**
+     * Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when
+     * the merchant's agreement with Flint removes it. Returned by `GET
+     * /v1/checkout-sessions/{checkout_session_id}`; other responses and webhooks omit it.
+     */
+    "show_flint_mark"?: boolean;
+    /**
+     * Where the session is in its lifecycle. Only an `open` session accepts payment.
+     * `terminal_reason` says why a session that is not open ended. Value enum: "open", "paid",
+     * "partially_paid", "expired", "closed", "invalidated".
+     */
+    "status": "open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {});
+    /**
+     * ID of the subscription plan a session of type `subscription_plan` signs the buyer up for.
+     * Absent for other types. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id"?: string;
+    /**
+     * Renewal terms a subscription checkout commits the buyer to. Frozen when the session's order
+     * was created, so later plan changes do not alter them. Absent when the checkout starts no
+     * subscription. Renewal terms a subscription checkout commits the buyer to. Frozen when the
+     * session's order was created, so later plan changes do not alter them.
+     */
+    "subscription_terms"?: CheckoutSubscriptionTerms;
+    /**
+     * ID of the session that replaced this one. Present when `terminal_reason` is `superseded`.
+     * Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
+    "superseding_checkout_session_id"?: string;
+    /**
+     * How the session is presented to the buyer. A hosted session has a `url` on Flint's checkout
+     * page; a headless one is rendered on your own page. Value enum: "hosted", "headless".
+     */
+    "surface": "hosted" | "headless" | (string & {});
+    /**
+     * The session's tax settings. Omitted when the session sets none. Tax settings of a checkout
+     * session: whether it collects tax and any tax location the merchant fixed.
+     */
+    "tax"?: CheckoutSessionTax;
+    /**
+     * Why the session ended. The checkout credential can still read its own closed or expired
+     * session; every other call is refused because the session is not open. order_paid_elsewhere
+     * applies only to invalidated sessions when payment succeeds or partially succeeds outside the
+     * session. order_mutated applies when an edit closes or completes its order, or ends an
+     * invoice, return-resolution, or subscription-plan session. Other merchant edits keep hosted
+     * and headless sessions open. A session already past expires_at ends with expired before the
+     * edit is applied. Value enum: "payment_succeeded", "payment_partially_succeeded", "expired",
+     * "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
+     * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
+     * "invoice_balance_changed".
+     */
+    "terminal_reason"?: "payment_succeeded"
+        | "payment_partially_succeeded"
+        | "expired"
+        | "closed_by_merchant"
+        | "order_mutated"
+        | "superseded"
+        | "order_paid_elsewhere"
+        | "invoice_paid_elsewhere"
+        | "invoice_voided"
+        | "invoice_uncollectible"
+        | "invoice_balance_changed"
+        | (string & {});
+    /**
+     * The theme checkout renders with: your branding settings, with the session's `title`,
+     * `primary_color`, and `accent_color` over them. A session sets only those three; the other
+     * fields come from branding settings. Omitted when neither sets a value. Colors, corner
+     * radius, font family, and title that style a checkout, taken from the session or link theme
+     * or the merchant's branding settings.
+     */
+    "theme"?: CheckoutTheme;
+    /**
+     * The tip options this session offers the buyer. Tip settings for a checkout: whether tips are
+     * enabled, the percent or fixed amount options, the default tip, and custom tips.
+     */
+    "tip"?: CheckoutTipConfig;
+    /**
+     * What this launch collects. A return balance launch reports `return_resolution`. Later reads
+     * and checkout session events report `order` for that session. Value enum: "order",
+     * "quick_pay", "subscription_plan", "invoice", "payment_link", "return_resolution".
+     */
+    "type": "order"
+        | "quick_pay"
+        | "subscription_plan"
+        | "invoice"
+        | "payment_link"
+        | "return_resolution"
+        | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Hosted checkout URL that carries a one-time launch credential. Send the buyer here to pay.
+     * Present only for hosted sessions read with a merchant credential that can manage checkout
+     * sessions. Launch results include it for hosted sessions: create, payment-link resolve, and
+     * invoice and return-resolution checkout. Omitted for headless sessions.
+     */
+    "url"?: string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
+})
+    & ({
+    /**
+     * Checkout credential. Send it as Authorization: Bearer <checkout_auth_token>. Present on
+     * headless checkout launch and customer binding confirmation. Omitted on hosted checkout
+     * launch and when a saved-card confirmation keeps the current credential.
+     */
+    "checkout_auth_token"?: string;
+    /**
+     * One-time identity token returned only when a successful code confirmation remembered the
+     * buyer. Store it on your backend or in an HttpOnly cookie. It never opens saved cards.
+     * minLength: 47. maxLength: 47. pattern: ^rbt_[A-Za-z0-9_-]{43}$.
+     */
+    "remembered_buyer_token"?: string;
+});

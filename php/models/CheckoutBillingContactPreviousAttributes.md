@@ -8,10 +8,12 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [AddressPreviousAttributes](../models/AddressPreviousAttributes.md#addresspreviousattributes) or null | `address`: [declared alternatives](../models/CheckoutBillingContactPreviousAttributes.md#checkoutbillingcontactpreviousattributesaddress). |
-| `name` | Optional | string or null | `name`: [declared alternatives](../models/CheckoutBillingContactPreviousAttributes.md#checkoutbillingcontactpreviousattributesname). |
+| `address` | Optional | [AddressPreviousAttributes](../models/AddressPreviousAttributes.md#addresspreviousattributes) or null | Billing address entered by the buyer. Null when no billing address was collected. `address`: [declared alternatives](../models/CheckoutBillingContactPreviousAttributes.md#checkoutbillingcontactpreviousattributesaddress). |
+| `name` | Optional | string or null | Billing name entered by the buyer. `name`: [declared alternatives](../models/CheckoutBillingContactPreviousAttributes.md#checkoutbillingcontactpreviousattributesname). |
 
 ### CheckoutBillingContactPreviousAttributes.address
+
+Billing address entered by the buyer. Null when no billing address was collected.
 
 Field definitions: [shared fields](TaxConnectionUpdatedEvent.md#taxconnectionupdatedeventdata-fields-1previous_attributeslegal_address).
 
@@ -26,7 +28,7 @@ anyOf AddressPreviousAttributes.
 anyOf variant 2.
 
 - Undeclared: `city`, `country`, `line1`, `line2`, `postal_code`, `state`.
-- Value shape: null.  
+- Value shape: null. Billing address entered by the buyer. Null when no billing address was collected. 
 
 ### CheckoutBillingContactPreviousAttributes.address variant 1.city
 
@@ -56,13 +58,13 @@ Declared alternatives: [TaxConnectionUpdatedEvent.data fields 1.previous_attribu
 
 ### CheckoutBillingContactPreviousAttributes.name variant 1
 
-anyOf variant 1.
+anyOf variant 1: Billing name entered by the buyer..
 
-- Value shape: string.  
+- Value shape: string. Billing name entered by the buyer. 
 
 ### CheckoutBillingContactPreviousAttributes.name variant 2
 
 anyOf variant 2.
 
-- Value shape: null.  
+- Value shape: null. Billing name entered by the buyer. 
 

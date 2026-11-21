@@ -1,14 +1,13 @@
-import { d9817 as c0, d9818 as c2, d9820 as c4, d9821 as c6, d9822 as c7, d9823 as c11, d9813 as c14 } from '../descriptors/data/455.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
-import { d8048 as c1, d8050 as c8, d8051 as c9, d8049 as c10 } from '../descriptors/data/352.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
-import { d9812 as c3 } from '../descriptors/data/454.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
-import { d7920 as c5 } from '../descriptors/data/343.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
-import { d9828 as c12, d9829 as c13 } from '../descriptors/data/456.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
-import { d7772 as c15 } from '../descriptors/data/327.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
-import { d7772 as d7772 } from '../descriptors/data/327.js?sdk=4332f5ca21c6bbffd15e6df46b751e70fcfa9bb8907edf04e783727091a6296b';
+import { d9829 as c0, d9824 as c3, d9825 as c14 } from '../descriptors/data/454.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
+import { d8056 as c1, d8058 as c8, d8059 as c9, d8057 as c10 } from '../descriptors/data/352.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
+import { d9830 as c2, d9832 as c4, d9833 as c6, d9834 as c7, d9835 as c11, d9840 as c12, d9841 as c13 } from '../descriptors/data/455.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
+import { d7928 as c5 } from '../descriptors/data/343.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
+import { d7781 as c15 } from '../descriptors/data/327.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
+import { d7781 as d7781 } from '../descriptors/data/327.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7772;
+const read = d7781;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InlineModifierGroupRequest"]:c0(),["MetadataRequest"]:c1(),["ModifierOverrideRequest"]:c2(),["ModifierRequest"]:c3(),["ModifierSetGroupRequest"]:c4(),["MoneyValue"]:c5(),["SharedCodec1833"]:c6(),["SharedCodec1834"]:c7(),["SharedCodec3071"]:c8(),["SharedCodec3072"]:c9(),["SharedCodec3073"]:c10(),["SharedCodec3133"]:c11(),["SharedCodec474"]:c12(),["SharedCodec475"]:c13(),["TextModifierConfigRequest"]:c14(),["UpdateModifierSetRequest"]:c15()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InlineModifierGroupRequest"]:c0(),["MetadataRequest"]:c1(),["ModifierOverrideRequest"]:c2(),["ModifierRequest"]:c3(),["ModifierSetGroupRequest"]:c4(),["MoneyValue"]:c5(),["SharedCodec1838"]:c6(),["SharedCodec1839"]:c7(),["SharedCodec3079"]:c8(),["SharedCodec3080"]:c9(),["SharedCodec3081"]:c10(),["SharedCodec3141"]:c11(),["SharedCodec478"]:c12(),["SharedCodec479"]:c13(),["TextModifierConfigRequest"]:c14(),["UpdateModifierSetRequest"]:c15()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateModifierSetRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

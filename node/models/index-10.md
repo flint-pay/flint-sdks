@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# CreditNoteAllocationListResponse to CustomerUpdatedMerchantEvent
+# CreditNoteAllocation to CustomerTaxID
 
+- [CreditNoteAllocation](CreditNoteAllocation.md)
+- [CreditNoteAllocationCreatedInstalledMerchantsEvent](CreditNoteAllocationCreatedInstalledMerchantsEvent.md)
+- [CreditNoteAllocationCreatedMerchantEvent](CreditNoteAllocationCreatedMerchantEvent.md)
 - [CreditNoteAllocationListResponse](CreditNoteAllocationListResponse.md)
 - [CreditNoteAllocationResponse](CreditNoteAllocationResponse.md)
 - [CreditNoteAllocationResult](CreditNoteAllocationResult.md)
@@ -99,7 +102,4 @@
 - [CustomerTaxExemptionListResponse](CustomerTaxExemptionListResponse.md)
 - [CustomerTaxExemptionResponse](CustomerTaxExemptionResponse.md)
 - [CustomerTaxID](CustomerTaxID.md)
-- [CustomerTaxIDPreviousAttributes](CustomerTaxIDPreviousAttributes.md)
-- [CustomerUpdatedInstalledMerchantsEvent](CustomerUpdatedInstalledMerchantsEvent.md)
-- [CustomerUpdatedMerchantEvent](CustomerUpdatedMerchantEvent.md)
 

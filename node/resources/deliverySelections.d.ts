@@ -166,6 +166,7 @@ export type {
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
     DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
+    DeferredPromotion,
     DeliveryChargeTaxCalculationRequest,
     DeliveryBuyerLocationResource,
     DeliveryBuyerLocationResourceAddress,
@@ -197,13 +198,6 @@ export type {
 export type { LegalSettings } from '../declarations/types-39.js';
 export type { Image } from '../declarations/types-31.js';
 export type { MetadataMap } from '../declarations/types-43.js';
-export type {
-    DeferredPromotion,
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates,
-    CustomerTaxID
-} from '../declarations/types-17.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
@@ -269,6 +263,12 @@ export type { PurchasedGiftCard } from '../declarations/types-59.js';
 export type { TaxCalculationRequest, TaxComponentRequest, TaxJurisdiction, TaxReverseCharge } from '../declarations/types-74.js';
 export type { SubscriptionPlanLineItem, SubscriptionPlanLineItemBundle, SubscriptionPlanLineItemCustom } from '../declarations/types-71.js';
 export type { SubscriptionPlanSwapVariant, SubscriptionPlanLineItemVariant } from '../declarations/types-72.js';
+export type {
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates,
+    CustomerTaxID
+} from '../declarations/types-17.js';
 export type { OrderTaxLocation } from '../declarations/types-48.js';
 export type { TaxBreakdown, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-73.js';
 export { makeAddressRequest } from '../declarations/types-80.js';
@@ -278,9 +278,7 @@ export {
     makeDeliverySelectionRecipientRequest,
     makeDeliveryWindowRequest
 } from '../declarations/types-86.js';
-export { makeGiftCardPurchaseRecipient } from '../declarations/types-87.js';
-export { makeMetadataMap } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeTextModifierRequest } from '../declarations/types-93.js';
 export interface DeliverySelectionsResource {
     /**

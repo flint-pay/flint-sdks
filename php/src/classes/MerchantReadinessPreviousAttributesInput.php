@@ -42,7 +42,7 @@ final class MerchantReadinessPreviousAttributesInput extends Model {
      */
     public function getRequirements(): mixed { return $this->get('requirements'); }
     public function hasRequirements(): bool { return $this->has('requirements'); }
-    /**  anyOf[1] (Value): boolean. anyOf[2] (Value): null.
+    /** Whether Flint's review prevents capturing authorized payments. Omitted when capture review status is unavailable. anyOf[1] (Value): boolean. Whether Flint's review prevents capturing authorized payments. Omitted when capture review status is unavailable. anyOf[2] (Value): null.
      * @return bool|null
      * @throws SdkError When review_blocks_captures is omitted; use hasReviewBlocksCaptures() or valueOrDefault().
      */

@@ -1,16 +1,12 @@
-import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-44.js';
+import type { MoneyValueInput, MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type {
-    OrderLineItemModifierRequest,
-    OrderLineItemTax,
     OrderLineItemModifierRequestModelInput,
     OrderLineItemTaxRequestInput,
+    OrderLineItemTax,
     OrderLineItemTaxPreviousAttributes,
     OrderPaymentAttempt
 } from './types-47.js';
 import type {
-    SubscriptionPlanLineItemInputBundle,
-    SubscriptionPlanLineItemInputCustom,
-    SubscriptionPlanLineItemInputVariant,
     SubscriptionPlanLineItemInputBundleInput,
     SubscriptionPlanLineItemInputCustomInput,
     SubscriptionPlanLineItemInputVariantInput,
@@ -76,115 +72,6 @@ import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { PaymentErrorSummary, PaymentErrorSummaryPreviousAttributes } from './types-51.js';
 import type { SubscriptionUpcomingDeliveryHold, SubscriptionUpcomingDeliveryHoldPreviousAttributes } from './types-73.js';
 import type { CheckoutTaxCalculation, CheckoutTaxCalculationPreviousAttributes } from './types-7.js';
-/**
- * A line item to put on a new subscription plan, from a variant, a bundle, or a custom name and
- * price.
- */
-export type SubscriptionPlanLineItemRequest = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /**
-     * ID of the catalog bundle to sell on this line. Send it with `type` bundle and without
-     * `variant_id`, `name`, `unit_price_money`, `description`, or `tax`: Flint takes those from
-     * the bundle. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Description of the line. Optional on a custom line, and not allowed on a variant or bundle
-     * line, which take the catalog description. minLength: 1.
-     */
-    "description"?: string;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    /**
-     * Modifiers to apply to a variant or bundle line. Omit to apply the catalog item's default
-     * modifiers; send an empty array to skip the defaults. Not allowed on a custom line, and
-     * `null` is rejected. [] (Value): {@link OrderLineItemModifierRequest}. A modifier selection
-     * you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity.
-     * [].metadata (Optional): {@link MetadataMap}. Caller-owned metadata for this selection,
-     * returned on the order line item's modifier. Values can't be empty strings. Keys starting
-     * with flint_ are reserved for Flint, are not returned, and cannot be written through the
-     * public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata.
-     * Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096
-     * Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be
-     * empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     * [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque
-     * resource reference; accepted spellings follow resource ID validation. Its resolved price and
-     * the resulting line subtotal must satisfy the order money ceiling. The amount and every
-     * computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects
-     * an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at
-     * the responsible input field. Lower payment option limits can apply. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
-     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. [].text (Optional): {@link TextModifierRequest}. The text to use. Send it with a
-     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
-     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalog}. The `catalog` variant of
-     * `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link OrderLineItemModifierInputText}.
-     * The `text` variant of `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
-    /**
-     * Name of the line. Required for a custom line, and not allowed on a variant or bundle line,
-     * which take the catalog name. Surrounding whitespace is trimmed before length validation. A
-     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
-     */
-    "name"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * Variants a subscriber can swap this line to. Only for a variant line. At most 25, with no
-     * repeats, none equal to the line's own variant, and all from the same product. Omit for none.
-     * maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids"?: Array<string>;
-    /**
-     * Whether the line is taxable and its tax category. A custom line needs `taxable` when it
-     * sends `tax`. Not allowed on a variant or bundle line, which take the catalog tax settings. A
-     * line item's tax category and whether it is taxable.
-     */
-    "tax"?: OrderLineItemTax;
-    /**
-     * The kind of line to add. It must match the other fields: `variant` needs `variant_id`,
-     * `bundle` needs `bundle_id`, and `custom` needs `name` and `unit_price_money`. Value enum:
-     * "variant", "bundle", "custom".
-     */
-    "type": "variant" | "bundle" | "custom" | (string & {});
-    /**
-     * Price of one unit, in the plan's currency. Required for a custom line, with an amount above
-     * zero, and not allowed on a variant or bundle line, which take the catalog price. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValue;
-    /**
-     * ID of the catalog variant to sell on this line. Send it with `type` variant and without
-     * `bundle_id`, `name`, `unit_price_money`, `description`, or `tax`: Flint takes those from the
-     * variant. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-})
-    & ((Exclude<SubscriptionPlanLineItemInputVariant & object, readonly unknown[]>)
-    | (Exclude<SubscriptionPlanLineItemInputBundle & object, readonly unknown[]>)
-    | (Exclude<SubscriptionPlanLineItemInputCustom & object, readonly unknown[]>)
-    | (Record<string, unknown>));
 /**
  * A line item to put on a new subscription plan, from a variant, a bundle, or a custom name and
  * price.
@@ -1856,12 +1743,12 @@ export type SubscriptionReactivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
      * responses and webhook events, can return `null`. To find a key that a replay returns as
      * `null`, read the resource. Buyer sessions on routes shared with merchants get `null`.
      * `/v1/me` responses do not include this field. object.inventory_wait (Optional): {@link
-     * SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive only started_at. Shows
-     * that a subscription renewal is waiting for inventory, with the order and invoice involved
-     * and when the wait started. object.is_awaiting_billing_schedule (Optional): boolean. True
-     * while an active or trialing subscription on an external billing schedule has no next billing
-     * date. object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal
-     * payment failure, present only while status is past_due and the latest payment failed. Buyer
+     * SubscriptionInventoryWait}. Renewal or prepaid delivery waiting for stock. Buyers receive
+     * only started_at. A subscription renewal or prepaid delivery waiting for stock.
+     * object.is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
+     * subscription on an external billing schedule has no next billing date.
+     * object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
+     * failure, present only while status is past_due and the latest payment failed. Buyer
      * responses omit merchant remediation and sensitive decline signals. A summary of why a
      * payment attempt failed, with a normalized error code, a message, the failure time, and
      * remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What each
@@ -2250,14 +2137,15 @@ export type SubscriptionReactivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
      * `null`. `/v1/me` responses do not include this field.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_wait (Optional): {@link
-     * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal waiting for stock. Buyers
-     * receive only started_at. previous_attributes.inventory_wait.anyOf[1] (Value): {@link
-     * SubscriptionInventoryWaitPreviousAttributes}. previous_attributes.inventory_wait.anyOf[2]
-     * (Value): null. previous_attributes.is_awaiting_billing_schedule (Optional): boolean or null.
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date. previous_attributes.is_awaiting_billing_schedule.anyOf[1] (Value): boolean.
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date. previous_attributes.is_awaiting_billing_schedule.anyOf[2] (Value): null.
+     * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal or prepaid delivery waiting
+     * for stock. Buyers receive only started_at. previous_attributes.inventory_wait.anyOf[1]
+     * (Value): {@link SubscriptionInventoryWaitPreviousAttributes}.
+     * previous_attributes.inventory_wait.anyOf[2] (Value): null.
+     * previous_attributes.is_awaiting_billing_schedule (Optional): boolean or null. True while an
+     * active or trialing subscription on an external billing schedule has no next billing date.
+     * previous_attributes.is_awaiting_billing_schedule.anyOf[1] (Value): boolean. True while an
+     * active or trialing subscription on an external billing schedule has no next billing date.
+     * previous_attributes.is_awaiting_billing_schedule.anyOf[2] (Value): null.
      * previous_attributes.last_payment_error (Optional): {@link
      * PaymentErrorSummaryPreviousAttributes} or null. Latest renewal payment failure, present only
      * while status is past_due and the latest payment failed. Buyer responses omit merchant
@@ -2692,26 +2580,25 @@ export type SubscriptionReactivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
          * including replayed responses and webhook events, can return `null`. To find a key that a
          * replay returns as `null`, read the resource. Buyer sessions on routes shared with
          * merchants get `null`. `/v1/me` responses do not include this field. inventory_wait
-         * (Optional): {@link SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive
-         * only started_at. Shows that a subscription renewal is waiting for inventory, with the
-         * order and invoice involved and when the wait started. is_awaiting_billing_schedule
-         * (Optional): boolean. True while an active or trialing subscription on an external
-         * billing schedule has no next billing date. last_payment_error (Optional): {@link
-         * PaymentErrorSummary}. Latest renewal payment failure, present only while status is
-         * past_due and the latest payment failed. Buyer responses omit merchant remediation and
-         * sensitive decline signals. A summary of why a payment attempt failed, with a normalized
-         * error code, a message, the failure time, and remediation. line_items (Required): Array
-         * of {@link SubscriptionLineItem}. What each renewal bills. Plan edits do not change it.
-         * Adding, changing or swapping a line takes that variant's current catalog price, which
-         * then stays until the line changes again. line_items[] (Value): {@link
-         * SubscriptionLineItem}. An item included in a customer's recurring purchase. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
-         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them.
-         * missed_billing_at (Optional): string. The billing date whose payment failed, as an
+         * (Optional): {@link SubscriptionInventoryWait}. Renewal or prepaid delivery waiting for
+         * stock. Buyers receive only started_at. A subscription renewal or prepaid delivery
+         * waiting for stock. is_awaiting_billing_schedule (Optional): boolean. True while an
+         * active or trialing subscription on an external billing schedule has no next billing
+         * date. last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
+         * failure, present only while status is past_due and the latest payment failed. Buyer
+         * responses omit merchant remediation and sensitive decline signals. A summary of why a
+         * payment attempt failed, with a normalized error code, a message, the failure time, and
+         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
+         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
+         * that variant's current catalog price, which then stays until the line changes again.
+         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
+         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
+         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
+         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
+         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
          * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
          * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
@@ -3068,9 +2955,8 @@ export type SubscriptionReactivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
              */
             "idempotency_key"?: string | null;
             /**
-             * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
-             * renewal is waiting for inventory, with the order and invoice involved and when the
-             * wait started.
+             * Renewal or prepaid delivery waiting for stock. Buyers receive only started_at. A
+             * subscription renewal or prepaid delivery waiting for stock.
              */
             "inventory_wait"?: SubscriptionInventoryWait;
             /**
@@ -3574,10 +3460,10 @@ export type SubscriptionReactivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
          * replay returns as `null`, read the resource. Buyer sessions on routes shared with
          * merchants get `null`. `/v1/me` responses do not include this field.
          * idempotency_key.anyOf[2] (Value): null. inventory_wait (Optional): {@link
-         * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal waiting for stock. Buyers
-         * receive only started_at. inventory_wait.anyOf[1] (Value): {@link
-         * SubscriptionInventoryWaitPreviousAttributes}. inventory_wait.anyOf[2] (Value): null.
-         * is_awaiting_billing_schedule (Optional): boolean or null. True while an active or
+         * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal or prepaid delivery
+         * waiting for stock. Buyers receive only started_at. inventory_wait.anyOf[1] (Value):
+         * {@link SubscriptionInventoryWaitPreviousAttributes}. inventory_wait.anyOf[2] (Value):
+         * null. is_awaiting_billing_schedule (Optional): boolean or null. True while an active or
          * trialing subscription on an external billing schedule has no next billing date.
          * is_awaiting_billing_schedule.anyOf[1] (Value): boolean. True while an active or trialing
          * subscription on an external billing schedule has no next billing date.
@@ -4137,8 +4023,9 @@ export type SubscriptionReactivatedInstalledMerchantsEvent = (Exclude<PartnerWeb
              */
             "idempotency_key"?: ((string) | (null));
             /**
-             * Renewal waiting for stock. Buyers receive only started_at. anyOf[1] (Value): {@link
-             * SubscriptionInventoryWaitPreviousAttributes}. anyOf[2] (Value): null.
+             * Renewal or prepaid delivery waiting for stock. Buyers receive only started_at.
+             * anyOf[1] (Value): {@link SubscriptionInventoryWaitPreviousAttributes}. anyOf[2]
+             * (Value): null.
              */
             "inventory_wait"?: ((SubscriptionInventoryWaitPreviousAttributes) | (null));
             /**
@@ -4705,12 +4592,12 @@ export type SubscriptionReactivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
      * responses and webhook events, can return `null`. To find a key that a replay returns as
      * `null`, read the resource. Buyer sessions on routes shared with merchants get `null`.
      * `/v1/me` responses do not include this field. object.inventory_wait (Optional): {@link
-     * SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive only started_at. Shows
-     * that a subscription renewal is waiting for inventory, with the order and invoice involved
-     * and when the wait started. object.is_awaiting_billing_schedule (Optional): boolean. True
-     * while an active or trialing subscription on an external billing schedule has no next billing
-     * date. object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal
-     * payment failure, present only while status is past_due and the latest payment failed. Buyer
+     * SubscriptionInventoryWait}. Renewal or prepaid delivery waiting for stock. Buyers receive
+     * only started_at. A subscription renewal or prepaid delivery waiting for stock.
+     * object.is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
+     * subscription on an external billing schedule has no next billing date.
+     * object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
+     * failure, present only while status is past_due and the latest payment failed. Buyer
      * responses omit merchant remediation and sensitive decline signals. A summary of why a
      * payment attempt failed, with a normalized error code, a message, the failure time, and
      * remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What each
@@ -5099,14 +4986,15 @@ export type SubscriptionReactivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
      * `null`. `/v1/me` responses do not include this field.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_wait (Optional): {@link
-     * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal waiting for stock. Buyers
-     * receive only started_at. previous_attributes.inventory_wait.anyOf[1] (Value): {@link
-     * SubscriptionInventoryWaitPreviousAttributes}. previous_attributes.inventory_wait.anyOf[2]
-     * (Value): null. previous_attributes.is_awaiting_billing_schedule (Optional): boolean or null.
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date. previous_attributes.is_awaiting_billing_schedule.anyOf[1] (Value): boolean.
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date. previous_attributes.is_awaiting_billing_schedule.anyOf[2] (Value): null.
+     * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal or prepaid delivery waiting
+     * for stock. Buyers receive only started_at. previous_attributes.inventory_wait.anyOf[1]
+     * (Value): {@link SubscriptionInventoryWaitPreviousAttributes}.
+     * previous_attributes.inventory_wait.anyOf[2] (Value): null.
+     * previous_attributes.is_awaiting_billing_schedule (Optional): boolean or null. True while an
+     * active or trialing subscription on an external billing schedule has no next billing date.
+     * previous_attributes.is_awaiting_billing_schedule.anyOf[1] (Value): boolean. True while an
+     * active or trialing subscription on an external billing schedule has no next billing date.
+     * previous_attributes.is_awaiting_billing_schedule.anyOf[2] (Value): null.
      * previous_attributes.last_payment_error (Optional): {@link
      * PaymentErrorSummaryPreviousAttributes} or null. Latest renewal payment failure, present only
      * while status is past_due and the latest payment failed. Buyer responses omit merchant
@@ -5541,26 +5429,25 @@ export type SubscriptionReactivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
          * including replayed responses and webhook events, can return `null`. To find a key that a
          * replay returns as `null`, read the resource. Buyer sessions on routes shared with
          * merchants get `null`. `/v1/me` responses do not include this field. inventory_wait
-         * (Optional): {@link SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive
-         * only started_at. Shows that a subscription renewal is waiting for inventory, with the
-         * order and invoice involved and when the wait started. is_awaiting_billing_schedule
-         * (Optional): boolean. True while an active or trialing subscription on an external
-         * billing schedule has no next billing date. last_payment_error (Optional): {@link
-         * PaymentErrorSummary}. Latest renewal payment failure, present only while status is
-         * past_due and the latest payment failed. Buyer responses omit merchant remediation and
-         * sensitive decline signals. A summary of why a payment attempt failed, with a normalized
-         * error code, a message, the failure time, and remediation. line_items (Required): Array
-         * of {@link SubscriptionLineItem}. What each renewal bills. Plan edits do not change it.
-         * Adding, changing or swapping a line takes that variant's current catalog price, which
-         * then stays until the line changes again. line_items[] (Value): {@link
-         * SubscriptionLineItem}. An item included in a customer's recurring purchase. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
-         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them.
-         * missed_billing_at (Optional): string. The billing date whose payment failed, as an
+         * (Optional): {@link SubscriptionInventoryWait}. Renewal or prepaid delivery waiting for
+         * stock. Buyers receive only started_at. A subscription renewal or prepaid delivery
+         * waiting for stock. is_awaiting_billing_schedule (Optional): boolean. True while an
+         * active or trialing subscription on an external billing schedule has no next billing
+         * date. last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
+         * failure, present only while status is past_due and the latest payment failed. Buyer
+         * responses omit merchant remediation and sensitive decline signals. A summary of why a
+         * payment attempt failed, with a normalized error code, a message, the failure time, and
+         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
+         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
+         * that variant's current catalog price, which then stays until the line changes again.
+         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
+         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
+         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
+         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
+         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
          * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
          * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
@@ -5917,9 +5804,8 @@ export type SubscriptionReactivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
              */
             "idempotency_key"?: string | null;
             /**
-             * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
-             * renewal is waiting for inventory, with the order and invoice involved and when the
-             * wait started.
+             * Renewal or prepaid delivery waiting for stock. Buyers receive only started_at. A
+             * subscription renewal or prepaid delivery waiting for stock.
              */
             "inventory_wait"?: SubscriptionInventoryWait;
             /**
@@ -6423,10 +6309,10 @@ export type SubscriptionReactivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
          * replay returns as `null`, read the resource. Buyer sessions on routes shared with
          * merchants get `null`. `/v1/me` responses do not include this field.
          * idempotency_key.anyOf[2] (Value): null. inventory_wait (Optional): {@link
-         * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal waiting for stock. Buyers
-         * receive only started_at. inventory_wait.anyOf[1] (Value): {@link
-         * SubscriptionInventoryWaitPreviousAttributes}. inventory_wait.anyOf[2] (Value): null.
-         * is_awaiting_billing_schedule (Optional): boolean or null. True while an active or
+         * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal or prepaid delivery
+         * waiting for stock. Buyers receive only started_at. inventory_wait.anyOf[1] (Value):
+         * {@link SubscriptionInventoryWaitPreviousAttributes}. inventory_wait.anyOf[2] (Value):
+         * null. is_awaiting_billing_schedule (Optional): boolean or null. True while an active or
          * trialing subscription on an external billing schedule has no next billing date.
          * is_awaiting_billing_schedule.anyOf[1] (Value): boolean. True while an active or trialing
          * subscription on an external billing schedule has no next billing date.
@@ -6986,8 +6872,9 @@ export type SubscriptionReactivatedMerchantEvent = (Exclude<MerchantWebhookEnvel
              */
             "idempotency_key"?: ((string) | (null));
             /**
-             * Renewal waiting for stock. Buyers receive only started_at. anyOf[1] (Value): {@link
-             * SubscriptionInventoryWaitPreviousAttributes}. anyOf[2] (Value): null.
+             * Renewal or prepaid delivery waiting for stock. Buyers receive only started_at.
+             * anyOf[1] (Value): {@link SubscriptionInventoryWaitPreviousAttributes}. anyOf[2]
+             * (Value): null.
              */
             "inventory_wait"?: ((SubscriptionInventoryWaitPreviousAttributes) | (null));
             /**
@@ -7843,12 +7730,12 @@ export type SubscriptionRenewalUpcomingInstalledMerchantsEvent = (Exclude<Partne
      * responses and webhook events, can return `null`. To find a key that a replay returns as
      * `null`, read the resource. Buyer sessions on routes shared with merchants get `null`.
      * `/v1/me` responses do not include this field. object.inventory_wait (Optional): {@link
-     * SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive only started_at. Shows
-     * that a subscription renewal is waiting for inventory, with the order and invoice involved
-     * and when the wait started. object.is_awaiting_billing_schedule (Optional): boolean. True
-     * while an active or trialing subscription on an external billing schedule has no next billing
-     * date. object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal
-     * payment failure, present only while status is past_due and the latest payment failed. Buyer
+     * SubscriptionInventoryWait}. Renewal or prepaid delivery waiting for stock. Buyers receive
+     * only started_at. A subscription renewal or prepaid delivery waiting for stock.
+     * object.is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
+     * subscription on an external billing schedule has no next billing date.
+     * object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
+     * failure, present only while status is past_due and the latest payment failed. Buyer
      * responses omit merchant remediation and sensitive decline signals. A summary of why a
      * payment attempt failed, with a normalized error code, a message, the failure time, and
      * remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What each
@@ -8140,26 +8027,25 @@ export type SubscriptionRenewalUpcomingInstalledMerchantsEvent = (Exclude<Partne
          * including replayed responses and webhook events, can return `null`. To find a key that a
          * replay returns as `null`, read the resource. Buyer sessions on routes shared with
          * merchants get `null`. `/v1/me` responses do not include this field. inventory_wait
-         * (Optional): {@link SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive
-         * only started_at. Shows that a subscription renewal is waiting for inventory, with the
-         * order and invoice involved and when the wait started. is_awaiting_billing_schedule
-         * (Optional): boolean. True while an active or trialing subscription on an external
-         * billing schedule has no next billing date. last_payment_error (Optional): {@link
-         * PaymentErrorSummary}. Latest renewal payment failure, present only while status is
-         * past_due and the latest payment failed. Buyer responses omit merchant remediation and
-         * sensitive decline signals. A summary of why a payment attempt failed, with a normalized
-         * error code, a message, the failure time, and remediation. line_items (Required): Array
-         * of {@link SubscriptionLineItem}. What each renewal bills. Plan edits do not change it.
-         * Adding, changing or swapping a line takes that variant's current catalog price, which
-         * then stays until the line changes again. line_items[] (Value): {@link
-         * SubscriptionLineItem}. An item included in a customer's recurring purchase. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
-         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them.
-         * missed_billing_at (Optional): string. The billing date whose payment failed, as an
+         * (Optional): {@link SubscriptionInventoryWait}. Renewal or prepaid delivery waiting for
+         * stock. Buyers receive only started_at. A subscription renewal or prepaid delivery
+         * waiting for stock. is_awaiting_billing_schedule (Optional): boolean. True while an
+         * active or trialing subscription on an external billing schedule has no next billing
+         * date. last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
+         * failure, present only while status is past_due and the latest payment failed. Buyer
+         * responses omit merchant remediation and sensitive decline signals. A summary of why a
+         * payment attempt failed, with a normalized error code, a message, the failure time, and
+         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
+         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
+         * that variant's current catalog price, which then stays until the line changes again.
+         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
+         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
+         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
+         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
+         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
          * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
          * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
@@ -8516,9 +8402,8 @@ export type SubscriptionRenewalUpcomingInstalledMerchantsEvent = (Exclude<Partne
              */
             "idempotency_key"?: string | null;
             /**
-             * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
-             * renewal is waiting for inventory, with the order and invoice involved and when the
-             * wait started.
+             * Renewal or prepaid delivery waiting for stock. Buyers receive only started_at. A
+             * subscription renewal or prepaid delivery waiting for stock.
              */
             "inventory_wait"?: SubscriptionInventoryWait;
             /**
@@ -8988,12 +8873,12 @@ export type SubscriptionRenewalUpcomingMerchantEvent = (Exclude<MerchantWebhookE
      * responses and webhook events, can return `null`. To find a key that a replay returns as
      * `null`, read the resource. Buyer sessions on routes shared with merchants get `null`.
      * `/v1/me` responses do not include this field. object.inventory_wait (Optional): {@link
-     * SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive only started_at. Shows
-     * that a subscription renewal is waiting for inventory, with the order and invoice involved
-     * and when the wait started. object.is_awaiting_billing_schedule (Optional): boolean. True
-     * while an active or trialing subscription on an external billing schedule has no next billing
-     * date. object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal
-     * payment failure, present only while status is past_due and the latest payment failed. Buyer
+     * SubscriptionInventoryWait}. Renewal or prepaid delivery waiting for stock. Buyers receive
+     * only started_at. A subscription renewal or prepaid delivery waiting for stock.
+     * object.is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
+     * subscription on an external billing schedule has no next billing date.
+     * object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
+     * failure, present only while status is past_due and the latest payment failed. Buyer
      * responses omit merchant remediation and sensitive decline signals. A summary of why a
      * payment attempt failed, with a normalized error code, a message, the failure time, and
      * remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What each
@@ -9285,26 +9170,25 @@ export type SubscriptionRenewalUpcomingMerchantEvent = (Exclude<MerchantWebhookE
          * including replayed responses and webhook events, can return `null`. To find a key that a
          * replay returns as `null`, read the resource. Buyer sessions on routes shared with
          * merchants get `null`. `/v1/me` responses do not include this field. inventory_wait
-         * (Optional): {@link SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive
-         * only started_at. Shows that a subscription renewal is waiting for inventory, with the
-         * order and invoice involved and when the wait started. is_awaiting_billing_schedule
-         * (Optional): boolean. True while an active or trialing subscription on an external
-         * billing schedule has no next billing date. last_payment_error (Optional): {@link
-         * PaymentErrorSummary}. Latest renewal payment failure, present only while status is
-         * past_due and the latest payment failed. Buyer responses omit merchant remediation and
-         * sensitive decline signals. A summary of why a payment attempt failed, with a normalized
-         * error code, a message, the failure time, and remediation. line_items (Required): Array
-         * of {@link SubscriptionLineItem}. What each renewal bills. Plan edits do not change it.
-         * Adding, changing or swapping a line takes that variant's current catalog price, which
-         * then stays until the line changes again. line_items[] (Value): {@link
-         * SubscriptionLineItem}. An item included in a customer's recurring purchase. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
-         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them.
-         * missed_billing_at (Optional): string. The billing date whose payment failed, as an
+         * (Optional): {@link SubscriptionInventoryWait}. Renewal or prepaid delivery waiting for
+         * stock. Buyers receive only started_at. A subscription renewal or prepaid delivery
+         * waiting for stock. is_awaiting_billing_schedule (Optional): boolean. True while an
+         * active or trialing subscription on an external billing schedule has no next billing
+         * date. last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
+         * failure, present only while status is past_due and the latest payment failed. Buyer
+         * responses omit merchant remediation and sensitive decline signals. A summary of why a
+         * payment attempt failed, with a normalized error code, a message, the failure time, and
+         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
+         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
+         * that variant's current catalog price, which then stays until the line changes again.
+         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
+         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
+         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
+         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
+         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
          * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
          * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
@@ -9661,9 +9545,8 @@ export type SubscriptionRenewalUpcomingMerchantEvent = (Exclude<MerchantWebhookE
              */
             "idempotency_key"?: string | null;
             /**
-             * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
-             * renewal is waiting for inventory, with the order and invoice involved and when the
-             * wait started.
+             * Renewal or prepaid delivery waiting for stock. Buyers receive only started_at. A
+             * subscription renewal or prepaid delivery waiting for stock.
              */
             "inventory_wait"?: SubscriptionInventoryWait;
             /**
@@ -10539,12 +10422,12 @@ export type SubscriptionResumedInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * responses and webhook events, can return `null`. To find a key that a replay returns as
      * `null`, read the resource. Buyer sessions on routes shared with merchants get `null`.
      * `/v1/me` responses do not include this field. object.inventory_wait (Optional): {@link
-     * SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive only started_at. Shows
-     * that a subscription renewal is waiting for inventory, with the order and invoice involved
-     * and when the wait started. object.is_awaiting_billing_schedule (Optional): boolean. True
-     * while an active or trialing subscription on an external billing schedule has no next billing
-     * date. object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal
-     * payment failure, present only while status is past_due and the latest payment failed. Buyer
+     * SubscriptionInventoryWait}. Renewal or prepaid delivery waiting for stock. Buyers receive
+     * only started_at. A subscription renewal or prepaid delivery waiting for stock.
+     * object.is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
+     * subscription on an external billing schedule has no next billing date.
+     * object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
+     * failure, present only while status is past_due and the latest payment failed. Buyer
      * responses omit merchant remediation and sensitive decline signals. A summary of why a
      * payment attempt failed, with a normalized error code, a message, the failure time, and
      * remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What each
@@ -10933,14 +10816,15 @@ export type SubscriptionResumedInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * `null`. `/v1/me` responses do not include this field.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_wait (Optional): {@link
-     * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal waiting for stock. Buyers
-     * receive only started_at. previous_attributes.inventory_wait.anyOf[1] (Value): {@link
-     * SubscriptionInventoryWaitPreviousAttributes}. previous_attributes.inventory_wait.anyOf[2]
-     * (Value): null. previous_attributes.is_awaiting_billing_schedule (Optional): boolean or null.
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date. previous_attributes.is_awaiting_billing_schedule.anyOf[1] (Value): boolean.
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date. previous_attributes.is_awaiting_billing_schedule.anyOf[2] (Value): null.
+     * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal or prepaid delivery waiting
+     * for stock. Buyers receive only started_at. previous_attributes.inventory_wait.anyOf[1]
+     * (Value): {@link SubscriptionInventoryWaitPreviousAttributes}.
+     * previous_attributes.inventory_wait.anyOf[2] (Value): null.
+     * previous_attributes.is_awaiting_billing_schedule (Optional): boolean or null. True while an
+     * active or trialing subscription on an external billing schedule has no next billing date.
+     * previous_attributes.is_awaiting_billing_schedule.anyOf[1] (Value): boolean. True while an
+     * active or trialing subscription on an external billing schedule has no next billing date.
+     * previous_attributes.is_awaiting_billing_schedule.anyOf[2] (Value): null.
      * previous_attributes.last_payment_error (Optional): {@link
      * PaymentErrorSummaryPreviousAttributes} or null. Latest renewal payment failure, present only
      * while status is past_due and the latest payment failed. Buyer responses omit merchant
@@ -11375,26 +11259,25 @@ export type SubscriptionResumedInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * including replayed responses and webhook events, can return `null`. To find a key that a
          * replay returns as `null`, read the resource. Buyer sessions on routes shared with
          * merchants get `null`. `/v1/me` responses do not include this field. inventory_wait
-         * (Optional): {@link SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive
-         * only started_at. Shows that a subscription renewal is waiting for inventory, with the
-         * order and invoice involved and when the wait started. is_awaiting_billing_schedule
-         * (Optional): boolean. True while an active or trialing subscription on an external
-         * billing schedule has no next billing date. last_payment_error (Optional): {@link
-         * PaymentErrorSummary}. Latest renewal payment failure, present only while status is
-         * past_due and the latest payment failed. Buyer responses omit merchant remediation and
-         * sensitive decline signals. A summary of why a payment attempt failed, with a normalized
-         * error code, a message, the failure time, and remediation. line_items (Required): Array
-         * of {@link SubscriptionLineItem}. What each renewal bills. Plan edits do not change it.
-         * Adding, changing or swapping a line takes that variant's current catalog price, which
-         * then stays until the line changes again. line_items[] (Value): {@link
-         * SubscriptionLineItem}. An item included in a customer's recurring purchase. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
-         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them.
-         * missed_billing_at (Optional): string. The billing date whose payment failed, as an
+         * (Optional): {@link SubscriptionInventoryWait}. Renewal or prepaid delivery waiting for
+         * stock. Buyers receive only started_at. A subscription renewal or prepaid delivery
+         * waiting for stock. is_awaiting_billing_schedule (Optional): boolean. True while an
+         * active or trialing subscription on an external billing schedule has no next billing
+         * date. last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
+         * failure, present only while status is past_due and the latest payment failed. Buyer
+         * responses omit merchant remediation and sensitive decline signals. A summary of why a
+         * payment attempt failed, with a normalized error code, a message, the failure time, and
+         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
+         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
+         * that variant's current catalog price, which then stays until the line changes again.
+         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
+         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
+         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
+         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
+         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
          * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
          * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
@@ -11751,9 +11634,8 @@ export type SubscriptionResumedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "idempotency_key"?: string | null;
             /**
-             * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
-             * renewal is waiting for inventory, with the order and invoice involved and when the
-             * wait started.
+             * Renewal or prepaid delivery waiting for stock. Buyers receive only started_at. A
+             * subscription renewal or prepaid delivery waiting for stock.
              */
             "inventory_wait"?: SubscriptionInventoryWait;
             /**
@@ -12257,10 +12139,10 @@ export type SubscriptionResumedInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * replay returns as `null`, read the resource. Buyer sessions on routes shared with
          * merchants get `null`. `/v1/me` responses do not include this field.
          * idempotency_key.anyOf[2] (Value): null. inventory_wait (Optional): {@link
-         * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal waiting for stock. Buyers
-         * receive only started_at. inventory_wait.anyOf[1] (Value): {@link
-         * SubscriptionInventoryWaitPreviousAttributes}. inventory_wait.anyOf[2] (Value): null.
-         * is_awaiting_billing_schedule (Optional): boolean or null. True while an active or
+         * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal or prepaid delivery
+         * waiting for stock. Buyers receive only started_at. inventory_wait.anyOf[1] (Value):
+         * {@link SubscriptionInventoryWaitPreviousAttributes}. inventory_wait.anyOf[2] (Value):
+         * null. is_awaiting_billing_schedule (Optional): boolean or null. True while an active or
          * trialing subscription on an external billing schedule has no next billing date.
          * is_awaiting_billing_schedule.anyOf[1] (Value): boolean. True while an active or trialing
          * subscription on an external billing schedule has no next billing date.
@@ -12820,8 +12702,9 @@ export type SubscriptionResumedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "idempotency_key"?: ((string) | (null));
             /**
-             * Renewal waiting for stock. Buyers receive only started_at. anyOf[1] (Value): {@link
-             * SubscriptionInventoryWaitPreviousAttributes}. anyOf[2] (Value): null.
+             * Renewal or prepaid delivery waiting for stock. Buyers receive only started_at.
+             * anyOf[1] (Value): {@link SubscriptionInventoryWaitPreviousAttributes}. anyOf[2]
+             * (Value): null.
              */
             "inventory_wait"?: ((SubscriptionInventoryWaitPreviousAttributes) | (null));
             /**
@@ -13388,12 +13271,12 @@ export type SubscriptionResumedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * responses and webhook events, can return `null`. To find a key that a replay returns as
      * `null`, read the resource. Buyer sessions on routes shared with merchants get `null`.
      * `/v1/me` responses do not include this field. object.inventory_wait (Optional): {@link
-     * SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive only started_at. Shows
-     * that a subscription renewal is waiting for inventory, with the order and invoice involved
-     * and when the wait started. object.is_awaiting_billing_schedule (Optional): boolean. True
-     * while an active or trialing subscription on an external billing schedule has no next billing
-     * date. object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal
-     * payment failure, present only while status is past_due and the latest payment failed. Buyer
+     * SubscriptionInventoryWait}. Renewal or prepaid delivery waiting for stock. Buyers receive
+     * only started_at. A subscription renewal or prepaid delivery waiting for stock.
+     * object.is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
+     * subscription on an external billing schedule has no next billing date.
+     * object.last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
+     * failure, present only while status is past_due and the latest payment failed. Buyer
      * responses omit merchant remediation and sensitive decline signals. A summary of why a
      * payment attempt failed, with a normalized error code, a message, the failure time, and
      * remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What each
@@ -13782,14 +13665,15 @@ export type SubscriptionResumedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * `null`. `/v1/me` responses do not include this field.
      * previous_attributes.idempotency_key.anyOf[2] (Value): null.
      * previous_attributes.inventory_wait (Optional): {@link
-     * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal waiting for stock. Buyers
-     * receive only started_at. previous_attributes.inventory_wait.anyOf[1] (Value): {@link
-     * SubscriptionInventoryWaitPreviousAttributes}. previous_attributes.inventory_wait.anyOf[2]
-     * (Value): null. previous_attributes.is_awaiting_billing_schedule (Optional): boolean or null.
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date. previous_attributes.is_awaiting_billing_schedule.anyOf[1] (Value): boolean.
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date. previous_attributes.is_awaiting_billing_schedule.anyOf[2] (Value): null.
+     * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal or prepaid delivery waiting
+     * for stock. Buyers receive only started_at. previous_attributes.inventory_wait.anyOf[1]
+     * (Value): {@link SubscriptionInventoryWaitPreviousAttributes}.
+     * previous_attributes.inventory_wait.anyOf[2] (Value): null.
+     * previous_attributes.is_awaiting_billing_schedule (Optional): boolean or null. True while an
+     * active or trialing subscription on an external billing schedule has no next billing date.
+     * previous_attributes.is_awaiting_billing_schedule.anyOf[1] (Value): boolean. True while an
+     * active or trialing subscription on an external billing schedule has no next billing date.
+     * previous_attributes.is_awaiting_billing_schedule.anyOf[2] (Value): null.
      * previous_attributes.last_payment_error (Optional): {@link
      * PaymentErrorSummaryPreviousAttributes} or null. Latest renewal payment failure, present only
      * while status is past_due and the latest payment failed. Buyer responses omit merchant
@@ -14224,26 +14108,25 @@ export type SubscriptionResumedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * including replayed responses and webhook events, can return `null`. To find a key that a
          * replay returns as `null`, read the resource. Buyer sessions on routes shared with
          * merchants get `null`. `/v1/me` responses do not include this field. inventory_wait
-         * (Optional): {@link SubscriptionInventoryWait}. Renewal waiting for stock. Buyers receive
-         * only started_at. Shows that a subscription renewal is waiting for inventory, with the
-         * order and invoice involved and when the wait started. is_awaiting_billing_schedule
-         * (Optional): boolean. True while an active or trialing subscription on an external
-         * billing schedule has no next billing date. last_payment_error (Optional): {@link
-         * PaymentErrorSummary}. Latest renewal payment failure, present only while status is
-         * past_due and the latest payment failed. Buyer responses omit merchant remediation and
-         * sensitive decline signals. A summary of why a payment attempt failed, with a normalized
-         * error code, a message, the failure time, and remediation. line_items (Required): Array
-         * of {@link SubscriptionLineItem}. What each renewal bills. Plan edits do not change it.
-         * Adding, changing or swapping a line takes that variant's current catalog price, which
-         * then stays until the line changes again. line_items[] (Value): {@link
-         * SubscriptionLineItem}. An item included in a customer's recurring purchase. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
-         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them.
-         * missed_billing_at (Optional): string. The billing date whose payment failed, as an
+         * (Optional): {@link SubscriptionInventoryWait}. Renewal or prepaid delivery waiting for
+         * stock. Buyers receive only started_at. A subscription renewal or prepaid delivery
+         * waiting for stock. is_awaiting_billing_schedule (Optional): boolean. True while an
+         * active or trialing subscription on an external billing schedule has no next billing
+         * date. last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
+         * failure, present only while status is past_due and the latest payment failed. Buyer
+         * responses omit merchant remediation and sensitive decline signals. A summary of why a
+         * payment attempt failed, with a normalized error code, a message, the failure time, and
+         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
+         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
+         * that variant's current catalog price, which then stays until the line changes again.
+         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
+         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
+         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
+         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
+         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
          * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
          * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
@@ -14600,9 +14483,8 @@ export type SubscriptionResumedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "idempotency_key"?: string | null;
             /**
-             * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription
-             * renewal is waiting for inventory, with the order and invoice involved and when the
-             * wait started.
+             * Renewal or prepaid delivery waiting for stock. Buyers receive only started_at. A
+             * subscription renewal or prepaid delivery waiting for stock.
              */
             "inventory_wait"?: SubscriptionInventoryWait;
             /**
@@ -15106,10 +14988,10 @@ export type SubscriptionResumedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * replay returns as `null`, read the resource. Buyer sessions on routes shared with
          * merchants get `null`. `/v1/me` responses do not include this field.
          * idempotency_key.anyOf[2] (Value): null. inventory_wait (Optional): {@link
-         * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal waiting for stock. Buyers
-         * receive only started_at. inventory_wait.anyOf[1] (Value): {@link
-         * SubscriptionInventoryWaitPreviousAttributes}. inventory_wait.anyOf[2] (Value): null.
-         * is_awaiting_billing_schedule (Optional): boolean or null. True while an active or
+         * SubscriptionInventoryWaitPreviousAttributes} or null. Renewal or prepaid delivery
+         * waiting for stock. Buyers receive only started_at. inventory_wait.anyOf[1] (Value):
+         * {@link SubscriptionInventoryWaitPreviousAttributes}. inventory_wait.anyOf[2] (Value):
+         * null. is_awaiting_billing_schedule (Optional): boolean or null. True while an active or
          * trialing subscription on an external billing schedule has no next billing date.
          * is_awaiting_billing_schedule.anyOf[1] (Value): boolean. True while an active or trialing
          * subscription on an external billing schedule has no next billing date.
@@ -15669,8 +15551,9 @@ export type SubscriptionResumedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "idempotency_key"?: ((string) | (null));
             /**
-             * Renewal waiting for stock. Buyers receive only started_at. anyOf[1] (Value): {@link
-             * SubscriptionInventoryWaitPreviousAttributes}. anyOf[2] (Value): null.
+             * Renewal or prepaid delivery waiting for stock. Buyers receive only started_at.
+             * anyOf[1] (Value): {@link SubscriptionInventoryWaitPreviousAttributes}. anyOf[2]
+             * (Value): null.
              */
             "inventory_wait"?: ((SubscriptionInventoryWaitPreviousAttributes) | (null));
             /**
@@ -16490,6 +16373,22 @@ export type SubscriptionTaxRequest = {
      * subscription's orders and nobody can send their components. anyOf[2] (Value): null.
      */
     "calculation"?: ((CheckoutTaxCalculation) | (null));
+    /** Whether the subscription's orders calculate tax. */
+    "enabled": boolean;
+};
+/** Replaced as a whole: send every field you want to keep. */
+export type SubscriptionTaxRequestInput = {
+    /**
+     * How the subscription's orders calculate tax while `enabled` is `true`. Omit it, or send
+     * `null`, to use `tax.default_calculation` from your settings, where a `provided` default
+     * means automatic. Not allowed while `enabled` is `false`. anyOf[1] (Value): {@link
+     * SubscriptionTaxCalculationRequestInput}. Replaced as a whole: send every field you want to
+     * keep. `automatic` calculates tax through your tax connection. `external` takes the tax your
+     * tax calculation callback returns, and requires `components_source: callback`, because Flint
+     * creates the subscription's orders and nobody can send their components. anyOf[2] (Value):
+     * null.
+     */
+    "calculation"?: ((SubscriptionTaxCalculationRequestInput) | (null));
     /** Whether the subscription's orders calculate tax. */
     "enabled": boolean;
 };

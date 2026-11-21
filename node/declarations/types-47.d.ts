@@ -1,7 +1,5 @@
-import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-43.js';
+import type { MetadataRequestInput, MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type {
-    OrderLineItemModifierInputCatalog,
-    OrderLineItemModifierInputText,
     OrderLineItemModifierInputCatalogRequestInput,
     OrderLineItemModifierInputTextRequestInput,
     OrderLineItemFulfillmentQuantitiesPreviousAttributes,
@@ -13,12 +11,7 @@ import type {
     OrderGiftCardSettlementPreviousAttributes,
     OrderHandoverPreviousAttributes
 } from './types-46.js';
-import type {
-    TextModifierRequest,
-    TextModifierRequestInput,
-    TicketedEventPreviousAttributes,
-    TipPreviousAttributes
-} from './types-75.js';
+import type { TextModifierRequestInput, TicketedEventPreviousAttributes, TipPreviousAttributes } from './types-75.js';
 import type { BundleComponentPreviousAttributes } from './types-1.js';
 import type { CatalogPricingPreviousAttributes, CategoryReferencePreviousAttributes } from './types-5.js';
 import type { DimensionsPreviousAttributes } from './types-25.js';
@@ -44,11 +37,7 @@ import type { ResponseMeta } from './types-62.js';
 import type { SubscriptionIntervalOption, SubscriptionIntervalOptionPreviousAttributes } from './types-70.js';
 import type { CheckoutBillingContactPreviousAttributes, CheckoutBuyerContactPreviousAttributes } from './types-6.js';
 import type { CustomFieldAnswerPreviousAttributes } from './types-16.js';
-import type {
-    DeferredPromotionPreviousAttributes,
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageRequestInput
-} from './types-17.js';
+import type { DeferredPromotionPreviousAttributes, DeliveryChargeTaxCalculationRequest } from './types-18.js';
 import type { ExpandedCustomerSummaryPreviousAttributes, ExpandedPaymentIntentSummaryPreviousAttributes } from './types-26.js';
 import type { ExpandedSubscriptionPlanSummaryPreviousAttributes, ExpandedSubscriptionSummaryPreviousAttributes } from './types-27.js';
 import type { FulfillmentPreviousAttributes } from './types-28.js';
@@ -60,50 +49,12 @@ import type { WebhookOrder } from './types-79.js';
 import type { PaymentAttemptGiftCardRedemption, PaymentAttemptPaymentIntent, PaymentErrorSummary } from './types-51.js';
 import type { PendingPaymentAction } from './types-55.js';
 import type { PaymentSourceCredential, PaymentSourceCredentialInput } from './types-54.js';
-import type { DeliveryChargeTaxCalculationRequest } from './types-18.js';
 import type { TaxBreakdown } from './types-73.js';
-/**
- * A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier,
- * with a quantity.
- */
-export type OrderLineItemModifierRequest = ({
-    /**
-     * Caller-owned metadata for this selection, returned on the order line item's modifier. Values
-     * can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned,
-     * and cannot be written through the public API. Caller-owned key-value data for a new or
-     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
-     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
-     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * ID of the existing modifier. Treated as an opaque resource reference; accepted spellings
-     * follow resource ID validation. Its resolved price and the resulting line subtotal must
-     * satisfy the order money ceiling. The amount and every computed order amount must not exceed
-     * 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this
-     * ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower
-     * payment option limits can apply. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
-     */
-    "modifier_id"?: string;
-    /**
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z".
-     */
-    "order_line_item_modifier_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity"?: number;
-    /**
-     * The text to use. Send it with a `text` modifier. Text a buyer entered for a text modifier
-     * group on an order line item.
-     */
-    "text"?: TextModifierRequest;
-    /** Selects the type branch. Value enum: "catalog", "text". */
-    "type": "catalog" | "text" | (string & {});
-})
-    & ((Exclude<OrderLineItemModifierInputCatalog & object, readonly unknown[]>)
-    | (Exclude<OrderLineItemModifierInputText & object, readonly unknown[]>)
-    | (Record<string, unknown>));
+import type {
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageRequestInput,
+    CustomerTaxExemptionCoveragePreviousAttributes
+} from './types-17.js';
 /**
  * A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier,
  * with a quantity.
@@ -15250,3 +15201,90 @@ export type OrderTaxExemptionInputOrderInput = ({
      */
     "coverage": CustomerTaxExemptionCoverageRequestInput;
 });
+export type OrderTaxExemptionPreviousAttributes = {
+    /**
+     * Certificate number recorded at assessment. Omitted when none was recorded. anyOf[1] (Value):
+     * string. Certificate number recorded at assessment. Omitted when none was recorded. anyOf[2]
+     * (Value): null.
+     */
+    "certificate_number"?: ((string) | (null));
+    /**
+     * Jurisdictions covered by the exemption at assessment. Omitted when no coverage was recorded.
+     * anyOf[1] (Value): {@link CustomerTaxExemptionCoveragePreviousAttributes}. anyOf[2] (Value):
+     * null.
+     */
+    "coverage"?: ((CustomerTaxExemptionCoveragePreviousAttributes) | (null));
+    /**
+     * ID of the customer the exemption was assessed from, when one was linked. anyOf[1] (Value):
+     * string. ID of the customer the exemption was assessed from, when one was linked. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+     */
+    "customer_id"?: ((string) | (null));
+    /**
+     * Customer exemption record used for this assessment. Omitted for blanket flags, order
+     * declarations, and older snapshots. anyOf[1] (Value): string. Customer exemption record used
+     * for this assessment. Omitted for blanket flags, order declarations, and older snapshots.
+     * Example: "ctex_01KEZF7C009N0YTK0NMWP1XZPW". anyOf[2] (Value): null.
+     */
+    "customer_tax_exemption_id"?: ((string) | (null));
+    /**
+     * Last day of the selected record's exemption, inclusive. Omitted when no end date was
+     * recorded. anyOf[1] (Value): string. Last day of the selected record's exemption, inclusive.
+     * Omitted when no end date was recorded. Format: date. Example: "2026-08-02". anyOf[2]
+     * (Value): null.
+     */
+    "end_date"?: ((string) | (null));
+    /**
+     * Merchant-only reference to supporting evidence recorded at assessment. Buyer views omit it.
+     * Never printed on buyer documents. anyOf[1] (Value): string. Merchant-only reference to
+     * supporting evidence recorded at assessment. Buyer views omit it. Never printed on buyer
+     * documents. anyOf[2] (Value): null.
+     */
+    "evidence_reference"?: ((string) | (null));
+    /**
+     * Exemption reason recorded at assessment. Omitted when no reason was recorded. Value enum:
+     * "federal_government", "state_or_local_government", "tribal_government", "foreign_diplomat",
+     * "charitable_organization", "religious_organization", "educational_organization", "resale",
+     * "agricultural_production", "industrial_production", "direct_pay_permit", "direct_mail",
+     * "other". anyOf[1] (Value): string. Exemption reason recorded at assessment. Omitted when no
+     * reason was recorded. Value enum: "federal_government", "state_or_local_government",
+     * "tribal_government", "foreign_diplomat", "charitable_organization",
+     * "religious_organization", "educational_organization", "resale", "agricultural_production",
+     * "industrial_production", "direct_pay_permit", "direct_mail", "other". anyOf[2] (Value):
+     * null.
+     */
+    "reason"?: (("federal_government"
+        | "state_or_local_government"
+        | "tribal_government"
+        | "foreign_diplomat"
+        | "charitable_organization"
+        | "religious_organization"
+        | "educational_organization"
+        | "resale"
+        | "agricultural_production"
+        | "industrial_production"
+        | "direct_pay_permit"
+        | "direct_mail"
+        | "other"
+        | (string & {}))
+        | (null));
+    /**
+     * The source of the tax exemption assessment. Omitted when the source has not been
+     * established. Value enum: "none", "customer", "order". anyOf[1] (Value): string. The source
+     * of the tax exemption assessment. Omitted when the source has not been established. Value
+     * enum: "none", "customer", "order". anyOf[2] (Value): null.
+     */
+    "source"?: (("none" | "customer" | "order" | (string & {})) | (null));
+    /**
+     * First day of the selected record's exemption, inclusive. Omitted when no date was recorded.
+     * anyOf[1] (Value): string. First day of the selected record's exemption, inclusive. Omitted
+     * when no date was recorded. Format: date. Example: "2026-08-02". anyOf[2] (Value): null.
+     */
+    "start_date"?: ((string) | (null));
+    /**
+     * Whether an exemption applied to this sale. An exempt sale has zero tax and taxability_reason
+     * customer_exempt. anyOf[1] (Value): boolean. Whether an exemption applied to this sale. An
+     * exempt sale has zero tax and taxability_reason customer_exempt. anyOf[2] (Value): null.
+     */
+    "tax_exempt"?: ((boolean) | (null));
+};

@@ -1,20 +1,7 @@
-import type {
-    ExpandedOrderSummary,
-    ExpandedPaymentIntentSummary,
-    ExpandedCustomerSummary,
-    ExpandedPaymentMethodSummary
-} from './types-26.js';
+import type { ExpandedCustomerSummary, ExpandedPaymentMethodSummary } from './types-26.js';
+import type { ExpandedSubscriptionPlanSummary } from './types-27.js';
 import type { MetadataMap } from './types-43.js';
 import type { MoneyValue } from './types-44.js';
-import type { ReturnActor, ResponseMeta, ResourceReference } from './types-62.js';
-import type {
-    ReturnReplacementLineItem,
-    ReturnResolutionAdjustment,
-    ReturnResolutionExecutionBlocker,
-    ReturnResolutionLineItem
-} from './types-65.js';
-import type { WebhookSnapshotRefund, WebhookDeliveryAction } from './types-79.js';
-import type { ExpandedSubscriptionPlanSummary } from './types-27.js';
 import type { PaymentErrorSummary } from './types-51.js';
 import type { SubscriptionBillingHold, SubscriptionCancellationDetails, SubscriptionDelivery } from './types-69.js';
 import type {
@@ -33,6 +20,8 @@ import type {
     SubscriptionTax
 } from './types-72.js';
 import type { SubscriptionUpcomingDeliveryHold } from './types-73.js';
+import type { ResponseMeta, ResourceReference } from './types-62.js';
+import type { WebhookDeliveryAction } from './types-79.js';
 import type {
     WebhookVerificationOptions as _SdkWebhookVerificationOptions,
     InputValue,
@@ -76,277 +65,19 @@ import type {
 import type {
     BuyerPauseCapabilityInput,
     BuyerRetentionOfferRequestInput,
-    BuyerReturnReplacementLineItemInputBundleInput,
-    BuyerReturnReplacementLineItemInputVariantInput
+    BuyerReturnReplacementLineItemInputBundleInput
 } from './types-3.js';
 import type {
+    BuyerReturnReplacementLineItemInputVariantInput,
     BuyerReturnReplacementLineItemRequestInput,
     BuyerSkipCapabilityInput,
     CLIContextsRequestInput,
     CLIDeviceRequestInput,
     CLIReauthorizeRequestInput,
     CallerSuppliedDeliveryMethodResultRequestInput,
-    CallerSuppliedDeliveryOutcomeRequestInput
+    CallerSuppliedDeliveryOutcomeRequestInput,
+    CallerSuppliedDeliveryOutcomeRequestAvailableInput
 } from './types-4.js';
-/** The refund, exchange, or other outcome of a return. */
-export type WebhookSnapshotReturnResolution = {
-    /**
-     * Why a requires_action resolution is waiting. buyer_payment means the buyer must pay the
-     * exchange balance; manual_release means the merchant must release the resolution. Value enum:
-     * "buyer_payment", "manual_release".
-     */
-    "action_reason"?: "buyer_payment" | "manual_release" | (string & {});
-    /**
-     * Who has to act while the resolution's status is `requires_action`. Value enum: "buyer",
-     * "merchant".
-     */
-    "action_required_by"?: "buyer" | "merchant" | (string & {});
-    /**
-     * Fees and credits applied to the resolution's amounts. [] (Value): {@link
-     * ReturnResolutionAdjustment}. A fee or credit applied to a return resolution, such as a
-     * restocking fee, with the assessed and applied amounts and any waiver.
-     */
-    "adjustments": Array<ReturnResolutionAdjustment>;
-    /**
-     * Amount the buyer owes when deduction_money and replacement_total_money exceed
-     * returned_total_money plus credit_adjustment_money. Zero when the buyer is owed a refund and
-     * for no_monetary_action. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "buyer_payment_amount_money": MoneyValue;
-    /**
-     * Value returned to the buyer: returned_total_money plus credit_adjustment_money, minus
-     * deduction_money and replacement_total_money, when that balance is zero or more. For
-     * store_credit, the value issued on new gift cards. Zero for no_monetary_action. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "buyer_refund_amount_money": MoneyValue;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "canceled_at"?: string;
-    /**
-     * Who canceled the resolution. Merchant reads only. Who performed a return action: a buyer,
-     * merchant, integration, or the system, with an optional ID.
-     */
-    "canceled_by"?: ReturnActor;
-    /**
-     * Why the resolution was canceled. Value enum: "buyer_request", "merchant_request",
-     * "duplicate", "expired", "created_in_error", "other".
-     */
-    "cancellation_reason"?: "buyer_request"
-        | "merchant_request"
-        | "duplicate"
-        | "expired"
-        | "created_in_error"
-        | "other"
-        | (string & {});
-    /** Detail sent with the cancellation. Merchant reads only. */
-    "cancellation_reason_message"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "confirmed_at"?: string;
-    /**
-     * Who confirmed the resolution. Who performed a return action: a buyer, merchant, integration,
-     * or the system, with an optional ID.
-     */
-    "confirmed_by"?: ReturnActor;
-    /**
-     * ID of the settled resolution this correction adjusts. Present only when `resolution_type` is
-     * `correction`. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "corrects_return_resolution_id"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Who created the resolution. Who performed a return action: a buyer, merchant, integration,
-     * or the system, with an optional ID.
-     */
-    "created_by": ReturnActor;
-    /**
-     * Credits added by the resolution's adjustments. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "credit_adjustment_money": MoneyValue;
-    /**
-     * Deductions taken by the resolution's adjustments, such as a restocking fee. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "deduction_money": MoneyValue;
-    /**
-     * What a confirmed resolution is still waiting for. Empty when nothing is. [] (Value): {@link
-     * ReturnResolutionExecutionBlocker}. Work that must complete before a Return resolution can
-     * finish.
-     */
-    "execution_blockers": Array<ReturnResolutionExecutionBlocker>;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Reason code for a failed Return resolution, when available.
-     * refund_payment_balance_unavailable means the original payments cannot fund the resolution;
-     * cancel it, then add an explicit deduction or settle the shortfall outside Flint.
-     * refund_line_value_unavailable means another refund already returned part of an order line,
-     * so retrying cannot succeed; cancel the resolution and resolve the line for fewer units or
-     * without a refund. replacement_fulfillment_canceled means the replacement Order's fulfillment
-     * was canceled, so it won't be sent. gift_card_refund_destination_required means the original
-     * gift card cannot accept the refund; retry with gift_card_refund_destination set to
-     * new_gift_card. store_credit_unavailable means the original payment cannot fund store credit;
-     * cancel the resolution and create a refund resolution. Value enum:
-     * "refund_payment_balance_unavailable", "gift_card_refund_destination_required",
-     * "store_credit_unavailable", "refund_creation_failed", "refund_failed",
-     * "refund_line_value_unavailable", "payment_intent_creation_failed", "payment_failed",
-     * "replacement_order_creation_failed", "replacement_fulfillment_canceled",
-     * "resolution_effect_failed".
-     */
-    "failure_code"?: "refund_payment_balance_unavailable"
-        | "gift_card_refund_destination_required"
-        | "store_credit_unavailable"
-        | "refund_creation_failed"
-        | "refund_failed"
-        | "refund_line_value_unavailable"
-        | "payment_intent_creation_failed"
-        | "payment_failed"
-        | "replacement_order_creation_failed"
-        | "replacement_fulfillment_canceled"
-        | "resolution_effect_failed"
-        | (string & {});
-    /** Explanation of a failed Return resolution, when available. */
-    "failure_message"?: string;
-    /** When the resolution completed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "fulfilled_at"?: string;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination
-     * and conflicting_fields naming resolution_type. Store credit and its corrections always issue
-     * new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
-    /**
-     * Return lines and quantities the resolution covers. Absent on a correction. [] (Value):
-     * {@link ReturnResolutionLineItem}. A return line included in a resolution, with its quantity
-     * and returned total.
-     */
-    "line_items": Array<ReturnResolutionLineItem>;
-    /**
-     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata": MetadataMap;
-    /**
-     * IDs of the payment intents that collect the buyer's balance for this resolution, in the
-     * order Flint linked them. Empty until a payment exists. [] (Value): string. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_ids": Array<string>;
-    /**
-     * Present only when `expand` includes `payment_intents`. Summaries of the payment intents in
-     * `payment_intent_ids`, in the same order. [] (Value): {@link ExpandedPaymentIntentSummary}. A
-     * payment intent's summary fields, including amount, status, and capture method, returned when
-     * the payment intent is expanded.
-     */
-    "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
-    /**
-     * How replacement lines are priced. Present on exchanges and replacements. Value enum:
-     * "original_price", "current_price", "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
-    /**
-     * IDs of the Refunds that pay the buyer for this resolution, in the order Flint linked them.
-     * Empty until a Refund exists. [] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     */
-    "refund_ids": Array<string>;
-    /**
-     * Present only when `expand` includes `refunds`. The refunds in `refund_ids`, in the same
-     * order. [] (Value): {@link WebhookSnapshotRefund}. Money returned against a collected
-     * payment.
-     */
-    "refunds"?: Array<WebhookSnapshotRefund>;
-    /**
-     * Merchandise the buyer receives instead, for an exchange or replacement. [] (Value): {@link
-     * ReturnReplacementLineItem}. A replacement item added to a return resolution, with its
-     * quantity and price totals.
-     */
-    "replacement_line_items": Array<ReturnReplacementLineItem>;
-    /**
-     * Present only when `expand` includes `replacement_order`; `null` when expanded and there is
-     * no related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-     * including status, payment and refund status, and pricing and settlement amounts, returned
-     * when the order is expanded. anyOf[2] (Value): null.
-     */
-    "replacement_order"?: ((ExpandedOrderSummary) | (null));
-    /**
-     * ID of the replacement Order Flint created for an exchange or replacement. Absent until it
-     * exists. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "replacement_order_id"?: string;
-    /**
-     * Total of the replacement items the buyer receives. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "replacement_total_money": MoneyValue;
-    /**
-     * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
-     * "replacement", "store_credit", "no_monetary_action", "correction".
-     */
-    "resolution_type": "refund"
-        | "exchange"
-        | "replacement"
-        | "store_credit"
-        | "no_monetary_action"
-        | "correction"
-        | (string & {});
-    /** ID of the Return the resolution belongs to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
-    "return_id": string;
-    /**
-     * Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null.
-     * Example: "rpol_01KEZF7C00H8C042BEK6HBRANX".
-     */
-    "return_policy_id": string | null;
-    /**
-     * ID of the return policy revision that judged the lines. Set only when Flint created the
-     * resolution itself and no merchant decision overrode the policy. Absent otherwise, including
-     * on resolutions you create and on corrections. Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC".
-     */
-    "return_policy_revision_id"?: string;
-    /**
-     * Unique identifier for this return resolution, prefixed `retres_`. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "return_resolution_id": string;
-    /**
-     * Value of the returned units this resolution covers. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "returned_total_money": MoneyValue;
-    /**
-     * completed means the buyer has the value: every linked Refund succeeded, any balance was
-     * collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable.
-     * Value enum: "proposed", "pending", "requires_action", "completed", "failed", "canceled".
-     */
-    "status": "proposed" | "pending" | "requires_action" | "completed" | "failed" | "canceled" | (string & {});
-    /**
-     * Actions that can succeed now. checkout_session is listed while a replacement Order needs a
-     * buyer payment, including when the parent Return is not open. Other actions require an open
-     * Return. A failed resolution lists retry while it has a failed effect and its failure code
-     * permits retry. It lists cancel when it never created a Refund, PaymentIntent, or Order. []
-     * enum: "cancel", "checkout_session", "confirm", "release", "retry". [] (Value): string. Value
-     * enum: "cancel", "checkout_session", "confirm", "release", "retry".
-     */
-    "supported_actions": Array<"cancel" | "checkout_session" | "confirm" | "release" | "retry" | (string & {})>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: int64. minimum: 0.
-     */
-    "version": number;
-};
 /** A customer's recurring purchase. */
 export type WebhookSnapshotSubscription = {
     /**
@@ -544,8 +275,8 @@ export type WebhookSnapshotSubscription = {
      */
     "idempotency_key"?: string | null;
     /**
-     * Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription renewal
-     * is waiting for inventory, with the order and invoice involved and when the wait started.
+     * Renewal or prepaid delivery waiting for stock. Buyers receive only started_at. A
+     * subscription renewal or prepaid delivery waiting for stock.
      */
     "inventory_wait"?: SubscriptionInventoryWait;
     /**
@@ -1906,3 +1637,4 @@ export declare function makeCLIDeviceRequest(value: InputValue<CLIDeviceRequestI
 export declare function makeCLIReauthorizeRequest(value: InputValue<CLIReauthorizeRequestInput>): Model<CLIReauthorizeRequestInput>;
 export declare function makeCallerSuppliedDeliveryMethodResultRequest(value: InputValue<CallerSuppliedDeliveryMethodResultRequestInput>): Model<CallerSuppliedDeliveryMethodResultRequestInput>;
 export declare function makeCallerSuppliedDeliveryOutcomeRequest(value: InputValue<CallerSuppliedDeliveryOutcomeRequestInput>): Model<CallerSuppliedDeliveryOutcomeRequestInput>;
+export declare function makeCallerSuppliedDeliveryOutcomeRequestAvailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestAvailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestAvailableInput>;

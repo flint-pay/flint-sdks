@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# CustomerVerification to DeliveryFulfillmentDetailsPreviousAttributes
+# CustomerTaxIDPreviousAttributes to DeliveryFixedPricingStrategyPreviousAttributes
 
+- [CustomerTaxIDPreviousAttributes](CustomerTaxIDPreviousAttributes.md)
+- [CustomerUpdatedInstalledMerchantsEvent](CustomerUpdatedInstalledMerchantsEvent.md)
+- [CustomerUpdatedMerchantEvent](CustomerUpdatedMerchantEvent.md)
 - [CustomerVerification](CustomerVerification.md)
 - [CustomerVerificationListResponse](CustomerVerificationListResponse.md)
 - [CustomerVerificationResponse](CustomerVerificationResponse.md)
@@ -99,7 +102,4 @@
 - [DeliveryExternalPricingStrategyPreviousAttributes](DeliveryExternalPricingStrategyPreviousAttributes.md)
 - [DeliveryFixedPricingStrategy](DeliveryFixedPricingStrategy.md)
 - [DeliveryFixedPricingStrategyPreviousAttributes](DeliveryFixedPricingStrategyPreviousAttributes.md)
-- [DeliveryFixedPricingStrategyRequestInput](DeliveryFixedPricingStrategyRequestInput.md)
-- [DeliveryFulfillmentDetails](DeliveryFulfillmentDetails.md)
-- [DeliveryFulfillmentDetailsPreviousAttributes](DeliveryFulfillmentDetailsPreviousAttributes.md)
 

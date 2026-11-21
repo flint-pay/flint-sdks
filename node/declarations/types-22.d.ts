@@ -1,8 +1,6 @@
 import type {
     DeliveryProfileConfigurationInputManual,
-    DeliveryProfileConfigurationInputQuote,
     DeliveryProfileConfigurationInputManualInput,
-    DeliveryProfileConfigurationInputQuoteInput,
     DeliveryProfileConfigurationInputNone,
     DeliveryProfileConfigurationInputNoneInput,
     DeliveryProfile
@@ -18,7 +16,8 @@ import type {
     DeliveryLocationSetsDeleteParams,
     DeliveryInputRequirement,
     DeliveryMerchantDiagnostic,
-    DeliveryInputRequirementPreviousAttributes
+    DeliveryInputRequirementPreviousAttributes,
+    DeliveryDistanceRequestInput
 } from './types-19.js';
 import type { UpdateDeliveryProfileRequestInput } from './types-76.js';
 import type { Address } from './types-0.js';
@@ -29,8 +28,7 @@ import type {
     DeliveryAddressAdvisoryResourcePreviousAttributes,
     DeliveryCandidateOutcomeResourcePreviousAttributes,
     DeliveryDistance,
-    DeliveryDistancePreviousAttributes,
-    DeliveryDistanceRequestInput
+    DeliveryDistancePreviousAttributes
 } from './types-18.js';
 import type {
     DeliveryPendingCallerRateRequest,
@@ -42,6 +40,180 @@ import type { BuyerInstructionsConfig } from './types-2.js';
 import type { MoneyValue } from './types-44.js';
 import type { CreateCheckoutDeliveryQuoteRequestInput } from './types-8.js';
 import type { DisputesAcceptParams } from './types-26.js';
+/** The `quote` variant of `DeliveryProfileConfigurationInputRequired`. */
+export type DeliveryProfileConfigurationInputQuote = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy": "combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {});
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy": DeliveryProfileOriginPolicyRequest;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "required".
+     */
+    "requirement": "required" | (string & {});
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote".
+     */
+    "resolution_mode": "quote" | (string & {});
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy": "whole_line_item" | "quantity_split_allowed" | (string & {});
+})
+    & ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery". [] (Value): string. Value enum:
+     * "shipment", "pickup", "local_delivery".
+     */
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | (string & {})>;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "required".
+     */
+    "requirement": unknown;
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote".
+     */
+    "resolution_mode": unknown;
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy": DeliveryProfileOriginPolicyRequest;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy": "combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {});
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy": "whole_line_item" | "quantity_split_allowed" | (string & {});
+});
+/** The `quote` variant of `DeliveryProfileConfigurationInputRequired`. */
+export type DeliveryProfileConfigurationInputQuoteInput = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy": "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy": DeliveryProfileOriginPolicyRequestInput;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "required".
+     */
+    "requirement": "required";
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote".
+     */
+    "resolution_mode": "quote";
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy": "whole_line_item" | "quantity_split_allowed";
+})
+    & ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery". [] (Value): string. Value enum:
+     * "shipment", "pickup", "local_delivery".
+     */
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery">;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "required".
+     */
+    "requirement": "required";
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote".
+     */
+    "resolution_mode": "quote";
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy": DeliveryProfileOriginPolicyRequestInput;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy": "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy": "whole_line_item" | "quantity_split_allowed";
+});
 /** The `required` variant of `DeliveryProfileConfigurationInput`. */
 export type DeliveryProfileConfigurationInputRequired = ({
     /**
@@ -1627,6 +1799,11 @@ export type DeliveryQuoteChoiceGroupResource = {
     })
         & (Exclude<DeliveryOptionProjection & object, readonly unknown[]>)>;
     /**
+     * The requested pickup Location or the order's fixed inventory Location cannot be served by
+     * this group's pickup methods.
+     */
+    "pickup_unavailable"?: boolean;
+    /**
      * Method chosen for this group in the previous selection. Omitted when there is none. Example:
      * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      */
@@ -1855,6 +2032,13 @@ export type DeliveryQuoteChoiceGroupResourcePreviousAttributes = {
      * null. anyOf[2] (Value): null.
      */
     "options"?: ((Array<(DeliveryOptionProjectionPreviousAttributes)>) | (null));
+    /**
+     * The requested pickup Location or the order's fixed inventory Location cannot be served by
+     * this group's pickup methods. anyOf[1] (Value): boolean. The requested pickup Location or the
+     * order's fixed inventory Location cannot be served by this group's pickup methods. anyOf[2]
+     * (Value): null.
+     */
+    "pickup_unavailable"?: ((boolean) | (null));
     /**
      * Method chosen for this group in the previous selection. Omitted when there is none. anyOf[1]
      * (Value): string. Method chosen for this group in the previous selection. Omitted when there
@@ -4181,68 +4365,4 @@ export type DeliveryRateCallbackConfigurationRequestInput = {
     "request_timeout_seconds"?: number;
     /** HTTPS URL that Flint calls to get a delivery rate. minLength: 1. */
     "url": string;
-};
-/**
- * Result of checking the connection to a delivery rate callback endpoint, with its status,
- * latency, HTTP status code, and failure category if it failed.
- */
-export type DeliveryRateCallbackConnectionCheck = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "checked_at": string;
-    /**
-     * ID of the delivery rate callback that was called. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     */
-    "delivery_rate_callback_id": string;
-    /** ID of the callback revision that was called. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J". */
-    "delivery_rate_callback_revision_id": string;
-    /**
-     * ID of the HMAC signing key that signed this request, as sent in the Flint-Signing-Key-Ids
-     * header. Empty for a JWT-only callback, which has no shared secret. Example:
-     * "cbkey_00112233445566778899aabb".
-     */
-    "delivery_rate_callback_signing_key_id": string;
-    /**
-     * Why the callback connection check failed and the action that can make the next check
-     * succeed. - `authentication_or_http_error`: Return a 2xx status after verifying the enabled
-     * signing methods. For a 401, check JWT verification with Flint's JWKS, issuer,
-     * delivery_rate_callback_id audience, expiration, and body_sha256 of the exact request bytes.
-     * For HMAC, check the shared secret and verify the raw body before parsing it. -
-     * `blocked_target`: Use a public HTTPS callback target allowed by Flint's outbound network
-     * policy. - `connection_error`: Restore network connectivity to the callback host, then test
-     * again. - `dns_error`: Fix the callback hostname or its DNS records, then test again. -
-     * `invalid_response`: Return a 2xx application/json response within maximum_response_bytes.
-     * For a test delivery, the body must also follow the callback response rules. Then test again.
-     * - `request_error`: Flint couldn't complete the request for another reason. Check the URL and
-     * your server logs, then test again. - `timeout`: Acknowledge the callback within its
-     * configured timeout, then test again. - `tls_error`: Fix the callback certificate and TLS
-     * configuration, then test again. Value enum: "authentication_or_http_error",
-     * "blocked_target", "connection_error", "dns_error", "invalid_response", "request_error",
-     * "timeout", "tls_error".
-     */
-    "failure_category"?: "authentication_or_http_error"
-        | "blocked_target"
-        | "connection_error"
-        | "dns_error"
-        | "invalid_response"
-        | "request_error"
-        | "timeout"
-        | "tls_error"
-        | (string & {});
-    /** HTTP status code the callback returned. Omitted when it returned none. */
-    "http_status_code"?: number;
-    /** Time the callback took to answer, in milliseconds. Format: int64. */
-    "latency_milliseconds": number;
-    /**
-     * Whether the callback answered the request successfully. Value enum: "succeeded", "failed".
-     */
-    "status": "succeeded" | "failed" | (string & {});
-};
-/**
- * The body of a connection check, which Flint sends to a delivery rate callback's URL to confirm
- * it is reachable and verifies signatures. Return any 2xx status; Flint doesn't read the response
- * body.
- */
-export type DeliveryRateCallbackConnectionCheckRequest = {
-    /** Always `connection_check`. Value enum: "connection_check". */
-    "type": "connection_check" | (string & {});
 };

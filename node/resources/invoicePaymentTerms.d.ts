@@ -61,7 +61,7 @@ export type {
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateInvoicePaymentTermRequestInput } from '../declarations/types-10.js';
+export type { CreateInvoicePaymentTermRequestInput } from '../declarations/types-11.js';
 export type {
     InvoiceLateFeePolicyRequestInput,
     InvoiceLateFeePolicyFixedRequestInput,
@@ -83,17 +83,17 @@ export { makeCreateInvoicePaymentTermRequest } from '../declarations/types-83.js
 export {
     makeInvoiceLateFeePolicyFixedRequest,
     makeInvoiceLateFeePolicyPercentageRequest,
-    makeInvoiceLateFeePolicyRequest
+    makeInvoiceLateFeePolicyRequest,
+    makeInvoicePaymentTermCalculationDayOfMonthRequest
 } from '../declarations/types-87.js';
 export {
-    makeInvoicePaymentTermCalculationDayOfMonthRequest,
     makeInvoicePaymentTermCalculationDayOfNextMonthRequest,
     makeInvoicePaymentTermCalculationDaysAfterMonthEndRequest,
     makeInvoicePaymentTermCalculationNetDaysRequest,
     makeInvoicePaymentTermCalculationOnReceiptRequest,
-    makeInvoicePaymentTermCalculationRequest
+    makeInvoicePaymentTermCalculationRequest,
+    makeMoneyValue
 } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeUpdateInvoicePaymentTermRequest } from '../declarations/types-94.js';
 export interface InvoicePaymentTermsResource {
     /**

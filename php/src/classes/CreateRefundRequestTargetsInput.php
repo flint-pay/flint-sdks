@@ -61,7 +61,7 @@ final class CreateRefundRequestTargetsInput extends Model {
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's refund email has no reason line. Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
+    /** Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's refund email has no reason line. On a subscription renewal, out_of_stock requests cancellation of eligible unshipped shipment fulfillments once the order is fully refunded. Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateCallbackWithSecretResponse to AnalyticsOverviewResponse
+# DeliveryQuoteResponse to OAuthTokenResponse
 
+- [DeliveryQuoteResponse](DeliveryQuoteResponse.md)
 - [DeliveryRateCallbackWithSecretResponse](DeliveryRateCallbackWithSecretResponse.md)
 - [DeliveryRateCallbackTestDeliveryResponse](DeliveryRateCallbackTestDeliveryResponse.md)
 - [DeliveryRevocationResponse](DeliveryRevocationResponse.md)
@@ -101,5 +102,4 @@
 - [LicenseKeyResponse](LicenseKeyResponse.md)
 - [DisconnectTaxConnectionResponse](DisconnectTaxConnectionResponse.md)
 - [OAuthTokenResponse](OAuthTokenResponse.md)
-- [AnalyticsOverviewResponse](AnalyticsOverviewResponse.md)
 

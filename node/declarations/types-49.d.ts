@@ -1,6 +1,6 @@
 import type { Dimensions, DimensionsPreviousAttributes } from './types-25.js';
 import type { ExpandedOrderSummary, ExpandedOrderSummaryPreviousAttributes } from './types-26.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type {
     PartnerWebhookEnvelope,
     PartnerAppPlatform,
@@ -36,124 +36,6 @@ import type { UpdatePackageItemRequestInput, UpdatePackageRequestInput } from '.
 import type { VoidPackageRequestInput } from './types-78.js';
 import type { PlatformFeeCap } from './types-56.js';
 import type { WebhookPartnerAppInstall } from './types-79.js';
-export type PackageCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "carrier"?: string;
-            "created_at": string;
-            "delivered_at"?: string;
-            "dimensions"?: Dimensions;
-            "expected_delivery_at"?: string | null;
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "label_url"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_id": string;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "service_code"?: string;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "status_reason"?: string;
-            "supported_actions": Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>;
-            "tracking_number"?: string;
-            "tracking_url"?: string;
-            "updated_at": string;
-            "version": number;
-            "weight"?: Weight;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "package.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "carrier"?: string;
-            "created_at": string;
-            "delivered_at"?: string;
-            "dimensions"?: Dimensions;
-            "expected_delivery_at"?: string | null;
-            "external_reference_id"?: string;
-            "external_system"?: string;
-            "fulfillment_id": string;
-            "label_url"?: string;
-            "metadata"?: MetadataMap;
-            "order"?: ((ExpandedOrderSummary) | (null));
-            "order_id": string;
-            "package_id": string;
-            "return_id"?: string;
-            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
-            "service_code"?: string;
-            "shipment_id": string;
-            "shipped_at"?: string;
-            "status": "created"
-                | "packed"
-                | "shipped"
-                | "in_transit"
-                | "out_for_delivery"
-                | "delivered"
-                | "delivery_attempted"
-                | "exception"
-                | "returned"
-                | "voided"
-                | (string & {});
-            "status_reason"?: string;
-            "supported_actions": Array<"mark_delivered"
-                | "mark_delivery_attempted"
-                | "mark_exception"
-                | "mark_in_transit"
-                | "mark_out_for_delivery"
-                | "mark_packed"
-                | "mark_returned"
-                | "mark_shipped"
-                | "void"
-                | (string & {})>;
-            "tracking_number"?: string;
-            "tracking_url"?: string;
-            "updated_at": string;
-            "version": number;
-            "weight"?: Weight;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "package.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "package.created";
-});
 /**
  * The `package.created` webhook payload for the `installed_merchants` event source. Fields shared
  * by partner webhook payloads.
@@ -4285,4 +4167,43 @@ export type PartnerAppPermissionManifestEntry = {
      * contain a link or an email address. minLength: 1.
      */
     "title": string;
+};
+export type PartnerAppPermissionManifestEntryPreviousAttributes = {
+    /**
+     * What the permission lets the app do, shown to merchants when they approve the install.
+     * anyOf[1] (Value): string. What the permission lets the app do, shown to merchants when they
+     * approve the install. minLength: 1. anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * Whether the merchant can decline this permission when they approve the install. Defaults to
+     * false: the permission is required and is always granted. anyOf[1] (Value): boolean. Whether
+     * the merchant can decline this permission when they approve the install. Defaults to false:
+     * the permission is required and is always granted. anyOf[2] (Value): null.
+     */
+    "optional"?: ((boolean) | (null));
+    /**
+     * The permission's ID, which you choose and which must be unique within the manifest.
+     * Authorization requests name permissions by this ID in scope, and the code exchange returns
+     * the granted IDs as its scope. anyOf[1] (Value): string. The permission's ID, which you
+     * choose and which must be unique within the manifest. Authorization requests name permissions
+     * by this ID in scope, and the code exchange returns the granted IDs as its scope. minLength:
+     * 1. Example: "manage_orders". anyOf[2] (Value): null.
+     */
+    "permission_id"?: ((string) | (null));
+    /**
+     * The Flint API scopes the permission grants, at least one. Each must be a scope partner
+     * installs allow; the scope catalog lists them. Duplicates are dropped. anyOf[1] (Value):
+     * Array of string. The Flint API scopes the permission grants, at least one. Each must be a
+     * scope partner installs allow; the scope catalog lists them. Duplicates are dropped.
+     * anyOf[1][] (Value): string. minLength: 1. anyOf[2] (Value): null.
+     */
+    "required_scopes"?: ((Array<string>) | (null));
+    /**
+     * A short name for the permission, shown to merchants when they approve the install. It can't
+     * contain a link or an email address. anyOf[1] (Value): string. A short name for the
+     * permission, shown to merchants when they approve the install. It can't contain a link or an
+     * email address. minLength: 1. anyOf[2] (Value): null.
+     */
+    "title"?: ((string) | (null));
 };

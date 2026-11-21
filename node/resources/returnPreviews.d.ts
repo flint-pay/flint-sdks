@@ -98,9 +98,8 @@ export {
     makeCreateReturnResolutionPreviewRequestCorrection,
     makeCreateReturnResolutionPreviewRequestStandard
 } from '../declarations/types-84.js';
-export { makeLineItemFulfillmentOriginRequestModel, makeLineItemFulfillmentRequestModel, makeMetadataMap } from '../declarations/types-88.js';
+export { makeLineItemFulfillmentOriginRequestModel, makeLineItemFulfillmentRequestModel, makeMoneyValue } from '../declarations/types-88.js';
 export {
-    makeMoneyValue,
     makeOrderDraftLineItemTaxCalculationRequestModel,
     makeOrderDraftTaxComponentRequestModel,
     makeOrderDraftTaxJurisdictionRequestModel

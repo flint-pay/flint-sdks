@@ -1,12 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    ReturnProcessDispositionRequestInput,
-    ReturnProcessInspectionRequestInput,
-    ReturnProcessReceiptRequestInput,
-    ReturnProcessResolutionRequestInput
-} from './types-64.js';
-import type {
-    ReturnReceiptLineItemInputExcessInput,
     ReturnReceiptLineItemInputMatchedInput,
     ReturnReceiptLineItemInputUnverifiedInput,
     ReturnReceiptLineItemRequestInput,
@@ -26,10 +19,10 @@ import type {
     ReturnUnverifiedItemInput,
     ReturnWindowRequestInput,
     RevealLicenseKeyRequestInput,
-    ReverseInvoiceManualPaymentRequestInput
+    ReverseInvoiceManualPaymentRequestInput,
+    RiskPredicateNodeAllRequestInput
 } from './types-66.js';
 import type {
-    RiskPredicateNodeAllRequestInput,
     RiskPredicateNodeAnyRequestInput,
     RiskPredicateNodeComparisonRequestInput,
     RiskPredicateNodeInListRequestInput,
@@ -73,13 +66,15 @@ import type {
     SubscriptionBillingScheduleUpdateInputFlintInput,
     SubscriptionBillingScheduleUpdateRequestInput,
     SubscriptionBillingStartInputImmediateInput,
-    SubscriptionBillingStartInputImportedInput
+    SubscriptionBillingStartInputImportedInput,
+    SubscriptionBillingStartInputScheduledInput,
+    SubscriptionBillingStartRequestInput
 } from './types-69.js';
-export declare function makeReturnProcessDispositionRequest(value: InputValue<ReturnProcessDispositionRequestInput>): Model<ReturnProcessDispositionRequestInput>;
-export declare function makeReturnProcessInspectionRequest(value: InputValue<ReturnProcessInspectionRequestInput>): Model<ReturnProcessInspectionRequestInput>;
-export declare function makeReturnProcessReceiptRequest(value: InputValue<ReturnProcessReceiptRequestInput>): Model<ReturnProcessReceiptRequestInput>;
-export declare function makeReturnProcessResolutionRequest(value: InputValue<ReturnProcessResolutionRequestInput>): Model<ReturnProcessResolutionRequestInput>;
-export declare function makeReturnReceiptLineItemInputExcess(value: InputValue<ReturnReceiptLineItemInputExcessInput>): Model<ReturnReceiptLineItemInputExcessInput>;
+import type {
+    SubscriptionDeliveryDestinationInputAddressInput,
+    SubscriptionDeliveryDestinationInputCustomerAddressInput,
+    SubscriptionDeliveryDestinationRequestInput
+} from './types-70.js';
 export declare function makeReturnReceiptLineItemInputMatched(value: InputValue<ReturnReceiptLineItemInputMatchedInput>): Model<ReturnReceiptLineItemInputMatchedInput>;
 export declare function makeReturnReceiptLineItemInputUnverified(value: InputValue<ReturnReceiptLineItemInputUnverifiedInput>): Model<ReturnReceiptLineItemInputUnverifiedInput>;
 export declare function makeReturnReceiptLineItemRequest(value: InputValue<ReturnReceiptLineItemRequestInput>): Model<ReturnReceiptLineItemRequestInput>;
@@ -141,3 +136,10 @@ export declare function makeSubscriptionBillingScheduleUpdateRequest(value: Inpu
 export declare function makeSubscriptionBillingScheduleUpdateRequest(value: InputValue<SubscriptionBillingScheduleUpdateRequestInput>): Model<SubscriptionBillingScheduleUpdateRequestInput>;
 export declare function makeSubscriptionBillingStartInputImmediate(value: InputValue<SubscriptionBillingStartInputImmediateInput>): Model<SubscriptionBillingStartInputImmediateInput>;
 export declare function makeSubscriptionBillingStartInputImported(value: InputValue<SubscriptionBillingStartInputImportedInput>): Model<SubscriptionBillingStartInputImportedInput>;
+export declare function makeSubscriptionBillingStartInputScheduled(value: InputValue<SubscriptionBillingStartInputScheduledInput>): Model<SubscriptionBillingStartInputScheduledInput>;
+export declare function makeSubscriptionBillingStartRequest(value: InputValue<Exclude<SubscriptionBillingStartRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionBillingStartRequestInput & object, readonly unknown[]>>;
+export declare function makeSubscriptionBillingStartRequest(value: InputValue<SubscriptionBillingStartRequestInput>): Model<SubscriptionBillingStartRequestInput>;
+export declare function makeSubscriptionDeliveryDestinationInputAddress(value: InputValue<SubscriptionDeliveryDestinationInputAddressInput>): Model<SubscriptionDeliveryDestinationInputAddressInput>;
+export declare function makeSubscriptionDeliveryDestinationInputCustomerAddress(value: InputValue<SubscriptionDeliveryDestinationInputCustomerAddressInput>): Model<SubscriptionDeliveryDestinationInputCustomerAddressInput>;
+export declare function makeSubscriptionDeliveryDestinationRequest(value: InputValue<Exclude<SubscriptionDeliveryDestinationRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionDeliveryDestinationRequestInput & object, readonly unknown[]>>;
+export declare function makeSubscriptionDeliveryDestinationRequest(value: InputValue<SubscriptionDeliveryDestinationRequestInput>): Model<SubscriptionDeliveryDestinationRequestInput>;

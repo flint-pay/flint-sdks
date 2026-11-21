@@ -8,13 +8,13 @@ namespace Flint;
 final class CheckoutBillingContactPreviousAttributesInput extends Model {
     /** @param array{'address'?: AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null, 'name'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutBillingContactPreviousAttributesInput')); }
-    /**  anyOf[1] (Value): {@see AddressPreviousAttributesInput}. anyOf[2] (Value): null.
+    /** Billing address entered by the buyer. Null when no billing address was collected. anyOf[1] (Value): {@see AddressPreviousAttributesInput}. anyOf[2] (Value): null.
      * @return AddressPreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /**  anyOf[1] (Value): string. anyOf[2] (Value): null.
+    /** Billing name entered by the buyer. anyOf[1] (Value): string. Billing name entered by the buyer. anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

@@ -1,12 +1,6 @@
-import type {
-    OnboardingProfileRequest,
-    OnboardingProfile,
-    MoneyValue,
-    MoneyValuePreviousAttributes,
-    MoneyValueInput
-} from './types-44.js';
 import type { InputValue } from '../runtime.js';
 import type { ResponseMeta } from './types-62.js';
+import type { OnboardingProfile, MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { ReadinessAction } from './types-60.js';
 import type { Merchant } from './types-42.js';
 import type { User } from './types-78.js';
@@ -19,7 +13,7 @@ import type {
     CheckoutBuyerContactPreviousAttributes
 } from './types-6.js';
 import type { CustomFieldAnswer, CustomFieldAnswerPreviousAttributes } from './types-16.js';
-import type { DeferredPromotion, DeferredPromotionPreviousAttributes } from './types-17.js';
+import type { DeferredPromotion, DeferredPromotionPreviousAttributes } from './types-18.js';
 import type {
     ExpandedCustomerSummary,
     ExpandedPaymentIntentSummary,
@@ -44,7 +38,10 @@ import type {
     OrderGiftCardEstimatePreviousAttributes,
     OrderGiftCardSelectionPreviousAttributes,
     OrderGiftCardSettlementPreviousAttributes,
-    OrderHandoverPreviousAttributes
+    OrderHandoverPreviousAttributes,
+    OrderEditChargeRefund,
+    OrderEditLineAddition,
+    OrderEditLineRemoval
 } from './types-46.js';
 import type {
     OrderPaymentAttempt,
@@ -73,11 +70,6 @@ import type { DeliverySelectionRecipientRequest, DeliverySelectionRecipientReque
 import type { SubscriptionServiceLocationRequest } from './types-72.js';
 import type { SubscriptionDeliveryDestinationRequestInput } from './types-70.js';
 import type { DeliveryRecipientResource, DeliveryRecipientResourcePreviousAttributes } from './types-23.js';
-/**
- * Contact and website details you submit for a merchant during onboarding. Send null to clear a
- * field.
- */
-export type OnboardingProfileRequestInput = OnboardingProfileRequest;
 /** Non-secret metadata for the calling credential, selected by auth_type. */
 export type OnboardingSessionAuthContext = ({
     /** Credential type that selects this object's fields. Value enum: "onboarding_session". */
@@ -295,11 +287,10 @@ export type OnboardingVerifyEmailResult = {
      */
     "default_sandbox_id"?: string;
     /**
-     * The last instant this session counts as freshly verified, 5 minutes after verification.
-     * Until then it can create keys with full or read_only access or with accounts.api_keys.write,
-     * accounts.workload_identities.write or commerce.gift_cards.secrets.write. Create the first
-     * sandbox key with POST /v1/api-keys before this time; afterward verify the email again for a
-     * fresh session. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * The last instant this session counts as freshly verified, five minutes after verification.
+     * Afterward, it can grant only restricted keys with these scopes: commerce.products.read,
+     * commerce.subscription_plans.read, commerce.bundles.read, commerce.catalog.read. Verify your
+     * email again to grant more access. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
     "fresh_verification_expires_at": string;
     /**
@@ -380,7 +371,8 @@ export type Order = {
     "charges": Array<OrderCharge>;
     /**
      * Billing name and address collected in Checkout for a successful payment. Omitted for buyer
-     * credentials and when Checkout did not collect the details.
+     * credentials and when Checkout did not collect the details. Billing details collected in
+     * Checkout for a successful payment.
      */
     "checkout_billing_contact"?: CheckoutBillingContact;
     /**
@@ -5917,4 +5909,155 @@ export type OrderDraftTaxJurisdictionRequestModelInput = {
      * letters or digits), required below country level and omitted at country level. minLength: 1.
      */
     "state"?: string;
+};
+/**
+ * Nested child of an order with frozen item changes, balance and refund amounts. A pending edit
+ * changes the order only when its balance payment succeeds. Refund completion is tracked on the
+ * refunds.
+ */
+export type OrderEdit = {
+    /**
+     * Added order lines, in request order, with their quantities and values frozen at creation.
+     * Empty when the edit added nothing. [] (Value): {@link OrderEditLineAddition}. An order line
+     * added by the enclosing edit, with its value frozen at creation.
+     */
+    "add_line_items": Array<OrderEditLineAddition>;
+    /**
+     * The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit
+     * added nothing. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "added_total_money": MoneyValue;
+    /**
+     * What the added lines cost beyond the removed value and released charges, tax included,
+     * frozen when the edit was created. Zero when the edit had no balance. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_due_money": MoneyValue;
+    /**
+     * When the edit was canceled. `null` when the edit is not canceled. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "canceled_at": string | null;
+    /**
+     * Why the edit was canceled. `null` when the edit is not canceled. Value enum:
+     * "merchant_request", "expired", "payment_disputed", "payment_returned", null.
+     */
+    "cancellation_reason": "merchant_request"
+        | "expired"
+        | "payment_disputed"
+        | "payment_returned"
+        | null
+        | (string & {})
+        | null;
+    /**
+     * Charges released by this edit, frozen at creation. Empty when no charges were released. []
+     * (Value): {@link OrderEditChargeRefund}. The value an edit releases from one order charge,
+     * and the part refunded to the buyer.
+     */
+    "charge_refunds": Array<OrderEditChargeRefund>;
+    /**
+     * When the item changes were applied to the order. `null` when the edit is pending or
+     * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "completed_at": string | null;
+    /** When the edit was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a
+     * balance. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string | null;
+    /**
+     * Internal merchant note. Omitted from buyer and webhook payloads and refund messages.
+     * maxLength: 500.
+     */
+    "note"?: string;
+    /**
+     * Stable ID of this order edit. pattern: ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     */
+    "order_edit_id": string;
+    /** The order this edit belongs to. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /**
+     * The payment intent that collects amount_due_money. Confirm it to pay the balance. `null`
+     * when the edit has no balance, and for a moment while Flint is still creating it. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string | null;
+    /**
+     * Reason for the edit and its refund. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", "out_of_stock".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | "out_of_stock"
+        | (string & {});
+    /**
+     * Refunds created for this edit. Empty when no refund is needed or processing has not created
+     * it yet. [] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_ids": Array<string>;
+    /**
+     * Money to refund after the removed value and released charges pay for added lines. May be
+     * zero; an edit with no refund money creates no refund. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "refund_money": MoneyValue;
+    /**
+     * Removed units and their refund amounts frozen at creation. [] (Value): {@link
+     * OrderEditLineRemoval}. Removed whole units of an order line and their refund amount frozen
+     * at creation. The enclosing edit identifies the order.
+     */
+    "remove_line_items": Array<OrderEditLineRemoval>;
+    /**
+     * The value of the removed units: the sum of remove_line_items[].total_money. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "removed_total_money": MoneyValue;
+    /**
+     * Signed noncash adjustment: positive for an edit balance below the payment minimum, negative
+     * when removing previously absorbed value. Included in settlement_amounts.written_off_money,
+     * never paid or refundable. Signed monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "small_balance_adjustment_money": MoneyValue;
+    /**
+     * Pending while waiting for a balance payment, completed once the item changes are applied, or
+     * canceled when it ends without changing the order. Refund processing has its own status on
+     * each refund. Value enum: "pending", "completed", "canceled".
+     */
+    "status": "pending" | "completed" | "canceled" | (string & {});
+    /**
+     * Contains cancel while pending and the payment is neither processing nor succeeded. Contains
+     * retry when unrefunded_money is positive and no linked refund is pending. Empty while Flint
+     * is still processing the original refund before any linked refund exists; retry becomes
+     * available if that processing ends without a refund. Independent of caller permissions. []
+     * enum: "cancel", "retry". [] (Value): string. Value enum: "cancel", "retry".
+     */
+    "supported_actions": Array<"cancel" | "retry" | (string & {})>;
+    /**
+     * Frozen refund money not covered by pending or succeeded allocations from refunds linked to
+     * this edit. Failed allocations do not reduce it. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "unrefunded_money": MoneyValue;
+    /**
+     * The counter advances when status, payment_intent_id, completed_at, canceled_at or
+     * cancellation_reason change. Format: uint64. minimum: 1.
+     */
+    "version": number;
 };

@@ -52,7 +52,7 @@ export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCancelGiftCardNotificationRequest } from '../declarations/types-81.js';
 export { makeCreateGiftCardNotificationRequest } from '../declarations/types-82.js';
 export { makeGiftCardNotificationRecipient } from '../declarations/types-87.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface GiftCardNotificationsResource {
     /**
  * Cancels a notification before sending starts or after confirmed failure. A sending or

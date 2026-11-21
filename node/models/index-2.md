@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# BuyerCheckoutSessionWithSecret to BuyerRefundPreviousAttributes
+# BuyerCheckoutSessionLaunchResponse to BuyerRefundListResponse
 
+- [BuyerCheckoutSessionLaunchResponse](BuyerCheckoutSessionLaunchResponse.md)
 - [BuyerCheckoutSessionWithSecret](BuyerCheckoutSessionWithSecret.md)
 - [BuyerCreateReturnPreviewRequest](BuyerCreateReturnPreviewRequest.md)
 - [BuyerCreateReturnPreviewRequestInput](BuyerCreateReturnPreviewRequestInput.md)
@@ -101,5 +102,4 @@
 - [BuyerPaymentRefundPreviousAttributes](BuyerPaymentRefundPreviousAttributes.md)
 - [BuyerRefund](BuyerRefund.md)
 - [BuyerRefundListResponse](BuyerRefundListResponse.md)
-- [BuyerRefundPreviousAttributes](BuyerRefundPreviousAttributes.md)
 

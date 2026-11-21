@@ -39,7 +39,7 @@ Field definitions: [shared fields](LicenseKey.md#licensekey).
 
 ### LicenseKeyCreatedInstalledMerchantsEvent.data.object.metadata
 
-Field definitions: [LicenseKey.metadata](../models/LicenseKey.md#licensekeymetadata).
+Field definitions: [CheckoutLicenseKey.metadata](../models/CheckoutLicenseKey.md#checkoutlicensekeymetadata).
 
 ### LicenseKeyCreatedInstalledMerchantsEvent.source
 

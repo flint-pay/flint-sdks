@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# RetryReturnResolutionRequestInput to ReturnReceiptSupersededMerchantEventInput
+# RetryReturnDispositionResponseInput to ReturnReceiptSupersededInstalledMerchantsEventInput
 
+- [RetryReturnDispositionResponseInput](RetryReturnDispositionResponseInput.md)
 - [RetryReturnResolutionRequestInput](RetryReturnResolutionRequestInput.md)
 - [RetryReturnResolutionResponseInput](RetryReturnResolutionResponseInput.md)
 - [ReturnActivityInput](ReturnActivityInput.md)
@@ -101,5 +102,4 @@
 - [ReturnReceiptLineItemRequestInput](ReturnReceiptLineItemRequestInput.md)
 - [ReturnReceiptPreviousAttributesInput](ReturnReceiptPreviousAttributesInput.md)
 - [ReturnReceiptSupersededInstalledMerchantsEventInput](ReturnReceiptSupersededInstalledMerchantsEventInput.md)
-- [ReturnReceiptSupersededMerchantEventInput](ReturnReceiptSupersededMerchantEventInput.md)
 

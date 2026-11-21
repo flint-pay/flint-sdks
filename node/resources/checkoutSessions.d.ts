@@ -7,6 +7,7 @@ import type {
     CheckoutSessionCustomerVerificationResponse
 } from '../declarations/types-6.js';
 import type {
+    CheckoutSessionLaunch,
     CheckoutSessionLaunchResponse,
     CheckoutSessionListResponse,
     CheckoutSessionResponse,
@@ -44,6 +45,7 @@ export type {
     CheckoutSessionsConfirmCustomerVerificationParams,
     CheckoutSessionWithSecret,
     CheckoutSessionsCreateParams,
+    CheckoutSessionLaunch,
     CheckoutSessionLaunchResponse,
     CheckoutSessionsCreateCustomerVerificationParams,
     CheckoutSessionsGetParams,
@@ -169,7 +171,8 @@ export type {
     DeliveryCandidateOutcomeResourceUnavailable,
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
-    DeliveryCandidateOutcomeResourceRequiresCheckoutContext
+    DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
+    DeferredPromotion
 } from '../declarations/types-18.js';
 export type {
     DeliveryInputRequirement,
@@ -194,7 +197,6 @@ export type {
 export type { LegalSettings } from '../declarations/types-39.js';
 export type { Image } from '../declarations/types-31.js';
 export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
-export type { DeferredPromotion } from '../declarations/types-17.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
@@ -224,17 +226,17 @@ export type {
     CreateCheckoutSessionCustomerVerificationRequestInput,
     CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput,
     CreateCheckoutSessionSavePaymentMethodVerificationRequestInput,
-    CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput,
     CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput,
     CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput,
     CreateCheckoutSessionPayToNewAddressVerificationRequestInput,
     CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput,
     ConfirmCheckoutSessionCustomerVerificationRequest
 } from '../declarations/types-8.js';
-export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput } from '../declarations/types-59.js';
-export type { PromotionRefInputPromotionCodeInput } from '../declarations/types-58.js';
+export type { PromotionRefRequestInput } from '../declarations/types-59.js';
+export type { PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-58.js';
 export type { SubscriptionPlanChangeLineItemRequestInput, SubscriptionPlanChangeLineItemRequest } from '../declarations/types-71.js';
 export type { ThemeConfigRequestInput, UpdateCheckoutSessionRequestInput } from '../declarations/types-75.js';
+export type { CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput } from '../declarations/types-9.js';
 export { makeAddressRequest } from '../declarations/types-80.js';
 export {
     makeCheckoutBuyerContactRequest,
@@ -251,10 +253,10 @@ export {
     makeCheckoutTaxConfigRequest,
     makeCheckoutTipConfigRequest,
     makeCloseCheckoutSessionRequest,
-    makeConfirmCheckoutSessionCustomerVerificationRequest
+    makeConfirmCheckoutSessionCustomerVerificationRequest,
+    makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest
 } from '../declarations/types-81.js';
 export {
-    makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest,
     makeCreateCheckoutSessionCustomerVerificationRequest,
     makeCreateCheckoutSessionDiscount,
     makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest,
@@ -271,8 +273,8 @@ export {
     makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest
 } from '../declarations/types-82.js';
 export { makeDeliveryWindowRequest } from '../declarations/types-86.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
-export { makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-89.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeOrderLineItemTaxRequest } from '../declarations/types-89.js';
 export {
     makePlatformFeeMoney,
     makePlatformFeeRequest,
@@ -382,7 +384,7 @@ export interface CheckoutSessionsResource {
  * client.checkoutSessions.create({type: "order", order_id: "ord_01KEZF7C0054GQKJ142A8X367A"}, {
  * idempotencyKey: idempotencyKey })
  */
-    create(params: CheckoutSessionsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CheckoutSessionWithSecret, CheckoutSessionLaunchResponse>>;
+    create(params: CheckoutSessionsCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<CheckoutSessionLaunch, CheckoutSessionLaunchResponse>>;
     /**
  * Sends a six-digit code to prove the buyer controls an email address or mobile phone number, so
  * this checkout can save a card, use saved details, or confirm a saved card. Only the session's

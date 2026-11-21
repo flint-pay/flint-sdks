@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# InvoiceScheduleEntryPreviousAttributesInput to LookupGiftCardRequestInput
+# InvoiceScheduleEntryInput to LookupEmailPreferencesRequestInput
 
+- [InvoiceScheduleEntryInput](InvoiceScheduleEntryInput.md)
 - [InvoiceScheduleEntryPreviousAttributesInput](InvoiceScheduleEntryPreviousAttributesInput.md)
 - [InvoiceScheduleEntryWriteInput](InvoiceScheduleEntryWriteInput.md)
 - [InvoiceScheduleEntryWriteBalanceInput](InvoiceScheduleEntryWriteBalanceInput.md)
@@ -101,5 +102,4 @@
 - [LocationListResponseInput](LocationListResponseInput.md)
 - [LocationResponseInput](LocationResponseInput.md)
 - [LookupEmailPreferencesRequestInput](LookupEmailPreferencesRequestInput.md)
-- [LookupGiftCardRequestInput](LookupGiftCardRequestInput.md)
 

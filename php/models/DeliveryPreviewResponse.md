@@ -159,7 +159,6 @@ oneOf with type: "custom": The `custom` variant of `CreateOrderLineItem`..
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`); present(`gift_card_purchase`))).
 - Required: `fulfillment`, `name`, `unit_price_money`.
 - Optional: `bundle_id`, `product_id`, `variant_id`.
-- Constraints for `name`: Name of the item as it appears on the order. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported.
 - Constraints for `type`: Values: `"custom"`.
 
 ### DeliveryPreviewResponse.data variant 1.line_items[].fulfillment
@@ -364,7 +363,7 @@ A merchant-only diagnostic about a configured pickup location that was left out 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | Stable reason a configured pickup location was left out of the results or cannot supply the order. - `pickup_location_inactive`: The Location is inactive, so it was left out. - `pickup_location_geography_unavailable`: The Location has no usable published geography, so it was left out. - `pickup_location_inventory_unavailable`: The Location does not allocate inventory, so it cannot supply the order's tracked items. It is listed with an unavailable outcome. Items without tracked inventory need no allocation. - `pickup_location_dependency_failure`: Flint could not resolve the configured Location. Values: [4 declared values](#deliverypreviewresponsedata-variant-2merchant_diagnostics-code-values). |
+| `code` | Required | string | Stable reason a configured pickup location was left out of the results or cannot supply the order. - `pickup_location_inactive`: The Location is inactive, so it was left out. - `pickup_location_geography_unavailable`: The Location has no usable published geography, so it was left out. - `pickup_location_inventory_unavailable`: Flint skips this Location for orders with tracked items because inventory allocation is off. Items without tracked inventory need no allocation. - `pickup_location_dependency_failure`: Flint could not resolve the configured Location. Values: [4 declared values](#deliverypreviewresponsedata-variant-2merchant_diagnostics-code-values). |
 | `diagnostic_id` | Required | string | ID to quote when you ask Flint about this diagnostic. Example: `"ddiag_01KEZF7C002JPVD08857RGDGPC"`. |
 | `location_id` | Required | string | ID of the Location that was evaluated. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `occurred_at` | Required | string | Time Flint recorded this diagnostic. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |

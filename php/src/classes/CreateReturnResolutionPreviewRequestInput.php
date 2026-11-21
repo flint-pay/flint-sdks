@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass> $adjustments
  * @property-read string $corrects_return_resolution_id
  * @property-read int $expected_return_version
+ * @property-read string $gift_card_refund_destination
  * @property-read list<ReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read string $pricing_basis
  * @property-read list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass> $replacement_line_items
@@ -12,7 +13,7 @@ namespace Flint;
  * @property-read string $return_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateReturnResolutionPreviewRequestInput extends Model {
-    /** @param array{'adjustments'?: list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'expected_return_version'?: int, 'line_items': list<ReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'pricing_basis'?: string, 'replacement_line_items'?: list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'resolution_type': string, 'return_id': string}|object|array{'adjustments': list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'corrects_return_resolution_id': string, 'expected_return_version'?: int, 'resolution_type': string, 'return_id': string}|object $values */
+    /** @param array{'adjustments'?: list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'expected_return_version'?: int, 'gift_card_refund_destination'?: string, 'line_items': list<ReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'pricing_basis'?: string, 'replacement_line_items'?: list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'resolution_type': string, 'return_id': string}|object|array{'adjustments': list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'corrects_return_resolution_id': string, 'expected_return_version'?: int, 'gift_card_refund_destination'?: string, 'resolution_type': string, 'return_id': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnResolutionPreviewRequestInput')); }
     /** Fees and credits to apply to the resolution, at most 50. [] (Value): {@see ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return resolution, with the assessed and applied amounts and whether it is applied or waived.
      * @return list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>
@@ -32,6 +33,12 @@ final class CreateReturnResolutionPreviewRequestInput extends Model {
      */
     public function getExpectedReturnVersion(): int { return $this->get('expected_return_version'); }
     public function hasExpectedReturnVersion(): bool { return $this->has('expected_return_version'); }
+    /** Where the gift-card-paid portion would be refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action. An unsupported selection returns INVALID_REQUEST with a NOT_ALLOWED detail at resolution.gift_card_refund_destination and conflicting_fields naming resolution.resolution_type. Store credit and its corrections always issue new gift cards. Default: "original". Value enum: "original", "new_gift_card".
+     * @return string
+     * @throws SdkError When gift_card_refund_destination is omitted; use hasGiftCardRefundDestination() or valueOrDefault().
+     */
+    public function getGiftCardRefundDestination(): string { return $this->get('gift_card_refund_destination'); }
+    public function hasGiftCardRefundDestination(): bool { return $this->has('gift_card_refund_destination'); }
     /** Return lines and quantities to cover, up to 100. Not allowed on a correction. [] (Value): {@see ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a return resolution.
      * @return list<ReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().

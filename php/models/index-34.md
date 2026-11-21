@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# UpdatePaymentIntentRequestInput to WebhookSnapshotInventoryCountInput
+# UpdatePartnerAppRequestInput to WebhookSnapshotGiftCardInput
 
+- [UpdatePartnerAppRequestInput](UpdatePartnerAppRequestInput.md)
 - [UpdatePaymentIntentRequestInput](UpdatePaymentIntentRequestInput.md)
 - [UpdatePaymentLinkRequestInput](UpdatePaymentLinkRequestInput.md)
 - [UpdatePaymentMethodDomainRequestInput](UpdatePaymentMethodDomainRequestInput.md)
@@ -101,5 +102,4 @@
 - [WebhookSnapshotFulfillmentInput](WebhookSnapshotFulfillmentInput.md)
 - [WebhookSnapshotFulfillmentPreviousAttributesInput](WebhookSnapshotFulfillmentPreviousAttributesInput.md)
 - [WebhookSnapshotGiftCardInput](WebhookSnapshotGiftCardInput.md)
-- [WebhookSnapshotInventoryCountInput](WebhookSnapshotInventoryCountInput.md)
 

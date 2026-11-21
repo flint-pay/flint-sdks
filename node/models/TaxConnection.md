@@ -17,7 +17,7 @@ The environment's automatic sales tax connection. Before a record exists, identi
 | `legal_business_name` | Optional | string | Legal business name verified by the payment processor, which can differ from the merchant-entered Merchant.business_name. Before connect, comes from verified onboarding details; once connected, comes from the tax account snapshot. In sandboxes, uses verified live details when available, otherwise the merchant profile, and retains the connected snapshot. Omitted when no name is available. |
 | `seller_attestation` | Required | [TaxConnectionSellerAttestation](../models/TaxConnectionSellerAttestation.md#taxconnectionsellerattestation) or null | The seller's recorded agreement to the disclosure. `null` when no connect has recorded one. |
 | `status` | Required | string | Whether automatic tax is connected and can calculate tax. Values: `"not_connected"`, `"provisioning"`, `"active"`, `"attention_required"`, `"disabled"`. |
-| `status_reason` | Required | string or null | Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`. Values: [13 declared values](#taxconnection-status_reason-values). |
+| `status_reason` | Required | string or null | Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`. Values: [14 declared values](#taxconnection-status_reason-values). |
 | `supported_actions` | Required | Array of string | Lists connect when setup can complete, including by supplying legal_address in test mode and disconnect when automatic tax can be turned off, based on the connection state for every credential. An empty array means neither action is available. Performing either action requires settings.write. Items values: `"connect"`, `"disconnect"`. |
 | `tax_connection_id` | Optional | string | Flint tax connection ID. Present once the first registration or connection creates a record. Example: `"tcn_01KEZF7C007Y42FMVNHV3P27QN"`. |
 | `updated_at` | Optional | string | When the connection record's public state last changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -28,6 +28,7 @@ The environment's automatic sales tax connection. Before a record exists, identi
 - `"not_offered"`
 - `"business_address_required"`
 - `"onboarding_required"`
+- `"seller_origin_unsupported"`
 - `"tax_category_required"`
 - `"registration_required"`
 - `"temporarily_unavailable"`

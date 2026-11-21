@@ -2,13 +2,13 @@
 
 ## SubscriptionInventoryWait
 
-Shows that a subscription renewal is waiting for inventory, with the order and invoice involved and when the wait started.
+A subscription renewal or prepaid delivery waiting for stock.
 
 Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Optional | string | ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Always present with merchant credentials. |
-| `order_id` | Optional | string | ID of the renewal order waiting for stock. Merchant credentials only. Always present with merchant credentials. |
+| `invoice_id` | Optional | string | ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. |
+| `order_id` | Optional | string | ID of the order waiting for stock, if one was created. Merchant credentials only. |
 | `started_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 

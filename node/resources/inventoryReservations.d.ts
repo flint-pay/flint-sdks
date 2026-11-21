@@ -82,8 +82,7 @@ export {
     makeInventoryRoutingSourceRequest,
     makeInventorySourceSystemRequest
 } from '../declarations/types-87.js';
-export { makeMetadataMap } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeReleaseInventoryReservationRequest } from '../declarations/types-91.js';
 export { makeUpdateInventoryReservationRequest } from '../declarations/types-94.js';
 export interface InventoryReservationsResource {

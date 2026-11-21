@@ -1,12 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    PayOrderRequestInput,
-    PayOrderRequestConfirmPaymentIntentsInput,
-    PayOrderRequestPayInput,
-    PayOrderRequestResumeInput,
-    PayOrderRequestSetupInput
-} from './types-50.js';
-import type {
     PaymentLimitSettingsPatchInput,
     PaymentLinkCustomFieldPatchRequestInput,
     PaymentLinkCustomFieldRequestInput,
@@ -23,10 +16,10 @@ import type {
     PaymentLinkLineItemPatchInputBundleInput,
     PaymentLinkLineItemPatchInputCustomFixedInput,
     PaymentLinkLineItemPatchInputCustomVariableInput,
-    PaymentLinkLineItemPatchInputVariantInput
+    PaymentLinkLineItemPatchInputVariantInput,
+    PaymentLinkLineItemPatchRequestInput
 } from './types-52.js';
 import type {
-    PaymentLinkLineItemPatchRequestInput,
     PaymentLinkLineItemRequestInput,
     PaymentLinkPaymentConfigInput,
     PaymentLinkPaymentPatchRequestInput,
@@ -50,17 +43,17 @@ import type {
     PlatformFeeRequestInput,
     PoolLicenseKeyConfigurationRequestInput,
     PriceListPriceRequestInput,
-    ProcessExistingReturnLineItemRequestInput
+    ProcessExistingReturnLineItemRequestInput,
+    ProcessExistingReturnRequestInput
 } from './types-56.js';
 import type {
-    ProcessExistingReturnRequestInput,
     ProductVariantRequestInput,
     ProductVariantSelectedOptionRequestInput,
     PromotionAmountOffMethodRequestInput,
-    PromotionApplicationMethodPatchInput
+    PromotionApplicationMethodPatchInput,
+    PromotionApplicationMethodRequestInput
 } from './types-57.js';
 import type {
-    PromotionApplicationMethodRequestInput,
     PromotionBuyXGetYMethodRequestInput,
     PromotionCodeRequestInput,
     PromotionCombinesWithPatchInput,
@@ -72,15 +65,18 @@ import type {
     PromotionRecurrenceOnceRequestInput,
     PromotionRecurrenceRepeatingRequestInput,
     PromotionRecurrenceRequestInput,
-    PromotionRefInputPromotionCodeInput
+    PromotionRefInputPromotionCodeInput,
+    PromotionRefInputPromotionIDInput
 } from './types-58.js';
-import type { PromotionRefInputPromotionIDInput, PromotionRefRequestInput, PromotionRuleGroupRequestInput } from './types-59.js';
-export declare function makePayOrderRequest(value: InputValue<Exclude<PayOrderRequestInput & object, readonly unknown[]>>): Model<Exclude<PayOrderRequestInput & object, readonly unknown[]>>;
-export declare function makePayOrderRequest(value: InputValue<PayOrderRequestInput>): Model<PayOrderRequestInput>;
-export declare function makePayOrderRequestConfirmPaymentIntents(value: InputValue<PayOrderRequestConfirmPaymentIntentsInput>): Model<PayOrderRequestConfirmPaymentIntentsInput>;
-export declare function makePayOrderRequestPay(value: InputValue<PayOrderRequestPayInput>): Model<PayOrderRequestPayInput>;
-export declare function makePayOrderRequestResume(value: InputValue<PayOrderRequestResumeInput>): Model<PayOrderRequestResumeInput>;
-export declare function makePayOrderRequestSetup(value: InputValue<PayOrderRequestSetupInput>): Model<PayOrderRequestSetupInput>;
+import type {
+    PromotionRefRequestInput,
+    PromotionRuleGroupRequestInput,
+    PromotionRuleRequestInput,
+    PromotionRuleValueRequestInput,
+    PromotionSchedulePatchInput,
+    PromotionScheduleRequestInput,
+    PromotionSettingsRequestInput
+} from './types-59.js';
 export declare function makePaymentLimitSettingsPatch(value: InputValue<PaymentLimitSettingsPatchInput>): Model<PaymentLimitSettingsPatchInput>;
 export declare function makePaymentLinkCustomFieldPatchRequest(value: InputValue<PaymentLinkCustomFieldPatchRequestInput>): Model<PaymentLinkCustomFieldPatchRequestInput>;
 export declare function makePaymentLinkCustomFieldRequest(value: InputValue<PaymentLinkCustomFieldRequestInput>): Model<PaymentLinkCustomFieldRequestInput>;
@@ -143,3 +139,9 @@ export declare function makePromotionRefInputPromotionID(value: InputValue<Promo
 export declare function makePromotionRefRequest(value: InputValue<PromotionRefRequestInput>): Model<PromotionRefRequestInput>;
 export declare function makePromotionRuleGroupRequest(value: InputValue<Exclude<PromotionRuleGroupRequestInput & object, readonly unknown[]>>): Model<Exclude<PromotionRuleGroupRequestInput & object, readonly unknown[]>>;
 export declare function makePromotionRuleGroupRequest(value: InputValue<PromotionRuleGroupRequestInput>): Model<PromotionRuleGroupRequestInput>;
+export declare function makePromotionRuleRequest(value: InputValue<PromotionRuleRequestInput>): Model<PromotionRuleRequestInput>;
+export declare function makePromotionRuleValueRequest(value: InputValue<Exclude<PromotionRuleValueRequestInput & object, readonly unknown[]>>): Model<Exclude<PromotionRuleValueRequestInput & object, readonly unknown[]>>;
+export declare function makePromotionRuleValueRequest(value: InputValue<PromotionRuleValueRequestInput>): Model<PromotionRuleValueRequestInput>;
+export declare function makePromotionSchedulePatch(value: InputValue<PromotionSchedulePatchInput>): Model<PromotionSchedulePatchInput>;
+export declare function makePromotionScheduleRequest(value: InputValue<PromotionScheduleRequestInput>): Model<PromotionScheduleRequestInput>;
+export declare function makePromotionSettingsRequest(value: InputValue<PromotionSettingsRequestInput>): Model<PromotionSettingsRequestInput>;

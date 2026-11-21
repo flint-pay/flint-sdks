@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# WebhookSnapshotInventoryReceiptInput to DeliveryQuoteResponse
+# WebhookSnapshotInventoryCountInput to DeliveryProfileResponse
 
+- [WebhookSnapshotInventoryCountInput](WebhookSnapshotInventoryCountInput.md)
 - [WebhookSnapshotInventoryReceiptInput](WebhookSnapshotInventoryReceiptInput.md)
 - [WebhookSnapshotInventoryReservationInput](WebhookSnapshotInventoryReservationInput.md)
 - [WebhookSnapshotInventoryTransferInput](WebhookSnapshotInventoryTransferInput.md)
@@ -101,5 +102,4 @@
 - [DeliveryMethodResponse](DeliveryMethodResponse.md)
 - [DeliveryPreviewResponse](DeliveryPreviewResponse.md)
 - [DeliveryProfileResponse](DeliveryProfileResponse.md)
-- [DeliveryQuoteResponse](DeliveryQuoteResponse.md)
 

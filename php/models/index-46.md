@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CheckoutSubscriptionRecurringShipping to CreditNoteAllocation
+# CheckoutSubscriptionPricePhase to CheckoutSessionCustomerVerification
 
+- [CheckoutSubscriptionPricePhase](CheckoutSubscriptionPricePhase.md)
 - [CheckoutSubscriptionRecurringShipping](CheckoutSubscriptionRecurringShipping.md)
 - [CheckoutSubscriptionTerms](CheckoutSubscriptionTerms.md)
 - [CheckoutTaxCalculation](CheckoutTaxCalculation.md)
@@ -95,11 +96,10 @@
 - [ModifierSet](ModifierSet.md)
 - [Bundle](Bundle.md)
 - [Category](Category.md)
+- [CheckoutSessionLaunchCustomFieldAnswersItemText](CheckoutSessionLaunchCustomFieldAnswersItemText.md)
+- [CheckoutSessionLaunchCustomFieldAnswersItemTextarea](CheckoutSessionLaunchCustomFieldAnswersItemTextarea.md)
+- [CheckoutSessionLaunchCustomFieldAnswersItemDropdown](CheckoutSessionLaunchCustomFieldAnswersItemDropdown.md)
+- [CheckoutSessionLaunchCustomFieldAnswersItemCheckbox](CheckoutSessionLaunchCustomFieldAnswersItemCheckbox.md)
+- [CheckoutSessionLaunch](CheckoutSessionLaunch.md)
 - [CheckoutSessionCustomerVerification](CheckoutSessionCustomerVerification.md)
-- [CreditNoteLineItemCorrectionQuantity](CreditNoteLineItemCorrectionQuantity.md)
-- [CreditNoteLineItemCorrectionAmountAmountMoney](CreditNoteLineItemCorrectionAmountAmountMoney.md)
-- [CreditNoteLineItemCorrectionAmount](CreditNoteLineItemCorrectionAmount.md)
-- [CreditNoteLineItem](CreditNoteLineItem.md)
-- [CreditNote](CreditNote.md)
-- [CreditNoteAllocation](CreditNoteAllocation.md)
 

@@ -59,7 +59,7 @@ export type { PartnerWebhookEnvelope } from '../declarations/types-50.js';
 export type { WebhookEventSource } from '../declarations/types-79.js';
 export type { MerchantWebhookEnvelope } from '../declarations/types-43.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeUpdatePayoutSettingsRequest } from '../declarations/types-94.js';
 export interface PayoutSettingsResource {
     /**

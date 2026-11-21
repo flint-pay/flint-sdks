@@ -307,7 +307,7 @@ $result = $client->readers->list([], new RequestOptions());
 
 ### readers.simulate
 
-Sandbox only. Presents a Stripe test card on a simulated reader (registered with `registration_code: simulated-s700`) for the payment presented on it, so the result arrives the way a real tap's does. Returns the reader. A live credential gets `403 FORBIDDEN` with reason `test_mode_required`.
+Sandbox only. Presents a Stripe test card on a simulated reader (registered with `registration_code: simulated-s700`) for the payment presented on it, so the result arrives the way a real tap's does. Returns the reader. If the payment is still processing and the reader refuses another card, Flint returns `409 ACTION_NOT_ALLOWED` with reason `in_progress`. Wait for the payment outcome. Reusing the same idempotency key replays the conflict. A live credential gets `403 FORBIDDEN` with reason `test_mode_required`.
 
 `POST /v1/readers/{reader_id}/simulate`
 

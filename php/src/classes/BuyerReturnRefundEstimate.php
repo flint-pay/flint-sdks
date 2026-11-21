@@ -37,7 +37,7 @@ final class BuyerReturnRefundEstimate extends Model {
      */
     public function getStoreCreditDestination(): string { return $this->get('store_credit_destination'); }
     public function hasStoreCreditDestination(): bool { return $this->has('store_credit_destination'); }
-    /** Estimated original-payment destinations for the payable part of buyer_refund_amount_money, in refund order. Excludes store credit. Empty when no refund is payable. [] (Value): {@see ReturnRefundTenderEstimate}. One estimated original-payment destination for a return refund.
+    /** Estimated original-payment destinations for the payable part of buyer_refund_amount_money, in refund order. Excludes store credit. Empty when no refund is payable. [] (Value): {@see ReturnRefundTenderEstimate}. One original tender and its estimated share of a return refund.
      * @return list<BuyerReturnRefundEstimateTenderEstimatesItemPaymentIntent|BuyerReturnRefundEstimateTenderEstimatesItemGiftCardRedemption|\stdClass>
      */
     public function getTenderEstimates(): array { return $this->get('tender_estimates'); }
