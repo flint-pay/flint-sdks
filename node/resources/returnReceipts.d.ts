@@ -35,12 +35,11 @@ export type {
     ReturnReceiptLineItemRequestInput,
     ReturnReceiptLineItemInputMatchedInput,
     ReturnReceiptLineItemInputUnverifiedInput,
-    ReturnReceiptLineItemInputExcessInput,
-    ReturnReceiptLineItem
+    ReturnReceiptLineItemInputExcessInput
 } from '../declarations/types-65.js';
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { RequestOptions, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { ReturnReceipt } from '../declarations/types-64.js';
+export type { ReturnReceipt, ReturnReceiptLineItem } from '../declarations/types-64.js';
 export type { CreateReturnReceiptResponse, CreateReturnReceiptRequestInput } from '../declarations/types-13.js';
 export type { GetReturnReceiptResponse } from '../declarations/types-28.js';
 export type { ListReturnReceiptsResponse } from '../declarations/types-40.js';
@@ -60,10 +59,9 @@ export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateReturnReceiptRequest } from '../declarations/types-84.js';
-export { makeMetadataMap } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeReturnReceiptLineItemInputExcess } from '../declarations/types-91.js';
 export {
-    makeReturnReceiptLineItemInputExcess,
     makeReturnReceiptLineItemInputMatched,
     makeReturnReceiptLineItemInputUnverified,
     makeReturnReceiptLineItemRequest,

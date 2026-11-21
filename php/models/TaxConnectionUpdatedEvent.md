@@ -310,7 +310,7 @@ anyOf variant 2.
 
 anyOf variant 1: Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`..
 
-- Value shape: string. Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`. Values: `"not_offered"`, `"business_address_required"`, `"onboarding_required"`, `"tax_category_required"`, `"registration_required"`, `"temporarily_unavailable"`, `"setup_incomplete"`, `"registration_rejected"`, `"business_details_changed"`, `"support_required"`, `"disconnected"`, `"other"`, `null`.
+- Value shape: string. Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`. Values: `"not_offered"`, `"business_address_required"`, `"onboarding_required"`, `"seller_origin_unsupported"`, `"tax_category_required"`, `"registration_required"`, `"temporarily_unavailable"`, `"setup_incomplete"`, `"registration_rejected"`, `"business_details_changed"`, `"support_required"`, `"disconnected"`, `"other"`, `null`.
 
 ### TaxConnectionUpdatedEvent.data fields 1.previous_attributes.status_reason variant 2
 

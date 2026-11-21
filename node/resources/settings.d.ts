@@ -136,21 +136,20 @@ export {
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest,
     makeInventorySettingsRequest,
-    makeInvoiceAutopayRetryPolicy
+    makeInvoiceAutopayRetryPolicy,
+    makeInvoicePaymentOptionLimitRequest,
+    makeInvoicePaymentPolicyRequest
 } from '../declarations/types-87.js';
 export {
-    makeInvoicePaymentOptionLimitRequest,
-    makeInvoicePaymentPolicyRequest,
     makeInvoiceReminderPolicy,
     makeInvoiceReminderRule,
     makeInvoiceSettingsPatch,
     makeLegalSettingsRequest,
-    makeMetadataMap,
-    makeMetadataPatchRequest
+    makeMetadataPatchRequest,
+    makeMoneyValue
 } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
-export { makePaymentLimitSettingsPatch, makePaymentSettingsPatch } from '../declarations/types-90.js';
-export { makePromotionSettingsRequest, makeReceiptSettingsPatch } from '../declarations/types-91.js';
+export { makePaymentLimitSettingsPatch, makePaymentSettingsPatch, makePromotionSettingsRequest } from '../declarations/types-90.js';
+export { makeReceiptSettingsPatch } from '../declarations/types-91.js';
 export {
     makeSubscriptionSettingsRequest,
     makeTaxDefaultCalculationRequest,

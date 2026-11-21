@@ -4,6 +4,7 @@ import type {
     PartnerAppMerchantActionRoutingPreviousAttributes,
     PartnerAppPaymentSplits,
     PartnerAppPaymentSplitsPreviousAttributes,
+    PartnerAppPermissionManifestEntryPreviousAttributes,
     PartnerApp,
     PartnerAppMerchantReadiness,
     PartnerAppMerchantReadinessPreviousAttributes
@@ -21,7 +22,7 @@ import type { UpdatePartnerAppRequestInput } from './types-77.js';
 import type { WebhookEventSource } from './types-79.js';
 import type { CheckoutBuyerContactRequest, CheckoutBuyerContactRequestInput } from './types-6.js';
 import type { OrderGiftCardAllocationAcceptance, OrderGiftCardAllocationAcceptanceInput } from './types-46.js';
-import type { OrderPaymentIntentSelection, OrderPaymentIntentSelectionInput } from './types-47.js';
+import type { OrderPaymentIntentSelection, OrderPaymentIntentSelectionInput, OrderPaymentAttempt } from './types-47.js';
 import type {
     PaymentSourceCredential,
     PaymentSplitRequest,
@@ -30,46 +31,7 @@ import type {
     PaymentSourceCredentialStripePaymentMethod,
     PaymentSourceCredentialStripePaymentMethodInput
 } from './types-54.js';
-import type { PayOrderResult } from './types-51.js';
-export type PartnerAppPermissionManifestEntryPreviousAttributes = {
-    /**
-     * What the permission lets the app do, shown to merchants when they approve the install.
-     * anyOf[1] (Value): string. What the permission lets the app do, shown to merchants when they
-     * approve the install. minLength: 1. anyOf[2] (Value): null.
-     */
-    "description"?: ((string) | (null));
-    /**
-     * Whether the merchant can decline this permission when they approve the install. Defaults to
-     * false: the permission is required and is always granted. anyOf[1] (Value): boolean. Whether
-     * the merchant can decline this permission when they approve the install. Defaults to false:
-     * the permission is required and is always granted. anyOf[2] (Value): null.
-     */
-    "optional"?: ((boolean) | (null));
-    /**
-     * The permission's ID, which you choose and which must be unique within the manifest.
-     * Authorization requests name permissions by this ID in scope, and the code exchange returns
-     * the granted IDs as its scope. anyOf[1] (Value): string. The permission's ID, which you
-     * choose and which must be unique within the manifest. Authorization requests name permissions
-     * by this ID in scope, and the code exchange returns the granted IDs as its scope. minLength:
-     * 1. Example: "manage_orders". anyOf[2] (Value): null.
-     */
-    "permission_id"?: ((string) | (null));
-    /**
-     * The Flint API scopes the permission grants, at least one. Each must be a scope partner
-     * installs allow; the scope catalog lists them. Duplicates are dropped. anyOf[1] (Value):
-     * Array of string. The Flint API scopes the permission grants, at least one. Each must be a
-     * scope partner installs allow; the scope catalog lists them. Duplicates are dropped.
-     * anyOf[1][] (Value): string. minLength: 1. anyOf[2] (Value): null.
-     */
-    "required_scopes"?: ((Array<string>) | (null));
-    /**
-     * A short name for the permission, shown to merchants when they approve the install. It can't
-     * contain a link or an email address. anyOf[1] (Value): string. A short name for the
-     * permission, shown to merchants when they approve the install. It can't contain a link or an
-     * email address. minLength: 1. anyOf[2] (Value): null.
-     */
-    "title"?: ((string) | (null));
-};
+import type { Order } from './types-45.js';
 /**
  * One permission a partner app can request, with a title, a description, and the Flint scopes it
  * grants.
@@ -1114,11 +1076,11 @@ export type PartnerEnvironmentGrant = ({
      * The platform fee cap the merchant approved for this mode: what the app's cap was when the
      * merchant approved it, lowered at once whenever the app lowers its cap. Absent when the
      * merchant approved none. A higher app cap applies only after the merchant authorizes again.
-     * No request accepts a platform fee yet. The most a platform fee can take from one payment.
-     * The largest platform fee on a payment is percent of the amount it collects, rounded half up
-     * to the minor unit, plus the currency's fixed part if it has one, and never more than the
-     * currency's maximum: a cap of 1% + 0.30 USD with a 5.00 USD maximum allows up to 1.30 USD on
-     * a 100.00 USD payment. A currency without a maximum can't carry a platform fee.
+     * The most a platform fee can take from one payment. The largest platform fee on a payment is
+     * percent of the amount it collects, rounded half up to the minor unit, plus the currency's
+     * fixed part if it has one, and never more than the currency's maximum: a cap of 1% + 0.30 USD
+     * with a 5.00 USD maximum allows up to 1.30 USD on a 100.00 USD payment. A currency without a
+     * maximum can't carry a platform fee.
      */
     "platform_fee_cap"?: PlatformFeeCap;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -1246,8 +1208,7 @@ export type PartnerEnvironmentGrantPreviousAttributes = ({
      * The platform fee cap the merchant approved for this mode: what the app's cap was when the
      * merchant approved it, lowered at once whenever the app lowers its cap. Absent when the
      * merchant approved none. A higher app cap applies only after the merchant authorizes again.
-     * No request accepts a platform fee yet. anyOf[1] (Value): {@link
-     * PlatformFeeCapPreviousAttributes}. anyOf[2] (Value): null.
+     * anyOf[1] (Value): {@link PlatformFeeCapPreviousAttributes}. anyOf[2] (Value): null.
      */
     "platform_fee_cap"?: ((PlatformFeeCapPreviousAttributes) | (null));
     /**
@@ -2863,4 +2824,20 @@ export type PayOrderResponse = {
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
+};
+/**
+ * The order is the primary resource and expected_version target; order_payment_attempt records the
+ * payment outcome.
+ */
+export type PayOrderResult = {
+    /**
+     * The order after the payment request. Send its `version` as `expected_version` in your next
+     * change to the order. A customer's purchase and its payment and fulfillment progress.
+     */
+    "order": Order;
+    /**
+     * The payment attempt for this request. Read its `status` and `pending_actions` to decide what
+     * to do next. An attempt to pay an order.
+     */
+    "order_payment_attempt"?: OrderPaymentAttempt;
 };

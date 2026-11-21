@@ -9,13 +9,13 @@ namespace Flint;
 final class SubscriptionInventoryWaitPreviousAttributesInput extends Model {
     /** @param array{'invoice_id'?: string|null, 'order_id'?: string|null, 'started_at'?: string|\DateTimeInterface|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionInventoryWaitPreviousAttributesInput')); }
-    /** ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Always present with merchant credentials. anyOf[1] (Value): string. ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Always present with merchant credentials. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
+    /** ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. anyOf[1] (Value): string. ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */
     public function getInvoiceId(): mixed { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** ID of the renewal order waiting for stock. Merchant credentials only. Always present with merchant credentials. anyOf[1] (Value): string. ID of the renewal order waiting for stock. Merchant credentials only. Always present with merchant credentials. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+    /** ID of the order waiting for stock, if one was created. Merchant credentials only. anyOf[1] (Value): string. ID of the order waiting for stock, if one was created. Merchant credentials only. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
      * @return string|null
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */

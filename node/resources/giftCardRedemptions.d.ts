@@ -63,7 +63,7 @@ export {
     makeCreateGiftCardRedemptionRequestManual
 } from '../declarations/types-82.js';
 export { makeGiftCardVersionRequest } from '../declarations/types-87.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export interface GiftCardRedemptionsResource {
     /**
  * Releases an uncaptured standalone reservation without posting a debit or refund. Flint order

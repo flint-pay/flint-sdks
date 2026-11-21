@@ -229,7 +229,7 @@ final class SubscriptionPaymentSucceededInstalledMerchantsEventDataObject extend
      */
     public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription renewal is waiting for inventory, with the order and invoice involved and when the wait started.
+    /** Renewal or prepaid delivery waiting for stock. Buyers receive only started_at. A subscription renewal or prepaid delivery waiting for stock.
      * @return ?SubscriptionInventoryWait
      */
     public function getInventoryWait(): ?SubscriptionInventoryWait { return $this->get('inventory_wait'); }

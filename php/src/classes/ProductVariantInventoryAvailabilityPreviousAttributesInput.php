@@ -15,7 +15,7 @@ final class ProductVariantInventoryAvailabilityPreviousAttributesInput extends M
      */
     public function getAvailableQuantity(): mixed { return $this->get('available_quantity'); }
     public function hasAvailableQuantity(): bool { return $this->has('available_quantity'); }
-    /** The merchant's default routing source or the Location Flint selected when no default is set. For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` for untracked variants or when no default or single eligible Location applies. anyOf[1] (Value): {@see InventoryRoutingSourcePreviousAttributesInput}. anyOf[2] (Value): null.
+    /** The merchant's default routing source or the Location Flint selected when no default is set. For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` for untracked variants or when neither a default nor an eligible Location applies. anyOf[1] (Value): {@see InventoryRoutingSourcePreviousAttributesInput}. anyOf[2] (Value): null.
      * @return InventoryRoutingSourcePreviousAttributesInput|array<array-key, mixed>|\stdClass|null
      * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
      */

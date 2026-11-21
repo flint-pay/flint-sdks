@@ -227,7 +227,7 @@ Body model: [CreateCheckoutSessionInvoiceInput](../models/CreateCheckoutSessionI
 
 #### Response
 
-Returned payload: [CheckoutSessionWithSecret](../models/CheckoutSessionWithSecret.md#checkoutsessionwithsecret) | [CheckoutSessionWithSecret](../models/CheckoutSessionWithSecret.md#checkoutsessionwithsecret).
+Returned payload: [CheckoutSessionLaunch](../models/CheckoutSessionLaunch.md#checkoutsessionlaunch) | [CheckoutSessionLaunch](../models/CheckoutSessionLaunch.md#checkoutsessionlaunch).
 
 #### Errors
 

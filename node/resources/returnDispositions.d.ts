@@ -68,8 +68,7 @@ export {
     makeCreateReturnDispositionRequestInspectionLine,
     makeCreateReturnDispositionRequestReceiptLine
 } from '../declarations/types-84.js';
-export { makeMetadataMap, makeMetadataRequest } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeRetryReturnDispositionRequest } from '../declarations/types-91.js';
 export interface ReturnDispositionsResource {
     /**

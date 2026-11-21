@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PaymentReviewOpenedMerchantEventInput to PlatformFeeCapPreviousAttributesInput
+# PaymentReviewOpenedInstalledMerchantsEventInput to PlatformFeeCapInput
 
+- [PaymentReviewOpenedInstalledMerchantsEventInput](PaymentReviewOpenedInstalledMerchantsEventInput.md)
 - [PaymentReviewOpenedMerchantEventInput](PaymentReviewOpenedMerchantEventInput.md)
 - [PaymentReviewPaymentSummaryInput](PaymentReviewPaymentSummaryInput.md)
 - [PaymentReviewPaymentSummaryPreviousAttributesInput](PaymentReviewPaymentSummaryPreviousAttributesInput.md)
@@ -101,5 +102,4 @@
 - [PlatformFeeBalanceTransactionResponseInput](PlatformFeeBalanceTransactionResponseInput.md)
 - [PlatformFeeCanceledEventInput](PlatformFeeCanceledEventInput.md)
 - [PlatformFeeCapInput](PlatformFeeCapInput.md)
-- [PlatformFeeCapPreviousAttributesInput](PlatformFeeCapPreviousAttributesInput.md)
 

@@ -18,7 +18,7 @@ final class CreateReportRequestInput extends Model {
      */
     public function getAsOfDate(): string { return $this->get('as_of_date'); }
     public function hasAsOfDate(): bool { return $this->has('as_of_date'); }
-    /** Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1 supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+    /** The currency to include in the report. Use USD, the supported currency for new reports. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      * @return string
      * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
      */

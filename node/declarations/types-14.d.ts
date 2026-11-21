@@ -21,12 +21,13 @@ import type { InventoryRoutingSourceRequest } from './types-33.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type {
     SubscriptionPlanChangeOption,
+    SubscriptionPlanLineItemRequest,
     SubscriptionPlanChangeOptionRequestInput,
     SubscriptionPlanChangeLineItemRequest,
     SubscriptionPlanChangeLineItemRequestInput
 } from './types-71.js';
+import type { InventoryRoutingSourceRequestInput } from './types-34.js';
 import type {
-    SubscriptionPlanLineItemRequest,
     SubscriptionPlanLineItemRequestInput,
     SubscriptionServiceLocationRequest,
     SubscriptionQuantityChangeLineItemRequest,
@@ -34,9 +35,9 @@ import type {
     SubscriptionPromotionRequest,
     SubscriptionTaxRequest,
     SubscriptionPromotionRequestInput,
-    SubscriptionServiceLocationRequestInput
+    SubscriptionServiceLocationRequestInput,
+    SubscriptionTaxRequestInput
 } from './types-72.js';
-import type { InventoryRoutingSourceRequestInput } from './types-34.js';
 import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-76.js';
 import type { PromotionRefRequest, PromotionRefRequestInput } from './types-59.js';
 import type {
@@ -47,12 +48,82 @@ import type {
 } from './types-69.js';
 import type {
     SubscriptionTermsRequest,
-    SubscriptionTaxRequestInput,
     SubscriptionTermsRequestInput,
     TaxCalculationCallbackConfiguration,
     TaxCalculationCallbackConfigurationRequestInput
 } from './types-73.js';
 import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-79.js';
+/** The request body for: Create a risk list. */
+export type CreateRiskListRequest = {
+    /**
+     * Name rules use to refer to this list: a lowercase letter, then up to 127 lowercase letters,
+     * digits, or underscores. It can't be changed after creation. minLength: 1. pattern:
+     * ^[a-z][a-z0-9_]{0,127}$.
+     */
+    "alias": string;
+    /**
+     * Values are trimmed and compared exactly after item-type normalization for deduplication and
+     * membership. card_fingerprint is the 32-character hexadecimal value from
+     * PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and
+     * Unicode composition. string and email are lowercased, with accents preserved. email requires
+     * a bare address. email_domain is lowercased, has one final dot removed, and converts
+     * internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped
+     * IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8
+     * digits, including leading zeros, and matches the full value. customer_id preserves the
+     * validated ID. Value enum: "card_fingerprint", "card_bin", "email", "email_domain",
+     * "ip_address", "country", "customer_id", "string", "case_sensitive_string".
+     */
+    "item_type": "card_fingerprint"
+        | "card_bin"
+        | "email"
+        | "email_domain"
+        | "ip_address"
+        | "country"
+        | "customer_id"
+        | "string"
+        | "case_sensitive_string"
+        | (string & {});
+    /**
+     * Display name of the list. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name": string;
+};
+/** The request body for: Create a risk list. */
+export type CreateRiskListRequestInput = {
+    /**
+     * Name rules use to refer to this list: a lowercase letter, then up to 127 lowercase letters,
+     * digits, or underscores. It can't be changed after creation. minLength: 1. pattern:
+     * ^[a-z][a-z0-9_]{0,127}$.
+     */
+    "alias": string;
+    /**
+     * Values are trimmed and compared exactly after item-type normalization for deduplication and
+     * membership. card_fingerprint is the 32-character hexadecimal value from
+     * PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and
+     * Unicode composition. string and email are lowercased, with accents preserved. email requires
+     * a bare address. email_domain is lowercased, has one final dot removed, and converts
+     * internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped
+     * IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8
+     * digits, including leading zeros, and matches the full value. customer_id preserves the
+     * validated ID. Value enum: "card_fingerprint", "card_bin", "email", "email_domain",
+     * "ip_address", "country", "customer_id", "string", "case_sensitive_string".
+     */
+    "item_type": "card_fingerprint"
+        | "card_bin"
+        | "email"
+        | "email_domain"
+        | "ip_address"
+        | "country"
+        | "customer_id"
+        | "string"
+        | "case_sensitive_string";
+    /**
+     * Display name of the list. Surrounding whitespace is trimmed before length validation. A
+     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name": string;
+};
 /** The request body for: Create a risk preview. */
 export type CreateRiskPreviewRequest = ({
     /**
@@ -2104,10 +2175,10 @@ export type CreateSubscriptionPlanRequest = {
     /**
      * Where tracked demand from this plan is routed: a fixed Location, an allocation policy, or an
      * immutable policy revision. When omitted for tracked demand, Flint stores
-     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
-     * with inventory_allocation_enabled in the current environment supplies the demand. The plan
-     * does not store this implicit source and resolves it again when demand is evaluated. Zero or
-     * multiple eligible Locations still require a source. New subscriptions and payment links for
+     * settings.inventory.default_routing_source if set. Otherwise, Flint uses the active Location
+     * in the current environment that has had inventory allocation enabled the longest. The plan
+     * resolves that fallback again each time it is used. If no Location is eligible, send a
+     * routing source or configure the merchant default. New subscriptions and payment links for
      * the plan copy an explicit or stored default source, unless the payment link sends its own.
      * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or
      * one policy revision, selected by `type`.
@@ -2255,10 +2326,10 @@ export type CreateSubscriptionPlanRequestInput = {
     /**
      * Where tracked demand from this plan is routed: a fixed Location, an allocation policy, or an
      * immutable policy revision. When omitted for tracked demand, Flint stores
-     * settings.inventory.default_routing_source if set. Otherwise, exactly one active Location
-     * with inventory_allocation_enabled in the current environment supplies the demand. The plan
-     * does not store this implicit source and resolves it again when demand is evaluated. Zero or
-     * multiple eligible Locations still require a source. New subscriptions and payment links for
+     * settings.inventory.default_routing_source if set. Otherwise, Flint uses the active Location
+     * in the current environment that has had inventory allocation enabled the longest. The plan
+     * resolves that fallback again each time it is used. If no Location is eligible, send a
+     * routing source or configure the merchant default. New subscriptions and payment links for
      * the plan copy an explicit or stored default source, unless the payment link sends its own.
      * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or
      * one policy revision, selected by `type`.
@@ -3221,131 +3292,3 @@ export type CreateWebhookDeliveryRequest = {
 };
 /** The request body for: Create webhook delivery. */
 export type CreateWebhookDeliveryRequestInput = CreateWebhookDeliveryRequest;
-/** The request body for: Create webhook endpoint. */
-export type CreateWebhookEndpointRequest = ({
-    /**
-     * Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this
-     * endpoint. Omission pins the API version this create request is served at (Flint-Version, or
-     * the merchant default when the header is absent). Null is not accepted. minLength: 1.
-     */
-    "api_version"?: string;
-    /**
-     * Your description of this endpoint. `null` is the same as omitting the field. minLength: 1.
-     * maxLength: 500.
-     */
-    "description"?: string;
-    /**
-     * Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver,
-     * including types added later; * must be the only entry and is not available with
-     * installed_merchants. At least one entry is required. Use only current event type names;
-     * previous and removed names are rejected. Stored subscriptions map previous names permanently
-     * and drop removed names on read. See the [changelog](/docs/changelog). minItems: 1. []
-     * (Value): string. minLength: 1.
-     */
-    "enabled_events": Array<string>;
-    /**
-     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
-     * lifecycle events and installed_merchants for events from merchants that installed the
-     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
-     * Value enum: "merchant", "partner_app", "installed_merchants".
-     */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
-    /**
-     * Modes of installed-merchant events this endpoint receives. Required when event_sources
-     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
-     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
-     * "test", "live". [] (Value): string. Value enum: "test", "live".
-     */
-    "installed_merchant_modes"?: Array<"test" | "live" | (string & {})>;
-    /**
-     * Partner app that owns partner_app or installed_merchants event sources. minLength: 1.
-     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id"?: string;
-    /**
-     * Links this endpoint to a connected app's install. Revoking the install, or its grant for
-     * this endpoint's environment, deletes the endpoint. The install must be active and authorized
-     * for this environment. Set only at creation; it never changes. Omit for an endpoint not tied
-     * to an app. Endpoints created by a linked key are linked to the same install. At most 25
-     * endpoints may link to one install in each environment. minLength: 1. pattern:
-     * ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-     */
-    "partner_app_install_id"?: string;
-    /**
-     * Methods Flint uses to sign deliveries. Defaults to jwt. Including hmac issues a shared
-     * secret returned once. minItems: 1. uniqueItems: true. Default: ["jwt"]. [] enum: "jwt",
-     * "hmac". [] (Value): {@link WebhookSigningMethod}. How Flint signs requests to this endpoint.
-     * Value enum: "jwt", "hmac".
-     */
-    "signing_methods"?: Array<WebhookSigningMethod>;
-    /**
-     * Whether this endpoint receives events. Defaults to active. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Public HTTPS URL to receive webhook deliveries. minLength: 1. maxLength: 2048. */
-    "url": string;
-});
-/** The request body for: Create webhook endpoint. */
-export type CreateWebhookEndpointRequestInput = ({
-    /**
-     * Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this
-     * endpoint. Omission pins the API version this create request is served at (Flint-Version, or
-     * the merchant default when the header is absent). Null is not accepted. minLength: 1.
-     */
-    "api_version"?: string;
-    /**
-     * Your description of this endpoint. `null` is the same as omitting the field. minLength: 1.
-     * maxLength: 500.
-     */
-    "description"?: string;
-    /**
-     * Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver,
-     * including types added later; * must be the only entry and is not available with
-     * installed_merchants. At least one entry is required. Use only current event type names;
-     * previous and removed names are rejected. Stored subscriptions map previous names permanently
-     * and drop removed names on read. See the [changelog](/docs/changelog). minItems: 1. []
-     * (Value): string. minLength: 1.
-     */
-    "enabled_events": Array<string>;
-    /**
-     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
-     * lifecycle events and installed_merchants for events from merchants that installed the
-     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
-     * Value enum: "merchant", "partner_app", "installed_merchants".
-     */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants">;
-    /**
-     * Modes of installed-merchant events this endpoint receives. Required when event_sources
-     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
-     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
-     * "test", "live". [] (Value): string. Value enum: "test", "live".
-     */
-    "installed_merchant_modes"?: Array<"test" | "live">;
-    /**
-     * Partner app that owns partner_app or installed_merchants event sources. minLength: 1.
-     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id"?: string;
-    /**
-     * Links this endpoint to a connected app's install. Revoking the install, or its grant for
-     * this endpoint's environment, deletes the endpoint. The install must be active and authorized
-     * for this environment. Set only at creation; it never changes. Omit for an endpoint not tied
-     * to an app. Endpoints created by a linked key are linked to the same install. At most 25
-     * endpoints may link to one install in each environment. minLength: 1. pattern:
-     * ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-     */
-    "partner_app_install_id"?: string;
-    /**
-     * Methods Flint uses to sign deliveries. Defaults to jwt. Including hmac issues a shared
-     * secret returned once. minItems: 1. uniqueItems: true. Default: ["jwt"]. [] enum: "jwt",
-     * "hmac". [] (Value): {@link WebhookSigningMethodInput}. How Flint signs requests to this
-     * endpoint. Value enum: "jwt", "hmac".
-     */
-    "signing_methods"?: Array<WebhookSigningMethodInput>;
-    /**
-     * Whether this endpoint receives events. Defaults to active. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Public HTTPS URL to receive webhook deliveries. minLength: 1. maxLength: 2048. */
-    "url": string;
-});

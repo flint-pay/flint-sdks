@@ -14,7 +14,7 @@ final class ProductVariantInventoryAvailability extends Model {
      */
     public function getAvailableQuantity(): int|null { return $this->get('available_quantity'); }
     public function hasAvailableQuantity(): bool { return $this->has('available_quantity'); }
-    /** The merchant's default routing source or the Location Flint selected when no default is set. For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` for untracked variants or when no default or single eligible Location applies. anyOf[1] (Value): {@see InventoryRoutingSource}. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision. anyOf[2] (Value): null.
+    /** The merchant's default routing source or the Location Flint selected when no default is set. For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` for untracked variants or when neither a default nor an eligible Location applies. anyOf[1] (Value): {@see InventoryRoutingSource}. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision. anyOf[2] (Value): null.
      * @return InventoryRoutingSource|null
      */
     public function getInventoryRoutingSource(): InventoryRoutingSource|null { return $this->get('inventory_routing_source'); }

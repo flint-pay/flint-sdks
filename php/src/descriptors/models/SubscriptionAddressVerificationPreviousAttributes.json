@@ -1,1 +1,1 @@
-{"shared":"SubscriptionAddressVerificationPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"state":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["SharedCodec2872","SubscriptionAddressVerificationPreviousAttributes"]}
+{"shared":"SubscriptionAddressVerificationPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"state":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["SharedCodec2880","SubscriptionAddressVerificationPreviousAttributes"]}

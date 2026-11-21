@@ -97,7 +97,7 @@ test("TypeScript consumers require buyer order IDs and canonical checkout URLs",
     writeFileSync(
       fixture,
       `import { Client, errors } from "../../node/index.js";
-import type { CheckoutSessionWithSecret, BuyerCheckoutSessionWithSecret } from "../../node/index.js";
+import type { CheckoutSessionLaunch, BuyerCheckoutSessionLaunch } from "../../node/index.js";
 // @ts-expect-error The deprecated invoice checkout model is removed.
 import type { HostedCheckout } from "../../node/index.js";
 // @ts-expect-error The deprecated invoice checkout input model is removed.
@@ -115,18 +115,18 @@ client.me.${method}({});
 client.me.${method}();`,
   )
   .join("\n")}
-declare const launch: CheckoutSessionWithSecret;
+declare const launch: CheckoutSessionLaunch;
 launch.url;
 launch.checkout_auth_token;
 // @ts-expect-error Launch results use the canonical checkout session URL.
 launch.hosted_checkout;
 // @ts-expect-error Launch metadata no longer exposes the old access wrapper.
 launch.checkout_access;
-declare const invoice: CheckoutSessionWithSecret;
+declare const invoice: CheckoutSessionLaunch;
 invoice.url;
 // @ts-expect-error Invoice results use the canonical checkout session URL.
 invoice.hosted_checkout;
-declare const buyerInvoice: BuyerCheckoutSessionWithSecret;
+declare const buyerInvoice: BuyerCheckoutSessionLaunch;
 buyerInvoice.url;
 // @ts-expect-error Buyer invoice results use the canonical checkout session URL.
 buyerInvoice.hosted_checkout;

@@ -66,13 +66,12 @@ export type InventorySettings = {
      * it creates or changes, as if the caller had sent it, so changing or clearing this default
      * never moves routing for existing orders, payment links, plans, or reservations. A source the
      * request sends always wins. `null` when no default is set. Orders, payment links, and
-     * subscription plans then use the only active Location with inventory_allocation_enabled when
-     * exactly one exists in the current environment. Links and plans do not store this implicit
-     * source; it is resolved again when their demand is evaluated. With zero or multiple eligible
-     * Locations, tracked demand still requires a source. anyOf[1] (Value): {@link
-     * InventoryRoutingSource}. Where an order, payment link, or reservation routes inventory from:
-     * a fixed Location, an inventory allocation policy, or one policy revision. anyOf[2] (Value):
-     * null.
+     * subscription plans then use the active Location in the current environment that has had
+     * inventory allocation enabled the longest. Links and plans resolve the fallback again when
+     * they are used. If no Location is eligible, send a routing source or configure the merchant
+     * default. anyOf[1] (Value): {@link InventoryRoutingSource}. Where an order, payment link, or
+     * reservation routes inventory from: a fixed Location, an inventory allocation policy, or one
+     * policy revision. anyOf[2] (Value): null.
      */
     "default_routing_source"?: ((InventoryRoutingSource) | (null));
     /**
@@ -102,13 +101,12 @@ export type InventorySettingsRequest = {
      * it creates or changes, as if the caller had sent it, so changing or clearing this default
      * never moves routing for existing orders, payment links, plans, or reservations. A source the
      * request sends always wins. `null` when no default is set. Orders, payment links, and
-     * subscription plans then use the only active Location with inventory_allocation_enabled when
-     * exactly one exists in the current environment. Links and plans do not store this implicit
-     * source; it is resolved again when their demand is evaluated. With zero or multiple eligible
-     * Locations, tracked demand still requires a source. Send null to clear it. anyOf[1] (Value):
-     * {@link InventoryRoutingSourceRequest}. Where you want inventory routed from: a fixed
-     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
-     * anyOf[2] (Value): null.
+     * subscription plans then use the active Location in the current environment that has had
+     * inventory allocation enabled the longest. Links and plans resolve the fallback again when
+     * they are used. If no Location is eligible, send a routing source or configure the merchant
+     * default. Send null to clear it. anyOf[1] (Value): {@link InventoryRoutingSourceRequest}.
+     * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or
+     * one policy revision, selected by `type`. anyOf[2] (Value): null.
      */
     "default_routing_source"?: ((InventoryRoutingSourceRequest) | (null) | (unknown));
     /**
@@ -139,13 +137,13 @@ export type InventorySettingsRequestInput = {
      * it creates or changes, as if the caller had sent it, so changing or clearing this default
      * never moves routing for existing orders, payment links, plans, or reservations. A source the
      * request sends always wins. `null` when no default is set. Orders, payment links, and
-     * subscription plans then use the only active Location with inventory_allocation_enabled when
-     * exactly one exists in the current environment. Links and plans do not store this implicit
-     * source; it is resolved again when their demand is evaluated. With zero or multiple eligible
-     * Locations, tracked demand still requires a source. Send null to clear it. anyOf[1] (Value):
-     * {@link InventoryRoutingSourceRequestInput}. Where you want inventory routed from: a fixed
-     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
-     * anyOf[2] (Value): null.
+     * subscription plans then use the active Location in the current environment that has had
+     * inventory allocation enabled the longest. Links and plans resolve the fallback again when
+     * they are used. If no Location is eligible, send a routing source or configure the merchant
+     * default. Send null to clear it. anyOf[1] (Value): {@link
+     * InventoryRoutingSourceRequestInput}. Where you want inventory routed from: a fixed Location,
+     * an inventory allocation policy, or one policy revision, selected by `type`. anyOf[2]
+     * (Value): null.
      */
     "default_routing_source"?: ((InventoryRoutingSourceRequestInput) | (null));
     /**
@@ -407,30 +405,30 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
      * payout_frequency, period_end_unavailable, plan_change_scheduled,
      * platform_capability_inactive, platform_fee_consent_required, platform_onboarding_required,
      * platform_pending_review, platform_rejected, prepaid_deliveries_remaining,
-     * previous_refund_failed, provider_action_unsupported, quantity_not_carried, reader_offline,
-     * reader_type_not_supported, reader_unavailable, reconciliation_required, refund_created,
-     * refund_unavailable, refund_window_expired, restricted, return_checkout, return_owned,
-     * return_tax_mismatch, sales_not_started, sandbox_reset_failed, secret_not_issued,
-     * seller_not_ready, simulated_reader_required, status_not_reached, stock_at_risk,
-     * store_credit_unavailable, subscription_owned, subscription_terms_locked, terminal_status,
-     * test_event, trial_in_progress, unsupported_state, variant_not_targeted,
-     * verification_required. When code is ALREADY_EXISTS, one of: dashboard_sign_in_required,
-     * device_reader_already_exists, hardware_fingerprint_already_exists. When code is
-     * CONCURRENT_MODIFICATION, one of: credit_note_refund_retry_exhausted. When code is
-     * DELIVERY_REQUOTE_REQUIRED, one of: calculation_expired, caller_rates_required,
-     * destination_changed, input_required, option_expired, quote_expired, quote_revoked,
-     * quote_stale, selection_changed, selection_expired, window_expired. When code is
-     * EXTERNAL_SERVICE_ERROR, one of: issuer_unavailable, outcome_unknown, rate_callback_failed,
-     * rate_unavailable, tax_callback_failed. When code is FORBIDDEN, one of:
-     * checkout_launch_token_restricted, checkout_recovery_attempt_mismatch,
-     * checkout_recovery_restricted, checkout_session_order_mismatch,
-     * checkout_session_payment_required, context_mismatch, demo_session_route_not_allowed,
-     * direct_owner_required, environment_grant_required, environment_mismatch,
-     * expansion_not_permitted, full_access_required, linked_key_not_allowed, live_mode_required,
-     * merchant_access_required, merchant_credential_required, merchant_role_insufficient,
-     * not_checkout_session, not_permitted, organization_membership_required,
-     * organization_role_insufficient, owner_workflow_required, request_blocked,
-     * role_not_assignable, sandbox_not_accessible, sandbox_selection_forbidden,
+     * previous_refund_failed, provider_action_unsupported, quantity_not_carried,
+     * quantity_unavailable, reader_offline, reader_type_not_supported, reader_unavailable,
+     * reconciliation_required, refund_created, refund_unavailable, refund_window_expired,
+     * restricted, return_checkout, return_owned, return_tax_mismatch, sales_not_started,
+     * sandbox_reset_failed, secret_not_issued, seller_not_ready, simulated_reader_required,
+     * status_not_reached, stock_at_risk, store_credit_unavailable, subscription_owned,
+     * subscription_terms_locked, terminal_status, test_event, trial_in_progress,
+     * unsupported_state, variant_not_targeted, verification_required. When code is ALREADY_EXISTS,
+     * one of: dashboard_sign_in_required, device_reader_already_exists,
+     * hardware_fingerprint_already_exists. When code is CONCURRENT_MODIFICATION, one of:
+     * credit_note_refund_retry_exhausted. When code is DELIVERY_REQUOTE_REQUIRED, one of:
+     * calculation_expired, caller_rates_required, destination_changed, input_required,
+     * option_expired, quote_expired, quote_revoked, quote_stale, selection_changed,
+     * selection_expired, window_expired. When code is EXTERNAL_SERVICE_ERROR, one of:
+     * issuer_unavailable, outcome_unknown, rate_callback_failed, rate_unavailable,
+     * tax_callback_failed. When code is FORBIDDEN, one of: checkout_launch_token_restricted,
+     * checkout_recovery_attempt_mismatch, checkout_recovery_restricted,
+     * checkout_session_order_mismatch, checkout_session_payment_required, context_mismatch,
+     * demo_session_route_not_allowed, direct_owner_required, environment_grant_required,
+     * environment_mismatch, expansion_not_permitted, full_access_required, linked_key_not_allowed,
+     * live_mode_required, merchant_access_required, merchant_credential_required,
+     * merchant_role_insufficient, not_checkout_session, not_permitted,
+     * organization_membership_required, organization_role_insufficient, owner_workflow_required,
+     * request_blocked, role_not_assignable, sandbox_not_accessible, sandbox_selection_forbidden,
      * self_role_edit_forbidden, test_mode_required. When code is GIFT_CARD_CHALLENGE_REQUIRED, one
      * of: page_origin_required, proof_rejected, proof_required. When code is
      * IDEMPOTENCY_KEY_REUSED, one of: transport_mismatch. When code is INSUFFICIENT_SCOPE, one of:
@@ -461,11 +459,12 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
      * platform_funding_unavailable, platform_review, pricing_amount_below_minimum,
      * pricing_fee_at_or_above_amount, pricing_not_authorized, pricing_not_configured,
      * processing_not_enabled, processing_restricted, processor_not_configured, provisioning,
-     * requirements_due, tax_category_required. When code is OPERATION_IN_PROGRESS, one of:
-     * delivery_selection_materializing, reader_busy, reader_screen_clear_unresolved,
-     * sandbox_resetting. When code is PAYMENT_OPTION_UNAVAILABLE, one of: action_window_too_short,
-     * amount_out_of_range, bounded_inventory_guarantee_not_supported, capability_blocked,
-     * capability_pending, disabled_by_merchant_settings, disabled_by_platform_policy,
+     * requirements_due, seller_origin_unsupported, tax_category_required. When code is
+     * OPERATION_IN_PROGRESS, one of: delivery_selection_materializing, reader_busy,
+     * reader_screen_clear_unresolved, sandbox_resetting. When code is PAYMENT_OPTION_UNAVAILABLE,
+     * one of: action_window_too_short, amount_out_of_range,
+     * bounded_inventory_guarantee_not_supported, capability_blocked, capability_pending,
+     * disabled_by_merchant_settings, disabled_by_platform_policy,
      * merchant_account_action_required, merchant_payments_disabled,
      * payment_account_context_invalid, payment_account_setup_incomplete,
      * payment_option_access_not_provisioned, payment_option_activation_pending,
@@ -544,19 +543,20 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
      * "pricing_fee_at_or_above_amount", "pricing_not_authorized", "pricing_not_configured",
      * "processing_not_enabled", "processing_restricted", "processor_not_configured",
      * "processor_unavailable", "product_variants", "proof_rejected", "proof_required",
-     * "provider_action_unsupported", "provisioning", "quantity_not_carried", "quote_expired",
-     * "quote_revoked", "quote_stale", "rate_callback_failed", "rate_unavailable", "reader_busy",
-     * "reader_offline", "reader_screen_clear_unresolved", "reader_type_not_supported",
-     * "reader_unavailable", "receipt_recipients", "reconciliation_required",
-     * "recurrence_completed", "refund_created", "refund_unavailable", "refund_window_expired",
-     * "repair_required", "request_blocked", "requirements_due",
-     * "resource_in_different_environment", "restricted", "return_checkout", "return_owned",
-     * "return_tax_mismatch", "revoked", "risk_action_unsupported", "role_not_assignable",
-     * "sales_not_started", "sandbox_not_accessible", "sandbox_reset_failed", "sandbox_resetting",
-     * "sandbox_selection_forbidden", "saved_card_codes", "scope_not_granted", "scope_not_held",
-     * "secret_not_issued", "selected_by_active_variants", "selection_changed",
-     * "selection_expired", "self_role_edit_forbidden", "seller_not_ready", "session_ended",
-     * "simulated_reader_required", "status_not_reached", "stock_at_risk",
+     * "provider_action_unsupported", "provisioning", "quantity_not_carried",
+     * "quantity_unavailable", "quote_expired", "quote_revoked", "quote_stale",
+     * "rate_callback_failed", "rate_unavailable", "reader_busy", "reader_offline",
+     * "reader_screen_clear_unresolved", "reader_type_not_supported", "reader_unavailable",
+     * "receipt_recipients", "reconciliation_required", "recurrence_completed", "refund_created",
+     * "refund_unavailable", "refund_window_expired", "repair_required", "request_blocked",
+     * "requirements_due", "resource_in_different_environment", "restricted", "return_checkout",
+     * "return_owned", "return_tax_mismatch", "revoked", "risk_action_unsupported",
+     * "role_not_assignable", "sales_not_started", "sandbox_not_accessible",
+     * "sandbox_reset_failed", "sandbox_resetting", "sandbox_selection_forbidden",
+     * "saved_card_codes", "scope_not_granted", "scope_not_held", "secret_not_issued",
+     * "selected_by_active_variants", "selection_changed", "selection_expired",
+     * "self_role_edit_forbidden", "seller_not_ready", "seller_origin_unsupported",
+     * "session_ended", "simulated_reader_required", "status_not_reached", "stock_at_risk",
      * "store_credit_unavailable", "subscription_balance_due", "subscription_owned",
      * "subscription_payment_pending", "subscription_renewal", "subscription_terms_locked",
      * "superseded", "superseded_by_better_offer", "superseded_by_higher_priority",
@@ -767,6 +767,7 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
         | "provider_action_unsupported"
         | "provisioning"
         | "quantity_not_carried"
+        | "quantity_unavailable"
         | "quote_expired"
         | "quote_revoked"
         | "quote_stale"
@@ -808,6 +809,7 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
         | "selection_expired"
         | "self_role_edit_forbidden"
         | "seller_not_ready"
+        | "seller_origin_unsupported"
         | "session_ended"
         | "simulated_reader_required"
         | "status_not_reached"

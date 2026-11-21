@@ -1,1 +1,1 @@
-{"shared":"CreateRefundRequestCreditNote","dependencies":["CreateRefundRequestCreditNote","MetadataRequest","MoneyValue","SharedCodec541","SharedCodec542"]}
+{"shared":"CreateRefundRequestCreditNote","dependencies":["CreateRefundRequestCreditNote","MetadataRequest","MoneyValue","SharedCodec545","SharedCodec546"]}

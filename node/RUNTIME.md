@@ -1,6 +1,6 @@
 # Flint Public API runtime guide
 
-Package 8.0.0-beta.9; API 2026-09-07.
+Package 8.0.0-beta.10; API 2026-09-07.
 
 [Back to the quickstart](README.md) · [API index](REFERENCE.md) · [Models](MODELS.md)
 
@@ -137,7 +137,6 @@ Timeout precedence is request > client > operation default > global default. Glo
 | me.sendOrderReceipt | 150000 | 300000 |
 | orders.sendReceipt | 150000 | 300000 |
 | paymentIntents.sendReceipt | 150000 | 300000 |
-| webhookEndpoints.signDelivery | 150000 | 300000 |
 | disputes.simulate | 150000 | 300000 |
 | readers.simulate | 150000 | 300000 |
 | checkoutSessions.update | 150000 | 300000 |

@@ -8,10 +8,10 @@ import type {
     OnboardingCreateAccessLinkParams,
     OnboardingGetStateParams,
     OnboardingProfile,
-    OnboardingProfileRequest
+    OnboardingProfileRequest,
+    OnboardingProfileRequestInput
 } from '../declarations/types-44.js';
 import type {
-    OnboardingProfileRequestInput,
     OnboardingSessionAuthContext,
     OnboardingStartParams,
     OnboardingStartRequest,
@@ -50,6 +50,7 @@ export type {
     OnboardingAdvanceRequestInput,
     OnboardingProfile,
     OnboardingProfileRequest,
+    OnboardingProfileRequestInput,
     NextAction,
     MoneyValue
 } from '../declarations/types-44.js';
@@ -63,7 +64,6 @@ export type {
     OnboardingVerifyEmailParams,
     OnboardingVerifyEmailResult,
     OnboardingVerifyEmailResponse,
-    OnboardingProfileRequestInput,
     OnboardingSessionAuthContext,
     OnboardingStartRequest,
     OnboardingStartRequestInput,
@@ -90,9 +90,8 @@ export type { CapabilityReadiness } from '../declarations/types-5.js';
 export type { User } from '../declarations/types-78.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateOnboardingAccessLinkRequest } from '../declarations/types-83.js';
-export { makeMetadataMap } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export {
-    makeMoneyValue,
     makeOnboardingAdvanceRequest,
     makeOnboardingProfileRequest,
     makeOnboardingStartRequest,

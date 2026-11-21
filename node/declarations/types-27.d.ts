@@ -3,7 +3,7 @@ import type { SubscriptionIntervalOption, SubscriptionIntervalOptionPreviousAttr
 import type { SubscriptionPlanLineItem, SubscriptionPlanLineItemPreviousAttributes } from './types-71.js';
 import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateFileRequestInput } from './types-9.js';
+import type { CreateFileRequestInput, CreateFulfillmentEventRequestInput } from './types-10.js';
 import type {
     DisputesAcceptParams,
     ExpandedPaymentIntentSummary,
@@ -33,10 +33,167 @@ import type {
     SinglePackageCreateRequest,
     SinglePackageCreateRequestInput
 } from './types-68.js';
-import type { CreateFulfillmentEventRequestInput } from './types-10.js';
 import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-12.js';
 import type { PackageCreateRequest, PackageCreateRequestInput } from './types-48.js';
 import type { OrderLineItemModifier, OrderLineItemModifierPreviousAttributes } from './types-46.js';
+/**
+ * A payout's summary fields, including amount, method, status, and arrival date, returned when the
+ * payout is expanded.
+ */
+export type ExpandedPayoutSummary = {
+    /**
+     * Amount moved between your bank and Flint. Always positive. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the
+     * expected arrival. Format: date. Example: "2026-08-02".
+     */
+    "arrival_date"?: string;
+    /**
+     * Balance source this payout draws from. Flint chooses the source when balance_source_type is
+     * omitted at create. Clients must accept source types added in future releases. Value enum:
+     * "card", "bank_account".
+     */
+    "balance_source_type": "card" | "bank_account" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at"?: string;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /** Direction of the money movement. Value enum: "outbound", "inbound". */
+    "direction": "outbound" | "inbound" | (string & {});
+    /**
+     * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears
+     * only on a payout Flint recorded from the processor that was sent outside Flint. `other` is a
+     * method Flint doesn't map. Value enum: "standard", "instant", "other".
+     */
+    "method": "standard" | "instant" | "other" | (string & {});
+    /**
+     * Bank account or debit card used for the payout. Absent when Flint can't match your
+     * processor's destination to a payout destination. Example:
+     * "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
+     */
+    "payout_destination_id"?: string;
+    /**
+     * Unique identifier for this payout, prefixed `po_`. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     */
+    "payout_id": string;
+    /**
+     * Whether Flint has pulled a paid payout back from your bank: none until the reversal
+     * completes, then reversed. A payout_reversal balance transaction returns the money, and
+     * status stays succeeded. Value enum: "none", "reversed".
+     */
+    "reversal_status": "none" | "reversed" | (string & {});
+    /**
+     * Where the payout is: pending until it is sent, in_transit on its way to your bank, then
+     * succeeded or failed. A succeeded payout can still become failed if the bank returns the
+     * deposit, and canceled means a manual payout was canceled while pending. Value enum:
+     * "pending", "in_transit", "succeeded", "failed", "canceled".
+     */
+    "status": "pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {});
+    /**
+     * Lifecycle actions Flint accepts now. [] enum: "cancel". [] (Value): string. Value enum:
+     * "cancel".
+     */
+    "supported_actions": Array<"cancel" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at"?: string;
+};
+export type ExpandedPayoutSummaryPreviousAttributes = {
+    /**
+     * Amount moved between your bank and Flint. Always positive. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the
+     * expected arrival. anyOf[1] (Value): string. Expected settlement date of the transfer, in
+     * YYYY-MM-DD format using the UTC date of the expected arrival. Format: date. Example:
+     * "2026-08-02". anyOf[2] (Value): null.
+     */
+    "arrival_date"?: ((string) | (null));
+    /**
+     * Balance source this payout draws from. Flint chooses the source when balance_source_type is
+     * omitted at create. Clients must accept source types added in future releases. Value enum:
+     * "card", "bank_account". anyOf[1] (Value): string. Balance source this payout draws from.
+     * Flint chooses the source when balance_source_type is omitted at create. Clients must accept
+     * source types added in future releases. Value enum: "card", "bank_account". anyOf[2] (Value):
+     * null.
+     */
+    "balance_source_type"?: (("card" | "bank_account" | (string & {})) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * ISO 4217 currency code. anyOf[1] (Value): string. ISO 4217 currency code. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
+     */
+    "currency"?: ((string) | (null));
+    /**
+     * Direction of the money movement. Value enum: "outbound", "inbound". anyOf[1] (Value):
+     * string. Direction of the money movement. Value enum: "outbound", "inbound". anyOf[2]
+     * (Value): null.
+     */
+    "direction"?: (("outbound" | "inbound" | (string & {})) | (null));
+    /**
+     * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears
+     * only on a payout Flint recorded from the processor that was sent outside Flint. `other` is a
+     * method Flint doesn't map. Value enum: "standard", "instant", "other". anyOf[1] (Value):
+     * string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
+     * appears only on a payout Flint recorded from the processor that was sent outside Flint.
+     * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other". anyOf[2]
+     * (Value): null.
+     */
+    "method"?: (("standard" | "instant" | "other" | (string & {})) | (null));
+    /**
+     * Bank account or debit card used for the payout. Absent when Flint can't match your
+     * processor's destination to a payout destination. anyOf[1] (Value): string. Bank account or
+     * debit card used for the payout. Absent when Flint can't match your processor's destination
+     * to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B". anyOf[2] (Value):
+     * null.
+     */
+    "payout_destination_id"?: ((string) | (null));
+    /**
+     * Unique identifier for this payout, prefixed `po_`. anyOf[1] (Value): string. Unique
+     * identifier for this payout, prefixed `po_`. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     * anyOf[2] (Value): null.
+     */
+    "payout_id"?: ((string) | (null));
+    /**
+     * Whether Flint has pulled a paid payout back from your bank: none until the reversal
+     * completes, then reversed. A payout_reversal balance transaction returns the money, and
+     * status stays succeeded. Value enum: "none", "reversed". anyOf[1] (Value): string. Whether
+     * Flint has pulled a paid payout back from your bank: none until the reversal completes, then
+     * reversed. A payout_reversal balance transaction returns the money, and status stays
+     * succeeded. Value enum: "none", "reversed". anyOf[2] (Value): null.
+     */
+    "reversal_status"?: (("none" | "reversed" | (string & {})) | (null));
+    /**
+     * Where the payout is: pending until it is sent, in_transit on its way to your bank, then
+     * succeeded or failed. A succeeded payout can still become failed if the bank returns the
+     * deposit, and canceled means a manual payout was canceled while pending. Value enum:
+     * "pending", "in_transit", "succeeded", "failed", "canceled". anyOf[1] (Value): string. Where
+     * the payout is: pending until it is sent, in_transit on its way to your bank, then succeeded
+     * or failed. A succeeded payout can still become failed if the bank returns the deposit, and
+     * canceled means a manual payout was canceled while pending. Value enum: "pending",
+     * "in_transit", "succeeded", "failed", "canceled". anyOf[2] (Value): null.
+     */
+    "status"?: (("pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
+    /**
+     * Lifecycle actions Flint accepts now. [] enum: "cancel". anyOf[1] (Value): Array of string.
+     * Lifecycle actions Flint accepts now. [] enum: "cancel". anyOf[1][] (Value): string. Value
+     * enum: "cancel". anyOf[2] (Value): null.
+     */
+    "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+};
 /**
  * A shipment's summary fields, including direction, status, and package count, returned when the
  * shipment is expanded.
@@ -14882,29 +15039,4 @@ export type FulfillmentLineItemRequest = {
      * fractional quantities are not supported. Format: int64.
      */
     "quantity": number;
-};
-/** An order line item and quantity to include when creating a fulfillment. */
-export type FulfillmentLineItemRequestInput = FulfillmentLineItemRequest;
-/** A page of `Fulfillment` objects. */
-export type FulfillmentListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * Fulfillment}. Work required to deliver an order's items.
-     */
-    "data": Array<Fulfillment>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
 };

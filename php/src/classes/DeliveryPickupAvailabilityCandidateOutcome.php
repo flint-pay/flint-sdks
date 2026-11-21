@@ -37,7 +37,7 @@ final class DeliveryPickupAvailabilityCandidateOutcome extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Why pickup is unavailable and the action that can make it eligible. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. - `inventory_unavailable`: The origin or pickup location cannot supply the requested inventory. Reduce the quantity, replenish inventory, or choose another origin or method. Value enum: "eligibility_no_match", "inventory_unavailable".
+    /** Why pickup is unavailable and the action that can make it eligible. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. - `pickup_unavailable`: Choose an available pickup method or location. - `inventory_unavailable`: The origin or pickup location cannot supply the requested inventory. Reduce the quantity, replenish inventory, or choose another origin or method. Value enum: "eligibility_no_match", "pickup_unavailable", "inventory_unavailable".
      * @return ?string
      */
     public function getUnavailableReason(): ?string { return $this->get('unavailable_reason'); }

@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read int|null $activation_limit
  * @property-read int $active_activation_count
  * @property-read string|\DateTimeInterface $created_at
- * @property-read ExpandedCustomerSummaryInput|array<array-key, mixed>|\stdClass $customer
+ * @property-read array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $customer
  * @property-read string|null $customer_id
  * @property-read string|\DateTimeInterface|null $expires_at
  * @property-read string $key
@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read string $license_key_id
  * @property-read string|null $license_key_pool_id
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
- * @property-read ExpandedOrderSummaryInput|array<array-key, mixed>|\stdClass $order
+ * @property-read array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions'?: list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $order
  * @property-read string|null $order_id
  * @property-read string|null $order_line_item_id
  * @property-read string $product_id
@@ -29,7 +29,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutLicenseKeyInput extends Model {
-    /** @param array{'activation_limit': int|null, 'active_activation_count': int, 'created_at': string|\DateTimeInterface, 'customer'?: ExpandedCustomerSummaryInput|array<array-key, mixed>|\stdClass, 'customer_id': string|null, 'expires_at': string|\DateTimeInterface|null, 'key'?: string, 'key_last4': string|null, 'license_key_id': string, 'license_key_pool_id': string|null, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: ExpandedOrderSummaryInput|array<array-key, mixed>|\stdClass, 'order_id': string|null, 'order_line_item_id': string|null, 'product_id': string, 'restrictions': list<LicenseKeyRestrictionInput|array<array-key, mixed>|\stdClass>, 'source': string, 'status': string, 'subscription_id': string|null, 'subscription_line_item_id': string|null, 'supported_actions': list<string>, 'unit_ordinal': int, 'updated_at': string|\DateTimeInterface, 'variant_id': string, 'version': int, ...}|object $values */
+    /** @param array{'activation_limit': int|null, 'active_activation_count': int, 'created_at': string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id': string|null, 'expires_at': string|\DateTimeInterface|null, 'key'?: string, 'key_last4': string|null, 'license_key_id': string, 'license_key_pool_id': string|null, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions'?: list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id': string|null, 'order_line_item_id': string|null, 'product_id': string, 'restrictions': list<LicenseKeyRestrictionInput|array<array-key, mixed>|\stdClass>, 'source': string, 'status': string, 'subscription_id': string|null, 'subscription_line_item_id': string|null, 'supported_actions': list<string>, 'unit_ordinal': int, 'updated_at': string|\DateTimeInterface, 'variant_id': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutLicenseKeyInput')); }
     /** Maximum active installations. Null when activations are unlimited. Format: int32.
      * @return int|null
@@ -49,8 +49,8 @@ final class CheckoutLicenseKeyInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Customer summary when requested with expand=customer. Null when the key has no customer. Omitted when no customer expansion is requested. A customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * @return ExpandedCustomerSummaryInput|array<array-key, mixed>|\stdClass
+    /** The linked customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummaryInput}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
+     * @return array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When customer is omitted; use hasCustomer() or valueOrDefault().
      */
     public function getCustomer(): mixed { return $this->get('customer'); }
@@ -97,8 +97,8 @@ final class CheckoutLicenseKeyInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Order summary when requested with expand=order. Null when the key has no order. Omitted when no order expansion is requested. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * @return ExpandedOrderSummaryInput|array<array-key, mixed>|\stdClass
+    /** The linked order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryInput}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
+     * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions'?: list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
     public function getOrder(): mixed { return $this->get('order'); }

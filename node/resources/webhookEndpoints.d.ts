@@ -60,16 +60,15 @@ export type {
     SignWebhookEndpointDeliveryRequest
 } from '../declarations/types-68.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateWebhookEndpointRequestInput } from '../declarations/types-14.js';
+export type { CreateWebhookEndpointRequestInput, Credentials, CreateWebhookTestEventRequestInput } from '../declarations/types-15.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials, CreateWebhookTestEventRequestInput } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { RotateWebhookSecretRequestInput } from '../declarations/types-67.js';
 export type { UpdateWebhookEndpointRequestInput } from '../declarations/types-78.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeRotateWebhookSecretRequest, makeSignWebhookEndpointDeliveryRequest } from '../declarations/types-92.js';
 export { makeUpdateWebhookEndpointRequest, makeWebhookSigningMethod } from '../declarations/types-95.js';
 export interface WebhookEndpointsResource {
@@ -210,10 +209,11 @@ export interface WebhookEndpointsResource {
  * Sandbox only. Returns the exact delivery body and headers for an authorized sandbox endpoint
  * without dispatching it. Requires webhooks.write and permission to read the event's resource. JWT
  * signing must be enabled. Each call reauthorizes and creates a fresh five-minute bearer frame;
- * receivers deduplicate webhook-id. Limited to one request per 200 ms and 10,000 per UTC day per
- * endpoint, plus external-provider-action API quotas. The 200 ms throttle returns 429 with
- * Retry-After-Ms for the remaining delay in milliseconds and a whole-second Retry-After fallback;
- * daily exhaustion returns 409 LIMIT_REACHED with limit and resets_at and no Retry-After. Signing
+ * receivers deduplicate webhook-id. Each endpoint can sign one delivery every 200 ms and 10,000
+ * per UTC day. Requests also count against webhook-signing API quotas. Flint can wait up to 200 ms
+ * for the next signing slot. If the slot is still unavailable, the endpoint returns 429 with
+ * Retry-After-Ms for the remaining delay in milliseconds and a whole-second Retry-After fallback.
+ * Daily exhaustion returns 409 LIMIT_REACHED with limit and resets_at and no Retry-After. Signing
  * fails closed if the shared quota store is unavailable. Responses are not cached or retained for
  * idempotency. Previously issued JWTs remain usable until expiry after endpoint changes.
  *

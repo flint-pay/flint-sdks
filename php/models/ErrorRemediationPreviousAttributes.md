@@ -30,7 +30,7 @@ anyOf variant 2.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action_type` | Optional | string or null | Action to take next. Use its target resource and required_fields to prepare the request. Values: [168 declared values](NextActionInput.md#nextactioninput-action_type-values). `action_type`: [declared alternatives](../models/NextActionPreviousAttributes.md#nextactionpreviousattributesaction_type). |
+| `action_type` | Optional | string or null | Action to take next. Use its target resource and required_fields to prepare the request. Values: [169 declared values](NextActionInput.md#nextactioninput-action_type-values). `action_type`: [declared alternatives](../models/NextActionPreviousAttributes.md#nextactionpreviousattributesaction_type). |
 | `expires_at` | Optional | string or null | When this suggested action expires, in RFC3339 format. `expires_at`: [declared alternatives](../models/ErrorRemediationPreviousAttributes.md#errorremediationpreviousattributesnext_actions-variant-1-fields-1expires_at). |
 | `merchant_account_session` | Optional | [ReadinessMerchantAccountSessionPreviousAttributes](../models/ReadinessMerchantAccountSessionPreviousAttributes.md#readinessmerchantaccountsessionpreviousattributes) or null | Request body to send unchanged to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. When absent, GET merchant readiness and use its recommended session body. |
 | `method` | Optional | string or null | HTTP method for the recovery read. Values: `"GET"`. `method`: [declared alternatives](../models/NextActionPreviousAttributes.md#nextactionpreviousattributesmethod). |

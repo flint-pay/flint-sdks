@@ -1,7 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { Fulfillment, FulfillmentListResponse } from '../declarations/types-27.js';
+import type { Fulfillment } from '../declarations/types-27.js';
 import type {
+    FulfillmentListResponse,
     FulfillmentResponse,
     FulfillmentsAcceptParams,
     FulfillmentsCancelParams,
@@ -49,6 +50,7 @@ export type {
     FulfillmentsGetParams,
     FulfillmentsHoldParams,
     FulfillmentsListParams,
+    FulfillmentListResponse,
     FulfillmentsMarkNoShowParams,
     FulfillmentsMarkPackedParams,
     FulfillmentsMarkPickedParams,
@@ -60,6 +62,7 @@ export type {
     FulfillmentsUpdateParams,
     FulfillmentOutcome,
     FulfillmentRecipient,
+    FulfillmentLineItemRequestInput,
     FulfillmentRecipientRequestInput,
     FulfillmentPackagingRequestInput,
     FulfillmentSinglePackageRequestInput
@@ -67,12 +70,10 @@ export type {
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     Fulfillment,
-    FulfillmentListResponse,
     FulfillmentHold,
     FulfillmentChargeLink,
     FulfillmentLineItem,
     ExpandedShipmentSummary,
-    FulfillmentLineItemRequestInput,
     FulfillmentItemizedPackagesRequestInput,
     FailFulfillmentRequestInput,
     FulfillmentLineItemRequest
@@ -90,7 +91,7 @@ export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { DeliveryFulfillmentDetails } from '../declarations/types-19.js';
 export type { ExpandedOrderSummary, ExpandedPackageSummary } from '../declarations/types-26.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
-export type { DeferredPromotion } from '../declarations/types-17.js';
+export type { DeferredPromotion } from '../declarations/types-18.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type {
@@ -104,7 +105,7 @@ export type {
 } from '../declarations/types-68.js';
 export type { PickupFulfillmentDetails } from '../declarations/types-55.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { CancelFulfillmentRequestInput } from '../declarations/types-4.js';
+export type { CancelFulfillmentRequestInput } from '../declarations/types-5.js';
 export type {
     CreateFulfillmentRequestInput,
     CreateFulfillmentRequestShipmentInput,
@@ -158,30 +159,22 @@ export {
     makeDispatchFulfillmentRequest,
     makeFailFulfillmentRequest,
     makeFulfillmentItemizedPackagesRequest,
-    makeFulfillmentLineItemRequest
-} from '../declarations/types-86.js';
-export {
+    makeFulfillmentLineItemRequest,
     makeFulfillmentPackagingRequest,
-    makeFulfillmentRecipientRequest,
-    makeFulfillmentSinglePackageRequest,
-    makeHoldFulfillmentRequest
-} from '../declarations/types-87.js';
+    makeFulfillmentRecipientRequest
+} from '../declarations/types-86.js';
+export { makeFulfillmentSinglePackageRequest, makeHoldFulfillmentRequest } from '../declarations/types-87.js';
 export {
     makeMarkFulfillmentNoShowRequest,
     makeMarkFulfillmentPackedRequest,
     makeMarkFulfillmentPickedRequest,
     makeMarkFulfillmentPreparingRequest,
     makeMarkFulfillmentReadyRequest,
-    makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest
+    makeMetadataRequest,
+    makeMoneyValue
 } from '../declarations/types-88.js';
-export {
-    makeMoneyValue,
-    makePackageCreateInputCreated,
-    makePackageCreateInputShipped,
-    makePackageCreateRequest
-} from '../declarations/types-89.js';
+export { makePackageCreateInputCreated, makePackageCreateInputShipped, makePackageCreateRequest } from '../declarations/types-89.js';
 export { makeReleaseFulfillmentHoldRequest } from '../declarations/types-91.js';
 export {
     makeReturnShipmentLineItemAllocationRequest,
@@ -191,13 +184,13 @@ export {
     makeSinglePackageCreateRequest,
     makeStartFulfillmentRequest
 } from '../declarations/types-92.js';
-export { makeTextModifierRequest, makeUpdateDeliveryFulfillmentDetails } from '../declarations/types-93.js';
 export {
+    makeTextModifierRequest,
+    makeUpdateDeliveryFulfillmentDetails,
     makeUpdateDigitalFulfillmentDetails,
-    makeUpdateFulfillmentRequest,
-    makeUpdatePickupFulfillmentDetails,
-    makeUpdateServiceFulfillmentDetails
-} from '../declarations/types-94.js';
+    makeUpdateFulfillmentRequest
+} from '../declarations/types-93.js';
+export { makeUpdatePickupFulfillmentDetails, makeUpdateServiceFulfillmentDetails } from '../declarations/types-94.js';
 export { makeWeightRequest } from '../declarations/types-95.js';
 export interface FulfillmentsResource {
     /**
@@ -561,9 +554,10 @@ export interface FulfillmentsResource {
  */
     start(fulfillment_id: InputValue<string>, params?: FulfillmentsStartParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Fulfillment, FulfillmentResponse>>;
     /**
- * Updates mutable fulfillment fields and fulfillment-specific details. Fulfillment line item
- * allocation is set when the fulfillment is created. expected_version is optional and rejects a
- * stale resource version when supplied.
+ * Updates mutable fulfillment fields and fulfillment-specific details. Before handoff, changing
+ * location_id moves committed stock to the new Location. If the Location has insufficient
+ * available stock, the update returns INVENTORY_INSUFFICIENT. expected_version is optional and
+ * rejects a stale resource version when supplied.
  *
  * `PATCH /v1/fulfillments/{fulfillment_id}`
  * @param fulfillment_id Flint fulfillment ID. Must be a valid ID with prefix ful_. Malformed IDs

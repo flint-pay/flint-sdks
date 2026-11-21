@@ -55,6 +55,7 @@ Settings that decide where this method is offered, how it is priced, and what th
 | `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. maxItems: `12`. uniqueItems: `true`. Items: Request properties the callback needs. - `destination_address`: The full destination address. - `destination_address.line1`: The destination street address. - `destination_address.line2`: The destination apartment, suite, or other secondary address. - `destination_address.city`: The destination city. - `destination_address.state`: The destination state or region. - `destination_address.postal_code`: The destination postal code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. - `buyer_location`: The buyer location, supplied as an address or coordinates. - `buyer_location.address.line1`: The street address in the buyer location's address variant. - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the buyer location's address variant. - `buyer_location.address.city`: The city in the buyer location's address variant. - `buyer_location.address.state`: The state or region in the buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1 alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`: The latitude and longitude in the buyer location's coordinate variant. Items values: [15 declared values](#createdeliverymethodrequest-variant-1configuration-quote_input_fields--values). |
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](../models/DeliveryRecipientRequirement.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. `recipient_requirements[]`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationrecipient_requirements). |
 | `selection_guarantee_seconds` | Optional | integer | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Format: `int64`. minimum: `0`. |
+| `tax_exempt_us_states` | Optional | Array of string | US destinations where this shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes such as CA. All other destinations use the method's taxable setting or the merchant default. For a taxable shipment method with exemptions, quoting requires a destination country and, for US destinations, a state. uniqueItems: `true`. Items values: [60 declared values](#createdeliverymethodrequest-variant-1configuration-tax_exempt_us_states--values). |
 | `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
 
 #### CreateDeliveryMethodRequest variant 1.configuration quote_input_fields [] values
@@ -74,6 +75,69 @@ Settings that decide where this method is offered, how it is priced, and what th
 - `"buyer_location.address.postal_code"`
 - `"buyer_location.address.country"`
 - `"buyer_location.coordinate"`
+
+#### CreateDeliveryMethodRequest variant 1.configuration tax_exempt_us_states [] values
+
+- `"AA"`
+- `"AE"`
+- `"AK"`
+- `"AL"`
+- `"AP"`
+- `"AR"`
+- `"AS"`
+- `"AZ"`
+- `"CA"`
+- `"CO"`
+- `"CT"`
+- `"DC"`
+- `"DE"`
+- `"FL"`
+- `"GA"`
+- `"GU"`
+- `"HI"`
+- `"IA"`
+- `"ID"`
+- `"IL"`
+- `"IN"`
+- `"KS"`
+- `"KY"`
+- `"LA"`
+- `"MA"`
+- `"MD"`
+- `"ME"`
+- `"MI"`
+- `"MN"`
+- `"MO"`
+- `"MP"`
+- `"MS"`
+- `"MT"`
+- `"NC"`
+- `"ND"`
+- `"NE"`
+- `"NH"`
+- `"NJ"`
+- `"NM"`
+- `"NV"`
+- `"NY"`
+- `"OH"`
+- `"OK"`
+- `"OR"`
+- `"PA"`
+- `"PR"`
+- `"RI"`
+- `"SC"`
+- `"SD"`
+- `"TN"`
+- `"TX"`
+- `"UM"`
+- `"UT"`
+- `"VA"`
+- `"VI"`
+- `"VT"`
+- `"WA"`
+- `"WI"`
+- `"WV"`
+- `"WY"`
 
 ### CreateDeliveryMethodRequest variant 1.configuration.buyer_instructions
 
@@ -189,6 +253,7 @@ Settings that decide where this method is offered, how it is priced, and what th
 | `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. maxItems: `12`. uniqueItems: `true`. Items: Request properties the callback needs. - `destination_address`: The full destination address. - `destination_address.line1`: The destination street address. - `destination_address.line2`: The destination apartment, suite, or other secondary address. - `destination_address.city`: The destination city. - `destination_address.state`: The destination state or region. - `destination_address.postal_code`: The destination postal code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. - `buyer_location`: The buyer location, supplied as an address or coordinates. - `buyer_location.address.line1`: The street address in the buyer location's address variant. - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the buyer location's address variant. - `buyer_location.address.city`: The city in the buyer location's address variant. - `buyer_location.address.state`: The state or region in the buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1 alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`: The latitude and longitude in the buyer location's coordinate variant. Items values: [15 declared values](#createdeliverymethodrequest-variant-1configuration-quote_input_fields--values). |
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](../models/DeliveryRecipientRequirement.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. `recipient_requirements[]`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationrecipient_requirements). |
 | `selection_guarantee_seconds` | Optional | integer | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Format: `int64`. minimum: `0`. |
+| `tax_exempt_us_states` | Optional | Array of string | US destinations where this shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes such as CA. All other destinations use the method's taxable setting or the merchant default. For a taxable shipment method with exemptions, quoting requires a destination country and, for US destinations, a state. uniqueItems: `true`. maxItems: `0`. US destinations where this shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes such as CA. All other destinations use the method's taxable setting or the merchant default. For a taxable shipment method with exemptions, quoting requires a destination country and, for US destinations, a state. uniqueItems: `true`. maxItems: `0`. Items values: [60 declared values](#createdeliverymethodrequest-variant-1configuration-tax_exempt_us_states--values). |
 | `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
 
 ### CreateDeliveryMethodRequest variant 2.configuration.buyer_instructions
@@ -230,6 +295,7 @@ Settings that decide where this method is offered, how it is priced, and what th
 | `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. maxItems: `12`. uniqueItems: `true`. Items: Request properties the callback needs. - `destination_address`: The full destination address. - `destination_address.line1`: The destination street address. - `destination_address.line2`: The destination apartment, suite, or other secondary address. - `destination_address.city`: The destination city. - `destination_address.state`: The destination state or region. - `destination_address.postal_code`: The destination postal code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. - `buyer_location`: The buyer location, supplied as an address or coordinates. - `buyer_location.address.line1`: The street address in the buyer location's address variant. - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the buyer location's address variant. - `buyer_location.address.city`: The city in the buyer location's address variant. - `buyer_location.address.state`: The state or region in the buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1 alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`: The latitude and longitude in the buyer location's coordinate variant. Items values: [15 declared values](#createdeliverymethodrequest-variant-1configuration-quote_input_fields--values). |
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](../models/DeliveryRecipientRequirement.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. `recipient_requirements[]`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationrecipient_requirements). |
 | `selection_guarantee_seconds` | Optional | integer | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Format: `int64`. minimum: `0`. |
+| `tax_exempt_us_states` | Optional | Array of string | US destinations where this shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes such as CA. All other destinations use the method's taxable setting or the merchant default. For a taxable shipment method with exemptions, quoting requires a destination country and, for US destinations, a state. uniqueItems: `true`. maxItems: `0`. US destinations where this shipment method's shipping charge is exempt from tax. Use uppercase two-letter state codes such as CA. All other destinations use the method's taxable setting or the merchant default. For a taxable shipment method with exemptions, quoting requires a destination country and, for US destinations, a state. uniqueItems: `true`. maxItems: `0`. Items values: [60 declared values](#createdeliverymethodrequest-variant-1configuration-tax_exempt_us_states--values). |
 | `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
 
 ### CreateDeliveryMethodRequest variant 3.configuration.buyer_instructions

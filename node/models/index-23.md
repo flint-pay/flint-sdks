@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# MerchantBillingBalanceListResponse to OnboardingProfile
+# MerchantBillingBalance to OnboardingProfile
 
+- [MerchantBillingBalance](MerchantBillingBalance.md)
 - [MerchantBillingBalanceListResponse](MerchantBillingBalanceListResponse.md)
 - [MerchantBillingBalanceResponse](MerchantBillingBalanceResponse.md)
 - [MerchantBillingBalanceUpdatedEvent](MerchantBillingBalanceUpdatedEvent.md)
@@ -36,7 +37,6 @@
 - [MerchantUpdatedMerchantEvent](MerchantUpdatedMerchantEvent.md)
 - [MerchantWebhookEnvelope](MerchantWebhookEnvelope.md)
 - [MetadataMap](MetadataMap.md)
-- [MetadataMapInput](MetadataMapInput.md)
 - [MetadataPatchRequest](MetadataPatchRequest.md)
 - [MetadataPatchRequestInput](MetadataPatchRequestInput.md)
 - [MetadataRequestInput](MetadataRequestInput.md)

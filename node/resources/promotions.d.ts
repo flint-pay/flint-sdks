@@ -46,6 +46,7 @@ export type {
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type {
     Promotion,
+    PromotionApplicationMethodRequestInput,
     PromotionAmountOffMethodRequestInput,
     PromotionApplicationMethod,
     PromotionAmountOffMethod,
@@ -54,7 +55,6 @@ export type {
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     PromotionListResponse,
-    PromotionApplicationMethodRequestInput,
     PromotionPercentOffMethodRequestInput,
     PromotionRecurrenceRequestInput,
     PromotionRecurrenceOnceRequestInput,
@@ -91,8 +91,7 @@ export type { UpdatePromotionRequestInput } from '../declarations/types-77.js';
 export type { CategoriesDeleteParams } from '../declarations/types-5.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreatePromotionRequest } from '../declarations/types-84.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export {
     makePromotionAmountOffMethodRequest,
     makePromotionApplicationMethodPatch,
@@ -108,14 +107,12 @@ export {
     makePromotionRecurrenceOnceRequest,
     makePromotionRecurrenceRepeatingRequest,
     makePromotionRecurrenceRequest,
-    makePromotionRuleGroupRequest
-} from '../declarations/types-90.js';
-export {
+    makePromotionRuleGroupRequest,
     makePromotionRuleRequest,
     makePromotionRuleValueRequest,
     makePromotionSchedulePatch,
     makePromotionScheduleRequest
-} from '../declarations/types-91.js';
+} from '../declarations/types-90.js';
 export { makeUpdatePromotionRequest } from '../declarations/types-94.js';
 export interface PromotionsResource {
     /**

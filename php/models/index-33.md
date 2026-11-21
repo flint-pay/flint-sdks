@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# TaxIdentityPatchInput to UpdatePartnerAppRequestInput
+# TaxIdentityInput to UpdatePackageRequestInput
 
+- [TaxIdentityInput](TaxIdentityInput.md)
 - [TaxIdentityPatchInput](TaxIdentityPatchInput.md)
 - [TaxIdentityPreviousAttributesInput](TaxIdentityPreviousAttributesInput.md)
 - [TaxIdentityRequestInput](TaxIdentityRequestInput.md)
@@ -101,5 +102,4 @@
 - [UpdateOrderRequestInput](UpdateOrderRequestInput.md)
 - [UpdatePackageItemRequestInput](UpdatePackageItemRequestInput.md)
 - [UpdatePackageRequestInput](UpdatePackageRequestInput.md)
-- [UpdatePartnerAppRequestInput](UpdatePartnerAppRequestInput.md)
 

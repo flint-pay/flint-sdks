@@ -22,7 +22,7 @@ final class DeliverySelectionResultInput extends Model {
      */
     public function getDeliverySelection(): mixed { return $this->get('delivery_selection'); }
     public function hasDeliverySelection(): bool { return $this->has('delivery_selection'); }
-    /** The stock held for this selection. Omitted when the order holds no stock reservation, and for checkout credentials. The inventory reservation held for a delivery selection: its owner, status, and expiry.
+    /** The stock held for this selection for up to two minutes. If the hold expires before payment, Flint checks stock again. Omitted when the order holds no stock reservation, and for checkout credentials. The inventory reservation held for a delivery selection: its owner, status, and expiry.
      * @return DeliveryInventoryReservationSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_reservation is omitted; use hasInventoryReservation() or valueOrDefault().
      */

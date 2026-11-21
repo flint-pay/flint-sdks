@@ -11,7 +11,7 @@ import type { ResponseMeta } from './types-62.js';
 import type { BuyerAction, BundleComponent } from './types-1.js';
 import type { BuyerSetupCollection, BuyerTip, BuyerSelectableOrderPaymentIntent, BuyerReturnResolutionPreview } from './types-4.js';
 import type { CheckoutBuyerContact } from './types-6.js';
-import type { DeferredPromotion, CustomerTaxExemptionCoverage } from './types-17.js';
+import type { DeferredPromotion, DeliveryChargeTaxCalculationRequest } from './types-18.js';
 import type {
     OrderAuthorizationAmounts,
     OrderDeliveryDestination,
@@ -43,14 +43,14 @@ import type { GiftCardPurchaseSnapshot } from './types-30.js';
 import type { Image } from './types-31.js';
 import type { LineItemInventorySnapshot } from './types-40.js';
 import type { PurchasedGiftCard } from './types-59.js';
-import type { SelectedProductOption } from './types-68.js';
-import type { SubscribedLine, StripeClientSetup } from './types-69.js';
+import type { SelectedProductOption, StripeClientSetup } from './types-68.js';
+import type { SubscribedLine } from './types-69.js';
 import type { Weight } from './types-80.js';
 import type { PaymentAttemptGiftCardRedemption, PaymentErrorSummary, PaymentFulfillmentHold } from './types-51.js';
 import type { PendingPaymentAction } from './types-55.js';
-import type { DeliveryChargeTaxCalculationRequest } from './types-18.js';
 import type { TaxBreakdown } from './types-73.js';
 import type { TaxReverseCharge } from './types-74.js';
+import type { CustomerTaxExemptionCoverage } from './types-17.js';
 import type { Address } from './types-0.js';
 import type {
     ReturnHandoffRequirementLineItem,
@@ -74,6 +74,29 @@ import type {
     ReturnPolicyAdjustmentProposal
 } from './types-64.js';
 import type { ReturnRefundTenderEstimate } from './types-65.js';
+/** A page of `BuyerLicenseKey` objects. */
+export type BuyerLicenseKeyListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * BuyerLicenseKey}. A license key issued to the current buyer.
+     */
+    "data": Array<BuyerLicenseKey>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /** A response containing `BuyerLicenseKey` data. */
 export type BuyerLicenseKeyResponse = {
     /**
@@ -3772,7 +3795,7 @@ export type BuyerReturnRefundEstimate = {
     /**
      * Estimated original-payment destinations for the payable part of buyer_refund_amount_money,
      * in refund order. Excludes store credit. Empty when no refund is payable. [] (Value): {@link
-     * ReturnRefundTenderEstimate}. One estimated original-payment destination for a return refund.
+     * ReturnRefundTenderEstimate}. One original tender and its estimated share of a return refund.
      */
     "tender_estimates": Array<ReturnRefundTenderEstimate>;
 };
@@ -3863,34 +3886,3 @@ export type BuyerReturnReplacementLineItemInputVariant = ({
      */
     "variant_id": string;
 }));
-/** The `variant` variant of `BuyerReturnReplacementLineItemInput`. */
-export type BuyerReturnReplacementLineItemInputVariantInput = ({
-    /**
-     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 1.
-     */
-    "quantity": number;
-    /** The catalog source of the replacement merchandise. Value enum: "variant". */
-    "type": "variant";
-    /**
-     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id": string;
-})
-    & (({
-    /** The catalog source of the replacement merchandise. Value enum: "variant". */
-    "type": "variant";
-    /**
-     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id": string;
-})
-    & (({
-    "bundle_id"?: never;
-})));

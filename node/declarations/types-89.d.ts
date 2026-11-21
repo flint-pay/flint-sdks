@@ -1,17 +1,12 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    MoneyValueInput,
-    OAuthRevokeRequestInput,
-    OAuthTokenRequestInput,
-    OAuthTokenRequestAuthorizationCodeInput,
-    OAuthTokenRequestClientCredentialsInput,
     OAuthTokenRequestDeviceCodeInput,
     OAuthTokenRequestRefreshTokenInput,
     OAuthTokenRequestTokenExchangeInput,
-    OnboardingAdvanceRequestInput
+    OnboardingAdvanceRequestInput,
+    OnboardingProfileRequestInput
 } from './types-44.js';
 import type {
-    OnboardingProfileRequestInput,
     OnboardingStartRequestInput,
     OnboardingVerifyEmailRequestInput,
     OrderCalculatedChargeTaxRequestInput,
@@ -75,13 +70,13 @@ import type {
 import type {
     PartnerAppPermissionManifestEntryRequestInput,
     PartnerAppPlatformProfileRequestInput,
-    PauseSubscriptionRequestInput
+    PauseSubscriptionRequestInput,
+    PayOrderRequestInput,
+    PayOrderRequestConfirmPaymentIntentsInput,
+    PayOrderRequestPayInput,
+    PayOrderRequestResumeInput,
+    PayOrderRequestSetupInput
 } from './types-50.js';
-export declare function makeMoneyValue(value: InputValue<MoneyValueInput>): Model<MoneyValueInput>;
-export declare function makeOAuthRevokeRequest(value: InputValue<OAuthRevokeRequestInput>): Model<OAuthRevokeRequestInput>;
-export declare function makeOAuthTokenRequest(value: InputValue<OAuthTokenRequestInput>): Model<OAuthTokenRequestInput>;
-export declare function makeOAuthTokenRequestAuthorizationCode(value: InputValue<OAuthTokenRequestAuthorizationCodeInput>): Model<OAuthTokenRequestAuthorizationCodeInput>;
-export declare function makeOAuthTokenRequestClientCredentials(value: InputValue<OAuthTokenRequestClientCredentialsInput>): Model<OAuthTokenRequestClientCredentialsInput>;
 export declare function makeOAuthTokenRequestDeviceCode(value: InputValue<OAuthTokenRequestDeviceCodeInput>): Model<OAuthTokenRequestDeviceCodeInput>;
 export declare function makeOAuthTokenRequestRefreshToken(value: InputValue<OAuthTokenRequestRefreshTokenInput>): Model<OAuthTokenRequestRefreshTokenInput>;
 export declare function makeOAuthTokenRequestTokenExchange(value: InputValue<OAuthTokenRequestTokenExchangeInput>): Model<OAuthTokenRequestTokenExchangeInput>;
@@ -142,3 +137,9 @@ export declare function makePartnerAppPaymentSplitsRequest(value: InputValue<Par
 export declare function makePartnerAppPermissionManifestEntryRequest(value: InputValue<PartnerAppPermissionManifestEntryRequestInput>): Model<PartnerAppPermissionManifestEntryRequestInput>;
 export declare function makePartnerAppPlatformProfileRequest(value: InputValue<PartnerAppPlatformProfileRequestInput>): Model<PartnerAppPlatformProfileRequestInput>;
 export declare function makePauseSubscriptionRequest(value: InputValue<PauseSubscriptionRequestInput>): Model<PauseSubscriptionRequestInput>;
+export declare function makePayOrderRequest(value: InputValue<Exclude<PayOrderRequestInput & object, readonly unknown[]>>): Model<Exclude<PayOrderRequestInput & object, readonly unknown[]>>;
+export declare function makePayOrderRequest(value: InputValue<PayOrderRequestInput>): Model<PayOrderRequestInput>;
+export declare function makePayOrderRequestConfirmPaymentIntents(value: InputValue<PayOrderRequestConfirmPaymentIntentsInput>): Model<PayOrderRequestConfirmPaymentIntentsInput>;
+export declare function makePayOrderRequestPay(value: InputValue<PayOrderRequestPayInput>): Model<PayOrderRequestPayInput>;
+export declare function makePayOrderRequestResume(value: InputValue<PayOrderRequestResumeInput>): Model<PayOrderRequestResumeInput>;
+export declare function makePayOrderRequestSetup(value: InputValue<PayOrderRequestSetupInput>): Model<PayOrderRequestSetupInput>;

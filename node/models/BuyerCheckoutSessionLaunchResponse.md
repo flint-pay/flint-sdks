@@ -2,7 +2,7 @@
 
 ## BuyerCheckoutSessionLaunchResponse
 
-A response containing `BuyerCheckoutSessionWithSecret` data.
+A response containing `BuyerCheckoutSessionLaunch` data.
 
 
 
@@ -10,7 +10,7 @@ A response containing `BuyerCheckoutSessionWithSecret` data.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [BuyerCheckoutSessionWithSecret](../models/BuyerCheckoutSessionWithSecret.md#buyercheckoutsessionwithsecret) | Resource, collection, or operation result returned by this request. The checkout session with any newly issued checkout credential. Hosted launches return url without checkout_auth_token. Headless launches return checkout_auth_token without url. Customer binding confirmation returns its newly issued credential for either surface. A session in which a buyer completes an order's payment. A session in which a buyer completes an order's payment. |
+| `data` | Required | [BuyerCheckoutSessionLaunch](../models/BuyerCheckoutSessionLaunch.md#buyercheckoutsessionlaunch) | Resource, collection, or operation result returned by this request. The session returned when launching checkout. A hosted launch includes url. A headless launch includes checkout_auth_token. A session in which a buyer completes an order's payment. A session in which a buyer completes an order's payment. |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
 | `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"`. |
 

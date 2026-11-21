@@ -1,5 +1,23 @@
 # Changelog
 
+## 8.0.0-beta.10
+
+Node and PHP pin Flint `cfe039b718f875a039e518f8e1a1193f9d582195` at API date `2026-09-07` and SDK generator `06dde7ef2d3e39e1f608b8fe5b5a31d17e2d65a7`. This prerelease publishes to npm `next`. The `latest` tag stays on `7.0.0`. The 745 selected operations are unchanged.
+
+`checkoutSessions.create` and `me.createCheckoutSession` now return the dedicated `CheckoutSessionLaunch` and `BuyerCheckoutSessionLaunch` models. A return balance launch reports `type: "return_resolution"`; later reads report `order` for that session. Merchant launch results always include `client_reference`, `custom_field_answers` and `supported_actions`.
+
+Return resolution previews add `tender_estimates`, the estimated amounts by original tender and refund destination. Return previews accept `gift_card_refund_destination` to refund the gift-card-paid portion to the original gift card or to new gift cards.
+
+Shipment delivery methods accept `tax_exempt_us_states` in their configuration. Delivery quote choice groups report `pickup_unavailable`. Refunds of a subscription renewal with reason `out_of_stock` cancel eligible unshipped shipment fulfillments once the order is fully refunded and report them in `canceled_shipment_fulfillment_ids`.
+
+The contract adds the `IDEMPOTENCY_OUTCOME_UNCONFIRMED` error code on shipment writes, the `automatic_tax_origin_unsupported` delivery and warning reason, the `seller_origin_unsupported` tax connection and error detail reason, the `quantity_unavailable` error detail reason, and the `list_fulfillment_events` next action. New reports support only `USD`.
+
+`webhookEndpoints.signDelivery` no longer uses the 150-second attempt timeout and 300-second deadline for payment operations; it uses the client defaults.
+
+Node removes `makeCreateOrderLineItemCustomRequest`, `makeGiftCardPurchaseRequest`, `makeGiftCardPurchaseRecipient` and `makeMetadataMap` with their `*Input` types. PHP removes `Flint\CreateOrderLineItemCustomRequestInput` and `Flint\BuyerCheckoutSessionWithSecret`.
+
+Use the [beta.10 migration notes](MIGRATION.md#changes-in-800-beta10) to update affected imports, launch result types and fixtures.
+
 ## 8.0.0-beta.9
 
 Node and PHP pin Flint `da08a16bf073a27374101e427430ade9f46cbf6d` at API date `2026-09-07` and SDK generator `06dde7ef2d3e39e1f608b8fe5b5a31d17e2d65a7`. This prerelease publishes to npm `next`. The `latest` tag stays on `7.0.0`.

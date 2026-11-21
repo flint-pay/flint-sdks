@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `available_quantity` | Optional | integer | Available whole units, capped at the eligible return quantity. Omitted when stock is not tracked. Format: `int64`. |
+| `available_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Capped at the eligible return quantity. Omitted when stock is not tracked. Format: `int64`. |
 | `name` | Required | string | Name of the alternative variant. |
 | `unit_price_money` | Required | [BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemExchangeVariantsItemUnitPriceMoney](../models/BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemExchangeVariantsItemUnitPriceMoney.md#buyerreturnpreviewresponsedataeligibilityeligibilitylineitemsitemexchangevariantsitemunitpricemoney) | Current unit price from the catalog. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `variant_id` | Required | string | Catalog variant ID to send as requested_variant. |

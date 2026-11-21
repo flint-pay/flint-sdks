@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# ReturnReceiptVerifiedInstalledMerchantsEventInput to SavePaymentMethodResponseInput
+# ReturnReceiptSupersededMerchantEventInput to SavePaymentMethodRequestInput
 
+- [ReturnReceiptSupersededMerchantEventInput](ReturnReceiptSupersededMerchantEventInput.md)
 - [ReturnReceiptVerifiedInstalledMerchantsEventInput](ReturnReceiptVerifiedInstalledMerchantsEventInput.md)
 - [ReturnReceiptVerifiedMerchantEventInput](ReturnReceiptVerifiedMerchantEventInput.md)
 - [ReturnRefundEstimateInput](ReturnRefundEstimateInput.md)
@@ -101,5 +102,4 @@
 - [SaveMeGiftCardRequestRecipientAccessInput](SaveMeGiftCardRequestRecipientAccessInput.md)
 - [SaveMePaymentMethodRequestInput](SaveMePaymentMethodRequestInput.md)
 - [SavePaymentMethodRequestInput](SavePaymentMethodRequestInput.md)
-- [SavePaymentMethodResponseInput](SavePaymentMethodResponseInput.md)
 

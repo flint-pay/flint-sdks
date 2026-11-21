@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# APIKeyResponse to GiftCardRedemptionListResponse
+# AnalyticsOverviewResponse to GiftCardNotificationListResponse
 
+- [AnalyticsOverviewResponse](AnalyticsOverviewResponse.md)
 - [APIKeyResponse](APIKeyResponse.md)
 - [APIRequestLogDetailResponse](APIRequestLogDetailResponse.md)
 - [AuthContextResponse](AuthContextResponse.md)
@@ -101,5 +102,4 @@
 - [GiftCardFundingDispositionListResponse](GiftCardFundingDispositionListResponse.md)
 - [GiftCardLoadListResponse](GiftCardLoadListResponse.md)
 - [GiftCardNotificationListResponse](GiftCardNotificationListResponse.md)
-- [GiftCardRedemptionListResponse](GiftCardRedemptionListResponse.md)
 

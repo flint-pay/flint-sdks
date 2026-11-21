@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PromotionExclusivityInput to RefundCreatedMerchantEventInput
+# PromotionCreatedMerchantEventInput to RefundCreatedInstalledMerchantsEventInput
 
+- [PromotionCreatedMerchantEventInput](PromotionCreatedMerchantEventInput.md)
 - [PromotionExclusivityInput](PromotionExclusivityInput.md)
 - [PromotionExclusivityPatchInput](PromotionExclusivityPatchInput.md)
 - [PromotionExclusivityPreviousAttributesInput](PromotionExclusivityPreviousAttributesInput.md)
@@ -101,5 +102,4 @@
 - [RefundChargeAllocationInput](RefundChargeAllocationInput.md)
 - [RefundChargeAllocationPreviousAttributesInput](RefundChargeAllocationPreviousAttributesInput.md)
 - [RefundCreatedInstalledMerchantsEventInput](RefundCreatedInstalledMerchantsEventInput.md)
-- [RefundCreatedMerchantEventInput](RefundCreatedMerchantEventInput.md)
 

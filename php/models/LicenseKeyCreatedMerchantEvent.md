@@ -43,17 +43,9 @@ The affected public resource without expansions, client authority fields, or fie
 
 Field definitions: [shared fields](LicenseKey.md#licensekey).
 
-### LicenseKeyCreatedMerchantEvent.data fields 1.object.customer
-
-Field definitions: [LicenseKeyResponse.data.customer](../models/LicenseKeyResponse.md#licensekeyresponsedatacustomer).
-
 ### LicenseKeyCreatedMerchantEvent.data fields 1.object.metadata
 
 Field definitions: [LicenseKeyPoolResponse.data.metadata](../models/LicenseKeyPoolResponse.md#licensekeypoolresponsedatametadata).
-
-### LicenseKeyCreatedMerchantEvent.data fields 1.object.order
-
-Field definitions: [LicenseKeyResponse.data.order](../models/LicenseKeyResponse.md#licensekeyresponsedataorder).
 
 ### LicenseKeyCreatedMerchantEvent.data fields 1.object.restrictions[]
 

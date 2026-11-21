@@ -15,7 +15,7 @@
 | `payments` | Optional | [ReadinessAxisPreviousAttributes](../models/ReadinessAxisPreviousAttributes.md#readinessaxispreviousattributes) or null | Readiness to accept payments. |
 | `payouts` | Optional | [ReadinessAxisPreviousAttributes](../models/ReadinessAxisPreviousAttributes.md#readinessaxispreviousattributes) or null | Readiness to receive payouts. |
 | `requirements` | Optional | [ReadinessRequirementsPreviousAttributes](../models/ReadinessRequirementsPreviousAttributes.md#readinessrequirementspreviousattributes) or null | Account information still needed, grouped by when it is due. Each capability also lists the requirements that affect it. |
-| `review_blocks_captures` | Optional | boolean or null | `review_blocks_captures`: [declared alternatives](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributesreview_blocks_captures). |
+| `review_blocks_captures` | Optional | boolean or null | Whether Flint's review prevents capturing authorized payments. Omitted when capture review status is unavailable. `review_blocks_captures`: [declared alternatives](../models/MerchantReadinessPreviousAttributes.md#merchantreadinesspreviousattributesreview_blocks_captures). |
 
 ### MerchantReadinessPreviousAttributes.capabilities
 
@@ -39,13 +39,13 @@ Declared alternatives: [ApiKeyRevokedEvent.data.previous_attributes.created_at](
 
 ### MerchantReadinessPreviousAttributes.review_blocks_captures variant 1
 
-anyOf variant 1.
+anyOf variant 1: Whether Flint's review prevents capturing authorized payments. Omitted when capture review status is unavailable..
 
-- Value shape: boolean.  
+- Value shape: boolean. Whether Flint's review prevents capturing authorized payments. Omitted when capture review status is unavailable. 
 
 ### MerchantReadinessPreviousAttributes.review_blocks_captures variant 2
 
 anyOf variant 2.
 
-- Value shape: null.  
+- Value shape: null. Whether Flint's review prevents capturing authorized payments. Omitted when capture review status is unavailable. 
 

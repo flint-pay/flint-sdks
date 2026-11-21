@@ -1,13 +1,6 @@
 import type {
-    ExpandedOrderSummary,
-    ExpandedOrderSummaryPreviousAttributes,
-    ExpandedPackageSummaryPreviousAttributes,
-    ExpandedPackageSummary
-} from './types-26.js';
-import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-43.js';
-import type { ResponseMeta } from './types-62.js';
-import type { InputValue } from '../runtime.js';
-import type {
+    FulfillmentLineItemRequest,
+    Fulfillment,
     FulfillmentEventsGetParams,
     FulfillmentItemizedPackagesRequest,
     FulfillmentItemizedPackagesRequestInput,
@@ -15,13 +8,21 @@ import type {
     FulfillmentChargeLinkPreviousAttributes,
     FulfillmentHoldPreviousAttributes,
     FulfillmentLineItemPreviousAttributes,
-    Fulfillment,
     ExpandedShipmentSummary,
     FulfillmentChargeLink,
     FulfillmentHold,
     FulfillmentLineItem,
     FailFulfillmentRequestInput
 } from './types-27.js';
+import type { ResponseMeta } from './types-62.js';
+import type {
+    ExpandedOrderSummary,
+    ExpandedOrderSummaryPreviousAttributes,
+    ExpandedPackageSummaryPreviousAttributes,
+    ExpandedPackageSummary
+} from './types-26.js';
+import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-43.js';
+import type { InputValue } from '../runtime.js';
 import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-12.js';
 import type { PackageCreateRequest, PackageCreateRequestInput } from './types-48.js';
 import type {
@@ -48,9 +49,9 @@ import type {
     AcceptFulfillmentRequestInput
 } from './types-0.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { CancelFulfillmentRequestInput } from './types-4.js';
+import type { CancelFulfillmentRequestInput } from './types-5.js';
 import type { CompleteFulfillmentRequestInput } from './types-7.js';
-import type { CreateFulfillmentRequestInput, CreateGiftCardFundingDispositionRequestInput } from './types-10.js';
+import type { CreateFulfillmentRequestInput } from './types-10.js';
 import type { HoldFulfillmentRequestInput } from './types-31.js';
 import type {
     MarkFulfillmentNoShowRequestInput,
@@ -68,6 +69,31 @@ import type { ReturnResolution } from './types-65.js';
 import type { ReturnResource } from './types-66.js';
 import type { GiftCardRestriction } from './types-30.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+/** An order line item and quantity to include when creating a fulfillment. */
+export type FulfillmentLineItemRequestInput = FulfillmentLineItemRequest;
+/** A page of `Fulfillment` objects. */
+export type FulfillmentListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * Fulfillment}. Work required to deliver an order's items.
+     */
+    "data": Array<Fulfillment>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /** A message sent about an order's fulfillment. */
 export type FulfillmentNotification = {
     /**
@@ -6044,43 +6070,4 @@ export type GiftCardFundingDispositionListResponse = {
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
-};
-/** A response containing `GiftCardFundingDisposition` data. */
-export type GiftCardFundingDispositionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A merchant decision to
-     * honor gift card value after its funding payment lost a dispute.
-     */
-    "data": GiftCardFundingDisposition;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type GiftCardFundingDispositionsCreateParams = (InputValue<CreateGiftCardFundingDispositionRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
 };

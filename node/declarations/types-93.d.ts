@@ -1,9 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { SubscriptionBillingStartInputScheduledInput, SubscriptionBillingStartRequestInput } from './types-69.js';
 import type {
-    SubscriptionDeliveryDestinationInputAddressInput,
-    SubscriptionDeliveryDestinationInputCustomerAddressInput,
-    SubscriptionDeliveryDestinationRequestInput,
     SubscriptionDeliveryRequestInput,
     SubscriptionEndAfterCyclesRequestInput,
     SubscriptionEndAfterDateRequestInput,
@@ -30,10 +26,10 @@ import type {
     SubscriptionServiceLocationRequestInput,
     SubscriptionSettingsRequestInput,
     SubscriptionSwapPreviewRequestInput,
-    SubscriptionTaxCalculationRequestInput
+    SubscriptionTaxCalculationRequestInput,
+    SubscriptionTaxRequestInput
 } from './types-72.js';
 import type {
-    SubscriptionTaxRequestInput,
     SubscriptionTermsRequestInput,
     TaxCalculationCallbackConfigurationPatchRequestInput,
     TaxCalculationCallbackConfigurationRequestInput
@@ -64,25 +60,23 @@ import type {
     UpdateCategoryRequestInput,
     UpdateCheckoutSessionRequestInput,
     UpdateCreditNoteRequestInput,
-    UpdateCustomerAddressRequestInput
+    UpdateCustomerAddressRequestInput,
+    UpdateCustomerEmailPreferencesRequestInput
 } from './types-75.js';
 import type {
-    UpdateCustomerEmailPreferencesRequestInput,
     UpdateCustomerRequestInput,
     UpdateCustomerTaxExemptionRequestInput,
     UpdateDeliveryFulfillmentDetailsInput,
     UpdateDeliveryLocationSetRequestInput,
     UpdateDeliveryMethodRequestInput,
     UpdateDeliveryProfileRequestInput,
-    UpdateDeliveryRateCallbackRequestInput
+    UpdateDeliveryRateCallbackRequestInput,
+    UpdateDeliveryZoneRequestInput,
+    UpdateDeviceRequestInput,
+    UpdateDigitalFulfillmentDetailsInput,
+    UpdateFulfillmentRequestInput,
+    UpdateGiftCardRequestInput
 } from './types-76.js';
-export declare function makeSubscriptionBillingStartInputScheduled(value: InputValue<SubscriptionBillingStartInputScheduledInput>): Model<SubscriptionBillingStartInputScheduledInput>;
-export declare function makeSubscriptionBillingStartRequest(value: InputValue<Exclude<SubscriptionBillingStartRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionBillingStartRequestInput & object, readonly unknown[]>>;
-export declare function makeSubscriptionBillingStartRequest(value: InputValue<SubscriptionBillingStartRequestInput>): Model<SubscriptionBillingStartRequestInput>;
-export declare function makeSubscriptionDeliveryDestinationInputAddress(value: InputValue<SubscriptionDeliveryDestinationInputAddressInput>): Model<SubscriptionDeliveryDestinationInputAddressInput>;
-export declare function makeSubscriptionDeliveryDestinationInputCustomerAddress(value: InputValue<SubscriptionDeliveryDestinationInputCustomerAddressInput>): Model<SubscriptionDeliveryDestinationInputCustomerAddressInput>;
-export declare function makeSubscriptionDeliveryDestinationRequest(value: InputValue<Exclude<SubscriptionDeliveryDestinationRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionDeliveryDestinationRequestInput & object, readonly unknown[]>>;
-export declare function makeSubscriptionDeliveryDestinationRequest(value: InputValue<SubscriptionDeliveryDestinationRequestInput>): Model<SubscriptionDeliveryDestinationRequestInput>;
 export declare function makeSubscriptionDeliveryRequest(value: InputValue<SubscriptionDeliveryRequestInput>): Model<SubscriptionDeliveryRequestInput>;
 export declare function makeSubscriptionEndAfterCyclesRequest(value: InputValue<SubscriptionEndAfterCyclesRequestInput>): Model<SubscriptionEndAfterCyclesRequestInput>;
 export declare function makeSubscriptionEndAfterDateRequest(value: InputValue<SubscriptionEndAfterDateRequestInput>): Model<SubscriptionEndAfterDateRequestInput>;
@@ -145,3 +139,8 @@ export declare function makeUpdateDeliveryLocationSetRequest(value: InputValue<U
 export declare function makeUpdateDeliveryMethodRequest(value: InputValue<UpdateDeliveryMethodRequestInput>): Model<UpdateDeliveryMethodRequestInput>;
 export declare function makeUpdateDeliveryProfileRequest(value: InputValue<UpdateDeliveryProfileRequestInput>): Model<UpdateDeliveryProfileRequestInput>;
 export declare function makeUpdateDeliveryRateCallbackRequest(value: InputValue<UpdateDeliveryRateCallbackRequestInput>): Model<UpdateDeliveryRateCallbackRequestInput>;
+export declare function makeUpdateDeliveryZoneRequest(value: InputValue<UpdateDeliveryZoneRequestInput>): Model<UpdateDeliveryZoneRequestInput>;
+export declare function makeUpdateDeviceRequest(value: InputValue<UpdateDeviceRequestInput>): Model<UpdateDeviceRequestInput>;
+export declare function makeUpdateDigitalFulfillmentDetails(value: InputValue<UpdateDigitalFulfillmentDetailsInput>): Model<UpdateDigitalFulfillmentDetailsInput>;
+export declare function makeUpdateFulfillmentRequest(value: InputValue<UpdateFulfillmentRequestInput>): Model<UpdateFulfillmentRequestInput>;
+export declare function makeUpdateGiftCardRequest(value: InputValue<UpdateGiftCardRequestInput>): Model<UpdateGiftCardRequestInput>;

@@ -45,7 +45,7 @@ final class LicenseKeyExpiredMerchantEventDataPreviousAttributes extends Model {
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Customer summary when requested with expand=customer. Null when the key has no customer. Omitted when no customer expansion is requested. anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+    /** The linked customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
      * @return ExpandedCustomerSummaryPreviousAttributes|null
      */
     public function getCustomer(): ExpandedCustomerSummaryPreviousAttributes|null { return $this->get('customer'); }
@@ -80,7 +80,7 @@ final class LicenseKeyExpiredMerchantEventDataPreviousAttributes extends Model {
      */
     public function getMetadata(): array|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Order summary when requested with expand=order. Null when the key has no order. Omitted when no order expansion is requested. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
+    /** The linked order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
      * @return ExpandedOrderSummaryPreviousAttributes|null
      */
     public function getOrder(): ExpandedOrderSummaryPreviousAttributes|null { return $this->get('order'); }

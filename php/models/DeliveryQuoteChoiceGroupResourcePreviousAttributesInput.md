@@ -19,6 +19,7 @@ Request input.
 | `line_items` | Optional | Array of [DeliveryQuoteLineItemResourcePreviousAttributesInput](../models/DeliveryQuoteLineItemResourcePreviousAttributesInput.md#deliveryquotelineitemresourcepreviousattributesinput) or null | Order line items, or bundle components, this group covers, with the quantity covered. `line_items`: [declared alternatives](../models/DeliveryQuoteChoiceGroupResourcePreviousAttributesInput.md#deliveryquotechoicegroupresourcepreviousattributesinputline_items). |
 | `method_types` | Optional | Array of string or null | Types of the delivery methods that can serve this group's items, each listed once, in the order the methods display. A type is listed before its options are priced, such as a local delivery that waits for the buyer's address, and stays listed while its methods need more input or cannot serve the current input. options lists what the buyer can choose now. A method whose type these items do not allow is left out, and the list is empty when no method can serve them. Items values: `"shipment"`, `"pickup"`, `"local_delivery"`. `method_types`: [declared alternatives](../models/DeliveryQuoteChoiceGroupResourcePreviousAttributesInput.md#deliveryquotechoicegroupresourcepreviousattributesinputmethod_types). |
 | `options` | Optional | Array of [DeliveryOptionProjectionPreviousAttributesInput](../models/DeliveryOptionProjectionPreviousAttributesInput.md#deliveryoptionprojectionpreviousattributesinput) or null | Delivery options the buyer can choose now. `options`: [declared alternatives](../models/DeliveryQuoteChoiceGroupResourcePreviousAttributesInput.md#deliveryquotechoicegroupresourcepreviousattributesinputoptions). |
+| `pickup_unavailable` | Optional | boolean or null | The requested pickup Location or the order's fixed inventory Location cannot be served by this group's pickup methods. `pickup_unavailable`: [declared alternatives](../models/DeliveryQuoteChoiceGroupResourcePreviousAttributesInput.md#deliveryquotechoicegroupresourcepreviousattributesinputpickup_unavailable). |
 | `previously_selected_delivery_method_id` | Optional | string or null | Method chosen for this group in the previous selection. Omitted when there is none. `previously_selected_delivery_method_id`: [declared alternatives](../models/DeliveryQuoteChoiceGroupResourcePreviousAttributesInput.md#deliveryquotechoicegroupresourcepreviousattributesinputpreviously_selected_delivery_method_id). |
 | `stable_key` | Optional | string or null | Identifies the same group across quotes for the same delivery demands and compatible delivery types. It can change when the grouping inputs change. `stable_key`: [declared alternatives](../models/DeliveryQuoteChoiceGroupResourcePreviousAttributesInput.md#deliveryquotechoicegroupresourcepreviousattributesinputstable_key). |
 
@@ -175,6 +176,20 @@ anyOf variant 1: Delivery options the buyer can choose now..
 anyOf variant 2.
 
 - Value shape: null. Delivery options the buyer can choose now. 
+
+### DeliveryQuoteChoiceGroupResourcePreviousAttributesInput.pickup_unavailable
+
+### DeliveryQuoteChoiceGroupResourcePreviousAttributesInput.pickup_unavailable variant 1
+
+anyOf variant 1: The requested pickup Location or the order's fixed inventory Location cannot be served by this group's pickup methods..
+
+- Value shape: boolean. The requested pickup Location or the order's fixed inventory Location cannot be served by this group's pickup methods. 
+
+### DeliveryQuoteChoiceGroupResourcePreviousAttributesInput.pickup_unavailable variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The requested pickup Location or the order's fixed inventory Location cannot be served by this group's pickup methods. 
 
 ### DeliveryQuoteChoiceGroupResourcePreviousAttributesInput.previously_selected_delivery_method_id
 

@@ -53,7 +53,6 @@ oneOf with type: "custom": The `custom` variant of `CreateOrderLineItem`..
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`); present(`gift_card_purchase`))).
 - Required: `fulfillment`, `name`, `unit_price_money`.
 - Optional: `bundle_id`, `product_id`, `variant_id`.
-- Constraints for `name`: Name of the item as it appears on the order. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported.
 - Constraints for `type`: Values: `"custom"`.
 
 ### CreateOrderLineItemInput.modifiers[]

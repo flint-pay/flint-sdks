@@ -1,8 +1,7 @@
-import type { ApplyInventoryCountRequestInput } from './types-0.js';
+import type { AcceptFulfillmentRequestInput, ApplyInventoryCountRequestInput } from './types-0.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
 import type { ResponseMeta } from './types-62.js';
-import type { Order } from './types-45.js';
-import type { OrderEdit } from './types-46.js';
+import type { Order, OrderEdit } from './types-45.js';
 import type { PayOrderResponse, PartnerWebhookEnvelope } from './types-50.js';
 import type { GetReturnDispositionResponse, GetReturnResponse, GetReturnResolutionResponse, GiftCard } from './types-28.js';
 import type {
@@ -20,7 +19,8 @@ import type { CreateCategoryRequestInput } from './types-8.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { UpdateCategoryRequestInput } from './types-75.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
-import type { SubscriptionQuantityChangeLineItemRequest } from './types-72.js';
+/** Cancels fulfillment work that has not completed. */
+export type CancelFulfillmentRequestInput = AcceptFulfillmentRequestInput;
 /** The request body for: Cancel a gift card notification. */
 export type CancelGiftCardNotificationRequestInput = {};
 /** Closes an open physical count without changing stock. */
@@ -2836,20 +2836,3 @@ export type ChangeMeSubscriptionPlanRequestInput = ({
      */
     "subscription_plan_id": string;
 });
-/** The request body for: Change subscription quantity. */
-export type ChangeMeSubscriptionQuantityRequest = {
-    /**
-     * period_end schedules the new quantities for the next billing boundary; prorated_now charges
-     * the difference now for an eligible digital line. Value enum: "period_end", "prorated_now".
-     */
-    "billing_starts": "period_end" | "prorated_now" | (string & {});
-    /** Reject the request if the subscription version has changed. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * The frozen adjustable subscription line and its quantity, within min_quantity and
-     * max_quantity. Omitted lines keep their quantities. minItems: 1. maxItems: 50. [] (Value):
-     * {@link SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription
-     * line.
-     */
-    "line_items": Array<SubscriptionQuantityChangeLineItemRequest>;
-};

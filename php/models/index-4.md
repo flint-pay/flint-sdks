@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# ChangeSubscriptionPlanRequestInput to CollectInvoiceRequestInput
+# ChangeMeSubscriptionQuantityRequestInput to CloseGiftCardRequestInput
 
+- [ChangeMeSubscriptionQuantityRequestInput](ChangeMeSubscriptionQuantityRequestInput.md)
 - [ChangeSubscriptionPlanRequestInput](ChangeSubscriptionPlanRequestInput.md)
 - [ChangeSubscriptionQuantityRequestInput](ChangeSubscriptionQuantityRequestInput.md)
 - [CheckInTicketRequestInput](CheckInTicketRequestInput.md)
@@ -59,6 +60,7 @@
 - [CheckoutSessionExpiredMerchantEventInput](CheckoutSessionExpiredMerchantEventInput.md)
 - [CheckoutSessionInvalidatedInstalledMerchantsEventInput](CheckoutSessionInvalidatedInstalledMerchantsEventInput.md)
 - [CheckoutSessionInvalidatedMerchantEventInput](CheckoutSessionInvalidatedMerchantEventInput.md)
+- [CheckoutSessionLaunchInput](CheckoutSessionLaunchInput.md)
 - [CheckoutSessionLaunchResponseInput](CheckoutSessionLaunchResponseInput.md)
 - [CheckoutSessionListResponseInput](CheckoutSessionListResponseInput.md)
 - [CheckoutSessionPaidInstalledMerchantsEventInput](CheckoutSessionPaidInstalledMerchantsEventInput.md)
@@ -100,6 +102,4 @@
 - [CLIReauthorizeRequestInput](CLIReauthorizeRequestInput.md)
 - [CloseCheckoutSessionRequestInput](CloseCheckoutSessionRequestInput.md)
 - [CloseGiftCardRequestInput](CloseGiftCardRequestInput.md)
-- [CloseOrderRequestInput](CloseOrderRequestInput.md)
-- [CollectInvoiceRequestInput](CollectInvoiceRequestInput.md)
 

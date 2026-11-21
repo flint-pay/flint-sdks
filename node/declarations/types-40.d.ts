@@ -144,14 +144,14 @@ export type LicenseKeyUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
             "activation_limit": number | null;
             "active_activation_count": number;
             "created_at": string;
-            "customer"?: ExpandedCustomerSummary;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
             "customer_id": string | null;
             "expires_at": string | null;
             "key_last4": string | null;
             "license_key_id": string;
             "license_key_pool_id": string | null;
             "metadata": MetadataMap;
-            "order"?: ExpandedOrderSummary;
+            "order"?: ((ExpandedOrderSummary) | (null));
             "order_id": string | null;
             "order_line_item_id": string | null;
             "product_id": string;
@@ -206,14 +206,14 @@ export type LicenseKeyUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & objec
             "activation_limit": number | null;
             "active_activation_count": number;
             "created_at": string;
-            "customer"?: ExpandedCustomerSummary;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
             "customer_id": string | null;
             "expires_at": string | null;
             "key_last4": string | null;
             "license_key_id": string;
             "license_key_pool_id": string | null;
             "metadata": MetadataMap;
-            "order"?: ExpandedOrderSummary;
+            "order"?: ((ExpandedOrderSummary) | (null));
             "order_id": string | null;
             "order_line_item_id": string | null;
             "product_id": string;
@@ -284,31 +284,34 @@ export type LicenseKeyUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
      * object.active_activation_count (Required): integer. Number of currently active
      * installations. Format: int32. object.created_at (Required): string. When the license key was
      * issued. Format: date-time. Example: "2026-08-02T16:00:00Z". object.customer (Optional):
-     * {@link ExpandedCustomerSummary}. Customer summary when requested with expand=customer. Null
-     * when the key has no customer. Omitted when no customer expansion is requested. A customer's
-     * summary fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer_id (Required): string or null. The current customer of the owning order or
-     * subscription. Null when the order has no linked customer. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.expires_at (Required): string or null. When the key
-     * expires. Null when no expiry is set. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.key_last4 (Required): string or null. Last four characters of the assigned key. Null
-     * when the key is awaiting assignment. object.license_key_id (Required): string. Unique
-     * license key ID with the lk_ prefix. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN".
-     * object.license_key_pool_id (Required): string or null. The source pool ID. Null when the key
-     * is generated. Example: "lkp_01KEZF7C00AQV1X2DPWG2NXS7H". object.metadata (Required): {@link
-     * MetadataMap}. Merchant-defined key-value pairs. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary}. Order summary
-     * when requested with expand=order. Null when the key has no order. Omitted when no order
-     * expansion is requested. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order_id (Required): string or null. The owning order or the order that started the
-     * subscription. Null when a subscription has no starting order. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.order_line_item_id (Required): string or null. The
-     * owning order line. Null when the key belongs to a subscription line. Example:
-     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.product_id (Required): string. The product ID.
-     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". object.restrictions (Required): Array of {@link
+     * {@link ExpandedCustomerSummary} or null. The linked customer. Present only when `expand`
+     * includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string or null. The
+     * current customer of the owning order or subscription. Null when the order has no linked
+     * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.expires_at (Required): string or
+     * null. When the key expires. Null when no expiry is set. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.key_last4 (Required): string or null. Last four characters of
+     * the assigned key. Null when the key is awaiting assignment. object.license_key_id
+     * (Required): string. Unique license key ID with the lk_ prefix. Example:
+     * "lk_01KEZF7C000QD7VJ83G43V0NSN". object.license_key_pool_id (Required): string or null. The
+     * source pool ID. Null when the key is generated. Example: "lkp_01KEZF7C00AQV1X2DPWG2NXS7H".
+     * object.metadata (Required): {@link MetadataMap}. Merchant-defined key-value pairs.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
+     * (Optional): {@link ExpandedOrderSummary} or null. The linked order. Present only when
+     * `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id (Required):
+     * string or null. The owning order or the order that started the subscription. Null when a
+     * subscription has no starting order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string or null. The owning order line. Null when the
+     * key belongs to a subscription line. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+     * object.product_id (Required): string. The product ID. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66". object.restrictions (Required): Array of {@link
      * LicenseKeyRestriction}. Restrictions currently in force. object.restrictions[] (Value):
      * {@link LicenseKeyRestriction}. One occurrence of a cause keeping the key disabled.
      * object.source (Required): string. How the key was supplied. Value enum: "generated", "pool".
@@ -343,9 +346,9 @@ export type LicenseKeyUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
      * previous_attributes.created_at.anyOf[1] (Value): string. When the license key was issued.
      * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
      * (Value): null. previous_attributes.customer (Optional): {@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null. Customer summary when requested with
-     * expand=customer. Null when the key has no customer. Omitted when no customer expansion is
-     * requested. previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. The linked customer. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
      * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
      * null. previous_attributes.customer_id (Optional): string or null. The current customer of
      * the owning order or subscription. Null when the order has no linked customer.
@@ -371,8 +374,8 @@ export type LicenseKeyUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
      * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Merchant-defined
      * key-value pairs. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
-     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary when requested with
-     * expand=order. Null when the key has no order. Omitted when no order expansion is requested.
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. The linked order. Present only when
+     * `expand` includes `order`; `null` when expanded and there is no related order.
      * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
      * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
      * string or null. The owning order or the order that started the subscription. Null when a
@@ -439,11 +442,12 @@ export type LicenseKeyUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
          * activations are unlimited. Format: int32. active_activation_count (Required): integer.
          * Number of currently active installations. Format: int32. created_at (Required): string.
          * When the license key was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * customer (Optional): {@link ExpandedCustomerSummary}. Customer summary when requested
-         * with expand=customer. Null when the key has no customer. Omitted when no customer
-         * expansion is requested. A customer's summary fields, returned in place of a customer ID
-         * when the customer is expanded. customer_id (Required): string or null. The current
-         * customer of the owning order or subscription. Null when the order has no linked
+         * customer (Optional): {@link ExpandedCustomerSummary} or null. The linked customer.
+         * Present only when `expand` includes `customer`; `null` when expanded and there is no
+         * related customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+         * customer's summary fields, returned in place of a customer ID when the customer is
+         * expanded. customer.anyOf[2] (Value): null. customer_id (Required): string or null. The
+         * current customer of the owning order or subscription. Null when the order has no linked
          * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". expires_at (Required): string or
          * null. When the key expires. Null when no expiry is set. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". key_last4 (Required): string or null. Last four characters of
@@ -455,33 +459,34 @@ export type LicenseKeyUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
          * Merchant-defined key-value pairs. Caller-owned key-value data stored on a resource. Keys
          * starting with flint_ are reserved for Flint and are not returned. Writes follow the
          * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. order (Optional): {@link ExpandedOrderSummary}. Order summary when
-         * requested with expand=order. Null when the key has no order. Omitted when no order
-         * expansion is requested. An order's summary fields, including status, payment and refund
-         * status, and pricing and settlement amounts, returned when the order is expanded.
-         * order_id (Required): string or null. The owning order or the order that started the
-         * subscription. Null when a subscription has no starting order. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string or null. The
-         * owning order line. Null when the key belongs to a subscription line. Example:
-         * "li_01KEZF7C008YPRCK7VDKTGWR31". product_id (Required): string. The product ID. Example:
-         * "prod_01KEZF7C00BVSHCNWVH528HB66". restrictions (Required): Array of {@link
-         * LicenseKeyRestriction}. Restrictions currently in force. restrictions[] (Value): {@link
-         * LicenseKeyRestriction}. One occurrence of a cause keeping the key disabled. source
-         * (Required): string. How the key was supplied. Value enum: "generated", "pool". status
-         * (Required): string. Whether the key is usable. Expiry takes effect at expires_at. Value
-         * enum: "pending", "active", "disabled", "expired". subscription_id (Required): string or
-         * null. The owning subscription. Null when the key belongs to an order line. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_line_item_id (Required): string or null.
-         * The owning subscription line. Null when the key belongs to an order line. Example:
-         * "sli_01KEZF7C00PPWVJ2N321V84ASA". supported_actions (Required): Array of string.
-         * Lifecycle actions currently available for this key. [] enum: "disable", "reinstate".
-         * supported_actions[] (Value): string. Value enum: "disable", "reinstate". unit_ordinal
-         * (Required): integer. The unit of the owning line, starting at 1. Format: int32.
-         * updated_at (Required): string. When the license key version last changed. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". variant_id (Required): string. The product
-         * variant ID. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". version (Required): integer.
-         * Persisted version of this resource's owned state. Expanded resources and external
-         * observations can change independently. Format: uint64. minimum: 1.
+         * satisfy them. order (Optional): {@link ExpandedOrderSummary} or null. The linked order.
+         * Present only when `expand` includes `order`; `null` when expanded and there is no
+         * related order. order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+         * fields, including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string or null. The owning order or the order that started the subscription. Null when a
+         * subscription has no starting order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_line_item_id (Required): string or null. The owning order line. Null when the key
+         * belongs to a subscription line. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". product_id
+         * (Required): string. The product ID. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+         * restrictions (Required): Array of {@link LicenseKeyRestriction}. Restrictions currently
+         * in force. restrictions[] (Value): {@link LicenseKeyRestriction}. One occurrence of a
+         * cause keeping the key disabled. source (Required): string. How the key was supplied.
+         * Value enum: "generated", "pool". status (Required): string. Whether the key is usable.
+         * Expiry takes effect at expires_at. Value enum: "pending", "active", "disabled",
+         * "expired". subscription_id (Required): string or null. The owning subscription. Null
+         * when the key belongs to an order line. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+         * subscription_line_item_id (Required): string or null. The owning subscription line. Null
+         * when the key belongs to an order line. Example: "sli_01KEZF7C00PPWVJ2N321V84ASA".
+         * supported_actions (Required): Array of string. Lifecycle actions currently available for
+         * this key. [] enum: "disable", "reinstate". supported_actions[] (Value): string. Value
+         * enum: "disable", "reinstate". unit_ordinal (Required): integer. The unit of the owning
+         * line, starting at 1. Format: int32. updated_at (Required): string. When the license key
+         * version last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". variant_id
+         * (Required): string. The product variant ID. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         * version (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1.
          */
         "object": {
             /** Maximum active installations. Null when activations are unlimited. Format: int32. */
@@ -493,11 +498,12 @@ export type LicenseKeyUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
              */
             "created_at": string;
             /**
-             * Customer summary when requested with expand=customer. Null when the key has no
-             * customer. Omitted when no customer expansion is requested. A customer's summary
-             * fields, returned in place of a customer ID when the customer is expanded.
+             * The linked customer. Present only when `expand` includes `customer`; `null` when
+             * expanded and there is no related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
+             * customer ID when the customer is expanded. anyOf[2] (Value): null.
              */
-            "customer"?: ExpandedCustomerSummary;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
             /**
              * The current customer of the owning order or subscription. Null when the order has no
              * linked customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
@@ -529,12 +535,12 @@ export type LicenseKeyUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
              */
             "metadata": MetadataMap;
             /**
-             * Order summary when requested with expand=order. Null when the key has no order.
-             * Omitted when no order expansion is requested. An order's summary fields, including
-             * status, payment and refund status, and pricing and settlement amounts, returned when
-             * the order is expanded.
+             * The linked order. Present only when `expand` includes `order`; `null` when expanded
+             * and there is no related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
              */
-            "order"?: ExpandedOrderSummary;
+            "order"?: ((ExpandedOrderSummary) | (null));
             /**
              * The owning order or the order that started the subscription. Null when a
              * subscription has no starting order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
@@ -603,15 +609,15 @@ export type LicenseKeyUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
          * created_at (Optional): string or null. When the license key was issued.
          * created_at.anyOf[1] (Value): string. When the license key was issued. Format: date-time.
          * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional):
-         * {@link ExpandedCustomerSummaryPreviousAttributes} or null. Customer summary when
-         * requested with expand=customer. Null when the key has no customer. Omitted when no
-         * customer expansion is requested. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value): null. customer_id
-         * (Optional): string or null. The current customer of the owning order or subscription.
-         * Null when the order has no linked customer. customer_id.anyOf[1] (Value): string. The
-         * current customer of the owning order or subscription. Null when the order has no linked
-         * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
-         * expires_at (Optional): string or null. When the key expires. Null when no expiry is set.
+         * {@link ExpandedCustomerSummaryPreviousAttributes} or null. The linked customer. Present
+         * only when `expand` includes `customer`; `null` when expanded and there is no related
+         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The current
+         * customer of the owning order or subscription. Null when the order has no linked
+         * customer. customer_id.anyOf[1] (Value): string. The current customer of the owning order
+         * or subscription. Null when the order has no linked customer. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. expires_at
+         * (Optional): string or null. When the key expires. Null when no expiry is set.
          * expires_at.anyOf[1] (Value): string. When the key expires. Null when no expiry is set.
          * Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
          * key_last4 (Optional): string or null. Last four characters of the assigned key. Null
@@ -626,17 +632,17 @@ export type LicenseKeyUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
          * "lkp_01KEZF7C00AQV1X2DPWG2NXS7H". license_key_pool_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Merchant-defined key-value pairs.
          * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null. order
-         * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary when
-         * requested with expand=order. Null when the key has no order. Omitted when no order
-         * expansion is requested. order.anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
-         * (Optional): string or null. The owning order or the order that started the subscription.
-         * Null when a subscription has no starting order. order_id.anyOf[1] (Value): string. The
-         * owning order or the order that started the subscription. Null when a subscription has no
-         * starting order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value):
-         * null. order_line_item_id (Optional): string or null. The owning order line. Null when
-         * the key belongs to a subscription line. order_line_item_id.anyOf[1] (Value): string. The
-         * owning order line. Null when the key belongs to a subscription line. Example:
+         * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. The linked order.
+         * Present only when `expand` includes `order`; `null` when expanded and there is no
+         * related order. order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+         * order.anyOf[2] (Value): null. order_id (Optional): string or null. The owning order or
+         * the order that started the subscription. Null when a subscription has no starting order.
+         * order_id.anyOf[1] (Value): string. The owning order or the order that started the
+         * subscription. Null when a subscription has no starting order. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. order_line_item_id
+         * (Optional): string or null. The owning order line. Null when the key belongs to a
+         * subscription line. order_line_item_id.anyOf[1] (Value): string. The owning order line.
+         * Null when the key belongs to a subscription line. Example:
          * "li_01KEZF7C008YPRCK7VDKTGWR31". order_line_item_id.anyOf[2] (Value): null. product_id
          * (Optional): string or null. The product ID. product_id.anyOf[1] (Value): string. The
          * product ID. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value):
@@ -699,8 +705,8 @@ export type LicenseKeyUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
              */
             "created_at"?: ((string) | (null));
             /**
-             * Customer summary when requested with expand=customer. Null when the key has no
-             * customer. Omitted when no customer expansion is requested. anyOf[1] (Value): {@link
+             * The linked customer. Present only when `expand` includes `customer`; `null` when
+             * expanded and there is no related customer. anyOf[1] (Value): {@link
              * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
             "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
@@ -741,8 +747,8 @@ export type LicenseKeyUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEn
              */
             "metadata"?: ((MetadataMap) | (null));
             /**
-             * Order summary when requested with expand=order. Null when the key has no order.
-             * Omitted when no order expansion is requested. anyOf[1] (Value): {@link
+             * The linked order. Present only when `expand` includes `order`; `null` when expanded
+             * and there is no related order. anyOf[1] (Value): {@link
              * ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
             "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
@@ -879,31 +885,34 @@ export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
      * object.active_activation_count (Required): integer. Number of currently active
      * installations. Format: int32. object.created_at (Required): string. When the license key was
      * issued. Format: date-time. Example: "2026-08-02T16:00:00Z". object.customer (Optional):
-     * {@link ExpandedCustomerSummary}. Customer summary when requested with expand=customer. Null
-     * when the key has no customer. Omitted when no customer expansion is requested. A customer's
-     * summary fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer_id (Required): string or null. The current customer of the owning order or
-     * subscription. Null when the order has no linked customer. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.expires_at (Required): string or null. When the key
-     * expires. Null when no expiry is set. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.key_last4 (Required): string or null. Last four characters of the assigned key. Null
-     * when the key is awaiting assignment. object.license_key_id (Required): string. Unique
-     * license key ID with the lk_ prefix. Example: "lk_01KEZF7C000QD7VJ83G43V0NSN".
-     * object.license_key_pool_id (Required): string or null. The source pool ID. Null when the key
-     * is generated. Example: "lkp_01KEZF7C00AQV1X2DPWG2NXS7H". object.metadata (Required): {@link
-     * MetadataMap}. Merchant-defined key-value pairs. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary}. Order summary
-     * when requested with expand=order. Null when the key has no order. Omitted when no order
-     * expansion is requested. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order_id (Required): string or null. The owning order or the order that started the
-     * subscription. Null when a subscription has no starting order. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.order_line_item_id (Required): string or null. The
-     * owning order line. Null when the key belongs to a subscription line. Example:
-     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.product_id (Required): string. The product ID.
-     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". object.restrictions (Required): Array of {@link
+     * {@link ExpandedCustomerSummary} or null. The linked customer. Present only when `expand`
+     * includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string or null. The
+     * current customer of the owning order or subscription. Null when the order has no linked
+     * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.expires_at (Required): string or
+     * null. When the key expires. Null when no expiry is set. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.key_last4 (Required): string or null. Last four characters of
+     * the assigned key. Null when the key is awaiting assignment. object.license_key_id
+     * (Required): string. Unique license key ID with the lk_ prefix. Example:
+     * "lk_01KEZF7C000QD7VJ83G43V0NSN". object.license_key_pool_id (Required): string or null. The
+     * source pool ID. Null when the key is generated. Example: "lkp_01KEZF7C00AQV1X2DPWG2NXS7H".
+     * object.metadata (Required): {@link MetadataMap}. Merchant-defined key-value pairs.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
+     * (Optional): {@link ExpandedOrderSummary} or null. The linked order. Present only when
+     * `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id (Required):
+     * string or null. The owning order or the order that started the subscription. Null when a
+     * subscription has no starting order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string or null. The owning order line. Null when the
+     * key belongs to a subscription line. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+     * object.product_id (Required): string. The product ID. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66". object.restrictions (Required): Array of {@link
      * LicenseKeyRestriction}. Restrictions currently in force. object.restrictions[] (Value):
      * {@link LicenseKeyRestriction}. One occurrence of a cause keeping the key disabled.
      * object.source (Required): string. How the key was supplied. Value enum: "generated", "pool".
@@ -938,9 +947,9 @@ export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
      * previous_attributes.created_at.anyOf[1] (Value): string. When the license key was issued.
      * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
      * (Value): null. previous_attributes.customer (Optional): {@link
-     * ExpandedCustomerSummaryPreviousAttributes} or null. Customer summary when requested with
-     * expand=customer. Null when the key has no customer. Omitted when no customer expansion is
-     * requested. previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. The linked customer. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
      * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
      * null. previous_attributes.customer_id (Optional): string or null. The current customer of
      * the owning order or subscription. Null when the order has no linked customer.
@@ -966,8 +975,8 @@ export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
      * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Merchant-defined
      * key-value pairs. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
      * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.order (Optional):
-     * {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary when requested with
-     * expand=order. Null when the key has no order. Omitted when no order expansion is requested.
+     * {@link ExpandedOrderSummaryPreviousAttributes} or null. The linked order. Present only when
+     * `expand` includes `order`; `null` when expanded and there is no related order.
      * previous_attributes.order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
      * previous_attributes.order.anyOf[2] (Value): null. previous_attributes.order_id (Optional):
      * string or null. The owning order or the order that started the subscription. Null when a
@@ -1034,11 +1043,12 @@ export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
          * activations are unlimited. Format: int32. active_activation_count (Required): integer.
          * Number of currently active installations. Format: int32. created_at (Required): string.
          * When the license key was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * customer (Optional): {@link ExpandedCustomerSummary}. Customer summary when requested
-         * with expand=customer. Null when the key has no customer. Omitted when no customer
-         * expansion is requested. A customer's summary fields, returned in place of a customer ID
-         * when the customer is expanded. customer_id (Required): string or null. The current
-         * customer of the owning order or subscription. Null when the order has no linked
+         * customer (Optional): {@link ExpandedCustomerSummary} or null. The linked customer.
+         * Present only when `expand` includes `customer`; `null` when expanded and there is no
+         * related customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
+         * customer's summary fields, returned in place of a customer ID when the customer is
+         * expanded. customer.anyOf[2] (Value): null. customer_id (Required): string or null. The
+         * current customer of the owning order or subscription. Null when the order has no linked
          * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". expires_at (Required): string or
          * null. When the key expires. Null when no expiry is set. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". key_last4 (Required): string or null. Last four characters of
@@ -1050,33 +1060,34 @@ export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
          * Merchant-defined key-value pairs. Caller-owned key-value data stored on a resource. Keys
          * starting with flint_ are reserved for Flint and are not returned. Writes follow the
          * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. order (Optional): {@link ExpandedOrderSummary}. Order summary when
-         * requested with expand=order. Null when the key has no order. Omitted when no order
-         * expansion is requested. An order's summary fields, including status, payment and refund
-         * status, and pricing and settlement amounts, returned when the order is expanded.
-         * order_id (Required): string or null. The owning order or the order that started the
-         * subscription. Null when a subscription has no starting order. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string or null. The
-         * owning order line. Null when the key belongs to a subscription line. Example:
-         * "li_01KEZF7C008YPRCK7VDKTGWR31". product_id (Required): string. The product ID. Example:
-         * "prod_01KEZF7C00BVSHCNWVH528HB66". restrictions (Required): Array of {@link
-         * LicenseKeyRestriction}. Restrictions currently in force. restrictions[] (Value): {@link
-         * LicenseKeyRestriction}. One occurrence of a cause keeping the key disabled. source
-         * (Required): string. How the key was supplied. Value enum: "generated", "pool". status
-         * (Required): string. Whether the key is usable. Expiry takes effect at expires_at. Value
-         * enum: "pending", "active", "disabled", "expired". subscription_id (Required): string or
-         * null. The owning subscription. Null when the key belongs to an order line. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_line_item_id (Required): string or null.
-         * The owning subscription line. Null when the key belongs to an order line. Example:
-         * "sli_01KEZF7C00PPWVJ2N321V84ASA". supported_actions (Required): Array of string.
-         * Lifecycle actions currently available for this key. [] enum: "disable", "reinstate".
-         * supported_actions[] (Value): string. Value enum: "disable", "reinstate". unit_ordinal
-         * (Required): integer. The unit of the owning line, starting at 1. Format: int32.
-         * updated_at (Required): string. When the license key version last changed. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". variant_id (Required): string. The product
-         * variant ID. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". version (Required): integer.
-         * Persisted version of this resource's owned state. Expanded resources and external
-         * observations can change independently. Format: uint64. minimum: 1.
+         * satisfy them. order (Optional): {@link ExpandedOrderSummary} or null. The linked order.
+         * Present only when `expand` includes `order`; `null` when expanded and there is no
+         * related order. order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+         * fields, including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string or null. The owning order or the order that started the subscription. Null when a
+         * subscription has no starting order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * order_line_item_id (Required): string or null. The owning order line. Null when the key
+         * belongs to a subscription line. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". product_id
+         * (Required): string. The product ID. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+         * restrictions (Required): Array of {@link LicenseKeyRestriction}. Restrictions currently
+         * in force. restrictions[] (Value): {@link LicenseKeyRestriction}. One occurrence of a
+         * cause keeping the key disabled. source (Required): string. How the key was supplied.
+         * Value enum: "generated", "pool". status (Required): string. Whether the key is usable.
+         * Expiry takes effect at expires_at. Value enum: "pending", "active", "disabled",
+         * "expired". subscription_id (Required): string or null. The owning subscription. Null
+         * when the key belongs to an order line. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+         * subscription_line_item_id (Required): string or null. The owning subscription line. Null
+         * when the key belongs to an order line. Example: "sli_01KEZF7C00PPWVJ2N321V84ASA".
+         * supported_actions (Required): Array of string. Lifecycle actions currently available for
+         * this key. [] enum: "disable", "reinstate". supported_actions[] (Value): string. Value
+         * enum: "disable", "reinstate". unit_ordinal (Required): integer. The unit of the owning
+         * line, starting at 1. Format: int32. updated_at (Required): string. When the license key
+         * version last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". variant_id
+         * (Required): string. The product variant ID. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+         * version (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1.
          */
         "object": {
             /** Maximum active installations. Null when activations are unlimited. Format: int32. */
@@ -1088,11 +1099,12 @@ export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              */
             "created_at": string;
             /**
-             * Customer summary when requested with expand=customer. Null when the key has no
-             * customer. Omitted when no customer expansion is requested. A customer's summary
-             * fields, returned in place of a customer ID when the customer is expanded.
+             * The linked customer. Present only when `expand` includes `customer`; `null` when
+             * expanded and there is no related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
+             * customer ID when the customer is expanded. anyOf[2] (Value): null.
              */
-            "customer"?: ExpandedCustomerSummary;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
             /**
              * The current customer of the owning order or subscription. Null when the order has no
              * linked customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
@@ -1124,12 +1136,12 @@ export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              */
             "metadata": MetadataMap;
             /**
-             * Order summary when requested with expand=order. Null when the key has no order.
-             * Omitted when no order expansion is requested. An order's summary fields, including
-             * status, payment and refund status, and pricing and settlement amounts, returned when
-             * the order is expanded.
+             * The linked order. Present only when `expand` includes `order`; `null` when expanded
+             * and there is no related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
              */
-            "order"?: ExpandedOrderSummary;
+            "order"?: ((ExpandedOrderSummary) | (null));
             /**
              * The owning order or the order that started the subscription. Null when a
              * subscription has no starting order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
@@ -1198,15 +1210,15 @@ export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
          * created_at (Optional): string or null. When the license key was issued.
          * created_at.anyOf[1] (Value): string. When the license key was issued. Format: date-time.
          * Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. customer (Optional):
-         * {@link ExpandedCustomerSummaryPreviousAttributes} or null. Customer summary when
-         * requested with expand=customer. Null when the key has no customer. Omitted when no
-         * customer expansion is requested. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummaryPreviousAttributes}. customer.anyOf[2] (Value): null. customer_id
-         * (Optional): string or null. The current customer of the owning order or subscription.
-         * Null when the order has no linked customer. customer_id.anyOf[1] (Value): string. The
-         * current customer of the owning order or subscription. Null when the order has no linked
-         * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null.
-         * expires_at (Optional): string or null. When the key expires. Null when no expiry is set.
+         * {@link ExpandedCustomerSummaryPreviousAttributes} or null. The linked customer. Present
+         * only when `expand` includes `customer`; `null` when expanded and there is no related
+         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The current
+         * customer of the owning order or subscription. Null when the order has no linked
+         * customer. customer_id.anyOf[1] (Value): string. The current customer of the owning order
+         * or subscription. Null when the order has no linked customer. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. expires_at
+         * (Optional): string or null. When the key expires. Null when no expiry is set.
          * expires_at.anyOf[1] (Value): string. When the key expires. Null when no expiry is set.
          * Format: date-time. Example: "2026-08-02T16:00:00Z". expires_at.anyOf[2] (Value): null.
          * key_last4 (Optional): string or null. Last four characters of the assigned key. Null
@@ -1221,17 +1233,17 @@ export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
          * "lkp_01KEZF7C00AQV1X2DPWG2NXS7H". license_key_pool_id.anyOf[2] (Value): null. metadata
          * (Optional): {@link MetadataMap} or null. Merchant-defined key-value pairs.
          * metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2] (Value): null. order
-         * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. Order summary when
-         * requested with expand=order. Null when the key has no order. Omitted when no order
-         * expansion is requested. order.anyOf[1] (Value): {@link
-         * ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
-         * (Optional): string or null. The owning order or the order that started the subscription.
-         * Null when a subscription has no starting order. order_id.anyOf[1] (Value): string. The
-         * owning order or the order that started the subscription. Null when a subscription has no
-         * starting order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value):
-         * null. order_line_item_id (Optional): string or null. The owning order line. Null when
-         * the key belongs to a subscription line. order_line_item_id.anyOf[1] (Value): string. The
-         * owning order line. Null when the key belongs to a subscription line. Example:
+         * (Optional): {@link ExpandedOrderSummaryPreviousAttributes} or null. The linked order.
+         * Present only when `expand` includes `order`; `null` when expanded and there is no
+         * related order. order.anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+         * order.anyOf[2] (Value): null. order_id (Optional): string or null. The owning order or
+         * the order that started the subscription. Null when a subscription has no starting order.
+         * order_id.anyOf[1] (Value): string. The owning order or the order that started the
+         * subscription. Null when a subscription has no starting order. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null. order_line_item_id
+         * (Optional): string or null. The owning order line. Null when the key belongs to a
+         * subscription line. order_line_item_id.anyOf[1] (Value): string. The owning order line.
+         * Null when the key belongs to a subscription line. Example:
          * "li_01KEZF7C008YPRCK7VDKTGWR31". order_line_item_id.anyOf[2] (Value): null. product_id
          * (Optional): string or null. The product ID. product_id.anyOf[1] (Value): string. The
          * product ID. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". product_id.anyOf[2] (Value):
@@ -1294,8 +1306,8 @@ export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              */
             "created_at"?: ((string) | (null));
             /**
-             * Customer summary when requested with expand=customer. Null when the key has no
-             * customer. Omitted when no customer expansion is requested. anyOf[1] (Value): {@link
+             * The linked customer. Present only when `expand` includes `customer`; `null` when
+             * expanded and there is no related customer. anyOf[1] (Value): {@link
              * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
             "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
@@ -1336,8 +1348,8 @@ export type LicenseKeyUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & 
              */
             "metadata"?: ((MetadataMap) | (null));
             /**
-             * Order summary when requested with expand=order. Null when the key has no order.
-             * Omitted when no order expansion is requested. anyOf[1] (Value): {@link
+             * The linked order. Present only when `expand` includes `order`; `null` when expanded
+             * and there is no related order. anyOf[1] (Value): {@link
              * ExpandedOrderSummaryPreviousAttributes}. anyOf[2] (Value): null.
              */
             "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));

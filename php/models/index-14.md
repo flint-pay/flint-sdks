@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# GiftCardFundingSourceFlintManualPaymentPreviousAttributesInput to InventoryActionRequiredInput
+# GiftCardFundingSourceFlintManualPaymentInput to InlineModifierGroupRequestInput
 
+- [GiftCardFundingSourceFlintManualPaymentInput](GiftCardFundingSourceFlintManualPaymentInput.md)
 - [GiftCardFundingSourceFlintManualPaymentPreviousAttributesInput](GiftCardFundingSourceFlintManualPaymentPreviousAttributesInput.md)
 - [GiftCardFundingSourceFlintManualPaymentRequestInput](GiftCardFundingSourceFlintManualPaymentRequestInput.md)
 - [GiftCardFundingSourceFlintPaymentInput](GiftCardFundingSourceFlintPaymentInput.md)
@@ -101,5 +102,4 @@
 - [ImageRequestInput](ImageRequestInput.md)
 - [InitialGiftCardFundingInput](InitialGiftCardFundingInput.md)
 - [InlineModifierGroupRequestInput](InlineModifierGroupRequestInput.md)
-- [InventoryActionRequiredInput](InventoryActionRequiredInput.md)
 

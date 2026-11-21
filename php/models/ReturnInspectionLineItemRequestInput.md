@@ -13,8 +13,8 @@ Request input.
 | `finding_codes` | Optional | Array of string | What the inspection found. Up to 50 values, none repeated. Items values: `"matches_expected_item"`, `"wrong_item"`, `"damaged"`, `"defective"`, `"used"`, `"missing_parts"`, `"empty_package"`, `"counterfeit_suspected"`, `"other"`. |
 | `internal_note` | Optional | string | Note for your own team about this line. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
-| `return_line_item_id` | Optional | string | ID of the Return line inspected. minLength: `1`. Example: `"retli_01KEZF7C00R813VR7ECXS062QG"`. |
+| `return_line_item_id` | Optional | string | ID of the Return line to verify the receipt line against. Send with `verification_reason`. minLength: `1`. Example: `"retli_01KEZF7C00R813VR7ECXS062QG"`. |
 | `return_receipt_line_item_id` | Required | string | ID of the receipt line inspected. minLength: `1`. Example: `"retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE"`. |
-| `verification_reason` | Optional | string | Why the receipt line was verified against the Return line. Values: `"order_match_confirmed"`, `"sku_match_confirmed"`, `"inspection_confirmed"`, `"merchant_review"`, `"other"`. |
-| `verification_reason_message` | Optional | string | Detail about `verification_reason`. minLength: `1`. |
+| `verification_reason` | Optional | string | Why the receipt line was verified against the Return line. Required when you send `return_line_item_id`. Values: `"order_match_confirmed"`, `"sku_match_confirmed"`, `"inspection_confirmed"`, `"merchant_review"`, `"other"`. |
+| `verification_reason_message` | Optional | string | Detail about `verification_reason`. Send only with `return_line_item_id` and `verification_reason`. minLength: `1`. |
 

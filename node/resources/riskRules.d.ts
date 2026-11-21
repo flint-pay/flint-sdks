@@ -39,7 +39,6 @@ export type {
     RiskRuleListResponse,
     RiskRulesUpdateParams,
     RiskPredicateNodeRequestInput,
-    RiskPredicateNodeAllRequestInput,
     RiskPredicateNodeAnyRequestInput,
     RiskPredicateNodeNotRequestInput,
     RiskPredicateNodeComparisonRequestInput,
@@ -61,6 +60,7 @@ export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type {
     RiskAttributeRegistry,
     RiskAttributeRegistryResponse,
+    RiskPredicateNodeAllRequestInput,
     RiskPredicateNode,
     RiskPredicateNodeAll,
     RiskAttribute
@@ -74,7 +74,7 @@ export type { ReadinessMerchantAccountSession } from '../declarations/types-60.j
 export type { UpdateRiskRuleRequestInput } from '../declarations/types-78.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateRiskRuleRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export {
     makeRiskPredicateNodeAllRequest,
     makeRiskPredicateNodeAnyRequest,

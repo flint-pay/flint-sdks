@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# InventoryReservationCommittedInstalledMerchantsEvent to InvoiceDeliveryAttemptFailedInstalledMerchantsEvent
+# InventoryReservationClosedMerchantEvent to InvoiceDeliveryAttempt
 
+- [InventoryReservationClosedMerchantEvent](InventoryReservationClosedMerchantEvent.md)
 - [InventoryReservationCommittedInstalledMerchantsEvent](InventoryReservationCommittedInstalledMerchantsEvent.md)
 - [InventoryReservationCommittedMerchantEvent](InventoryReservationCommittedMerchantEvent.md)
 - [InventoryReservationConsumedInstalledMerchantsEvent](InventoryReservationConsumedInstalledMerchantsEvent.md)
@@ -101,5 +102,4 @@
 - [InvoiceCreditedInstalledMerchantsEvent](InvoiceCreditedInstalledMerchantsEvent.md)
 - [InvoiceCreditedMerchantEvent](InvoiceCreditedMerchantEvent.md)
 - [InvoiceDeliveryAttempt](InvoiceDeliveryAttempt.md)
-- [InvoiceDeliveryAttemptFailedInstalledMerchantsEvent](InvoiceDeliveryAttemptFailedInstalledMerchantsEvent.md)
 

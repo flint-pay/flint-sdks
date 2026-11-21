@@ -15,9 +15,10 @@ namespace Flint;
  * @property-read string $resolution_type
  * @property-read string $return_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $returned_total_money
+ * @property-read list<ReturnRefundTenderEstimateInput|array<array-key, mixed>|\stdClass> $tender_estimates
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerReturnResolutionPreviewInput extends Model {
-    /** @param array{'adjustments': list<BuyerReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>, 'based_on_return_version': int, 'buyer_payment_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_refund_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculated_at': string|\DateTimeInterface, 'credit_adjustment_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'line_items': list<ReturnResolutionLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_line_items': list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'resolution_type': string, 'return_id': string, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'adjustments': list<BuyerReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>, 'based_on_return_version': int, 'buyer_payment_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_refund_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculated_at': string|\DateTimeInterface, 'credit_adjustment_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'line_items': list<ReturnResolutionLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_line_items': list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'resolution_type': string, 'return_id': string, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tender_estimates': list<ReturnRefundTenderEstimateInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnResolutionPreviewInput')); }
     /** Fees and credits to apply to the resolution, at most 50. [] (Value): {@see BuyerReturnResolutionAdjustmentInput}. An adjustment to a Return resolution shown to the buyer, with its assessed amount, applied amount, status, and reason.
      * @return list<BuyerReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>
@@ -97,4 +98,10 @@ final class BuyerReturnResolutionPreviewInput extends Model {
      */
     public function getReturnedTotalMoney(): mixed { return $this->get('returned_total_money'); }
     public function hasReturnedTotalMoney(): bool { return $this->has('returned_total_money'); }
+    /** Estimated amounts by original tender and refund destination. For a replacement return, order_id identifies the order that collected each tender. Empty when no amount is payable. [] (Value): {@see ReturnRefundTenderEstimateInput}. One original tender and its estimated share of a return refund.
+     * @return list<ReturnRefundTenderEstimateInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When tender_estimates is omitted; use hasTenderEstimates() or valueOrDefault().
+     */
+    public function getTenderEstimates(): array { return $this->get('tender_estimates'); }
+    public function hasTenderEstimates(): bool { return $this->has('tender_estimates'); }
 }

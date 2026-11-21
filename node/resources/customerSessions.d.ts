@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { CustomerSession } from '../declarations/types-16.js';
 import type {
+    CustomerSession,
     CustomerSessionResponse,
     CustomerSessionWithSecret,
     CustomerSessionWithSecretResponse,
@@ -33,13 +33,13 @@ export type {
     CustomerSessionWithSecretResponse,
     CustomerSessionsRefreshParams,
     CustomerSessionsRevokeParams,
+    CustomerSession,
     CustomerSessionResponse,
     CustomerSessionsRevocation,
     CustomerSessionsRevocationResponse
 } from '../declarations/types-17.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
 export type { _SdkRequiredIdempotency } from '../declarations/types-80.js';
-export type { CustomerSession } from '../declarations/types-16.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateCustomerSessionRequestInput } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
@@ -51,7 +51,7 @@ export type {
     RefreshCustomerSessionRequest
 } from '../declarations/types-60.js';
 export { makeCreateCustomerSessionRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeRefreshCustomerSessionRequest } from '../declarations/types-91.js';
 export interface CustomerSessionsResource {
     /**

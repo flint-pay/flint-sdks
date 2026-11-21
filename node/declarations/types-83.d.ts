@@ -1,6 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    CreateInlineModifierGroupRequestInput,
     CreateIntervalReportRequestInput,
     CreateInventoryAdjustmentConditionChangeRequestInput,
     CreateInventoryAdjustmentCorrectionRequestInput,
@@ -14,11 +13,11 @@ import type {
     CreateInventoryReceiptRequestInput,
     CreateInventoryReservationRequestInput,
     CreateInventoryTransferRequestInput,
-    CreateInvoiceIssueRequestInput,
-    CreateInvoiceManualPaymentRequestInput,
-    CreateInvoicePaymentTermRequestInput
+    CreateInvoiceIssueRequestInput
 } from './types-10.js';
 import type {
+    CreateInvoiceManualPaymentRequestInput,
+    CreateInvoicePaymentTermRequestInput,
     CreateInvoiceQuickPayRequestInput,
     CreateInvoiceRequestInput,
     CreateInvoiceRequestOrderInput,
@@ -46,11 +45,10 @@ import type {
     CreateOrderDiscountInput,
     CreateOrderDiscountManualInput,
     CreateOrderDiscountPromotionInput,
-    CreateOrderEditRequestInput,
-    CreateOrderLineItemCustomRequestInput,
-    CreateOrderLineItemInputBundleInput
+    CreateOrderEditRequestInput
 } from './types-11.js';
 import type {
+    CreateOrderLineItemInputBundleInput,
     CreateOrderLineItemInputCustomInput,
     CreateOrderLineItemInputVariantInput,
     CreateOrderLineItemRequestInput,
@@ -67,9 +65,10 @@ import type {
     CreatePartnerAppCredentialRequestInput,
     CreatePartnerAppCredentialWorkloadIdentityRequestInput,
     CreatePartnerAppRequestInput,
-    CreatePaymentIntentRequestInput
+    CreatePaymentIntentRequestInput,
+    CreatePaymentLinkRequestInput,
+    CreatePaymentMethodDomainRequestInput
 } from './types-12.js';
-export declare function makeCreateInlineModifierGroupRequest(value: InputValue<CreateInlineModifierGroupRequestInput>): Model<CreateInlineModifierGroupRequestInput>;
 export declare function makeCreateIntervalReportRequest(value: InputValue<CreateIntervalReportRequestInput>): Model<CreateIntervalReportRequestInput>;
 export declare function makeCreateInventoryAdjustmentConditionChangeRequest(value: InputValue<CreateInventoryAdjustmentConditionChangeRequestInput>): Model<CreateInventoryAdjustmentConditionChangeRequestInput>;
 export declare function makeCreateInventoryAdjustmentCorrectionRequest(value: InputValue<CreateInventoryAdjustmentCorrectionRequestInput>): Model<CreateInventoryAdjustmentCorrectionRequestInput>;
@@ -116,7 +115,6 @@ export declare function makeCreateOrderDiscount(value: InputValue<CreateOrderDis
 export declare function makeCreateOrderDiscountManual(value: InputValue<CreateOrderDiscountManualInput>): Model<CreateOrderDiscountManualInput>;
 export declare function makeCreateOrderDiscountPromotion(value: InputValue<CreateOrderDiscountPromotionInput>): Model<CreateOrderDiscountPromotionInput>;
 export declare function makeCreateOrderEditRequest(value: InputValue<CreateOrderEditRequestInput>): Model<CreateOrderEditRequestInput>;
-export declare function makeCreateOrderLineItemCustomRequest(value: InputValue<CreateOrderLineItemCustomRequestInput>): Model<CreateOrderLineItemCustomRequestInput>;
 export declare function makeCreateOrderLineItemInputBundle(value: InputValue<CreateOrderLineItemInputBundleInput>): Model<CreateOrderLineItemInputBundleInput>;
 export declare function makeCreateOrderLineItemInputCustom(value: InputValue<CreateOrderLineItemInputCustomInput>): Model<CreateOrderLineItemInputCustomInput>;
 export declare function makeCreateOrderLineItemInputVariant(value: InputValue<CreateOrderLineItemInputVariantInput>): Model<CreateOrderLineItemInputVariantInput>;
@@ -136,3 +134,5 @@ export declare function makeCreatePartnerAppCredentialRequest(value: InputValue<
 export declare function makeCreatePartnerAppCredentialWorkloadIdentityRequest(value: InputValue<CreatePartnerAppCredentialWorkloadIdentityRequestInput>): Model<CreatePartnerAppCredentialWorkloadIdentityRequestInput>;
 export declare function makeCreatePartnerAppRequest(value: InputValue<CreatePartnerAppRequestInput>): Model<CreatePartnerAppRequestInput>;
 export declare function makeCreatePaymentIntentRequest(value: InputValue<CreatePaymentIntentRequestInput>): Model<CreatePaymentIntentRequestInput>;
+export declare function makeCreatePaymentLinkRequest(value: InputValue<CreatePaymentLinkRequestInput>): Model<CreatePaymentLinkRequestInput>;
+export declare function makeCreatePaymentMethodDomainRequest(value: InputValue<CreatePaymentMethodDomainRequestInput>): Model<CreatePaymentMethodDomainRequestInput>;

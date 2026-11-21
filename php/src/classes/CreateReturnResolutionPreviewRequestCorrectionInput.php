@@ -5,11 +5,12 @@ namespace Flint;
  * @property-read list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass> $adjustments
  * @property-read string $corrects_return_resolution_id
  * @property-read int $expected_return_version
+ * @property-read string $gift_card_refund_destination
  * @property-read string $resolution_type
  * @property-read string $return_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateReturnResolutionPreviewRequestCorrectionInput extends Model {
-    /** @param array{'adjustments': list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'corrects_return_resolution_id': string, 'expected_return_version'?: int, 'resolution_type': string, 'return_id': string}|object $values */
+    /** @param array{'adjustments': list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'corrects_return_resolution_id': string, 'expected_return_version'?: int, 'gift_card_refund_destination'?: string, 'resolution_type': string, 'return_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnResolutionPreviewRequestCorrectionInput')); }
     /** Fees and credits to apply to the resolution, at most 50. Fees and credits to apply to the resolution, at most 50. minItems: 1. [] (Value): {@see ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return resolution, with the assessed and applied amounts and whether it is applied or waived.
      * @return list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>
@@ -29,6 +30,12 @@ final class CreateReturnResolutionPreviewRequestCorrectionInput extends Model {
      */
     public function getExpectedReturnVersion(): int { return $this->get('expected_return_version'); }
     public function hasExpectedReturnVersion(): bool { return $this->has('expected_return_version'); }
+    /** Where the gift-card-paid portion would be refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action. An unsupported selection returns INVALID_REQUEST with a NOT_ALLOWED detail at resolution.gift_card_refund_destination and conflicting_fields naming resolution.resolution_type. Store credit and its corrections always issue new gift cards. Default: "original". Value enum: "original", "new_gift_card".
+     * @return string
+     * @throws SdkError When gift_card_refund_destination is omitted; use hasGiftCardRefundDestination() or valueOrDefault().
+     */
+    public function getGiftCardRefundDestination(): string { return $this->get('gift_card_refund_destination'); }
+    public function hasGiftCardRefundDestination(): bool { return $this->has('gift_card_refund_destination'); }
     /** What the buyer gets for the approved quantity. Value enum: "correction".
      * @return string
      * @throws SdkError When resolution_type is omitted; use hasResolutionType() or valueOrDefault().

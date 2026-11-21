@@ -9,15 +9,65 @@ import type {
     DeliveryWeightUnitPriceRequestInput
 } from './types-24.js';
 import type { LocationCoordinate } from './types-40.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type {
+    DeliveryDistanceUnitPrice,
     DeliveryDistanceUnitPricePreviousAttributes,
     DeliveryDistanceUnitPriceRequestInput,
     DeliveryInputRequirement,
     DeliveryInputRequirementPreviousAttributes
 } from './types-19.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { DeliveryOptionProjection, DeliveryOptionProjectionPreviousAttributes } from './types-20.js';
 import type { TaxComponentRequest, TaxComponentRequestModelInput, TaxComponentRequestPreviousAttributes } from './types-74.js';
+/**
+ * A promotion accepted at subscription signup for the subscription's first charged cycle. It does
+ * not discount the signup order.
+ */
+export type DeferredPromotion = {
+    /** Name the buyer sees for the promotion, fixed when it was accepted at signup. */
+    "customer_facing_name": string;
+    /**
+     * ID of this order's deferred promotion. Starts with dp_. Send it in deferred_promotion_ids to
+     * POST /v1/orders/{order_id}/discounts/remove to remove the promotion before payment. Example:
+     * "dp_01KEZF7C00AZMP1PY1ER7CQ4SA".
+     */
+    "deferred_promotion_id": string;
+    /** Promotion code accepted at signup. Null when the promotion was applied by ID. */
+    "promotion_code": string | null;
+    /**
+     * ID of the promotion accepted for the subscription. Example:
+     * "promo_01KEZF7C00E1JAV4M413D9DE1P".
+     */
+    "promotion_id": string;
+};
+export type DeferredPromotionPreviousAttributes = {
+    /**
+     * Name the buyer sees for the promotion, fixed when it was accepted at signup. anyOf[1]
+     * (Value): string. Name the buyer sees for the promotion, fixed when it was accepted at
+     * signup. anyOf[2] (Value): null.
+     */
+    "customer_facing_name"?: ((string) | (null));
+    /**
+     * ID of this order's deferred promotion. Starts with dp_. Send it in deferred_promotion_ids to
+     * POST /v1/orders/{order_id}/discounts/remove to remove the promotion before payment. anyOf[1]
+     * (Value): string. ID of this order's deferred promotion. Starts with dp_. Send it in
+     * deferred_promotion_ids to POST /v1/orders/{order_id}/discounts/remove to remove the
+     * promotion before payment. Example: "dp_01KEZF7C00AZMP1PY1ER7CQ4SA". anyOf[2] (Value): null.
+     */
+    "deferred_promotion_id"?: ((string) | (null));
+    /**
+     * Promotion code accepted at signup. Null when the promotion was applied by ID. anyOf[1]
+     * (Value): string. Promotion code accepted at signup. Null when the promotion was applied by
+     * ID. anyOf[2] (Value): null.
+     */
+    "promotion_code"?: ((string) | (null));
+    /**
+     * ID of the promotion accepted for the subscription. anyOf[1] (Value): string. ID of the
+     * promotion accepted for the subscription. Example: "promo_01KEZF7C00E1JAV4M413D9DE1P".
+     * anyOf[2] (Value): null.
+     */
+    "promotion_id"?: ((string) | (null));
+};
 export type DeleteReturnLineItemResponse = GetReturnResponse;
 export type DeleteReturnPolicyResponse = GetReturnPolicyResponse;
 export type DeleteReturnReasonResponse = GetReturnReasonResponse;
@@ -921,22 +971,25 @@ export type DeliveryCandidateOutcomeResource = ({
         | (string & {});
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable".
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
+     * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
+     * signing secret, or choose another method. - `destination_not_served`: Use a destination
+     * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
+     * pickup method or location. - `no_window_available`: Choose another offered window or a
+     * method with availability for the requested time. - `eligibility_no_match`: Inspect
+     * eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. -
+     * `method_type_not_allowed`: Choose a method type allowed by every line item in the choice
+     * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
+     * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
+     * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable".
      */
-    "unavailable_reason"?: "dependency_revoked"
+    "unavailable_reason"?: "automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -1031,22 +1084,25 @@ export type DeliveryCandidateOutcomeResourceAvailable = ({
     "type": "available" | (string & {});
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable".
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
+     * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
+     * signing secret, or choose another method. - `destination_not_served`: Use a destination
+     * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
+     * pickup method or location. - `no_window_available`: Choose another offered window or a
+     * method with availability for the requested time. - `eligibility_no_match`: Inspect
+     * eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. -
+     * `method_type_not_allowed`: Choose a method type allowed by every line item in the choice
+     * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
+     * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
+     * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable".
      */
-    "unavailable_reason"?: "dependency_revoked"
+    "unavailable_reason"?: "automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -1180,21 +1236,8 @@ export type DeliveryCandidateOutcomeResourceAvailablePreviousAttributes = ({
     "type"?: (("available" | (string & {})) | (null));
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable". anyOf[1] (Value): string. Why the method is
-     * unavailable and the action that can make it eligible. - `dependency_revoked`: The method
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
      * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
      * signing secret, or choose another method. - `destination_not_served`: Use a destination
      * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
@@ -1205,12 +1248,30 @@ export type DeliveryCandidateOutcomeResourceAvailablePreviousAttributes = ({
      * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
      * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
      * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
-     * origin or method. Value enum: "dependency_revoked", "destination_not_served",
-     * "pickup_unavailable", "no_window_available", "eligibility_no_match",
-     * "method_type_not_allowed", "pricing_unavailable", "inventory_unavailable". anyOf[2] (Value):
-     * null.
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable". anyOf[1] (Value): string. Why the method is unavailable and the
+     * action that can make it eligible. - `automatic_tax_origin_unsupported`: Automatic tax
+     * requires a US fulfillment origin. Choose a method that uses a US location, or use external
+     * tax. - `dependency_revoked`: The method revision or a dependency was revoked. Publish a
+     * corrected revision, rotate the callback signing secret, or choose another method. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
+     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
+     * activate a matching rate, or provide the required caller-supplied price. -
+     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
+     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
+     * Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable". anyOf[2] (Value): null.
      */
-    "unavailable_reason"?: (("dependency_revoked"
+    "unavailable_reason"?: (("automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -1308,22 +1369,25 @@ export type DeliveryCandidateOutcomeResourceCannotCalculate = ({
     "type": "cannot_calculate" | (string & {});
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable".
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
+     * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
+     * signing secret, or choose another method. - `destination_not_served`: Use a destination
+     * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
+     * pickup method or location. - `no_window_available`: Choose another offered window or a
+     * method with availability for the requested time. - `eligibility_no_match`: Inspect
+     * eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. -
+     * `method_type_not_allowed`: Choose a method type allowed by every line item in the choice
+     * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
+     * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
+     * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable".
      */
-    "unavailable_reason"?: "dependency_revoked"
+    "unavailable_reason"?: "automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -1497,21 +1561,8 @@ export type DeliveryCandidateOutcomeResourceCannotCalculatePreviousAttributes = 
     "type"?: (("cannot_calculate" | (string & {})) | (null));
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable". anyOf[1] (Value): string. Why the method is
-     * unavailable and the action that can make it eligible. - `dependency_revoked`: The method
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
      * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
      * signing secret, or choose another method. - `destination_not_served`: Use a destination
      * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
@@ -1522,12 +1573,30 @@ export type DeliveryCandidateOutcomeResourceCannotCalculatePreviousAttributes = 
      * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
      * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
      * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
-     * origin or method. Value enum: "dependency_revoked", "destination_not_served",
-     * "pickup_unavailable", "no_window_available", "eligibility_no_match",
-     * "method_type_not_allowed", "pricing_unavailable", "inventory_unavailable". anyOf[2] (Value):
-     * null.
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable". anyOf[1] (Value): string. Why the method is unavailable and the
+     * action that can make it eligible. - `automatic_tax_origin_unsupported`: Automatic tax
+     * requires a US fulfillment origin. Choose a method that uses a US location, or use external
+     * tax. - `dependency_revoked`: The method revision or a dependency was revoked. Publish a
+     * corrected revision, rotate the callback signing secret, or choose another method. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
+     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
+     * activate a matching rate, or provide the required caller-supplied price. -
+     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
+     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
+     * Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable". anyOf[2] (Value): null.
      */
-    "unavailable_reason"?: (("dependency_revoked"
+    "unavailable_reason"?: (("automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -1625,22 +1694,25 @@ export type DeliveryCandidateOutcomeResourceInputRequired = ({
     "type": "input_required" | (string & {});
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable".
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
+     * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
+     * signing secret, or choose another method. - `destination_not_served`: Use a destination
+     * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
+     * pickup method or location. - `no_window_available`: Choose another offered window or a
+     * method with availability for the requested time. - `eligibility_no_match`: Inspect
+     * eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. -
+     * `method_type_not_allowed`: Choose a method type allowed by every line item in the choice
+     * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
+     * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
+     * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable".
      */
-    "unavailable_reason"?: "dependency_revoked"
+    "unavailable_reason"?: "automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -1774,21 +1846,8 @@ export type DeliveryCandidateOutcomeResourceInputRequiredPreviousAttributes = ({
     "type"?: (("input_required" | (string & {})) | (null));
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable". anyOf[1] (Value): string. Why the method is
-     * unavailable and the action that can make it eligible. - `dependency_revoked`: The method
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
      * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
      * signing secret, or choose another method. - `destination_not_served`: Use a destination
      * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
@@ -1799,12 +1858,30 @@ export type DeliveryCandidateOutcomeResourceInputRequiredPreviousAttributes = ({
      * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
      * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
      * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
-     * origin or method. Value enum: "dependency_revoked", "destination_not_served",
-     * "pickup_unavailable", "no_window_available", "eligibility_no_match",
-     * "method_type_not_allowed", "pricing_unavailable", "inventory_unavailable". anyOf[2] (Value):
-     * null.
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable". anyOf[1] (Value): string. Why the method is unavailable and the
+     * action that can make it eligible. - `automatic_tax_origin_unsupported`: Automatic tax
+     * requires a US fulfillment origin. Choose a method that uses a US location, or use external
+     * tax. - `dependency_revoked`: The method revision or a dependency was revoked. Publish a
+     * corrected revision, rotate the callback signing secret, or choose another method. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
+     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
+     * activate a matching rate, or provide the required caller-supplied price. -
+     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
+     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
+     * Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable". anyOf[2] (Value): null.
      */
-    "unavailable_reason"?: (("dependency_revoked"
+    "unavailable_reason"?: (("automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -1945,21 +2022,8 @@ export type DeliveryCandidateOutcomeResourcePreviousAttributes = ({
         | (null));
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable". anyOf[1] (Value): string. Why the method is
-     * unavailable and the action that can make it eligible. - `dependency_revoked`: The method
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
      * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
      * signing secret, or choose another method. - `destination_not_served`: Use a destination
      * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
@@ -1970,12 +2034,30 @@ export type DeliveryCandidateOutcomeResourcePreviousAttributes = ({
      * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
      * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
      * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
-     * origin or method. Value enum: "dependency_revoked", "destination_not_served",
-     * "pickup_unavailable", "no_window_available", "eligibility_no_match",
-     * "method_type_not_allowed", "pricing_unavailable", "inventory_unavailable". anyOf[2] (Value):
-     * null.
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable". anyOf[1] (Value): string. Why the method is unavailable and the
+     * action that can make it eligible. - `automatic_tax_origin_unsupported`: Automatic tax
+     * requires a US fulfillment origin. Choose a method that uses a US location, or use external
+     * tax. - `dependency_revoked`: The method revision or a dependency was revoked. Publish a
+     * corrected revision, rotate the callback signing secret, or choose another method. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
+     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
+     * activate a matching rate, or provide the required caller-supplied price. -
+     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
+     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
+     * Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable". anyOf[2] (Value): null.
      */
-    "unavailable_reason"?: (("dependency_revoked"
+    "unavailable_reason"?: (("automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -2074,22 +2156,25 @@ export type DeliveryCandidateOutcomeResourceRequiresCheckoutContext = ({
     "type": "requires_checkout_context" | (string & {});
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable".
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
+     * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
+     * signing secret, or choose another method. - `destination_not_served`: Use a destination
+     * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
+     * pickup method or location. - `no_window_available`: Choose another offered window or a
+     * method with availability for the requested time. - `eligibility_no_match`: Inspect
+     * eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. -
+     * `method_type_not_allowed`: Choose a method type allowed by every line item in the choice
+     * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
+     * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
+     * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable".
      */
-    "unavailable_reason"?: "dependency_revoked"
+    "unavailable_reason"?: "automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -2220,21 +2305,8 @@ export type DeliveryCandidateOutcomeResourceRequiresCheckoutContextPreviousAttri
     "type"?: (("requires_checkout_context" | (string & {})) | (null));
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable". anyOf[1] (Value): string. Why the method is
-     * unavailable and the action that can make it eligible. - `dependency_revoked`: The method
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
      * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
      * signing secret, or choose another method. - `destination_not_served`: Use a destination
      * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
@@ -2245,12 +2317,30 @@ export type DeliveryCandidateOutcomeResourceRequiresCheckoutContextPreviousAttri
      * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
      * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
      * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
-     * origin or method. Value enum: "dependency_revoked", "destination_not_served",
-     * "pickup_unavailable", "no_window_available", "eligibility_no_match",
-     * "method_type_not_allowed", "pricing_unavailable", "inventory_unavailable". anyOf[2] (Value):
-     * null.
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable". anyOf[1] (Value): string. Why the method is unavailable and the
+     * action that can make it eligible. - `automatic_tax_origin_unsupported`: Automatic tax
+     * requires a US fulfillment origin. Choose a method that uses a US location, or use external
+     * tax. - `dependency_revoked`: The method revision or a dependency was revoked. Publish a
+     * corrected revision, rotate the callback signing secret, or choose another method. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
+     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
+     * activate a matching rate, or provide the required caller-supplied price. -
+     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
+     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
+     * Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable". anyOf[2] (Value): null.
      */
-    "unavailable_reason"?: (("dependency_revoked"
+    "unavailable_reason"?: (("automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -2348,22 +2438,25 @@ export type DeliveryCandidateOutcomeResourceUnavailable = ({
     "type": "unavailable" | (string & {});
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable".
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
+     * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
+     * signing secret, or choose another method. - `destination_not_served`: Use a destination
+     * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
+     * pickup method or location. - `no_window_available`: Choose another offered window or a
+     * method with availability for the requested time. - `eligibility_no_match`: Inspect
+     * eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. -
+     * `method_type_not_allowed`: Choose a method type allowed by every line item in the choice
+     * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
+     * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
+     * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable".
      */
-    "unavailable_reason": "dependency_revoked"
+    "unavailable_reason": "automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -2378,22 +2471,25 @@ export type DeliveryCandidateOutcomeResourceUnavailable = ({
     "type": "unavailable" | (string & {});
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable".
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
+     * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
+     * signing secret, or choose another method. - `destination_not_served`: Use a destination
+     * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
+     * pickup method or location. - `no_window_available`: Choose another offered window or a
+     * method with availability for the requested time. - `eligibility_no_match`: Inspect
+     * eligibility_mismatches, then change the relevant buyer facts or method eligibility rule. -
+     * `method_type_not_allowed`: Choose a method type allowed by every line item in the choice
+     * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
+     * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
+     * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable".
      */
-    "unavailable_reason": "dependency_revoked"
+    "unavailable_reason": "automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -2517,21 +2613,8 @@ export type DeliveryCandidateOutcomeResourceUnavailablePreviousAttributes = ({
     "type"?: (("unavailable" | (string & {})) | (null));
     /**
      * Why the method is unavailable and the action that can make it eligible. -
-     * `dependency_revoked`: The method revision or a dependency was revoked. Publish a corrected
-     * revision, rotate the callback signing secret, or choose another method. -
-     * `destination_not_served`: Use a destination covered by this method or choose another method.
-     * - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
-     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
-     * activate a matching rate, or provide the required caller-supplied price. -
-     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
-     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable". anyOf[1] (Value): string. Why the method is
-     * unavailable and the action that can make it eligible. - `dependency_revoked`: The method
+     * `automatic_tax_origin_unsupported`: Automatic tax requires a US fulfillment origin. Choose a
+     * method that uses a US location, or use external tax. - `dependency_revoked`: The method
      * revision or a dependency was revoked. Publish a corrected revision, rotate the callback
      * signing secret, or choose another method. - `destination_not_served`: Use a destination
      * covered by this method or choose another method. - `pickup_unavailable`: Choose an available
@@ -2542,12 +2625,30 @@ export type DeliveryCandidateOutcomeResourceUnavailablePreviousAttributes = ({
      * group. - `pricing_unavailable`: Add or activate a matching rate, or provide the required
      * caller-supplied price. - `inventory_unavailable`: The origin or pickup location cannot
      * supply the requested inventory. Reduce the quantity, replenish inventory, or choose another
-     * origin or method. Value enum: "dependency_revoked", "destination_not_served",
-     * "pickup_unavailable", "no_window_available", "eligibility_no_match",
-     * "method_type_not_allowed", "pricing_unavailable", "inventory_unavailable". anyOf[2] (Value):
-     * null.
+     * origin or method. Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable". anyOf[1] (Value): string. Why the method is unavailable and the
+     * action that can make it eligible. - `automatic_tax_origin_unsupported`: Automatic tax
+     * requires a US fulfillment origin. Choose a method that uses a US location, or use external
+     * tax. - `dependency_revoked`: The method revision or a dependency was revoked. Publish a
+     * corrected revision, rotate the callback signing secret, or choose another method. -
+     * `destination_not_served`: Use a destination covered by this method or choose another method.
+     * - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `method_type_not_allowed`: Choose a
+     * method type allowed by every line item in the choice group. - `pricing_unavailable`: Add or
+     * activate a matching rate, or provide the required caller-supplied price. -
+     * `inventory_unavailable`: The origin or pickup location cannot supply the requested
+     * inventory. Reduce the quantity, replenish inventory, or choose another origin or method.
+     * Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable". anyOf[2] (Value): null.
      */
-    "unavailable_reason"?: (("dependency_revoked"
+    "unavailable_reason"?: (("automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -2726,30 +2827,4 @@ export type DeliveryDistancePreviousAttributes = {
      * Distance, in `unit`. anyOf[1] (Value): number. Distance, in `unit`. anyOf[2] (Value): null.
      */
     "value"?: ((number) | (null));
-};
-/** A distance as a `value` in meters, kilometers, or miles. */
-export type DeliveryDistanceRequestInput = {
-    /** Unit of `value`. Value enum: "meter", "kilometer", "mile". */
-    "unit": "meter" | "kilometer" | "mile";
-    /** Distance, in `unit`. */
-    "value": number;
-};
-/**
- * A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of
- * `unit`.
- */
-export type DeliveryDistanceUnitPrice = {
-    /**
-     * Price by ISO 4217 currency code. Each key must equal the currency of its Money value. *
-     * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "currency_options": Record<string, MoneyValue>;
-    /** Distance unit used by unit_quantity. Value enum: "meter", "kilometer", "mile". */
-    "unit": "meter" | "kilometer" | "mile" | (string & {});
-    /**
-     * Whole-number quantity of the selected unit charged at each configured currency price;
-     * fractional quantities are not supported. Format: int64. minimum: 1.
-     */
-    "unit_quantity": number;
 };

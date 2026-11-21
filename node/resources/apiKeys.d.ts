@@ -62,7 +62,7 @@ export {
     makeCreateAPIKeyRequestReadOnly,
     makeCreateAPIKeyRequestRestricted
 } from '../declarations/types-81.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeUpdateAPIKeyRequest } from '../declarations/types-93.js';
 export interface ApiKeysResource {
     /**

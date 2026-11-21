@@ -20,9 +20,9 @@ Who receives the gift card. `null` when no recipient was set.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `email` | Conditional | string or null | Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). `email`: [declared alternatives](../models/GiftCardPurchaseSnapshotPreviousAttributes.md#giftcardpurchasesnapshotpreviousattributesrecipient-variant-1email). |
+| `email` | Conditional | string or null | Email address the gift card is delivered to. `email`: [declared alternatives](../models/GiftCardPurchaseSnapshotPreviousAttributes.md#giftcardpurchasesnapshotpreviousattributesrecipient-variant-1email). |
 | `message` | Conditional | string or null | Personal message included with the gift card. `message`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesmessage). |
-| `name` | Conditional | string or null | Name of the person receiving the gift card. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. `name`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesname). |
+| `name` | Conditional | string or null | Name of the person receiving the gift card. `name`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributesname). |
 | `send_at` | Conditional | string or null | Optional send time between now and 90 days from now. Omission requests immediate recipient notification after funding. `send_at`: [declared alternatives](../models/GiftCardPurchaseSnapshotPreviousAttributes.md#giftcardpurchasesnapshotpreviousattributesrecipient-variant-1send_at). |
 | `sender_name` | Conditional | string or null | Name to show as the sender in the gift card email, when provided. `sender_name`: [declared alternatives](../models/GiftCardPurchaseRecipientPreviousAttributes.md#giftcardpurchaserecipientpreviousattributessender_name). |
 
@@ -43,15 +43,15 @@ anyOf variant 2.
 
 ### GiftCardPurchaseSnapshotPreviousAttributes.recipient variant 1.email variant 1
 
-anyOf variant 1: Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes)..
+anyOf variant 1: Email address the gift card is delivered to..
 
-- Value shape: string. Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). Format: `email`. minLength: `1`. maxLength: `254`. Example: `"buyer@example.com"`. 
+- Value shape: string. Email address the gift card is delivered to. Email address the gift card is delivered to. Format: `email`. minLength: `1`. maxLength: `254`. Example: `"buyer@example.com"`. 
 
 ### GiftCardPurchaseSnapshotPreviousAttributes.recipient variant 1.email variant 2
 
 anyOf variant 2.
 
-- Value shape: null. Email address the gift card is delivered to. The local part before @ must be at most 64 octets (UTF-8 bytes). 
+- Value shape: null. Email address the gift card is delivered to. 
 
 ### GiftCardPurchaseSnapshotPreviousAttributes.recipient variant 1.message
 

@@ -191,6 +191,7 @@ The priced resolution. Present when `mode` is `resolution`. A preview of a retur
 | `resolution_type` | Required | string | What the buyer gets for the approved quantity. Values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. |
 | `return_id` | Required | string | ID of the Return the resolution is for. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
 | `returned_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Value of the returned units the proposed resolution covers. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `tender_estimates` | Required | Array of (object and Alternative shapes (see declared variants)) | Estimated amounts by original tender and refund destination. For a replacement return, order_id identifies the order that collected each tender. Empty when no amount is payable. `tender_estimates[]`: [declared alternatives](../models/BuyerReturnPreviewResponse.md#buyerreturnpreviewresponsedataresolution-fields-1tender_estimates). |
 
 ### CreateReturnPreviewResponse.data.resolution fields 1.adjustments[]
 
@@ -203,6 +204,10 @@ Field definitions: [CancelReturnResponse.data.return_resolutions[].line_items[]]
 ### CreateReturnPreviewResponse.data.resolution fields 1.replacement_line_items[]
 
 Field definitions: [CancelReturnResponse.data.return_resolutions[].replacement_line_items[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsreplacement_line_items).
+
+### CreateReturnPreviewResponse.data.resolution fields 1.tender_estimates[]
+
+Declared alternatives: [BuyerReturnPreviewResponse.data.resolution fields 1.tender_estimates[]](../models/BuyerReturnPreviewResponse.md#buyerreturnpreviewresponsedataresolution-fields-1tender_estimates).
 
 ### CreateReturnPreviewResponse.meta
 

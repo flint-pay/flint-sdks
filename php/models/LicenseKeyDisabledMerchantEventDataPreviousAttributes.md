@@ -11,14 +11,14 @@ Response model.
 | `activation_limit` | Optional | integer or null | Maximum active installations. Null when activations are unlimited. `activation_limit`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributesactivation_limit). |
 | `active_activation_count` | Optional | integer or null | Number of currently active installations. `active_activation_count`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributesactive_activation_count). |
 | `created_at` | Optional | string or null | When the license key was issued. `created_at`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributescreated_at). |
-| `customer` | Optional | [ExpandedCustomerSummaryPreviousAttributes](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributes) or null | Customer summary when requested with expand=customer. Null when the key has no customer. Omitted when no customer expansion is requested. `customer`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributescustomer). |
+| `customer` | Optional | [ExpandedCustomerSummaryPreviousAttributes](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributes) or null | The linked customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. `customer`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributescustomer). |
 | `customer_id` | Optional | string or null | The current customer of the owning order or subscription. Null when the order has no linked customer. `customer_id`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributescustomer_id). |
 | `expires_at` | Optional | string or null | When the key expires. Null when no expiry is set. `expires_at`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributesexpires_at). |
 | `key_last4` | Optional | string or null | Last four characters of the assigned key. Null when the key is awaiting assignment. `key_last4`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributeskey_last4). |
 | `license_key_id` | Optional | string or null | Unique license key ID with the lk_ prefix. `license_key_id`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributeslicense_key_id). |
 | `license_key_pool_id` | Optional | string or null | The source pool ID. Null when the key is generated. `license_key_pool_id`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributeslicense_key_pool_id). |
 | `metadata` | Optional | Map of string or null | Merchant-defined key-value pairs. `metadata`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributesmetadata). |
-| `order` | Optional | [ExpandedOrderSummaryPreviousAttributes](../models/ExpandedOrderSummaryPreviousAttributes.md#expandedordersummarypreviousattributes) or null | Order summary when requested with expand=order. Null when the key has no order. Omitted when no order expansion is requested. `order`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributesorder). |
+| `order` | Optional | [ExpandedOrderSummaryPreviousAttributes](../models/ExpandedOrderSummaryPreviousAttributes.md#expandedordersummarypreviousattributes) or null | The linked order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. `order`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributesorder). |
 | `order_id` | Optional | string or null | The owning order or the order that started the subscription. Null when a subscription has no starting order. `order_id`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributesorder_id). |
 | `order_line_item_id` | Optional | string or null | The owning order line. Null when the key belongs to a subscription line. `order_line_item_id`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributesorder_line_item_id). |
 | `product_id` | Optional | string or null | The product ID. `product_id`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributesproduct_id). |
@@ -77,7 +77,7 @@ anyOf variant 2.
 
 ### LicenseKeyDisabledMerchantEventDataPreviousAttributes.customer
 
-Customer summary when requested with expand=customer. Null when the key has no customer. Omitted when no customer expansion is requested.
+The linked customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer.
 
 Field definitions: [shared fields](BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributescustomer).
 
@@ -92,7 +92,7 @@ anyOf ExpandedCustomerSummaryPreviousAttributes.
 anyOf variant 2.
 
 - Undeclared: `created_at`, `customer_id`, `email`, `name`, `phone`, `status`, `updated_at`.
-- Value shape: null. Customer summary when requested with expand=customer. Null when the key has no customer. Omitted when no customer expansion is requested. 
+- Value shape: null. The linked customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. 
 
 ### LicenseKeyDisabledMerchantEventDataPreviousAttributes.customer variant 1.created_at
 
@@ -208,7 +208,7 @@ anyOf variant 2.
 
 ### LicenseKeyDisabledMerchantEventDataPreviousAttributes.order
 
-Order summary when requested with expand=order. Null when the key has no order. Omitted when no order expansion is requested.
+The linked order. Present only when `expand` includes `order`; `null` when expanded and there is no related order.
 
 Field definitions: [shared fields](BalanceTransactionUpdatedMerchantEventDataPreviousAttributes.md#balancetransactionupdatedmerchanteventdatapreviousattributesorder).
 
@@ -223,7 +223,7 @@ anyOf ExpandedOrderSummaryPreviousAttributes.
 anyOf variant 2.
 
 - Undeclared: `buyer_contact`, `closed_at`, `closed_reason`, `created_at`, `customer_id`, `deferred_promotions`, `fulfillment_status`, `governing_delivery_selection_id`, `order_id`, `order_number`, `paid_at`, `payment_intent_ids`, `payment_status`, `pricing_amounts`, `refund_status`, `settlement_amounts`, `status`, `supported_actions`, `updated_at`.
-- Value shape: null. Order summary when requested with expand=order. Null when the key has no order. Omitted when no order expansion is requested. 
+- Value shape: null. The linked order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. 
 
 ### LicenseKeyDisabledMerchantEventDataPreviousAttributes.order variant 1.buyer_contact
 

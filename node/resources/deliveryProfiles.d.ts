@@ -43,6 +43,7 @@ export type {
     DeliveryProfileOriginPolicyInputInventoryRoutingInput,
     DeliveryProfileOriginPolicyInputMethodOriginInput,
     DeliveryProfileConfigurationInputRequiredInput,
+    DeliveryProfileConfigurationInputQuoteInput,
     DeliveryProfileOriginPolicy,
     DeliveryProfileDiagnostics
 } from '../declarations/types-22.js';
@@ -52,7 +53,6 @@ export type {
     DeliveryProfileAssignmentResponse,
     DeliveryProfile,
     DeliveryProfileConfigurationInputNoneInput,
-    DeliveryProfileConfigurationInputQuoteInput,
     DeliveryProfileConfigurationInputManualInput,
     DeliveryProfileConfiguration
 } from '../declarations/types-21.js';
@@ -79,8 +79,7 @@ export {
     makeDeliveryProfileOriginPolicyInputMethodOrigin,
     makeDeliveryProfileOriginPolicyRequest
 } from '../declarations/types-86.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeUpdateDeliveryProfileRequest } from '../declarations/types-93.js';
 export interface DeliveryProfilesResource {
     /**

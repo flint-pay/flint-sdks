@@ -14,9 +14,9 @@ Response model.
 | `refund_shortfall_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Selected refund and store credit value that the original payments cannot fund. Zero when fully payable. The merchandise entitlement is unchanged. Merchant only. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `returned_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What the buyer paid for these quantities after discounts, including tax. Uses the same allocation as a return resolution. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `store_credit_destination` | Required | string | Store credit is issued as a new gift card by email. Applies to buyer_store_credit_amount_money. Values: `"new_gift_card"`. |
-| `tender_estimates` | Required | Array of (object and Alternative shapes (see declared variants)) | Estimated original-payment destinations for the payable part of buyer_refund_amount_money, in refund order. Excludes store credit. Empty when no refund is payable. `tender_estimates[]`: [declared alternatives](../models/BuyerReturnRefundEstimate.md#buyerreturnrefundestimatetender_estimates). |
+| `tender_estimates` | Required | Array of (object and Alternative shapes (see declared variants)) | Estimated original-payment destinations for the payable part of buyer_refund_amount_money, in refund order. Excludes store credit. Empty when no refund is payable. `tender_estimates[]`: [declared alternatives](../models/BuyerReturnPreviewResponse.md#buyerreturnpreviewresponsedataresolution-fields-1tender_estimates). |
 
 ### ReturnRefundEstimate.tender_estimates[]
 
-Declared alternatives: [BuyerReturnRefundEstimate.tender_estimates[]](../models/BuyerReturnRefundEstimate.md#buyerreturnrefundestimatetender_estimates).
+Declared alternatives: [BuyerReturnPreviewResponse.data.resolution fields 1.tender_estimates[]](../models/BuyerReturnPreviewResponse.md#buyerreturnpreviewresponsedataresolution-fields-1tender_estimates).
 

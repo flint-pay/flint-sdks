@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/4e727e1e3027cc354518aee1332545b9b968f05f/sdk-config.schema.json",
-  "version": "8.0.0-beta.9",
+  "version": "8.0.0-beta.10",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
@@ -8636,11 +8636,7 @@
         "statuses": [],
         "transport": false
       },
-      "pagination": false,
-      "defaults": {
-        "timeoutMs": 150000,
-        "deadlineMs": 300000
-      }
+      "pagination": false
     },
     "listCustomerEmailChangeRequests": {
       "idempotency": false,

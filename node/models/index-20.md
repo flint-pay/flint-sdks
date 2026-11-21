@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# InvoiceDeliveryAttemptFailedMerchantEvent to InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes
+# InvoiceDeliveryAttemptFailedInstalledMerchantsEvent to InvoicePaymentTermCalculationDaysAfterMonthEnd
 
+- [InvoiceDeliveryAttemptFailedInstalledMerchantsEvent](InvoiceDeliveryAttemptFailedInstalledMerchantsEvent.md)
 - [InvoiceDeliveryAttemptFailedMerchantEvent](InvoiceDeliveryAttemptFailedMerchantEvent.md)
 - [InvoiceDeliveryAttemptListResponse](InvoiceDeliveryAttemptListResponse.md)
 - [InvoiceDeliveryAttemptSentInstalledMerchantsEvent](InvoiceDeliveryAttemptSentInstalledMerchantsEvent.md)
@@ -101,5 +102,4 @@
 - [InvoicePaymentTermCalculationDayOfNextMonthPreviousAttributes](InvoicePaymentTermCalculationDayOfNextMonthPreviousAttributes.md)
 - [InvoicePaymentTermCalculationDayOfNextMonthRequestInput](InvoicePaymentTermCalculationDayOfNextMonthRequestInput.md)
 - [InvoicePaymentTermCalculationDaysAfterMonthEnd](InvoicePaymentTermCalculationDaysAfterMonthEnd.md)
-- [InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes](InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes.md)
 

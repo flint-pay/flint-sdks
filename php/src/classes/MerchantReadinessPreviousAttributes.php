@@ -37,7 +37,7 @@ final class MerchantReadinessPreviousAttributes extends Model {
      */
     public function getRequirements(): ReadinessRequirementsPreviousAttributes|null { return $this->get('requirements'); }
     public function hasRequirements(): bool { return $this->has('requirements'); }
-    /**  anyOf[1] (Value): boolean. anyOf[2] (Value): null.
+    /** Whether Flint's review prevents capturing authorized payments. Omitted when capture review status is unavailable. anyOf[1] (Value): boolean. Whether Flint's review prevents capturing authorized payments. Omitted when capture review status is unavailable. anyOf[2] (Value): null.
      * @return bool|null
      */
     public function getReviewBlocksCaptures(): bool|null { return $this->get('review_blocks_captures'); }

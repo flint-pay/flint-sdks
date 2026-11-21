@@ -1,4 +1,4 @@
-import type { CustomerSession, CustomerReceivables, CustomerReceivablesPreviousAttributes } from './types-16.js';
+import type { Customer, CustomerReceivables, CustomerReceivablesPreviousAttributes } from './types-16.js';
 import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
 import type {
@@ -6,7 +6,6 @@ import type {
     CreateCustomerVerificationRequestInput,
     CreateCustomerAccessLinkRequestInput,
     CreateCustomerAddressRequestInput,
-    CreateEmailChangeRequestInput,
     CreateCustomerRequestInput,
     CreateCustomerTaxExemptionRequestInput
 } from './types-9.js';
@@ -21,11 +20,75 @@ import type {
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { TaxIdentity, TaxIdentityPreviousAttributes } from './types-74.js';
 import type { ConfirmCustomerVerificationRequestInput } from './types-8.js';
+import type { CreateEmailChangeRequestInput } from './types-10.js';
 import type { LinkCustomerGuestPurchasesRequestInput } from './types-40.js';
 import type { UpdateCustomerAddressRequestInput } from './types-75.js';
 import type { UpdateCustomerRequestInput, UpdateCustomerTaxExemptionRequestInput } from './types-76.js';
 import type { GetReturnInspectionResponse, GetReturnResponse } from './types-28.js';
-import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-64.js';
+import type { ReturnLineDecision } from './types-63.js';
+import type { ReturnLineDecisionInput } from './types-64.js';
+/** A response containing `Customer` data. */
+export type CustomerResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A merchant's customer
+     * profile.
+     */
+    "data": Customer;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * A credential for the /v1/me routes that acts as one customer. By default it can read and change
+ * the customer's account and commerce data, including saved payment methods and account deletion
+ * requests. Explicit capabilities or access-link resource grants narrow that authority.
+ */
+export type CustomerSession = {
+    /**
+     * Granted operation capabilities. Default sessions report the full capability catalog. Refresh
+     * never widens an explicit grant. [] (Value): string.
+     */
+    "capabilities": Array<string>;
+    /** When the session was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** ID of the customer the session acts as. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id": string;
+    /**
+     * ID of this session. Use it to tell sessions apart; it is not a credential. Example:
+     * "cses_01KEZF7C00FBVRP25FZTW7KWZV".
+     */
+    "customer_session_id": string;
+    /**
+     * When the current secret stops authenticating account calls. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string;
+    /** When the refresh token expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "refresh_token_expires_at": string;
+    /**
+     * When the session was first revoked. Present exactly when status is revoked. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "revoked_at"?: string;
+    /**
+     * active means the session can be refreshed and its secret works until expires_at; revoked
+     * means none of its credentials work. Value enum: "active", "revoked".
+     */
+    "status": "active" | "revoked" | (string & {});
+    /**
+     * Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains
+     * revoke for active and revoked sessions because repeating a revocation succeeds. [] enum:
+     * "revoke". [] (Value): string. Value enum: "revoke".
+     */
+    "supported_actions": Array<"revoke" | (string & {})>;
+};
 /** A customer session's state without its authentication credentials. */
 export type CustomerSessionResponse = {
     /**
@@ -3470,52 +3533,3 @@ export type DeclinePaymentReviewRequest = {
 };
 /** The request body for: Decline a payment review. */
 export type DeclinePaymentReviewRequestInput = DeclinePaymentReviewRequest;
-/**
- * A promotion accepted at subscription signup for the subscription's first charged cycle. It does
- * not discount the signup order.
- */
-export type DeferredPromotion = {
-    /** Name the buyer sees for the promotion, fixed when it was accepted at signup. */
-    "customer_facing_name": string;
-    /**
-     * ID of this order's deferred promotion. Starts with dp_. Send it in deferred_promotion_ids to
-     * POST /v1/orders/{order_id}/discounts/remove to remove the promotion before payment. Example:
-     * "dp_01KEZF7C00AZMP1PY1ER7CQ4SA".
-     */
-    "deferred_promotion_id": string;
-    /** Promotion code accepted at signup. Null when the promotion was applied by ID. */
-    "promotion_code": string | null;
-    /**
-     * ID of the promotion accepted for the subscription. Example:
-     * "promo_01KEZF7C00E1JAV4M413D9DE1P".
-     */
-    "promotion_id": string;
-};
-export type DeferredPromotionPreviousAttributes = {
-    /**
-     * Name the buyer sees for the promotion, fixed when it was accepted at signup. anyOf[1]
-     * (Value): string. Name the buyer sees for the promotion, fixed when it was accepted at
-     * signup. anyOf[2] (Value): null.
-     */
-    "customer_facing_name"?: ((string) | (null));
-    /**
-     * ID of this order's deferred promotion. Starts with dp_. Send it in deferred_promotion_ids to
-     * POST /v1/orders/{order_id}/discounts/remove to remove the promotion before payment. anyOf[1]
-     * (Value): string. ID of this order's deferred promotion. Starts with dp_. Send it in
-     * deferred_promotion_ids to POST /v1/orders/{order_id}/discounts/remove to remove the
-     * promotion before payment. Example: "dp_01KEZF7C00AZMP1PY1ER7CQ4SA". anyOf[2] (Value): null.
-     */
-    "deferred_promotion_id"?: ((string) | (null));
-    /**
-     * Promotion code accepted at signup. Null when the promotion was applied by ID. anyOf[1]
-     * (Value): string. Promotion code accepted at signup. Null when the promotion was applied by
-     * ID. anyOf[2] (Value): null.
-     */
-    "promotion_code"?: ((string) | (null));
-    /**
-     * ID of the promotion accepted for the subscription. anyOf[1] (Value): string. ID of the
-     * promotion accepted for the subscription. Example: "promo_01KEZF7C00E1JAV4M413D9DE1P".
-     * anyOf[2] (Value): null.
-     */
-    "promotion_id"?: ((string) | (null));
-};

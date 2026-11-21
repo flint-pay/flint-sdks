@@ -73,7 +73,7 @@ final class CreateOrderLineItemCustomInput extends Model {
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** Name of the item as it appears on the order. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. maxLength: 255.
+    /** Name of the item as it appears on the order. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

@@ -1,18 +1,11 @@
-import type { ProcessExistingReturnLineItemRequestInput } from './types-56.js';
-import type { ReturnProcessReceiptRequestInput, ReturnProcessResult } from './types-64.js';
 import type { ResponseMeta } from './types-62.js';
+import type { ReturnProcessResult } from './types-64.js';
 import type { CategoryReference, CategoryReferencePreviousAttributes } from './types-5.js';
 import type { ImageAttachment, ImageAttachmentPreviousAttributes, ImageRequest, ImageRequestInput } from './types-31.js';
-import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-43.js';
-import type {
-    ModifierSet,
-    MoneyValue,
-    MoneyValuePreviousAttributes,
-    ModifierSetPreviousAttributes,
-    MoneyValueInput
-} from './types-44.js';
+import type { MetadataMap, ModifierSet, MerchantWebhookEnvelope, MetadataRequestInput } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { WebhookProduct, WebhookProductVariant } from './types-79.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, ModifierSetPreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { Dimensions, DimensionsPreviousAttributes, DimensionsRequestInput } from './types-25.js';
 import type {
     GiftCardProductConfiguration,
@@ -57,37 +50,10 @@ import type {
     PromotionBuyXGetYMethodPreviousAttributes,
     PromotionPercentOffMethodPreviousAttributes,
     PromotionBuyXGetYMethodRequest,
-    PromotionPercentOffMethodRequest
+    PromotionPercentOffMethodRequest,
+    PromotionBuyXGetYMethodRequestInput,
+    PromotionPercentOffMethodRequestInput
 } from './types-58.js';
-/** The request body for: Process existing return. */
-export type ProcessExistingReturnRequestInput = {
-    /**
-     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
-     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
-     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
-     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
-     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
-     * completion_mode. Value enum: "manual", "automatic".
-     */
-    "completion_mode"?: "manual" | "automatic";
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * One decision for each line. minItems: 1. [] (Value): {@link
-     * ProcessExistingReturnLineItemRequestInput}. How to process one line of an existing return:
-     * the received quantity, inspection, decision, disposition, and resolution.
-     */
-    "line_items": Array<ProcessExistingReturnLineItemRequestInput>;
-    /**
-     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
-     * it was received, supplied when processing an existing return.
-     */
-    "receipt"?: ReturnProcessReceiptRequestInput;
-};
 /** A response containing `ReturnProcessResult` data. */
 export type ProcessExistingReturnResponse = {
     /**
@@ -2394,8 +2360,8 @@ export type ProductVariant = {
     /**
      * Whether one order line can buy this variant now. Flint uses
      * `settings.inventory.default_routing_source` when it is set. With no default, Flint uses the
-     * only active Location with inventory allocation enabled if exactly one exists. Returned by
-     * `GET /v1/products/{product_id}/variants/{variant_id}`, `GET
+     * active Location in the current environment that has had inventory allocation enabled the
+     * longest. Returned by `GET /v1/products/{product_id}/variants/{variant_id}`, `GET
      * /v1/products/{product_id}/variants`, and variants included by `expand=variants` on product
      * reads. Write responses and webhooks omit it. The check holds no stock, so pay can still find
      * the stock gone. Variants that share an inventory item are each evaluated alone. Check
@@ -4106,8 +4072,8 @@ export type ProductVariantInventoryAvailability = {
     /**
      * The merchant's default routing source or the Location Flint selected when no default is set.
      * For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` for
-     * untracked variants or when no default or single eligible Location applies. anyOf[1] (Value):
-     * {@link InventoryRoutingSource}. Where an order, payment link, or reservation routes
+     * untracked variants or when neither a default nor an eligible Location applies. anyOf[1]
+     * (Value): {@link InventoryRoutingSource}. Where an order, payment link, or reservation routes
      * inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
      * anyOf[2] (Value): null.
      */
@@ -4137,8 +4103,8 @@ export type ProductVariantInventoryAvailabilityPreviousAttributes = {
     /**
      * The merchant's default routing source or the Location Flint selected when no default is set.
      * For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` for
-     * untracked variants or when no default or single eligible Location applies. anyOf[1] (Value):
-     * {@link InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
+     * untracked variants or when neither a default nor an eligible Location applies. anyOf[1]
+     * (Value): {@link InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
      */
     "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
     /**
@@ -4264,8 +4230,8 @@ export type ProductVariantPreviousAttributes = {
     /**
      * Whether one order line can buy this variant now. Flint uses
      * `settings.inventory.default_routing_source` when it is set. With no default, Flint uses the
-     * only active Location with inventory allocation enabled if exactly one exists. Returned by
-     * `GET /v1/products/{product_id}/variants/{variant_id}`, `GET
+     * active Location in the current environment that has had inventory allocation enabled the
+     * longest. Returned by `GET /v1/products/{product_id}/variants/{variant_id}`, `GET
      * /v1/products/{product_id}/variants`, and variants included by `expand=variants` on product
      * reads. Write responses and webhooks omit it. The check holds no stock, so pay can still find
      * the stock gone. Variants that share an inventory item are each evaluated alone. Check
@@ -7503,3 +7469,7 @@ export type PromotionApplicationMethodRequest = ((PromotionPercentOffMethodReque
     | (PromotionAmountOffMethodRequest)
     | (PromotionBuyXGetYMethodRequest)
     | (Record<string, unknown>));
+/** A flat application method whose type selects its effect fields. */
+export type PromotionApplicationMethodRequestInput = ((PromotionPercentOffMethodRequestInput)
+    | (PromotionAmountOffMethodRequestInput)
+    | (PromotionBuyXGetYMethodRequestInput));

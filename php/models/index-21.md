@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# OrderHandoverRequestInput to PartnerAppCredentialInput
+# OrderHandoverPreviousAttributesInput to PartnerAppAuthContextInput
 
+- [OrderHandoverPreviousAttributesInput](OrderHandoverPreviousAttributesInput.md)
 - [OrderHandoverRequestInput](OrderHandoverRequestInput.md)
 - [OrderInventoryExceptionCreatedInstalledMerchantsEventInput](OrderInventoryExceptionCreatedInstalledMerchantsEventInput.md)
 - [OrderInventoryExceptionCreatedMerchantEventInput](OrderInventoryExceptionCreatedMerchantEventInput.md)
@@ -101,5 +102,4 @@
 - [PackageUpdatedMerchantEventInput](PackageUpdatedMerchantEventInput.md)
 - [PartnerAppInput](PartnerAppInput.md)
 - [PartnerAppAuthContextInput](PartnerAppAuthContextInput.md)
-- [PartnerAppCredentialInput](PartnerAppCredentialInput.md)
 

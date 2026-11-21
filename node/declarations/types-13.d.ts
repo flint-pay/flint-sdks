@@ -1,3 +1,9 @@
+import type {
+    CreateSmartReaderRequest,
+    CreateTapToPayReaderRequest,
+    CreateSmartReaderRequestInput,
+    CreateTapToPayReaderRequestInput
+} from './types-14.js';
 import type { MetadataMap, MetadataRequestInput } from './types-43.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type {
@@ -52,6 +58,10 @@ import type {
     ReturnReplacementLineItemRequestInput,
     ReturnResolutionLineItemRequestInput
 } from './types-65.js';
+/** A reader registration selected by type. */
+export type CreateReaderRequest = ((CreateSmartReaderRequest) | (CreateTapToPayReaderRequest) | (Record<string, unknown>));
+/** A reader registration selected by type. */
+export type CreateReaderRequestInput = ((CreateSmartReaderRequestInput) | (CreateTapToPayReaderRequestInput));
 /** The `receivables_aging_v1` variant of `CreateReportRequest`. */
 export type CreateReceivablesAgingReportRequest = ({
     /**
@@ -61,9 +71,8 @@ export type CreateReceivablesAgingReportRequest = ({
      */
     "as_of_date": string;
     /**
-     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
-     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * The currency to include in the report. Use USD, the supported currency for new reports. Uses
+     * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
     /**
@@ -99,9 +108,8 @@ export type CreateReceivablesAgingReportRequestInput = ({
      */
     "as_of_date": string;
     /**
-     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
-     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * The currency to include in the report. Use USD, the supported currency for new reports. Uses
+     * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
     /**
@@ -226,10 +234,11 @@ export type CreateRefundRequest = ({
     "processed_by"?: "flint" | "merchant" | (string & {});
     /**
      * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
+     * refund email has no reason line. On a subscription renewal, out_of_stock requests
+     * cancellation of eligible unshipped shipment fulfillments once the order is fully refunded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
      */
     "reason"?: "duplicate"
         | "fraudulent"
@@ -445,10 +454,11 @@ export type CreateRefundRequestAmount = ({
     "payment_intent_id"?: string;
     /**
      * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
+     * refund email has no reason line. On a subscription renewal, out_of_stock requests
+     * cancellation of eligible unshipped shipment fulfillments once the order is fully refunded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
      */
     "reason"?: "duplicate"
         | "fraudulent"
@@ -638,10 +648,11 @@ export type CreateRefundRequestAmountInput = ({
     "payment_intent_id"?: string;
     /**
      * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
+     * refund email has no reason line. On a subscription renewal, out_of_stock requests
+     * cancellation of eligible unshipped shipment fulfillments once the order is fully refunded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
      */
     "reason"?: "duplicate"
         | "fraudulent"
@@ -810,10 +821,11 @@ export type CreateRefundRequestCreditNote = ({
     "processed_by"?: "flint" | "merchant" | (string & {});
     /**
      * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
+     * refund email has no reason line. On a subscription renewal, out_of_stock requests
+     * cancellation of eligible unshipped shipment fulfillments once the order is fully refunded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
      */
     "reason"?: "duplicate"
         | "fraudulent"
@@ -923,10 +935,11 @@ export type CreateRefundRequestCreditNoteInput = ({
     "processed_by"?: "flint" | "merchant";
     /**
      * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
+     * refund email has no reason line. On a subscription renewal, out_of_stock requests
+     * cancellation of eligible unshipped shipment fulfillments once the order is fully refunded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
      */
     "reason"?: "duplicate"
         | "fraudulent"
@@ -1050,10 +1063,11 @@ export type CreateRefundRequestFull = ({
     "payment_intent_id"?: string;
     /**
      * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
+     * refund email has no reason line. On a subscription renewal, out_of_stock requests
+     * cancellation of eligible unshipped shipment fulfillments once the order is fully refunded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
      */
     "reason"?: "duplicate"
         | "fraudulent"
@@ -1191,10 +1205,11 @@ export type CreateRefundRequestFullInput = ({
     "payment_intent_id"?: string;
     /**
      * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
+     * refund email has no reason line. On a subscription renewal, out_of_stock requests
+     * cancellation of eligible unshipped shipment fulfillments once the order is fully refunded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
      */
     "reason"?: "duplicate"
         | "fraudulent"
@@ -1396,10 +1411,11 @@ export type CreateRefundRequestInput = ({
     "processed_by"?: "flint" | "merchant";
     /**
      * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
+     * refund email has no reason line. On a subscription renewal, out_of_stock requests
+     * cancellation of eligible unshipped shipment fulfillments once the order is fully refunded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
      */
     "reason"?: "duplicate"
         | "fraudulent"
@@ -1605,10 +1621,11 @@ export type CreateRefundRequestTargets = ({
     "payment_intent_id"?: string;
     /**
      * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
+     * refund email has no reason line. On a subscription renewal, out_of_stock requests
+     * cancellation of eligible unshipped shipment fulfillments once the order is fully refunded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
      */
     "reason"?: "duplicate"
         | "fraudulent"
@@ -1766,10 +1783,11 @@ export type CreateRefundRequestTargetsInput = ({
     "payment_intent_id"?: string;
     /**
      * Optional. When omitted, no reason is recorded or sent to the processor, and the buyer's
-     * refund email has no reason line. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
+     * refund email has no reason line. On a subscription renewal, out_of_stock requests
+     * cancellation of eligible unshipped shipment fulfillments once the order is fully refunded.
+     * Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product",
+     * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
+     * "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
      */
     "reason"?: "duplicate"
         | "fraudulent"
@@ -1914,9 +1932,8 @@ export type CreateReportRequest = ({
      */
     "as_of_date"?: string;
     /**
-     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
-     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * The currency to include in the report. Use USD, the supported currency for new reports. Uses
+     * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
     /**
@@ -1974,9 +1991,8 @@ export type CreateReportRequestInput = ({
      */
     "as_of_date"?: string;
     /**
-     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
-     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * The currency to include in the report. Use USD, the supported currency for new reports. Uses
+     * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
     /**
@@ -3180,6 +3196,16 @@ export type CreateReturnResolutionPreviewRequest = ({
      */
     "expected_return_version"?: number;
     /**
+     * Where the gift-card-paid portion would be refunded. original credits the original gift card;
+     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
+     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action. An
+     * unsupported selection returns INVALID_REQUEST with a NOT_ALLOWED detail at
+     * resolution.gift_card_refund_destination and conflicting_fields naming
+     * resolution.resolution_type. Store credit and its corrections always issue new gift cards.
+     * Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
+    /**
      * Return lines and quantities to cover, up to 100. Not allowed on a correction. [] (Value):
      * {@link ReturnResolutionLineItemRequest}. A return line and quantity to include in a return
      * resolution.
@@ -3238,6 +3264,16 @@ export type CreateReturnResolutionPreviewRequestCorrection = ({
      * Return ID and its current version. Format: int64. minimum: 1.
      */
     "expected_return_version"?: number;
+    /**
+     * Where the gift-card-paid portion would be refunded. original credits the original gift card;
+     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
+     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action. An
+     * unsupported selection returns INVALID_REQUEST with a NOT_ALLOWED detail at
+     * resolution.gift_card_refund_destination and conflicting_fields naming
+     * resolution.resolution_type. Store credit and its corrections always issue new gift cards.
+     * Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
     /** What the buyer gets for the approved quantity. Value enum: "correction". */
     "resolution_type": "correction" | (string & {});
     /**
@@ -3275,6 +3311,16 @@ export type CreateReturnResolutionPreviewRequestCorrectionInput = ({
      * Return ID and its current version. Format: int64. minimum: 1.
      */
     "expected_return_version"?: number;
+    /**
+     * Where the gift-card-paid portion would be refunded. original credits the original gift card;
+     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
+     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action. An
+     * unsupported selection returns INVALID_REQUEST with a NOT_ALLOWED detail at
+     * resolution.gift_card_refund_destination and conflicting_fields naming
+     * resolution.resolution_type. Store credit and its corrections always issue new gift cards.
+     * Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "gift_card_refund_destination"?: "original" | "new_gift_card";
     /** What the buyer gets for the approved quantity. Value enum: "correction". */
     "resolution_type": "correction";
     /**
@@ -3324,6 +3370,16 @@ export type CreateReturnResolutionPreviewRequestInput = ({
      * Return ID and its current version. Format: int64. minimum: 1.
      */
     "expected_return_version"?: number;
+    /**
+     * Where the gift-card-paid portion would be refunded. original credits the original gift card;
+     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
+     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action. An
+     * unsupported selection returns INVALID_REQUEST with a NOT_ALLOWED detail at
+     * resolution.gift_card_refund_destination and conflicting_fields naming
+     * resolution.resolution_type. Store credit and its corrections always issue new gift cards.
+     * Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "gift_card_refund_destination"?: "original" | "new_gift_card";
     /**
      * Return lines and quantities to cover, up to 100. Not allowed on a correction. [] (Value):
      * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
@@ -3377,6 +3433,16 @@ export type CreateReturnResolutionPreviewRequestStandard = ({
      * Return ID and its current version. Format: int64. minimum: 1.
      */
     "expected_return_version"?: number;
+    /**
+     * Where the gift-card-paid portion would be refunded. original credits the original gift card;
+     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
+     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action. An
+     * unsupported selection returns INVALID_REQUEST with a NOT_ALLOWED detail at
+     * resolution.gift_card_refund_destination and conflicting_fields naming
+     * resolution.resolution_type. Store credit and its corrections always issue new gift cards.
+     * Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
     /**
      * Return lines and quantities to cover, up to 100. Not allowed on a correction. [] (Value):
      * {@link ReturnResolutionLineItemRequest}. A return line and quantity to include in a return
@@ -3439,6 +3505,16 @@ export type CreateReturnResolutionPreviewRequestStandardInput = ({
      * Return ID and its current version. Format: int64. minimum: 1.
      */
     "expected_return_version"?: number;
+    /**
+     * Where the gift-card-paid portion would be refunded. original credits the original gift card;
+     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
+     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action. An
+     * unsupported selection returns INVALID_REQUEST with a NOT_ALLOWED detail at
+     * resolution.gift_card_refund_destination and conflicting_fields naming
+     * resolution.resolution_type. Store credit and its corrections always issue new gift cards.
+     * Default: "original". Value enum: "original", "new_gift_card".
+     */
+    "gift_card_refund_destination"?: "original" | "new_gift_card";
     /**
      * Return lines and quantities to cover, up to 100. Not allowed on a correction. [] (Value):
      * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
@@ -3956,74 +4032,3 @@ export type CreateReturnResolutionRequestStandardInput = ({
 }));
 export type CreateReturnResolutionResponse = GetReturnResolutionResponse;
 export type CreateReturnResponse = GetReturnResponse;
-/** The request body for: Create a risk list. */
-export type CreateRiskListRequest = {
-    /**
-     * Name rules use to refer to this list: a lowercase letter, then up to 127 lowercase letters,
-     * digits, or underscores. It can't be changed after creation. minLength: 1. pattern:
-     * ^[a-z][a-z0-9_]{0,127}$.
-     */
-    "alias": string;
-    /**
-     * Values are trimmed and compared exactly after item-type normalization for deduplication and
-     * membership. card_fingerprint is the 32-character hexadecimal value from
-     * PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and
-     * Unicode composition. string and email are lowercased, with accents preserved. email requires
-     * a bare address. email_domain is lowercased, has one final dot removed, and converts
-     * internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped
-     * IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8
-     * digits, including leading zeros, and matches the full value. customer_id preserves the
-     * validated ID. Value enum: "card_fingerprint", "card_bin", "email", "email_domain",
-     * "ip_address", "country", "customer_id", "string", "case_sensitive_string".
-     */
-    "item_type": "card_fingerprint"
-        | "card_bin"
-        | "email"
-        | "email_domain"
-        | "ip_address"
-        | "country"
-        | "customer_id"
-        | "string"
-        | "case_sensitive_string"
-        | (string & {});
-    /**
-     * Display name of the list. Surrounding whitespace is trimmed before length validation. A
-     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
-     */
-    "name": string;
-};
-/** The request body for: Create a risk list. */
-export type CreateRiskListRequestInput = {
-    /**
-     * Name rules use to refer to this list: a lowercase letter, then up to 127 lowercase letters,
-     * digits, or underscores. It can't be changed after creation. minLength: 1. pattern:
-     * ^[a-z][a-z0-9_]{0,127}$.
-     */
-    "alias": string;
-    /**
-     * Values are trimmed and compared exactly after item-type normalization for deduplication and
-     * membership. card_fingerprint is the 32-character hexadecimal value from
-     * PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and
-     * Unicode composition. string and email are lowercased, with accents preserved. email requires
-     * a bare address. email_domain is lowercased, has one final dot removed, and converts
-     * internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped
-     * IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8
-     * digits, including leading zeros, and matches the full value. customer_id preserves the
-     * validated ID. Value enum: "card_fingerprint", "card_bin", "email", "email_domain",
-     * "ip_address", "country", "customer_id", "string", "case_sensitive_string".
-     */
-    "item_type": "card_fingerprint"
-        | "card_bin"
-        | "email"
-        | "email_domain"
-        | "ip_address"
-        | "country"
-        | "customer_id"
-        | "string"
-        | "case_sensitive_string";
-    /**
-     * Display name of the list. Surrounding whitespace is trimmed before length validation. A
-     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
-     */
-    "name": string;
-};

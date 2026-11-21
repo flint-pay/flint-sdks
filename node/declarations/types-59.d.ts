@@ -2,6 +2,7 @@ import type {
     PromotionRefInputPromotionCode,
     PromotionRefInputPromotionID,
     PromotionRefInputPromotionCodeInput,
+    PromotionRefInputPromotionIDInput,
     PromotionCodesSummaryPreviousAttributes,
     PromotionCombinesWithPreviousAttributes,
     PromotionExclusivityPreviousAttributes
@@ -28,20 +29,6 @@ import type { BundleComponentVariantSummary } from './types-1.js';
 import type { SelectedProductOption } from './types-68.js';
 import type { ReturnPolicyRevisionRequest, ReturnPolicyRevisionRequestInput } from './types-64.js';
 import type { GetReturnPolicyResponse } from './types-28.js';
-/** The `Promotion ID` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionIDInput = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code"?: string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id": string;
-})
-    & (({
-    "promotion_code"?: never;
-}));
 /** Identifies the promotion to apply, by promotion code or by promotion ID. */
 export type PromotionRefRequest = ({
     /** Human-entered promotion code to apply. minLength: 1. */
@@ -3308,3 +3295,67 @@ export type ReaderResponse = {
      */
     "request_id": string;
 };
+export type ReaderUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookReader;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "device_id"?: ((string) | (null));
+            "is_simulated"?: ((boolean) | (null));
+            "location_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
+            "name"?: ((string) | (null));
+            "reader_id"?: ((string) | (null));
+            "serial_number"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "reader.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookReader;
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "device_id"?: ((string) | (null));
+            "is_simulated"?: ((boolean) | (null));
+            "location_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
+            "name"?: ((string) | (null));
+            "reader_id"?: ((string) | (null));
+            "serial_number"?: ((string) | (null));
+            "status"?: (("active" | "archived" | (string & {})) | (null));
+            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "reader.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "reader.updated";
+});

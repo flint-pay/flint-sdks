@@ -20,10 +20,11 @@ A delivery method offered for a subscription, with its availability, price, and 
 | `price_type` | Required | string | Whether the method charges a flat price or Flint works the price out for each delivery. Values: `"fixed"`, `"quoted"`. |
 | `selectable` | Required | boolean | True when this method is offered, renewable, and currently serves the destination. |
 | `type` | Required | string | How the method delivers the items. Values: `"shipment"`, `"local_delivery"`. |
-| `unavailable_reason` | Optional | string | Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Values: [7 declared values](#subscriptiondeliveryoption-unavailable_reason-values). |
+| `unavailable_reason` | Optional | string | Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Values: [8 declared values](#subscriptiondeliveryoption-unavailable_reason-values). |
 
 #### SubscriptionDeliveryOption unavailable_reason values
 
+- `"automatic_tax_origin_unsupported"`
 - `"dependency_revoked"`
 - `"destination_not_served"`
 - `"no_window_available"`

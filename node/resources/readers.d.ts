@@ -55,7 +55,7 @@ export type {
 } from '../declarations/types-59.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateReaderRequestInput } from '../declarations/types-12.js';
+export type { CreateReaderRequestInput } from '../declarations/types-13.js';
 export type { CreateSmartReaderRequestInput, CreateTapToPayReaderRequestInput } from '../declarations/types-14.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
@@ -66,8 +66,7 @@ export type { UpdateReaderRequestInput } from '../declarations/types-77.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeCreateReaderRequest, makeCreateSmartReaderRequest } from '../declarations/types-84.js';
 export { makeCreateTapToPayReaderRequest } from '../declarations/types-85.js';
-export { makeMetadataMap, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeSimulateReaderRequest } from '../declarations/types-92.js';
 export { makeUpdateReaderRequest } from '../declarations/types-94.js';
 export interface ReadersResource {
@@ -168,8 +167,10 @@ export interface ReadersResource {
     /**
  * Sandbox only. Presents a Stripe test card on a simulated reader (registered with
  * `registration_code: simulated-s700`) for the payment presented on it, so the result arrives the
- * way a real tap's does. Returns the reader. A live credential gets `403 FORBIDDEN` with reason
- * `test_mode_required`.
+ * way a real tap's does. Returns the reader. If the payment is still processing and the reader
+ * refuses another card, Flint returns `409 ACTION_NOT_ALLOWED` with reason `in_progress`. Wait for
+ * the payment outcome. Reusing the same idempotency key replays the conflict. A live credential
+ * gets `403 FORBIDDEN` with reason `test_mode_required`.
  *
  * `POST /v1/readers/{reader_id}/simulate`
  * @param reader_id Flint reader ID. Must be a valid ID with prefix rdr_. Malformed IDs return 400

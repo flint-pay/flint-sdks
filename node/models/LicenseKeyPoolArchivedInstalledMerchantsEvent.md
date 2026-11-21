@@ -39,7 +39,7 @@ Field definitions: [shared fields](LicenseKeyPool.md#licensekeypool).
 
 ### LicenseKeyPoolArchivedInstalledMerchantsEvent.data.object.metadata
 
-Field definitions: [LicenseKey.metadata](../models/LicenseKey.md#licensekeymetadata).
+Field definitions: [CheckoutLicenseKey.metadata](../models/CheckoutLicenseKey.md#checkoutlicensekeymetadata).
 
 ### LicenseKeyPoolArchivedInstalledMerchantsEvent.data.previous_attributes
 

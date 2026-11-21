@@ -18,7 +18,7 @@ import type { LicenseKeyVersionRequestInput } from './types-40.js';
 import type { CreateMerchantSignupRequestInput, CreateModifierGroupRequestInput } from './types-11.js';
 import type { VerifyMerchantSignupRequestInput } from './types-78.js';
 import type { UpdateMerchantRequestInput, UpdateModifierGroupRequestInput } from './types-76.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput, ModifierSetGroup } from './types-44.js';
 import type { TextModifierConfig } from './types-74.js';
 import type { TextModifierConfigPreviousAttributes } from './types-75.js';
 export type MerchantBillingInvoicesGetParams = {};
@@ -75,6 +75,10 @@ export type MerchantReadiness = {
      * currently due, eventually due, past due, and pending verification.
      */
     "requirements": ReadinessRequirements;
+    /**
+     * Whether Flint's review prevents capturing authorized payments. Omitted when capture review
+     * status is unavailable.
+     */
     "review_blocks_captures"?: boolean;
 };
 export type MerchantReadinessPreviousAttributes = {
@@ -107,7 +111,12 @@ export type MerchantReadinessPreviousAttributes = {
      * ReadinessRequirementsPreviousAttributes}. anyOf[2] (Value): null.
      */
     "requirements"?: ((ReadinessRequirementsPreviousAttributes) | (null));
-    /**  anyOf[1] (Value): boolean. anyOf[2] (Value): null. */
+    /**
+     * Whether Flint's review prevents capturing authorized payments. Omitted when capture review
+     * status is unavailable. anyOf[1] (Value): boolean. Whether Flint's review prevents capturing
+     * authorized payments. Omitted when capture review status is unavailable. anyOf[2] (Value):
+     * null.
+     */
     "review_blocks_captures"?: ((boolean) | (null));
 };
 export type MerchantReadinessUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
@@ -2798,12 +2807,6 @@ export type MerchantWebhookEnvelope = ({
  * maps written before those limits may not satisfy them.
  */
 export type MetadataMap = Record<string, string>;
-/**
- * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
- * Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
- * maps written before those limits may not satisfy them.
- */
-export type MetadataMapInput = MetadataMap;
 /**
  * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
  * sets a value, a null value deletes the key, and an empty object makes no change; send null for
@@ -6792,4 +6795,57 @@ export type ModifierRequestInput = {
      * currency code.
      */
     "unit_price_delta_money"?: MoneyValueInput;
+};
+/** A reusable collection of customization groups. */
+export type ModifierSet = {
+    /**
+     * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Ordered group entries in this set, including the full content of reusable groups and groups
+     * owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as it appears in a
+     * modifier set, with its selection limits, display options, and per-modifier overrides.
+     */
+    "modifier_groups": Array<ModifierSetGroup>;
+    /**
+     * Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id": string;
+    /** Name used to identify this modifier set. */
+    "name": string;
+    /**
+     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
+     * sets remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * When the modifier set or any group it contains last changed, as an RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "updated_at"?: string;
+    /**
+     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     */
+    "version": number;
 };

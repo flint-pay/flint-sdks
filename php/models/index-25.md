@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PlatformFeeCapRequestInput to PromotionCreatedMerchantEventInput
+# PlatformFeeCapPreviousAttributesInput to PromotionCreatedInstalledMerchantsEventInput
 
+- [PlatformFeeCapPreviousAttributesInput](PlatformFeeCapPreviousAttributesInput.md)
 - [PlatformFeeCapRequestInput](PlatformFeeCapRequestInput.md)
 - [PlatformFeeCreatedEventInput](PlatformFeeCreatedEventInput.md)
 - [PlatformFeeListResponseInput](PlatformFeeListResponseInput.md)
@@ -101,5 +102,4 @@
 - [PromotionCombinesWithPreviousAttributesInput](PromotionCombinesWithPreviousAttributesInput.md)
 - [PromotionCombinesWithRequestInput](PromotionCombinesWithRequestInput.md)
 - [PromotionCreatedInstalledMerchantsEventInput](PromotionCreatedInstalledMerchantsEventInput.md)
-- [PromotionCreatedMerchantEventInput](PromotionCreatedMerchantEventInput.md)
 

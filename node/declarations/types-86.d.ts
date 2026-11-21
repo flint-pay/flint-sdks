@@ -1,7 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
-    DeliveryPricingStrategyCreateInputCalculatedInput,
-    DeliveryPricingStrategyCreateInputCallbackInput,
     DeliveryPricingStrategyCreateInputCallerSuppliedInput,
     DeliveryPricingStrategyCreateInputFixedInput,
     DeliveryPricingStrategyCreateInputRateTableInput,
@@ -16,10 +14,10 @@ import type {
     DeliveryPricingStrategyRequestInput,
     DeliveryPricingTierBandRequestInput,
     DeliveryProfileConfigurationInputManualInput,
-    DeliveryProfileConfigurationInputNoneInput,
-    DeliveryProfileConfigurationInputQuoteInput
+    DeliveryProfileConfigurationInputNoneInput
 } from './types-21.js';
 import type {
+    DeliveryProfileConfigurationInputQuoteInput,
     DeliveryProfileConfigurationInputRequiredInput,
     DeliveryProfileConfigurationRequestInput,
     DeliveryProfileOriginPolicyInputFixedLocationInput,
@@ -68,14 +66,12 @@ import type {
     DispatchFulfillmentRequestInput
 } from './types-25.js';
 import type { DocumentTaxIDRequestInput, EmailPreferenceLinkRequestInput } from './types-26.js';
+import type { FailFulfillmentRequestInput, FreezeGiftCardRequestInput, FulfillmentItemizedPackagesRequestInput } from './types-27.js';
 import type {
-    FailFulfillmentRequestInput,
-    FreezeGiftCardRequestInput,
-    FulfillmentItemizedPackagesRequestInput,
-    FulfillmentLineItemRequestInput
-} from './types-27.js';
-export declare function makeDeliveryPricingStrategyCreateInputCalculated(value: InputValue<DeliveryPricingStrategyCreateInputCalculatedInput>): Model<DeliveryPricingStrategyCreateInputCalculatedInput>;
-export declare function makeDeliveryPricingStrategyCreateInputCallback(value: InputValue<DeliveryPricingStrategyCreateInputCallbackInput>): Model<DeliveryPricingStrategyCreateInputCallbackInput>;
+    FulfillmentLineItemRequestInput,
+    FulfillmentPackagingRequestInput,
+    FulfillmentRecipientRequestInput
+} from './types-28.js';
 export declare function makeDeliveryPricingStrategyCreateInputCallerSupplied(value: InputValue<DeliveryPricingStrategyCreateInputCallerSuppliedInput>): Model<DeliveryPricingStrategyCreateInputCallerSuppliedInput>;
 export declare function makeDeliveryPricingStrategyCreateInputFixed(value: InputValue<DeliveryPricingStrategyCreateInputFixedInput>): Model<DeliveryPricingStrategyCreateInputFixedInput>;
 export declare function makeDeliveryPricingStrategyCreateInputRateTable(value: InputValue<DeliveryPricingStrategyCreateInputRateTableInput>): Model<DeliveryPricingStrategyCreateInputRateTableInput>;
@@ -138,3 +134,5 @@ export declare function makeFailFulfillmentRequest(value: InputValue<FailFulfill
 export declare function makeFreezeGiftCardRequest(value: InputValue<FreezeGiftCardRequestInput>): Model<FreezeGiftCardRequestInput>;
 export declare function makeFulfillmentItemizedPackagesRequest(value: InputValue<FulfillmentItemizedPackagesRequestInput>): Model<FulfillmentItemizedPackagesRequestInput>;
 export declare function makeFulfillmentLineItemRequest(value: InputValue<FulfillmentLineItemRequestInput>): Model<FulfillmentLineItemRequestInput>;
+export declare function makeFulfillmentPackagingRequest(value: InputValue<FulfillmentPackagingRequestInput>): Model<FulfillmentPackagingRequestInput>;
+export declare function makeFulfillmentRecipientRequest(value: InputValue<FulfillmentRecipientRequestInput>): Model<FulfillmentRecipientRequestInput>;

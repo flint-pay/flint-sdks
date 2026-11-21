@@ -1,18 +1,16 @@
-import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, NextAction, NextActionPreviousAttributes } from './types-44.js';
 import type {
     PartnerWebhookEnvelope,
     PartnerEnvironmentGrantPaymentSplits,
-    PartnerAppPermissionManifestEntryPreviousAttributes,
     PartnerEnvironmentGrantPaymentSplitsPreviousAttributes
 } from './types-50.js';
 import type {
     SplitReversalReference,
     SplitReversalReferencePreviousAttributes,
     SimulateDisputeRequestInput,
-    SelectableErrorResource,
     Shipment
 } from './types-68.js';
+import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { Dispute } from './types-25.js';
 import type { ResponseMeta } from './types-62.js';
 import type { InputValue } from '../runtime.js';
@@ -20,7 +18,8 @@ import type { LookupEmailPreferencesRequestInput } from './types-40.js';
 import type {
     PartnerAppMerchantReadiness,
     PartnerAppPermissionManifestEntry,
-    PartnerAppMerchantReadinessPreviousAttributes
+    PartnerAppMerchantReadinessPreviousAttributes,
+    PartnerAppPermissionManifestEntryPreviousAttributes
 } from './types-49.js';
 import type {
     PlatformFeeCap,
@@ -34,13 +33,2325 @@ import type { Fulfillment } from './types-27.js';
 import type { GiftCardRestriction } from './types-30.js';
 import type { Package } from './types-48.js';
 import type { QuotaDetails } from './types-59.js';
-import type { ScopeRequirement } from './types-67.js';
+import type { ScopeRequirement, SelectableErrorResource } from './types-67.js';
 import type { InvoiceSettlementAmounts, InvoiceSettlementAmountsPreviousAttributes } from './types-38.js';
 import type { CheckoutBuyerContact, CheckoutBuyerContactPreviousAttributes } from './types-6.js';
-import type { DeferredPromotion, DeferredPromotionPreviousAttributes } from './types-17.js';
+import type { DeferredPromotion, DeferredPromotionPreviousAttributes } from './types-18.js';
 import type { OrderSettlementAmounts, OrderSettlementAmountsPreviousAttributes } from './types-47.js';
 import type { PaymentSourceSummary, PaymentSourceSummaryPreviousAttributes } from './types-54.js';
 import type { CardDetails, CardDetailsPreviousAttributes } from './types-5.js';
+/**
+ * The `dispute.needs_response` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type DisputeNeedsResponseInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.amount_money (Required): {@link MoneyValue}. Amount in dispute.
+     * For a chargeback, this amount left your balance when the case opened; an inquiry moves no
+     * money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.can_respond_with_evidence (Required): boolean. Whether this dispute has an evidence
+     * response window. It stays true after the window closes or a decision is made. Use
+     * is_action_required to know whether a response is needed now. object.case_type (Required):
+     * string. Kind of case the card network or bank opened. `status` and `is_action_required` say
+     * whether a response is needed. Value enum: "inquiry", "chargeback", "compliance",
+     * "resolution", "block", "other", "bank_return". object.closed_reason (Optional): string. Why
+     * the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed
+     * closure reason. Value enum: "merchant_accepted". object.created_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.customer
+     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
+     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
+     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
+     * object.customer_id (Optional): string. The customer on the disputed payment. Absent when the
+     * payment has none. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.dispute_id (Required):
+     * string. Stable identifier of the dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+     * object.evidence_due_at (Required): string or null. Deadline for submitting evidence. Respond
+     * before it when is_action_required is true. `null` when the dispute has no response window,
+     * such as a bank return or a case your processor gave no deadline for. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.evidence_submission_count (Required): integer. How
+     * many times evidence was submitted for this dispute. 0 until you submit. Format: int32.
+     * object.fraud_warning_id (Optional): string. The fraud warning the card network sent for this
+     * payment before the dispute. Absent when there was none. Example:
+     * "frw_01KEZF7C00WD6W4TAFS0FH851W". object.has_evidence (Required): boolean. Whether evidence
+     * is saved for this dispute, submitted or not. In test mode this includes an unsubmitted draft
+     * Flint saves when the dispute first needs a response, so it doesn't mean someone started a
+     * response. evidence_submission_count says whether evidence was submitted.
+     * object.is_action_required (Required): boolean. True when status is needs_response or
+     * inquiry_needs_response, can_respond_with_evidence is true, and evidence_due_at hasn't
+     * passed. Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded
+     * the change. It turns false once evidence_due_at has passed, with no event.
+     * object.is_evidence_deadline_passed (Required): boolean. Whether evidence_due_at has passed
+     * on a dispute with a response window. Always false when can_respond_with_evidence is false.
+     * Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded the
+     * change. It turns true once evidence_due_at has passed, with no event. object.merchant_id
+     * (Required): string. ID of the merchant this resource belongs to. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.network_reason_code (Required): string or null.
+     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
+     * brand; codes differ by network. `null` when the network supplied no code or the supplied
+     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. object.order (Optional): {@link
+     * ExpandedOrderSummary} or null. Present only when `expand` includes `order`; `null` when
+     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Optional): string. ID of the order the
+     * disputed payment was for. Absent when Flint can't link the dispute to an order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
+     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
+     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+     * amount, status, and capture method, returned when the payment intent is expanded.
+     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
+     * ID of the payment intent that took the disputed payment. Absent when Flint can't link the
+     * dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_option
+     * (Required): string or null. How the buyer paid for the disputed payment. `null` when Flint
+     * hasn't linked the dispute to a payment intent that records a payment option. Value enum:
+     * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. object.reason (Required):
+     * string. Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
+     * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
+     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
+     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other".
+     * object.recommended_evidence_types (Required): Array of string. Evidence types that usually
+     * answer this reason, chosen by Flint, most useful first. Use the ones that fit what you sold.
+     * Empty when Flint has no recommendation, including bank returns. Chosen from the stored
+     * reason and case_type; in a webhook, frozen when Flint records the change. [] enum:
+     * "customer_details", "customer_communication", "customer_signature", "receipt",
+     * "shipping_documentation", "service_documentation", "access_activity_log",
+     * "product_description", "refund_policy", "duplicate_charge_documentation",
+     * "cancellation_policy". object.recommended_evidence_types[] (Value): string. Value enum:
+     * "customer_details", "customer_communication", "customer_signature", "receipt",
+     * "shipping_documentation", "service_documentation", "access_activity_log",
+     * "product_description", "refund_policy", "duplicate_charge_documentation",
+     * "cancellation_policy". object.response_unavailable_reason (Optional): string. Why a response
+     * is unavailable when can_respond_with_evidence is false. Absent when no reason is reported.
+     * Current values are bank_return_not_contestable and response_window_unavailable.
+     * response_window_unavailable means no evidence deadline was supplied. Value enum:
+     * "bank_return_not_contestable", "response_window_unavailable". object.split_reversals
+     * (Optional): Array of {@link SplitReversalReference}. Fixed seller allocations on the
+     * payment, each naming its payment split and reversal. Present only when the payment has
+     * splits; an empty array means no seller share was allocated. Read PaymentSplit.reversals for
+     * status, shortfall, and reinstated amounts. object.split_reversals[] (Value): {@link
+     * SplitReversalReference}. A fixed allocation referencing a read-only reversal nested in a
+     * payment split. This reference has no independent lifecycle or write routes. object.status
+     * (Required): string. Where the dispute stands. `needs_response` and `inquiry_needs_response`
+     * ask you to respond; `inquiry_closed`, `won`, `lost`, and `prevented` are final. Value enum:
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other". object.status_changed_at (Optional):
+     * string. Recorded time of the current status. On first observation this is the dispute
+     * creation time. Later status changes use the provider event time when available, or the time
+     * Flint observed the change. This may not be the exact decision or submission time. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.supported_actions (Required): Array of
+     * string. Lifecycle actions Flint accepts now. Evaluated when the dispute is read; in a
+     * webhook payload, as of when Flint recorded the change. It turns empty once evidence_due_at
+     * has passed, with no event. [] enum: "accept". object.supported_actions[] (Value): string.
+     * Value enum: "accept". object.updated_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object and
+     * {@link DisputePreviousAttributes}. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * Amount in dispute. For a chargeback, this amount left your balance when the case opened; an
+     * inquiry moves no money. previous_attributes.amount_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * previous_attributes.can_respond_with_evidence (Optional): boolean or null. Whether this
+     * dispute has an evidence response window. It stays true after the window closes or a decision
+     * is made. Use is_action_required to know whether a response is needed now.
+     * previous_attributes.can_respond_with_evidence.anyOf[1] (Value): boolean. Whether this
+     * dispute has an evidence response window. It stays true after the window closes or a decision
+     * is made. Use is_action_required to know whether a response is needed now.
+     * previous_attributes.can_respond_with_evidence.anyOf[2] (Value): null.
+     * previous_attributes.case_type (Optional): string or null. Kind of case the card network or
+     * bank opened. `status` and `is_action_required` say whether a response is needed. Value enum:
+     * "inquiry", "chargeback", "compliance", "resolution", "block", "other", "bank_return".
+     * previous_attributes.case_type.anyOf[1] (Value): string. Kind of case the card network or
+     * bank opened. `status` and `is_action_required` say whether a response is needed. Value enum:
+     * "inquiry", "chargeback", "compliance", "resolution", "block", "other", "bank_return".
+     * previous_attributes.case_type.anyOf[2] (Value): null. previous_attributes.closed_reason
+     * (Optional): string or null. Why the dispute closed, when Flint recorded the cause. Absent
+     * when Flint has no confirmed closure reason. Value enum: "merchant_accepted".
+     * previous_attributes.closed_reason.anyOf[1] (Value): string. Why the dispute closed, when
+     * Flint recorded the cause. Absent when Flint has no confirmed closure reason. Value enum:
+     * "merchant_accepted". previous_attributes.closed_reason.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * dispute has no response window, such as a bank return or a case your processor gave no
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * dispute has no response window, such as a bank return or a case your processor gave no
+     * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
+     * previous_attributes.evidence_submission_count (Optional): integer or null. How many times
+     * evidence was submitted for this dispute. 0 until you submit.
+     * previous_attributes.evidence_submission_count.anyOf[1] (Value): integer. How many times
+     * evidence was submitted for this dispute. 0 until you submit. Format: int32.
+     * previous_attributes.evidence_submission_count.anyOf[2] (Value): null.
+     * previous_attributes.fraud_warning_id (Optional): string or null. The fraud warning the card
+     * network sent for this payment before the dispute. Absent when there was none.
+     * previous_attributes.fraud_warning_id.anyOf[1] (Value): string. The fraud warning the card
+     * network sent for this payment before the dispute. Absent when there was none. Example:
+     * "frw_01KEZF7C00WD6W4TAFS0FH851W". previous_attributes.fraud_warning_id.anyOf[2] (Value):
+     * null. previous_attributes.has_evidence (Optional): boolean or null. Whether evidence is
+     * saved for this dispute, submitted or not. In test mode this includes an unsubmitted draft
+     * Flint saves when the dispute first needs a response, so it doesn't mean someone started a
+     * response. evidence_submission_count says whether evidence was submitted.
+     * previous_attributes.has_evidence.anyOf[1] (Value): boolean. Whether evidence is saved for
+     * this dispute, submitted or not. In test mode this includes an unsubmitted draft Flint saves
+     * when the dispute first needs a response, so it doesn't mean someone started a response.
+     * evidence_submission_count says whether evidence was submitted.
+     * previous_attributes.has_evidence.anyOf[2] (Value): null.
+     * previous_attributes.is_action_required (Optional): boolean or null. True when status is
+     * needs_response or inquiry_needs_response, can_respond_with_evidence is true, and
+     * evidence_due_at hasn't passed. Evaluated when the dispute is read; in a webhook payload, as
+     * of when Flint recorded the change. It turns false once evidence_due_at has passed, with no
+     * event. previous_attributes.is_action_required.anyOf[1] (Value): boolean. True when status is
+     * needs_response or inquiry_needs_response, can_respond_with_evidence is true, and
+     * evidence_due_at hasn't passed. Evaluated when the dispute is read; in a webhook payload, as
+     * of when Flint recorded the change. It turns false once evidence_due_at has passed, with no
+     * event. previous_attributes.is_action_required.anyOf[2] (Value): null.
+     * previous_attributes.is_evidence_deadline_passed (Optional): boolean or null. Whether
+     * evidence_due_at has passed on a dispute with a response window. Always false when
+     * can_respond_with_evidence is false. Evaluated when the dispute is read; in a webhook
+     * payload, as of when Flint recorded the change. It turns true once evidence_due_at has
+     * passed, with no event. previous_attributes.is_evidence_deadline_passed.anyOf[1] (Value):
+     * boolean. Whether evidence_due_at has passed on a dispute with a response window. Always
+     * false when can_respond_with_evidence is false. Evaluated when the dispute is read; in a
+     * webhook payload, as of when Flint recorded the change. It turns true once evidence_due_at
+     * has passed, with no event. previous_attributes.is_evidence_deadline_passed.anyOf[2] (Value):
+     * null. previous_attributes.merchant_id (Optional): string or null. ID of the merchant this
+     * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
+     * payment was for. Absent when Flint can't link the dispute to an order.
+     * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
+     * was for. Absent when Flint can't link the dispute to an order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
+     * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
+     * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
+     * reason Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
+     * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
+     * "bank_account_not_found", "other". previous_attributes.reason.anyOf[1] (Value): string. Why
+     * the payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+     * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
+     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other".
+     * previous_attributes.reason.anyOf[2] (Value): null.
+     * previous_attributes.recommended_evidence_types (Optional): Array of string or null. Evidence
+     * types that usually answer this reason, chosen by Flint, most useful first. Use the ones that
+     * fit what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+     * from the stored reason and case_type; in a webhook, frozen when Flint records the change. []
+     * enum: "customer_details", "customer_communication", "customer_signature", "receipt",
+     * "shipping_documentation", "service_documentation", "access_activity_log",
+     * "product_description", "refund_policy", "duplicate_charge_documentation",
+     * "cancellation_policy". previous_attributes.recommended_evidence_types.anyOf[1] (Value):
+     * Array of string. Evidence types that usually answer this reason, chosen by Flint, most
+     * useful first. Use the ones that fit what you sold. Empty when Flint has no recommendation,
+     * including bank returns. Chosen from the stored reason and case_type; in a webhook, frozen
+     * when Flint records the change. [] enum: "customer_details", "customer_communication",
+     * "customer_signature", "receipt", "shipping_documentation", "service_documentation",
+     * "access_activity_log", "product_description", "refund_policy",
+     * "duplicate_charge_documentation", "cancellation_policy".
+     * previous_attributes.recommended_evidence_types.anyOf[1][] (Value): string. Value enum:
+     * "customer_details", "customer_communication", "customer_signature", "receipt",
+     * "shipping_documentation", "service_documentation", "access_activity_log",
+     * "product_description", "refund_policy", "duplicate_charge_documentation",
+     * "cancellation_policy". previous_attributes.recommended_evidence_types.anyOf[2] (Value):
+     * null. previous_attributes.response_unavailable_reason (Optional): string or null. Why a
+     * response is unavailable when can_respond_with_evidence is false. Absent when no reason is
+     * reported. Current values are bank_return_not_contestable and response_window_unavailable.
+     * response_window_unavailable means no evidence deadline was supplied. Value enum:
+     * "bank_return_not_contestable", "response_window_unavailable".
+     * previous_attributes.response_unavailable_reason.anyOf[1] (Value): string. Why a response is
+     * unavailable when can_respond_with_evidence is false. Absent when no reason is reported.
+     * Current values are bank_return_not_contestable and response_window_unavailable.
+     * response_window_unavailable means no evidence deadline was supplied. Value enum:
+     * "bank_return_not_contestable", "response_window_unavailable".
+     * previous_attributes.response_unavailable_reason.anyOf[2] (Value): null.
+     * previous_attributes.split_reversals (Optional): Array of {@link
+     * SplitReversalReferencePreviousAttributes} or null. Fixed seller allocations on the payment,
+     * each naming its payment split and reversal. Present only when the payment has splits; an
+     * empty array means no seller share was allocated. Read PaymentSplit.reversals for status,
+     * shortfall, and reinstated amounts. previous_attributes.split_reversals.anyOf[1] (Value):
+     * Array of {@link SplitReversalReferencePreviousAttributes}. Fixed seller allocations on the
+     * payment, each naming its payment split and reversal. Present only when the payment has
+     * splits; an empty array means no seller share was allocated. Read PaymentSplit.reversals for
+     * status, shortfall, and reinstated amounts. previous_attributes.split_reversals.anyOf[1][]
+     * (Value): {@link SplitReversalReferencePreviousAttributes}.
+     * previous_attributes.split_reversals.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Where the dispute stands. `needs_response` and
+     * `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`, `lost`, and
+     * `prevented` are final. Value enum: "inquiry_needs_response", "inquiry_under_review",
+     * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+     * previous_attributes.status.anyOf[1] (Value): string. Where the dispute stands.
+     * `needs_response` and `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`,
+     * `lost`, and `prevented` are final. Value enum: "inquiry_needs_response",
+     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
+     * "prevented", "other". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.status_changed_at (Optional): string or null. Recorded time of the
+     * current status. On first observation this is the dispute creation time. Later status changes
+     * use the provider event time when available, or the time Flint observed the change. This may
+     * not be the exact decision or submission time. previous_attributes.status_changed_at.anyOf[1]
+     * (Value): string. Recorded time of the current status. On first observation this is the
+     * dispute creation time. Later status changes use the provider event time when available, or
+     * the time Flint observed the change. This may not be the exact decision or submission time.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.status_changed_at.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts now. Evaluated when the dispute is read; in a webhook payload, as of when
+     * Flint recorded the change. It turns empty once evidence_due_at has passed, with no event. []
+     * enum: "accept". previous_attributes.supported_actions.anyOf[1] (Value): Array of string.
+     * Lifecycle actions Flint accepts now. Evaluated when the dispute is read; in a webhook
+     * payload, as of when Flint recorded the change. It turns empty once evidence_due_at has
+     * passed, with no event. [] enum: "accept". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "accept". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * amount_money (Required): {@link MoneyValue}. Amount in dispute. For a chargeback, this
+         * amount left your balance when the case opened; an inquiry moves no money. Monetary
+         * amount represented as integer minor units plus an ISO 4217 currency code.
+         * can_respond_with_evidence (Required): boolean. Whether this dispute has an evidence
+         * response window. It stays true after the window closes or a decision is made. Use
+         * is_action_required to know whether a response is needed now. case_type (Required):
+         * string. Kind of case the card network or bank opened. `status` and `is_action_required`
+         * say whether a response is needed. Value enum: "inquiry", "chargeback", "compliance",
+         * "resolution", "block", "other", "bank_return". closed_reason (Optional): string. Why the
+         * dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed
+         * closure reason. Value enum: "merchant_accepted". created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string. The customer on the disputed payment. Absent when the payment has
+         * none. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". dispute_id (Required): string. Stable
+         * identifier of the dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". evidence_due_at
+         * (Required): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". evidence_submission_count (Required): integer. How many times
+         * evidence was submitted for this dispute. 0 until you submit. Format: int32.
+         * fraud_warning_id (Optional): string. The fraud warning the card network sent for this
+         * payment before the dispute. Absent when there was none. Example:
+         * "frw_01KEZF7C00WD6W4TAFS0FH851W". has_evidence (Required): boolean. Whether evidence is
+         * saved for this dispute, submitted or not. In test mode this includes an unsubmitted
+         * draft Flint saves when the dispute first needs a response, so it doesn't mean someone
+         * started a response. evidence_submission_count says whether evidence was submitted.
+         * is_action_required (Required): boolean. True when status is needs_response or
+         * inquiry_needs_response, can_respond_with_evidence is true, and evidence_due_at hasn't
+         * passed. Evaluated when the dispute is read; in a webhook payload, as of when Flint
+         * recorded the change. It turns false once evidence_due_at has passed, with no event.
+         * is_evidence_deadline_passed (Required): boolean. Whether evidence_due_at has passed on a
+         * dispute with a response window. Always false when can_respond_with_evidence is false.
+         * Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded the
+         * change. It turns true once evidence_due_at has passed, with no event. merchant_id
+         * (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". network_reason_code (Required): string or null. Opaque
+         * reason code assigned by the card network. Read it with the disputed payment's card
+         * brand; codes differ by network. `null` when the network supplied no code or the supplied
+         * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. order (Optional): {@link
+         * ExpandedOrderSummary} or null. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+         * status, and pricing and settlement amounts, returned when the order is expanded.
+         * order.anyOf[2] (Value): null. order_id (Optional): string. ID of the order the disputed
+         * payment was for. Absent when Flint can't link the dispute to an order. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". payment_intent (Optional): {@link
+         * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
+         * `payment_intent`; `null` when expanded and there is no related payment intent.
+         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
+         * intent's summary fields, including amount, status, and capture method, returned when the
+         * payment intent is expanded. payment_intent.anyOf[2] (Value): null. payment_intent_id
+         * (Optional): string. ID of the payment intent that took the disputed payment. Absent when
+         * Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_option (Required): string or null. How the
+         * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+         * payment intent that records a payment option. Value enum: "card", "apple_pay",
+         * "google_pay", "affirm", "ach_debit", null. reason (Required): string. Why the payment
+         * was disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
+         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
+         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
+         * "debit_not_authorized", "bank_account_not_found", "other". recommended_evidence_types
+         * (Required): Array of string. Evidence types that usually answer this reason, chosen by
+         * Flint, most useful first. Use the ones that fit what you sold. Empty when Flint has no
+         * recommendation, including bank returns. Chosen from the stored reason and case_type; in
+         * a webhook, frozen when Flint records the change. [] enum: "customer_details",
+         * "customer_communication", "customer_signature", "receipt", "shipping_documentation",
+         * "service_documentation", "access_activity_log", "product_description", "refund_policy",
+         * "duplicate_charge_documentation", "cancellation_policy". recommended_evidence_types[]
+         * (Value): string. Value enum: "customer_details", "customer_communication",
+         * "customer_signature", "receipt", "shipping_documentation", "service_documentation",
+         * "access_activity_log", "product_description", "refund_policy",
+         * "duplicate_charge_documentation", "cancellation_policy". response_unavailable_reason
+         * (Optional): string. Why a response is unavailable when can_respond_with_evidence is
+         * false. Absent when no reason is reported. Current values are bank_return_not_contestable
+         * and response_window_unavailable. response_window_unavailable means no evidence deadline
+         * was supplied. Value enum: "bank_return_not_contestable", "response_window_unavailable".
+         * split_reversals (Optional): Array of {@link SplitReversalReference}. Fixed seller
+         * allocations on the payment, each naming its payment split and reversal. Present only
+         * when the payment has splits; an empty array means no seller share was allocated. Read
+         * PaymentSplit.reversals for status, shortfall, and reinstated amounts. split_reversals[]
+         * (Value): {@link SplitReversalReference}. A fixed allocation referencing a read-only
+         * reversal nested in a payment split. This reference has no independent lifecycle or write
+         * routes. status (Required): string. Where the dispute stands. `needs_response` and
+         * `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`, `lost`, and
+         * `prevented` are final. Value enum: "inquiry_needs_response", "inquiry_under_review",
+         * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+         * status_changed_at (Optional): string. Recorded time of the current status. On first
+         * observation this is the dispute creation time. Later status changes use the provider
+         * event time when available, or the time Flint observed the change. This may not be the
+         * exact decision or submission time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * supported_actions (Required): Array of string. Lifecycle actions Flint accepts now.
+         * Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded the
+         * change. It turns empty once evidence_due_at has passed, with no event. [] enum:
+         * "accept". supported_actions[] (Value): string. Value enum: "accept". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * Amount in dispute. For a chargeback, this amount left your balance when the case
+             * opened; an inquiry moves no money. Monetary amount represented as integer minor
+             * units plus an ISO 4217 currency code.
+             */
+            "amount_money": MoneyValue;
+            /**
+             * Whether this dispute has an evidence response window. It stays true after the window
+             * closes or a decision is made. Use is_action_required to know whether a response is
+             * needed now.
+             */
+            "can_respond_with_evidence": boolean;
+            /**
+             * Kind of case the card network or bank opened. `status` and `is_action_required` say
+             * whether a response is needed. Value enum: "inquiry", "chargeback", "compliance",
+             * "resolution", "block", "other", "bank_return".
+             */
+            "case_type": "inquiry"
+                | "chargeback"
+                | "compliance"
+                | "resolution"
+                | "block"
+                | "other"
+                | "bank_return"
+                | (string & {});
+            /**
+             * Why the dispute closed, when Flint recorded the cause. Absent when Flint has no
+             * confirmed closure reason. Value enum: "merchant_accepted".
+             */
+            "closed_reason"?: "merchant_accepted" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * The customer on the disputed payment. Absent when the payment has none. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id"?: string;
+            /** Stable identifier of the dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". */
+            "dispute_id": string;
+            /**
+             * Deadline for submitting evidence. Respond before it when is_action_required is true.
+             * `null` when the dispute has no response window, such as a bank return or a case your
+             * processor gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "evidence_due_at": string | null;
+            /**
+             * How many times evidence was submitted for this dispute. 0 until you submit. Format:
+             * int32.
+             */
+            "evidence_submission_count": number;
+            /**
+             * The fraud warning the card network sent for this payment before the dispute. Absent
+             * when there was none. Example: "frw_01KEZF7C00WD6W4TAFS0FH851W".
+             */
+            "fraud_warning_id"?: string;
+            /**
+             * Whether evidence is saved for this dispute, submitted or not. In test mode this
+             * includes an unsubmitted draft Flint saves when the dispute first needs a response,
+             * so it doesn't mean someone started a response. evidence_submission_count says
+             * whether evidence was submitted.
+             */
+            "has_evidence": boolean;
+            /**
+             * True when status is needs_response or inquiry_needs_response,
+             * can_respond_with_evidence is true, and evidence_due_at hasn't passed. Evaluated when
+             * the dispute is read; in a webhook payload, as of when Flint recorded the change. It
+             * turns false once evidence_due_at has passed, with no event.
+             */
+            "is_action_required": boolean;
+            /**
+             * Whether evidence_due_at has passed on a dispute with a response window. Always false
+             * when can_respond_with_evidence is false. Evaluated when the dispute is read; in a
+             * webhook payload, as of when Flint recorded the change. It turns true once
+             * evidence_due_at has passed, with no event.
+             */
+            "is_evidence_deadline_passed": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Opaque reason code assigned by the card network. Read it with the disputed payment's
+             * card brand; codes differ by network. `null` when the network supplied no code or the
+             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+             */
+            "network_reason_code": string | null;
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+             * fields, including status, payment and refund status, and pricing and settlement
+             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * ID of the order the disputed payment was for. Absent when Flint can't link the
+             * dispute to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id"?: string;
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
+             * (Value): null.
+             */
+            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
+            /**
+             * ID of the payment intent that took the disputed payment. Absent when Flint can't
+             * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+             */
+            "payment_intent_id"?: string;
+            /**
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null.
+             */
+            "payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null;
+            /**
+             * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
+             * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
+             * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+             * "noncompliant", "insufficient_funds", "debit_not_authorized",
+             * "bank_account_not_found", "other".
+             */
+            "reason": "fraudulent"
+                | "unrecognized"
+                | "duplicate"
+                | "product_not_received"
+                | "product_not_as_described"
+                | "refund_not_processed"
+                | "subscription_canceled"
+                | "noncompliant"
+                | "insufficient_funds"
+                | "debit_not_authorized"
+                | "bank_account_not_found"
+                | "other"
+                | (string & {});
+            /**
+             * Evidence types that usually answer this reason, chosen by Flint, most useful first.
+             * Use the ones that fit what you sold. Empty when Flint has no recommendation,
+             * including bank returns. Chosen from the stored reason and case_type; in a webhook,
+             * frozen when Flint records the change. [] enum: "customer_details",
+             * "customer_communication", "customer_signature", "receipt", "shipping_documentation",
+             * "service_documentation", "access_activity_log", "product_description",
+             * "refund_policy", "duplicate_charge_documentation", "cancellation_policy". []
+             * (Value): string. Value enum: "customer_details", "customer_communication",
+             * "customer_signature", "receipt", "shipping_documentation", "service_documentation",
+             * "access_activity_log", "product_description", "refund_policy",
+             * "duplicate_charge_documentation", "cancellation_policy".
+             */
+            "recommended_evidence_types": Array<"customer_details"
+                | "customer_communication"
+                | "customer_signature"
+                | "receipt"
+                | "shipping_documentation"
+                | "service_documentation"
+                | "access_activity_log"
+                | "product_description"
+                | "refund_policy"
+                | "duplicate_charge_documentation"
+                | "cancellation_policy"
+                | (string & {})>;
+            /**
+             * Why a response is unavailable when can_respond_with_evidence is false. Absent when
+             * no reason is reported. Current values are bank_return_not_contestable and
+             * response_window_unavailable. response_window_unavailable means no evidence deadline
+             * was supplied. Value enum: "bank_return_not_contestable",
+             * "response_window_unavailable".
+             */
+            "response_unavailable_reason"?: "bank_return_not_contestable" | "response_window_unavailable" | (string & {});
+            /**
+             * Fixed seller allocations on the payment, each naming its payment split and reversal.
+             * Present only when the payment has splits; an empty array means no seller share was
+             * allocated. Read PaymentSplit.reversals for status, shortfall, and reinstated
+             * amounts. [] (Value): {@link SplitReversalReference}. A fixed allocation referencing
+             * a read-only reversal nested in a payment split. This reference has no independent
+             * lifecycle or write routes.
+             */
+            "split_reversals"?: Array<SplitReversalReference>;
+            /**
+             * Where the dispute stands. `needs_response` and `inquiry_needs_response` ask you to
+             * respond; `inquiry_closed`, `won`, `lost`, and `prevented` are final. Value enum:
+             * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+             * "needs_response", "under_review", "won", "lost", "prevented", "other".
+             */
+            "status": "inquiry_needs_response"
+                | "inquiry_under_review"
+                | "inquiry_closed"
+                | "needs_response"
+                | "under_review"
+                | "won"
+                | "lost"
+                | "prevented"
+                | "other"
+                | (string & {});
+            /**
+             * Recorded time of the current status. On first observation this is the dispute
+             * creation time. Later status changes use the provider event time when available, or
+             * the time Flint observed the change. This may not be the exact decision or submission
+             * time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "status_changed_at"?: string;
+            /**
+             * Lifecycle actions Flint accepts now. Evaluated when the dispute is read; in a
+             * webhook payload, as of when Flint recorded the change. It turns empty once
+             * evidence_due_at has passed, with no event. [] enum: "accept". [] (Value): string.
+             * Value enum: "accept".
+             */
+            "supported_actions": Array<"accept" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. amount_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Amount in dispute. For a chargeback, this amount
+         * left your balance when the case opened; an inquiry moves no money. amount_money.anyOf[1]
+         * (Value): {@link MoneyValuePreviousAttributes}. amount_money.anyOf[2] (Value): null.
+         * can_respond_with_evidence (Optional): boolean or null. Whether this dispute has an
+         * evidence response window. It stays true after the window closes or a decision is made.
+         * Use is_action_required to know whether a response is needed now.
+         * can_respond_with_evidence.anyOf[1] (Value): boolean. Whether this dispute has an
+         * evidence response window. It stays true after the window closes or a decision is made.
+         * Use is_action_required to know whether a response is needed now.
+         * can_respond_with_evidence.anyOf[2] (Value): null. case_type (Optional): string or null.
+         * Kind of case the card network or bank opened. `status` and `is_action_required` say
+         * whether a response is needed. Value enum: "inquiry", "chargeback", "compliance",
+         * "resolution", "block", "other", "bank_return". case_type.anyOf[1] (Value): string. Kind
+         * of case the card network or bank opened. `status` and `is_action_required` say whether a
+         * response is needed. Value enum: "inquiry", "chargeback", "compliance", "resolution",
+         * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null. Why the dispute closed, when Flint recorded the cause.
+         * Absent when Flint has no confirmed closure reason. Value enum: "merchant_accepted".
+         * closed_reason.anyOf[1] (Value): string. Why the dispute closed, when Flint recorded the
+         * cause. Absent when Flint has no confirmed closure reason. Value enum:
+         * "merchant_accepted". closed_reason.anyOf[2] (Value): null. created_at (Optional): string
+         * or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
+         * only when `expand` includes `customer`; `null` when expanded and there is no related
+         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
+         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
+         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
+         * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
+         * (Value): string. Stable identifier of the dispute. Example:
+         * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
+         * evidence_submission_count (Optional): integer or null. How many times evidence was
+         * submitted for this dispute. 0 until you submit. evidence_submission_count.anyOf[1]
+         * (Value): integer. How many times evidence was submitted for this dispute. 0 until you
+         * submit. Format: int32. evidence_submission_count.anyOf[2] (Value): null.
+         * fraud_warning_id (Optional): string or null. The fraud warning the card network sent for
+         * this payment before the dispute. Absent when there was none. fraud_warning_id.anyOf[1]
+         * (Value): string. The fraud warning the card network sent for this payment before the
+         * dispute. Absent when there was none. Example: "frw_01KEZF7C00WD6W4TAFS0FH851W".
+         * fraud_warning_id.anyOf[2] (Value): null. has_evidence (Optional): boolean or null.
+         * Whether evidence is saved for this dispute, submitted or not. In test mode this includes
+         * an unsubmitted draft Flint saves when the dispute first needs a response, so it doesn't
+         * mean someone started a response. evidence_submission_count says whether evidence was
+         * submitted. has_evidence.anyOf[1] (Value): boolean. Whether evidence is saved for this
+         * dispute, submitted or not. In test mode this includes an unsubmitted draft Flint saves
+         * when the dispute first needs a response, so it doesn't mean someone started a response.
+         * evidence_submission_count says whether evidence was submitted. has_evidence.anyOf[2]
+         * (Value): null. is_action_required (Optional): boolean or null. True when status is
+         * needs_response or inquiry_needs_response, can_respond_with_evidence is true, and
+         * evidence_due_at hasn't passed. Evaluated when the dispute is read; in a webhook payload,
+         * as of when Flint recorded the change. It turns false once evidence_due_at has passed,
+         * with no event. is_action_required.anyOf[1] (Value): boolean. True when status is
+         * needs_response or inquiry_needs_response, can_respond_with_evidence is true, and
+         * evidence_due_at hasn't passed. Evaluated when the dispute is read; in a webhook payload,
+         * as of when Flint recorded the change. It turns false once evidence_due_at has passed,
+         * with no event. is_action_required.anyOf[2] (Value): null. is_evidence_deadline_passed
+         * (Optional): boolean or null. Whether evidence_due_at has passed on a dispute with a
+         * response window. Always false when can_respond_with_evidence is false. Evaluated when
+         * the dispute is read; in a webhook payload, as of when Flint recorded the change. It
+         * turns true once evidence_due_at has passed, with no event.
+         * is_evidence_deadline_passed.anyOf[1] (Value): boolean. Whether evidence_due_at has
+         * passed on a dispute with a response window. Always false when can_respond_with_evidence
+         * is false. Evaluated when the dispute is read; in a webhook payload, as of when Flint
+         * recorded the change. It turns true once evidence_due_at has passed, with no event.
+         * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
+         * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
+         * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. ID of the order the disputed payment was for. Absent when
+         * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
+         * order the disputed payment was for. Absent when Flint can't link the dispute to an
+         * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
+         * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * change. [] enum: "customer_details", "customer_communication", "customer_signature",
+         * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
+         * "product_description", "refund_policy", "duplicate_charge_documentation",
+         * "cancellation_policy". recommended_evidence_types.anyOf[1] (Value): Array of string.
+         * Evidence types that usually answer this reason, chosen by Flint, most useful first. Use
+         * the ones that fit what you sold. Empty when Flint has no recommendation, including bank
+         * returns. Chosen from the stored reason and case_type; in a webhook, frozen when Flint
+         * records the change. [] enum: "customer_details", "customer_communication",
+         * "customer_signature", "receipt", "shipping_documentation", "service_documentation",
+         * "access_activity_log", "product_description", "refund_policy",
+         * "duplicate_charge_documentation", "cancellation_policy".
+         * recommended_evidence_types.anyOf[1][] (Value): string. Value enum: "customer_details",
+         * "customer_communication", "customer_signature", "receipt", "shipping_documentation",
+         * "service_documentation", "access_activity_log", "product_description", "refund_policy",
+         * "duplicate_charge_documentation", "cancellation_policy".
+         * recommended_evidence_types.anyOf[2] (Value): null. response_unavailable_reason
+         * (Optional): string or null. Why a response is unavailable when can_respond_with_evidence
+         * is false. Absent when no reason is reported. Current values are
+         * bank_return_not_contestable and response_window_unavailable. response_window_unavailable
+         * means no evidence deadline was supplied. Value enum: "bank_return_not_contestable",
+         * "response_window_unavailable". response_unavailable_reason.anyOf[1] (Value): string. Why
+         * a response is unavailable when can_respond_with_evidence is false. Absent when no reason
+         * is reported. Current values are bank_return_not_contestable and
+         * response_window_unavailable. response_window_unavailable means no evidence deadline was
+         * supplied. Value enum: "bank_return_not_contestable", "response_window_unavailable".
+         * response_unavailable_reason.anyOf[2] (Value): null. split_reversals (Optional): Array of
+         * {@link SplitReversalReferencePreviousAttributes} or null. Fixed seller allocations on
+         * the payment, each naming its payment split and reversal. Present only when the payment
+         * has splits; an empty array means no seller share was allocated. Read
+         * PaymentSplit.reversals for status, shortfall, and reinstated amounts.
+         * split_reversals.anyOf[1] (Value): Array of {@link
+         * SplitReversalReferencePreviousAttributes}. Fixed seller allocations on the payment, each
+         * naming its payment split and reversal. Present only when the payment has splits; an
+         * empty array means no seller share was allocated. Read PaymentSplit.reversals for status,
+         * shortfall, and reinstated amounts. split_reversals.anyOf[1][] (Value): {@link
+         * SplitReversalReferencePreviousAttributes}. split_reversals.anyOf[2] (Value): null.
+         * status (Optional): string or null. Where the dispute stands. `needs_response` and
+         * `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`, `lost`, and
+         * `prevented` are final. Value enum: "inquiry_needs_response", "inquiry_under_review",
+         * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+         * status.anyOf[1] (Value): string. Where the dispute stands. `needs_response` and
+         * `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`, `lost`, and
+         * `prevented` are final. Value enum: "inquiry_needs_response", "inquiry_under_review",
+         * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+         * status.anyOf[2] (Value): null. status_changed_at (Optional): string or null. Recorded
+         * time of the current status. On first observation this is the dispute creation time.
+         * Later status changes use the provider event time when available, or the time Flint
+         * observed the change. This may not be the exact decision or submission time.
+         * status_changed_at.anyOf[1] (Value): string. Recorded time of the current status. On
+         * first observation this is the dispute creation time. Later status changes use the
+         * provider event time when available, or the time Flint observed the change. This may not
+         * be the exact decision or submission time. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". status_changed_at.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now. Evaluated when
+         * the dispute is read; in a webhook payload, as of when Flint recorded the change. It
+         * turns empty once evidence_due_at has passed, with no event. [] enum: "accept".
+         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
+         * now. Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded
+         * the change. It turns empty once evidence_due_at has passed, with no event. [] enum:
+         * "accept". supported_actions.anyOf[1][] (Value): string. Value enum: "accept".
+         * supported_actions.anyOf[2] (Value): null. updated_at (Optional): string or null. RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Amount in dispute. For a chargeback, this amount left your balance when the case
+             * opened; an inquiry moves no money. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            /**
+             * Whether this dispute has an evidence response window. It stays true after the window
+             * closes or a decision is made. Use is_action_required to know whether a response is
+             * needed now. anyOf[1] (Value): boolean. Whether this dispute has an evidence response
+             * window. It stays true after the window closes or a decision is made. Use
+             * is_action_required to know whether a response is needed now. anyOf[2] (Value): null.
+             */
+            "can_respond_with_evidence"?: ((boolean) | (null));
+            /**
+             * Kind of case the card network or bank opened. `status` and `is_action_required` say
+             * whether a response is needed. Value enum: "inquiry", "chargeback", "compliance",
+             * "resolution", "block", "other", "bank_return". anyOf[1] (Value): string. Kind of
+             * case the card network or bank opened. `status` and `is_action_required` say whether
+             * a response is needed. Value enum: "inquiry", "chargeback", "compliance",
+             * "resolution", "block", "other", "bank_return". anyOf[2] (Value): null.
+             */
+            "case_type"?: (("inquiry"
+                | "chargeback"
+                | "compliance"
+                | "resolution"
+                | "block"
+                | "other"
+                | "bank_return"
+                | (string & {}))
+                | (null));
+            /**
+             * Why the dispute closed, when Flint recorded the cause. Absent when Flint has no
+             * confirmed closure reason. Value enum: "merchant_accepted". anyOf[1] (Value): string.
+             * Why the dispute closed, when Flint recorded the cause. Absent when Flint has no
+             * confirmed closure reason. Value enum: "merchant_accepted". anyOf[2] (Value): null.
+             */
+            "closed_reason"?: (("merchant_accepted" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
+             * (Value): string. The customer on the disputed payment. Absent when the payment has
+             * none. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Stable identifier of the dispute. anyOf[1] (Value): string. Stable identifier of the
+             * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". anyOf[2] (Value): null.
+             */
+            "dispute_id"?: ((string) | (null));
+            /**
+             * Deadline for submitting evidence. Respond before it when is_action_required is true.
+             * `null` when the dispute has no response window, such as a bank return or a case your
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "evidence_due_at"?: ((string) | (null));
+            /**
+             * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
+             * (Value): integer. How many times evidence was submitted for this dispute. 0 until
+             * you submit. Format: int32. anyOf[2] (Value): null.
+             */
+            "evidence_submission_count"?: ((number) | (null));
+            /**
+             * The fraud warning the card network sent for this payment before the dispute. Absent
+             * when there was none. anyOf[1] (Value): string. The fraud warning the card network
+             * sent for this payment before the dispute. Absent when there was none. Example:
+             * "frw_01KEZF7C00WD6W4TAFS0FH851W". anyOf[2] (Value): null.
+             */
+            "fraud_warning_id"?: ((string) | (null));
+            /**
+             * Whether evidence is saved for this dispute, submitted or not. In test mode this
+             * includes an unsubmitted draft Flint saves when the dispute first needs a response,
+             * so it doesn't mean someone started a response. evidence_submission_count says
+             * whether evidence was submitted. anyOf[1] (Value): boolean. Whether evidence is saved
+             * for this dispute, submitted or not. In test mode this includes an unsubmitted draft
+             * Flint saves when the dispute first needs a response, so it doesn't mean someone
+             * started a response. evidence_submission_count says whether evidence was submitted.
+             * anyOf[2] (Value): null.
+             */
+            "has_evidence"?: ((boolean) | (null));
+            /**
+             * True when status is needs_response or inquiry_needs_response,
+             * can_respond_with_evidence is true, and evidence_due_at hasn't passed. Evaluated when
+             * the dispute is read; in a webhook payload, as of when Flint recorded the change. It
+             * turns false once evidence_due_at has passed, with no event. anyOf[1] (Value):
+             * boolean. True when status is needs_response or inquiry_needs_response,
+             * can_respond_with_evidence is true, and evidence_due_at hasn't passed. Evaluated when
+             * the dispute is read; in a webhook payload, as of when Flint recorded the change. It
+             * turns false once evidence_due_at has passed, with no event. anyOf[2] (Value): null.
+             */
+            "is_action_required"?: ((boolean) | (null));
+            /**
+             * Whether evidence_due_at has passed on a dispute with a response window. Always false
+             * when can_respond_with_evidence is false. Evaluated when the dispute is read; in a
+             * webhook payload, as of when Flint recorded the change. It turns true once
+             * evidence_due_at has passed, with no event. anyOf[1] (Value): boolean. Whether
+             * evidence_due_at has passed on a dispute with a response window. Always false when
+             * can_respond_with_evidence is false. Evaluated when the dispute is read; in a webhook
+             * payload, as of when Flint recorded the change. It turns true once evidence_due_at
+             * has passed, with no event. anyOf[2] (Value): null.
+             */
+            "is_evidence_deadline_passed"?: ((boolean) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Opaque reason code assigned by the card network. Read it with the disputed payment's
+             * card brand; codes differ by network. `null` when the network supplied no code or the
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
+             */
+            "network_reason_code"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the order the disputed payment was for. Absent when Flint can't link the
+             * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
+             * was for. Absent when Flint can't link the dispute to an order. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the payment intent that took the disputed payment. Absent when Flint can't
+             * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
+             * intent that took the disputed payment. Absent when Flint can't link the dispute to a
+             * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_id"?: ((string) | (null));
+            /**
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
+             */
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
+            /**
+             * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
+             * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
+             * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+             * "noncompliant", "insufficient_funds", "debit_not_authorized",
+             * "bank_account_not_found", "other". anyOf[1] (Value): string. Why the payment was
+             * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
+             * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
+             * "refund_not_processed", "subscription_canceled", "noncompliant",
+             * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other".
+             * anyOf[2] (Value): null.
+             */
+            "reason"?: (("fraudulent"
+                | "unrecognized"
+                | "duplicate"
+                | "product_not_received"
+                | "product_not_as_described"
+                | "refund_not_processed"
+                | "subscription_canceled"
+                | "noncompliant"
+                | "insufficient_funds"
+                | "debit_not_authorized"
+                | "bank_account_not_found"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Evidence types that usually answer this reason, chosen by Flint, most useful first.
+             * Use the ones that fit what you sold. Empty when Flint has no recommendation,
+             * including bank returns. Chosen from the stored reason and case_type; in a webhook,
+             * frozen when Flint records the change. [] enum: "customer_details",
+             * "customer_communication", "customer_signature", "receipt", "shipping_documentation",
+             * "service_documentation", "access_activity_log", "product_description",
+             * "refund_policy", "duplicate_charge_documentation", "cancellation_policy". anyOf[1]
+             * (Value): Array of string. Evidence types that usually answer this reason, chosen by
+             * Flint, most useful first. Use the ones that fit what you sold. Empty when Flint has
+             * no recommendation, including bank returns. Chosen from the stored reason and
+             * case_type; in a webhook, frozen when Flint records the change. [] enum:
+             * "customer_details", "customer_communication", "customer_signature", "receipt",
+             * "shipping_documentation", "service_documentation", "access_activity_log",
+             * "product_description", "refund_policy", "duplicate_charge_documentation",
+             * "cancellation_policy". anyOf[1][] (Value): string. Value enum: "customer_details",
+             * "customer_communication", "customer_signature", "receipt", "shipping_documentation",
+             * "service_documentation", "access_activity_log", "product_description",
+             * "refund_policy", "duplicate_charge_documentation", "cancellation_policy". anyOf[2]
+             * (Value): null.
+             */
+            "recommended_evidence_types"?: ((Array<"customer_details"
+                | "customer_communication"
+                | "customer_signature"
+                | "receipt"
+                | "shipping_documentation"
+                | "service_documentation"
+                | "access_activity_log"
+                | "product_description"
+                | "refund_policy"
+                | "duplicate_charge_documentation"
+                | "cancellation_policy"
+                | (string & {})>)
+                | (null));
+            /**
+             * Why a response is unavailable when can_respond_with_evidence is false. Absent when
+             * no reason is reported. Current values are bank_return_not_contestable and
+             * response_window_unavailable. response_window_unavailable means no evidence deadline
+             * was supplied. Value enum: "bank_return_not_contestable",
+             * "response_window_unavailable". anyOf[1] (Value): string. Why a response is
+             * unavailable when can_respond_with_evidence is false. Absent when no reason is
+             * reported. Current values are bank_return_not_contestable and
+             * response_window_unavailable. response_window_unavailable means no evidence deadline
+             * was supplied. Value enum: "bank_return_not_contestable",
+             * "response_window_unavailable". anyOf[2] (Value): null.
+             */
+            "response_unavailable_reason"?: (("bank_return_not_contestable" | "response_window_unavailable" | (string & {})) | (null));
+            /**
+             * Fixed seller allocations on the payment, each naming its payment split and reversal.
+             * Present only when the payment has splits; an empty array means no seller share was
+             * allocated. Read PaymentSplit.reversals for status, shortfall, and reinstated
+             * amounts. anyOf[1] (Value): Array of {@link
+             * SplitReversalReferencePreviousAttributes}. Fixed seller allocations on the payment,
+             * each naming its payment split and reversal. Present only when the payment has
+             * splits; an empty array means no seller share was allocated. Read
+             * PaymentSplit.reversals for status, shortfall, and reinstated amounts. anyOf[1][]
+             * (Value): {@link SplitReversalReferencePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "split_reversals"?: ((Array<SplitReversalReferencePreviousAttributes>) | (null));
+            /**
+             * Where the dispute stands. `needs_response` and `inquiry_needs_response` ask you to
+             * respond; `inquiry_closed`, `won`, `lost`, and `prevented` are final. Value enum:
+             * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+             * "needs_response", "under_review", "won", "lost", "prevented", "other". anyOf[1]
+             * (Value): string. Where the dispute stands. `needs_response` and
+             * `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`, `lost`, and
+             * `prevented` are final. Value enum: "inquiry_needs_response", "inquiry_under_review",
+             * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented",
+             * "other". anyOf[2] (Value): null.
+             */
+            "status"?: (("inquiry_needs_response"
+                | "inquiry_under_review"
+                | "inquiry_closed"
+                | "needs_response"
+                | "under_review"
+                | "won"
+                | "lost"
+                | "prevented"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Recorded time of the current status. On first observation this is the dispute
+             * creation time. Later status changes use the provider event time when available, or
+             * the time Flint observed the change. This may not be the exact decision or submission
+             * time. anyOf[1] (Value): string. Recorded time of the current status. On first
+             * observation this is the dispute creation time. Later status changes use the provider
+             * event time when available, or the time Flint observed the change. This may not be
+             * the exact decision or submission time. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "status_changed_at"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts now. Evaluated when the dispute is read; in a
+             * webhook payload, as of when Flint recorded the change. It turns empty once
+             * evidence_due_at has passed, with no event. [] enum: "accept". anyOf[1] (Value):
+             * Array of string. Lifecycle actions Flint accepts now. Evaluated when the dispute is
+             * read; in a webhook payload, as of when Flint recorded the change. It turns empty
+             * once evidence_due_at has passed, with no event. [] enum: "accept". anyOf[1][]
+             * (Value): string. Value enum: "accept". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"accept" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "dispute.needs_response". */
+    "event_type"?: "dispute.needs_response";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `dispute.needs_response` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type DisputeNeedsResponseMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.amount_money (Required): {@link MoneyValue}. Amount in dispute.
+     * For a chargeback, this amount left your balance when the case opened; an inquiry moves no
+     * money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.can_respond_with_evidence (Required): boolean. Whether this dispute has an evidence
+     * response window. It stays true after the window closes or a decision is made. Use
+     * is_action_required to know whether a response is needed now. object.case_type (Required):
+     * string. Kind of case the card network or bank opened. `status` and `is_action_required` say
+     * whether a response is needed. Value enum: "inquiry", "chargeback", "compliance",
+     * "resolution", "block", "other", "bank_return". object.closed_reason (Optional): string. Why
+     * the dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed
+     * closure reason. Value enum: "merchant_accepted". object.created_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.customer
+     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
+     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
+     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
+     * object.customer_id (Optional): string. The customer on the disputed payment. Absent when the
+     * payment has none. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.dispute_id (Required):
+     * string. Stable identifier of the dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+     * object.evidence_due_at (Required): string or null. Deadline for submitting evidence. Respond
+     * before it when is_action_required is true. `null` when the dispute has no response window,
+     * such as a bank return or a case your processor gave no deadline for. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.evidence_submission_count (Required): integer. How
+     * many times evidence was submitted for this dispute. 0 until you submit. Format: int32.
+     * object.fraud_warning_id (Optional): string. The fraud warning the card network sent for this
+     * payment before the dispute. Absent when there was none. Example:
+     * "frw_01KEZF7C00WD6W4TAFS0FH851W". object.has_evidence (Required): boolean. Whether evidence
+     * is saved for this dispute, submitted or not. In test mode this includes an unsubmitted draft
+     * Flint saves when the dispute first needs a response, so it doesn't mean someone started a
+     * response. evidence_submission_count says whether evidence was submitted.
+     * object.is_action_required (Required): boolean. True when status is needs_response or
+     * inquiry_needs_response, can_respond_with_evidence is true, and evidence_due_at hasn't
+     * passed. Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded
+     * the change. It turns false once evidence_due_at has passed, with no event.
+     * object.is_evidence_deadline_passed (Required): boolean. Whether evidence_due_at has passed
+     * on a dispute with a response window. Always false when can_respond_with_evidence is false.
+     * Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded the
+     * change. It turns true once evidence_due_at has passed, with no event. object.merchant_id
+     * (Required): string. ID of the merchant this resource belongs to. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.network_reason_code (Required): string or null.
+     * Opaque reason code assigned by the card network. Read it with the disputed payment's card
+     * brand; codes differ by network. `null` when the network supplied no code or the supplied
+     * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. object.order (Optional): {@link
+     * ExpandedOrderSummary} or null. Present only when `expand` includes `order`; `null` when
+     * expanded and there is no related order. object.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Optional): string. ID of the order the
+     * disputed payment was for. Absent when Flint can't link the dispute to an order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
+     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
+     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+     * amount, status, and capture method, returned when the payment intent is expanded.
+     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
+     * ID of the payment intent that took the disputed payment. Absent when Flint can't link the
+     * dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_option
+     * (Required): string or null. How the buyer paid for the disputed payment. `null` when Flint
+     * hasn't linked the dispute to a payment intent that records a payment option. Value enum:
+     * "card", "apple_pay", "google_pay", "affirm", "ach_debit", null. object.reason (Required):
+     * string. Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
+     * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
+     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
+     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other".
+     * object.recommended_evidence_types (Required): Array of string. Evidence types that usually
+     * answer this reason, chosen by Flint, most useful first. Use the ones that fit what you sold.
+     * Empty when Flint has no recommendation, including bank returns. Chosen from the stored
+     * reason and case_type; in a webhook, frozen when Flint records the change. [] enum:
+     * "customer_details", "customer_communication", "customer_signature", "receipt",
+     * "shipping_documentation", "service_documentation", "access_activity_log",
+     * "product_description", "refund_policy", "duplicate_charge_documentation",
+     * "cancellation_policy". object.recommended_evidence_types[] (Value): string. Value enum:
+     * "customer_details", "customer_communication", "customer_signature", "receipt",
+     * "shipping_documentation", "service_documentation", "access_activity_log",
+     * "product_description", "refund_policy", "duplicate_charge_documentation",
+     * "cancellation_policy". object.response_unavailable_reason (Optional): string. Why a response
+     * is unavailable when can_respond_with_evidence is false. Absent when no reason is reported.
+     * Current values are bank_return_not_contestable and response_window_unavailable.
+     * response_window_unavailable means no evidence deadline was supplied. Value enum:
+     * "bank_return_not_contestable", "response_window_unavailable". object.split_reversals
+     * (Optional): Array of {@link SplitReversalReference}. Fixed seller allocations on the
+     * payment, each naming its payment split and reversal. Present only when the payment has
+     * splits; an empty array means no seller share was allocated. Read PaymentSplit.reversals for
+     * status, shortfall, and reinstated amounts. object.split_reversals[] (Value): {@link
+     * SplitReversalReference}. A fixed allocation referencing a read-only reversal nested in a
+     * payment split. This reference has no independent lifecycle or write routes. object.status
+     * (Required): string. Where the dispute stands. `needs_response` and `inquiry_needs_response`
+     * ask you to respond; `inquiry_closed`, `won`, `lost`, and `prevented` are final. Value enum:
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other". object.status_changed_at (Optional):
+     * string. Recorded time of the current status. On first observation this is the dispute
+     * creation time. Later status changes use the provider event time when available, or the time
+     * Flint observed the change. This may not be the exact decision or submission time. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.supported_actions (Required): Array of
+     * string. Lifecycle actions Flint accepts now. Evaluated when the dispute is read; in a
+     * webhook payload, as of when Flint recorded the change. It turns empty once evidence_due_at
+     * has passed, with no event. [] enum: "accept". object.supported_actions[] (Value): string.
+     * Value enum: "accept". object.updated_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object and
+     * {@link DisputePreviousAttributes}. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     * previous_attributes.amount_money (Optional): {@link MoneyValuePreviousAttributes} or null.
+     * Amount in dispute. For a chargeback, this amount left your balance when the case opened; an
+     * inquiry moves no money. previous_attributes.amount_money.anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. previous_attributes.amount_money.anyOf[2] (Value): null.
+     * previous_attributes.can_respond_with_evidence (Optional): boolean or null. Whether this
+     * dispute has an evidence response window. It stays true after the window closes or a decision
+     * is made. Use is_action_required to know whether a response is needed now.
+     * previous_attributes.can_respond_with_evidence.anyOf[1] (Value): boolean. Whether this
+     * dispute has an evidence response window. It stays true after the window closes or a decision
+     * is made. Use is_action_required to know whether a response is needed now.
+     * previous_attributes.can_respond_with_evidence.anyOf[2] (Value): null.
+     * previous_attributes.case_type (Optional): string or null. Kind of case the card network or
+     * bank opened. `status` and `is_action_required` say whether a response is needed. Value enum:
+     * "inquiry", "chargeback", "compliance", "resolution", "block", "other", "bank_return".
+     * previous_attributes.case_type.anyOf[1] (Value): string. Kind of case the card network or
+     * bank opened. `status` and `is_action_required` say whether a response is needed. Value enum:
+     * "inquiry", "chargeback", "compliance", "resolution", "block", "other", "bank_return".
+     * previous_attributes.case_type.anyOf[2] (Value): null. previous_attributes.closed_reason
+     * (Optional): string or null. Why the dispute closed, when Flint recorded the cause. Absent
+     * when Flint has no confirmed closure reason. Value enum: "merchant_accepted".
+     * previous_attributes.closed_reason.anyOf[1] (Value): string. Why the dispute closed, when
+     * Flint recorded the cause. Absent when Flint has no confirmed closure reason. Value enum:
+     * "merchant_accepted". previous_attributes.closed_reason.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.customer (Optional): {@link
+     * ExpandedCustomerSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer.
+     * previous_attributes.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummaryPreviousAttributes}. previous_attributes.customer.anyOf[2] (Value):
+     * null. previous_attributes.customer_id (Optional): string or null. The customer on the
+     * disputed payment. Absent when the payment has none. previous_attributes.customer_id.anyOf[1]
+     * (Value): string. The customer on the disputed payment. Absent when the payment has none.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". previous_attributes.customer_id.anyOf[2] (Value):
+     * null. previous_attributes.dispute_id (Optional): string or null. Stable identifier of the
+     * dispute. previous_attributes.dispute_id.anyOf[1] (Value): string. Stable identifier of the
+     * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". previous_attributes.dispute_id.anyOf[2]
+     * (Value): null. previous_attributes.evidence_due_at (Optional): string or null. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * dispute has no response window, such as a bank return or a case your processor gave no
+     * deadline for. previous_attributes.evidence_due_at.anyOf[1] (Value): string. Deadline for
+     * submitting evidence. Respond before it when is_action_required is true. `null` when the
+     * dispute has no response window, such as a bank return or a case your processor gave no
+     * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.evidence_due_at.anyOf[2] (Value): null.
+     * previous_attributes.evidence_submission_count (Optional): integer or null. How many times
+     * evidence was submitted for this dispute. 0 until you submit.
+     * previous_attributes.evidence_submission_count.anyOf[1] (Value): integer. How many times
+     * evidence was submitted for this dispute. 0 until you submit. Format: int32.
+     * previous_attributes.evidence_submission_count.anyOf[2] (Value): null.
+     * previous_attributes.fraud_warning_id (Optional): string or null. The fraud warning the card
+     * network sent for this payment before the dispute. Absent when there was none.
+     * previous_attributes.fraud_warning_id.anyOf[1] (Value): string. The fraud warning the card
+     * network sent for this payment before the dispute. Absent when there was none. Example:
+     * "frw_01KEZF7C00WD6W4TAFS0FH851W". previous_attributes.fraud_warning_id.anyOf[2] (Value):
+     * null. previous_attributes.has_evidence (Optional): boolean or null. Whether evidence is
+     * saved for this dispute, submitted or not. In test mode this includes an unsubmitted draft
+     * Flint saves when the dispute first needs a response, so it doesn't mean someone started a
+     * response. evidence_submission_count says whether evidence was submitted.
+     * previous_attributes.has_evidence.anyOf[1] (Value): boolean. Whether evidence is saved for
+     * this dispute, submitted or not. In test mode this includes an unsubmitted draft Flint saves
+     * when the dispute first needs a response, so it doesn't mean someone started a response.
+     * evidence_submission_count says whether evidence was submitted.
+     * previous_attributes.has_evidence.anyOf[2] (Value): null.
+     * previous_attributes.is_action_required (Optional): boolean or null. True when status is
+     * needs_response or inquiry_needs_response, can_respond_with_evidence is true, and
+     * evidence_due_at hasn't passed. Evaluated when the dispute is read; in a webhook payload, as
+     * of when Flint recorded the change. It turns false once evidence_due_at has passed, with no
+     * event. previous_attributes.is_action_required.anyOf[1] (Value): boolean. True when status is
+     * needs_response or inquiry_needs_response, can_respond_with_evidence is true, and
+     * evidence_due_at hasn't passed. Evaluated when the dispute is read; in a webhook payload, as
+     * of when Flint recorded the change. It turns false once evidence_due_at has passed, with no
+     * event. previous_attributes.is_action_required.anyOf[2] (Value): null.
+     * previous_attributes.is_evidence_deadline_passed (Optional): boolean or null. Whether
+     * evidence_due_at has passed on a dispute with a response window. Always false when
+     * can_respond_with_evidence is false. Evaluated when the dispute is read; in a webhook
+     * payload, as of when Flint recorded the change. It turns true once evidence_due_at has
+     * passed, with no event. previous_attributes.is_evidence_deadline_passed.anyOf[1] (Value):
+     * boolean. Whether evidence_due_at has passed on a dispute with a response window. Always
+     * false when can_respond_with_evidence is false. Evaluated when the dispute is read; in a
+     * webhook payload, as of when Flint recorded the change. It turns true once evidence_due_at
+     * has passed, with no event. previous_attributes.is_evidence_deadline_passed.anyOf[2] (Value):
+     * null. previous_attributes.merchant_id (Optional): string or null. ID of the merchant this
+     * resource belongs to. previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null.
+     * previous_attributes.network_reason_code (Optional): string or null. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. previous_attributes.network_reason_code.anyOf[1] (Value): string. Opaque reason code
+     * assigned by the card network. Read it with the disputed payment's card brand; codes differ
+     * by network. `null` when the network supplied no code or the supplied code has an unsupported
+     * shape. pattern: ^[A-Z0-9.]{1,8}$. previous_attributes.network_reason_code.anyOf[2] (Value):
+     * null. previous_attributes.order (Optional): {@link ExpandedOrderSummaryPreviousAttributes}
+     * or null. Present only when `expand` includes `order`; `null` when expanded and there is no
+     * related order. previous_attributes.order.anyOf[1] (Value): {@link
+     * ExpandedOrderSummaryPreviousAttributes}. previous_attributes.order.anyOf[2] (Value): null.
+     * previous_attributes.order_id (Optional): string or null. ID of the order the disputed
+     * payment was for. Absent when Flint can't link the dispute to an order.
+     * previous_attributes.order_id.anyOf[1] (Value): string. ID of the order the disputed payment
+     * was for. Absent when Flint can't link the dispute to an order. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". previous_attributes.order_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent (Optional): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Present only when `expand` includes
+     * `payment_intent`; `null` when expanded and there is no related payment intent.
+     * previous_attributes.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummaryPreviousAttributes}. previous_attributes.payment_intent.anyOf[2]
+     * (Value): null. previous_attributes.payment_intent_id (Optional): string or null. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. previous_attributes.payment_intent_id.anyOf[1] (Value): string. ID of the
+     * payment intent that took the disputed payment. Absent when Flint can't link the dispute to a
+     * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent_id.anyOf[2] (Value): null.
+     * previous_attributes.payment_option (Optional): string or null. How the buyer paid for the
+     * disputed payment. `null` when Flint hasn't linked the dispute to a payment intent that
+     * records a payment option. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", null. previous_attributes.payment_option.anyOf[1] (Value): string. How the
+     * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+     * payment intent that records a payment option. Value enum: "card", "apple_pay", "google_pay",
+     * "affirm", "ach_debit", null. previous_attributes.payment_option.anyOf[2] (Value): null.
+     * previous_attributes.reason (Optional): string or null. Why the payment was disputed. A
+     * reason Flint doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized",
+     * "duplicate", "product_not_received", "product_not_as_described", "refund_not_processed",
+     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
+     * "bank_account_not_found", "other". previous_attributes.reason.anyOf[1] (Value): string. Why
+     * the payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+     * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
+     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other".
+     * previous_attributes.reason.anyOf[2] (Value): null.
+     * previous_attributes.recommended_evidence_types (Optional): Array of string or null. Evidence
+     * types that usually answer this reason, chosen by Flint, most useful first. Use the ones that
+     * fit what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+     * from the stored reason and case_type; in a webhook, frozen when Flint records the change. []
+     * enum: "customer_details", "customer_communication", "customer_signature", "receipt",
+     * "shipping_documentation", "service_documentation", "access_activity_log",
+     * "product_description", "refund_policy", "duplicate_charge_documentation",
+     * "cancellation_policy". previous_attributes.recommended_evidence_types.anyOf[1] (Value):
+     * Array of string. Evidence types that usually answer this reason, chosen by Flint, most
+     * useful first. Use the ones that fit what you sold. Empty when Flint has no recommendation,
+     * including bank returns. Chosen from the stored reason and case_type; in a webhook, frozen
+     * when Flint records the change. [] enum: "customer_details", "customer_communication",
+     * "customer_signature", "receipt", "shipping_documentation", "service_documentation",
+     * "access_activity_log", "product_description", "refund_policy",
+     * "duplicate_charge_documentation", "cancellation_policy".
+     * previous_attributes.recommended_evidence_types.anyOf[1][] (Value): string. Value enum:
+     * "customer_details", "customer_communication", "customer_signature", "receipt",
+     * "shipping_documentation", "service_documentation", "access_activity_log",
+     * "product_description", "refund_policy", "duplicate_charge_documentation",
+     * "cancellation_policy". previous_attributes.recommended_evidence_types.anyOf[2] (Value):
+     * null. previous_attributes.response_unavailable_reason (Optional): string or null. Why a
+     * response is unavailable when can_respond_with_evidence is false. Absent when no reason is
+     * reported. Current values are bank_return_not_contestable and response_window_unavailable.
+     * response_window_unavailable means no evidence deadline was supplied. Value enum:
+     * "bank_return_not_contestable", "response_window_unavailable".
+     * previous_attributes.response_unavailable_reason.anyOf[1] (Value): string. Why a response is
+     * unavailable when can_respond_with_evidence is false. Absent when no reason is reported.
+     * Current values are bank_return_not_contestable and response_window_unavailable.
+     * response_window_unavailable means no evidence deadline was supplied. Value enum:
+     * "bank_return_not_contestable", "response_window_unavailable".
+     * previous_attributes.response_unavailable_reason.anyOf[2] (Value): null.
+     * previous_attributes.split_reversals (Optional): Array of {@link
+     * SplitReversalReferencePreviousAttributes} or null. Fixed seller allocations on the payment,
+     * each naming its payment split and reversal. Present only when the payment has splits; an
+     * empty array means no seller share was allocated. Read PaymentSplit.reversals for status,
+     * shortfall, and reinstated amounts. previous_attributes.split_reversals.anyOf[1] (Value):
+     * Array of {@link SplitReversalReferencePreviousAttributes}. Fixed seller allocations on the
+     * payment, each naming its payment split and reversal. Present only when the payment has
+     * splits; an empty array means no seller share was allocated. Read PaymentSplit.reversals for
+     * status, shortfall, and reinstated amounts. previous_attributes.split_reversals.anyOf[1][]
+     * (Value): {@link SplitReversalReferencePreviousAttributes}.
+     * previous_attributes.split_reversals.anyOf[2] (Value): null. previous_attributes.status
+     * (Optional): string or null. Where the dispute stands. `needs_response` and
+     * `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`, `lost`, and
+     * `prevented` are final. Value enum: "inquiry_needs_response", "inquiry_under_review",
+     * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+     * previous_attributes.status.anyOf[1] (Value): string. Where the dispute stands.
+     * `needs_response` and `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`,
+     * `lost`, and `prevented` are final. Value enum: "inquiry_needs_response",
+     * "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost",
+     * "prevented", "other". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.status_changed_at (Optional): string or null. Recorded time of the
+     * current status. On first observation this is the dispute creation time. Later status changes
+     * use the provider event time when available, or the time Flint observed the change. This may
+     * not be the exact decision or submission time. previous_attributes.status_changed_at.anyOf[1]
+     * (Value): string. Recorded time of the current status. On first observation this is the
+     * dispute creation time. Later status changes use the provider event time when available, or
+     * the time Flint observed the change. This may not be the exact decision or submission time.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.status_changed_at.anyOf[2] (Value): null.
+     * previous_attributes.supported_actions (Optional): Array of string or null. Lifecycle actions
+     * Flint accepts now. Evaluated when the dispute is read; in a webhook payload, as of when
+     * Flint recorded the change. It turns empty once evidence_due_at has passed, with no event. []
+     * enum: "accept". previous_attributes.supported_actions.anyOf[1] (Value): Array of string.
+     * Lifecycle actions Flint accepts now. Evaluated when the dispute is read; in a webhook
+     * payload, as of when Flint recorded the change. It turns empty once evidence_due_at has
+     * passed, with no event. [] enum: "accept". previous_attributes.supported_actions.anyOf[1][]
+     * (Value): string. Value enum: "accept". previous_attributes.supported_actions.anyOf[2]
+     * (Value): null. previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * amount_money (Required): {@link MoneyValue}. Amount in dispute. For a chargeback, this
+         * amount left your balance when the case opened; an inquiry moves no money. Monetary
+         * amount represented as integer minor units plus an ISO 4217 currency code.
+         * can_respond_with_evidence (Required): boolean. Whether this dispute has an evidence
+         * response window. It stays true after the window closes or a decision is made. Use
+         * is_action_required to know whether a response is needed now. case_type (Required):
+         * string. Kind of case the card network or bank opened. `status` and `is_action_required`
+         * say whether a response is needed. Value enum: "inquiry", "chargeback", "compliance",
+         * "resolution", "block", "other", "bank_return". closed_reason (Optional): string. Why the
+         * dispute closed, when Flint recorded the cause. Absent when Flint has no confirmed
+         * closure reason. Value enum: "merchant_accepted". created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Optional): string. The customer on the disputed payment. Absent when the payment has
+         * none. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". dispute_id (Required): string. Stable
+         * identifier of the dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". evidence_due_at
+         * (Required): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". evidence_submission_count (Required): integer. How many times
+         * evidence was submitted for this dispute. 0 until you submit. Format: int32.
+         * fraud_warning_id (Optional): string. The fraud warning the card network sent for this
+         * payment before the dispute. Absent when there was none. Example:
+         * "frw_01KEZF7C00WD6W4TAFS0FH851W". has_evidence (Required): boolean. Whether evidence is
+         * saved for this dispute, submitted or not. In test mode this includes an unsubmitted
+         * draft Flint saves when the dispute first needs a response, so it doesn't mean someone
+         * started a response. evidence_submission_count says whether evidence was submitted.
+         * is_action_required (Required): boolean. True when status is needs_response or
+         * inquiry_needs_response, can_respond_with_evidence is true, and evidence_due_at hasn't
+         * passed. Evaluated when the dispute is read; in a webhook payload, as of when Flint
+         * recorded the change. It turns false once evidence_due_at has passed, with no event.
+         * is_evidence_deadline_passed (Required): boolean. Whether evidence_due_at has passed on a
+         * dispute with a response window. Always false when can_respond_with_evidence is false.
+         * Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded the
+         * change. It turns true once evidence_due_at has passed, with no event. merchant_id
+         * (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". network_reason_code (Required): string or null. Opaque
+         * reason code assigned by the card network. Read it with the disputed payment's card
+         * brand; codes differ by network. `null` when the network supplied no code or the supplied
+         * code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. order (Optional): {@link
+         * ExpandedOrderSummary} or null. Present only when `expand` includes `order`; `null` when
+         * expanded and there is no related order. order.anyOf[1] (Value): {@link
+         * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+         * status, and pricing and settlement amounts, returned when the order is expanded.
+         * order.anyOf[2] (Value): null. order_id (Optional): string. ID of the order the disputed
+         * payment was for. Absent when Flint can't link the dispute to an order. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". payment_intent (Optional): {@link
+         * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
+         * `payment_intent`; `null` when expanded and there is no related payment intent.
+         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
+         * intent's summary fields, including amount, status, and capture method, returned when the
+         * payment intent is expanded. payment_intent.anyOf[2] (Value): null. payment_intent_id
+         * (Optional): string. ID of the payment intent that took the disputed payment. Absent when
+         * Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_option (Required): string or null. How the
+         * buyer paid for the disputed payment. `null` when Flint hasn't linked the dispute to a
+         * payment intent that records a payment option. Value enum: "card", "apple_pay",
+         * "google_pay", "affirm", "ach_debit", null. reason (Required): string. Why the payment
+         * was disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
+         * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
+         * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
+         * "debit_not_authorized", "bank_account_not_found", "other". recommended_evidence_types
+         * (Required): Array of string. Evidence types that usually answer this reason, chosen by
+         * Flint, most useful first. Use the ones that fit what you sold. Empty when Flint has no
+         * recommendation, including bank returns. Chosen from the stored reason and case_type; in
+         * a webhook, frozen when Flint records the change. [] enum: "customer_details",
+         * "customer_communication", "customer_signature", "receipt", "shipping_documentation",
+         * "service_documentation", "access_activity_log", "product_description", "refund_policy",
+         * "duplicate_charge_documentation", "cancellation_policy". recommended_evidence_types[]
+         * (Value): string. Value enum: "customer_details", "customer_communication",
+         * "customer_signature", "receipt", "shipping_documentation", "service_documentation",
+         * "access_activity_log", "product_description", "refund_policy",
+         * "duplicate_charge_documentation", "cancellation_policy". response_unavailable_reason
+         * (Optional): string. Why a response is unavailable when can_respond_with_evidence is
+         * false. Absent when no reason is reported. Current values are bank_return_not_contestable
+         * and response_window_unavailable. response_window_unavailable means no evidence deadline
+         * was supplied. Value enum: "bank_return_not_contestable", "response_window_unavailable".
+         * split_reversals (Optional): Array of {@link SplitReversalReference}. Fixed seller
+         * allocations on the payment, each naming its payment split and reversal. Present only
+         * when the payment has splits; an empty array means no seller share was allocated. Read
+         * PaymentSplit.reversals for status, shortfall, and reinstated amounts. split_reversals[]
+         * (Value): {@link SplitReversalReference}. A fixed allocation referencing a read-only
+         * reversal nested in a payment split. This reference has no independent lifecycle or write
+         * routes. status (Required): string. Where the dispute stands. `needs_response` and
+         * `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`, `lost`, and
+         * `prevented` are final. Value enum: "inquiry_needs_response", "inquiry_under_review",
+         * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+         * status_changed_at (Optional): string. Recorded time of the current status. On first
+         * observation this is the dispute creation time. Later status changes use the provider
+         * event time when available, or the time Flint observed the change. This may not be the
+         * exact decision or submission time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * supported_actions (Required): Array of string. Lifecycle actions Flint accepts now.
+         * Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded the
+         * change. It turns empty once evidence_due_at has passed, with no event. [] enum:
+         * "accept". supported_actions[] (Value): string. Value enum: "accept". updated_at
+         * (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * Amount in dispute. For a chargeback, this amount left your balance when the case
+             * opened; an inquiry moves no money. Monetary amount represented as integer minor
+             * units plus an ISO 4217 currency code.
+             */
+            "amount_money": MoneyValue;
+            /**
+             * Whether this dispute has an evidence response window. It stays true after the window
+             * closes or a decision is made. Use is_action_required to know whether a response is
+             * needed now.
+             */
+            "can_respond_with_evidence": boolean;
+            /**
+             * Kind of case the card network or bank opened. `status` and `is_action_required` say
+             * whether a response is needed. Value enum: "inquiry", "chargeback", "compliance",
+             * "resolution", "block", "other", "bank_return".
+             */
+            "case_type": "inquiry"
+                | "chargeback"
+                | "compliance"
+                | "resolution"
+                | "block"
+                | "other"
+                | "bank_return"
+                | (string & {});
+            /**
+             * Why the dispute closed, when Flint recorded the cause. Absent when Flint has no
+             * confirmed closure reason. Value enum: "merchant_accepted".
+             */
+            "closed_reason"?: "merchant_accepted" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * The customer on the disputed payment. Absent when the payment has none. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id"?: string;
+            /** Stable identifier of the dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". */
+            "dispute_id": string;
+            /**
+             * Deadline for submitting evidence. Respond before it when is_action_required is true.
+             * `null` when the dispute has no response window, such as a bank return or a case your
+             * processor gave no deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "evidence_due_at": string | null;
+            /**
+             * How many times evidence was submitted for this dispute. 0 until you submit. Format:
+             * int32.
+             */
+            "evidence_submission_count": number;
+            /**
+             * The fraud warning the card network sent for this payment before the dispute. Absent
+             * when there was none. Example: "frw_01KEZF7C00WD6W4TAFS0FH851W".
+             */
+            "fraud_warning_id"?: string;
+            /**
+             * Whether evidence is saved for this dispute, submitted or not. In test mode this
+             * includes an unsubmitted draft Flint saves when the dispute first needs a response,
+             * so it doesn't mean someone started a response. evidence_submission_count says
+             * whether evidence was submitted.
+             */
+            "has_evidence": boolean;
+            /**
+             * True when status is needs_response or inquiry_needs_response,
+             * can_respond_with_evidence is true, and evidence_due_at hasn't passed. Evaluated when
+             * the dispute is read; in a webhook payload, as of when Flint recorded the change. It
+             * turns false once evidence_due_at has passed, with no event.
+             */
+            "is_action_required": boolean;
+            /**
+             * Whether evidence_due_at has passed on a dispute with a response window. Always false
+             * when can_respond_with_evidence is false. Evaluated when the dispute is read; in a
+             * webhook payload, as of when Flint recorded the change. It turns true once
+             * evidence_due_at has passed, with no event.
+             */
+            "is_evidence_deadline_passed": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Opaque reason code assigned by the card network. Read it with the disputed payment's
+             * card brand; codes differ by network. `null` when the network supplied no code or the
+             * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+             */
+            "network_reason_code": string | null;
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+             * fields, including status, payment and refund status, and pricing and settlement
+             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * ID of the order the disputed payment was for. Absent when Flint can't link the
+             * dispute to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id"?: string;
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
+             * (Value): null.
+             */
+            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
+            /**
+             * ID of the payment intent that took the disputed payment. Absent when Flint can't
+             * link the dispute to a payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+             */
+            "payment_intent_id"?: string;
+            /**
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null.
+             */
+            "payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {}) | null;
+            /**
+             * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
+             * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
+             * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+             * "noncompliant", "insufficient_funds", "debit_not_authorized",
+             * "bank_account_not_found", "other".
+             */
+            "reason": "fraudulent"
+                | "unrecognized"
+                | "duplicate"
+                | "product_not_received"
+                | "product_not_as_described"
+                | "refund_not_processed"
+                | "subscription_canceled"
+                | "noncompliant"
+                | "insufficient_funds"
+                | "debit_not_authorized"
+                | "bank_account_not_found"
+                | "other"
+                | (string & {});
+            /**
+             * Evidence types that usually answer this reason, chosen by Flint, most useful first.
+             * Use the ones that fit what you sold. Empty when Flint has no recommendation,
+             * including bank returns. Chosen from the stored reason and case_type; in a webhook,
+             * frozen when Flint records the change. [] enum: "customer_details",
+             * "customer_communication", "customer_signature", "receipt", "shipping_documentation",
+             * "service_documentation", "access_activity_log", "product_description",
+             * "refund_policy", "duplicate_charge_documentation", "cancellation_policy". []
+             * (Value): string. Value enum: "customer_details", "customer_communication",
+             * "customer_signature", "receipt", "shipping_documentation", "service_documentation",
+             * "access_activity_log", "product_description", "refund_policy",
+             * "duplicate_charge_documentation", "cancellation_policy".
+             */
+            "recommended_evidence_types": Array<"customer_details"
+                | "customer_communication"
+                | "customer_signature"
+                | "receipt"
+                | "shipping_documentation"
+                | "service_documentation"
+                | "access_activity_log"
+                | "product_description"
+                | "refund_policy"
+                | "duplicate_charge_documentation"
+                | "cancellation_policy"
+                | (string & {})>;
+            /**
+             * Why a response is unavailable when can_respond_with_evidence is false. Absent when
+             * no reason is reported. Current values are bank_return_not_contestable and
+             * response_window_unavailable. response_window_unavailable means no evidence deadline
+             * was supplied. Value enum: "bank_return_not_contestable",
+             * "response_window_unavailable".
+             */
+            "response_unavailable_reason"?: "bank_return_not_contestable" | "response_window_unavailable" | (string & {});
+            /**
+             * Fixed seller allocations on the payment, each naming its payment split and reversal.
+             * Present only when the payment has splits; an empty array means no seller share was
+             * allocated. Read PaymentSplit.reversals for status, shortfall, and reinstated
+             * amounts. [] (Value): {@link SplitReversalReference}. A fixed allocation referencing
+             * a read-only reversal nested in a payment split. This reference has no independent
+             * lifecycle or write routes.
+             */
+            "split_reversals"?: Array<SplitReversalReference>;
+            /**
+             * Where the dispute stands. `needs_response` and `inquiry_needs_response` ask you to
+             * respond; `inquiry_closed`, `won`, `lost`, and `prevented` are final. Value enum:
+             * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+             * "needs_response", "under_review", "won", "lost", "prevented", "other".
+             */
+            "status": "inquiry_needs_response"
+                | "inquiry_under_review"
+                | "inquiry_closed"
+                | "needs_response"
+                | "under_review"
+                | "won"
+                | "lost"
+                | "prevented"
+                | "other"
+                | (string & {});
+            /**
+             * Recorded time of the current status. On first observation this is the dispute
+             * creation time. Later status changes use the provider event time when available, or
+             * the time Flint observed the change. This may not be the exact decision or submission
+             * time. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "status_changed_at"?: string;
+            /**
+             * Lifecycle actions Flint accepts now. Evaluated when the dispute is read; in a
+             * webhook payload, as of when Flint recorded the change. It turns empty once
+             * evidence_due_at has passed, with no event. [] enum: "accept". [] (Value): string.
+             * Value enum: "accept".
+             */
+            "supported_actions": Array<"accept" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. amount_money (Optional): {@link
+         * MoneyValuePreviousAttributes} or null. Amount in dispute. For a chargeback, this amount
+         * left your balance when the case opened; an inquiry moves no money. amount_money.anyOf[1]
+         * (Value): {@link MoneyValuePreviousAttributes}. amount_money.anyOf[2] (Value): null.
+         * can_respond_with_evidence (Optional): boolean or null. Whether this dispute has an
+         * evidence response window. It stays true after the window closes or a decision is made.
+         * Use is_action_required to know whether a response is needed now.
+         * can_respond_with_evidence.anyOf[1] (Value): boolean. Whether this dispute has an
+         * evidence response window. It stays true after the window closes or a decision is made.
+         * Use is_action_required to know whether a response is needed now.
+         * can_respond_with_evidence.anyOf[2] (Value): null. case_type (Optional): string or null.
+         * Kind of case the card network or bank opened. `status` and `is_action_required` say
+         * whether a response is needed. Value enum: "inquiry", "chargeback", "compliance",
+         * "resolution", "block", "other", "bank_return". case_type.anyOf[1] (Value): string. Kind
+         * of case the card network or bank opened. `status` and `is_action_required` say whether a
+         * response is needed. Value enum: "inquiry", "chargeback", "compliance", "resolution",
+         * "block", "other", "bank_return". case_type.anyOf[2] (Value): null. closed_reason
+         * (Optional): string or null. Why the dispute closed, when Flint recorded the cause.
+         * Absent when Flint has no confirmed closure reason. Value enum: "merchant_accepted".
+         * closed_reason.anyOf[1] (Value): string. Why the dispute closed, when Flint recorded the
+         * cause. Absent when Flint has no confirmed closure reason. Value enum:
+         * "merchant_accepted". closed_reason.anyOf[2] (Value): null. created_at (Optional): string
+         * or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * customer (Optional): {@link ExpandedCustomerSummaryPreviousAttributes} or null. Present
+         * only when `expand` includes `customer`; `null` when expanded and there is no related
+         * customer. customer.anyOf[1] (Value): {@link ExpandedCustomerSummaryPreviousAttributes}.
+         * customer.anyOf[2] (Value): null. customer_id (Optional): string or null. The customer on
+         * the disputed payment. Absent when the payment has none. customer_id.anyOf[1] (Value):
+         * string. The customer on the disputed payment. Absent when the payment has none. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". customer_id.anyOf[2] (Value): null. dispute_id
+         * (Optional): string or null. Stable identifier of the dispute. dispute_id.anyOf[1]
+         * (Value): string. Stable identifier of the dispute. Example:
+         * "du_01KEZF7C00DEJSF1KTXRT4BBQD". dispute_id.anyOf[2] (Value): null. evidence_due_at
+         * (Optional): string or null. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. evidence_due_at.anyOf[1]
+         * (Value): string. Deadline for submitting evidence. Respond before it when
+         * is_action_required is true. `null` when the dispute has no response window, such as a
+         * bank return or a case your processor gave no deadline for. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". evidence_due_at.anyOf[2] (Value): null.
+         * evidence_submission_count (Optional): integer or null. How many times evidence was
+         * submitted for this dispute. 0 until you submit. evidence_submission_count.anyOf[1]
+         * (Value): integer. How many times evidence was submitted for this dispute. 0 until you
+         * submit. Format: int32. evidence_submission_count.anyOf[2] (Value): null.
+         * fraud_warning_id (Optional): string or null. The fraud warning the card network sent for
+         * this payment before the dispute. Absent when there was none. fraud_warning_id.anyOf[1]
+         * (Value): string. The fraud warning the card network sent for this payment before the
+         * dispute. Absent when there was none. Example: "frw_01KEZF7C00WD6W4TAFS0FH851W".
+         * fraud_warning_id.anyOf[2] (Value): null. has_evidence (Optional): boolean or null.
+         * Whether evidence is saved for this dispute, submitted or not. In test mode this includes
+         * an unsubmitted draft Flint saves when the dispute first needs a response, so it doesn't
+         * mean someone started a response. evidence_submission_count says whether evidence was
+         * submitted. has_evidence.anyOf[1] (Value): boolean. Whether evidence is saved for this
+         * dispute, submitted or not. In test mode this includes an unsubmitted draft Flint saves
+         * when the dispute first needs a response, so it doesn't mean someone started a response.
+         * evidence_submission_count says whether evidence was submitted. has_evidence.anyOf[2]
+         * (Value): null. is_action_required (Optional): boolean or null. True when status is
+         * needs_response or inquiry_needs_response, can_respond_with_evidence is true, and
+         * evidence_due_at hasn't passed. Evaluated when the dispute is read; in a webhook payload,
+         * as of when Flint recorded the change. It turns false once evidence_due_at has passed,
+         * with no event. is_action_required.anyOf[1] (Value): boolean. True when status is
+         * needs_response or inquiry_needs_response, can_respond_with_evidence is true, and
+         * evidence_due_at hasn't passed. Evaluated when the dispute is read; in a webhook payload,
+         * as of when Flint recorded the change. It turns false once evidence_due_at has passed,
+         * with no event. is_action_required.anyOf[2] (Value): null. is_evidence_deadline_passed
+         * (Optional): boolean or null. Whether evidence_due_at has passed on a dispute with a
+         * response window. Always false when can_respond_with_evidence is false. Evaluated when
+         * the dispute is read; in a webhook payload, as of when Flint recorded the change. It
+         * turns true once evidence_due_at has passed, with no event.
+         * is_evidence_deadline_passed.anyOf[1] (Value): boolean. Whether evidence_due_at has
+         * passed on a dispute with a response window. Always false when can_respond_with_evidence
+         * is false. Evaluated when the dispute is read; in a webhook payload, as of when Flint
+         * recorded the change. It turns true once evidence_due_at has passed, with no event.
+         * is_evidence_deadline_passed.anyOf[2] (Value): null. merchant_id (Optional): string or
+         * null. ID of the merchant this resource belongs to. merchant_id.anyOf[1] (Value): string.
+         * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+         * merchant_id.anyOf[2] (Value): null. network_reason_code (Optional): string or null.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. network_reason_code.anyOf[1] (Value): string.
+         * Opaque reason code assigned by the card network. Read it with the disputed payment's
+         * card brand; codes differ by network. `null` when the network supplied no code or the
+         * supplied code has an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$.
+         * network_reason_code.anyOf[2] (Value): null. order (Optional): {@link
+         * ExpandedOrderSummaryPreviousAttributes} or null. Present only when `expand` includes
+         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
+         * {@link ExpandedOrderSummaryPreviousAttributes}. order.anyOf[2] (Value): null. order_id
+         * (Optional): string or null. ID of the order the disputed payment was for. Absent when
+         * Flint can't link the dispute to an order. order_id.anyOf[1] (Value): string. ID of the
+         * order the disputed payment was for. Absent when Flint can't link the dispute to an
+         * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_id.anyOf[2] (Value): null.
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummaryPreviousAttributes} or
+         * null. Present only when `expand` includes `payment_intent`; `null` when expanded and
+         * there is no related payment intent. payment_intent.anyOf[1] (Value): {@link
+         * ExpandedPaymentIntentSummaryPreviousAttributes}. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Optional): string or null. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent.
+         * payment_intent_id.anyOf[1] (Value): string. ID of the payment intent that took the
+         * disputed payment. Absent when Flint can't link the dispute to a payment intent. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intent_id.anyOf[2] (Value): null.
+         * payment_option (Optional): string or null. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[1] (Value): string. How the buyer paid for the disputed payment.
+         * `null` when Flint hasn't linked the dispute to a payment intent that records a payment
+         * option. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", null.
+         * payment_option.anyOf[2] (Value): null. reason (Optional): string or null. Why the
+         * payment was disputed. A reason Flint doesn't recognize is `other`. Value enum:
+         * "fraudulent", "unrecognized", "duplicate", "product_not_received",
+         * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+         * "noncompliant", "insufficient_funds", "debit_not_authorized", "bank_account_not_found",
+         * "other". reason.anyOf[1] (Value): string. Why the payment was disputed. A reason Flint
+         * doesn't recognize is `other`. Value enum: "fraudulent", "unrecognized", "duplicate",
+         * "product_not_received", "product_not_as_described", "refund_not_processed",
+         * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
+         * "bank_account_not_found", "other". reason.anyOf[2] (Value): null.
+         * recommended_evidence_types (Optional): Array of string or null. Evidence types that
+         * usually answer this reason, chosen by Flint, most useful first. Use the ones that fit
+         * what you sold. Empty when Flint has no recommendation, including bank returns. Chosen
+         * from the stored reason and case_type; in a webhook, frozen when Flint records the
+         * change. [] enum: "customer_details", "customer_communication", "customer_signature",
+         * "receipt", "shipping_documentation", "service_documentation", "access_activity_log",
+         * "product_description", "refund_policy", "duplicate_charge_documentation",
+         * "cancellation_policy". recommended_evidence_types.anyOf[1] (Value): Array of string.
+         * Evidence types that usually answer this reason, chosen by Flint, most useful first. Use
+         * the ones that fit what you sold. Empty when Flint has no recommendation, including bank
+         * returns. Chosen from the stored reason and case_type; in a webhook, frozen when Flint
+         * records the change. [] enum: "customer_details", "customer_communication",
+         * "customer_signature", "receipt", "shipping_documentation", "service_documentation",
+         * "access_activity_log", "product_description", "refund_policy",
+         * "duplicate_charge_documentation", "cancellation_policy".
+         * recommended_evidence_types.anyOf[1][] (Value): string. Value enum: "customer_details",
+         * "customer_communication", "customer_signature", "receipt", "shipping_documentation",
+         * "service_documentation", "access_activity_log", "product_description", "refund_policy",
+         * "duplicate_charge_documentation", "cancellation_policy".
+         * recommended_evidence_types.anyOf[2] (Value): null. response_unavailable_reason
+         * (Optional): string or null. Why a response is unavailable when can_respond_with_evidence
+         * is false. Absent when no reason is reported. Current values are
+         * bank_return_not_contestable and response_window_unavailable. response_window_unavailable
+         * means no evidence deadline was supplied. Value enum: "bank_return_not_contestable",
+         * "response_window_unavailable". response_unavailable_reason.anyOf[1] (Value): string. Why
+         * a response is unavailable when can_respond_with_evidence is false. Absent when no reason
+         * is reported. Current values are bank_return_not_contestable and
+         * response_window_unavailable. response_window_unavailable means no evidence deadline was
+         * supplied. Value enum: "bank_return_not_contestable", "response_window_unavailable".
+         * response_unavailable_reason.anyOf[2] (Value): null. split_reversals (Optional): Array of
+         * {@link SplitReversalReferencePreviousAttributes} or null. Fixed seller allocations on
+         * the payment, each naming its payment split and reversal. Present only when the payment
+         * has splits; an empty array means no seller share was allocated. Read
+         * PaymentSplit.reversals for status, shortfall, and reinstated amounts.
+         * split_reversals.anyOf[1] (Value): Array of {@link
+         * SplitReversalReferencePreviousAttributes}. Fixed seller allocations on the payment, each
+         * naming its payment split and reversal. Present only when the payment has splits; an
+         * empty array means no seller share was allocated. Read PaymentSplit.reversals for status,
+         * shortfall, and reinstated amounts. split_reversals.anyOf[1][] (Value): {@link
+         * SplitReversalReferencePreviousAttributes}. split_reversals.anyOf[2] (Value): null.
+         * status (Optional): string or null. Where the dispute stands. `needs_response` and
+         * `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`, `lost`, and
+         * `prevented` are final. Value enum: "inquiry_needs_response", "inquiry_under_review",
+         * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+         * status.anyOf[1] (Value): string. Where the dispute stands. `needs_response` and
+         * `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`, `lost`, and
+         * `prevented` are final. Value enum: "inquiry_needs_response", "inquiry_under_review",
+         * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+         * status.anyOf[2] (Value): null. status_changed_at (Optional): string or null. Recorded
+         * time of the current status. On first observation this is the dispute creation time.
+         * Later status changes use the provider event time when available, or the time Flint
+         * observed the change. This may not be the exact decision or submission time.
+         * status_changed_at.anyOf[1] (Value): string. Recorded time of the current status. On
+         * first observation this is the dispute creation time. Later status changes use the
+         * provider event time when available, or the time Flint observed the change. This may not
+         * be the exact decision or submission time. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". status_changed_at.anyOf[2] (Value): null. supported_actions
+         * (Optional): Array of string or null. Lifecycle actions Flint accepts now. Evaluated when
+         * the dispute is read; in a webhook payload, as of when Flint recorded the change. It
+         * turns empty once evidence_due_at has passed, with no event. [] enum: "accept".
+         * supported_actions.anyOf[1] (Value): Array of string. Lifecycle actions Flint accepts
+         * now. Evaluated when the dispute is read; in a webhook payload, as of when Flint recorded
+         * the change. It turns empty once evidence_due_at has passed, with no event. [] enum:
+         * "accept". supported_actions.anyOf[1][] (Value): string. Value enum: "accept".
+         * supported_actions.anyOf[2] (Value): null. updated_at (Optional): string or null. RFC3339
+         * timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Amount in dispute. For a chargeback, this amount left your balance when the case
+             * opened; an inquiry moves no money. anyOf[1] (Value): {@link
+             * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
+            /**
+             * Whether this dispute has an evidence response window. It stays true after the window
+             * closes or a decision is made. Use is_action_required to know whether a response is
+             * needed now. anyOf[1] (Value): boolean. Whether this dispute has an evidence response
+             * window. It stays true after the window closes or a decision is made. Use
+             * is_action_required to know whether a response is needed now. anyOf[2] (Value): null.
+             */
+            "can_respond_with_evidence"?: ((boolean) | (null));
+            /**
+             * Kind of case the card network or bank opened. `status` and `is_action_required` say
+             * whether a response is needed. Value enum: "inquiry", "chargeback", "compliance",
+             * "resolution", "block", "other", "bank_return". anyOf[1] (Value): string. Kind of
+             * case the card network or bank opened. `status` and `is_action_required` say whether
+             * a response is needed. Value enum: "inquiry", "chargeback", "compliance",
+             * "resolution", "block", "other", "bank_return". anyOf[2] (Value): null.
+             */
+            "case_type"?: (("inquiry"
+                | "chargeback"
+                | "compliance"
+                | "resolution"
+                | "block"
+                | "other"
+                | "bank_return"
+                | (string & {}))
+                | (null));
+            /**
+             * Why the dispute closed, when Flint recorded the cause. Absent when Flint has no
+             * confirmed closure reason. Value enum: "merchant_accepted". anyOf[1] (Value): string.
+             * Why the dispute closed, when Flint recorded the cause. Absent when Flint has no
+             * confirmed closure reason. Value enum: "merchant_accepted". anyOf[2] (Value): null.
+             */
+            "closed_reason"?: (("merchant_accepted" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link
+             * ExpandedCustomerSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            /**
+             * The customer on the disputed payment. Absent when the payment has none. anyOf[1]
+             * (Value): string. The customer on the disputed payment. Absent when the payment has
+             * none. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". anyOf[2] (Value): null.
+             */
+            "customer_id"?: ((string) | (null));
+            /**
+             * Stable identifier of the dispute. anyOf[1] (Value): string. Stable identifier of the
+             * dispute. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". anyOf[2] (Value): null.
+             */
+            "dispute_id"?: ((string) | (null));
+            /**
+             * Deadline for submitting evidence. Respond before it when is_action_required is true.
+             * `null` when the dispute has no response window, such as a bank return or a case your
+             * processor gave no deadline for. anyOf[1] (Value): string. Deadline for submitting
+             * evidence. Respond before it when is_action_required is true. `null` when the dispute
+             * has no response window, such as a bank return or a case your processor gave no
+             * deadline for. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
+             * null.
+             */
+            "evidence_due_at"?: ((string) | (null));
+            /**
+             * How many times evidence was submitted for this dispute. 0 until you submit. anyOf[1]
+             * (Value): integer. How many times evidence was submitted for this dispute. 0 until
+             * you submit. Format: int32. anyOf[2] (Value): null.
+             */
+            "evidence_submission_count"?: ((number) | (null));
+            /**
+             * The fraud warning the card network sent for this payment before the dispute. Absent
+             * when there was none. anyOf[1] (Value): string. The fraud warning the card network
+             * sent for this payment before the dispute. Absent when there was none. Example:
+             * "frw_01KEZF7C00WD6W4TAFS0FH851W". anyOf[2] (Value): null.
+             */
+            "fraud_warning_id"?: ((string) | (null));
+            /**
+             * Whether evidence is saved for this dispute, submitted or not. In test mode this
+             * includes an unsubmitted draft Flint saves when the dispute first needs a response,
+             * so it doesn't mean someone started a response. evidence_submission_count says
+             * whether evidence was submitted. anyOf[1] (Value): boolean. Whether evidence is saved
+             * for this dispute, submitted or not. In test mode this includes an unsubmitted draft
+             * Flint saves when the dispute first needs a response, so it doesn't mean someone
+             * started a response. evidence_submission_count says whether evidence was submitted.
+             * anyOf[2] (Value): null.
+             */
+            "has_evidence"?: ((boolean) | (null));
+            /**
+             * True when status is needs_response or inquiry_needs_response,
+             * can_respond_with_evidence is true, and evidence_due_at hasn't passed. Evaluated when
+             * the dispute is read; in a webhook payload, as of when Flint recorded the change. It
+             * turns false once evidence_due_at has passed, with no event. anyOf[1] (Value):
+             * boolean. True when status is needs_response or inquiry_needs_response,
+             * can_respond_with_evidence is true, and evidence_due_at hasn't passed. Evaluated when
+             * the dispute is read; in a webhook payload, as of when Flint recorded the change. It
+             * turns false once evidence_due_at has passed, with no event. anyOf[2] (Value): null.
+             */
+            "is_action_required"?: ((boolean) | (null));
+            /**
+             * Whether evidence_due_at has passed on a dispute with a response window. Always false
+             * when can_respond_with_evidence is false. Evaluated when the dispute is read; in a
+             * webhook payload, as of when Flint recorded the change. It turns true once
+             * evidence_due_at has passed, with no event. anyOf[1] (Value): boolean. Whether
+             * evidence_due_at has passed on a dispute with a response window. Always false when
+             * can_respond_with_evidence is false. Evaluated when the dispute is read; in a webhook
+             * payload, as of when Flint recorded the change. It turns true once evidence_due_at
+             * has passed, with no event. anyOf[2] (Value): null.
+             */
+            "is_evidence_deadline_passed"?: ((boolean) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Opaque reason code assigned by the card network. Read it with the disputed payment's
+             * card brand; codes differ by network. `null` when the network supplied no code or the
+             * supplied code has an unsupported shape. anyOf[1] (Value): string. Opaque reason code
+             * assigned by the card network. Read it with the disputed payment's card brand; codes
+             * differ by network. `null` when the network supplied no code or the supplied code has
+             * an unsupported shape. pattern: ^[A-Z0-9.]{1,8}$. anyOf[2] (Value): null.
+             */
+            "network_reason_code"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummaryPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the order the disputed payment was for. Absent when Flint can't link the
+             * dispute to an order. anyOf[1] (Value): string. ID of the order the disputed payment
+             * was for. Absent when Flint can't link the dispute to an order. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+             */
+            "order_id"?: ((string) | (null));
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummaryPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payment_intent"?: ((ExpandedPaymentIntentSummaryPreviousAttributes) | (null));
+            /**
+             * ID of the payment intent that took the disputed payment. Absent when Flint can't
+             * link the dispute to a payment intent. anyOf[1] (Value): string. ID of the payment
+             * intent that took the disputed payment. Absent when Flint can't link the dispute to a
+             * payment intent. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". anyOf[2] (Value): null.
+             */
+            "payment_intent_id"?: ((string) | (null));
+            /**
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[1] (Value): string.
+             * How the buyer paid for the disputed payment. `null` when Flint hasn't linked the
+             * dispute to a payment intent that records a payment option. Value enum: "card",
+             * "apple_pay", "google_pay", "affirm", "ach_debit", null. anyOf[2] (Value): null.
+             */
+            "payment_option"?: (("card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | null | (string & {})) | (null));
+            /**
+             * Why the payment was disputed. A reason Flint doesn't recognize is `other`. Value
+             * enum: "fraudulent", "unrecognized", "duplicate", "product_not_received",
+             * "product_not_as_described", "refund_not_processed", "subscription_canceled",
+             * "noncompliant", "insufficient_funds", "debit_not_authorized",
+             * "bank_account_not_found", "other". anyOf[1] (Value): string. Why the payment was
+             * disputed. A reason Flint doesn't recognize is `other`. Value enum: "fraudulent",
+             * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
+             * "refund_not_processed", "subscription_canceled", "noncompliant",
+             * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other".
+             * anyOf[2] (Value): null.
+             */
+            "reason"?: (("fraudulent"
+                | "unrecognized"
+                | "duplicate"
+                | "product_not_received"
+                | "product_not_as_described"
+                | "refund_not_processed"
+                | "subscription_canceled"
+                | "noncompliant"
+                | "insufficient_funds"
+                | "debit_not_authorized"
+                | "bank_account_not_found"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Evidence types that usually answer this reason, chosen by Flint, most useful first.
+             * Use the ones that fit what you sold. Empty when Flint has no recommendation,
+             * including bank returns. Chosen from the stored reason and case_type; in a webhook,
+             * frozen when Flint records the change. [] enum: "customer_details",
+             * "customer_communication", "customer_signature", "receipt", "shipping_documentation",
+             * "service_documentation", "access_activity_log", "product_description",
+             * "refund_policy", "duplicate_charge_documentation", "cancellation_policy". anyOf[1]
+             * (Value): Array of string. Evidence types that usually answer this reason, chosen by
+             * Flint, most useful first. Use the ones that fit what you sold. Empty when Flint has
+             * no recommendation, including bank returns. Chosen from the stored reason and
+             * case_type; in a webhook, frozen when Flint records the change. [] enum:
+             * "customer_details", "customer_communication", "customer_signature", "receipt",
+             * "shipping_documentation", "service_documentation", "access_activity_log",
+             * "product_description", "refund_policy", "duplicate_charge_documentation",
+             * "cancellation_policy". anyOf[1][] (Value): string. Value enum: "customer_details",
+             * "customer_communication", "customer_signature", "receipt", "shipping_documentation",
+             * "service_documentation", "access_activity_log", "product_description",
+             * "refund_policy", "duplicate_charge_documentation", "cancellation_policy". anyOf[2]
+             * (Value): null.
+             */
+            "recommended_evidence_types"?: ((Array<"customer_details"
+                | "customer_communication"
+                | "customer_signature"
+                | "receipt"
+                | "shipping_documentation"
+                | "service_documentation"
+                | "access_activity_log"
+                | "product_description"
+                | "refund_policy"
+                | "duplicate_charge_documentation"
+                | "cancellation_policy"
+                | (string & {})>)
+                | (null));
+            /**
+             * Why a response is unavailable when can_respond_with_evidence is false. Absent when
+             * no reason is reported. Current values are bank_return_not_contestable and
+             * response_window_unavailable. response_window_unavailable means no evidence deadline
+             * was supplied. Value enum: "bank_return_not_contestable",
+             * "response_window_unavailable". anyOf[1] (Value): string. Why a response is
+             * unavailable when can_respond_with_evidence is false. Absent when no reason is
+             * reported. Current values are bank_return_not_contestable and
+             * response_window_unavailable. response_window_unavailable means no evidence deadline
+             * was supplied. Value enum: "bank_return_not_contestable",
+             * "response_window_unavailable". anyOf[2] (Value): null.
+             */
+            "response_unavailable_reason"?: (("bank_return_not_contestable" | "response_window_unavailable" | (string & {})) | (null));
+            /**
+             * Fixed seller allocations on the payment, each naming its payment split and reversal.
+             * Present only when the payment has splits; an empty array means no seller share was
+             * allocated. Read PaymentSplit.reversals for status, shortfall, and reinstated
+             * amounts. anyOf[1] (Value): Array of {@link
+             * SplitReversalReferencePreviousAttributes}. Fixed seller allocations on the payment,
+             * each naming its payment split and reversal. Present only when the payment has
+             * splits; an empty array means no seller share was allocated. Read
+             * PaymentSplit.reversals for status, shortfall, and reinstated amounts. anyOf[1][]
+             * (Value): {@link SplitReversalReferencePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "split_reversals"?: ((Array<SplitReversalReferencePreviousAttributes>) | (null));
+            /**
+             * Where the dispute stands. `needs_response` and `inquiry_needs_response` ask you to
+             * respond; `inquiry_closed`, `won`, `lost`, and `prevented` are final. Value enum:
+             * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
+             * "needs_response", "under_review", "won", "lost", "prevented", "other". anyOf[1]
+             * (Value): string. Where the dispute stands. `needs_response` and
+             * `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`, `lost`, and
+             * `prevented` are final. Value enum: "inquiry_needs_response", "inquiry_under_review",
+             * "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented",
+             * "other". anyOf[2] (Value): null.
+             */
+            "status"?: (("inquiry_needs_response"
+                | "inquiry_under_review"
+                | "inquiry_closed"
+                | "needs_response"
+                | "under_review"
+                | "won"
+                | "lost"
+                | "prevented"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Recorded time of the current status. On first observation this is the dispute
+             * creation time. Later status changes use the provider event time when available, or
+             * the time Flint observed the change. This may not be the exact decision or submission
+             * time. anyOf[1] (Value): string. Recorded time of the current status. On first
+             * observation this is the dispute creation time. Later status changes use the provider
+             * event time when available, or the time Flint observed the change. This may not be
+             * the exact decision or submission time. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "status_changed_at"?: ((string) | (null));
+            /**
+             * Lifecycle actions Flint accepts now. Evaluated when the dispute is read; in a
+             * webhook payload, as of when Flint recorded the change. It turns empty once
+             * evidence_due_at has passed, with no event. [] enum: "accept". anyOf[1] (Value):
+             * Array of string. Lifecycle actions Flint accepts now. Evaluated when the dispute is
+             * read; in a webhook payload, as of when Flint recorded the change. It turns empty
+             * once evidence_due_at has passed, with no event. [] enum: "accept". anyOf[1][]
+             * (Value): string. Value enum: "accept". anyOf[2] (Value): null.
+             */
+            "supported_actions"?: ((Array<"accept" | (string & {})>) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "dispute.needs_response". */
+    "event_type"?: "dispute.needs_response";
+});
 export type DisputePreventedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -9197,15 +11508,15 @@ export type ErrorDetail = {
      * "ACTION_NOT_ALLOWED", "ALREADY_EXISTS", "API_VERSION_RETIRED", "AUTHENTICATION_REQUIRED",
      * "CONCURRENT_MODIFICATION", "CUSTOMER_EMAIL_REQUIRED", "DELIVERY_REQUOTE_REQUIRED",
      * "EXTERNAL_SERVICE_ERROR", "FORBIDDEN", "GIFT_CARD_CHALLENGE_REQUIRED",
-     * "IDEMPOTENCY_KEY_IN_PROGRESS", "IDEMPOTENCY_KEY_REUSED", "IDEMPOTENCY_RECOVERY_REQUIRED",
-     * "IDENTITY_VERIFICATION_REQUIRED", "INSUFFICIENT_SCOPE", "INTERNAL_ERROR",
-     * "INVALID_CREDENTIAL", "INVALID_REQUEST", "INVENTORY_INSUFFICIENT", "LIMIT_EXCEEDED",
-     * "LIMIT_REACHED", "MERCHANT_NOT_READY", "METHOD_NOT_ALLOWED", "OPERATION_IN_PROGRESS",
-     * "PAYMENT_ATTEMPT_ACTIVE", "PAYMENT_OPTION_UNAVAILABLE", "PAYMENT_PROCESSING_UNAVAILABLE",
-     * "PAYMENT_PROCESSOR_REJECTED", "PAYMENT_REVIEW_OPEN", "PROMOTION_DECLINED",
-     * "RATE_LIMIT_EXCEEDED", "REQUEST_BODY_TOO_LARGE", "REQUEST_CANCELED", "REQUEST_TIMEOUT",
-     * "RESOURCE_IN_USE", "RESOURCE_NOT_FOUND", "ROUTE_NOT_FOUND", "SERVICE_UNAVAILABLE",
-     * "UNSUPPORTED_CONTENT_TYPE", "VERSION_CONFLICT".
+     * "IDEMPOTENCY_KEY_IN_PROGRESS", "IDEMPOTENCY_KEY_REUSED", "IDEMPOTENCY_OUTCOME_UNCONFIRMED",
+     * "IDEMPOTENCY_RECOVERY_REQUIRED", "IDENTITY_VERIFICATION_REQUIRED", "INSUFFICIENT_SCOPE",
+     * "INTERNAL_ERROR", "INVALID_CREDENTIAL", "INVALID_REQUEST", "INVENTORY_INSUFFICIENT",
+     * "LIMIT_EXCEEDED", "LIMIT_REACHED", "MERCHANT_NOT_READY", "METHOD_NOT_ALLOWED",
+     * "OPERATION_IN_PROGRESS", "PAYMENT_ATTEMPT_ACTIVE", "PAYMENT_OPTION_UNAVAILABLE",
+     * "PAYMENT_PROCESSING_UNAVAILABLE", "PAYMENT_PROCESSOR_REJECTED", "PAYMENT_REVIEW_OPEN",
+     * "PROMOTION_DECLINED", "RATE_LIMIT_EXCEEDED", "REQUEST_BODY_TOO_LARGE", "REQUEST_CANCELED",
+     * "REQUEST_TIMEOUT", "RESOURCE_IN_USE", "RESOURCE_NOT_FOUND", "ROUTE_NOT_FOUND",
+     * "SERVICE_UNAVAILABLE", "UNSUPPORTED_CONTENT_TYPE", "VERSION_CONFLICT".
      */
     "code": ErrorDetailCode;
     /**
@@ -9896,30 +12207,30 @@ export type ErrorDetail = {
      * payout_frequency, period_end_unavailable, plan_change_scheduled,
      * platform_capability_inactive, platform_fee_consent_required, platform_onboarding_required,
      * platform_pending_review, platform_rejected, prepaid_deliveries_remaining,
-     * previous_refund_failed, provider_action_unsupported, quantity_not_carried, reader_offline,
-     * reader_type_not_supported, reader_unavailable, reconciliation_required, refund_created,
-     * refund_unavailable, refund_window_expired, restricted, return_checkout, return_owned,
-     * return_tax_mismatch, sales_not_started, sandbox_reset_failed, secret_not_issued,
-     * seller_not_ready, simulated_reader_required, status_not_reached, stock_at_risk,
-     * store_credit_unavailable, subscription_owned, subscription_terms_locked, terminal_status,
-     * test_event, trial_in_progress, unsupported_state, variant_not_targeted,
-     * verification_required. When code is ALREADY_EXISTS, one of: dashboard_sign_in_required,
-     * device_reader_already_exists, hardware_fingerprint_already_exists. When code is
-     * CONCURRENT_MODIFICATION, one of: credit_note_refund_retry_exhausted. When code is
-     * DELIVERY_REQUOTE_REQUIRED, one of: calculation_expired, caller_rates_required,
-     * destination_changed, input_required, option_expired, quote_expired, quote_revoked,
-     * quote_stale, selection_changed, selection_expired, window_expired. When code is
-     * EXTERNAL_SERVICE_ERROR, one of: issuer_unavailable, outcome_unknown, rate_callback_failed,
-     * rate_unavailable, tax_callback_failed. When code is FORBIDDEN, one of:
-     * checkout_launch_token_restricted, checkout_recovery_attempt_mismatch,
-     * checkout_recovery_restricted, checkout_session_order_mismatch,
-     * checkout_session_payment_required, context_mismatch, demo_session_route_not_allowed,
-     * direct_owner_required, environment_grant_required, environment_mismatch,
-     * expansion_not_permitted, full_access_required, linked_key_not_allowed, live_mode_required,
-     * merchant_access_required, merchant_credential_required, merchant_role_insufficient,
-     * not_checkout_session, not_permitted, organization_membership_required,
-     * organization_role_insufficient, owner_workflow_required, request_blocked,
-     * role_not_assignable, sandbox_not_accessible, sandbox_selection_forbidden,
+     * previous_refund_failed, provider_action_unsupported, quantity_not_carried,
+     * quantity_unavailable, reader_offline, reader_type_not_supported, reader_unavailable,
+     * reconciliation_required, refund_created, refund_unavailable, refund_window_expired,
+     * restricted, return_checkout, return_owned, return_tax_mismatch, sales_not_started,
+     * sandbox_reset_failed, secret_not_issued, seller_not_ready, simulated_reader_required,
+     * status_not_reached, stock_at_risk, store_credit_unavailable, subscription_owned,
+     * subscription_terms_locked, terminal_status, test_event, trial_in_progress,
+     * unsupported_state, variant_not_targeted, verification_required. When code is ALREADY_EXISTS,
+     * one of: dashboard_sign_in_required, device_reader_already_exists,
+     * hardware_fingerprint_already_exists. When code is CONCURRENT_MODIFICATION, one of:
+     * credit_note_refund_retry_exhausted. When code is DELIVERY_REQUOTE_REQUIRED, one of:
+     * calculation_expired, caller_rates_required, destination_changed, input_required,
+     * option_expired, quote_expired, quote_revoked, quote_stale, selection_changed,
+     * selection_expired, window_expired. When code is EXTERNAL_SERVICE_ERROR, one of:
+     * issuer_unavailable, outcome_unknown, rate_callback_failed, rate_unavailable,
+     * tax_callback_failed. When code is FORBIDDEN, one of: checkout_launch_token_restricted,
+     * checkout_recovery_attempt_mismatch, checkout_recovery_restricted,
+     * checkout_session_order_mismatch, checkout_session_payment_required, context_mismatch,
+     * demo_session_route_not_allowed, direct_owner_required, environment_grant_required,
+     * environment_mismatch, expansion_not_permitted, full_access_required, linked_key_not_allowed,
+     * live_mode_required, merchant_access_required, merchant_credential_required,
+     * merchant_role_insufficient, not_checkout_session, not_permitted,
+     * organization_membership_required, organization_role_insufficient, owner_workflow_required,
+     * request_blocked, role_not_assignable, sandbox_not_accessible, sandbox_selection_forbidden,
      * self_role_edit_forbidden, test_mode_required. When code is GIFT_CARD_CHALLENGE_REQUIRED, one
      * of: page_origin_required, proof_rejected, proof_required. When code is
      * IDEMPOTENCY_KEY_REUSED, one of: transport_mismatch. When code is INSUFFICIENT_SCOPE, one of:
@@ -9950,11 +12261,12 @@ export type ErrorDetail = {
      * platform_funding_unavailable, platform_review, pricing_amount_below_minimum,
      * pricing_fee_at_or_above_amount, pricing_not_authorized, pricing_not_configured,
      * processing_not_enabled, processing_restricted, processor_not_configured, provisioning,
-     * requirements_due, tax_category_required. When code is OPERATION_IN_PROGRESS, one of:
-     * delivery_selection_materializing, reader_busy, reader_screen_clear_unresolved,
-     * sandbox_resetting. When code is PAYMENT_OPTION_UNAVAILABLE, one of: action_window_too_short,
-     * amount_out_of_range, bounded_inventory_guarantee_not_supported, capability_blocked,
-     * capability_pending, disabled_by_merchant_settings, disabled_by_platform_policy,
+     * requirements_due, seller_origin_unsupported, tax_category_required. When code is
+     * OPERATION_IN_PROGRESS, one of: delivery_selection_materializing, reader_busy,
+     * reader_screen_clear_unresolved, sandbox_resetting. When code is PAYMENT_OPTION_UNAVAILABLE,
+     * one of: action_window_too_short, amount_out_of_range,
+     * bounded_inventory_guarantee_not_supported, capability_blocked, capability_pending,
+     * disabled_by_merchant_settings, disabled_by_platform_policy,
      * merchant_account_action_required, merchant_payments_disabled,
      * payment_account_context_invalid, payment_account_setup_incomplete,
      * payment_option_access_not_provisioned, payment_option_activation_pending,
@@ -10033,19 +12345,20 @@ export type ErrorDetail = {
      * "pricing_fee_at_or_above_amount", "pricing_not_authorized", "pricing_not_configured",
      * "processing_not_enabled", "processing_restricted", "processor_not_configured",
      * "processor_unavailable", "product_variants", "proof_rejected", "proof_required",
-     * "provider_action_unsupported", "provisioning", "quantity_not_carried", "quote_expired",
-     * "quote_revoked", "quote_stale", "rate_callback_failed", "rate_unavailable", "reader_busy",
-     * "reader_offline", "reader_screen_clear_unresolved", "reader_type_not_supported",
-     * "reader_unavailable", "receipt_recipients", "reconciliation_required",
-     * "recurrence_completed", "refund_created", "refund_unavailable", "refund_window_expired",
-     * "repair_required", "request_blocked", "requirements_due",
-     * "resource_in_different_environment", "restricted", "return_checkout", "return_owned",
-     * "return_tax_mismatch", "revoked", "risk_action_unsupported", "role_not_assignable",
-     * "sales_not_started", "sandbox_not_accessible", "sandbox_reset_failed", "sandbox_resetting",
-     * "sandbox_selection_forbidden", "saved_card_codes", "scope_not_granted", "scope_not_held",
-     * "secret_not_issued", "selected_by_active_variants", "selection_changed",
-     * "selection_expired", "self_role_edit_forbidden", "seller_not_ready", "session_ended",
-     * "simulated_reader_required", "status_not_reached", "stock_at_risk",
+     * "provider_action_unsupported", "provisioning", "quantity_not_carried",
+     * "quantity_unavailable", "quote_expired", "quote_revoked", "quote_stale",
+     * "rate_callback_failed", "rate_unavailable", "reader_busy", "reader_offline",
+     * "reader_screen_clear_unresolved", "reader_type_not_supported", "reader_unavailable",
+     * "receipt_recipients", "reconciliation_required", "recurrence_completed", "refund_created",
+     * "refund_unavailable", "refund_window_expired", "repair_required", "request_blocked",
+     * "requirements_due", "resource_in_different_environment", "restricted", "return_checkout",
+     * "return_owned", "return_tax_mismatch", "revoked", "risk_action_unsupported",
+     * "role_not_assignable", "sales_not_started", "sandbox_not_accessible",
+     * "sandbox_reset_failed", "sandbox_resetting", "sandbox_selection_forbidden",
+     * "saved_card_codes", "scope_not_granted", "scope_not_held", "secret_not_issued",
+     * "selected_by_active_variants", "selection_changed", "selection_expired",
+     * "self_role_edit_forbidden", "seller_not_ready", "seller_origin_unsupported",
+     * "session_ended", "simulated_reader_required", "status_not_reached", "stock_at_risk",
      * "store_credit_unavailable", "subscription_balance_due", "subscription_owned",
      * "subscription_payment_pending", "subscription_renewal", "subscription_terms_locked",
      * "superseded", "superseded_by_better_offer", "superseded_by_higher_priority",
@@ -10256,6 +12569,7 @@ export type ErrorDetail = {
         | "provider_action_unsupported"
         | "provisioning"
         | "quantity_not_carried"
+        | "quantity_unavailable"
         | "quote_expired"
         | "quote_revoked"
         | "quote_stale"
@@ -10297,6 +12611,7 @@ export type ErrorDetail = {
         | "selection_expired"
         | "self_role_edit_forbidden"
         | "seller_not_ready"
+        | "seller_origin_unsupported"
         | "session_ended"
         | "simulated_reader_required"
         | "status_not_reached"
@@ -10345,6 +12660,13 @@ export type ErrorDetail = {
      * with current capacity; fractional quantities are not supported. Format: int64.
      */
     "requested_quantity"?: number;
+    /**
+     * The amount required by the failed check. On INVALID_REQUEST for a refund tender allocation
+     * total mismatch, this is the amount the allocations must add up to. On PROMOTION_DECLINED
+     * with reason minimum_not_met, this is the minimum purchase amount. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "required_money"?: MoneyValue;
     /**
      * Merchant roles that grant the required capability on merchant_role_insufficient. [] (Value):
      * string.
@@ -10412,11 +12734,12 @@ export type ErrorDetail = {
     /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
     "shortage_quantity"?: number;
     /**
-     * Amount from your request that failed the check. On ACTION_NOT_ALLOWED with
-     * reconciliation_required, the unpaid tip the payment would have to carry. On VERSION_CONFLICT
-     * or LIMIT_EXCEEDED, the expected_outstanding_money you sent, or the total of the selected
-     * payment legs when they do not fit the outstanding balance. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * Amount from your request that failed the check. On INVALID_REQUEST for a refund tender
+     * allocation total mismatch, this is the sum of the submitted allocations. On
+     * ACTION_NOT_ALLOWED with reconciliation_required, the unpaid tip the payment would have to
+     * carry. On VERSION_CONFLICT or LIMIT_EXCEEDED, the expected_outstanding_money you sent, or
+     * the total of the selected payment legs when they do not fit the outstanding balance.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "submitted_money"?: MoneyValue;
     /**
@@ -10441,11 +12764,13 @@ export type ErrorDetail = {
     /**
      * Delivery eligibility reason on ACTION_NOT_ALLOWED with reason method_unavailable,
      * destination_not_served, or configuration_required, when the selected method is unavailable.
-     * Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable",
-     * "no_window_available", "eligibility_no_match", "method_type_not_allowed",
-     * "pricing_unavailable", "inventory_unavailable".
+     * Value enum: "automatic_tax_origin_unsupported", "dependency_revoked",
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable",
+     * "inventory_unavailable".
      */
-    "unavailable_reason"?: "dependency_revoked"
+    "unavailable_reason"?: "automatic_tax_origin_unsupported"
+        | "dependency_revoked"
         | "destination_not_served"
         | "pickup_unavailable"
         | "no_window_available"
@@ -10473,14 +12798,15 @@ export type ErrorDetail = {
  * "ACTION_NOT_ALLOWED", "ALREADY_EXISTS", "API_VERSION_RETIRED", "AUTHENTICATION_REQUIRED",
  * "CONCURRENT_MODIFICATION", "CUSTOMER_EMAIL_REQUIRED", "DELIVERY_REQUOTE_REQUIRED",
  * "EXTERNAL_SERVICE_ERROR", "FORBIDDEN", "GIFT_CARD_CHALLENGE_REQUIRED",
- * "IDEMPOTENCY_KEY_IN_PROGRESS", "IDEMPOTENCY_KEY_REUSED", "IDEMPOTENCY_RECOVERY_REQUIRED",
- * "IDENTITY_VERIFICATION_REQUIRED", "INSUFFICIENT_SCOPE", "INTERNAL_ERROR", "INVALID_CREDENTIAL",
- * "INVALID_REQUEST", "INVENTORY_INSUFFICIENT", "LIMIT_EXCEEDED", "LIMIT_REACHED",
- * "MERCHANT_NOT_READY", "METHOD_NOT_ALLOWED", "OPERATION_IN_PROGRESS", "PAYMENT_ATTEMPT_ACTIVE",
- * "PAYMENT_OPTION_UNAVAILABLE", "PAYMENT_PROCESSING_UNAVAILABLE", "PAYMENT_PROCESSOR_REJECTED",
- * "PAYMENT_REVIEW_OPEN", "PROMOTION_DECLINED", "RATE_LIMIT_EXCEEDED", "REQUEST_BODY_TOO_LARGE",
- * "REQUEST_CANCELED", "REQUEST_TIMEOUT", "RESOURCE_IN_USE", "RESOURCE_NOT_FOUND",
- * "ROUTE_NOT_FOUND", "SERVICE_UNAVAILABLE", "UNSUPPORTED_CONTENT_TYPE", "VERSION_CONFLICT".
+ * "IDEMPOTENCY_KEY_IN_PROGRESS", "IDEMPOTENCY_KEY_REUSED", "IDEMPOTENCY_OUTCOME_UNCONFIRMED",
+ * "IDEMPOTENCY_RECOVERY_REQUIRED", "IDENTITY_VERIFICATION_REQUIRED", "INSUFFICIENT_SCOPE",
+ * "INTERNAL_ERROR", "INVALID_CREDENTIAL", "INVALID_REQUEST", "INVENTORY_INSUFFICIENT",
+ * "LIMIT_EXCEEDED", "LIMIT_REACHED", "MERCHANT_NOT_READY", "METHOD_NOT_ALLOWED",
+ * "OPERATION_IN_PROGRESS", "PAYMENT_ATTEMPT_ACTIVE", "PAYMENT_OPTION_UNAVAILABLE",
+ * "PAYMENT_PROCESSING_UNAVAILABLE", "PAYMENT_PROCESSOR_REJECTED", "PAYMENT_REVIEW_OPEN",
+ * "PROMOTION_DECLINED", "RATE_LIMIT_EXCEEDED", "REQUEST_BODY_TOO_LARGE", "REQUEST_CANCELED",
+ * "REQUEST_TIMEOUT", "RESOURCE_IN_USE", "RESOURCE_NOT_FOUND", "ROUTE_NOT_FOUND",
+ * "SERVICE_UNAVAILABLE", "UNSUPPORTED_CONTENT_TYPE", "VERSION_CONFLICT".
  */
 export type ErrorDetailCode = "REQUIRED"
     | "INVALID_VALUE"
@@ -10498,6 +12824,7 @@ export type ErrorDetailCode = "REQUIRED"
     | "GIFT_CARD_CHALLENGE_REQUIRED"
     | "IDEMPOTENCY_KEY_IN_PROGRESS"
     | "IDEMPOTENCY_KEY_REUSED"
+    | "IDEMPOTENCY_OUTCOME_UNCONFIRMED"
     | "IDEMPOTENCY_RECOVERY_REQUIRED"
     | "IDENTITY_VERIFICATION_REQUIRED"
     | "INSUFFICIENT_SCOPE"
@@ -10547,15 +12874,15 @@ export type ErrorObject = {
      * "ACTION_NOT_ALLOWED", "ALREADY_EXISTS", "API_VERSION_RETIRED", "AUTHENTICATION_REQUIRED",
      * "CONCURRENT_MODIFICATION", "CUSTOMER_EMAIL_REQUIRED", "DELIVERY_REQUOTE_REQUIRED",
      * "EXTERNAL_SERVICE_ERROR", "FORBIDDEN", "GIFT_CARD_CHALLENGE_REQUIRED",
-     * "IDEMPOTENCY_KEY_IN_PROGRESS", "IDEMPOTENCY_KEY_REUSED", "IDEMPOTENCY_RECOVERY_REQUIRED",
-     * "IDENTITY_VERIFICATION_REQUIRED", "INSUFFICIENT_SCOPE", "INTERNAL_ERROR",
-     * "INVALID_CREDENTIAL", "INVALID_REQUEST", "INVENTORY_INSUFFICIENT", "LIMIT_EXCEEDED",
-     * "LIMIT_REACHED", "MERCHANT_NOT_READY", "METHOD_NOT_ALLOWED", "OPERATION_IN_PROGRESS",
-     * "PAYMENT_ATTEMPT_ACTIVE", "PAYMENT_OPTION_UNAVAILABLE", "PAYMENT_PROCESSING_UNAVAILABLE",
-     * "PAYMENT_PROCESSOR_REJECTED", "PAYMENT_REVIEW_OPEN", "PROMOTION_DECLINED",
-     * "RATE_LIMIT_EXCEEDED", "REQUEST_BODY_TOO_LARGE", "REQUEST_CANCELED", "REQUEST_TIMEOUT",
-     * "RESOURCE_IN_USE", "RESOURCE_NOT_FOUND", "ROUTE_NOT_FOUND", "SERVICE_UNAVAILABLE",
-     * "UNSUPPORTED_CONTENT_TYPE", "VERSION_CONFLICT".
+     * "IDEMPOTENCY_KEY_IN_PROGRESS", "IDEMPOTENCY_KEY_REUSED", "IDEMPOTENCY_OUTCOME_UNCONFIRMED",
+     * "IDEMPOTENCY_RECOVERY_REQUIRED", "IDENTITY_VERIFICATION_REQUIRED", "INSUFFICIENT_SCOPE",
+     * "INTERNAL_ERROR", "INVALID_CREDENTIAL", "INVALID_REQUEST", "INVENTORY_INSUFFICIENT",
+     * "LIMIT_EXCEEDED", "LIMIT_REACHED", "MERCHANT_NOT_READY", "METHOD_NOT_ALLOWED",
+     * "OPERATION_IN_PROGRESS", "PAYMENT_ATTEMPT_ACTIVE", "PAYMENT_OPTION_UNAVAILABLE",
+     * "PAYMENT_PROCESSING_UNAVAILABLE", "PAYMENT_PROCESSOR_REJECTED", "PAYMENT_REVIEW_OPEN",
+     * "PROMOTION_DECLINED", "RATE_LIMIT_EXCEEDED", "REQUEST_BODY_TOO_LARGE", "REQUEST_CANCELED",
+     * "REQUEST_TIMEOUT", "RESOURCE_IN_USE", "RESOURCE_NOT_FOUND", "ROUTE_NOT_FOUND",
+     * "SERVICE_UNAVAILABLE", "UNSUPPORTED_CONTENT_TYPE", "VERSION_CONFLICT".
      */
     "code": "ACTION_NOT_ALLOWED"
         | "ALREADY_EXISTS"
@@ -10569,6 +12896,7 @@ export type ErrorObject = {
         | "GIFT_CARD_CHALLENGE_REQUIRED"
         | "IDEMPOTENCY_KEY_IN_PROGRESS"
         | "IDEMPOTENCY_KEY_REUSED"
+        | "IDEMPOTENCY_OUTCOME_UNCONFIRMED"
         | "IDEMPOTENCY_RECOVERY_REQUIRED"
         | "IDENTITY_VERIFICATION_REQUIRED"
         | "INSUFFICIENT_SCOPE"
@@ -12058,162 +14386,4 @@ export type ExpandedPayoutDestinationSummaryPreviousAttributes = {
      * independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
      */
     "version"?: ((number) | (null));
-};
-/**
- * A payout's summary fields, including amount, method, status, and arrival date, returned when the
- * payout is expanded.
- */
-export type ExpandedPayoutSummary = {
-    /**
-     * Amount moved between your bank and Flint. Always positive. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the
-     * expected arrival. Format: date. Example: "2026-08-02".
-     */
-    "arrival_date"?: string;
-    /**
-     * Balance source this payout draws from. Flint chooses the source when balance_source_type is
-     * omitted at create. Clients must accept source types added in future releases. Value enum:
-     * "card", "bank_account".
-     */
-    "balance_source_type": "card" | "bank_account" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at"?: string;
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency": string;
-    /** Direction of the money movement. Value enum: "outbound", "inbound". */
-    "direction": "outbound" | "inbound" | (string & {});
-    /**
-     * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears
-     * only on a payout Flint recorded from the processor that was sent outside Flint. `other` is a
-     * method Flint doesn't map. Value enum: "standard", "instant", "other".
-     */
-    "method": "standard" | "instant" | "other" | (string & {});
-    /**
-     * Bank account or debit card used for the payout. Absent when Flint can't match your
-     * processor's destination to a payout destination. Example:
-     * "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
-     */
-    "payout_destination_id"?: string;
-    /**
-     * Unique identifier for this payout, prefixed `po_`. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-     */
-    "payout_id": string;
-    /**
-     * Whether Flint has pulled a paid payout back from your bank: none until the reversal
-     * completes, then reversed. A payout_reversal balance transaction returns the money, and
-     * status stays succeeded. Value enum: "none", "reversed".
-     */
-    "reversal_status": "none" | "reversed" | (string & {});
-    /**
-     * Where the payout is: pending until it is sent, in_transit on its way to your bank, then
-     * succeeded or failed. A succeeded payout can still become failed if the bank returns the
-     * deposit, and canceled means a manual payout was canceled while pending. Value enum:
-     * "pending", "in_transit", "succeeded", "failed", "canceled".
-     */
-    "status": "pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {});
-    /**
-     * Lifecycle actions Flint accepts now. [] enum: "cancel". [] (Value): string. Value enum:
-     * "cancel".
-     */
-    "supported_actions": Array<"cancel" | (string & {})>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at"?: string;
-};
-export type ExpandedPayoutSummaryPreviousAttributes = {
-    /**
-     * Amount moved between your bank and Flint. Always positive. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Expected settlement date of the transfer, in YYYY-MM-DD format using the UTC date of the
-     * expected arrival. anyOf[1] (Value): string. Expected settlement date of the transfer, in
-     * YYYY-MM-DD format using the UTC date of the expected arrival. Format: date. Example:
-     * "2026-08-02". anyOf[2] (Value): null.
-     */
-    "arrival_date"?: ((string) | (null));
-    /**
-     * Balance source this payout draws from. Flint chooses the source when balance_source_type is
-     * omitted at create. Clients must accept source types added in future releases. Value enum:
-     * "card", "bank_account". anyOf[1] (Value): string. Balance source this payout draws from.
-     * Flint chooses the source when balance_source_type is omitted at create. Clients must accept
-     * source types added in future releases. Value enum: "card", "bank_account". anyOf[2] (Value):
-     * null.
-     */
-    "balance_source_type"?: (("card" | "bank_account" | (string & {})) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "created_at"?: ((string) | (null));
-    /**
-     * ISO 4217 currency code. anyOf[1] (Value): string. ISO 4217 currency code. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
-     */
-    "currency"?: ((string) | (null));
-    /**
-     * Direction of the money movement. Value enum: "outbound", "inbound". anyOf[1] (Value):
-     * string. Direction of the money movement. Value enum: "outbound", "inbound". anyOf[2]
-     * (Value): null.
-     */
-    "direction"?: (("outbound" | "inbound" | (string & {})) | (null));
-    /**
-     * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears
-     * only on a payout Flint recorded from the processor that was sent outside Flint. `other` is a
-     * method Flint doesn't map. Value enum: "standard", "instant", "other". anyOf[1] (Value):
-     * string. Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
-     * appears only on a payout Flint recorded from the processor that was sent outside Flint.
-     * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other". anyOf[2]
-     * (Value): null.
-     */
-    "method"?: (("standard" | "instant" | "other" | (string & {})) | (null));
-    /**
-     * Bank account or debit card used for the payout. Absent when Flint can't match your
-     * processor's destination to a payout destination. anyOf[1] (Value): string. Bank account or
-     * debit card used for the payout. Absent when Flint can't match your processor's destination
-     * to a payout destination. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B". anyOf[2] (Value):
-     * null.
-     */
-    "payout_destination_id"?: ((string) | (null));
-    /**
-     * Unique identifier for this payout, prefixed `po_`. anyOf[1] (Value): string. Unique
-     * identifier for this payout, prefixed `po_`. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-     * anyOf[2] (Value): null.
-     */
-    "payout_id"?: ((string) | (null));
-    /**
-     * Whether Flint has pulled a paid payout back from your bank: none until the reversal
-     * completes, then reversed. A payout_reversal balance transaction returns the money, and
-     * status stays succeeded. Value enum: "none", "reversed". anyOf[1] (Value): string. Whether
-     * Flint has pulled a paid payout back from your bank: none until the reversal completes, then
-     * reversed. A payout_reversal balance transaction returns the money, and status stays
-     * succeeded. Value enum: "none", "reversed". anyOf[2] (Value): null.
-     */
-    "reversal_status"?: (("none" | "reversed" | (string & {})) | (null));
-    /**
-     * Where the payout is: pending until it is sent, in_transit on its way to your bank, then
-     * succeeded or failed. A succeeded payout can still become failed if the bank returns the
-     * deposit, and canceled means a manual payout was canceled while pending. Value enum:
-     * "pending", "in_transit", "succeeded", "failed", "canceled". anyOf[1] (Value): string. Where
-     * the payout is: pending until it is sent, in_transit on its way to your bank, then succeeded
-     * or failed. A succeeded payout can still become failed if the bank returns the deposit, and
-     * canceled means a manual payout was canceled while pending. Value enum: "pending",
-     * "in_transit", "succeeded", "failed", "canceled". anyOf[2] (Value): null.
-     */
-    "status"?: (("pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {})) | (null));
-    /**
-     * Lifecycle actions Flint accepts now. [] enum: "cancel". anyOf[1] (Value): Array of string.
-     * Lifecycle actions Flint accepts now. [] enum: "cancel". anyOf[1][] (Value): string. Value
-     * enum: "cancel". anyOf[2] (Value): null.
-     */
-    "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "updated_at"?: ((string) | (null));
 };

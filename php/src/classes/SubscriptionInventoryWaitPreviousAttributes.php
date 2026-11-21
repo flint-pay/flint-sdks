@@ -9,12 +9,12 @@ namespace Flint;
 final class SubscriptionInventoryWaitPreviousAttributes extends Model {
     /** @param array{'invoice_id'?: mixed, 'order_id'?: mixed, 'started_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionInventoryWaitPreviousAttributes')); }
-    /** ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Always present with merchant credentials. anyOf[1] (Value): string. ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Always present with merchant credentials. anyOf[2] (Value): null.
+    /** ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. anyOf[1] (Value): string. ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getInvoiceId(): string|null { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** ID of the renewal order waiting for stock. Merchant credentials only. Always present with merchant credentials. anyOf[1] (Value): string. ID of the renewal order waiting for stock. Merchant credentials only. Always present with merchant credentials. anyOf[2] (Value): null.
+    /** ID of the order waiting for stock, if one was created. Merchant credentials only. anyOf[1] (Value): string. ID of the order waiting for stock, if one was created. Merchant credentials only. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getOrderId(): string|null { return $this->get('order_id'); }

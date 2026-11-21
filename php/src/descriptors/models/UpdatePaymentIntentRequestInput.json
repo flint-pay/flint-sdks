@@ -1,1 +1,1 @@
-{"shared":"UpdatePaymentIntentRequest","dependencies":["MoneyValue","PlatformFeeMoney","SharedCodec137","SharedCodec3073","SharedCodec3076","UpdatePaymentIntentRequest"]}
+{"shared":"UpdatePaymentIntentRequest","dependencies":["MoneyValue","PlatformFeeMoney","SharedCodec138","SharedCodec3081","SharedCodec3084","UpdatePaymentIntentRequest"]}

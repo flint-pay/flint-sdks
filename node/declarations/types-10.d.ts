@@ -1,4 +1,5 @@
 import type {
+    CreateEmailChangeRequest,
     CreateDeliveryFulfillmentDetails,
     CreateDigitalFulfillmentDetails,
     CreateDeliveryFulfillmentDetailsInput,
@@ -6,10 +7,11 @@ import type {
 } from './types-9.js';
 import type { CreatePickupFulfillmentDetails, CreatePickupFulfillmentDetailsInput } from './types-12.js';
 import type { CreateServiceFulfillmentDetails, CreateServiceFulfillmentDetailsInput } from './types-14.js';
-import type { FulfillmentLineItemRequest, FulfillmentLineItemRequestInput } from './types-27.js';
+import type { FulfillmentLineItemRequest } from './types-27.js';
 import type {
     FulfillmentPackagingRequest,
     FulfillmentRecipientRequest,
+    FulfillmentLineItemRequestInput,
     FulfillmentPackagingRequestInput,
     FulfillmentRecipientRequestInput,
     GiftCard
@@ -56,8 +58,67 @@ import type {
     InventoryRoutingDemandInput
 } from './types-33.js';
 import type { LookupLicenseKeyRequest } from './types-40.js';
-import type { InvoiceLateFeePolicy, InvoiceLateFeePolicyRequestInput } from './types-35.js';
-import type { InvoicePaymentTermCalculation, InvoicePaymentTermCalculationRequestInput } from './types-37.js';
+/** The request body for: Request a customer email change; Request an email change. */
+export type CreateEmailChangeRequestInput = CreateEmailChangeRequest;
+/** The request body for: Create a file. */
+export type CreateFileRequest = {
+    /**
+     * Media type of the image you will upload. Value enum: "image/jpeg", "image/png",
+     * "image/webp".
+     */
+    "content_type": "image/jpeg" | "image/png" | "image/webp" | (string & {});
+    /**
+     * What the image will be used for. Creating or completing merchant_logo and merchant_icon
+     * files changes shared branding and requires a live-mode credential or a Dashboard session in
+     * any selected environment. Test credentials receive 403 FORBIDDEN with reason
+     * live_mode_required. Partner install tokens need the purpose's scope too; merchant_logo and
+     * merchant_icon need merchants.profile.write and a live install token. Value enum: "product",
+     * "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo",
+     * "merchant_icon".
+     */
+    "purpose": "product"
+        | "product_variant"
+        | "bundle"
+        | "payment_link"
+        | "subscription_plan"
+        | "merchant_logo"
+        | "merchant_icon"
+        | (string & {});
+    /**
+     * Size of the image you will upload, in bytes, from 1 to 5,242,880 (5 MiB). Format: int64.
+     * minimum: 1. maximum: 5242880.
+     */
+    "size_bytes": number;
+};
+/** The request body for: Create a file. */
+export type CreateFileRequestInput = {
+    /**
+     * Media type of the image you will upload. Value enum: "image/jpeg", "image/png",
+     * "image/webp".
+     */
+    "content_type": "image/jpeg" | "image/png" | "image/webp";
+    /**
+     * What the image will be used for. Creating or completing merchant_logo and merchant_icon
+     * files changes shared branding and requires a live-mode credential or a Dashboard session in
+     * any selected environment. Test credentials receive 403 FORBIDDEN with reason
+     * live_mode_required. Partner install tokens need the purpose's scope too; merchant_logo and
+     * merchant_icon need merchants.profile.write and a live install token. Value enum: "product",
+     * "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo",
+     * "merchant_icon".
+     */
+    "purpose": "product"
+        | "product_variant"
+        | "bundle"
+        | "payment_link"
+        | "subscription_plan"
+        | "merchant_logo"
+        | "merchant_icon";
+    /**
+     * Size of the image you will upload, in bytes, from 1 to 5,242,880 (5 MiB). Format: int64.
+     * minimum: 1. maximum: 5242880.
+     */
+    "size_bytes": number;
+};
 /** The request body for: Create fulfillment event. */
 export type CreateFulfillmentEventRequest = {
     /** Free-form details attached to the event. * (Value): string. minLength: 1. */
@@ -2053,9 +2114,8 @@ export type CreateIntervalReportRequest = ({
      */
     "as_of_date"?: string;
     /**
-     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
-     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * The currency to include in the report. Use USD, the supported currency for new reports. Uses
+     * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
     /**
@@ -2119,9 +2179,8 @@ export type CreateIntervalReportRequestInput = ({
      */
     "as_of_date"?: string;
     /**
-     * Three-letter ISO 4217 currency. Reports never combine currencies. gift_card_liability_v1
-     * supports USD only; other currencies return INVALID_REQUEST on currency. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * The currency to include in the report. Use USD, the supported currency for new reports. Uses
+     * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
     /**
@@ -2940,81 +2999,4 @@ export type CreateInvoiceManualPaymentRequest = {
      * "2026-08-02T16:00:00Z".
      */
     "received_at"?: string;
-};
-/** The request body for: Create invoice manual payment. */
-export type CreateInvoiceManualPaymentRequestInput = {
-    /**
-     * Positive amount received outside Flint, in the invoice currency, no more than
-     * outstanding_money for an open invoice or written_off_money for an uncollectible invoice.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /** Expected version of the invoice. Format: int64. minimum: 1. */
-    "expected_invoice_version"?: number;
-    /** Note about the offline payment, up to 4096 characters. minLength: 1. maxLength: 4096. */
-    "note"?: string;
-    /**
-     * Caller-owned check, wire, or bank reference, stored unmodified. minLength: 1. maxLength:
-     * 255.
-     */
-    "payment_reference"?: string;
-    /**
-     * When the payment was received. Defaults to now. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "received_at"?: string | globalThis.Date;
-};
-/** The request body for: Create invoice payment term. */
-export type CreateInvoicePaymentTermRequest = {
-    /**
-     * Rule used to calculate the invoice's due date when it is issued. Required on create; omit it
-     * on update to preserve the current rule. How an invoice due date is calculated from payment
-     * terms, such as on receipt, net days, or a day of the month.
-     */
-    "calculation": InvoicePaymentTermCalculation;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * One-time late fee policy for unpaid invoices using this term. Omit it to use no late fee on
-     * create or preserve the current policy on update; send null on update to remove it. A late
-     * fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and
-     * whether Flint applies it automatically.
-     */
-    "late_fee_policy"?: InvoiceLateFeePolicy;
-    /**
-     * Name of the payment term shown on invoices. Required on create; omit it on update to
-     * preserve the current name. Surrounding whitespace is trimmed before length validation. A
-     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
-     */
-    "name": string;
-};
-/** The request body for: Create invoice payment term. */
-export type CreateInvoicePaymentTermRequestInput = {
-    /**
-     * Rule used to calculate the invoice's due date when it is issued. Required on create; omit it
-     * on update to preserve the current rule. How an invoice due date is calculated from payment
-     * terms, such as on receipt, net days, or a day of the month.
-     */
-    "calculation": InvoicePaymentTermCalculationRequestInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * One-time late fee policy for unpaid invoices using this term. Omit it to use no late fee on
-     * create or preserve the current policy on update; send null on update to remove it. A late
-     * fee for overdue invoices: a fixed amount or a percentage, a grace period in days, and
-     * whether Flint applies it automatically.
-     */
-    "late_fee_policy"?: InvoiceLateFeePolicyRequestInput;
-    /**
-     * Name of the payment term shown on invoices. Required on create; omit it on update to
-     * preserve the current name. Surrounding whitespace is trimmed before length validation. A
-     * supplied value cannot be blank; use null where clearing is supported. minLength: 1.
-     */
-    "name": string;
 };

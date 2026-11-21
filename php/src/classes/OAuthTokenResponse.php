@@ -81,7 +81,7 @@ final class OAuthTokenResponse extends Model {
      */
     public function getSandboxId(): ?string { return $this->get('sandbox_id'); }
     public function hasSandboxId(): bool { return $this->has('sandbox_id'); }
-    /** Space-separated granted scope, in the vocabulary the client requested: permission IDs for a partner code exchange, API scope names for flint-cli and workload identities. Empty when a workload identity has no scopes. Absent from client_credentials responses, because a partner app token's scopes are each install's grant.
+    /** Space-separated granted scope, in the vocabulary the client requested: permission IDs for a partner code exchange, API scope names for flint-cli and workload identities. Empty when the merchant granted no permissions or a workload identity has no scopes. Absent from client_credentials responses, because a partner app token's scopes are each install's grant.
      * @return ?string
      */
     public function getScope(): ?string { return $this->get('scope'); }

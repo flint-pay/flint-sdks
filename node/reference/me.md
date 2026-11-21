@@ -449,7 +449,7 @@ Body model: [CreateMeCheckoutSessionInvoiceInput](../models/CreateMeCheckoutSess
 
 #### Response
 
-Returned payload: [BuyerCheckoutSessionWithSecret](../models/BuyerCheckoutSessionWithSecret.md#buyercheckoutsessionwithsecret) | [BuyerCheckoutSessionWithSecret](../models/BuyerCheckoutSessionWithSecret.md#buyercheckoutsessionwithsecret).
+Returned payload: [BuyerCheckoutSessionLaunch](../models/BuyerCheckoutSessionLaunch.md#buyercheckoutsessionlaunch) | [BuyerCheckoutSessionLaunch](../models/BuyerCheckoutSessionLaunch.md#buyercheckoutsessionlaunch).
 
 #### Errors
 

@@ -114,7 +114,7 @@ final class Order extends Model {
      */
     public function getCharges(): array { return $this->get('charges'); }
     public function hasCharges(): bool { return $this->has('charges'); }
-    /** Billing name and address collected in Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not collect the details.
+    /** Billing name and address collected in Checkout for a successful payment. Omitted for buyer credentials and when Checkout did not collect the details. Billing details collected in Checkout for a successful payment.
      * @return ?CheckoutBillingContact
      */
     public function getCheckoutBillingContact(): ?CheckoutBillingContact { return $this->get('checkout_billing_contact'); }

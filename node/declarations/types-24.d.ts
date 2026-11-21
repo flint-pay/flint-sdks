@@ -36,6 +36,42 @@ import type {
     DeliveryPricingTierBandPreviousAttributes
 } from './types-21.js';
 import type { DeliveryZoneConfiguration, DeliveryZoneConfigurationPreviousAttributes } from './types-25.js';
+/** Fences one immutable revision of the named delivery method. */
+export type DeliveryRevocationTargetDeliveryMethodRevision = {
+    /**
+     * ID of the delivery method that owns the targeted revision. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id": string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_method_id. Example:
+     * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     */
+    "delivery_method_revision_id": string;
+    /**
+     * Fences one immutable revision of the named delivery method. Value enum:
+     * "delivery_method_revision".
+     */
+    "target_type": "delivery_method_revision" | (string & {});
+};
+/** Fences one immutable revision of the named delivery rate callback. */
+export type DeliveryRevocationTargetDeliveryRateCallbackRevision = {
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. Example:
+     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id": string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_rate_callback_id. Example:
+     * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+     */
+    "delivery_rate_callback_revision_id": string;
+    /**
+     * Fences one immutable revision of the named delivery rate callback. Value enum:
+     * "delivery_rate_callback_revision".
+     */
+    "target_type": "delivery_rate_callback_revision" | (string & {});
+};
 /** Fences one current or previous HMAC signing key of the named delivery rate callback. */
 export type DeliveryRevocationTargetDeliveryRateCallbackSigningKey = {
     /**
@@ -2668,9 +2704,10 @@ export type DeliverySelectionResult = {
      */
     "delivery_selection": DeliverySelection;
     /**
-     * The stock held for this selection. Omitted when the order holds no stock reservation, and
-     * for checkout credentials. The inventory reservation held for a delivery selection: its
-     * owner, status, and expiry.
+     * The stock held for this selection for up to two minutes. If the hold expires before payment,
+     * Flint checks stock again. Omitted when the order holds no stock reservation, and for
+     * checkout credentials. The inventory reservation held for a delivery selection: its owner,
+     * status, and expiry.
      */
     "inventory_reservation"?: DeliveryInventoryReservationSummary;
     /**
@@ -4182,37 +4219,3 @@ export type DeliveryZoneArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope
     /** Value enum: "delivery_zone.archived". */
     "event_type"?: "delivery_zone.archived";
 });
-/**
- * Eligibility condition that matches when the destination or buyer location falls inside the
- * delivery zone `delivery_zone_id`.
- */
-export type DeliveryZoneCondition = {
-    /**
-     * ID of the delivery zone the address must be inside. minLength: 1. Example:
-     * "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
-     */
-    "delivery_zone_id": string;
-    /**
-     * Address facts tested by this condition. destination_address is the shipping destination.
-     * buyer_location is the buyer's current pickup or local-delivery location. Default:
-     * "destination_address". Value enum: "destination_address", "buyer_location".
-     */
-    "subject"?: "destination_address" | "buyer_location" | (string & {});
-};
-export type DeliveryZoneConditionPreviousAttributes = {
-    /**
-     * ID of the delivery zone the address must be inside. anyOf[1] (Value): string. ID of the
-     * delivery zone the address must be inside. minLength: 1. Example:
-     * "dzone_01KEZF7C005RY7KGCN4M2CH5WP". anyOf[2] (Value): null.
-     */
-    "delivery_zone_id"?: ((string) | (null));
-    /**
-     * Address facts tested by this condition. destination_address is the shipping destination.
-     * buyer_location is the buyer's current pickup or local-delivery location. Value enum:
-     * "destination_address", "buyer_location". anyOf[1] (Value): string. Address facts tested by
-     * this condition. destination_address is the shipping destination. buyer_location is the
-     * buyer's current pickup or local-delivery location. Default: "destination_address". Value
-     * enum: "destination_address", "buyer_location". anyOf[2] (Value): null.
-     */
-    "subject"?: (("destination_address" | "buyer_location" | (string & {})) | (null));
-};

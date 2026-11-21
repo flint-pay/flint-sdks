@@ -1,4 +1,4 @@
-import type { MoneyValuePreviousAttributes, MoneyValueInput, MoneyValue } from './types-44.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { AddRiskListItemsRequest, Address, AddressPreviousAttributes } from './types-0.js';
 import type {
     DeliveryCustomerBooleanCondition,
@@ -25,10 +25,8 @@ import type {
 import type {
     DeliveryStateCondition,
     DeliveryWindowTimeCondition,
-    DeliveryZoneCondition,
     DeliveryStateConditionPreviousAttributes,
     DeliveryWindowTimeConditionPreviousAttributes,
-    DeliveryZoneConditionPreviousAttributes,
     DeliveryStateConditionRequestInput,
     DeliveryWindowTimeConditionInput,
     DeliveryScheduleWindowRule,
@@ -40,7 +38,11 @@ import type {
     DeliveryWindowRequest,
     DeliveryWindowResourcePreviousAttributes
 } from './types-24.js';
-import type { DeliveryZoneConditionRequestInput } from './types-25.js';
+import type {
+    DeliveryZoneCondition,
+    DeliveryZoneConditionPreviousAttributes,
+    DeliveryZoneConditionRequestInput
+} from './types-25.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { ResponseMeta } from './types-62.js';
@@ -67,6 +69,32 @@ import type {
     DeliveryRecipientRequirementRequestInput,
     DeliveryRecipientRequirementPreviousAttributes
 } from './types-23.js';
+/** A distance as a `value` in meters, kilometers, or miles. */
+export type DeliveryDistanceRequestInput = {
+    /** Unit of `value`. Value enum: "meter", "kilometer", "mile". */
+    "unit": "meter" | "kilometer" | "mile";
+    /** Distance, in `unit`. */
+    "value": number;
+};
+/**
+ * A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of
+ * `unit`.
+ */
+export type DeliveryDistanceUnitPrice = {
+    /**
+     * Price by ISO 4217 currency code. Each key must equal the currency of its Money value. *
+     * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValue>;
+    /** Distance unit used by unit_quantity. Value enum: "meter", "kilometer", "mile". */
+    "unit": "meter" | "kilometer" | "mile" | (string & {});
+    /**
+     * Whole-number quantity of the selected unit charged at each configured currency price;
+     * fractional quantities are not supported. Format: int64. minimum: 1.
+     */
+    "unit_quantity": number;
+};
 export type DeliveryDistanceUnitPricePreviousAttributes = {
     /**
      * Price by ISO 4217 currency code. Each key must equal the currency of its Money value.
@@ -6351,6 +6379,82 @@ export type DeliveryMethodConfiguration = {
      */
     "selection_guarantee_seconds": number;
     /**
+     * US destinations where this shipment method's shipping charge is exempt from tax. Use
+     * uppercase two-letter state codes such as CA. All other destinations use the method's taxable
+     * setting or the merchant default. For a taxable shipment method with exemptions, quoting
+     * requires a destination country and, for US destinations, a state. uniqueItems: true. []
+     * enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL",
+     * "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN",
+     * "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR",
+     * "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV",
+     * "WY". [] (Value): string. Value enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ", "CA",
+     * "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA",
+     * "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM",
+     * "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA",
+     * "VI", "VT", "WA", "WI", "WV", "WY".
+     */
+    "tax_exempt_us_states"?: Array<"AA"
+        | "AE"
+        | "AK"
+        | "AL"
+        | "AP"
+        | "AR"
+        | "AS"
+        | "AZ"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DC"
+        | "DE"
+        | "FL"
+        | "GA"
+        | "GU"
+        | "HI"
+        | "IA"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "MA"
+        | "MD"
+        | "ME"
+        | "MI"
+        | "MN"
+        | "MO"
+        | "MP"
+        | "MS"
+        | "MT"
+        | "NC"
+        | "ND"
+        | "NE"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NV"
+        | "NY"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "PR"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UM"
+        | "UT"
+        | "VA"
+        | "VI"
+        | "VT"
+        | "WA"
+        | "WI"
+        | "WV"
+        | "WY"
+        | (string & {})>;
+    /**
      * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
      * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
      * to clear it back to inheriting. `null` when the method inherits
@@ -6506,6 +6610,82 @@ export type DeliveryMethodConfigurationCreateRequest = ({
      */
     "selection_guarantee_seconds"?: number;
     /**
+     * US destinations where this shipment method's shipping charge is exempt from tax. Use
+     * uppercase two-letter state codes such as CA. All other destinations use the method's taxable
+     * setting or the merchant default. For a taxable shipment method with exemptions, quoting
+     * requires a destination country and, for US destinations, a state. uniqueItems: true. []
+     * enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL",
+     * "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN",
+     * "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR",
+     * "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV",
+     * "WY". [] (Value): string. Value enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ", "CA",
+     * "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA",
+     * "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM",
+     * "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA",
+     * "VI", "VT", "WA", "WI", "WV", "WY".
+     */
+    "tax_exempt_us_states"?: Array<"AA"
+        | "AE"
+        | "AK"
+        | "AL"
+        | "AP"
+        | "AR"
+        | "AS"
+        | "AZ"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DC"
+        | "DE"
+        | "FL"
+        | "GA"
+        | "GU"
+        | "HI"
+        | "IA"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "MA"
+        | "MD"
+        | "ME"
+        | "MI"
+        | "MN"
+        | "MO"
+        | "MP"
+        | "MS"
+        | "MT"
+        | "NC"
+        | "ND"
+        | "NE"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NV"
+        | "NY"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "PR"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UM"
+        | "UT"
+        | "VA"
+        | "VI"
+        | "VT"
+        | "WA"
+        | "WI"
+        | "WV"
+        | "WY"
+        | (string & {})>;
+    /**
      * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
      * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
      * to clear it back to inheriting.
@@ -6657,6 +6837,81 @@ export type DeliveryMethodConfigurationCreateRequestInput = ({
      * Format: int64. minimum: 0.
      */
     "selection_guarantee_seconds"?: number;
+    /**
+     * US destinations where this shipment method's shipping charge is exempt from tax. Use
+     * uppercase two-letter state codes such as CA. All other destinations use the method's taxable
+     * setting or the merchant default. For a taxable shipment method with exemptions, quoting
+     * requires a destination country and, for US destinations, a state. uniqueItems: true. []
+     * enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL",
+     * "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN",
+     * "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR",
+     * "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV",
+     * "WY". [] (Value): string. Value enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ", "CA",
+     * "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA",
+     * "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM",
+     * "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA",
+     * "VI", "VT", "WA", "WI", "WV", "WY".
+     */
+    "tax_exempt_us_states"?: Array<"AA"
+        | "AE"
+        | "AK"
+        | "AL"
+        | "AP"
+        | "AR"
+        | "AS"
+        | "AZ"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DC"
+        | "DE"
+        | "FL"
+        | "GA"
+        | "GU"
+        | "HI"
+        | "IA"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "MA"
+        | "MD"
+        | "ME"
+        | "MI"
+        | "MN"
+        | "MO"
+        | "MP"
+        | "MS"
+        | "MT"
+        | "NC"
+        | "ND"
+        | "NE"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NV"
+        | "NY"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "PR"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UM"
+        | "UT"
+        | "VA"
+        | "VI"
+        | "VT"
+        | "WA"
+        | "WI"
+        | "WV"
+        | "WY">;
     /**
      * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
      * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
@@ -6873,6 +7128,82 @@ export type DeliveryMethodConfigurationPatchRequest = {
      */
     "selection_guarantee_seconds"?: number | null;
     /**
+     * US destinations where this shipment method's shipping charge is exempt from tax. Use
+     * uppercase two-letter state codes such as CA. All other destinations use the method's taxable
+     * setting or the merchant default. For a taxable shipment method with exemptions, quoting
+     * requires a destination country and, for US destinations, a state. Use [] to clear it. Null
+     * is invalid. uniqueItems: true. [] enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ",
+     * "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY",
+     * "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ",
+     * "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT",
+     * "VA", "VI", "VT", "WA", "WI", "WV", "WY". [] (Value): string. Value enum: "AA", "AE", "AK",
+     * "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA",
+     * "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT",
+     * "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC",
+     * "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY".
+     */
+    "tax_exempt_us_states"?: Array<"AA"
+        | "AE"
+        | "AK"
+        | "AL"
+        | "AP"
+        | "AR"
+        | "AS"
+        | "AZ"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DC"
+        | "DE"
+        | "FL"
+        | "GA"
+        | "GU"
+        | "HI"
+        | "IA"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "MA"
+        | "MD"
+        | "ME"
+        | "MI"
+        | "MN"
+        | "MO"
+        | "MP"
+        | "MS"
+        | "MT"
+        | "NC"
+        | "ND"
+        | "NE"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NV"
+        | "NY"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "PR"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UM"
+        | "UT"
+        | "VA"
+        | "VI"
+        | "VT"
+        | "WA"
+        | "WI"
+        | "WV"
+        | "WY"
+        | (string & {})>;
+    /**
      * Whether the delivery charge is taxable. Null follows tax.default_delivery_taxable in the
      * merchant's settings.
      */
@@ -7085,6 +7416,81 @@ export type DeliveryMethodConfigurationPatchRequestInput = {
      */
     "selection_guarantee_seconds"?: number | null;
     /**
+     * US destinations where this shipment method's shipping charge is exempt from tax. Use
+     * uppercase two-letter state codes such as CA. All other destinations use the method's taxable
+     * setting or the merchant default. For a taxable shipment method with exemptions, quoting
+     * requires a destination country and, for US destinations, a state. Use [] to clear it. Null
+     * is invalid. uniqueItems: true. [] enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ",
+     * "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY",
+     * "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ",
+     * "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT",
+     * "VA", "VI", "VT", "WA", "WI", "WV", "WY". [] (Value): string. Value enum: "AA", "AE", "AK",
+     * "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA",
+     * "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT",
+     * "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC",
+     * "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY".
+     */
+    "tax_exempt_us_states"?: Array<"AA"
+        | "AE"
+        | "AK"
+        | "AL"
+        | "AP"
+        | "AR"
+        | "AS"
+        | "AZ"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DC"
+        | "DE"
+        | "FL"
+        | "GA"
+        | "GU"
+        | "HI"
+        | "IA"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "MA"
+        | "MD"
+        | "ME"
+        | "MI"
+        | "MN"
+        | "MO"
+        | "MP"
+        | "MS"
+        | "MT"
+        | "NC"
+        | "ND"
+        | "NE"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NV"
+        | "NY"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "PR"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UM"
+        | "UT"
+        | "VA"
+        | "VI"
+        | "VT"
+        | "WA"
+        | "WI"
+        | "WV"
+        | "WY">;
+    /**
      * Whether the delivery charge is taxable. Null follows tax.default_delivery_taxable in the
      * merchant's settings.
      */
@@ -7276,6 +7682,92 @@ export type DeliveryMethodConfigurationPreviousAttributes = {
      */
     "selection_guarantee_seconds"?: ((number) | (null));
     /**
+     * US destinations where this shipment method's shipping charge is exempt from tax. Use
+     * uppercase two-letter state codes such as CA. All other destinations use the method's taxable
+     * setting or the merchant default. For a taxable shipment method with exemptions, quoting
+     * requires a destination country and, for US destinations, a state. [] enum: "AA", "AE", "AK",
+     * "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA",
+     * "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT",
+     * "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC",
+     * "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY". anyOf[1] (Value):
+     * Array of string. US destinations where this shipment method's shipping charge is exempt from
+     * tax. Use uppercase two-letter state codes such as CA. All other destinations use the
+     * method's taxable setting or the merchant default. For a taxable shipment method with
+     * exemptions, quoting requires a destination country and, for US destinations, a state.
+     * uniqueItems: true. [] enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ", "CA", "CO",
+     * "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA",
+     * "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV",
+     * "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA", "VI",
+     * "VT", "WA", "WI", "WV", "WY". anyOf[1][] (Value): string. Value enum: "AA", "AE", "AK",
+     * "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA",
+     * "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT",
+     * "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC",
+     * "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY". anyOf[2] (Value):
+     * null.
+     */
+    "tax_exempt_us_states"?: ((Array<"AA"
+        | "AE"
+        | "AK"
+        | "AL"
+        | "AP"
+        | "AR"
+        | "AS"
+        | "AZ"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DC"
+        | "DE"
+        | "FL"
+        | "GA"
+        | "GU"
+        | "HI"
+        | "IA"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "MA"
+        | "MD"
+        | "ME"
+        | "MI"
+        | "MN"
+        | "MO"
+        | "MP"
+        | "MS"
+        | "MT"
+        | "NC"
+        | "ND"
+        | "NE"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NV"
+        | "NY"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "PR"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UM"
+        | "UT"
+        | "VA"
+        | "VI"
+        | "VT"
+        | "WA"
+        | "WI"
+        | "WV"
+        | "WY"
+        | (string & {})>)
+        | (null));
+    /**
      * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
      * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
      * to clear it back to inheriting. `null` when the method inherits
@@ -7287,309 +7779,3 @@ export type DeliveryMethodConfigurationPreviousAttributes = {
      */
     "taxable"?: ((boolean) | (null));
 };
-/**
- * The configuration you supply for a delivery method: origin, pricing, eligibility, timing
- * estimate, tax settings, and recipient requirements.
- */
-export type DeliveryMethodConfigurationRequest = ({
-    /**
-     * Controls whether checkout collects buyer instructions for this method. Controls buyer
-     * instructions for a delivery option. Omit it from a method configuration to disable
-     * instruction collection.
-     */
-    "buyer_instructions"?: BuyerInstructionsConfig;
-    /**
-     * Tax category of the delivery charge, which decides its automatic tax and appears in tax
-     * records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset,
-     * Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for
-     * pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or
-     * send null to clear it back to inheriting. Automatic tax calculates service_fee, shipping,
-     * delivery, handling, and surcharge at the general rate at the charge location, including the
-     * store for pickup. Value enum: "service_fee", "shipping", "delivery", "handling",
-     * "surcharge", null.
-     */
-    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
-    /**
-     * Conditions that decide where this method is offered. Omit this field to offer the method
-     * everywhere the merchant serves. A boolean expression containing exactly one operator or
-     * typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
-     */
-    "eligibility"?: DeliveryEligibilityExpressionRequest;
-    /**
-     * The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no
-     * timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`:
-     * none, a transit time, or a schedule window.
-     */
-    "estimate"?: DeliveryEstimateRule;
-    /**
-     * Minimum remaining quote lifetime required before Flint offers this method. Required for
-     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
-     * less than Flint's 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899.
-     */
-    "minimum_option_lifetime_seconds"?: number;
-    /**
-     * Where delivery starts. A method can use a fixed location or a delivery location set;
-     * origin.type determines allocation or buyer pickup behavior. The origin you supply for a
-     * delivery method, chosen by `type`: a fixed location, or locations from a delivery location
-     * set or an inline list.
-     */
-    "origin": DeliveryMethodOriginSelectorRequest;
-    /**
-     * How Flint calculates the delivery charge. The pricing strategy you supply when updating a
-     * delivery method. Set `type` and the matching property.
-     */
-    "pricing": DeliveryPricingStrategyRequest;
-    /**
-     * Buyer-visible structured details supplied by the merchant. instructions (Optional): string.
-     * Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. pickup_mode
-     * (Optional): string. Required for pickup methods and rejected for other method types. Value
-     * enum: "in_store", "curbside", "locker", "other". service_level (Optional): string.
-     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
-     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
-     * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
-     * "scheduled".
-     */
-    "public_details"?: {
-        /** Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. */
-        "instructions"?: string;
-        /**
-         * Required for pickup methods and rejected for other method types. Value enum: "in_store",
-         * "curbside", "locker", "other".
-         */
-        "pickup_mode"?: "in_store" | "curbside" | "locker" | "other" | (string & {});
-        /**
-         * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
-         * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
-         * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
-         * "scheduled".
-         */
-        "service_level"?: "economy"
-            | "standard"
-            | "expedited"
-            | "express"
-            | "overnight"
-            | "same_day"
-            | "on_demand"
-            | "scheduled"
-            | (string & {});
-    };
-    /**
-     * Address and coordinate fields a callback method requires and is allowed to receive.
-     * maxItems: 12. uniqueItems: true. [] enum: "destination_address",
-     * "destination_address.line1", "destination_address.line2", "destination_address.city",
-     * "destination_address.state", "destination_address.postal_code",
-     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
-     * "buyer_location.address.line2", "buyer_location.address.city",
-     * "buyer_location.address.state", "buyer_location.address.postal_code",
-     * "buyer_location.address.country", "buyer_location.coordinate". [] (Value): string. Request
-     * properties the callback needs. - `destination_address`: The full destination address. -
-     * `destination_address.line1`: The destination street address. - `destination_address.line2`:
-     * The destination apartment, suite, or other secondary address. - `destination_address.city`:
-     * The destination city. - `destination_address.state`: The destination state or region. -
-     * `destination_address.postal_code`: The destination postal code. -
-     * `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. -
-     * `buyer_location`: The buyer location, supplied as an address or coordinates. -
-     * `buyer_location.address.line1`: The street address in the buyer location's address variant.
-     * - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the
-     * buyer location's address variant. - `buyer_location.address.city`: The city in the buyer
-     * location's address variant. - `buyer_location.address.state`: The state or region in the
-     * buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in
-     * the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1
-     * alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`:
-     * The latitude and longitude in the buyer location's coordinate variant. Value enum:
-     * "destination_address", "destination_address.line1", "destination_address.line2",
-     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
-     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
-     * "buyer_location.address.line2", "buyer_location.address.city",
-     * "buyer_location.address.state", "buyer_location.address.postal_code",
-     * "buyer_location.address.country", "buyer_location.coordinate".
-     */
-    "quote_input_fields"?: Array<"destination_address"
-        | "destination_address.line1"
-        | "destination_address.line2"
-        | "destination_address.city"
-        | "destination_address.state"
-        | "destination_address.postal_code"
-        | "destination_address.country"
-        | "buyer_location"
-        | "buyer_location.address.line1"
-        | "buyer_location.address.line2"
-        | "buyer_location.address.city"
-        | "buyer_location.address.state"
-        | "buyer_location.address.postal_code"
-        | "buyer_location.address.country"
-        | "buyer_location.coordinate"
-        | (string & {})>;
-    /**
-     * Recipient fields this method asks for. A delivery selection can leave out required fields,
-     * but payment needs them. [] (Value): {@link DeliveryRecipientRequirement}. Says whether a
-     * recipient field (`name`, `email`, or `phone`) is required for a delivery method, and the
-     * format it must use.
-     */
-    "recipient_requirements"?: Array<DeliveryRecipientRequirement>;
-    /**
-     * How long after evaluation Flint guarantees a selected price, when that is later than the
-     * option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table
-     * prices for a cart without tracked inventory hold until the checkout's calculation expiry.
-     * Format: int64. minimum: 0.
-     */
-    "selection_guarantee_seconds"?: number;
-    /**
-     * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
-     * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
-     * to clear it back to inheriting.
-     */
-    "taxable"?: boolean | null;
-});
-/**
- * The configuration you supply for a delivery method: origin, pricing, eligibility, timing
- * estimate, tax settings, and recipient requirements.
- */
-export type DeliveryMethodConfigurationRequestInput = ({
-    /**
-     * Controls whether checkout collects buyer instructions for this method. Controls buyer
-     * instructions for a delivery option. Omit it from a method configuration to disable
-     * instruction collection.
-     */
-    "buyer_instructions"?: BuyerInstructionsConfigRequestInput;
-    /**
-     * Tax category of the delivery charge, which decides its automatic tax and appears in tax
-     * records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset,
-     * Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for
-     * pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or
-     * send null to clear it back to inheriting. Automatic tax calculates service_fee, shipping,
-     * delivery, handling, and surcharge at the general rate at the charge location, including the
-     * store for pickup. Value enum: "service_fee", "shipping", "delivery", "handling",
-     * "surcharge", null.
-     */
-    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null;
-    /**
-     * Conditions that decide where this method is offered. Omit this field to offer the method
-     * everywhere the merchant serves. A boolean expression containing exactly one operator or
-     * typed condition at each node. Expressions support at most 8 levels and 100 total nodes.
-     */
-    "eligibility"?: DeliveryEligibilityExpressionRequestInput;
-    /**
-     * The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no
-     * timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`:
-     * none, a transit time, or a schedule window.
-     */
-    "estimate"?: DeliveryEstimateRuleRequestInput;
-    /**
-     * Minimum remaining quote lifetime required before Flint offers this method. Required for
-     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
-     * less than Flint's 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899.
-     */
-    "minimum_option_lifetime_seconds"?: number;
-    /**
-     * Where delivery starts. A method can use a fixed location or a delivery location set;
-     * origin.type determines allocation or buyer pickup behavior. The origin you supply for a
-     * delivery method, chosen by `type`: a fixed location, or locations from a delivery location
-     * set or an inline list.
-     */
-    "origin": DeliveryMethodOriginSelectorRequestInput;
-    /**
-     * How Flint calculates the delivery charge. The pricing strategy you supply when updating a
-     * delivery method. Set `type` and the matching property.
-     */
-    "pricing": DeliveryPricingStrategyRequestInput;
-    /**
-     * Buyer-visible structured details supplied by the merchant. instructions (Optional): string.
-     * Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. pickup_mode
-     * (Optional): string. Required for pickup methods and rejected for other method types. Value
-     * enum: "in_store", "curbside", "locker", "other". service_level (Optional): string.
-     * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
-     * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
-     * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
-     * "scheduled".
-     */
-    "public_details"?: {
-        /** Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. */
-        "instructions"?: string;
-        /**
-         * Required for pickup methods and rejected for other method types. Value enum: "in_store",
-         * "curbside", "locker", "other".
-         */
-        "pickup_mode"?: "in_store" | "curbside" | "locker" | "other";
-        /**
-         * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
-         * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
-         * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
-         * "scheduled".
-         */
-        "service_level"?: "economy"
-            | "standard"
-            | "expedited"
-            | "express"
-            | "overnight"
-            | "same_day"
-            | "on_demand"
-            | "scheduled";
-    };
-    /**
-     * Address and coordinate fields a callback method requires and is allowed to receive.
-     * maxItems: 12. uniqueItems: true. [] enum: "destination_address",
-     * "destination_address.line1", "destination_address.line2", "destination_address.city",
-     * "destination_address.state", "destination_address.postal_code",
-     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
-     * "buyer_location.address.line2", "buyer_location.address.city",
-     * "buyer_location.address.state", "buyer_location.address.postal_code",
-     * "buyer_location.address.country", "buyer_location.coordinate". [] (Value): string. Request
-     * properties the callback needs. - `destination_address`: The full destination address. -
-     * `destination_address.line1`: The destination street address. - `destination_address.line2`:
-     * The destination apartment, suite, or other secondary address. - `destination_address.city`:
-     * The destination city. - `destination_address.state`: The destination state or region. -
-     * `destination_address.postal_code`: The destination postal code. -
-     * `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. -
-     * `buyer_location`: The buyer location, supplied as an address or coordinates. -
-     * `buyer_location.address.line1`: The street address in the buyer location's address variant.
-     * - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the
-     * buyer location's address variant. - `buyer_location.address.city`: The city in the buyer
-     * location's address variant. - `buyer_location.address.state`: The state or region in the
-     * buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in
-     * the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1
-     * alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`:
-     * The latitude and longitude in the buyer location's coordinate variant. Value enum:
-     * "destination_address", "destination_address.line1", "destination_address.line2",
-     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
-     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
-     * "buyer_location.address.line2", "buyer_location.address.city",
-     * "buyer_location.address.state", "buyer_location.address.postal_code",
-     * "buyer_location.address.country", "buyer_location.coordinate".
-     */
-    "quote_input_fields"?: Array<"destination_address"
-        | "destination_address.line1"
-        | "destination_address.line2"
-        | "destination_address.city"
-        | "destination_address.state"
-        | "destination_address.postal_code"
-        | "destination_address.country"
-        | "buyer_location"
-        | "buyer_location.address.line1"
-        | "buyer_location.address.line2"
-        | "buyer_location.address.city"
-        | "buyer_location.address.state"
-        | "buyer_location.address.postal_code"
-        | "buyer_location.address.country"
-        | "buyer_location.coordinate">;
-    /**
-     * Recipient fields this method asks for. A delivery selection can leave out required fields,
-     * but payment needs them. [] (Value): {@link DeliveryRecipientRequirementRequestInput}. Says
-     * whether a recipient field (`name`, `email`, or `phone`) is required for a delivery method,
-     * and the format it must use.
-     */
-    "recipient_requirements"?: Array<DeliveryRecipientRequirementRequestInput>;
-    /**
-     * How long after evaluation Flint guarantees a selected price, when that is later than the
-     * option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table
-     * prices for a cart without tracked inventory hold until the checkout's calculation expiry.
-     * Format: int64. minimum: 0.
-     */
-    "selection_guarantee_seconds"?: number;
-    /**
-     * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
-     * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
-     * to clear it back to inheriting.
-     */
-    "taxable"?: boolean | null;
-});

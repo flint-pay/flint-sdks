@@ -70,7 +70,9 @@ export {
     makeOAuthRevokeRequest,
     makeOAuthTokenRequest,
     makeOAuthTokenRequestAuthorizationCode,
-    makeOAuthTokenRequestClientCredentials,
+    makeOAuthTokenRequestClientCredentials
+} from '../declarations/types-88.js';
+export {
     makeOAuthTokenRequestDeviceCode,
     makeOAuthTokenRequestRefreshToken,
     makeOAuthTokenRequestTokenExchange

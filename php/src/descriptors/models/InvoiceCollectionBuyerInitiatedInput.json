@@ -1,1 +1,1 @@
-{"shared":"InvoiceCollectionBuyerInitiated","dependencies":["InvoiceCollectionBuyerInitiated","InvoicePaymentOptionLimit","InvoicePaymentPolicy","MoneyValue","SharedCodec1493"]}
+{"shared":"InvoiceCollectionBuyerInitiated","dependencies":["InvoiceCollectionBuyerInitiated","InvoicePaymentOptionLimit","InvoicePaymentPolicy","MoneyValue","SharedCodec1498"]}

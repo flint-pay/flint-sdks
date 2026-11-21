@@ -1,19 +1,9 @@
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-43.js';
+import type { MoneyValuePreviousAttributes, MoneyValue, MoneyValueInput } from './types-44.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { WebhookOrderEdit, WebhookOrder } from './types-79.js';
-import type { ResponseMeta } from './types-62.js';
-import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-12.js';
-import type { RefundCharge, RefundDestinations, RefundChargeInput, RefundDestinationsInput } from './types-60.js';
-import type { InputValue } from '../runtime.js';
-import type { CheckoutBillingContactPreviousAttributes, CheckoutBuyerContactPreviousAttributes } from './types-6.js';
-import type { CustomFieldAnswerPreviousAttributes } from './types-16.js';
-import type { DeferredPromotionPreviousAttributes } from './types-17.js';
-import type { ExpandedCustomerSummaryPreviousAttributes, ExpandedPaymentIntentSummaryPreviousAttributes } from './types-26.js';
-import type { ExpandedSubscriptionPlanSummaryPreviousAttributes, ExpandedSubscriptionSummaryPreviousAttributes } from './types-27.js';
-import type { FulfillmentPreviousAttributes } from './types-28.js';
-import type { InventoryRoutingSourcePreviousAttributes } from './types-33.js';
 import type {
+    OrderEdit,
     OrderAuthorizationAmountsPreviousAttributes,
     OrderChargePreviousAttributes,
     OrderDeliveryDestinationPreviousAttributes,
@@ -21,6 +11,17 @@ import type {
     OrderDiscountPreviousAttributes,
     OrderCalculatedLineItemTax
 } from './types-45.js';
+import type { ResponseMeta } from './types-62.js';
+import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-12.js';
+import type { RefundCharge, RefundDestinations, RefundChargeInput, RefundDestinationsInput } from './types-60.js';
+import type { InputValue } from '../runtime.js';
+import type { CheckoutBillingContactPreviousAttributes, CheckoutBuyerContactPreviousAttributes } from './types-6.js';
+import type { CustomFieldAnswerPreviousAttributes } from './types-16.js';
+import type { DeferredPromotionPreviousAttributes } from './types-18.js';
+import type { ExpandedCustomerSummaryPreviousAttributes, ExpandedPaymentIntentSummaryPreviousAttributes } from './types-26.js';
+import type { ExpandedSubscriptionPlanSummaryPreviousAttributes, ExpandedSubscriptionSummaryPreviousAttributes } from './types-27.js';
+import type { FulfillmentPreviousAttributes } from './types-28.js';
+import type { InventoryRoutingSourcePreviousAttributes } from './types-33.js';
 import type {
     OrderLineItemPreviousAttributes,
     OrderReturnCreditSettlementPreviousAttributes,
@@ -47,157 +48,6 @@ import type { PurchasedGiftCard } from './types-59.js';
 import type { SelectedProductOption } from './types-68.js';
 import type { SubscribedLine } from './types-69.js';
 import type { Weight } from './types-80.js';
-/**
- * Nested child of an order with frozen item changes, balance and refund amounts. A pending edit
- * changes the order only when its balance payment succeeds. Refund completion is tracked on the
- * refunds.
- */
-export type OrderEdit = {
-    /**
-     * Added order lines, in request order, with their quantities and values frozen at creation.
-     * Empty when the edit added nothing. [] (Value): {@link OrderEditLineAddition}. An order line
-     * added by the enclosing edit, with its value frozen at creation.
-     */
-    "add_line_items": Array<OrderEditLineAddition>;
-    /**
-     * The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit
-     * added nothing. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "added_total_money": MoneyValue;
-    /**
-     * What the added lines cost beyond the removed value and released charges, tax included,
-     * frozen when the edit was created. Zero when the edit had no balance. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_due_money": MoneyValue;
-    /**
-     * When the edit was canceled. `null` when the edit is not canceled. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "canceled_at": string | null;
-    /**
-     * Why the edit was canceled. `null` when the edit is not canceled. Value enum:
-     * "merchant_request", "expired", "payment_disputed", "payment_returned", null.
-     */
-    "cancellation_reason": "merchant_request"
-        | "expired"
-        | "payment_disputed"
-        | "payment_returned"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * Charges released by this edit, frozen at creation. Empty when no charges were released. []
-     * (Value): {@link OrderEditChargeRefund}. The value an edit releases from one order charge,
-     * and the part refunded to the buyer.
-     */
-    "charge_refunds": Array<OrderEditChargeRefund>;
-    /**
-     * When the item changes were applied to the order. `null` when the edit is pending or
-     * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "completed_at": string | null;
-    /** When the edit was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a
-     * balance. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string | null;
-    /**
-     * Internal merchant note. Omitted from buyer and webhook payloads and refund messages.
-     * maxLength: 500.
-     */
-    "note"?: string;
-    /**
-     * Stable ID of this order edit. pattern: ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-     */
-    "order_edit_id": string;
-    /** The order this edit belongs to. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
-    "order_id": string;
-    /**
-     * The payment intent that collects amount_due_money. Confirm it to pay the balance. `null`
-     * when the edit has no balance, and for a moment while Flint is still creating it. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id": string | null;
-    /**
-     * Reason for the edit and its refund. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock"
-        | (string & {});
-    /**
-     * Refunds created for this edit. Empty when no refund is needed or processing has not created
-     * it yet. [] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-     */
-    "refund_ids": Array<string>;
-    /**
-     * Money to refund after the removed value and released charges pay for added lines. May be
-     * zero; an edit with no refund money creates no refund. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "refund_money": MoneyValue;
-    /**
-     * Removed units and their refund amounts frozen at creation. [] (Value): {@link
-     * OrderEditLineRemoval}. Removed whole units of an order line and their refund amount frozen
-     * at creation. The enclosing edit identifies the order.
-     */
-    "remove_line_items": Array<OrderEditLineRemoval>;
-    /**
-     * The value of the removed units: the sum of remove_line_items[].total_money. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "removed_total_money": MoneyValue;
-    /**
-     * Signed noncash adjustment: positive for an edit balance below the payment minimum, negative
-     * when removing previously absorbed value. Included in settlement_amounts.written_off_money,
-     * never paid or refundable. Signed monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "small_balance_adjustment_money": MoneyValue;
-    /**
-     * Pending while waiting for a balance payment, completed once the item changes are applied, or
-     * canceled when it ends without changing the order. Refund processing has its own status on
-     * each refund. Value enum: "pending", "completed", "canceled".
-     */
-    "status": "pending" | "completed" | "canceled" | (string & {});
-    /**
-     * Contains cancel while pending and the payment is neither processing nor succeeded. Contains
-     * retry when unrefunded_money is positive and no linked refund is pending. Empty while Flint
-     * is still processing the original refund before any linked refund exists; retry becomes
-     * available if that processing ends without a refund. Independent of caller permissions. []
-     * enum: "cancel", "retry". [] (Value): string. Value enum: "cancel", "retry".
-     */
-    "supported_actions": Array<"cancel" | "retry" | (string & {})>;
-    /**
-     * Frozen refund money not covered by pending or succeeded allocations from refunds linked to
-     * this edit. Failed allocations do not reduce it. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "unrefunded_money": MoneyValue;
-    /**
-     * The counter advances when status, payment_intent_id, completed_at, canceled_at or
-     * cancellation_reason change. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
 export type OrderEditCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -11746,3 +11596,45 @@ export type OrderLineItemModifierPreviousAttributes = {
      */
     "unit_price_delta_money"?: ((MoneyValuePreviousAttributes) | (null));
 };
+/**
+ * A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier,
+ * with a quantity.
+ */
+export type OrderLineItemModifierRequest = ({
+    /**
+     * Caller-owned metadata for this selection, returned on the order line item's modifier. Values
+     * can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned,
+     * and cannot be written through the public API. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * ID of the existing modifier. Treated as an opaque resource reference; accepted spellings
+     * follow resource ID validation. Its resolved price and the resulting line subtotal must
+     * satisfy the order money ceiling. The amount and every computed order amount must not exceed
+     * 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this
+     * ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower
+     * payment option limits can apply. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id"?: string;
+    /**
+     * Existing selection ID to retain during replacement. minLength: 1. pattern:
+     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z".
+     */
+    "order_line_item_modifier_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+    /**
+     * The text to use. Send it with a `text` modifier. Text a buyer entered for a text modifier
+     * group on an order line item.
+     */
+    "text"?: TextModifierRequest;
+    /** Selects the type branch. Value enum: "catalog", "text". */
+    "type": "catalog" | "text" | (string & {});
+})
+    & ((Exclude<OrderLineItemModifierInputCatalog & object, readonly unknown[]>)
+    | (Exclude<OrderLineItemModifierInputText & object, readonly unknown[]>)
+    | (Record<string, unknown>));

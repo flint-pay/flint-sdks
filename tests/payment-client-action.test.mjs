@@ -10,10 +10,11 @@ const sourceRoot = resolve(import.meta.dirname, "..");
 const root = resolve(process.env.FLINT_SDK_TEST_ROOT ?? sourceRoot);
 const { Client } = await import(pathToFileURL(join(root, "node/index.js")));
 const api = JSON.parse(readFileSync(join(sourceRoot, "spec/openapi.json"), "utf8"));
-const example = (operationId) => structuredClone(
-  Object.values(api.paths).flatMap(Object.values).find((op) => op.operationId === operationId)
-    .responses[200].content["application/json"].example,
-);
+const example = (operationId) => {
+  const content = Object.values(api.paths).flatMap(Object.values)
+    .find((op) => op.operationId === operationId).responses[200].content["application/json"];
+  return structuredClone(content.example ?? content.examples.default.value);
+};
 const expiresAt = "2026-11-12T12:30:00Z";
 const actions = [
   { type: "url", url: "https://payment.example.test/authenticate/synthetic" },

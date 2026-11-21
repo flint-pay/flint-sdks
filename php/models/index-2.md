@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# BuyerCustomerSessionInput to BuyerReturnPreviewInput
+# BuyerCustomerResponseInput to BuyerReturnPolicyEvaluationLineItemInput
 
+- [BuyerCustomerResponseInput](BuyerCustomerResponseInput.md)
 - [BuyerCustomerSessionInput](BuyerCustomerSessionInput.md)
 - [BuyerCustomerSessionResponseInput](BuyerCustomerSessionResponseInput.md)
 - [BuyerDeliveryFulfillmentDetailsInput](BuyerDeliveryFulfillmentDetailsInput.md)
@@ -101,5 +102,4 @@
 - [BuyerReturnListResponseInput](BuyerReturnListResponseInput.md)
 - [BuyerReturnPolicyEvaluationInput](BuyerReturnPolicyEvaluationInput.md)
 - [BuyerReturnPolicyEvaluationLineItemInput](BuyerReturnPolicyEvaluationLineItemInput.md)
-- [BuyerReturnPreviewInput](BuyerReturnPreviewInput.md)
 

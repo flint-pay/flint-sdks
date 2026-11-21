@@ -1,4 +1,5 @@
-import type { BuyerCheckoutSession, BuyerAction } from './types-1.js';
+import type { BuyerCheckoutSessionLaunch, BuyerCheckoutSession, BuyerAction } from './types-1.js';
+import type { ResponseMeta } from './types-62.js';
 import type { CreateReturnEligibilityPreviewRequest, CreateReturnEligibilityPreviewRequestInput } from './types-13.js';
 import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-64.js';
 import type {
@@ -10,20 +11,18 @@ import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestIn
 import type { CreditNoteLineItem } from './types-15.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { TaxCurrencyConversion, TaxIdentity, TaxReverseCharge } from './types-74.js';
-import type { ResponseMeta } from './types-62.js';
 import type { Address } from './types-0.js';
 import type { ErrorResourceReference } from './types-26.js';
-import type { DeferredPromotion, DeferredPromotionPreviousAttributes } from './types-17.js';
+import type { DeferredPromotion, DeferredPromotionPreviousAttributes } from './types-18.js';
 import type { OrderSettlementAmounts, OrderSettlementAmountsPreviousAttributes } from './types-47.js';
 import type { PricingAmounts, PricingAmountsPreviousAttributes } from './types-56.js';
 import type { PaymentSourceSummary, PaymentSourceSummaryPreviousAttributes } from './types-54.js';
 import type { SubscriptionIntervalOption } from './types-70.js';
 import type { CardDetails } from './types-5.js';
-import type { StripeClientSetup } from './types-69.js';
+import type { StripeClientSetup, ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from './types-68.js';
 import type { FulfillmentChargeLink } from './types-27.js';
 import type { FulfillmentRecipient } from './types-28.js';
 import type { PickupFulfillmentDetails } from './types-55.js';
-import type { ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from './types-68.js';
 import type { BuyerOrderLineItemModifier, BuyerPaymentErrorSummary, BuyerOrderTaxExemption } from './types-3.js';
 import type { CheckoutMerchantSupport } from './types-6.js';
 import type { CheckoutTheme } from './types-7.js';
@@ -34,6 +33,25 @@ import type { InvoicePaymentTermsSnapshot } from './types-37.js';
 import type { InvoiceScheduleEntry, InvoiceSettlementAmounts, InvoiceTip } from './types-38.js';
 import type { OrderCharge } from './types-45.js';
 import type { TaxBreakdown } from './types-73.js';
+/** A response containing `BuyerCheckoutSessionLaunch` data. */
+export type BuyerCheckoutSessionLaunchResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The session returned
+     * when launching checkout. A hosted launch includes url. A headless launch includes
+     * checkout_auth_token. A session in which a buyer completes an order's payment.
+     */
+    "data": BuyerCheckoutSessionLaunch;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /**
  * The checkout session with any newly issued checkout credential. Hosted launches return url
  * without checkout_auth_token. Headless launches return checkout_auth_token without url. Customer
@@ -2994,29 +3012,6 @@ export type BuyerLicenseKeyActivationResponse = {
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A page of `BuyerLicenseKey` objects. */
-export type BuyerLicenseKeyListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * BuyerLicenseKey}. A license key issued to the current buyer.
-     */
-    "data": Array<BuyerLicenseKey>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
     /**
      * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".

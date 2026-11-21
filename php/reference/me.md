@@ -452,7 +452,7 @@ Body model: [CreateMeCheckoutSessionInvoiceInput](../models/CreateMeCheckoutSess
 
 #### Response
 
-Returned payload: [BuyerCheckoutSessionWithSecret](../models/BuyerCheckoutSessionWithSecret.md#buyercheckoutsessionwithsecret).
+Returned payload: [BuyerCheckoutSessionLaunch](../models/BuyerCheckoutSessionLaunch.md#buyercheckoutsessionlaunch).
 
 #### Errors
 

@@ -17,32 +17,9 @@ import type {
     ReturnProcessDispositionRequestInput,
     ReturnProcessInspectionRequestInput,
     ReturnProcessResolutionRequestInput,
-    ReturnProcessReceiptRequest
+    ReturnProcessReceiptRequest,
+    ReturnProcessReceiptRequestInput
 } from './types-64.js';
-/** A page of `PlatformFeeBalanceTransaction` objects. */
-export type PlatformFeeBalanceTransactionListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * PlatformFeeBalanceTransaction}. One entry of a partner app's platform fee ledger. Entries
-     * keep their amounts; status, available_at and the payout link can be filled later.
-     */
-    "data": Array<PlatformFeeBalanceTransaction>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
 /** A response containing `PlatformFeeBalanceTransaction` data. */
 export type PlatformFeeBalanceTransactionResponse = {
     /**
@@ -3589,4 +3566,33 @@ export type ProcessExistingReturnRequest = {
      * it was received, supplied when processing an existing return.
      */
     "receipt"?: ReturnProcessReceiptRequest;
+};
+/** The request body for: Process existing return. */
+export type ProcessExistingReturnRequestInput = {
+    /**
+     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
+     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
+     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
+     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
+     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
+     * completion_mode. Value enum: "manual", "automatic".
+     */
+    "completion_mode"?: "manual" | "automatic";
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * One decision for each line. minItems: 1. [] (Value): {@link
+     * ProcessExistingReturnLineItemRequestInput}. How to process one line of an existing return:
+     * the received quantity, inspection, decision, disposition, and resolution.
+     */
+    "line_items": Array<ProcessExistingReturnLineItemRequestInput>;
+    /**
+     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
+     * it was received, supplied when processing an existing return.
+     */
+    "receipt"?: ReturnProcessReceiptRequestInput;
 };

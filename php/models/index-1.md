@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# AcceptFulfillmentRequestInput to BuyerCustomerResponseInput
+# AcceptFulfillmentRequestInput to BuyerCustomerDeletionRequestResponseInput
 
 - [AcceptFulfillmentRequestInput](AcceptFulfillmentRequestInput.md)
 - [AcceptPartnerAppPlatformTermsRequestInput](AcceptPartnerAppPlatformTermsRequestInput.md)
@@ -87,6 +87,7 @@
 - [BuyerCapabilitiesRequestInput](BuyerCapabilitiesRequestInput.md)
 - [BuyerCheckoutProblemResourceInput](BuyerCheckoutProblemResourceInput.md)
 - [BuyerCheckoutSessionInput](BuyerCheckoutSessionInput.md)
+- [BuyerCheckoutSessionLaunchInput](BuyerCheckoutSessionLaunchInput.md)
 - [BuyerCheckoutSessionLaunchResponseInput](BuyerCheckoutSessionLaunchResponseInput.md)
 - [BuyerCheckoutSessionWithSecretInput](BuyerCheckoutSessionWithSecretInput.md)
 - [BuyerCreateReturnPreviewRequestInput](BuyerCreateReturnPreviewRequestInput.md)
@@ -101,5 +102,4 @@
 - [BuyerCustomerDeletionRequestInput](BuyerCustomerDeletionRequestInput.md)
 - [BuyerCustomerDeletionRequestListResponseInput](BuyerCustomerDeletionRequestListResponseInput.md)
 - [BuyerCustomerDeletionRequestResponseInput](BuyerCustomerDeletionRequestResponseInput.md)
-- [BuyerCustomerResponseInput](BuyerCustomerResponseInput.md)
 

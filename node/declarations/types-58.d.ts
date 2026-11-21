@@ -1,6 +1,6 @@
-import type { PromotionAmountOffMethodRequestInput, PromotionApplicationMethodPreviousAttributes, Promotion } from './types-57.js';
 import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { PromotionApplicationMethodPreviousAttributes, Promotion } from './types-57.js';
 import type {
     PromotionRuleGroupPreviousAttributes,
     PromotionSchedulePreviousAttributes,
@@ -16,10 +16,6 @@ import type { CreatePromotionCodeRequestInput } from './types-12.js';
 import type { CategoriesDeleteParams } from './types-5.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { UpdatePromotionCodeRequestInput } from './types-77.js';
-/** A flat application method whose type selects its effect fields. */
-export type PromotionApplicationMethodRequestInput = ((PromotionPercentOffMethodRequestInput)
-    | (PromotionAmountOffMethodRequestInput)
-    | (PromotionBuyXGetYMethodRequestInput));
 export type PromotionArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -4170,3 +4166,17 @@ export type PromotionRefInputPromotionID = ({
      */
     "promotion_id": string;
 });
+/** The `Promotion ID` variant of `PromotionRefInput`. */
+export type PromotionRefInputPromotionIDInput = ({
+    /** Human-entered promotion code to apply. minLength: 1. */
+    "promotion_code"?: string;
+    /**
+     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
+     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
+     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     */
+    "promotion_id": string;
+})
+    & (({
+    "promotion_code"?: never;
+}));

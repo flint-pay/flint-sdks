@@ -67,7 +67,7 @@ const result = await client.partnerApps.acceptPlatformTerms("papp_01KEZF7C00Y8VM
 
 ### partnerApps.create
 
-Creates a partner app owned by the authenticated merchant. A live API key or a live dashboard session is required.
+Creates a partner app owned by the authenticated merchant. A live API key or a live Dashboard session is required. If client_secret_enabled is true, a Dashboard session must verify its identity within the last five minutes, including on retry.
 
 `POST /v1/partner-apps`
 

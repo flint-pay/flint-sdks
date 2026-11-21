@@ -1,11 +1,12 @@
 import type {
-    MetadataMap,
     MerchantWebhookEnvelope,
+    MetadataMap,
     ModifierGroup,
     ModifierOverride,
     ModifierOverrideRequestInput,
     ModifierGroupPreviousAttributes,
-    ModifierOverridePreviousAttributes
+    ModifierOverridePreviousAttributes,
+    ModifierSet
 } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-31.js';
@@ -16,60 +17,6 @@ import type { DisputesAcceptParams } from './types-26.js';
 import type { UpdateModifierSetRequestInput } from './types-76.js';
 import type { ReadinessMerchantAccountSession, ReadinessMerchantAccountSessionPreviousAttributes } from './types-60.js';
 import type { CLIDeviceRequestInput, CLIContextsRequestInput, CLIReauthorizeRequestInput } from './types-4.js';
-import type { OnboardingProfileRequestInput } from './types-45.js';
-/** A reusable collection of customization groups. */
-export type ModifierSet = {
-    /**
-     * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "created_at"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Identifier of the merchant that owns this modifier set. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Ordered group entries in this set, including the full content of reusable groups and groups
-     * owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as it appears in a
-     * modifier set, with its selection limits, display options, and per-modifier overrides.
-     */
-    "modifier_groups": Array<ModifierSetGroup>;
-    /**
-     * Stable identifier of the modifier set assigned to catalog items. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     */
-    "modifier_set_id": string;
-    /** Name used to identify this modifier set. */
-    "name": string;
-    /**
-     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
-     * sets remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /**
-     * When the modifier set or any group it contains last changed, as an RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "updated_at"?: string;
-    /**
-     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
 export type ModifierSetArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -2732,21 +2679,21 @@ export type NextAction = {
      * "get_tax_calculation_callback", "get_tax_connection", "get_tax_registration",
      * "get_test_clock", "get_ticket", "get_webhook_delivery", "get_webhook_endpoint",
      * "get_workload_identity", "issue_developer_sandbox_test_key", "list_credit_note_allocations",
-     * "list_credit_notes", "list_fulfillments", "list_gift_card_funding_dispositions",
-     * "list_gift_card_loads", "list_gift_card_redemptions", "list_gift_card_transactions",
-     * "list_gift_cards", "list_inventory_counts", "list_inventory_movements",
-     * "list_inventory_receipts", "list_inventory_reservations", "list_inventory_transfers",
-     * "list_invoice_activities", "list_invoice_late_fees", "list_invoice_manual_payments",
-     * "list_invoice_payment_attempts", "list_invoices", "list_license_key_pool_keys",
-     * "list_me_gift_cards", "list_me_remembered_buyers", "list_me_returns",
-     * "list_me_subscription_payment_retries", "list_merchant_partner_app_installs",
-     * "list_order_charges", "list_order_edits", "list_order_line_items",
-     * "list_order_payment_attempts", "list_orders", "list_package_items", "list_packages",
-     * "list_payment_intent_activities", "list_payouts", "list_product_variants", "list_refunds",
-     * "list_return_dispositions", "list_return_inspections", "list_return_reasons",
-     * "list_return_receipts", "list_return_resolutions", "list_returns", "list_shipments",
-     * "list_subscription_line_items", "list_subscription_payment_retries", "list_subscriptions",
-     * "pay_order", "payment_authentication", "recreate_delivery_quote",
+     * "list_credit_notes", "list_fulfillment_events", "list_fulfillments",
+     * "list_gift_card_funding_dispositions", "list_gift_card_loads", "list_gift_card_redemptions",
+     * "list_gift_card_transactions", "list_gift_cards", "list_inventory_counts",
+     * "list_inventory_movements", "list_inventory_receipts", "list_inventory_reservations",
+     * "list_inventory_transfers", "list_invoice_activities", "list_invoice_late_fees",
+     * "list_invoice_manual_payments", "list_invoice_payment_attempts", "list_invoices",
+     * "list_license_key_pool_keys", "list_me_gift_cards", "list_me_remembered_buyers",
+     * "list_me_returns", "list_me_subscription_payment_retries",
+     * "list_merchant_partner_app_installs", "list_order_charges", "list_order_edits",
+     * "list_order_line_items", "list_order_payment_attempts", "list_orders", "list_package_items",
+     * "list_packages", "list_payment_intent_activities", "list_payouts", "list_product_variants",
+     * "list_refunds", "list_return_dispositions", "list_return_inspections",
+     * "list_return_reasons", "list_return_receipts", "list_return_resolutions", "list_returns",
+     * "list_shipments", "list_subscription_line_items", "list_subscription_payment_retries",
+     * "list_subscriptions", "pay_order", "payment_authentication", "recreate_delivery_quote",
      * "replace_default_payout_destination", "review_merchant_readiness",
      * "review_onboarding_state", "start_new_image_ingestion", "update_checkout_session",
      * "update_delivery_profile", "update_inventory_allocation_policy", "update_invoice",
@@ -2862,6 +2809,7 @@ export type NextAction = {
         | "issue_developer_sandbox_test_key"
         | "list_credit_note_allocations"
         | "list_credit_notes"
+        | "list_fulfillment_events"
         | "list_fulfillments"
         | "list_gift_card_funding_dispositions"
         | "list_gift_card_loads"
@@ -3137,21 +3085,21 @@ export type NextActionPreviousAttributes = {
      * "get_tax_calculation_callback", "get_tax_connection", "get_tax_registration",
      * "get_test_clock", "get_ticket", "get_webhook_delivery", "get_webhook_endpoint",
      * "get_workload_identity", "issue_developer_sandbox_test_key", "list_credit_note_allocations",
-     * "list_credit_notes", "list_fulfillments", "list_gift_card_funding_dispositions",
-     * "list_gift_card_loads", "list_gift_card_redemptions", "list_gift_card_transactions",
-     * "list_gift_cards", "list_inventory_counts", "list_inventory_movements",
-     * "list_inventory_receipts", "list_inventory_reservations", "list_inventory_transfers",
-     * "list_invoice_activities", "list_invoice_late_fees", "list_invoice_manual_payments",
-     * "list_invoice_payment_attempts", "list_invoices", "list_license_key_pool_keys",
-     * "list_me_gift_cards", "list_me_remembered_buyers", "list_me_returns",
-     * "list_me_subscription_payment_retries", "list_merchant_partner_app_installs",
-     * "list_order_charges", "list_order_edits", "list_order_line_items",
-     * "list_order_payment_attempts", "list_orders", "list_package_items", "list_packages",
-     * "list_payment_intent_activities", "list_payouts", "list_product_variants", "list_refunds",
-     * "list_return_dispositions", "list_return_inspections", "list_return_reasons",
-     * "list_return_receipts", "list_return_resolutions", "list_returns", "list_shipments",
-     * "list_subscription_line_items", "list_subscription_payment_retries", "list_subscriptions",
-     * "pay_order", "payment_authentication", "recreate_delivery_quote",
+     * "list_credit_notes", "list_fulfillment_events", "list_fulfillments",
+     * "list_gift_card_funding_dispositions", "list_gift_card_loads", "list_gift_card_redemptions",
+     * "list_gift_card_transactions", "list_gift_cards", "list_inventory_counts",
+     * "list_inventory_movements", "list_inventory_receipts", "list_inventory_reservations",
+     * "list_inventory_transfers", "list_invoice_activities", "list_invoice_late_fees",
+     * "list_invoice_manual_payments", "list_invoice_payment_attempts", "list_invoices",
+     * "list_license_key_pool_keys", "list_me_gift_cards", "list_me_remembered_buyers",
+     * "list_me_returns", "list_me_subscription_payment_retries",
+     * "list_merchant_partner_app_installs", "list_order_charges", "list_order_edits",
+     * "list_order_line_items", "list_order_payment_attempts", "list_orders", "list_package_items",
+     * "list_packages", "list_payment_intent_activities", "list_payouts", "list_product_variants",
+     * "list_refunds", "list_return_dispositions", "list_return_inspections",
+     * "list_return_reasons", "list_return_receipts", "list_return_resolutions", "list_returns",
+     * "list_shipments", "list_subscription_line_items", "list_subscription_payment_retries",
+     * "list_subscriptions", "pay_order", "payment_authentication", "recreate_delivery_quote",
      * "replace_default_payout_destination", "review_merchant_readiness",
      * "review_onboarding_state", "start_new_image_ingestion", "update_checkout_session",
      * "update_delivery_profile", "update_inventory_allocation_policy", "update_invoice",
@@ -3188,21 +3136,21 @@ export type NextActionPreviousAttributes = {
      * "get_tax_calculation_callback", "get_tax_connection", "get_tax_registration",
      * "get_test_clock", "get_ticket", "get_webhook_delivery", "get_webhook_endpoint",
      * "get_workload_identity", "issue_developer_sandbox_test_key", "list_credit_note_allocations",
-     * "list_credit_notes", "list_fulfillments", "list_gift_card_funding_dispositions",
-     * "list_gift_card_loads", "list_gift_card_redemptions", "list_gift_card_transactions",
-     * "list_gift_cards", "list_inventory_counts", "list_inventory_movements",
-     * "list_inventory_receipts", "list_inventory_reservations", "list_inventory_transfers",
-     * "list_invoice_activities", "list_invoice_late_fees", "list_invoice_manual_payments",
-     * "list_invoice_payment_attempts", "list_invoices", "list_license_key_pool_keys",
-     * "list_me_gift_cards", "list_me_remembered_buyers", "list_me_returns",
-     * "list_me_subscription_payment_retries", "list_merchant_partner_app_installs",
-     * "list_order_charges", "list_order_edits", "list_order_line_items",
-     * "list_order_payment_attempts", "list_orders", "list_package_items", "list_packages",
-     * "list_payment_intent_activities", "list_payouts", "list_product_variants", "list_refunds",
-     * "list_return_dispositions", "list_return_inspections", "list_return_reasons",
-     * "list_return_receipts", "list_return_resolutions", "list_returns", "list_shipments",
-     * "list_subscription_line_items", "list_subscription_payment_retries", "list_subscriptions",
-     * "pay_order", "payment_authentication", "recreate_delivery_quote",
+     * "list_credit_notes", "list_fulfillment_events", "list_fulfillments",
+     * "list_gift_card_funding_dispositions", "list_gift_card_loads", "list_gift_card_redemptions",
+     * "list_gift_card_transactions", "list_gift_cards", "list_inventory_counts",
+     * "list_inventory_movements", "list_inventory_receipts", "list_inventory_reservations",
+     * "list_inventory_transfers", "list_invoice_activities", "list_invoice_late_fees",
+     * "list_invoice_manual_payments", "list_invoice_payment_attempts", "list_invoices",
+     * "list_license_key_pool_keys", "list_me_gift_cards", "list_me_remembered_buyers",
+     * "list_me_returns", "list_me_subscription_payment_retries",
+     * "list_merchant_partner_app_installs", "list_order_charges", "list_order_edits",
+     * "list_order_line_items", "list_order_payment_attempts", "list_orders", "list_package_items",
+     * "list_packages", "list_payment_intent_activities", "list_payouts", "list_product_variants",
+     * "list_refunds", "list_return_dispositions", "list_return_inspections",
+     * "list_return_reasons", "list_return_receipts", "list_return_resolutions", "list_returns",
+     * "list_shipments", "list_subscription_line_items", "list_subscription_payment_retries",
+     * "list_subscriptions", "pay_order", "payment_authentication", "recreate_delivery_quote",
      * "replace_default_payout_destination", "review_merchant_readiness",
      * "review_onboarding_state", "start_new_image_ingestion", "update_checkout_session",
      * "update_delivery_profile", "update_inventory_allocation_policy", "update_invoice",
@@ -3319,6 +3267,7 @@ export type NextActionPreviousAttributes = {
         | "issue_developer_sandbox_test_key"
         | "list_credit_note_allocations"
         | "list_credit_notes"
+        | "list_fulfillment_events"
         | "list_fulfillments"
         | "list_gift_card_funding_dispositions"
         | "list_gift_card_loads"
@@ -4987,9 +4936,9 @@ export type OAuthTokenResponse = ({
     "sandbox_id"?: string;
     /**
      * Space-separated granted scope, in the vocabulary the client requested: permission IDs for a
-     * partner code exchange, API scope names for flint-cli and workload identities. Empty when a
-     * workload identity has no scopes. Absent from client_credentials responses, because a partner
-     * app token's scopes are each install's grant.
+     * partner code exchange, API scope names for flint-cli and workload identities. Empty when the
+     * merchant granted no permissions or a workload identity has no scopes. Absent from
+     * client_credentials responses, because a partner app token's scopes are each install's grant.
      */
     "scope"?: string;
     /** The token type, as RFC 6749 defines it. Value enum: "Bearer". */
@@ -5164,3 +5113,8 @@ export type OnboardingProfileRequest = {
     /** Send null to clear it. minLength: 1. */
     "website_url"?: string | null;
 };
+/**
+ * Contact and website details you submit for a merchant during onboarding. Send null to clear a
+ * field.
+ */
+export type OnboardingProfileRequestInput = OnboardingProfileRequest;

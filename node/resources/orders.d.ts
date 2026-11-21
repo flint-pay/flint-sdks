@@ -3,8 +3,15 @@ import type { AccessLink, AccessLinkResponse } from '../declarations/types-0.js'
 import type { CancelOrderEditResponse, CancelOrderEditResult, CancelOrderPaymentAttemptResponse } from '../declarations/types-5.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateOrderEditResponse, CreateOrderEditResult } from '../declarations/types-11.js';
-import type { Order, OrderActivity, OrderActivityListResponse, OrderCharge, OrderChargesListResponse } from '../declarations/types-45.js';
-import type { OrderEdit, OrderEditListResponse, OrderEditResponse, OrderLineItem } from '../declarations/types-46.js';
+import type {
+    Order,
+    OrderActivity,
+    OrderActivityListResponse,
+    OrderCharge,
+    OrderChargesListResponse,
+    OrderEdit
+} from '../declarations/types-45.js';
+import type { OrderEditListResponse, OrderEditResponse, OrderLineItem } from '../declarations/types-46.js';
 import type {
     OrderLineItemsListResponse,
     OrderListResponse,
@@ -48,8 +55,7 @@ import type {
     OrdersUpdateLineItemParams,
     OrdersUpdateParams
 } from '../declarations/types-48.js';
-import type { PayOrderResponse } from '../declarations/types-50.js';
-import type { PayOrderResult } from '../declarations/types-51.js';
+import type { PayOrderResponse, PayOrderResult } from '../declarations/types-50.js';
 import type { RequestOptions, RetryOrderEditRefundResponse, RetryOrderEditRefundResult } from '../declarations/types-62.js';
 import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
@@ -126,6 +132,7 @@ export type {
 } from '../declarations/types-62.js';
 export type {
     Order,
+    OrderEdit,
     OrderActivityListResponse,
     OrderActivity,
     OrderChargesListResponse,
@@ -195,17 +202,13 @@ export type {
 } from '../declarations/types-5.js';
 export type {
     PayOrderResult,
-    PaymentCollection,
-    PaymentCollectionStripe,
-    PaymentCollectionStripeElements,
-    PaymentErrorSummary,
-    PaymentAttemptGiftCardRedemption,
-    PaymentAttemptPaymentIntent,
-    PaymentClientAction,
-    PaymentClientActionURL,
-    PaymentClientActionStripe,
-    PaymentActivityActor
-} from '../declarations/types-51.js';
+    PayOrderResponse,
+    PayOrderRequestInput,
+    PayOrderRequestPayInput,
+    PayOrderRequestConfirmPaymentIntentsInput,
+    PayOrderRequestSetupInput,
+    PayOrderRequestResumeInput
+} from '../declarations/types-50.js';
 export type {
     AccessLink,
     AccessLinkResponse,
@@ -225,11 +228,9 @@ export type {
     CreateOrderDiscountInput,
     CreateOrderDiscountPromotionInput,
     CreateOrderDiscountManualInput,
-    CreateOrderLineItemInputBundleInput,
     CreateOrderEditRequestInput
 } from '../declarations/types-11.js';
 export type {
-    OrderEdit,
     OrderEditResponse,
     OrderEditListResponse,
     OrderLineItem,
@@ -253,14 +254,6 @@ export type {
     OrderGiftCardAllocationAcceptanceInput,
     OrderEditRemovalRequest
 } from '../declarations/types-46.js';
-export type {
-    PayOrderResponse,
-    PayOrderRequestInput,
-    PayOrderRequestPayInput,
-    PayOrderRequestConfirmPaymentIntentsInput,
-    PayOrderRequestSetupInput,
-    PayOrderRequestResumeInput
-} from '../declarations/types-50.js';
 export type { ClientOptions, CloseOrderRequestInput } from '../declarations/types-7.js';
 export type {
     ManualDiscountRequestInput,
@@ -270,14 +263,8 @@ export type {
     LineItemInventoryDemand
 } from '../declarations/types-40.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
-export type {
-    PromotionRefRequestInput,
-    PromotionRefInputPromotionIDInput,
-    PurchasedGiftCard,
-    ReaderPaymentSourceTipInput,
-    ReaderPaymentSourceTip
-} from '../declarations/types-59.js';
-export type { PromotionRefInputPromotionCodeInput } from '../declarations/types-58.js';
+export type { PromotionRefRequestInput, PurchasedGiftCard, ReaderPaymentSourceTipInput, ReaderPaymentSourceTip } from '../declarations/types-59.js';
+export type { PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-58.js';
 export type {
     AuthMode,
     BuyerAction,
@@ -311,15 +298,9 @@ export type {
 } from '../declarations/types-26.js';
 export type {
     DeferredPromotion,
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates,
-    CustomerTaxID,
-    CustomerTaxExemptionCoverageRequestInput,
-    CustomerTaxExemptionCoverageAllStatesRequestInput,
-    CustomerTaxExemptionCoverageStatesRequestInput,
-    CustomersListAddressesParams
-} from '../declarations/types-17.js';
+    DeliveryChargeTaxCalculationRequest,
+    DeliveryChargeTaxCalculationRequestModelInput
+} from '../declarations/types-18.js';
 export type { DeliveryRecipientResource } from '../declarations/types-23.js';
 export type {
     Fulfillment,
@@ -370,6 +351,18 @@ export type {
     InventoryRoutingSourceInputPolicyRevisionInput
 } from '../declarations/types-33.js';
 export type {
+    PaymentCollection,
+    PaymentCollectionStripe,
+    PaymentCollectionStripeElements,
+    PaymentErrorSummary,
+    PaymentAttemptGiftCardRedemption,
+    PaymentAttemptPaymentIntent,
+    PaymentClientAction,
+    PaymentClientActionURL,
+    PaymentClientActionStripe,
+    PaymentActivityActor
+} from '../declarations/types-51.js';
+export type {
     ReadinessMerchantAccountSession,
     RefundChargeInput,
     RefundDestinationsInput,
@@ -403,7 +396,6 @@ export type {
 export type { SubscriptionPlanLineItem, SubscriptionPlanLineItemBundle, SubscriptionPlanLineItemCustom } from '../declarations/types-71.js';
 export type { Image, ImageReferenceRequestInput, ImageReferenceRequest } from '../declarations/types-31.js';
 export type { SubscriptionPlanSwapVariant, SubscriptionPlanLineItemVariant } from '../declarations/types-72.js';
-export type { DeliveryChargeTaxCalculationRequest, DeliveryChargeTaxCalculationRequestModelInput } from '../declarations/types-18.js';
 export type {
     TaxComponentRequest,
     TaxJurisdiction,
@@ -416,11 +408,22 @@ export type {
     TaxCalculationRequest,
     TaxCalculationRequestModelInput
 } from '../declarations/types-74.js';
+export type {
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates,
+    CustomerTaxID,
+    CustomerTaxExemptionCoverageRequestInput,
+    CustomerTaxExemptionCoverageAllStatesRequestInput,
+    CustomerTaxExemptionCoverageStatesRequestInput,
+    CustomersListAddressesParams
+} from '../declarations/types-17.js';
 export type { TaxBreakdown, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-73.js';
 export type {
     CreateOrderRequestInput,
     CreateOrderLineItemRequestInput,
     CreateOrderLineItemInputVariantInput,
+    CreateOrderLineItemInputBundleInput,
     CreateOrderLineItemInputCustomInput,
     CreateOrderTipInput,
     CreateOrderTipAmountInput,
@@ -450,8 +453,8 @@ export type {
     RemoveDiscountsRequestInput
 } from '../declarations/types-61.js';
 export type { PaymentRefund } from '../declarations/types-53.js';
-export type { UpdateOrderRequestInput, UpdateOrderChargeRequestInput } from '../declarations/types-77.js';
-export type { UpdateLineItemRequestInput } from '../declarations/types-76.js';
+export type { UpdateOrderRequestInput } from '../declarations/types-77.js';
+export type { UpdateOrderChargeRequestInput, UpdateLineItemRequestInput } from '../declarations/types-76.js';
 export {
     makeAddLineItemsRequest,
     makeAddOrderChargeRequest,
@@ -490,7 +493,6 @@ export {
 export { makeDeliverySelectionRecipientRequest, makeDimensionsRequest } from '../declarations/types-86.js';
 export {
     makeGiftCardPurchaseDetailsRequest,
-    makeGiftCardPurchaseRecipient,
     makeGiftCardPurchaseRecipientPatchRequest,
     makeGiftCardPurchaseRecipientRequest,
     makeImageReferenceRequest,
@@ -503,12 +505,11 @@ export {
     makeLineItemFulfillmentOriginRequestModel,
     makeLineItemFulfillmentRequestModel,
     makeManualDiscountRequest,
-    makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest
+    makeMetadataRequest,
+    makeMoneyValue
 } from '../declarations/types-88.js';
 export {
-    makeMoneyValue,
     makeOrderCalculatedChargeTaxRequest,
     makeOrderCalculatedLineItemTaxRequest,
     makeOrderChargeInputAmount,
@@ -546,7 +547,12 @@ export {
     makeOrderTaxLocationPostalAddressRequest,
     makeOrderTaxLocationRequest,
     makeOrderTaxRequest,
-    makeOrderTaxUpdateRequest
+    makeOrderTaxUpdateRequest,
+    makePayOrderRequest,
+    makePayOrderRequestConfirmPaymentIntents,
+    makePayOrderRequestPay,
+    makePayOrderRequestResume,
+    makePayOrderRequestSetup
 } from '../declarations/types-89.js';
 export {
     makePaymentSourceCredential,
@@ -555,11 +561,6 @@ export {
     makePaymentSourceCredentialStripeConfirmationToken,
     makePaymentSourceCredentialStripePaymentMethod,
     makePaymentSplitRequest,
-    makePayOrderRequest,
-    makePayOrderRequestConfirmPaymentIntents,
-    makePayOrderRequestPay,
-    makePayOrderRequestResume,
-    makePayOrderRequestSetup,
     makePlatformFeeMoney,
     makePlatformFeeRequest,
     makePromotionRefInputPromotionCode,
@@ -575,11 +576,14 @@ export {
     makeResolveOrderInventoryExceptionRequest,
     makeRetryOrderEditRefundRequest
 } from '../declarations/types-91.js';
-export { makeSendOrderReceiptRequest, makeSubscribedLineRequestModel } from '../declarations/types-92.js';
 export {
+    makeSendOrderReceiptRequest,
+    makeSubscribedLineRequestModel,
     makeSubscriptionDeliveryDestinationInputAddress,
     makeSubscriptionDeliveryDestinationInputCustomerAddress,
-    makeSubscriptionDeliveryDestinationRequest,
+    makeSubscriptionDeliveryDestinationRequest
+} from '../declarations/types-92.js';
+export {
     makeTaxCalculationRequestModel,
     makeTaxCalculationRequestRequest,
     makeTaxComponentRequestModel,

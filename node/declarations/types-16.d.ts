@@ -1,4 +1,4 @@
-import type { CustomDomain, CustomDomainDNSRecord, CustomDomainDNSRecordPreviousAttributes } from './types-15.js';
+import type { CustomDomain } from './types-15.js';
 import type { ResponseMeta, ResolveCustomerDeletionRequestInput } from './types-62.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { InputValue } from '../runtime.js';
@@ -14,6 +14,33 @@ import type { TaxIdentity } from './types-74.js';
 import type { BuyerCapabilities, BuyerCapabilitiesRequestInput } from './types-1.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+/** A DNS record for configuring or verifying a custom hostname. */
+export type CustomDomainDNSRecord = {
+    /** DNS name at which to publish this record. */
+    "name": string;
+    /** DNS record type to publish, such as cname or txt. Value enum: "cname", "txt". */
+    "type": "cname" | "txt" | (string & {});
+    /** DNS record value to publish at name. */
+    "value": string;
+};
+export type CustomDomainDNSRecordPreviousAttributes = {
+    /**
+     * DNS name at which to publish this record. anyOf[1] (Value): string. DNS name at which to
+     * publish this record. anyOf[2] (Value): null.
+     */
+    "name"?: ((string) | (null));
+    /**
+     * DNS record type to publish, such as cname or txt. Value enum: "cname", "txt". anyOf[1]
+     * (Value): string. DNS record type to publish, such as cname or txt. Value enum: "cname",
+     * "txt". anyOf[2] (Value): null.
+     */
+    "type"?: (("cname" | "txt" | (string & {})) | (null));
+    /**
+     * DNS record value to publish at name. anyOf[1] (Value): string. DNS record value to publish
+     * at name. anyOf[2] (Value): null.
+     */
+    "value"?: ((string) | (null));
+};
 /** A page of `CustomDomain` objects. */
 export type CustomDomainListResponse = {
     /**
@@ -3748,66 +3775,4 @@ export type CustomerReceivablesPreviousAttributes = {
      * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      */
     "observed_at"?: ((string) | (null));
-};
-/** A response containing `Customer` data. */
-export type CustomerResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A merchant's customer
-     * profile.
-     */
-    "data": Customer;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A credential for the /v1/me routes that acts as one customer. By default it can read and change
- * the customer's account and commerce data, including saved payment methods and account deletion
- * requests. Explicit capabilities or access-link resource grants narrow that authority.
- */
-export type CustomerSession = {
-    /**
-     * Granted operation capabilities. Default sessions report the full capability catalog. Refresh
-     * never widens an explicit grant. [] (Value): string.
-     */
-    "capabilities": Array<string>;
-    /** When the session was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** ID of the customer the session acts as. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-    "customer_id": string;
-    /**
-     * ID of this session. Use it to tell sessions apart; it is not a credential. Example:
-     * "cses_01KEZF7C00FBVRP25FZTW7KWZV".
-     */
-    "customer_session_id": string;
-    /**
-     * When the current secret stops authenticating account calls. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string;
-    /** When the refresh token expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "refresh_token_expires_at": string;
-    /**
-     * When the session was first revoked. Present exactly when status is revoked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "revoked_at"?: string;
-    /**
-     * active means the session can be refreshed and its secret works until expires_at; revoked
-     * means none of its credentials work. Value enum: "active", "revoked".
-     */
-    "status": "active" | "revoked" | (string & {});
-    /**
-     * Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains
-     * revoke for active and revoked sessions because repeating a revocation succeeds. [] enum:
-     * "revoke". [] (Value): string. Value enum: "revoke".
-     */
-    "supported_actions": Array<"revoke" | (string & {})>;
 };

@@ -15,7 +15,6 @@ import type { ResponseMeta } from './types-62.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { DocumentTaxID, DocumentTaxIDRequestInput, DocumentTaxIDPreviousAttributes } from './types-26.js';
 import type { CustomerTaxID, CustomerTaxIDPreviousAttributes } from './types-17.js';
-export type TaxCalculationCallbacksRotateSecretParams = {};
 export type TaxCalculationCallbacksUpdateParams = (UpdateTaxCalculationCallbackRequestInput);
 /**
  * Tax you calculated yourself for a line or charge: whether prices include tax, and the tax
@@ -292,14 +291,15 @@ export type TaxConnection = {
     /**
      * Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason
      * applies. Unknown reasons normalize to `other`. Value enum: "not_offered",
-     * "business_address_required", "onboarding_required", "tax_category_required",
-     * "registration_required", "temporarily_unavailable", "setup_incomplete",
-     * "registration_rejected", "business_details_changed", "support_required", "disconnected",
-     * "other", null.
+     * "business_address_required", "onboarding_required", "seller_origin_unsupported",
+     * "tax_category_required", "registration_required", "temporarily_unavailable",
+     * "setup_incomplete", "registration_rejected", "business_details_changed", "support_required",
+     * "disconnected", "other", null.
      */
     "status_reason": "not_offered"
         | "business_address_required"
         | "onboarding_required"
+        | "seller_origin_unsupported"
         | "tax_category_required"
         | "registration_required"
         | "temporarily_unavailable"
@@ -587,6 +587,7 @@ export type TaxConnectionUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & obje
             "status_reason": "not_offered"
                 | "business_address_required"
                 | "onboarding_required"
+                | "seller_origin_unsupported"
                 | "tax_category_required"
                 | "registration_required"
                 | "temporarily_unavailable"
@@ -619,6 +620,7 @@ export type TaxConnectionUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & obje
             "status_reason"?: (("not_offered"
                 | "business_address_required"
                 | "onboarding_required"
+                | "seller_origin_unsupported"
                 | "tax_category_required"
                 | "registration_required"
                 | "temporarily_unavailable"
@@ -1720,4 +1722,29 @@ export type TextModifierConfig = {
      * precedence.
      */
     "required": boolean;
+};
+/**
+ * Send only text fields to change. Omitted fields keep their stored values. null clears min_length
+ * or max_length. An empty object is invalid. The merged configuration is validated. minProperties:
+ * 1.
+ */
+export type TextModifierConfigPatchRequest = {
+    /**
+     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Omit it to keep the current limit; send null to clear it. Format: int32. minimum: 1.
+     * maximum: 500.
+     */
+    "max_length"?: number | null;
+    /**
+     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Omit it to keep the current minimum; send null to clear it. Format: int32. minimum: 0.
+     */
+    "min_length"?: number | null;
+    /** Whether the buyer's text can include line breaks. */
+    "multiline"?: boolean;
+    /**
+     * Whether buyers must enter text for this group. A modifier set's required override takes
+     * precedence.
+     */
+    "required"?: boolean;
 };

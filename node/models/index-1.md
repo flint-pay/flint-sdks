@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# AcceptFulfillmentRequestInput to BuyerCheckoutSessionLaunchResponse
+# AcceptFulfillmentRequestInput to BuyerCheckoutSessionLaunch
 
 - [AcceptFulfillmentRequestInput](AcceptFulfillmentRequestInput.md)
 - [AcceptPartnerAppPlatformTermsRequest](AcceptPartnerAppPlatformTermsRequest.md)
@@ -101,5 +101,5 @@
 - [BuyerCapabilitiesRequestInput](BuyerCapabilitiesRequestInput.md)
 - [BuyerCheckoutProblemResource](BuyerCheckoutProblemResource.md)
 - [BuyerCheckoutSession](BuyerCheckoutSession.md)
-- [BuyerCheckoutSessionLaunchResponse](BuyerCheckoutSessionLaunchResponse.md)
+- [BuyerCheckoutSessionLaunch](BuyerCheckoutSessionLaunch.md)
 

@@ -1,16 +1,4 @@
 import type {
-    MetadataPatchRequestInput,
-    MetadataPatchRequest,
-    MerchantSignupTermsAcceptanceRequest,
-    MerchantSignupTermsAcceptanceRequestInput,
-    MetadataMap
-} from './types-43.js';
-import type {
-    UpdateReturnReplacementLineItemRequestInput,
-    UpdateReturnResolutionAdjustmentRequestInput,
-    UpdateReturnResolutionLineItemRequestInput
-} from './types-77.js';
-import type {
     GetReturnResolutionResponse,
     GetReturnResponse,
     FulfillmentSettings,
@@ -37,11 +25,23 @@ import type {
 import type { InventorySettingsRequest, InventorySettingsRequestInput, InventoryRoutingSourceRequestInput } from './types-34.js';
 import type { InvoiceSettingsPatch, InvoiceSettingsPatchInput } from './types-38.js';
 import type { LegalSettingsRequest, LegalSettingsRequestInput, KnownWebhookEvent, LegalSettings } from './types-39.js';
+import type {
+    MetadataPatchRequest,
+    MetadataPatchRequestInput,
+    MerchantSignupTermsAcceptanceRequest,
+    MerchantSignupTermsAcceptanceRequestInput,
+    MetadataMap
+} from './types-43.js';
 import type { PaymentLimitSettingsPatch, PaymentLimitSettingsPatchInput } from './types-52.js';
 import type { PaymentSettingsPatch, PaymentSettingsPatchInput } from './types-54.js';
 import type { PromotionSettings, PromotionSettingsRequestInput } from './types-59.js';
 import type { ReceiptSettingsPatch, ReceiptSettingsPatchInput } from './types-60.js';
-import type { SubscriptionSettings, SubscriptionSettingsRequestInput, SubscriptionTaxRequest } from './types-72.js';
+import type {
+    SubscriptionSettings,
+    SubscriptionSettingsRequestInput,
+    SubscriptionTaxRequest,
+    SubscriptionTaxRequestInput
+} from './types-72.js';
 import type { TaxIdentityPatch, TaxSettingsRequest, TaxIdentityPatchInput, TaxSettingsRequestInput } from './types-74.js';
 import type { TippingSettingsPatch, TippingSettingsPatchInput } from './types-75.js';
 import type {
@@ -57,24 +57,19 @@ import type {
     SubscriptionGiftRecipientRequestInput
 } from './types-70.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
-import type {
-    OrderLineItemModifierRequest,
-    OrderLineItemTax,
-    OrderLineItemModifierRequestModelInput,
-    OrderLineItemTaxRequestInput
-} from './types-47.js';
+import type { OrderLineItemModifierRequest } from './types-46.js';
+import type { OrderLineItemTax, OrderLineItemModifierRequestModelInput, OrderLineItemTaxRequestInput } from './types-47.js';
 import type { ImageRequest, ImageRequestInput, ImageAttachment } from './types-31.js';
 import type { InventoryRoutingSourceRequest } from './types-33.js';
 import type { SubscriptionPlanChangeOption, SubscriptionPlanChangeOptionRequestInput } from './types-71.js';
 import type { SubscriptionBillingScheduleUpdateRequest, SubscriptionBillingScheduleUpdateRequestInput } from './types-69.js';
 import type {
-    SubscriptionTaxRequestInput,
     TaxCalculationCallbackConfigurationPatchRequest,
     TaxCalculationCallbackConfigurationPatchRequestInput
 } from './types-73.js';
 import type { WebhookSigningMethod, WebhookSigningMethodInput, WebhookSnapshotOrderPaymentAttempt } from './types-79.js';
 import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-80.js';
-import type { ResponseMeta } from './types-62.js';
+import type { ResponseMeta, ResendWebhookDeliveryRequestInput } from './types-62.js';
 import type { Package } from './types-48.js';
 import type { Shipment, SetupCollection } from './types-68.js';
 import type { CategoryReference } from './types-5.js';
@@ -103,72 +98,6 @@ import type { PaymentCollection } from './types-51.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateWebhookDeliveryRequestInput } from './types-14.js';
 import type { CustomersListAddressesParams } from './types-17.js';
-/** The request body for: Update return resolution. */
-export type UpdateReturnResolutionRequestInput = ({
-    /**
-     * Requires expected_version. [] (Value): {@link UpdateReturnResolutionAdjustmentRequestInput}.
-     * A fee or credit to keep or add when updating a return resolution. Include
-     * `return_resolution_adjustment_id` to update an existing one.
-     */
-    "adjustments"?: Array<UpdateReturnResolutionAdjustmentRequestInput>;
-    /**
-     * Required when any of these fields is present: line_items, replacement_line_items,
-     * adjustments. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination
-     * and conflicting_fields naming resolution_type. Store credit and its corrections always issue
-     * new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
-     * Requires expected_version. [] (Value): {@link UpdateReturnResolutionLineItemRequestInput}. A
-     * return line and quantity to keep or add when updating a return resolution.
-     */
-    "line_items"?: Array<UpdateReturnResolutionLineItemRequestInput>;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
-     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
-     * the key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequestInput) | (null));
-    /**
-     * Required for merchant exchange and replacement requests. original_price preserves the
-     * selected units' net paid amounts using refund allocation; current_price uses catalog prices;
-     * merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit
-     * pricing_basis: replacements use original_price; exchanges use original_price when every
-     * replacement matches selected returned merchandise by variant, bundle, or product, otherwise
-     * current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     * Requires expected_version. [] (Value): {@link UpdateReturnReplacementLineItemRequestInput}.
-     * A replacement item to keep or add when updating a return resolution. Include
-     * `return_replacement_line_item_id` to keep an existing one.
-     */
-    "replacement_line_items"?: Array<UpdateReturnReplacementLineItemRequestInput>;
-});
 export type UpdateReturnResolutionResponse = GetReturnResolutionResponse;
 export type UpdateReturnResponse = GetReturnResponse;
 /** The request body for: Update a risk list. minProperties: 1. */
@@ -2772,8 +2701,8 @@ export type UpdateWebhookEndpointRequest = ({
      * including types added later; * must be the only entry and is not available with
      * installed_merchants. At least one entry is required. Use only current event type names;
      * previous and removed names are rejected. Stored subscriptions map previous names permanently
-     * and drop removed names on read. See the [changelog](/docs/changelog). minItems: 1. []
-     * (Value): string. minLength: 1.
+     * and drop removed names on read. See the [changelog](/changelog). minItems: 1. [] (Value):
+     * string. minLength: 1.
      */
     "enabled_events"?: Array<string>;
     /**
@@ -2842,8 +2771,8 @@ export type UpdateWebhookEndpointRequestInput = ({
      * including types added later; * must be the only entry and is not available with
      * installed_merchants. At least one entry is required. Use only current event type names;
      * previous and removed names are rejected. Stored subscriptions map previous names permanently
-     * and drop removed names on read. See the [changelog](/docs/changelog). minItems: 1. []
-     * (Value): string. minLength: 1.
+     * and drop removed names on read. See the [changelog](/changelog). minItems: 1. [] (Value):
+     * string. minLength: 1.
      */
     "enabled_events"?: Array<string>;
     /**
@@ -2916,22 +2845,24 @@ export type UpdateWorkloadIdentityRequest = ({
      */
     "name"?: string;
     /**
-     * Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only
-     * scopes they hold in the same environment. Only a full-access key or a freshly verified user
-     * session can grant accounts.api_keys.write, accounts.workload_identities.write or
-     * commerce.gift_cards.secrets.write, in every mode. [] enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.license_keys.read",
+     * Complete scope set to grant. A Dashboard session needs fresh verification to grant scopes
+     * outside this list: commerce.products.read, commerce.subscription_plans.read,
+     * commerce.bundles.read, commerce.catalog.read. API credentials may grant only scopes they
+     * hold in the same environment. Among API credentials, only full-access keys may grant these
+     * scopes: accounts.api_keys.write, commerce.gift_cards.secrets.write,
+     * accounts.workload_identities.write, commerce.license_keys.secrets.write. [] enum:
+     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
      * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
      * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
      * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
@@ -3142,22 +3073,24 @@ export type UpdateWorkloadIdentityRequestInput = ({
      */
     "name"?: string;
     /**
-     * Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only
-     * scopes they hold in the same environment. Only a full-access key or a freshly verified user
-     * session can grant accounts.api_keys.write, accounts.workload_identities.write or
-     * commerce.gift_cards.secrets.write, in every mode. [] enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.license_keys.read",
+     * Complete scope set to grant. A Dashboard session needs fresh verification to grant scopes
+     * outside this list: commerce.products.read, commerce.subscription_plans.read,
+     * commerce.bundles.read, commerce.catalog.read. API credentials may grant only scopes they
+     * hold in the same environment. Among API credentials, only full-access keys may grant these
+     * scopes: accounts.api_keys.write, commerce.gift_cards.secrets.write,
+     * accounts.workload_identities.write, commerce.license_keys.secrets.write. [] enum:
+     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.license_keys.read",
      * "commerce.license_keys.secrets.write", "commerce.license_keys.write",
      * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
      * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
@@ -4107,3 +4040,4 @@ export type WebhookDeliveriesListParams = {
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
+export type WebhookDeliveriesResendParams = (InputValue<ResendWebhookDeliveryRequestInput>);

@@ -50,3 +50,7 @@ Field definitions: [CancelReturnResponse.data.return_resolutions[].line_items[]]
 
 Field definitions: [CancelReturnResponse.data.return_resolutions[].replacement_line_items[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsreplacement_line_items).
 
+### CreateReturnPreviewResponseDataResolution.resolution fields 1.tender_estimates[]
+
+Declared alternatives: [BuyerReturnPreviewResponse.data.resolution fields 1.tender_estimates[]](../models/BuyerReturnPreviewResponse.md#buyerreturnpreviewresponsedataresolution-fields-1tender_estimates).
+

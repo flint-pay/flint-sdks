@@ -43,13 +43,13 @@ export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
 export type { MoneyValue, NextAction, MoneyValueInput, MoneyMovementListMeta, MoneyMovementHistoryMeta } from '../declarations/types-44.js';
 export type { MetadataMap, MetadataRequestInput } from '../declarations/types-43.js';
-export type { ExpandedPayoutSummary, ExpandedPayoutDestinationSummary } from '../declarations/types-26.js';
+export type { ExpandedPayoutSummary } from '../declarations/types-27.js';
+export type { ExpandedPayoutDestinationSummary } from '../declarations/types-26.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CreatePayoutRequestInput } from '../declarations/types-12.js';
 export { makeCancelPayoutRequest } from '../declarations/types-81.js';
 export { makeCreatePayoutRequest } from '../declarations/types-84.js';
-export { makeMetadataMap, makeMetadataRequest } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
 export interface PayoutsResource {
     /**
  * Cancels an eligible payout before it leaves Flint-controlled processing and returns the

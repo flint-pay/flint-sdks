@@ -1,5 +1,11 @@
-import type { PublicDownloadPreviousAttributes, PublicDownload } from './types-59.js';
-import type { Report, ReportFailed, ReportFailedPreviousAttributes, ReportPending } from './types-61.js';
+import type {
+    Report,
+    ReportFailed,
+    ReportFailedPreviousAttributes,
+    ReportPending,
+    ReportPendingPreviousAttributes
+} from './types-61.js';
+import type { PublicDownload, PublicDownloadPreviousAttributes } from './types-59.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { CreateReportRequestInput } from './types-13.js';
 import type { InputValue, RequestOptions as RuntimeRequestOptions, CredentialProvider } from '../runtime.js';
@@ -16,7 +22,7 @@ import type { MoneyValue, NextAction } from './types-44.js';
 import type { PaymentActivityActor } from './types-51.js';
 import type { ConfirmReturnResolutionRequestInput } from './types-8.js';
 import type { RefundDestinations, RefundDestinationsInput, Refund } from './types-60.js';
-import type { OrderEdit } from './types-46.js';
+import type { OrderEdit } from './types-45.js';
 import type { GetReturnDispositionResponse, GetReturnResolutionResponse } from './types-28.js';
 import type {
     ExpandedCustomerSummary,
@@ -46,116 +52,9 @@ import type {
     WebhookSnapshotReturnDisposition,
     WebhookSnapshotReturnInspection,
     WebhookSnapshotReturnLineItem,
-    WebhookSnapshotReturnReceipt
+    WebhookSnapshotReturnReceipt,
+    WebhookSnapshotReturnResolution
 } from './types-79.js';
-import type { WebhookSnapshotReturnResolution } from './types-80.js';
-export type ReportPendingPreviousAttributes = ({
-    /**
-     * Present only for receivables_aging_v1. The calendar date in timezone whose receivables are
-     * reported. anyOf[1] (Value): string. Present only for receivables_aging_v1. The calendar date
-     * in timezone whose receivables are reported. Format: date. Example: "2026-08-02". anyOf[2]
-     * (Value): null.
-     */
-    "as_of_date"?: ((string) | (null));
-    /**
-     * When the report was requested. anyOf[1] (Value): string. When the report was requested.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "created_at"?: ((string) | (null));
-    /**
-     * Currency the report covers. A report never combines currencies. Uses ISO 4217 currency
-     * codes. anyOf[1] (Value): string. Currency the report covers. A report never combines
-     * currencies. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     * Example: "USD". anyOf[2] (Value): null.
-     */
-    "currency"?: ((string) | (null));
-    /**
-     * Link to download the generated report. Present only when status is succeeded. anyOf[1]
-     * (Value): {@link PublicDownloadPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "download"?: ((PublicDownloadPreviousAttributes) | (null));
-    /**
-     * Why the report failed. Present only when status is failed: limit_exceeded when the report
-     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
-     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
-     * enum: "generation_failed", "data_unavailable", "limit_exceeded". anyOf[1] (Value): string.
-     * Why the report failed. Present only when status is failed: limit_exceeded when the report
-     * hit a size or time limit, data_unavailable when data it needs wasn't available yet, and
-     * generation_failed for other errors. Treat an unknown value like generation_failed. Value
-     * enum: "generation_failed", "data_unavailable", "limit_exceeded". anyOf[2] (Value): null.
-     */
-    "failure_reason"?: (("generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {})) | (null));
-    /**
-     * Exclusive interval end instant. Each report type matches its own occurrence time. anyOf[1]
-     * (Value): string. Exclusive interval end instant. Each report type matches its own occurrence
-     * time. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "interval_end_at"?: ((string) | (null));
-    /**
-     * Inclusive interval start instant. Each report type matches its own occurrence time. anyOf[1]
-     * (Value): string. Inclusive interval start instant. Each report type matches its own
-     * occurrence time. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "interval_start_at"?: ((string) | (null));
-    /**
-     * Stable identifier of the report. anyOf[1] (Value): string. Stable identifier of the report.
-     * pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. Example: "rep_01KEZF7C00M947R0GYFMT8VXKJ". anyOf[2]
-     * (Value): null.
-     */
-    "report_id"?: ((string) | (null));
-    /**
-     * The report's type and column version. See the Reports guide for its columns. Value enum:
-     * "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1",
-     * "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1",
-     * "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1",
-     * "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2", "tax_transactions_summarized_v2". anyOf[1] (Value): string.
-     * The report's type and column version. See the Reports guide for its columns. Value enum:
-     * "receivables_aging_v1", "invoices_itemized_v1", "gift_card_liability_v1",
-     * "orders_itemized_v1", "orders_itemized_v2", "payments_itemized_v1",
-     * "balance_transactions_itemized_v1", "payouts_itemized_v1", "tax_itemized_v1",
-     * "tax_summarized_v1", "merchant_billing_itemized_v1", "tax_transactions_itemized_v1",
-     * "tax_transactions_itemized_v2", "tax_transactions_summarized_v2". anyOf[2] (Value): null.
-     */
-    "report_type"?: (("receivables_aging_v1"
-        | "invoices_itemized_v1"
-        | "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | "tax_transactions_itemized_v2"
-        | "tax_transactions_summarized_v2"
-        | (string & {}))
-        | (null));
-    /**
-     * pending while Flint generates the report, then succeeded with a download or failed with a
-     * failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum:
-     * "pending". anyOf[1] (Value): string. pending while Flint generates the report, then
-     * succeeded with a download or failed with a failure_reason. Flint sends report.succeeded or
-     * report.failed when it finishes. Value enum: "pending". anyOf[2] (Value): null.
-     */
-    "status"?: (("pending" | (string & {})) | (null));
-    /**
-     * IANA timezone used for timestamps and date bucketing. A payout occurs at the start of its
-     * arrival_date in this timezone. anyOf[1] (Value): string. IANA timezone used for timestamps
-     * and date bucketing. A payout occurs at the start of its arrival_date in this timezone.
-     * anyOf[2] (Value): null.
-     */
-    "timezone"?: ((string) | (null));
-})
-    & ({
-    /**
-     * Value enum: "pending". anyOf[1] (Value): string. Value enum: "pending". anyOf[2] (Value):
-     * null.
-     */
-    "status"?: (("pending" | (string & {})) | (null));
-});
 /** A response containing `Report` data. */
 export type ReportResponse = {
     /**
@@ -2887,9 +2786,9 @@ export type ResponseWarning = {
      * "billing_interval_options_same_price", "merchant_onboarding_past_due",
      * "merchant_onboarding_deadline", "merchant_capability_pending",
      * "merchant_capability_inactive", "payout_settings_reconciling", "promotion_declined",
-     * "promotion_removed", "delivery_requote_required", "risk_rule_limit_reached",
-     * "rule_evaluation_stage_changed", "external_paid_orders_over_allowance",
-     * "replacement_codes_unavailable".
+     * "promotion_removed", "delivery_requote_required", "automatic_tax_origin_unsupported",
+     * "risk_rule_limit_reached", "rule_evaluation_stage_changed",
+     * "external_paid_orders_over_allowance", "replacement_codes_unavailable".
      */
     "code": "billing_interval_options_same_price"
         | "merchant_onboarding_past_due"
@@ -2900,6 +2799,7 @@ export type ResponseWarning = {
         | "promotion_declined"
         | "promotion_removed"
         | "delivery_requote_required"
+        | "automatic_tax_origin_unsupported"
         | "risk_rule_limit_reached"
         | "rule_evaluation_stage_changed"
         | "external_paid_orders_over_allowance"
@@ -2991,9 +2891,10 @@ export type ResponseWarning = {
      * `billing_interval_options_same_price`, `merchant_onboarding_past_due`,
      * `merchant_onboarding_deadline`, `merchant_capability_pending`,
      * `merchant_capability_inactive`, `payout_settings_reconciling`, `promotion_declined`,
-     * `promotion_removed`, `delivery_requote_required`, `risk_rule_limit_reached`,
-     * `rule_evaluation_stage_changed`, `external_paid_orders_over_allowance`,
-     * `replacement_codes_unavailable` warnings. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * `promotion_removed`, `delivery_requote_required`, `automatic_tax_origin_unsupported`,
+     * `risk_rule_limit_reached`, `rule_evaluation_stage_changed`,
+     * `external_paid_orders_over_allowance`, `replacement_codes_unavailable` warnings. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
      */
     "resource_id"?: string;
     /**
@@ -3001,17 +2902,18 @@ export type ResponseWarning = {
      * `billing_interval_options_same_price`, `merchant_onboarding_past_due`,
      * `merchant_onboarding_deadline`, `merchant_capability_pending`,
      * `merchant_capability_inactive`, `payout_settings_reconciling`, `promotion_declined`,
-     * `promotion_removed`, `delivery_requote_required`, `risk_rule_limit_reached`,
-     * `rule_evaluation_stage_changed`, `external_paid_orders_over_allowance`,
-     * `replacement_codes_unavailable` warnings. Example: "order". Value enum: "api_key",
-     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
-     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
-     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_email_preferences", "customer_session",
-     * "customer_tax_exemption", "customer_verification", "delivery_choice_group",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
+     * `promotion_removed`, `delivery_requote_required`, `automatic_tax_origin_unsupported`,
+     * `risk_rule_limit_reached`, `rule_evaluation_stage_changed`,
+     * `external_paid_orders_over_allowance`, `replacement_codes_unavailable` warnings. Example:
+     * "order". Value enum: "api_key", "api_request_log", "balance", "balance_transaction",
+     * "bundle", "bundle_component", "category", "checkout_session",
+     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
+     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
+     * "customer_email_preferences", "customer_session", "customer_tax_exemption",
+     * "customer_verification", "delivery_choice_group", "delivery_location_set",
+     * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
+     * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
+     * "demo_session", "device", "discount", "dispute", "email_change_request",
      * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
      * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
      * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
@@ -6962,4 +6864,310 @@ export type ReturnCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & obj
     "event_source"?: "merchant" | (string & {});
     /** Value enum: "return.canceled". */
     "event_type"?: "return.canceled";
+});
+export type ReturnCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "actor"?: ReturnActor;
+        "object": {
+            "canceled_at"?: string;
+            "canceled_by"?: ReturnActor;
+            "cancellation_reason"?: "buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {});
+            "cancellation_reason_message"?: string;
+            "completed_at"?: string;
+            "completed_by"?: ReturnActor;
+            "completion_blockers": Array<ReturnCompletionBlocker>;
+            "completion_mode"?: "manual" | "automatic" | (string & {});
+            "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
+            "completion_reason_message"?: string;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id"?: string;
+            "decision_at"?: string;
+            "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
+            "external_reference_id"?: string;
+            "financial_summary": ReturnFinancialSummary;
+            "handoff_requirements": Array<ReturnHandoffRequirement>;
+            "idempotency_key"?: string | null;
+            "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
+            "line_items": Array<WebhookSnapshotReturnLineItem>;
+            "merchandise_status": "not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {});
+            "metadata": MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "policy_evaluation"?: ReturnPolicyEvaluation;
+            "resolution_status": "not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {});
+            "return_disposition_ids": Array<string>;
+            "return_dispositions"?: Array<WebhookSnapshotReturnDisposition>;
+            "return_id": string;
+            "return_inspection_ids": Array<string>;
+            "return_inspections"?: Array<WebhookSnapshotReturnInspection>;
+            "return_number": string;
+            "return_receipt_ids": Array<string>;
+            "return_receipts"?: Array<WebhookSnapshotReturnReceipt>;
+            "return_resolution_ids": Array<string>;
+            "return_resolutions"?: Array<WebhookSnapshotReturnResolution>;
+            "shipment_ids": Array<string>;
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+            "supported_actions": Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "canceled_at"?: ((string) | (null));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            "cancellation_reason_message"?: ((string) | (null));
+            "completed_at"?: ((string) | (null));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
+            "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            "completion_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "decision_at"?: ((string) | (null));
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | "system" | (string & {})) | (null));
+            "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            "return_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            "return_inspections"?: ((Array<ReturnInspectionPreviousAttributes>) | (null));
+            "return_number"?: ((string) | (null));
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            "return_receipts"?: ((Array<ReturnReceiptPreviousAttributes>) | (null));
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            "return_resolutions"?: ((Array<ReturnResolutionPreviousAttributes>) | (null));
+            "shipment_ids"?: ((Array<string>) | (null));
+            "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "return.completed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "actor"?: ReturnActor;
+        "object": {
+            "canceled_at"?: string;
+            "canceled_by"?: ReturnActor;
+            "cancellation_reason"?: "buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {});
+            "cancellation_reason_message"?: string;
+            "completed_at"?: string;
+            "completed_by"?: ReturnActor;
+            "completion_blockers": Array<ReturnCompletionBlocker>;
+            "completion_mode"?: "manual" | "automatic" | (string & {});
+            "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
+            "completion_reason_message"?: string;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id"?: string;
+            "decision_at"?: string;
+            "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
+            "external_reference_id"?: string;
+            "financial_summary": ReturnFinancialSummary;
+            "handoff_requirements": Array<ReturnHandoffRequirement>;
+            "idempotency_key"?: string | null;
+            "initiated_by": "buyer" | "merchant" | "integration" | "system" | (string & {});
+            "line_items": Array<WebhookSnapshotReturnLineItem>;
+            "merchandise_status": "not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {});
+            "metadata": MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "policy_evaluation"?: ReturnPolicyEvaluation;
+            "resolution_status": "not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {});
+            "return_disposition_ids": Array<string>;
+            "return_dispositions"?: Array<WebhookSnapshotReturnDisposition>;
+            "return_id": string;
+            "return_inspection_ids": Array<string>;
+            "return_inspections"?: Array<WebhookSnapshotReturnInspection>;
+            "return_number": string;
+            "return_receipt_ids": Array<string>;
+            "return_receipts"?: Array<WebhookSnapshotReturnReceipt>;
+            "return_resolution_ids": Array<string>;
+            "return_resolutions"?: Array<WebhookSnapshotReturnResolution>;
+            "shipment_ids": Array<string>;
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+            "supported_actions": Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "canceled_at"?: ((string) | (null));
+            "canceled_by"?: ((ReturnActorPreviousAttributes) | (null));
+            "cancellation_reason"?: (("buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {}))
+                | (null));
+            "cancellation_reason_message"?: ((string) | (null));
+            "completed_at"?: ((string) | (null));
+            "completed_by"?: ((ReturnActorPreviousAttributes) | (null));
+            "completion_blockers"?: ((Array<ReturnCompletionBlockerPreviousAttributes>) | (null));
+            "completion_mode"?: (("manual" | "automatic" | (string & {})) | (null));
+            "completion_reason"?: (("manual_completion" | "exception_waived" | "other" | (string & {})) | (null));
+            "completion_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "customer"?: ((ExpandedCustomerSummaryPreviousAttributes) | (null));
+            "customer_id"?: ((string) | (null));
+            "decision_at"?: ((string) | (null));
+            "decision_status"?: (("pending" | "approved" | "partially_approved" | "declined" | (string & {})) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "financial_summary"?: ((ReturnFinancialSummaryPreviousAttributes) | (null));
+            "handoff_requirements"?: ((Array<ReturnHandoffRequirementPreviousAttributes>) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "initiated_by"?: (("buyer" | "merchant" | "integration" | "system" | (string & {})) | (null));
+            "line_items"?: ((Array<ReturnLineItemPreviousAttributes>) | (null));
+            "merchandise_status"?: (("not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {}))
+                | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "order"?: ((ExpandedOrderSummaryPreviousAttributes) | (null));
+            "order_id"?: ((string) | (null));
+            "policy_evaluation"?: ((ReturnPolicyEvaluationPreviousAttributes) | (null));
+            "resolution_status"?: (("not_selected"
+                | "pending"
+                | "partially_completed"
+                | "requires_action"
+                | "completed"
+                | "failed"
+                | (string & {}))
+                | (null));
+            "return_disposition_ids"?: ((Array<string>) | (null));
+            "return_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_ids"?: ((Array<string>) | (null));
+            "return_inspections"?: ((Array<ReturnInspectionPreviousAttributes>) | (null));
+            "return_number"?: ((string) | (null));
+            "return_receipt_ids"?: ((Array<string>) | (null));
+            "return_receipts"?: ((Array<ReturnReceiptPreviousAttributes>) | (null));
+            "return_resolution_ids"?: ((Array<string>) | (null));
+            "return_resolutions"?: ((Array<ReturnResolutionPreviousAttributes>) | (null));
+            "shipment_ids"?: ((Array<string>) | (null));
+            "shipments"?: ((Array<ExpandedShipmentSummaryPreviousAttributes>) | (null));
+            "status"?: (("requested" | "open" | "completed" | "declined" | "canceled" | (string & {})) | (null));
+            "supported_actions"?: ((Array<"cancel" | "complete" | "decide" | "process" | "reopen" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "return.completed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "return.completed";
 });

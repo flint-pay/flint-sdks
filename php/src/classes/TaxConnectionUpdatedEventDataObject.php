@@ -53,7 +53,7 @@ final class TaxConnectionUpdatedEventDataObject extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`. Value enum: "not_offered", "business_address_required", "onboarding_required", "tax_category_required", "registration_required", "temporarily_unavailable", "setup_incomplete", "registration_rejected", "business_details_changed", "support_required", "disconnected", "other", null.
+    /** Machine-readable detail for `not_connected` or `attention_required`. `null` when no reason applies. Unknown reasons normalize to `other`. Value enum: "not_offered", "business_address_required", "onboarding_required", "seller_origin_unsupported", "tax_category_required", "registration_required", "temporarily_unavailable", "setup_incomplete", "registration_rejected", "business_details_changed", "support_required", "disconnected", "other", null.
      * @return string|null
      */
     public function getStatusReason(): string|null { return $this->get('status_reason'); }

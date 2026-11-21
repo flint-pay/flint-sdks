@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# LicenseKeyDisabledMerchantEvent to MerchantBillingBalance
+# LicenseKeyDisabledInstalledMerchantsEvent to MerchantAccountSessionStripeRequirements
 
+- [LicenseKeyDisabledInstalledMerchantsEvent](LicenseKeyDisabledInstalledMerchantsEvent.md)
 - [LicenseKeyDisabledMerchantEvent](LicenseKeyDisabledMerchantEvent.md)
 - [LicenseKeyExpiredInstalledMerchantsEvent](LicenseKeyExpiredInstalledMerchantsEvent.md)
 - [LicenseKeyExpiredMerchantEvent](LicenseKeyExpiredMerchantEvent.md)
@@ -101,5 +102,4 @@
 - [MerchantAccountSessionStripeCollectionOptions](MerchantAccountSessionStripeCollectionOptions.md)
 - [MerchantAccountSessionStripeComponent](MerchantAccountSessionStripeComponent.md)
 - [MerchantAccountSessionStripeRequirements](MerchantAccountSessionStripeRequirements.md)
-- [MerchantBillingBalance](MerchantBillingBalance.md)
 

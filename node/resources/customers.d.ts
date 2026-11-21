@@ -9,10 +9,10 @@ import type {
     CustomerAddressResponse,
     CustomerEmailPreferences,
     CustomerEmailPreferencesResponse,
-    CustomerListResponse,
-    CustomerResponse
+    CustomerListResponse
 } from '../declarations/types-16.js';
 import type {
+    CustomerResponse,
     CustomerSessionsRevocation,
     CustomerSessionsRevocationResponse,
     CustomerTaxExemption,
@@ -62,6 +62,7 @@ export type {
 export type {
     CustomersCancelEmailChangeRequestParams,
     CustomersCreateParams,
+    CustomerResponse,
     CustomersCreateAccessLinkParams,
     CustomersCreateAddressParams,
     CustomersCreateEmailChangeRequestParams,
@@ -106,7 +107,6 @@ export type {
 } from '../declarations/types-26.js';
 export type {
     Customer,
-    CustomerResponse,
     CustomerAccessLink,
     CustomerAccessLinkResponse,
     CustomerAddress,
@@ -131,7 +131,6 @@ export type {
     CreateCustomerRequestInput,
     CreateCustomerAddressRequestInput,
     CreateCustomerAccessLinkRequestInput,
-    CreateEmailChangeRequestInput,
     CreateCustomerTaxExemptionRequestInput,
     CreateEmailChangeRequest
 } from '../declarations/types-9.js';
@@ -139,6 +138,7 @@ export type { AddressRequestInput, Address, AddressRequest } from '../declaratio
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-74.js';
 export type { CardDetails } from '../declarations/types-5.js';
+export type { CreateEmailChangeRequestInput } from '../declarations/types-10.js';
 export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-40.js';
 export type { UpdateCustomerRequestInput, UpdateCustomerTaxExemptionRequestInput } from '../declarations/types-76.js';
 export type { UpdateCustomerAddressRequestInput } from '../declarations/types-75.js';
@@ -158,11 +158,10 @@ export {
 export { makeDocumentTaxIDRequest } from '../declarations/types-86.js';
 export {
     makeLinkCustomerGuestPurchasesRequest,
-    makeMetadataMap,
     makeMetadataPatchRequest,
-    makeMetadataRequest
+    makeMetadataRequest,
+    makeMoneyValue
 } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
 export {
     makeTaxIdentityPatch,
     makeTaxIdentityRequest,

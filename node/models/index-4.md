@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CancelReturnLineItemRequest to CheckoutSessionPartiallyPaidInstalledMerchantsEvent
+# CancelReturnDispositionRequestInput to CheckoutSessionLaunchResponse
 
+- [CancelReturnDispositionRequestInput](CancelReturnDispositionRequestInput.md)
 - [CancelReturnLineItemRequest](CancelReturnLineItemRequest.md)
 - [CancelReturnLineItemRequestInput](CancelReturnLineItemRequestInput.md)
 - [CancelReturnRequest](CancelReturnRequest.md)
@@ -62,6 +63,7 @@
 - [CheckoutGiftCardChallengePreviousAttributes](CheckoutGiftCardChallengePreviousAttributes.md)
 - [CheckoutLegalConfigPreviousAttributes](CheckoutLegalConfigPreviousAttributes.md)
 - [CheckoutLegalConfigRequestInput](CheckoutLegalConfigRequestInput.md)
+- [CheckoutLicenseKey](CheckoutLicenseKey.md)
 - [CheckoutMerchantSupport](CheckoutMerchantSupport.md)
 - [CheckoutPaymentConfig](CheckoutPaymentConfig.md)
 - [CheckoutPaymentConfigPreviousAttributes](CheckoutPaymentConfigPreviousAttributes.md)
@@ -91,15 +93,13 @@
 - [CheckoutSessionCreatedInstalledMerchantsEvent](CheckoutSessionCreatedInstalledMerchantsEvent.md)
 - [CheckoutSessionCreatedMerchantEvent](CheckoutSessionCreatedMerchantEvent.md)
 - [CheckoutSessionCustomerVerification](CheckoutSessionCustomerVerification.md)
+- [CheckoutSessionCustomerVerificationConfirmationResponse](CheckoutSessionCustomerVerificationConfirmationResponse.md)
 - [CheckoutSessionCustomerVerificationListResponse](CheckoutSessionCustomerVerificationListResponse.md)
 - [CheckoutSessionCustomerVerificationResponse](CheckoutSessionCustomerVerificationResponse.md)
 - [CheckoutSessionExpiredInstalledMerchantsEvent](CheckoutSessionExpiredInstalledMerchantsEvent.md)
 - [CheckoutSessionExpiredMerchantEvent](CheckoutSessionExpiredMerchantEvent.md)
 - [CheckoutSessionInvalidatedInstalledMerchantsEvent](CheckoutSessionInvalidatedInstalledMerchantsEvent.md)
 - [CheckoutSessionInvalidatedMerchantEvent](CheckoutSessionInvalidatedMerchantEvent.md)
+- [CheckoutSessionLaunch](CheckoutSessionLaunch.md)
 - [CheckoutSessionLaunchResponse](CheckoutSessionLaunchResponse.md)
-- [CheckoutSessionListResponse](CheckoutSessionListResponse.md)
-- [CheckoutSessionPaidInstalledMerchantsEvent](CheckoutSessionPaidInstalledMerchantsEvent.md)
-- [CheckoutSessionPaidMerchantEvent](CheckoutSessionPaidMerchantEvent.md)
-- [CheckoutSessionPartiallyPaidInstalledMerchantsEvent](CheckoutSessionPartiallyPaidInstalledMerchantsEvent.md)
 

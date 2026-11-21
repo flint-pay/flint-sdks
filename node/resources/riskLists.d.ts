@@ -61,7 +61,7 @@ export type {
 } from '../declarations/types-0.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateRiskListRequestInput } from '../declarations/types-13.js';
+export type { CreateRiskListRequestInput } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
@@ -70,7 +70,7 @@ export type { UpdateRiskListRequestInput, UpdateRiskListRequest } from '../decla
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export { makeAddRiskListItemsRequest } from '../declarations/types-80.js';
 export { makeCreateRiskListRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeMoneyValue } from '../declarations/types-88.js';
 export { makeUpdateRiskListRequest } from '../declarations/types-94.js';
 export interface RiskListsResource {
     /**

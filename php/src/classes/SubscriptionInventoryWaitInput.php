@@ -9,13 +9,13 @@ namespace Flint;
 final class SubscriptionInventoryWaitInput extends Model {
     /** @param array{'invoice_id'?: string, 'order_id'?: string, 'started_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionInventoryWaitInput')); }
-    /** ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Always present with merchant credentials. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+    /** ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** ID of the renewal order waiting for stock. Merchant credentials only. Always present with merchant credentials. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** ID of the order waiting for stock, if one was created. Merchant credentials only. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */

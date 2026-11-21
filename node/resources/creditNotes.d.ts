@@ -136,13 +136,7 @@ export type {
 } from '../declarations/types-35.js';
 export type { MetadataMap } from '../declarations/types-43.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
-export type {
-    DeferredPromotion,
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageAllStates,
-    CustomerTaxExemptionCoverageStates,
-    CustomerTaxID
-} from '../declarations/types-17.js';
+export type { DeferredPromotion } from '../declarations/types-18.js';
 export type { OrderSettlementAmounts, OrderTaxExemption } from '../declarations/types-47.js';
 export type {
     InvoicePaymentTermsSnapshot,
@@ -167,6 +161,12 @@ export type { Image } from '../declarations/types-31.js';
 export type { OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-46.js';
 export type { TextModifierRequest, UpdateCreditNoteRequestInput } from '../declarations/types-75.js';
 export type { TaxBreakdown, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-73.js';
+export type {
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageAllStates,
+    CustomerTaxExemptionCoverageStates,
+    CustomerTaxID
+} from '../declarations/types-17.js';
 export type { RefundTaxBreakdownRefund, RefundTenderAllocation, RefundUnissuedGiftCardRecovery } from '../declarations/types-61.js';
 export type {
     PaymentSourceSummary,
@@ -186,8 +186,7 @@ export {
     makeCreditNoteLineItemRequest,
     makeCreditNoteRefundRequest
 } from '../declarations/types-85.js';
-export { makeIssueCreditNoteRequest, makeMetadataMap } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeIssueCreditNoteRequest, makeMoneyValue } from '../declarations/types-88.js';
 export { makeResourceVersionRequest } from '../declarations/types-91.js';
 export { makeTextModifierRequest, makeUpdateCreditNoteRequest } from '../declarations/types-93.js';
 export interface CreditNotesResource {

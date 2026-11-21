@@ -29,7 +29,7 @@ final class WebhookEndpointsUpdateParams extends Model {
      */
     public function getDescription(): string|null { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver, including types added later; * must be the only entry and is not available with installed_merchants. At least one entry is required. Use only current event type names; previous and removed names are rejected. Stored subscriptions map previous names permanently and drop removed names on read. See the [changelog](/docs/changelog). minItems: 1. [] (Value): string. minLength: 1.
+    /** Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver, including types added later; * must be the only entry and is not available with installed_merchants. At least one entry is required. Use only current event type names; previous and removed names are rejected. Stored subscriptions map previous names permanently and drop removed names on read. See the [changelog](/changelog). minItems: 1. [] (Value): string. minLength: 1.
      * @return list<string>
      * @throws SdkError When enabled_events is omitted; use hasEnabledEvents() or valueOrDefault().
      */

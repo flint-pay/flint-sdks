@@ -1,4 +1,5 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
+import type { CheckoutLicenseKey } from '../declarations/types-6.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { LicenseKey, LicenseKeyListResponse } from '../declarations/types-39.js';
 import type {
@@ -39,11 +40,11 @@ export type {
     LicenseKeyResponse,
     LicenseKeysGetParams,
     LicenseKeysListParams,
-    LicenseKeyWithKey,
     LicenseKeysLookupParams,
     LicenseKeysReinstateParams,
     LicenseKeysResendParams,
     LicenseKeysRevealParams,
+    LicenseKeyWithKey,
     LicenseKeyWithKeyResponse,
     LicenseKeysRotateKeyParams,
     LicenseKeysUpdateParams,
@@ -58,14 +59,14 @@ export type {
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResendLicenseKeyRequestInput } from '../declarations/types-62.js';
 export type { LicenseKey, LicenseKeyListResponse, LicenseKeyActivation } from '../declarations/types-39.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { CheckoutLicenseKey, CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { DisableLicenseKeyRequestInput } from '../declarations/types-25.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
 export type { ExpandedCustomerSummary, ExpandedOrderSummary } from '../declarations/types-26.js';
 export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
-export type { CheckoutBuyerContact } from '../declarations/types-6.js';
-export type { DeferredPromotion } from '../declarations/types-17.js';
+export type { DeferredPromotion } from '../declarations/types-18.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
@@ -78,10 +79,9 @@ export { makeDisableLicenseKeyRequest } from '../declarations/types-86.js';
 export {
     makeLicenseKeyVersionRequest,
     makeLookupLicenseKeyRequest,
-    makeMetadataMap,
-    makeMetadataPatchRequest
+    makeMetadataPatchRequest,
+    makeMoneyValue
 } from '../declarations/types-88.js';
-export { makeMoneyValue } from '../declarations/types-89.js';
 export { makeResendLicenseKeyRequest } from '../declarations/types-91.js';
 export { makeRevealLicenseKeyRequest } from '../declarations/types-92.js';
 export { makeUpdateLicenseKeyRequest } from '../declarations/types-94.js';
@@ -137,7 +137,7 @@ export interface LicenseKeysResource {
     /** Iterate items lazily.
      * @see https://developers.withflintpay.com/docs/api/license-keys#listLicenseKeys
      */
-    listItems(params?: LicenseKeysListParams, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): AsyncGenerator<LicenseKeyWithKey>;
+    listItems(params?: LicenseKeysListParams, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): AsyncGenerator<CheckoutLicenseKey>;
     /**
  * Finds a license key by its full value in your merchant and environment, regardless of status. A
  * malformed key returns 400 INVALID_REQUEST with detail INVALID_VALUE at key. An unknown key
@@ -245,8 +245,9 @@ export interface LicenseKeysResource {
  * Checks whether a key can be used for one of the listed products. You can omit Authorization or
  * send a merchant API key with commerce.license_keys.read. API key calls use the read rate-limit
  * class. Every product must belong to the same merchant and environment. An invalid key returns
- * 200 with is_valid set to false. A product outside the selected merchant or environment returns
- * 404 at its index in product_ids.
+ * 200 with is_valid set to false. Without an API key, missing or out-of-scope products also return
+ * 200 with invalid_reason set to not_found. With an API key, unavailable products return 404 at
+ * their index in product_ids.
  *
  * `POST /v1/license-keys/validate`
  * @see https://developers.withflintpay.com/docs/api/license-keys#validateLicenseKey

@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# CollectInvoiceResponseInput to CreateInventoryAdjustmentCountedRequestInput
+# CloseOrderRequestInput to CreateInventoryAdjustmentConditionChangeRequestInput
 
+- [CloseOrderRequestInput](CloseOrderRequestInput.md)
+- [CollectInvoiceRequestInput](CollectInvoiceRequestInput.md)
 - [CollectInvoiceResponseInput](CollectInvoiceResponseInput.md)
 - [CollectInvoiceResultInput](CollectInvoiceResultInput.md)
 - [CommitInventoryReservationRequestInput](CommitInventoryReservationRequestInput.md)
@@ -100,6 +102,4 @@
 - [CreateInlineModifierGroupRequestInput](CreateInlineModifierGroupRequestInput.md)
 - [CreateIntervalReportRequestInput](CreateIntervalReportRequestInput.md)
 - [CreateInventoryAdjustmentConditionChangeRequestInput](CreateInventoryAdjustmentConditionChangeRequestInput.md)
-- [CreateInventoryAdjustmentCorrectionRequestInput](CreateInventoryAdjustmentCorrectionRequestInput.md)
-- [CreateInventoryAdjustmentCountedRequestInput](CreateInventoryAdjustmentCountedRequestInput.md)
 
