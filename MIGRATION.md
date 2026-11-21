@@ -1,6 +1,6 @@
 # SDK 8.0.0
 
-This guide covers upgrading from `7.0.0` to the `8.0.0-beta.10` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.10` or `flintpay/flint:8.0.0-beta.10`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
+This guide covers upgrading from `7.0.0` to the `8.0.0-beta.11` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.11` or `flintpay/flint:8.0.0-beta.11`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
 
 TypeScript reports most of these changes as compile errors, so run `tsc` after upgrading and work through the output. PHP reports them when the call runs; use the search patterns in [Finding call sites](#finding-call-sites).
 
@@ -15,7 +15,13 @@ What changed, most common first:
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
 
+## Changes in 8.0.0-beta.11
+
+None. `8.0.0-beta.11` republishes `8.0.0-beta.10` with the same API surface. `8.0.0-beta.10` is available on Packagist only, because its npm publication timed out. npm users upgrade from `8.0.0-beta.9` straight to `8.0.0-beta.11`, so the [beta.10 changes](#changes-in-800-beta10) apply to them. Composer users already on `8.0.0-beta.10` need no code changes.
+
 ## Changes in 8.0.0-beta.10
+
+These changes reach npm in `8.0.0-beta.11`.
 
 - Type checkout launch results as `CheckoutSessionLaunch` (`checkoutSessions.create`) or `BuyerCheckoutSessionLaunch` (`me.createCheckoutSession`). `CheckoutSessionWithSecret` remains the result of checkout customer verification confirmation. In PHP, `getData()` on the launch responses returns `Flint\CheckoutSessionLaunch` or `Flint\BuyerCheckoutSessionLaunch`, and `Flint\BuyerCheckoutSessionWithSecret` is removed. Update parameter and return type declarations that named the old classes.
 - Handle `type: "return_resolution"` on launch results. A return balance launch reports it, while later reads and checkout session events report `order` for the same session.

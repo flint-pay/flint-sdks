@@ -1,6 +1,14 @@
 # Changelog
 
+## 8.0.0-beta.11
+
+Node and PHP pin Flint `cfe039b718f875a039e518f8e1a1193f9d582195` at API date `2026-09-07` and SDK generator `06dde7ef2d3e39e1f608b8fe5b5a31d17e2d65a7`. This prerelease publishes to npm `next`. The `latest` tag stays on `7.0.0`.
+
+This release republishes `8.0.0-beta.10` with the same API surface; only the package version changes. `8.0.0-beta.10` is available on Packagist only, because its npm publication timed out. npm users upgrade from `8.0.0-beta.9` straight to `8.0.0-beta.11`, so the beta.10 changes below and the [beta.10 migration notes](MIGRATION.md#changes-in-800-beta10) apply to them. Composer users on `8.0.0-beta.10` need no code changes.
+
 ## 8.0.0-beta.10
+
+This version is available on Packagist only; its npm publication timed out. npm users get these changes in `8.0.0-beta.11`.
 
 Node and PHP pin Flint `cfe039b718f875a039e518f8e1a1193f9d582195` at API date `2026-09-07` and SDK generator `06dde7ef2d3e39e1f608b8fe5b5a31d17e2d65a7`. This prerelease publishes to npm `next`. The `latest` tag stays on `7.0.0`. The 745 selected operations are unchanged.
 
