@@ -7,7 +7,7 @@ Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generato
 ## Install
 
 ```sh
-npm install @flintpay/node@8.0.0-beta.10
+npm install @flintpay/node@8.0.0-beta.11
 ```
 
 Requires Node.js 22.3+, or Node.js 22.12+ to `require()` from CommonJS. TypeScript projects need TypeScript 5.9+ with NodeNext module resolution and `npm install --save-dev @types/node@22` (22.16.0+).
@@ -132,4 +132,4 @@ Selected methods use positional path arguments; check their signatures. Request 
 - [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `node examples/RESOURCE-METHOD.mjs`; examples are checked with TypeScript checkJs.
 
-Package 8.0.0-beta.10, generated for API 2026-09-07.
+Package 8.0.0-beta.11, generated for API 2026-09-07.
