@@ -1,6 +1,6 @@
-import { d1294 as c0 } from '../descriptors/data/64.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
-import { d9847 as c1, d9848 as c2, d9849 as c3, d9850 as c4 } from '../descriptors/data/456.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
-import { d1294 as d1294 } from '../descriptors/data/64.js?sdk=78adcb94b2744b6fa493f7c5d1140994ead990994beb58e0d98f51ce65e8f253';
+import { d1294 as c0 } from '../descriptors/data/64.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
+import { d9847 as c1, d9848 as c2, d9849 as c3, d9850 as c4 } from '../descriptors/data/456.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
+import { d1294 as d1294 } from '../descriptors/data/64.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d1294;
 let prepared;
