@@ -1,8 +1,9 @@
 import type { AcceptFulfillmentRequestInput, ApplyInventoryCountRequestInput } from './types-0.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
-import type { ResponseMeta } from './types-62.js';
-import type { Order, OrderEdit } from './types-45.js';
-import type { PayOrderResponse, PartnerWebhookEnvelope } from './types-50.js';
+import type { ResponseMeta } from './types-63.js';
+import type { Order } from './types-45.js';
+import type { OrderEdit } from './types-46.js';
+import type { PayOrderResponse } from './types-51.js';
 import type { GetReturnDispositionResponse, GetReturnResponse, GetReturnResolutionResponse, GiftCard } from './types-28.js';
 import type {
     ReadinessAction,
@@ -12,13 +13,14 @@ import type {
 } from './types-60.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-56.js';
-import type { SplitReversalRequest } from './types-68.js';
+import type { SplitReversalRequest } from './types-69.js';
 import type { GiftCardTransaction } from './types-30.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateCategoryRequestInput } from './types-8.js';
 import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdateCategoryRequestInput } from './types-75.js';
+import type { UpdateCategoryRequestInput } from './types-76.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 /** Cancels fulfillment work that has not completed. */
 export type CancelFulfillmentRequestInput = AcceptFulfillmentRequestInput;
 /** The request body for: Cancel a gift card notification. */

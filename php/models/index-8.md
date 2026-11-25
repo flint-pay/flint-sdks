@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CustomerAccountPresentationInput to DeliveryBuyerLocationResourceCoordinatePreviousAttributesInput
+# CustomerAccessLinkReturnedInput to DeliveryBuyerLocationResourceCoordinateInput
 
+- [CustomerAccessLinkReturnedInput](CustomerAccessLinkReturnedInput.md)
 - [CustomerAccountPresentationInput](CustomerAccountPresentationInput.md)
 - [CustomerAccountPresentationRequestInput](CustomerAccountPresentationRequestInput.md)
 - [CustomerAccountRouteTemplatesInput](CustomerAccountRouteTemplatesInput.md)
@@ -101,5 +102,4 @@
 - [DeliveryBuyerLocationResourceAddressInput](DeliveryBuyerLocationResourceAddressInput.md)
 - [DeliveryBuyerLocationResourceAddressPreviousAttributesInput](DeliveryBuyerLocationResourceAddressPreviousAttributesInput.md)
 - [DeliveryBuyerLocationResourceCoordinateInput](DeliveryBuyerLocationResourceCoordinateInput.md)
-- [DeliveryBuyerLocationResourceCoordinatePreviousAttributesInput](DeliveryBuyerLocationResourceCoordinatePreviousAttributesInput.md)
 

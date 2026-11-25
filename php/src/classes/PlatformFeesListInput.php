@@ -10,12 +10,15 @@ namespace Flint;
  * @property-read string $partner_app_install_id
  * @property-read string $merchant_id
  * @property-read string $payment_intent_id
+ * @property-read string $subscription_id
+ * @property-read string $invoice_id
+ * @property-read string $payment_link_id
  * @property-read list<string>|string $status
  * @property-read string|\DateTimeInterface $created_after
  * @property-read string|\DateTimeInterface $created_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class PlatformFeesListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'partner_app_id'?: string, 'partner_app_install_id'?: string, 'merchant_id'?: string, 'payment_intent_id'?: string, 'status'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'partner_app_id'?: string, 'partner_app_install_id'?: string, 'merchant_id'?: string, 'payment_intent_id'?: string, 'subscription_id'?: string, 'invoice_id'?: string, 'payment_link_id'?: string, 'status'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PlatformFeesListInput')); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
@@ -53,6 +56,24 @@ final class PlatformFeesListInput extends Model {
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
+    /** Exact match on the subscription. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * @return string
+     * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
+     */
+    public function getSubscriptionId(): string { return $this->get('subscription_id'); }
+    public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
+    /** Exact match on the invoice. minLength: 1. pattern: ^inv_[0-9A-HJKMNP-TV-Z]{26}$. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * @return string
+     * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
+     */
+    public function getInvoiceId(): string { return $this->get('invoice_id'); }
+    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
+    /** Exact match on the payment link. minLength: 1. pattern: ^pl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * @return string
+     * @throws SdkError When payment_link_id is omitted; use hasPaymentLinkId() or valueOrDefault().
+     */
+    public function getPaymentLinkId(): string { return $this->get('payment_link_id'); }
+    public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
     /** Statuses to include. Omit it to list every status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "pending", "succeeded", "canceled". Value enum: "pending", "succeeded", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending", "succeeded", "canceled". anyOf[1][] (Value): string.  Value enum: "pending", "succeeded", "canceled". anyOf[2] (Value): string.  Value enum: "pending", "succeeded", "canceled".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().

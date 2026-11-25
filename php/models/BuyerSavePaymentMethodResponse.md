@@ -19,6 +19,7 @@ Resource, collection, or operation result returned by this request. The saved pa
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `card` | Optional | [CardDetails](../models/CardDetails.md#carddetails) | Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used. |
+| `consent` | Required | [PaymentMethodConsent](../models/PaymentMethodConsent.md#paymentmethodconsent) or null | Recorded consent for the card save. Null when Flint has no recorded wording for this card. `consent`: [declared alternatives](../models/BuyerSavePaymentMethodResponse.md#buyersavepaymentmethodresponsedataconsent). |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `customer_id` | Required | string | Customer this payment method belongs to. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `is_default` | Required | boolean | Whether this is the customer's default payment method, the one BuyerCustomer.default_payment_method_id names. Change it with default_payment_method_id on PATCH /v1/me. Existing subscriptions keep their payment_method_id. |
@@ -31,6 +32,28 @@ Resource, collection, or operation result returned by this request. The saved pa
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `usage` | Required | string | When Flint may charge the payment method. off_session payment methods can pay subscriptions, automatic invoices, and other charges without the buyer, and can be a customer's default. on_session payment methods were saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only in checkouts the buyer completes and refuses them for any charge without the buyer and as a default. Payment methods saved before usage existed are off_session. Values: `"on_session"`, `"off_session"`. |
 | `client_setup` | Optional | [StripeClientSetup](../models/StripeClientSetup.md#stripeclientsetup) | Present when the buyer must complete processor setup before using this payment method. Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now. setup_collection is guidance instead and never carries a secret. |
+
+### BuyerSavePaymentMethodResponse.data.consent
+
+Recorded consent for the card save. Null when Flint has no recorded wording for this card.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `accepted_at` | Conditional | string | When the buyer accepted the wording, recorded when the payment attempt or card setup started. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `text` | Conditional | string | The wording the buyer agreed to when saving the card. |
+
+### BuyerSavePaymentMethodResponse.data.consent variant 1
+
+anyOf PaymentMethodConsent: The wording and acceptance time recorded when the buyer agreed to save this card..
+
+- Required: `accepted_at`, `text`.
+
+### BuyerSavePaymentMethodResponse.data.consent variant 2
+
+anyOf variant 2.
+
+- Undeclared: `accepted_at`, `text`.
+- Value shape: null. Recorded consent for the card save. Null when Flint has no recorded wording for this card. 
 
 ### BuyerSavePaymentMethodResponse.meta
 

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# MoneyMovementListMetaInput to OrderHandoverInput
+# MoneyMovementHistoryMetaInput to OrderGiftCardSettlementPreviousAttributesInput
 
+- [MoneyMovementHistoryMetaInput](MoneyMovementHistoryMetaInput.md)
 - [MoneyMovementListMetaInput](MoneyMovementListMetaInput.md)
 - [MoneyValueInput](MoneyValueInput.md)
 - [MoneyValuePreviousAttributesInput](MoneyValuePreviousAttributesInput.md)
@@ -101,5 +102,4 @@
 - [OrderGiftCardSelectionPreviousAttributesInput](OrderGiftCardSelectionPreviousAttributesInput.md)
 - [OrderGiftCardSettlementInput](OrderGiftCardSettlementInput.md)
 - [OrderGiftCardSettlementPreviousAttributesInput](OrderGiftCardSettlementPreviousAttributesInput.md)
-- [OrderHandoverInput](OrderHandoverInput.md)
 

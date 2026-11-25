@@ -7,21 +7,25 @@ namespace Flint;
  * @property-read ?string $checkout_session_id
  * @property-read ?string $collected_at
  * @property-read string $created_at
+ * @property-read ?string $invoice_id
  * @property-read string $merchant_id
  * @property-read string $partner_app_id
  * @property-read string $partner_app_install_id
  * @property-read string $payment_intent_id
+ * @property-read ?string $payment_link_id
  * @property-read string $platform_fee_id
+ * @property-read ?PlatformFeeRule $platform_fee_rule
  * @property-read MoneyValue $refunded_money
  * @property-read MoneyValue $requested_amount_money
  * @property-read ?string $reserve_available_at
  * @property-read ?MoneyValue $reserve_hold_money
  * @property-read string $status
+ * @property-read ?string $subscription_id
  * @property-read string $updated_at
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PlatformFeeCanceledEventDataObject extends Model {
-    /** @param array{'amount_money': mixed, 'canceled_reason'?: string, 'checkout_session_id'?: string, 'collected_at'?: string, 'created_at': string, 'merchant_id': string, 'partner_app_id': string, 'partner_app_install_id': string, 'payment_intent_id': string, 'platform_fee_id': string, 'refunded_money': mixed, 'requested_amount_money': mixed, 'reserve_available_at'?: string, 'reserve_hold_money'?: mixed, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'canceled_reason'?: string, 'checkout_session_id'?: string, 'collected_at'?: string, 'created_at': string, 'invoice_id'?: string, 'merchant_id': string, 'partner_app_id': string, 'partner_app_install_id': string, 'payment_intent_id': string, 'payment_link_id'?: string, 'platform_fee_id': string, 'platform_fee_rule'?: mixed, 'refunded_money': mixed, 'requested_amount_money': mixed, 'reserve_available_at'?: string, 'reserve_hold_money'?: mixed, 'status': string, 'subscription_id'?: string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PlatformFeeCanceledEventDataObject')); }
     /** The fee Flint will charge until the payment succeeds, then the fee charged. Flint lowers it at confirm and capture to fit the merchant's cap and Flint's own fees; 0 once canceled. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -48,6 +52,11 @@ final class PlatformFeeCanceledEventDataObject extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** The invoice the payment collected.
+     * @return ?string
+     */
+    public function getInvoiceId(): ?string { return $this->get('invoice_id'); }
+    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
     /** The installed merchant charged the fee, as on the install.
      * @return string
      */
@@ -68,11 +77,21 @@ final class PlatformFeeCanceledEventDataObject extends Model {
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
+    /** The payment link whose checkout made the payment.
+     * @return ?string
+     */
+    public function getPaymentLinkId(): ?string { return $this->get('payment_link_id'); }
+    public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
     /** Unique identifier for the platform fee, the payment intent's platform_fee.platform_fee_id.
      * @return string
      */
     public function getPlatformFeeId(): string { return $this->get('platform_fee_id'); }
     public function hasPlatformFeeId(): bool { return $this->has('platform_fee_id'); }
+    /** The rule that priced this fee, as it stood when the payment was created. The rule that sets the platform fee for each payment.
+     * @return ?PlatformFeeRule
+     */
+    public function getPlatformFeeRule(): ?PlatformFeeRule { return $this->get('platform_fee_rule'); }
+    public function hasPlatformFeeRule(): bool { return $this->has('platform_fee_rule'); }
     /** The fee debited from the platform for returns so far, including opted-in payment refunds and returns of the whole application fee. Matches the platform ledger, including returns awaiting completion; reversals reduce the total. 0 when nothing has been debited. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
@@ -98,6 +117,11 @@ final class PlatformFeeCanceledEventDataObject extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** The subscription associated with the payment.
+     * @return ?string
+     */
+    public function getSubscriptionId(): ?string { return $this->get('subscription_id'); }
+    public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
     /** When the fee last changed. Format: date-time.
      * @return string
      */

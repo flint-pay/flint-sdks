@@ -48,6 +48,7 @@ namespace Flint;
  * @property-read ?bool $save_payment_method_requires_verification
  * @property-read ?list<string> $save_payment_method_types
  * @property-read ?BuyerSetupCollection $setup_collection
+ * @property-read ?string $shop_id
  * @property-read ?bool $show_flint_mark
  * @property-read string $status
  * @property-read ?string $subscription_plan_id
@@ -66,7 +67,7 @@ namespace Flint;
  * @property-read ?string $remembered_buyer_token
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerCheckoutSessionLaunch extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_apply_promotion_code': bool, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'created_at': string, 'custom_text'?: mixed, 'customer_account_url'?: string, 'customer_id'?: string, 'customer_prefill'?: mixed, 'delivery'?: mixed, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: int, 'gift_card_challenge'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_icon'?: mixed, 'merchant_id': string, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'merchant_support'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'pay_to_new_address_requires_verification'?: bool, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_link_id'?: string, 'payment_link_image'?: mixed, 'payment_method_save'?: mixed, 'payment_return_url'?: string, 'payments'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'recovery_expires_at'?: string|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: mixed, 'refunds'?: list<mixed>, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: mixed, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at': string, 'url'?: string, 'version': int, 'checkout_auth_token'?: string, 'remembered_buyer_token'?: string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_apply_promotion_code': bool, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'created_at': string, 'custom_text'?: mixed, 'customer_account_url'?: string, 'customer_id'?: string, 'customer_prefill'?: mixed, 'delivery'?: mixed, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: int, 'gift_card_challenge'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_icon'?: mixed, 'merchant_id': string, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'merchant_support'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'pay_to_new_address_requires_verification'?: bool, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_link_id'?: string, 'payment_link_image'?: mixed, 'payment_method_save'?: mixed, 'payment_return_url'?: string, 'payments'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'recovery_expires_at'?: string|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: mixed, 'refunds'?: list<mixed>, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: mixed, 'shop_id'?: string, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at': string, 'url'?: string, 'version': int, 'checkout_auth_token'?: string, 'remembered_buyer_token'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCheckoutSessionLaunch')); }
     /** The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. An attempt to pay an order.
      * @return ?BuyerOrderPaymentAttempt
@@ -98,7 +99,7 @@ final class BuyerCheckoutSessionLaunch extends Model {
      */
     public function getCanSavePaymentMethodWithPhone(): ?bool { return $this->get('can_save_payment_method_with_phone'); }
     public function hasCanSavePaymentMethodWithPhone(): bool { return $this->has('can_save_payment_method_with_phone'); }
-    /** checkout_session_id
+    /** Unique identifier for this checkout session, prefixed `cs_`.
      * @return string
      */
     public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
@@ -298,6 +299,11 @@ final class BuyerCheckoutSessionLaunch extends Model {
      */
     public function getSetupCollection(): ?BuyerSetupCollection { return $this->get('setup_collection'); }
     public function hasSetupCollection(): bool { return $this->has('setup_collection'); }
+    /** ID of the shop that started checkout.
+     * @return ?string
+     */
+    public function getShopId(): ?string { return $this->get('shop_id'); }
+    public function hasShopId(): bool { return $this->has('shop_id'); }
     /** Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when the merchant's agreement with Flint removes it. Returned by `GET /v1/checkout-sessions/{checkout_session_id}`; other responses and webhooks omit it.
      * @return ?bool
      */
@@ -348,7 +354,7 @@ final class BuyerCheckoutSessionLaunch extends Model {
      */
     public function getTip(): ?CheckoutTipConfig { return $this->get('tip'); }
     public function hasTip(): bool { return $this->has('tip'); }
-    /** What this launch collects. A return balance launch reports `return_resolution`. Later reads and checkout session events report `order` for that session. Value enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link", "return_resolution".
+    /** What this launch collects. A return balance launch reports `return_resolution`. Later reads and checkout session events report `order` for that session. Value enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link", "shop", "return_resolution".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }
@@ -358,7 +364,7 @@ final class BuyerCheckoutSessionLaunch extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Hosted checkout URL that carries a one-time launch credential. Send the buyer here to pay. Present only for hosted sessions read with a merchant credential that can manage checkout sessions. Launch results include it for hosted sessions: create, payment-link resolve, and invoice and return-resolution checkout. Omitted for headless sessions.
+    /** Hosted checkout URL with a one-time launch credential. Send the buyer here to pay. Omitted when the session is headless or another credential replays the request.
      * @return ?string
      */
     public function getUrl(): ?string { return $this->get('url'); }
@@ -368,7 +374,7 @@ final class BuyerCheckoutSessionLaunch extends Model {
      */
     public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** Checkout credential. Send it as Authorization: Bearer <checkout_auth_token>. Present on headless checkout launch and customer binding confirmation. Omitted on hosted checkout launch and when a saved-card confirmation keeps the current credential.
+    /** Headless checkout credential. Send it as Authorization: Bearer <checkout_auth_token>. Omitted when the session is hosted or another credential replays the request.
      * @return ?string
      */
     public function getCheckoutAuthToken(): ?string { return $this->get('checkout_auth_token'); }

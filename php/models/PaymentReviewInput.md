@@ -20,7 +20,7 @@ Request input.
 | `opened_reason` | Required | string | Why Flint opened the review. Values: `"rule"`. |
 | `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
 | `order_id` | Required | string or null | ID of the order the payment belongs to. `null` when the payment doesn't belong to an order. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `payment_flow` | Required | string | How the reviewed payment was started. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
+| `payment_flow` | Required | string | How the reviewed payment was started. Values: `"checkout"`, `"payment_link"`, `"shop"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
 | `payment_intent` | Optional | [ExpandedPaymentIntentSummaryInput](../models/ExpandedPaymentIntentSummaryInput.md#expandedpaymentintentsummaryinput) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. |
 | `payment_intent_id` | Required | string | ID of the payment intent under review. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 | `payment_review_id` | Required | string | Unique identifier for this payment review, prefixed `rev_`. Example: `"rev_01KEZF7C00BVBQ00XDFNKB1EF6"`. |

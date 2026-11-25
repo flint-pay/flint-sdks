@@ -26,7 +26,7 @@ import type {
     PaymentIntentsUpdateParams
 } from '../declarations/types-52.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -57,7 +57,7 @@ export type {
     PaymentIntentsSendReceiptParams,
     PaymentIntentsUpdateParams
 } from '../declarations/types-52.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type { BlockFailedAttemptSignalsResult, BlockFailedAttemptSignalsResponse, AuthMode } from '../declarations/types-1.js';
 export type {
     PaymentIntent,
@@ -79,11 +79,12 @@ export type {
     PaymentActivityActor
 } from '../declarations/types-51.js';
 export type { ConfirmPaymentIntentResponse, ConfirmPaymentIntentRequestInput } from '../declarations/types-8.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue, MoneyValueInput } from '../declarations/types-44.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { ReadinessMerchantAccountSession, ReaderPaymentSourceTipInput, ReaderPaymentSourceTip } from '../declarations/types-60.js';
 export type {
     CancelPaymentIntentRequestInput,
     CapturePaymentIntentRequestInput,
@@ -125,7 +126,6 @@ export type {
     PaymentSplitRequestInput
 } from '../declarations/types-54.js';
 export type { PaymentProcessingFeeDetail } from '../declarations/types-53.js';
-export type { ReaderPaymentSourceTipInput, ReaderPaymentSourceTip } from '../declarations/types-59.js';
 export type {
     PendingPaymentAction,
     PendingPaymentActionSubject,
@@ -138,16 +138,16 @@ export type {
     StripeTerminalPaymentIntentClientAction
 } from '../declarations/types-69.js';
 export type { CreatePaymentIntentRequestInput } from '../declarations/types-12.js';
-export type { UpdatePaymentIntentRequestInput } from '../declarations/types-77.js';
+export type { UpdatePaymentIntentRequestInput } from '../declarations/types-78.js';
 export {
     makeCancelPaymentIntentRequest,
     makeCapturePaymentIntentRequest,
     makeCapturePaymentSplitRequest,
     makeConfirmPaymentIntentRequest
-} from '../declarations/types-81.js';
-export { makeCreatePaymentIntentRequest } from '../declarations/types-83.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeOrderPaymentSourceCardSelection, makeOrderPaymentSourceSelection } from '../declarations/types-89.js';
+} from '../declarations/types-82.js';
+export { makeCreatePaymentIntentRequest } from '../declarations/types-84.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-89.js';
+export { makeOrderPaymentSourceCardSelection, makeOrderPaymentSourceSelection } from '../declarations/types-90.js';
 export {
     makePaymentSourceCredential,
     makePaymentSourceCredentialPaymentMethod,
@@ -157,10 +157,10 @@ export {
     makePaymentSplitRequest,
     makePlatformFeeMoney,
     makePlatformFeeRequest
-} from '../declarations/types-90.js';
-export { makeReaderPaymentSourceTip } from '../declarations/types-91.js';
-export { makeSendPaymentIntentReceiptRequest } from '../declarations/types-92.js';
-export { makeUpdatePaymentIntentRequest } from '../declarations/types-94.js';
+} from '../declarations/types-91.js';
+export { makeReaderPaymentSourceTip } from '../declarations/types-92.js';
+export { makeSendPaymentIntentReceiptRequest } from '../declarations/types-93.js';
+export { makeUpdatePaymentIntentRequest } from '../declarations/types-95.js';
 export interface PaymentIntentsResource {
     /**
  * Adds the retained card fingerprint, email, and IP address from a failed or blocked attempt to

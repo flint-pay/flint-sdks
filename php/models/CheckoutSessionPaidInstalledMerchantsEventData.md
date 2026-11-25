@@ -66,6 +66,10 @@ Field definitions: [OrderResponse.data.payment_intents[]](../models/OrderRespons
 
 Declared alternatives: [CheckoutSessionResponse.data.payment_link](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatapayment_link).
 
+### CheckoutSessionPaidInstalledMerchantsEventData.object fields 1.platform_fee_rule
+
+Field definitions: [CheckoutSessionResponse.data.platform_fee_rule](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataplatform_fee_rule).
+
 ### CheckoutSessionPaidInstalledMerchantsEventData.object fields 1.redirects
 
 Field definitions: [CheckoutSessionResponse.data.redirects](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataredirects).

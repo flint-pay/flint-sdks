@@ -79,6 +79,10 @@ Declared alternatives: [InvoiceResponse.data.payment_due](../models/InvoiceRespo
 
 Field definitions: [InvoiceResponse.data.payment_terms_snapshot](../models/InvoiceResponse.md#invoiceresponsedatapayment_terms_snapshot).
 
+### IssueCreditNoteResult.invoice.platform_fee_rule
+
+Field definitions: [InvoiceResponse.data.platform_fee_rule](../models/InvoiceResponse.md#invoiceresponsedataplatform_fee_rule).
+
 ### IssueCreditNoteResult.invoice.remit_to_address
 
 Field definitions: [InvoiceResponse.data.remit_to_address](../models/InvoiceResponse.md#invoiceresponsedataremit_to_address).

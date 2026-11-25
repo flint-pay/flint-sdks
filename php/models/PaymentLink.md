@@ -33,6 +33,7 @@ Response model.
 | `payment_link_id` | Required | string | Unique identifier for this payment link, prefixed `pl_`. |
 | `payment_link_type` | Optional | string | What kind of link this is. Values: `"standard"`, `"donation"`, `"event"`. |
 | `payments` | Optional | [CheckoutPaymentConfig](../models/CheckoutPaymentConfig.md#checkoutpaymentconfig) | Payment options for checkouts started from this link. Payment settings for a checkout: the enabled payment options and a note shown with payment. |
+| `platform_fee_rule` | Optional | [PlatformFeeRule](../models/PlatformFeeRule.md#platformfeerule) | The platform fee rule copied to checkouts started from this link. The rule that sets the platform fee for each payment. `platform_fee_rule`: [field definitions](../models/PaymentLinkResponse.md#paymentlinkresponsedataplatform_fee_rule). |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
 | `redirects` | Optional | [CheckoutRedirects](../models/CheckoutRedirects.md#checkoutredirects) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url. `redirects`: [field definitions](../models/PaymentLinkResponse.md#paymentlinkresponsedataredirects). |
 | `sales_end_at` | Optional | string | RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Format: `date-time`. |
@@ -72,6 +73,10 @@ Declared alternatives: [PaymentLinkResponse.data.line_items[]](../models/Payment
 ### PaymentLink.metadata
 
 Field definitions: [OrderResponse.data.charges[].metadata](../models/OrderResponse.md#orderresponsedatachargesmetadata).
+
+### PaymentLink.platform_fee_rule
+
+Field definitions: [PaymentLinkResponse.data.platform_fee_rule](../models/PaymentLinkResponse.md#paymentlinkresponsedataplatform_fee_rule).
 
 ### PaymentLink.redirects
 

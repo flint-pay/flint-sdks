@@ -7,21 +7,25 @@ namespace Flint;
  * @property-read string|null $checkout_session_id
  * @property-read string|null $collected_at
  * @property-read string|null $created_at
+ * @property-read string|null $invoice_id
  * @property-read string|null $merchant_id
  * @property-read string|null $partner_app_id
  * @property-read string|null $partner_app_install_id
  * @property-read string|null $payment_intent_id
+ * @property-read string|null $payment_link_id
  * @property-read string|null $platform_fee_id
+ * @property-read PlatformFeeRulePreviousAttributes|null $platform_fee_rule
  * @property-read MoneyValuePreviousAttributes|null $refunded_money
  * @property-read MoneyValuePreviousAttributes|null $requested_amount_money
  * @property-read string|null $reserve_available_at
  * @property-read MoneyValuePreviousAttributes|null $reserve_hold_money
  * @property-read string|null $status
+ * @property-read string|null $subscription_id
  * @property-read string|null $updated_at
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class PlatformFeeCanceledEventDataPreviousAttributes extends Model {
-    /** @param array{'amount_money'?: mixed, 'canceled_reason'?: mixed, 'checkout_session_id'?: mixed, 'collected_at'?: mixed, 'created_at'?: mixed, 'merchant_id'?: mixed, 'partner_app_id'?: mixed, 'partner_app_install_id'?: mixed, 'payment_intent_id'?: mixed, 'platform_fee_id'?: mixed, 'refunded_money'?: mixed, 'requested_amount_money'?: mixed, 'reserve_available_at'?: mixed, 'reserve_hold_money'?: mixed, 'status'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'canceled_reason'?: mixed, 'checkout_session_id'?: mixed, 'collected_at'?: mixed, 'created_at'?: mixed, 'invoice_id'?: mixed, 'merchant_id'?: mixed, 'partner_app_id'?: mixed, 'partner_app_install_id'?: mixed, 'payment_intent_id'?: mixed, 'payment_link_id'?: mixed, 'platform_fee_id'?: mixed, 'platform_fee_rule'?: mixed, 'refunded_money'?: mixed, 'requested_amount_money'?: mixed, 'reserve_available_at'?: mixed, 'reserve_hold_money'?: mixed, 'status'?: mixed, 'subscription_id'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PlatformFeeCanceledEventDataPreviousAttributes')); }
     /** The fee Flint will charge until the payment succeeds, then the fee charged. Flint lowers it at confirm and capture to fit the merchant's cap and Flint's own fees; 0 once canceled. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
@@ -48,6 +52,11 @@ final class PlatformFeeCanceledEventDataPreviousAttributes extends Model {
      */
     public function getCreatedAt(): string|null { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** The invoice the payment collected. anyOf[1] (Value): string. The invoice the payment collected. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getInvoiceId(): string|null { return $this->get('invoice_id'); }
+    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
     /** The installed merchant charged the fee, as on the install. anyOf[1] (Value): string. The installed merchant charged the fee, as on the install. anyOf[2] (Value): null.
      * @return string|null
      */
@@ -68,11 +77,21 @@ final class PlatformFeeCanceledEventDataPreviousAttributes extends Model {
      */
     public function getPaymentIntentId(): string|null { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
+    /** The payment link whose checkout made the payment. anyOf[1] (Value): string. The payment link whose checkout made the payment. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getPaymentLinkId(): string|null { return $this->get('payment_link_id'); }
+    public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
     /** Unique identifier for the platform fee, the payment intent's platform_fee.platform_fee_id. anyOf[1] (Value): string. Unique identifier for the platform fee, the payment intent's platform_fee.platform_fee_id. anyOf[2] (Value): null.
      * @return string|null
      */
     public function getPlatformFeeId(): string|null { return $this->get('platform_fee_id'); }
     public function hasPlatformFeeId(): bool { return $this->has('platform_fee_id'); }
+    /** The rule that priced this fee, as it stood when the payment was created. anyOf[1] (Value): {@see PlatformFeeRulePreviousAttributes}. anyOf[2] (Value): null.
+     * @return PlatformFeeRulePreviousAttributes|null
+     */
+    public function getPlatformFeeRule(): PlatformFeeRulePreviousAttributes|null { return $this->get('platform_fee_rule'); }
+    public function hasPlatformFeeRule(): bool { return $this->has('platform_fee_rule'); }
     /** The fee debited from the platform for returns so far, including opted-in payment refunds and returns of the whole application fee. Matches the platform ledger, including returns awaiting completion; reversals reduce the total. 0 when nothing has been debited. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
      */
@@ -98,6 +117,11 @@ final class PlatformFeeCanceledEventDataPreviousAttributes extends Model {
      */
     public function getStatus(): string|null { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** The subscription associated with the payment. anyOf[1] (Value): string. The subscription associated with the payment. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getSubscriptionId(): string|null { return $this->get('subscription_id'); }
+    public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
     /** When the fee last changed. anyOf[1] (Value): string. When the fee last changed. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */

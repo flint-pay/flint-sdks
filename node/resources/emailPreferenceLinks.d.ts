@@ -7,7 +7,7 @@ import type {
     EmailPreferenceLinksUnsubscribeParams
 } from '../declarations/types-26.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,15 +30,16 @@ export type {
     EmailPreferenceLinkRequestInput,
     EmailPreferenceLinkRequest
 } from '../declarations/types-26.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeEmailPreferenceLinkRequest } from '../declarations/types-86.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeEmailPreferenceLinkRequest } from '../declarations/types-87.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface EmailPreferenceLinksResource {
     /**
  * Reads an emailed preference token without signing the buyer in. The merchant key must match the

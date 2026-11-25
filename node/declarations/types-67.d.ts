@@ -1,16 +1,437 @@
-import type { RiskPredicateNode, RiskPredicateNodeAllRequest, RiskPredicateNodeAllRequestInput } from './types-66.js';
-import type { MoneyValue, MoneyValueInput } from './types-44.js';
-import type { ResponseWarning, ResponseMeta, ResourceReference } from './types-62.js';
+import type { ResponseMeta, ResponseWarning } from './types-63.js';
+import type { RiskAttributeRegistry } from './types-66.js';
+import type { ResourceReference } from './types-62.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateRiskPreviewRequestInput, CreateRiskRuleRequestInput, CreateSandboxRequestInput } from './types-14.js';
+import type { AddRiskListItemsRequestInput } from './types-0.js';
+import type { CreateRiskListRequestInput, CreateRiskPreviewRequestInput, CreateRiskRuleRequestInput } from './types-14.js';
 import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdateRiskRuleRequestInput } from './types-78.js';
+import type { UpdateRiskListRequestInput, UpdateRiskRuleRequestInput } from './types-78.js';
+import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type { GiftCardNotificationRecipient, GiftCardNotificationRecipientInput, GiftCardNotification } from './types-29.js';
 import type { GiftCard } from './types-28.js';
-import type { PartnerAppWithRotatedSecret, PartnerAppsListParams } from './types-50.js';
-import type { CreateDeveloperSandboxResult } from './types-9.js';
-import type { PaymentMethodWithSetup } from './types-53.js';
-import type { PaymentCollection, PaymentErrorSummary } from './types-51.js';
+import type { PartnerAppWithRotatedSecret } from './types-50.js';
+/** A response containing `RiskAttributeRegistry` data. */
+export type RiskAttributeRegistryResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The attributes available
+     * to risk rules, in the current environment.
+     */
+    "data": RiskAttributeRegistry;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A collection of values used in payment risk rules. */
+export type RiskList = {
+    /**
+     * Name rules use to refer to this list, such as flagged_emails: a lowercase letter, then up to
+     * 127 lowercase letters, digits, or underscores. Set at creation and never changed.
+     */
+    "alias": string;
+    /**
+     * RFC3339 timestamp. `null` when the resource isn't archived. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "archived_at": string | null;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The credential that created this list. Null when Flint created it, as for Flint's default
+     * lists. The reference may name an API key in the other mode. anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
+     * anyOf[2] (Value): null.
+     */
+    "created_by": ((ResourceReference) | (null));
+    /** Number of values on the list now. Format: int64. */
+    "item_count": number;
+    /**
+     * Values are trimmed and compared exactly after item-type normalization for deduplication and
+     * membership. card_fingerprint is the 32-character hexadecimal value from
+     * PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and
+     * Unicode composition. string and email are lowercased, with accents preserved. email requires
+     * a bare address. email_domain is lowercased, has one final dot removed, and converts
+     * internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped
+     * IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8
+     * digits, including leading zeros, and matches the full value. customer_id preserves the
+     * validated ID. Value enum: "card_fingerprint", "card_bin", "email", "email_domain",
+     * "ip_address", "country", "customer_id", "string", "case_sensitive_string".
+     */
+    "item_type": "card_fingerprint"
+        | "card_bin"
+        | "email"
+        | "email_domain"
+        | "ip_address"
+        | "country"
+        | "customer_id"
+        | "string"
+        | "case_sensitive_string"
+        | (string & {});
+    /** Display name of the list. */
+    "name": string;
+    /**
+     * Whether Flint manages the list or the merchant created it. Value enum: "system_default",
+     * "merchant".
+     */
+    "origin": "system_default" | "merchant" | (string & {});
+    /**
+     * Unique identifier for this risk list, prefixed `rl_`. Example:
+     * "rl_01KEZF7C00VYSERA4QCTJP147A".
+     */
+    "risk_list_id": string;
+    /** Whether the list can still be used. Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Version of persisted list configuration and item-count changes. External observations do not
+     * advance this counter. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** One value in a payment risk list. */
+export type RiskListItem = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The credential that created this list item. Null when Flint created it. The reference may
+     * name an API key in the other mode. anyOf[1] (Value): {@link ResourceReference}. A reference
+     * to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
+     */
+    "created_by": ((ResourceReference) | (null));
+    /** ID of the risk list this value is on. Example: "rl_01KEZF7C00VYSERA4QCTJP147A". */
+    "risk_list_id": string;
+    /**
+     * Unique identifier for this risk list item, prefixed `rli_`. Example:
+     * "rli_01KEZF7C006BND1CJYPAJW9JWE".
+     */
+    "risk_list_item_id": string;
+    /**
+     * The value as stored after item_type normalization, which is what payments are matched
+     * against.
+     */
+    "value": string;
+};
+/** The risk list item matched or created for one requested value, and its creation outcome. */
+export type RiskListItemAddition = {
+    /**
+     * Whether the value was added or was already on the list. Value enum: "created", "existing".
+     */
+    "outcome": "created" | "existing" | (string & {});
+    /** The list item holding the value. One value in a payment risk list. */
+    "risk_list_item": RiskListItem;
+};
+/** A page of `RiskListItem` objects. */
+export type RiskListItemListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * RiskListItem}. One value in a payment risk list.
+     */
+    "data": Array<RiskListItem>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `RiskListItem` data. */
+export type RiskListItemResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. One value in a payment
+     * risk list.
+     */
+    "data": RiskListItem;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A page of `RiskList` objects. */
+export type RiskListListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * RiskList}. A collection of values used in payment risk rules.
+     */
+    "data": Array<RiskList>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `RiskList` data. */
+export type RiskListResourceResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A collection of values
+     * used in payment risk rules.
+     */
+    "data": RiskList;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type RiskListsCreateItemsParams = (InputValue<AddRiskListItemsRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskListsCreateParams = (InputValue<CreateRiskListRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskListsDeleteItemParams = DisputesAcceptParams;
+export type RiskListsDeleteParams = {
+    /**
+     * Optional risk list version last read by the caller. Format: uint64. minimum: 1. maximum:
+     * 9007199254740991.
+     */
+    "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskListsGetItemParams = DisputesAcceptParams;
+export type RiskListsGetParams = DisputesAcceptParams;
+export type RiskListsListParams = {
+    /**
+     * Exact-match filter on the lowercase list alias. No whitespace or case normalization is
+     * applied. minLength: 1. maxLength: 128. pattern: ^[a-z][a-z0-9_]{0,127}$.
+     */
+    "alias"?: InputValue<string>;
+    /**
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "archived". Value enum: "active", "archived". anyOf[1] (Value): Array of string. minItems:
+     * 1. [] enum: "active", "archived". anyOf[1][] (Value): string. Value enum: "active",
+     * "archived". anyOf[2] (Value): string. Value enum: "active", "archived".
+     */
+    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskListsListRiskListItemsParams = {
+    /**
+     * Exact-match filter after normalization for the parent list's item_type. Accepts 1 through
+     * 512 Unicode characters, following the same normalization as item creation. Commas are
+     * literal. Values are trimmed and compared exactly after item-type normalization for
+     * deduplication and membership. card_fingerprint is the 32-character hexadecimal value from
+     * PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and
+     * Unicode composition. string and email are lowercased, with accents preserved. email requires
+     * a bare address. email_domain is lowercased, has one final dot removed, and converts
+     * internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped
+     * IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8
+     * digits, including leading zeros, and matches the full value. customer_id preserves the
+     * validated ID. minLength: 1. maxLength: 512.
+     */
+    "value"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type RiskListsUpdateParams = (InputValue<UpdateRiskListRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/**
+ * A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not`
+ * group of other nodes.
+ */
+export type RiskPredicateNode = ((RiskPredicateNodeAll)
+    | (RiskPredicateNodeAny)
+    | (RiskPredicateNodeNot)
+    | (RiskPredicateNodeComparison)
+    | (RiskPredicateNodeMoneyComparison)
+    | (RiskPredicateNodeIn)
+    | (RiskPredicateNodeInList)
+    | (RiskPredicateNodeIsMissing)
+    | (Record<string, unknown>));
+/** The `All` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeAll = {
+    /**
+     * Predicates that must all match. minItems: 1. maxItems: 50. [] (Value): {@link
+     * RiskPredicateNode}. A node in a risk rule condition: a comparison of an attribute, or an
+     * `all`, `any`, or `not` group of other nodes.
+     */
+    "all": Array<RiskPredicateNode>;
+};
+/** The `All` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeAllRequest = {
+    /**
+     * Predicates that must all match. minItems: 1. maxItems: 50. [] (Value): {@link
+     * RiskPredicateNodeRequest}. A node in a risk rule condition: a comparison of an attribute, or
+     * an `all`, `any`, or `not` group of other nodes.
+     */
+    "all": Array<RiskPredicateNodeRequest>;
+};
+/** The `All` variant of `RiskPredicateNode`. */
+export type RiskPredicateNodeAllRequestInput = {
+    /**
+     * Predicates that must all match. minItems: 1. maxItems: 50. [] (Value): {@link
+     * RiskPredicateNodeRequestInput}. A node in a risk rule condition: a comparison of an
+     * attribute, or an `all`, `any`, or `not` group of other nodes.
+     */
+    "all": Array<RiskPredicateNodeRequestInput>;
+};
 /** The `Any` variant of `RiskPredicateNode`. */
 export type RiskPredicateNodeAny = {
     /**
@@ -777,562 +1198,4 @@ export type SandboxResponse = {
      * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id": string;
-};
-/** A response containing `CreateDeveloperSandboxResult` data. */
-export type SandboxWithAPIKeyResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The created sandbox is
-     * the primary resource, with the API key and one-time secret_key when issue_test_key is true.
-     */
-    "data": CreateDeveloperSandboxResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type SandboxesCreateParams = (CreateSandboxRequestInput);
-export type SandboxesDeleteParams = {};
-export type SandboxesGetParams = {};
-export type SandboxesListParams = PartnerAppsListParams;
-export type SandboxesResetParams = {};
-/** The request body for: Save a gift card to your account. */
-export type SaveMeGiftCardRequest = ({
-    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
-    "code"?: string;
-    /**
-     * The proof that the buyer can use the card: its code, or the private recipient link they
-     * received. Value enum: "code", "recipient_access".
-     */
-    "credential_type": "code" | "recipient_access" | (string & {});
-    /**
-     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
-     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
-     */
-    "grant_id"?: string;
-    /** Token from the fragment of the private recipient link. minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & ((Exclude<SaveMeGiftCardRequestCode & object, readonly unknown[]>)
-    | (Exclude<SaveMeGiftCardRequestRecipientAccess & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `code` variant of `SaveMeGiftCardRequest`. */
-export type SaveMeGiftCardRequestCode = ({
-    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
-    "code": string;
-    /**
-     * The proof that the buyer can use the card: its code, or the private recipient link they
-     * received. Value enum: "code".
-     */
-    "credential_type": "code" | (string & {});
-    /**
-     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
-     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
-     */
-    "grant_id"?: string;
-    /** Token from the fragment of the private recipient link. minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & (({
-    /**
-     * The proof that the buyer can use the card: its code, or the private recipient link they
-     * received. Value enum: "code".
-     */
-    "credential_type": unknown;
-    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
-    "code": string;
-}));
-/** The `code` variant of `SaveMeGiftCardRequest`. */
-export type SaveMeGiftCardRequestCodeInput = ({
-    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
-    "code": string;
-    /**
-     * The proof that the buyer can use the card: its code, or the private recipient link they
-     * received. Value enum: "code".
-     */
-    "credential_type": "code";
-    /**
-     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
-     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
-     */
-    "grant_id"?: string;
-    /** Token from the fragment of the private recipient link. minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & (({
-    /**
-     * The proof that the buyer can use the card: its code, or the private recipient link they
-     * received. Value enum: "code".
-     */
-    "credential_type": ("code") & ("code");
-    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
-    "code": string;
-})
-    & (({
-    "grant_id"?: never;
-}) & ({
-    "recipient_access_token"?: never;
-})));
-/** The request body for: Save a gift card to your account. */
-export type SaveMeGiftCardRequestInput = ({
-    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
-    "code"?: string;
-    /**
-     * The proof that the buyer can use the card: its code, or the private recipient link they
-     * received. Value enum: "code", "recipient_access".
-     */
-    "credential_type": "code" | "recipient_access";
-    /**
-     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
-     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
-     */
-    "grant_id"?: string;
-    /** Token from the fragment of the private recipient link. minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & ((Exclude<SaveMeGiftCardRequestCodeInput & object, readonly unknown[]>)
-    | (Exclude<SaveMeGiftCardRequestRecipientAccessInput & object, readonly unknown[]>));
-/** The `recipient_access` variant of `SaveMeGiftCardRequest`. */
-export type SaveMeGiftCardRequestRecipientAccess = ({
-    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
-    "code"?: string;
-    /**
-     * The proof that the buyer can use the card: its code, or the private recipient link they
-     * received. Value enum: "recipient_access".
-     */
-    "credential_type": "recipient_access" | (string & {});
-    /**
-     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
-     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
-     */
-    "grant_id": string;
-    /** Token from the fragment of the private recipient link. minLength: 1. */
-    "recipient_access_token": string;
-})
-    & (({
-    /**
-     * The proof that the buyer can use the card: its code, or the private recipient link they
-     * received. Value enum: "recipient_access".
-     */
-    "credential_type": unknown;
-    /**
-     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
-     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
-     */
-    "grant_id": string;
-    /** Token from the fragment of the private recipient link. minLength: 1. */
-    "recipient_access_token": string;
-}));
-/** The `recipient_access` variant of `SaveMeGiftCardRequest`. */
-export type SaveMeGiftCardRequestRecipientAccessInput = ({
-    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
-    "code"?: string;
-    /**
-     * The proof that the buyer can use the card: its code, or the private recipient link they
-     * received. Value enum: "recipient_access".
-     */
-    "credential_type": "recipient_access";
-    /**
-     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
-     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
-     */
-    "grant_id": string;
-    /** Token from the fragment of the private recipient link. minLength: 1. */
-    "recipient_access_token": string;
-})
-    & (({
-    /**
-     * The proof that the buyer can use the card: its code, or the private recipient link they
-     * received. Value enum: "recipient_access".
-     */
-    "credential_type": ("recipient_access") & ("recipient_access");
-    /**
-     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
-     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
-     */
-    "grant_id": string;
-    /** Token from the fragment of the private recipient link. minLength: 1. */
-    "recipient_access_token": string;
-})
-    & ({
-    "code"?: never;
-}));
-/** The request body for: Create a payment method for the current buyer. */
-export type SaveMePaymentMethodRequest = {
-    /**
-     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
-     */
-    "type"?: "card" | (string & {});
-};
-/** The request body for: Create a payment method for the current buyer. */
-export type SaveMePaymentMethodRequestInput = {
-    /**
-     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
-     */
-    "type"?: "card";
-};
-/** The request body for: Create a payment method. */
-export type SavePaymentMethodRequest = {
-    /**
-     * The customer to save the payment method for. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": string;
-    /**
-     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
-     */
-    "type"?: "card" | (string & {});
-};
-/** The request body for: Create a payment method. */
-export type SavePaymentMethodRequestInput = {
-    /**
-     * The customer to save the payment method for. minLength: 1. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": string;
-    /**
-     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
-     */
-    "type"?: "card";
-};
-/** A response containing `PaymentMethodWithSetup` data. */
-export type SavePaymentMethodResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The saved payment
-     * method, with `client_setup` when the buyer must still complete processor setup before the
-     * payment method can be used. A customer's saved payment details.
-     */
-    "data": PaymentMethodWithSetup;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Sets the start and end of a service fulfillment's appointment window. */
-export type ScheduleFulfillmentRequest = {
-    /**
-     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
-     * "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the action occurred, as an RFC 3339 timestamp. On complete, also records completion
-     * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /**
-     * Your internal note explaining this transition. Not included in buyer emails. minLength: 1.
-     * maxLength: 500.
-     */
-    "reason_message"?: string;
-    /**
-     * End of the service appointment window, after scheduled_start_at, as an RFC 3339 timestamp.
-     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "scheduled_end_at": string;
-    /**
-     * Start of the service appointment window, as an RFC 3339 timestamp. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "scheduled_start_at": string;
-    /** IANA timezone of the service appointment. minLength: 1. */
-    "timezone"?: string;
-};
-/** Sets the start and end of a service fulfillment's appointment window. */
-export type ScheduleFulfillmentRequestInput = {
-    /**
-     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
-     * "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the action occurred, as an RFC 3339 timestamp. On complete, also records completion
-     * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Your internal note explaining this transition. Not included in buyer emails. minLength: 1.
-     * maxLength: 500.
-     */
-    "reason_message"?: string;
-    /**
-     * End of the service appointment window, after scheduled_start_at, as an RFC 3339 timestamp.
-     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "scheduled_end_at": string | globalThis.Date;
-    /**
-     * Start of the service appointment window, as an RFC 3339 timestamp. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "scheduled_start_at": string | globalThis.Date;
-    /** IANA timezone of the service appointment. minLength: 1. */
-    "timezone"?: string;
-};
-/**
- * The scopes an authorization decision required and whether `all` or `any` of them were needed,
- * returned in error details.
- */
-export type ScopeRequirement = {
-    /**
-     * How the required scopes are evaluated. all requires every listed scope; any requires at
-     * least one listed scope. Example: "all". Value enum: "all", "any".
-     */
-    "mode": "all" | "any" | (string & {});
-    /**
-     * Canonical public scope names evaluated for this authorization decision. Example:
-     * ["developer.sandboxes.write","accounts.api_keys.write"]. [] (Value): string.
-     */
-    "scopes": Array<string>;
-};
-/** A resource the caller can select for a request field. */
-export type SelectableErrorResource = {
-    /**
-     * Amount for this choice when available. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /** Resource display name when available. */
-    "display_name"?: string;
-    /**
-     * Most recent payment failure when available. A summary of why a payment attempt failed, with
-     * a normalized error code, a message, the failure time, and remediation.
-     */
-    "last_payment_error"?: PaymentErrorSummary;
-    /**
-     * Payment collection details when available. Client-side details for collecting payment from
-     * the buyer, such as the Stripe settings to initialize Stripe.js.
-     */
-    "payment_collection"?: PaymentCollection;
-    /**
-     * Public Flint ID to submit in the refused request field. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "resource_id": string;
-    /**
-     * Stable public resource name for this choice. Example: "order". Value enum: "api_key",
-     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
-     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
-     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_email_preferences", "customer_session",
-     * "customer_tax_exemption", "customer_verification", "delivery_choice_group",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
-     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
-     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
-     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
-     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
-     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
-     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
-     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
-     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
-     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
-     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
-     */
-    "resource_type": "api_key"
-        | "api_request_log"
-        | "balance"
-        | "balance_transaction"
-        | "bundle"
-        | "bundle_component"
-        | "category"
-        | "checkout_session"
-        | "checkout_session_customer_verification"
-        | "credit_note"
-        | "credit_note_allocation"
-        | "custom_domain"
-        | "customer"
-        | "customer_address"
-        | "customer_deletion_request"
-        | "customer_email_preferences"
-        | "customer_session"
-        | "customer_tax_exemption"
-        | "customer_verification"
-        | "delivery_choice_group"
-        | "delivery_location_set"
-        | "delivery_method"
-        | "delivery_profile"
-        | "delivery_quote"
-        | "delivery_rate"
-        | "delivery_rate_callback"
-        | "delivery_revocation"
-        | "delivery_selection"
-        | "delivery_zone"
-        | "demo_session"
-        | "device"
-        | "discount"
-        | "dispute"
-        | "email_change_request"
-        | "environment_grant"
-        | "file"
-        | "flint_wallet"
-        | "flint_wallet_card"
-        | "fraud_warning"
-        | "fulfillment"
-        | "fulfillment_event"
-        | "fulfillment_notification"
-        | "gift_card"
-        | "gift_card_funding_disposition"
-        | "gift_card_load"
-        | "gift_card_notification"
-        | "gift_card_redemption"
-        | "gift_card_transaction"
-        | "image"
-        | "inventory_adjustment"
-        | "inventory_allocation_policy"
-        | "inventory_allocation_policy_revision"
-        | "inventory_count"
-        | "inventory_item"
-        | "inventory_level"
-        | "inventory_movement"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_reservation_line"
-        | "inventory_transfer"
-        | "inventory_transfer_line"
-        | "invoice"
-        | "invoice_delivery_attempt"
-        | "invoice_late_fee"
-        | "invoice_line_item"
-        | "invoice_manual_payment"
-        | "invoice_payment_attempt"
-        | "invoice_payment_term"
-        | "license_key"
-        | "license_key_activation"
-        | "license_key_pool"
-        | "license_key_pool_key"
-        | "location"
-        | "merchant"
-        | "merchant_billing_balance"
-        | "merchant_billing_entry"
-        | "merchant_billing_invoice"
-        | "merchant_signup"
-        | "modifier"
-        | "modifier_group"
-        | "modifier_set"
-        | "order"
-        | "order_charge"
-        | "order_edit"
-        | "order_line_item"
-        | "order_line_item_modifier"
-        | "order_payment_attempt"
-        | "package"
-        | "package_item"
-        | "partner_app"
-        | "partner_app_credential"
-        | "partner_app_install"
-        | "payment_attempt"
-        | "payment_intent"
-        | "payment_link"
-        | "payment_link_custom_field"
-        | "payment_link_line_item"
-        | "payment_method"
-        | "payment_method_domain"
-        | "payment_review"
-        | "payment_split"
-        | "payout"
-        | "payout_destination"
-        | "payout_settings"
-        | "platform_fee"
-        | "platform_fee_balance_transaction"
-        | "platform_fee_payout"
-        | "price_list"
-        | "price_list_price"
-        | "product"
-        | "product_option"
-        | "product_option_value"
-        | "product_variant"
-        | "promotion"
-        | "promotion_code"
-        | "purchase_refund_allocation"
-        | "reader"
-        | "refund"
-        | "refund_allocation"
-        | "refund_line_item_adjustment"
-        | "remembered_buyer"
-        | "report"
-        | "report_download"
-        | "return"
-        | "return_activity"
-        | "return_disposition"
-        | "return_inspection"
-        | "return_inspection_line_item"
-        | "return_line_item"
-        | "return_policy"
-        | "return_policy_revision"
-        | "return_reason"
-        | "return_receipt"
-        | "return_receipt_line_item"
-        | "return_resolution"
-        | "risk_list"
-        | "risk_list_item"
-        | "risk_rule"
-        | "sandbox"
-        | "settings"
-        | "shipment"
-        | "subscription"
-        | "subscription_delivery_migration"
-        | "subscription_line_item"
-        | "subscription_offer"
-        | "subscription_payment_retry"
-        | "subscription_plan"
-        | "subscription_plan_line_item"
-        | "tax_calculation_callback"
-        | "tax_connection"
-        | "tax_registration"
-        | "test_clock"
-        | "ticket"
-        | "user"
-        | "webhook_delivery"
-        | "webhook_endpoint"
-        | "webhook_event"
-        | "workload_identity"
-        | (string & {});
-    /** Current public status when available. */
-    "status"?: string;
-    /**
-     * Actions offered for this resource when the request was refused. An empty array means no
-     * action is offered; an omitted field means actions were not reported. [] (Value): string.
-     */
-    "supported_actions"?: Array<string>;
-    /**
-     * Tip for this choice when available. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "tip_money"?: MoneyValue;
 };

@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { CustomDomain } from '../declarations/types-15.js';
 import type {
+    CustomDomain,
     CustomDomainListResponse,
     CustomDomainResponse,
     CustomDomainsCreateParams,
@@ -11,7 +11,7 @@ import type {
     CustomDomainsValidateParams
 } from '../declarations/types-16.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,6 +28,7 @@ export type {
 } from '../runtime.js';
 export type {
     CustomDomainsCreateParams,
+    CustomDomain,
     CustomDomainResponse,
     CustomDomainsDeleteParams,
     CustomDomainsGetParams,
@@ -36,17 +37,18 @@ export type {
     CustomDomainsValidateParams,
     CustomDomainDNSRecord
 } from '../declarations/types-16.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { CustomDomain, Credentials } from '../declarations/types-15.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateCustomDomainRequestInput } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateCustomDomainRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeCreateCustomDomainRequest } from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface CustomDomainsResource {
     /**
  * Configures a checkout or customer account hostname in this environment. Remove an existing

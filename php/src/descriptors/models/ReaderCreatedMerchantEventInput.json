@@ -1,1 +1,1 @@
-{"shared":"ReaderCreatedMerchantEvent","dependencies":["MetadataMap","ReaderConnectivity","ReaderCreatedMerchantEvent","ReturnActor","SharedCodec10","SharedCodec11","SharedCodec12","SharedCodec2523","SharedCodec8","SharedCodec9","WebhookReader"]}
+{"shared":"ReaderCreatedMerchantEvent","dependencies":["MetadataMap","ReaderConnectivity","ReaderCreatedMerchantEvent","ReturnActor","SharedCodec10","SharedCodec11","SharedCodec12","SharedCodec2555","SharedCodec8","SharedCodec9","WebhookReader"]}

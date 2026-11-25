@@ -27,6 +27,7 @@ namespace Flint;
  * @property-read string|null $paid_at
  * @property-read \stdClass|null $payment_due
  * @property-read InvoicePaymentTermsSnapshotPreviousAttributes|null $payment_terms_snapshot
+ * @property-read PlatformFeeRulePreviousAttributes|null $platform_fee_rule
  * @property-read string|null $po_number
  * @property-read PricingAmountsPreviousAttributes|null $pricing_amounts
  * @property-read string|null $recipient_email
@@ -51,7 +52,7 @@ namespace Flint;
  * @property-read string|null $voided_at
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceIssueFailedMerchantEventDataPreviousAttributes extends Model {
-    /** @param array{'cc_emails'?: mixed, 'closed_at'?: mixed, 'collection'?: mixed, 'collection_block_status'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'delivery_mode'?: mixed, 'due_date'?: mixed, 'external_reference_id'?: mixed, 'footer'?: mixed, 'idempotency_key'?: mixed, 'invoice_id'?: mixed, 'invoice_number'?: mixed, 'is_overdue'?: mixed, 'issued_at'?: mixed, 'late_fees'?: mixed, 'memo'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'paid_at'?: mixed, 'payment_due'?: mixed, 'payment_terms_snapshot'?: mixed, 'po_number'?: mixed, 'pricing_amounts'?: mixed, 'recipient_email'?: mixed, 'reference'?: mixed, 'refund_status'?: mixed, 'reminders_paused'?: mixed, 'reminders_paused_at'?: mixed, 'remit_to_address'?: mixed, 'schedule_entries'?: mixed, 'scheduled_issue_at'?: mixed, 'service_date'?: mixed, 'settlement_amounts'?: mixed, 'snapshot'?: mixed, 'status'?: mixed, 'subscription_id'?: mixed, 'supported_actions'?: mixed, 'timezone'?: mixed, 'uncollectible_at'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, 'viewed_at'?: mixed, 'voided_at'?: mixed, ...}|object $values */
+    /** @param array{'cc_emails'?: mixed, 'closed_at'?: mixed, 'collection'?: mixed, 'collection_block_status'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'delivery_mode'?: mixed, 'due_date'?: mixed, 'external_reference_id'?: mixed, 'footer'?: mixed, 'idempotency_key'?: mixed, 'invoice_id'?: mixed, 'invoice_number'?: mixed, 'is_overdue'?: mixed, 'issued_at'?: mixed, 'late_fees'?: mixed, 'memo'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: mixed, 'paid_at'?: mixed, 'payment_due'?: mixed, 'payment_terms_snapshot'?: mixed, 'platform_fee_rule'?: mixed, 'po_number'?: mixed, 'pricing_amounts'?: mixed, 'recipient_email'?: mixed, 'reference'?: mixed, 'refund_status'?: mixed, 'reminders_paused'?: mixed, 'reminders_paused_at'?: mixed, 'remit_to_address'?: mixed, 'schedule_entries'?: mixed, 'scheduled_issue_at'?: mixed, 'service_date'?: mixed, 'settlement_amounts'?: mixed, 'snapshot'?: mixed, 'status'?: mixed, 'subscription_id'?: mixed, 'supported_actions'?: mixed, 'timezone'?: mixed, 'uncollectible_at'?: mixed, 'updated_at'?: mixed, 'version'?: mixed, 'viewed_at'?: mixed, 'voided_at'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceIssueFailedMerchantEventDataPreviousAttributes')); }
     /** Additional recipients copied on the invoice email and every reminder. anyOf[1] (Value): Array of string. Additional recipients copied on the invoice email and every reminder. anyOf[1][] (Value): string. anyOf[2] (Value): null.
      * @return list<string>|null
@@ -178,6 +179,11 @@ final class InvoiceIssueFailedMerchantEventDataPreviousAttributes extends Model 
      */
     public function getPaymentTermsSnapshot(): InvoicePaymentTermsSnapshotPreviousAttributes|null { return $this->get('payment_terms_snapshot'); }
     public function hasPaymentTermsSnapshot(): bool { return $this->has('payment_terms_snapshot'); }
+    /** The active rule for payments Flint collects for this invoice. Omitted when no rule is set. anyOf[1] (Value): {@see PlatformFeeRulePreviousAttributes}. anyOf[2] (Value): null.
+     * @return PlatformFeeRulePreviousAttributes|null
+     */
+    public function getPlatformFeeRule(): PlatformFeeRulePreviousAttributes|null { return $this->get('platform_fee_rule'); }
+    public function hasPlatformFeeRule(): bool { return $this->has('platform_fee_rule'); }
     /** The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[1] (Value): string. The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. `null` when unset. anyOf[2] (Value): null.
      * @return string|null
      */

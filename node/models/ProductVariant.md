@@ -34,7 +34,7 @@ A specific purchasable version of a product.
 | `name` | Optional | string | Variant name that distinguishes it from the product's other variants. |
 | `position` | Required | integer | Display order among the product's variants, starting at zero. Format: `int32`. |
 | `product_id` | Required | string | Identifier of the product this variant belongs to. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
-| `quantity_price_breaks` | Required | Array of [QuantityPriceBreak](../models/QuantityPriceBreak.md#quantitypricebreak) | Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. maxItems: `10`. `quantity_price_breaks[]`: [field definitions](../models/PaymentLinkAvailableVariant.md#paymentlinkavailablevariantquantity_price_breaks). |
+| `quantity_price_breaks` | Required | Array of [QuantityPriceBreak](../models/QuantityPriceBreak.md#quantitypricebreak) | Net unit prices in ascending minimum_quantity order. The largest minimum not above the line quantity applies; otherwise the base unit price applies. Empty when no breaks are configured. Gift card variants have no breaks. maxItems: `10`. `quantity_price_breaks[]`: [field definitions](../models/PriceListPrice.md#pricelistpricequantity_price_breaks). |
 | `release_date` | Required | string or null | Calendar release date in YYYY-MM-DD format. Null when no release date is set. Lines created while this date is after today in the merchant timezone are pre-orders. Existing order lines keep their release date. Format: `date`. Example: `"2026-08-02"`. |
 | `selected_options` | Required | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | Always present. Empty collections are returned as []. |
 | `sku` | Optional | string | Stock keeping unit assigned to this sellable item. |
@@ -101,7 +101,7 @@ Field definitions: [Bundle.metadata](../models/Bundle.md#bundlemetadata).
 
 ### ProductVariant.quantity_price_breaks[]
 
-Field definitions: [PaymentLinkAvailableVariant.quantity_price_breaks[]](../models/PaymentLinkAvailableVariant.md#paymentlinkavailablevariantquantity_price_breaks).
+Field definitions: [PriceListPrice.quantity_price_breaks[]](../models/PriceListPrice.md#pricelistpricequantity_price_breaks).
 
 ### ProductVariant.unit_dimensions
 

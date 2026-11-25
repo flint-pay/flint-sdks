@@ -32,7 +32,7 @@ One entry in a resource timeline. The `entry_type` selects which of the request,
 | `status_code` | Conditional | integer | Format: `int32`. |
 | `actor` | Conditional | [ReturnActor](../models/ReturnActor.md#returnactor) or null | Who caused the change, captured with the event. Null when the event predates actor attribution, its payload has been redacted, its resource type does not record an actor, or attribution is unavailable. Uses the same actor model as returns. |
 | `changes` | Conditional | Array of [ResourceTimelineFieldChange](../models/ResourceTimelineFieldChange.md#resourcetimelinefieldchange) | Recorded before-and-after values for selected product, delivery option, and return fields. A null value means the field was unset. |
-| `event_type` | Conditional | string | Type of webhook event recorded for this resource. Values: [305 declared values](CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
+| `event_type` | Conditional | string | Type of webhook event recorded for this resource. Values: [308 declared values](CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
 | `initiator` | Conditional | [PaymentActivityActor](../models/PaymentActivityActor.md#paymentactivityactor) | The teammate, API key, or app that initiated the change, when recorded and visible under request-log permissions. The label reflects its current name when available. The teammate, API key, or app that initiated the action. |
 | `webhook_event_id` | Conditional | string | ID of the event being delivered. Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`. |
 | `attempt_number` | Conditional | integer | Which attempt this is for the delivery, starting at 1. Format: `int32`. |

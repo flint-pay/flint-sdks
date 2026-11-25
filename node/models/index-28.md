@@ -1,9 +1,8 @@
 [Model index](../MODELS.md)
 
-# PaymentLinkProductOption to Payout
+# PaymentLinkPaymentPatchRequestInput to PayOrderResult
 
-- [PaymentLinkProductOption](PaymentLinkProductOption.md)
-- [PaymentLinkProductOptionValue](PaymentLinkProductOptionValue.md)
+- [PaymentLinkPaymentPatchRequestInput](PaymentLinkPaymentPatchRequestInput.md)
 - [PaymentLinkRedirectsPatchRequest](PaymentLinkRedirectsPatchRequest.md)
 - [PaymentLinkRedirectsPatchRequestInput](PaymentLinkRedirectsPatchRequestInput.md)
 - [PaymentLinkResolvePrefillRequestInput](PaymentLinkResolvePrefillRequestInput.md)
@@ -21,6 +20,8 @@
 - [PaymentMethodActivatedMerchantEvent](PaymentMethodActivatedMerchantEvent.md)
 - [PaymentMethodArchivedInstalledMerchantsEvent](PaymentMethodArchivedInstalledMerchantsEvent.md)
 - [PaymentMethodArchivedMerchantEvent](PaymentMethodArchivedMerchantEvent.md)
+- [PaymentMethodConsent](PaymentMethodConsent.md)
+- [PaymentMethodConsentPreviousAttributes](PaymentMethodConsentPreviousAttributes.md)
 - [PaymentMethodDomain](PaymentMethodDomain.md)
 - [PaymentMethodDomainListResponse](PaymentMethodDomainListResponse.md)
 - [PaymentMethodDomainPaymentOptionStatus](PaymentMethodDomainPaymentOptionStatus.md)
@@ -101,5 +102,4 @@
 - [PayOrderRequestSetupInput](PayOrderRequestSetupInput.md)
 - [PayOrderResponse](PayOrderResponse.md)
 - [PayOrderResult](PayOrderResult.md)
-- [Payout](Payout.md)
 

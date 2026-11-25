@@ -1,58 +1,78 @@
 import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-67.js';
 import type { MetadataMap, MetadataRequestInput } from './types-43.js';
-import type { PackageCreateRequest, PackageCreateRequestInput } from './types-48.js';
-import type { ReturnResolutionLineItemRequest } from './types-65.js';
-import type { ReturnShipmentLineItemAllocationRequestInput } from './types-66.js';
+import type { PackageCreateRequest } from './types-48.js';
+import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-66.js';
+import type { PackageCreateRequestInput } from './types-49.js';
+import type {
+    CheckoutBuyerFields,
+    CheckoutCustomTextConfig,
+    CheckoutPaymentConfig,
+    CheckoutPromotionConfig,
+    CheckoutRedirects,
+    CheckoutBuyerFieldsRequestInput,
+    CheckoutCustomTextWriteConfigInput,
+    CheckoutLegalConfigRequestInput,
+    CheckoutPaymentConfigRequestInput,
+    CheckoutPromotionConfigRequestInput,
+    CheckoutRedirectsRequestInput
+} from './types-6.js';
+import type {
+    CheckoutTaxConfig,
+    CheckoutTipConfig,
+    CheckoutTaxConfigRequestInput,
+    CheckoutTipConfigRequestInput
+} from './types-7.js';
+import type { ImageRequest, ImageRequestInput } from './types-31.js';
+import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-34.js';
+import type { LegalSettings } from './types-39.js';
+import type { ShopListingRequest, ShopListingRequestInput } from './types-69.js';
 import type {
     SubscriptionIntervalOption,
     SubscriptionIntervalOptionRequestInput,
     SubscriptionEndAfterCycles,
     SubscriptionEndAfterCyclesRequestInput,
-    SubscriptionDeliveryDestinationRequestInput,
     SubscriptionDeliveryRequest,
     SubscriptionDeliveryRequestInput,
     SubscriptionEndAfterRequest,
     SubscriptionGiftRecipientRequest,
     SubscriptionEndAfterRequestInput,
     SubscriptionGiftRecipientRequestInput
-} from './types-70.js';
-import type { ImageRequest, ImageRequestInput } from './types-31.js';
-import type { InventoryRoutingSourceRequest } from './types-33.js';
+} from './types-71.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type {
     SubscriptionPlanChangeOption,
     SubscriptionPlanLineItemRequest,
     SubscriptionPlanChangeOptionRequestInput,
+    SubscriptionPlanLineItemRequestInput,
     SubscriptionPlanChangeLineItemRequest,
     SubscriptionPlanChangeLineItemRequestInput
-} from './types-71.js';
-import type { InventoryRoutingSourceRequestInput } from './types-34.js';
+} from './types-72.js';
 import type {
-    SubscriptionPlanLineItemRequestInput,
+    SubscriptionCreatePreviewRequest,
+    SubscriptionCreatePreviewRequestInput,
+    SubscriptionDeliveryDestinationRequestInput,
+    SubscriptionBillingScheduleRequest,
+    SubscriptionBillingStartRequest,
+    SubscriptionBillingScheduleRequestInput,
+    SubscriptionBillingStartRequestInput
+} from './types-70.js';
+import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-77.js';
+import type {
     SubscriptionServiceLocationRequest,
     SubscriptionQuantityChangeLineItemRequest,
     SubscriptionQuantityChangeLineItemRequestInput,
     SubscriptionPromotionRequest,
     SubscriptionTaxRequest,
+    SubscriptionTermsRequest,
     SubscriptionPromotionRequestInput,
     SubscriptionServiceLocationRequestInput,
-    SubscriptionTaxRequestInput
-} from './types-72.js';
-import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-76.js';
-import type { PromotionRefRequest, PromotionRefRequestInput } from './types-59.js';
-import type {
-    SubscriptionBillingScheduleRequest,
-    SubscriptionBillingStartRequest,
-    SubscriptionBillingScheduleRequestInput,
-    SubscriptionBillingStartRequestInput
-} from './types-69.js';
-import type {
-    SubscriptionTermsRequest,
-    SubscriptionTermsRequestInput,
-    TaxCalculationCallbackConfiguration,
-    TaxCalculationCallbackConfigurationRequestInput
+    SubscriptionTaxRequestInput,
+    SubscriptionTermsRequestInput
 } from './types-73.js';
-import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-79.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-59.js';
+import type { PlatformFeeRuleRequest, PlatformFeeRuleRequestInput } from './types-56.js';
+import type { TaxCalculationCallbackConfiguration, TaxCalculationCallbackConfigurationRequestInput } from './types-74.js';
+import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-80.js';
 /** The request body for: Create a risk list. */
 export type CreateRiskListRequest = {
     /**
@@ -401,9 +421,10 @@ export type CreateSandboxRequest = ({
      * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -441,9 +462,10 @@ export type CreateSandboxRequest = ({
      * "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -489,6 +511,8 @@ export type CreateSandboxRequest = ({
         | "checkouts.checkout_sessions.write"
         | "checkouts.payment_links.read"
         | "checkouts.payment_links.write"
+        | "checkouts.shops.read"
+        | "checkouts.shops.write"
         | "commerce.bundles.read"
         | "commerce.bundles.write"
         | "commerce.catalog.read"
@@ -618,9 +642,10 @@ export type CreateSandboxRequest = ({
      * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -658,9 +683,10 @@ export type CreateSandboxRequest = ({
      * "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -706,6 +732,8 @@ export type CreateSandboxRequest = ({
         | "checkouts.checkout_sessions.write"
         | "checkouts.payment_links.read"
         | "checkouts.payment_links.write"
+        | "checkouts.shops.read"
+        | "checkouts.shops.write"
         | "commerce.bundles.read"
         | "commerce.bundles.write"
         | "commerce.catalog.read"
@@ -843,9 +871,10 @@ export type CreateSandboxRequestInput = ({
      * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -883,9 +912,10 @@ export type CreateSandboxRequestInput = ({
      * "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -931,6 +961,8 @@ export type CreateSandboxRequestInput = ({
         | "checkouts.checkout_sessions.write"
         | "checkouts.payment_links.read"
         | "checkouts.payment_links.write"
+        | "checkouts.shops.read"
+        | "checkouts.shops.write"
         | "commerce.bundles.read"
         | "commerce.bundles.write"
         | "commerce.catalog.read"
@@ -1065,9 +1097,10 @@ export type CreateSandboxRequestInput = ({
      * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -1105,9 +1138,10 @@ export type CreateSandboxRequestInput = ({
      * "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -1153,6 +1187,8 @@ export type CreateSandboxRequestInput = ({
         | "checkouts.checkout_sessions.write"
         | "checkouts.payment_links.read"
         | "checkouts.payment_links.write"
+        | "checkouts.shops.read"
+        | "checkouts.shops.write"
         | "commerce.bundles.read"
         | "commerce.bundles.write"
         | "commerce.catalog.read"
@@ -1646,6 +1682,242 @@ export type CreateShipmentRequestReturnInput = ({
     & (({
     "fulfillment_id"?: never;
 }));
+/** The request body for: Create shop. */
+export type CreateShopRequest = {
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout buyer
+     * fields. Send null to remove every value you set in this section. anyOf[1] (Value): {@link
+     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
+     * checkout settings. anyOf[2] (Value): null.
+     */
+    "buyer_fields"?: ((CheckoutBuyerFields) | (null));
+    /**
+     * Checkout lifetime in seconds. Send null to clear it. Format: int64. minimum: 60. maximum:
+     * 86400.
+     */
+    "checkout_session_expires_in_seconds"?: number | null;
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout text.
+     * Send null to remove every value you set in this section. anyOf[1] (Value): {@link
+     * CheckoutCustomTextConfig}. Custom checkout text you supply when creating a checkout session:
+     * an order summary message and a shipping address label. anyOf[2] (Value): null.
+     */
+    "custom_text"?: ((CheckoutCustomTextConfig) | (null));
+    /**
+     * The complete selection. Send an empty array to follow checkout settings. maxItems: 25.
+     * uniqueItems: true. [] (Value): string. Delivery method ID. minLength: 1. pattern:
+     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids"?: Array<string>;
+    /** Shop description. Send null to clear it. minLength: 1. maxLength: 2048. */
+    "description"?: string | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. Cover image. Send null to remove
+     * every value you set in this section. anyOf[1] (Value): {@link ImageRequest}. An image you
+     * supply by `source_url`, with optional `alt` text and external reference. anyOf[2] (Value):
+     * null.
+     */
+    "image"?: ((ImageRequest) | (null) | (unknown));
+    /** Inactive message. Send null to clear it. minLength: 1. maxLength: 500. */
+    "inactive_message"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. Inventory routing. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * InventoryRoutingSourceRequest}. Where you want inventory routed from: a fixed Location, an
+     * inventory allocation policy, or one policy revision, selected by `type`. anyOf[2] (Value):
+     * null.
+     */
+    "inventory_routing_source"?: ((InventoryRoutingSourceRequest) | (null) | (unknown));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout legal
+     * configuration. Send null to remove every value you set in this section. anyOf[1] (Value):
+     * {@link LegalSettings}. Legal settings you supply when creating a checkout session: whether
+     * buyers must accept terms, and links to the terms, refund policy, shipping policy, and
+     * contract. anyOf[2] (Value): null.
+     */
+    "legal"?: ((LegalSettings) | (null));
+    /**
+     * The complete ordered collection of owned listings. maxItems: 250. [] (Value): {@link
+     * ShopListingRequest}. A product or bundle to list in a shop.
+     */
+    "listings"?: Array<ShopListingRequest>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shop name. Surrounding whitespace is trimmed before length validation. A supplied value
+     * cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout payment
+     * configuration. Send null to remove every value you set in this section. anyOf[1] (Value):
+     * {@link CheckoutPaymentConfig}. Payment settings you supply when creating a checkout session:
+     * the enabled payment options and a note shown with payment. anyOf[2] (Value): null.
+     */
+    "payments"?: ((CheckoutPaymentConfig) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout promotion
+     * configuration. Send null to remove every value you set in this section. anyOf[1] (Value):
+     * {@link CheckoutPromotionConfig}. Promotion settings for a checkout: whether automatic
+     * promotions apply and whether the buyer can apply promotion codes. anyOf[2] (Value): null.
+     */
+    "promotion_config"?: ((CheckoutPromotionConfig) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout
+     * redirects. Send null to remove every value you set in this section. anyOf[1] (Value): {@link
+     * CheckoutRedirects}. Where hosted checkout sends the buyer. Not allowed when surface is
+     * headless; use payment_return_url. anyOf[2] (Value): null.
+     */
+    "redirects"?: ((CheckoutRedirects) | (null));
+    /** Initial shop availability. Default: "active". Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout tax
+     * configuration. Send null to remove every value you set in this section. anyOf[1] (Value):
+     * {@link CheckoutTaxConfig}. Whether tax is collected for a checkout session or payment link.
+     * anyOf[2] (Value): null.
+     */
+    "tax"?: ((CheckoutTaxConfig) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout tipping
+     * configuration. Send null to remove every value you set in this section. anyOf[1] (Value):
+     * {@link CheckoutTipConfig}. Tip settings for a checkout: whether tips are enabled, the
+     * percent or fixed amount options, the default tip, and custom tips. anyOf[2] (Value): null.
+     */
+    "tip"?: ((CheckoutTipConfig) | (null));
+};
+/** The request body for: Create shop. */
+export type CreateShopRequestInput = {
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout buyer
+     * fields. Send null to remove every value you set in this section. anyOf[1] (Value): {@link
+     * CheckoutBuyerFieldsRequestInput}. What checkout asks the buyer for. Each field you leave out
+     * uses your checkout settings. anyOf[2] (Value): null.
+     */
+    "buyer_fields"?: ((CheckoutBuyerFieldsRequestInput) | (null));
+    /**
+     * Checkout lifetime in seconds. Send null to clear it. Format: int64. minimum: 60. maximum:
+     * 86400.
+     */
+    "checkout_session_expires_in_seconds"?: number | null;
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout text.
+     * Send null to remove every value you set in this section. anyOf[1] (Value): {@link
+     * CheckoutCustomTextWriteConfigInput}. Custom checkout text you supply when creating a
+     * checkout session: an order summary message and a shipping address label. anyOf[2] (Value):
+     * null.
+     */
+    "custom_text"?: ((CheckoutCustomTextWriteConfigInput) | (null));
+    /**
+     * The complete selection. Send an empty array to follow checkout settings. maxItems: 25.
+     * uniqueItems: true. [] (Value): string. Delivery method ID. minLength: 1. pattern:
+     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids"?: Array<string>;
+    /** Shop description. Send null to clear it. minLength: 1. maxLength: 2048. */
+    "description"?: string | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. Cover image. Send null to remove
+     * every value you set in this section. anyOf[1] (Value): {@link ImageRequestInput}. An image
+     * you supply by `source_url`, with optional `alt` text and external reference. anyOf[2]
+     * (Value): null.
+     */
+    "image"?: ((ImageRequestInput) | (null));
+    /** Inactive message. Send null to clear it. minLength: 1. maxLength: 500. */
+    "inactive_message"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. Inventory routing. Send null to
+     * remove every value you set in this section. anyOf[1] (Value): {@link
+     * InventoryRoutingSourceRequestInput}. Where you want inventory routed from: a fixed Location,
+     * an inventory allocation policy, or one policy revision, selected by `type`. anyOf[2]
+     * (Value): null.
+     */
+    "inventory_routing_source"?: ((InventoryRoutingSourceRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout legal
+     * configuration. Send null to remove every value you set in this section. anyOf[1] (Value):
+     * {@link CheckoutLegalConfigRequestInput}. Legal settings you supply when creating a checkout
+     * session: whether buyers must accept terms, and links to the terms, refund policy, shipping
+     * policy, and contract. anyOf[2] (Value): null.
+     */
+    "legal"?: ((CheckoutLegalConfigRequestInput) | (null));
+    /**
+     * The complete ordered collection of owned listings. maxItems: 250. [] (Value): {@link
+     * ShopListingRequestInput}. A product or bundle to list in a shop.
+     */
+    "listings"?: Array<ShopListingRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shop name. Surrounding whitespace is trimmed before length validation. A supplied value
+     * cannot be blank; use null where clearing is supported. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout payment
+     * configuration. Send null to remove every value you set in this section. anyOf[1] (Value):
+     * {@link CheckoutPaymentConfigRequestInput}. Payment settings you supply when creating a
+     * checkout session: the enabled payment options and a note shown with payment. anyOf[2]
+     * (Value): null.
+     */
+    "payments"?: ((CheckoutPaymentConfigRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout promotion
+     * configuration. Send null to remove every value you set in this section. anyOf[1] (Value):
+     * {@link CheckoutPromotionConfigRequestInput}. Promotion settings for a checkout: whether
+     * automatic promotions apply and whether the buyer can apply promotion codes. anyOf[2]
+     * (Value): null.
+     */
+    "promotion_config"?: ((CheckoutPromotionConfigRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout
+     * redirects. Send null to remove every value you set in this section. anyOf[1] (Value): {@link
+     * CheckoutRedirectsRequestInput}. Where hosted checkout sends the buyer. Not allowed when
+     * surface is headless; use payment_return_url. anyOf[2] (Value): null.
+     */
+    "redirects"?: ((CheckoutRedirectsRequestInput) | (null));
+    /** Initial shop availability. Default: "active". Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive";
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout tax
+     * configuration. Send null to remove every value you set in this section. anyOf[1] (Value):
+     * {@link CheckoutTaxConfigRequestInput}. Whether tax is collected for a checkout session or
+     * payment link. anyOf[2] (Value): null.
+     */
+    "tax"?: ((CheckoutTaxConfigRequestInput) | (null));
+    /**
+     * Patch object: fields you send are applied, fields you omit are unchanged. Checkout tipping
+     * configuration. Send null to remove every value you set in this section. anyOf[1] (Value):
+     * {@link CheckoutTipConfigRequestInput}. Tip settings for a checkout: whether tips are
+     * enabled, the percent or fixed amount options, the default tip, and custom tips. anyOf[2]
+     * (Value): null.
+     */
+    "tip"?: ((CheckoutTipConfigRequestInput) | (null));
+};
 /** Registers a countertop reader with the pairing code it shows under Settings. */
 export type CreateSmartReaderRequest = {
     /**
@@ -2405,9 +2677,9 @@ export type CreateSubscriptionPreviewRequestCreate = {
     "mode": "create" | (string & {});
     /**
      * The subscription to validate and price, in the same shape as the body of Create
-     * subscription. The request body for: Create subscription.
+     * subscription. Subscription terms and billing settings to preview.
      */
-    "subscription": CreateSubscriptionRequest;
+    "subscription": SubscriptionCreatePreviewRequest;
 };
 /** The `create` variant of `CreateSubscriptionPreviewRequest`. */
 export type CreateSubscriptionPreviewRequestCreateInput = {
@@ -2415,9 +2687,9 @@ export type CreateSubscriptionPreviewRequestCreateInput = {
     "mode": "create";
     /**
      * The subscription to validate and price, in the same shape as the body of Create
-     * subscription. The request body for: Create subscription.
+     * subscription. Subscription terms and billing settings to preview.
      */
-    "subscription": CreateSubscriptionRequestInput;
+    "subscription": SubscriptionCreatePreviewRequestInput;
 };
 /** The `delivery_method_update` variant of `CreateSubscriptionPreviewRequest`. */
 export type CreateSubscriptionPreviewRequestDeliveryMethodUpdate = {
@@ -2817,6 +3089,11 @@ export type CreateSubscriptionRequest = {
      */
     "payment_method_id"?: string;
     /**
+     * The platform fee rule for the subscription. Only a partner app install token can set or
+     * remove a platform fee rule. Replaced as a whole: send every field you want to keep.
+     */
+    "platform_fee_rule"?: PlatformFeeRuleRequest;
+    /**
      * Promotions to attach with their current terms frozen. Duplicate promotions are invalid. An
      * offer's own promotion attaches automatically; listing it again returns already_applied.
      * maxItems: 5. uniqueItems: true. [] (Value): {@link SubscriptionPromotionRequest}. A
@@ -2917,6 +3194,11 @@ export type CreateSubscriptionRequestInput = {
      * without the buyer present. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      */
     "payment_method_id"?: string;
+    /**
+     * The platform fee rule for the subscription. Only a partner app install token can set or
+     * remove a platform fee rule. Replaced as a whole: send every field you want to keep.
+     */
+    "platform_fee_rule"?: PlatformFeeRuleRequestInput;
     /**
      * Promotions to attach with their current terms frozen. Duplicate promotions are invalid. An
      * offer's own promotion attaches automatically; listing it again returns already_applied.
@@ -3276,19 +3558,3 @@ export type CreateTestClockRequestInput = {
      */
     "name"?: string;
 };
-/** The request body for: Create webhook delivery. */
-export type CreateWebhookDeliveryRequest = {
-    /** Your note explaining this action. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-    /**
-     * Active endpoint that currently subscribes to the event. minLength: 1. Example:
-     * "whep_01KEZF7C006FXYTAJRZCGCBJTN".
-     */
-    "webhook_endpoint_id": string;
-    /**
-     * Retained webhook event to deliver. minLength: 1. Example: "whev_01KEZF7C00362MS3HV970TRZGS".
-     */
-    "webhook_event_id": string;
-};
-/** The request body for: Create webhook delivery. */
-export type CreateWebhookDeliveryRequestInput = CreateWebhookDeliveryRequest;

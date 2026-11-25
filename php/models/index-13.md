@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# ExpandedPaymentLinkSummaryPreviousAttributesInput to GiftCardFundingSourceExternalPaymentRequestInput
+# ExpandedPaymentLinkSummaryInput to GiftCardFundingSourceExternalPaymentPreviousAttributesInput
 
+- [ExpandedPaymentLinkSummaryInput](ExpandedPaymentLinkSummaryInput.md)
 - [ExpandedPaymentLinkSummaryPreviousAttributesInput](ExpandedPaymentLinkSummaryPreviousAttributesInput.md)
 - [ExpandedPaymentMethodSummaryInput](ExpandedPaymentMethodSummaryInput.md)
 - [ExpandedPaymentMethodSummaryPreviousAttributesInput](ExpandedPaymentMethodSummaryPreviousAttributesInput.md)
@@ -101,5 +102,4 @@
 - [GiftCardFundingSourceAdjustmentRequestInput](GiftCardFundingSourceAdjustmentRequestInput.md)
 - [GiftCardFundingSourceExternalPaymentInput](GiftCardFundingSourceExternalPaymentInput.md)
 - [GiftCardFundingSourceExternalPaymentPreviousAttributesInput](GiftCardFundingSourceExternalPaymentPreviousAttributesInput.md)
-- [GiftCardFundingSourceExternalPaymentRequestInput](GiftCardFundingSourceExternalPaymentRequestInput.md)
 

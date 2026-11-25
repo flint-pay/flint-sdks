@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# DeliveryWeeklyIntervalPreviousAttributesInput to ExpandedPaymentLinkSummaryInput
+# DeliveryWeeklyIntervalInput to ExpandedPaymentIntentSummaryPreviousAttributesInput
 
+- [DeliveryWeeklyIntervalInput](DeliveryWeeklyIntervalInput.md)
 - [DeliveryWeeklyIntervalPreviousAttributesInput](DeliveryWeeklyIntervalPreviousAttributesInput.md)
 - [DeliveryWeeklyIntervalRequestInput](DeliveryWeeklyIntervalRequestInput.md)
 - [DeliveryWeightUnitPriceInput](DeliveryWeightUnitPriceInput.md)
@@ -101,5 +102,4 @@
 - [ExpandedPackageSummaryPreviousAttributesInput](ExpandedPackageSummaryPreviousAttributesInput.md)
 - [ExpandedPaymentIntentSummaryInput](ExpandedPaymentIntentSummaryInput.md)
 - [ExpandedPaymentIntentSummaryPreviousAttributesInput](ExpandedPaymentIntentSummaryPreviousAttributesInput.md)
-- [ExpandedPaymentLinkSummaryInput](ExpandedPaymentLinkSummaryInput.md)
 

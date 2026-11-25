@@ -18,7 +18,19 @@ import type {
 } from './types-19.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { DeliveryOptionProjection, DeliveryOptionProjectionPreviousAttributes } from './types-20.js';
-import type { TaxComponentRequest, TaxComponentRequestModelInput, TaxComponentRequestPreviousAttributes } from './types-74.js';
+import type { TaxComponentRequest } from './types-74.js';
+import type { TaxComponentRequestModelInput, TaxComponentRequestPreviousAttributes } from './types-75.js';
+/** The request body for: Decline a payment review. */
+export type DeclinePaymentReviewRequest = {
+    /**
+     * Add the payment's card fingerprint, email and IP address to Flint's default block lists, so
+     * later payments with any of them are blocked. Values the payment didn't have are skipped.
+     * Defaults to false. Default: false.
+     */
+    "add_to_block_lists"?: boolean;
+};
+/** The request body for: Decline a payment review. */
+export type DeclinePaymentReviewRequestInput = DeclinePaymentReviewRequest;
 /**
  * A promotion accepted at subscription signup for the subscription's first charged cycle. It does
  * not discount the signup order.
@@ -2809,22 +2821,4 @@ export type DeliveryCustomerSegmentConditionPreviousAttributes = {
      * string. minLength: 1. anyOf[2] (Value): null.
      */
     "values"?: ((Array<string>) | (null));
-};
-/** A distance as a `value` in meters, kilometers, or miles. */
-export type DeliveryDistance = {
-    /** Unit of `value`. Value enum: "meter", "kilometer", "mile". */
-    "unit": "meter" | "kilometer" | "mile" | (string & {});
-    /** Distance, in `unit`. */
-    "value": number;
-};
-export type DeliveryDistancePreviousAttributes = {
-    /**
-     * Unit of `value`. Value enum: "meter", "kilometer", "mile". anyOf[1] (Value): string. Unit of
-     * `value`. Value enum: "meter", "kilometer", "mile". anyOf[2] (Value): null.
-     */
-    "unit"?: (("meter" | "kilometer" | "mile" | (string & {})) | (null));
-    /**
-     * Distance, in `unit`. anyOf[1] (Value): number. Distance, in `unit`. anyOf[2] (Value): null.
-     */
-    "value"?: ((number) | (null));
 };

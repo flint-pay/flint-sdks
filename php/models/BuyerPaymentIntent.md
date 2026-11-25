@@ -29,7 +29,7 @@ Response model.
 | `merchant_id` | Optional | string | Merchant that owns this payment intent. |
 | `order_edit_id` | Optional | string | The edit whose added balance this payment collects. Omitted when this payment doesn't collect an edit's balance. |
 | `order_id` | Optional | string | Order this payment belongs to. |
-| `payment_flow` | Required | string | How the payment was started. Fixed when the payment is created. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
+| `payment_flow` | Required | string | How the payment was started. Fixed when the payment is created. Values: `"checkout"`, `"payment_link"`, `"shop"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
 | `payment_intent_id` | Required | string | Flint payment intent ID. |
 | `payment_options` | Required | Array of string | Payment options the buyer can use for this payment. Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `"card_present"`. |
 | `payment_source` | Optional | [PaymentSourceSummary](../models/PaymentSourceSummary.md#paymentsourcesummary) | Summary of the card or bank account used for the payment. Absent until a payment source is attached. A summary of the payment source used for a payment, by funding-method family, with card or bank account display details. |

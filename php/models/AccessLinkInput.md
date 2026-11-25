@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `expires_at` | Required | string | When the link stops opening what its purpose describes. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `purpose` | Required | string | What the link opens and how long it works. New purposes may be added; treat one you don't recognize as opening its resource. Values: `"order_view"`, `"subscription_view"`, `"subscription_manage"`, `"return_view"`, `"customer_account"`, `"merchant_onboarding"`. |
+| `purpose` | Required | string | What the link opens and how long it works. New purposes may be added; treat one you don't recognize as opening its resource. Values: `"order_view"`, `"subscription_view"`, `"subscription_manage"`, `"return_view"`, `"customer_account"`, `"merchant_onboarding"`, `"payment_method_setup"`. |
 | `return_url` | Required | string or null | The destination supplied when creating a customer, subscription, or onboarding access link. Null when omitted, always null for order and Return links, and always set for onboarding links. |
 | `url` | Optional | string | The link to send the person to. It carries a bearer credential, so anyone with it can open what its purpose describes until expires_at or until it reaches its open limit. Customer account links use the merchant's customer account host; onboarding links use Flint's dashboard host and carry the credential in the URL fragment. Returned only to the credential that created it, and omitted when another credential replays the request. Format: `uri`. Example: `"https://example.com/receipt"`. |
 

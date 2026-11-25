@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
-import type { ModifierSet } from '../declarations/types-43.js';
 import type {
+    ModifierSet,
     ModifierSetListResponse,
     ModifierSetResponse,
     ModifierSetsCreateParams,
@@ -11,7 +11,7 @@ import type {
     ModifierSetsUpdateParams
 } from '../declarations/types-44.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,6 +28,7 @@ export type {
 } from '../runtime.js';
 export type {
     ModifierSetsCreateParams,
+    ModifierSet,
     ModifierSetResponse,
     ModifierSetsDeleteParams,
     ModifierSetsGetParams,
@@ -39,23 +40,12 @@ export type {
     MoneyValue,
     NextAction,
     ModifierSetGroupRequestInput,
+    ModifierRequestInput,
     ModifierSetGroupInputExistingInput,
     ModifierSetGroupInputInlineInput
 } from '../declarations/types-44.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type {
-    ModifierSet,
-    MetadataRequestInput,
-    ModifierOverrideRequestInput,
-    MetadataMap,
-    ModifierGroup,
-    Modifier,
-    ModifierOverride,
-    MetadataPatchRequestInput,
-    ModifierRequestInput,
-    MetadataPatchRequest
-} from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateModifierSetRequestInput,
@@ -64,24 +54,34 @@ export type {
     CreateModifierSetGroupInputExistingInput,
     CreateModifierSetGroupInputInlineInput
 } from '../declarations/types-11.js';
+export type {
+    MetadataRequestInput,
+    ModifierOverrideRequestInput,
+    MetadataMap,
+    ModifierGroup,
+    Modifier,
+    ModifierOverride,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-43.js';
 export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-10.js';
-export type { TextModifierConfigRequestInput, TextModifierConfigRequest } from '../declarations/types-75.js';
+export type { TextModifierConfigRequestInput, TextModifierConfig, TextModifierConfigRequest } from '../declarations/types-75.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
-export type { TextModifierConfig } from '../declarations/types-74.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { UpdateModifierSetRequestInput } from '../declarations/types-76.js';
+export type { UpdateModifierSetRequestInput } from '../declarations/types-77.js';
 export type { InlineModifierGroupRequestInput } from '../declarations/types-31.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateInlineModifierGroupRequest } from '../declarations/types-82.js';
+export { makeCreateInlineModifierGroupRequest } from '../declarations/types-83.js';
 export {
     makeCreateModifierRequest,
     makeCreateModifierSetGroupInputExisting,
     makeCreateModifierSetGroupInputInline,
     makeCreateModifierSetGroupRequest,
     makeCreateModifierSetRequest
-} from '../declarations/types-83.js';
-export { makeInlineModifierGroupRequest } from '../declarations/types-87.js';
+} from '../declarations/types-84.js';
+export { makeInlineModifierGroupRequest } from '../declarations/types-88.js';
 export {
     makeMetadataPatchRequest,
     makeMetadataRequest,
@@ -91,9 +91,9 @@ export {
     makeModifierSetGroupInputInline,
     makeModifierSetGroupRequest,
     makeMoneyValue
-} from '../declarations/types-88.js';
-export { makeTextModifierConfigRequest } from '../declarations/types-93.js';
-export { makeUpdateModifierSetRequest } from '../declarations/types-94.js';
+} from '../declarations/types-89.js';
+export { makeTextModifierConfigRequest } from '../declarations/types-94.js';
+export { makeUpdateModifierSetRequest } from '../declarations/types-95.js';
 export interface ModifierSetsResource {
     /**
  * Creates a modifier set, a reusable collection of modifier groups that you attach to products,

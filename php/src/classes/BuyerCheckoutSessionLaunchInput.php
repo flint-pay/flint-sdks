@@ -48,6 +48,7 @@ namespace Flint;
  * @property-read bool $save_payment_method_requires_verification
  * @property-read list<string> $save_payment_method_types
  * @property-read BuyerSetupCollectionInput|array<array-key, mixed>|\stdClass $setup_collection
+ * @property-read string $shop_id
  * @property-read bool $show_flint_mark
  * @property-read string $status
  * @property-read string $subscription_plan_id
@@ -58,6 +59,7 @@ namespace Flint;
  * @property-read string $terminal_reason
  * @property-read CheckoutThemeInput|array<array-key, mixed>|\stdClass $theme
  * @property-read CheckoutTipConfigInput|array<array-key, mixed>|\stdClass $tip
+ * @property-read string $type
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read string $url
  * @property-read int $version
@@ -65,7 +67,7 @@ namespace Flint;
  * @property-read string $remembered_buyer_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerCheckoutSessionLaunchInput extends Model {
-    /** @param array{'active_payment_attempt'?: BuyerOrderPaymentAttemptInput|array<array-key, mixed>|\stdClass, 'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'buyer_fields'?: CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass, 'can_apply_promotion_code': bool, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'created_at': string|\DateTimeInterface, 'custom_text'?: CheckoutCustomTextConfigInput|array<array-key, mixed>|\stdClass, 'customer_account_url'?: string, 'customer_id'?: string, 'customer_prefill'?: CheckoutCustomerPrefillInput|array<array-key, mixed>|\stdClass, 'delivery'?: CheckoutDerivedDeliveryResourceInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string|\DateTimeInterface, 'expires_in_seconds'?: int, 'gift_card_challenge'?: CheckoutGiftCardChallengeInput|array<array-key, mixed>|\stdClass, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: CheckoutLegalConfigInput|array<array-key, mixed>|\stdClass, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_name'?: string, 'merchant_support'?: CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'page_origin'?: string, 'pay_to_new_address_requires_verification'?: bool, 'payment_collection'?: BuyerPaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_ids'?: list<string>, 'payment_link_id'?: string, 'payment_link_image'?: ImageInput|array<array-key, mixed>|\stdClass, 'payment_method_save'?: CheckoutPaymentMethodSaveInput|array<array-key, mixed>|\stdClass, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillInput|array<array-key, mixed>|\stdClass, 'problems': list<BuyerCheckoutProblemResourceInput|array<array-key, mixed>|\stdClass>, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'recovery_expires_at'?: string|\DateTimeInterface|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: CheckoutRedirectsInput|array<array-key, mixed>|\stdClass, 'refunds'?: list<BuyerRefundInput|array<array-key, mixed>|\stdClass>, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: BuyerSetupCollectionInput|array<array-key, mixed>|\stdClass, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: CheckoutSubscriptionTermsInput|array<array-key, mixed>|\stdClass, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: CheckoutSessionTaxInput|array<array-key, mixed>|\stdClass, 'terminal_reason'?: string, 'theme'?: CheckoutThemeInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'url'?: string, 'version': int, 'checkout_auth_token'?: string, 'remembered_buyer_token'?: string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: BuyerOrderPaymentAttemptInput|array<array-key, mixed>|\stdClass, 'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'buyer_fields'?: CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass, 'can_apply_promotion_code': bool, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'created_at': string|\DateTimeInterface, 'custom_text'?: CheckoutCustomTextConfigInput|array<array-key, mixed>|\stdClass, 'customer_account_url'?: string, 'customer_id'?: string, 'customer_prefill'?: CheckoutCustomerPrefillInput|array<array-key, mixed>|\stdClass, 'delivery'?: CheckoutDerivedDeliveryResourceInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string|\DateTimeInterface, 'expires_in_seconds'?: int, 'gift_card_challenge'?: CheckoutGiftCardChallengeInput|array<array-key, mixed>|\stdClass, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: CheckoutLegalConfigInput|array<array-key, mixed>|\stdClass, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_name'?: string, 'merchant_support'?: CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'page_origin'?: string, 'pay_to_new_address_requires_verification'?: bool, 'payment_collection'?: BuyerPaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_ids'?: list<string>, 'payment_link_id'?: string, 'payment_link_image'?: ImageInput|array<array-key, mixed>|\stdClass, 'payment_method_save'?: CheckoutPaymentMethodSaveInput|array<array-key, mixed>|\stdClass, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillInput|array<array-key, mixed>|\stdClass, 'problems': list<BuyerCheckoutProblemResourceInput|array<array-key, mixed>|\stdClass>, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'recovery_expires_at'?: string|\DateTimeInterface|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: CheckoutRedirectsInput|array<array-key, mixed>|\stdClass, 'refunds'?: list<BuyerRefundInput|array<array-key, mixed>|\stdClass>, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: BuyerSetupCollectionInput|array<array-key, mixed>|\stdClass, 'shop_id'?: string, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: CheckoutSubscriptionTermsInput|array<array-key, mixed>|\stdClass, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: CheckoutSessionTaxInput|array<array-key, mixed>|\stdClass, 'terminal_reason'?: string, 'theme'?: CheckoutThemeInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at': string|\DateTimeInterface, 'url'?: string, 'version': int, 'checkout_auth_token'?: string, 'remembered_buyer_token'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCheckoutSessionLaunchInput')); }
     /** The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. An attempt to pay an order.
      * @return BuyerOrderPaymentAttemptInput|array<array-key, mixed>|\stdClass
@@ -103,7 +105,7 @@ final class BuyerCheckoutSessionLaunchInput extends Model {
      */
     public function getCanSavePaymentMethodWithPhone(): bool { return $this->get('can_save_payment_method_with_phone'); }
     public function hasCanSavePaymentMethodWithPhone(): bool { return $this->has('can_save_payment_method_with_phone'); }
-    /** Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+    /** Unique identifier for this checkout session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */
@@ -343,6 +345,12 @@ final class BuyerCheckoutSessionLaunchInput extends Model {
      */
     public function getSetupCollection(): mixed { return $this->get('setup_collection'); }
     public function hasSetupCollection(): bool { return $this->has('setup_collection'); }
+    /** ID of the shop that started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+     * @return string
+     * @throws SdkError When shop_id is omitted; use hasShopId() or valueOrDefault().
+     */
+    public function getShopId(): string { return $this->get('shop_id'); }
+    public function hasShopId(): bool { return $this->has('shop_id'); }
     /** Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when the merchant's agreement with Flint removes it. Returned by `GET /v1/checkout-sessions/{checkout_session_id}`; other responses and webhooks omit it.
      * @return bool
      * @throws SdkError When show_flint_mark is omitted; use hasShowFlintMark() or valueOrDefault().
@@ -403,13 +411,19 @@ final class BuyerCheckoutSessionLaunchInput extends Model {
      */
     public function getTip(): mixed { return $this->get('tip'); }
     public function hasTip(): bool { return $this->has('tip'); }
+    /** What this launch collects. A return balance launch reports `return_resolution`. Later reads and checkout session events report `order` for that session. Value enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link", "shop", "return_resolution".
+     * @return string
+     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
+     */
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Hosted checkout URL that carries a one-time launch credential. Send the buyer here to pay. Present only for hosted sessions read with a merchant credential that can manage checkout sessions. Launch results include it for hosted sessions: create, payment-link resolve, and invoice and return-resolution checkout. Omitted for headless sessions.
+    /** Hosted checkout URL with a one-time launch credential. Send the buyer here to pay. Omitted when the session is headless or another credential replays the request.
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */
@@ -421,7 +435,7 @@ final class BuyerCheckoutSessionLaunchInput extends Model {
      */
     public function getVersion(): int { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** Checkout credential. Send it as Authorization: Bearer <checkout_auth_token>. Present on headless checkout launch and customer binding confirmation. Omitted on hosted checkout launch and when a saved-card confirmation keeps the current credential.
+    /** Headless checkout credential. Send it as Authorization: Bearer <checkout_auth_token>. Omitted when the session is hosted or another credential replays the request.
      * @return string
      * @throws SdkError When checkout_auth_token is omitted; use hasCheckoutAuthToken() or valueOrDefault().
      */

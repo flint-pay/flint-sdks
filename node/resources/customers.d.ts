@@ -44,7 +44,7 @@ import type {
 import type { EmailChangeRequest, EmailChangeRequestListResponse, EmailChangeRequestResponse } from '../declarations/types-26.js';
 import type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-31.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -88,6 +88,7 @@ export type {
     CustomersUpdateParams,
     CustomersUpdateAddressParams,
     CustomersUpdateTaxExemptionParams,
+    CustomerReceivables,
     CustomerTaxExemptionCoverageRequestInput,
     CustomerTaxExemptionCoverageAllStatesRequestInput,
     CustomerTaxExemptionCoverageStatesRequestInput,
@@ -95,7 +96,7 @@ export type {
     CustomerTaxExemptionCoverageAllStates,
     CustomerTaxExemptionCoverageStates
 } from '../declarations/types-17.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type {
     EmailChangeRequest,
     EmailChangeRequestResponse,
@@ -115,16 +116,16 @@ export type {
     CustomerEmailPreferencesResponse,
     CustomerAddressListResponse,
     CustomerListResponse,
-    CustomerReceivables,
     CustomerReceivableBalance,
     CustomerAccessLinkReturned,
     CustomerAccessLinkEmailed
 } from '../declarations/types-16.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-31.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type {
@@ -136,39 +137,42 @@ export type {
 } from '../declarations/types-9.js';
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
-export type { TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-74.js';
+export type { TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-75.js';
 export type { CardDetails } from '../declarations/types-5.js';
 export type { CreateEmailChangeRequestInput } from '../declarations/types-10.js';
 export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-40.js';
-export type { UpdateCustomerRequestInput, UpdateCustomerTaxExemptionRequestInput } from '../declarations/types-76.js';
-export type { UpdateCustomerAddressRequestInput } from '../declarations/types-75.js';
-export { makeAddressRequest } from '../declarations/types-80.js';
+export type {
+    UpdateCustomerRequestInput,
+    UpdateCustomerAddressRequestInput,
+    UpdateCustomerTaxExemptionRequestInput
+} from '../declarations/types-76.js';
+export { makeAddressRequest } from '../declarations/types-81.js';
 export {
     makeCreateCustomerAccessLinkRequest,
     makeCreateCustomerAddressRequest,
     makeCreateCustomerRequest,
     makeCreateCustomerTaxExemptionRequest,
     makeCreateEmailChangeRequest
-} from '../declarations/types-82.js';
+} from '../declarations/types-83.js';
 export {
     makeCustomerTaxExemptionCoverageAllStatesRequest,
     makeCustomerTaxExemptionCoverageRequest,
     makeCustomerTaxExemptionCoverageStatesRequest
-} from '../declarations/types-85.js';
-export { makeDocumentTaxIDRequest } from '../declarations/types-86.js';
+} from '../declarations/types-86.js';
+export { makeDocumentTaxIDRequest } from '../declarations/types-87.js';
 export {
     makeLinkCustomerGuestPurchasesRequest,
     makeMetadataPatchRequest,
     makeMetadataRequest,
     makeMoneyValue
-} from '../declarations/types-88.js';
+} from '../declarations/types-89.js';
 export {
     makeTaxIdentityPatch,
     makeTaxIdentityRequest,
     makeUpdateCustomerAddressRequest,
     makeUpdateCustomerRequest,
     makeUpdateCustomerTaxExemptionRequest
-} from '../declarations/types-93.js';
+} from '../declarations/types-94.js';
 export interface CustomersResource {
     /**
  * Cancels a pending request and invalidates its link or codes. The customer's email stays
@@ -206,19 +210,21 @@ export interface CustomersResource {
  */
     create(params?: CustomersCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Customer, CustomerResponse>>;
     /**
- * Signs the buyer in to your Flint-hosted customer account as this customer. Works for 15 minutes
- * and one open by default. Set expires_in_seconds to 259200 for a 72-hour single-use link. Set
- * delivery to email to have Flint enqueue that 72-hour link in a store-branded email to the
- * customer; the response contains sent=true and a masked recipient_email instead of the
+ * Signs the buyer in to your Flint-hosted customer account as this customer. The default purpose,
+ * customer_account, opens account home. Use payment_method_setup to open Add card for your store.
+ * The link works once within 15 minutes by default. Set expires_in_seconds to 259200 for a 72-hour
+ * link. With delivery: email, Flint queues a store-branded sign-in or card request email,
+ * depending on purpose. The emailed link works once within 72 hours. Both responses include
+ * purpose. An email response includes sent=true and a masked recipient_email in place of the
  * credential. The url is a bearer credential. Flint returns it only in this response and in a
  * retry with the same idempotency key, so send it only to the buyer and keep it out of logs. A
  * call with a new key creates another link; earlier links keep working until they expire.
  * Optionally send return_url for a destination on your site, or omit the body. Requires
  * customers.sessions.write. Idempotency is scoped to the merchant, credential, environment, and
- * this customer's route. A replay returns the original link without extending its lifetime or
- * replenishing its open. Without an idempotency key, each call creates a new link and has no
- * replay result. If Flint cannot retain a result after minting, contact support with the request
- * ID before sending a new request.
+ * this customer's route. A replay keeps the original result, link lifetime, and open limit.
+ * Without an idempotency key, each call creates a new link and has no replay result. If Flint
+ * cannot retain a result after minting, contact support with the request ID before sending a new
+ * request.
  *
  * `POST /v1/customers/{customer_id}/access-links`
  * @param customer_id Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return

@@ -1,3 +1,4 @@
+import type { MoneyValueInput } from './types-44.js';
 import type { AcceptFulfillmentRequestInput } from './types-0.js';
 import type { InputValue } from '../runtime.js';
 import type { BuyerCancelReturnRequestInput } from './types-1.js';
@@ -7,9 +8,79 @@ import type { ConfirmEmailChangeRequestInput } from './types-8.js';
 import type { CreateCustomerAddressRequestInput } from './types-9.js';
 import type { CreateMeCheckoutSessionRequestInput, CreateMeSubscriptionPreviewRequestInput } from './types-11.js';
 import type { CreateEmailChangeRequestInput } from './types-10.js';
-import type { SaveMePaymentMethodRequestInput } from './types-67.js';
+import type { SaveMePaymentMethodRequestInput } from './types-68.js';
 import type { BuyerCreateReturnRequestInput, BuyerCreateReturnPreviewRequestInput } from './types-2.js';
 import type { CheckoutSessionsListCustomerVerificationsParams } from './types-7.js';
+/**
+ * A discount you apply by hand to an order, with a name, an amount, and the order, line items, or
+ * charges it applies to.
+ */
+export type ManualDiscountRequestInput = {
+    /**
+     * Fixed discount to apply to the order. The amount and every computed order amount must not
+     * exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above
+     * this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field.
+     * Lower payment option limits can apply. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * Which part of the order the discount reduces. Value enum: "order", "line_item",
+     * "service_charge".
+     */
+    "discount_class"?: "order" | "line_item" | "service_charge";
+    /**
+     * Name of the discount. Surrounding whitespace is trimmed before length validation. A supplied
+     * value cannot be blank; use null where clearing is supported. minLength: 1.
+     */
+    "name": string;
+    /**
+     * IDs of the charges this discount reduces. [] (Value): string. minLength: 1. Example:
+     * "och_01KEZF7C00XX8AKACP0GHKFWWT".
+     */
+    "order_charge_ids"?: Array<string>;
+    /**
+     * IDs of the order line items this discount applies to. [] (Value): string. minLength: 1.
+     * Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_ids"?: Array<string>;
+    /**
+     * Whether the discount applies to the whole order or to specific line items. Send
+     * `discount_class` instead of `scope`; a conflicting pair is refused. Value enum: "order",
+     * "line_item".
+     */
+    "scope"?: "order" | "line_item";
+};
+/** Records a missed service appointment with a required no-show reason. */
+export type MarkFulfillmentNoShowRequest = {
+    /**
+     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
+     * "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /** Resource version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * When the action occurred, as an RFC 3339 timestamp. On complete, also records completion
+     * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /**
+     * Why fulfillment work is paused or the service appointment was missed. Value enum:
+     * "customer_no_show", "provider_no_show", "location_unavailable", "scheduling_error", "other".
+     */
+    "reason": "customer_no_show"
+        | "provider_no_show"
+        | "location_unavailable"
+        | "scheduling_error"
+        | "other"
+        | (string & {});
+    /**
+     * Your internal note explaining this transition. Not included in buyer emails. minLength: 1.
+     * maxLength: 500.
+     */
+    "reason_message"?: string;
+};
 /** Records a missed service appointment with a required no-show reason. */
 export type MarkFulfillmentNoShowRequestInput = {
     /**
@@ -303,120 +374,3 @@ export type MeListDeletionRequestsParams = {
 };
 export type MeListEmailChangeRequestsParams = CheckoutSessionsListCustomerVerificationsParams;
 export type MeListFlintWalletCardsParams = {};
-export type MeListFulfillmentEventsParams = {
-    /**
-     * Required buyer-owned order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": InputValue<string>;
-    /**
-     * Filter by fulfillment ID. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
-     */
-    "fulfillment_id"?: InputValue<string>;
-    /**
-     * Filter by shipment ID. pattern: ^shp_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     */
-    "shipment_id"?: InputValue<string>;
-    /**
-     * Filter by package ID. pattern: ^pkg_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
-     */
-    "package_id"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-};
-export type MeListFulfillmentsParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Filter by buyer-visible status. Held fulfillments match their pre-hold status. Values are
-     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
-     * within this filter are ORed; separate filters are ANDed. [] enum: "pending", "in_progress",
-     * "ready", "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked",
-     * "packed", "dispatched", "no_show". Value enum: "pending", "in_progress", "ready",
-     * "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked", "packed",
-     * "dispatched", "no_show". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending",
-     * "in_progress", "ready", "completed", "canceled", "failed", "scheduled", "accepted",
-     * "preparing", "picked", "packed", "dispatched", "no_show". anyOf[1][] (Value): string. Value
-     * enum: "pending", "in_progress", "ready", "completed", "canceled", "failed", "scheduled",
-     * "accepted", "preparing", "picked", "packed", "dispatched", "no_show". anyOf[2] (Value):
-     * string. Value enum: "pending", "in_progress", "ready", "completed", "canceled", "failed",
-     * "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show".
-     */
-    "status"?: InputValue<("pending"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "accepted"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show")
-        | readonly ("pending"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "accepted"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show")[]>;
-    /**
-     * Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
-     * Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service", "handover". anyOf[1][] (Value): string. Value enum:
-     * "shipment", "pickup", "local_delivery", "digital", "service", "handover". anyOf[2] (Value):
-     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
-     * "handover".
-     */
-    "type"?: InputValue<("shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover")
-        | readonly ("shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover")[]>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-};

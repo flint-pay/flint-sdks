@@ -1,26 +1,32 @@
-import type { Dimensions, DimensionsPreviousAttributes } from './types-25.js';
+import type { CreatePackageItemRequestInput, CreatePackageRequestInput } from './types-12.js';
+import type { DimensionsRequestInput, Dimensions, DimensionsPreviousAttributes } from './types-25.js';
+import type { MetadataRequestInput, MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { PackageCreateInputCreatedInput, PackageCreateInputShippedInput, Package } from './types-48.js';
+import type { ReturnShipmentLineItemAllocationRequestInput } from './types-66.js';
+import type {
+    WeightRequestInput,
+    Weight,
+    WeightPreviousAttributes,
+    WorkloadIdentityClaimCondition,
+    WorkloadIdentityClaimConditionRequest,
+    WorkloadIdentityClaimConditionRequestInput
+} from './types-81.js';
 import type { ExpandedOrderSummary, ExpandedOrderSummaryPreviousAttributes } from './types-26.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type {
     PartnerWebhookEnvelope,
+    PartnerAppPermissionManifestEntry,
     PartnerAppPlatform,
     PartnerAppPlatformProfile,
     PartnerAppPlatformContact,
     PartnerEnvironmentGrant,
     PartnerEnvironmentGrantPreviousAttributes
 } from './types-50.js';
-import type { ReturnHandoffRequirementLineItem, ReturnHandoffRequirementLineItemPreviousAttributes } from './types-63.js';
 import type {
-    Weight,
-    WeightPreviousAttributes,
-    WorkloadIdentityClaimCondition,
-    WorkloadIdentityClaimConditionRequest,
-    WorkloadIdentityClaimConditionRequestInput
-} from './types-80.js';
-import type { ResponseMeta } from './types-62.js';
-import type { Package } from './types-48.js';
+    ReturnHandoffRequirementLineItem,
+    ResponseMeta,
+    ReturnHandoffRequirementLineItemPreviousAttributes
+} from './types-63.js';
 import type { InputValue } from '../runtime.js';
-import type { CreatePackageItemRequestInput, CreatePackageRequestInput } from './types-12.js';
 import type { FulfillmentEventsGetParams } from './types-27.js';
 import type {
     MarkPackageDeliveredRequestInput,
@@ -33,9 +39,223 @@ import type {
     MarkPackageShippedRequestInput
 } from './types-41.js';
 import type { UpdatePackageItemRequestInput, UpdatePackageRequestInput } from './types-77.js';
-import type { VoidPackageRequestInput } from './types-78.js';
+import type { VoidPackageRequestInput } from './types-79.js';
 import type { PlatformFeeCap } from './types-56.js';
-import type { WebhookPartnerAppInstall } from './types-79.js';
+import type { WebhookPartnerAppInstall } from './types-80.js';
+/**
+ * Package to create inline with its enclosing shipment or fulfillment. Set status to created
+ * before handoff, or shipped to report handoff during creation.
+ */
+export type PackageCreateRequestInput = ({
+    /**
+     * Controls buyer email handling. Omit or use send to send when recipient, template, and
+     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
+     * enum: "send", "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /** Carrier that handles the package. minLength: 1. */
+    "carrier"?: string;
+    /**
+     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
+     * the given `unit`.
+     */
+    "dimensions"?: DimensionsRequestInput;
+    /**
+     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
+     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expected_delivery_at"?: string | globalThis.Date | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Requires external_system.
+     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
+     * maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Name of the external system that external_reference_id belongs to. External references are
+     * not unique. Use Idempotency-Key for retries. minLength: 1.
+     */
+    "external_system"?: string;
+    /**
+     * Independent package-item collection. Required when status is shipped unless
+     * pack_fulfillment_items is true. Inline creation uses the child-create shape and commits
+     * atomically; edit items through the package item routes after creation. Each order line and
+     * bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@link
+     * CreatePackageItemRequestInput}. The request body for: Create package item.
+     */
+    "items"?: Array<CreatePackageItemRequestInput>;
+    /**
+     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
+     * external_system for provenance. Flint does not host the label file. minLength: 1.
+     */
+    "label_url"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Put every item in the fulfillment into this outbound package. Use with status shipped and a
+     * single package. Omit items. Value enum: true.
+     */
+    "pack_fulfillment_items"?: (true) & (true);
+    /**
+     * Required for a package on a return shipment: allocates quantities from the shipment's
+     * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
+     */
+    "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
+    /** Carrier's code for the shipping service used. minLength: 1. */
+    "service_code"?: string;
+    /**
+     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "shipped_at"?: string | globalThis.Date;
+    /**
+     * Outbound packages can start as created or shipped. Return packages must start as created,
+     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
+     * return package. Value enum: "created", "shipped".
+     */
+    "status": "created" | "shipped";
+    /** Additional explanation of the package's starting status. minLength: 1. */
+    "status_reason"?: string;
+    /** Carrier tracking number for the package. minLength: 1. */
+    "tracking_number"?: string;
+    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
+    "tracking_url"?: string;
+    /**
+     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
+     * delivery profile configuration.
+     */
+    "weight"?: WeightRequestInput;
+})
+    & ((Exclude<PackageCreateInputCreatedInput & object, readonly unknown[]>)
+    | (Exclude<PackageCreateInputShippedInput & object, readonly unknown[]>));
+export type PackageCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "carrier"?: string;
+            "created_at": string;
+            "delivered_at"?: string;
+            "dimensions"?: Dimensions;
+            "expected_delivery_at"?: string | null;
+            "external_reference_id"?: string;
+            "external_system"?: string;
+            "fulfillment_id": string;
+            "label_url"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "package_id": string;
+            "return_id"?: string;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
+            "service_code"?: string;
+            "shipment_id": string;
+            "shipped_at"?: string;
+            "status": "created"
+                | "packed"
+                | "shipped"
+                | "in_transit"
+                | "out_for_delivery"
+                | "delivered"
+                | "delivery_attempted"
+                | "exception"
+                | "returned"
+                | "voided"
+                | (string & {});
+            "status_reason"?: string;
+            "supported_actions": Array<"mark_delivered"
+                | "mark_delivery_attempted"
+                | "mark_exception"
+                | "mark_in_transit"
+                | "mark_out_for_delivery"
+                | "mark_packed"
+                | "mark_returned"
+                | "mark_shipped"
+                | "void"
+                | (string & {})>;
+            "tracking_number"?: string;
+            "tracking_url"?: string;
+            "updated_at": string;
+            "version": number;
+            "weight"?: Weight;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "package.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "carrier"?: string;
+            "created_at": string;
+            "delivered_at"?: string;
+            "dimensions"?: Dimensions;
+            "expected_delivery_at"?: string | null;
+            "external_reference_id"?: string;
+            "external_system"?: string;
+            "fulfillment_id": string;
+            "label_url"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "package_id": string;
+            "return_id"?: string;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
+            "service_code"?: string;
+            "shipment_id": string;
+            "shipped_at"?: string;
+            "status": "created"
+                | "packed"
+                | "shipped"
+                | "in_transit"
+                | "out_for_delivery"
+                | "delivered"
+                | "delivery_attempted"
+                | "exception"
+                | "returned"
+                | "voided"
+                | (string & {});
+            "status_reason"?: string;
+            "supported_actions": Array<"mark_delivered"
+                | "mark_delivery_attempted"
+                | "mark_exception"
+                | "mark_in_transit"
+                | "mark_out_for_delivery"
+                | "mark_packed"
+                | "mark_returned"
+                | "mark_shipped"
+                | "void"
+                | (string & {})>;
+            "tracking_number"?: string;
+            "tracking_url"?: string;
+            "updated_at": string;
+            "version": number;
+            "weight"?: Weight;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "package.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "package.created";
+});
 /**
  * The `package.created` webhook payload for the `installed_merchants` event source. Fields shared
  * by partner webhook payloads.
@@ -4134,76 +4354,4 @@ export type PartnerAppPaymentSplitsRequestInput = {
      * Example: "https://example.com/receipt".
      */
     "seller_terms_url": string;
-};
-/**
- * One permission a partner app can request, with a title, a description, and the Flint scopes it
- * grants.
- */
-export type PartnerAppPermissionManifestEntry = {
-    /**
-     * What the permission lets the app do, shown to merchants when they approve the install.
-     * minLength: 1.
-     */
-    "description": string;
-    /**
-     * Whether the merchant can decline this permission when they approve the install. Defaults to
-     * false: the permission is required and is always granted.
-     */
-    "optional"?: boolean;
-    /**
-     * The permission's ID, which you choose and which must be unique within the manifest.
-     * Authorization requests name permissions by this ID in scope, and the code exchange returns
-     * the granted IDs as its scope. minLength: 1. Example: "manage_orders".
-     */
-    "permission_id": string;
-    /**
-     * The Flint API scopes the permission grants, at least one. Each must be a scope partner
-     * installs allow; the scope catalog lists them. Duplicates are dropped. [] (Value): string.
-     * minLength: 1.
-     */
-    "required_scopes": Array<string>;
-    /**
-     * A short name for the permission, shown to merchants when they approve the install. It can't
-     * contain a link or an email address. minLength: 1.
-     */
-    "title": string;
-};
-export type PartnerAppPermissionManifestEntryPreviousAttributes = {
-    /**
-     * What the permission lets the app do, shown to merchants when they approve the install.
-     * anyOf[1] (Value): string. What the permission lets the app do, shown to merchants when they
-     * approve the install. minLength: 1. anyOf[2] (Value): null.
-     */
-    "description"?: ((string) | (null));
-    /**
-     * Whether the merchant can decline this permission when they approve the install. Defaults to
-     * false: the permission is required and is always granted. anyOf[1] (Value): boolean. Whether
-     * the merchant can decline this permission when they approve the install. Defaults to false:
-     * the permission is required and is always granted. anyOf[2] (Value): null.
-     */
-    "optional"?: ((boolean) | (null));
-    /**
-     * The permission's ID, which you choose and which must be unique within the manifest.
-     * Authorization requests name permissions by this ID in scope, and the code exchange returns
-     * the granted IDs as its scope. anyOf[1] (Value): string. The permission's ID, which you
-     * choose and which must be unique within the manifest. Authorization requests name permissions
-     * by this ID in scope, and the code exchange returns the granted IDs as its scope. minLength:
-     * 1. Example: "manage_orders". anyOf[2] (Value): null.
-     */
-    "permission_id"?: ((string) | (null));
-    /**
-     * The Flint API scopes the permission grants, at least one. Each must be a scope partner
-     * installs allow; the scope catalog lists them. Duplicates are dropped. anyOf[1] (Value):
-     * Array of string. The Flint API scopes the permission grants, at least one. Each must be a
-     * scope partner installs allow; the scope catalog lists them. Duplicates are dropped.
-     * anyOf[1][] (Value): string. minLength: 1. anyOf[2] (Value): null.
-     */
-    "required_scopes"?: ((Array<string>) | (null));
-    /**
-     * A short name for the permission, shown to merchants when they approve the install. It can't
-     * contain a link or an email address. anyOf[1] (Value): string. A short name for the
-     * permission, shown to merchants when they approve the install. It can't contain a link or an
-     * email address. minLength: 1. anyOf[2] (Value): null.
-     */
-    "title"?: ((string) | (null));
 };

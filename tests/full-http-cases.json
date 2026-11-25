@@ -3570,5 +3570,60 @@
       "request_id": "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"
     },
     "status": 200
+  },
+  {
+    "name": "resolve shop without merchant credentials",
+    "operation": "resolveShop",
+    "input": {
+      "shop_id": "shop_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+      "body": {
+        "line_items": [
+          {
+            "quantity": 2,
+            "shop_listing_id": "shl_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+          }
+        ],
+        "resolution_context": "shrc_v1.example"
+      }
+    },
+    "options": {
+      "idempotencyKey": "synthetic-shop-cart"
+    },
+    "expected": {
+      "method": "POST",
+      "path": "/v1/shops/shop_01ARZ3NDEKTSV4RRFFQ69G5FAV/resolve",
+      "headers": {
+        "idempotency-key": "synthetic-shop-cart"
+      },
+      "absentHeaders": [
+        "authorization"
+      ],
+      "body": "{\"line_items\":[{\"quantity\":2,\"shop_listing_id\":\"shl_01ARZ3NDEKTSV4RRFFQ69G5FAV\"}],\"resolution_context\":\"shrc_v1.example\"}"
+    },
+    "responses": [
+      {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":{\"checkout_session_id\":\"cs_01ARZ3NDEKTSV4RRFFQ69G5FAV\",\"expires_at\":\"2026-11-24T19:00:00Z\",\"order_id\":\"ord_01ARZ3NDEKTSV4RRFFQ69G5FAV\",\"shop_id\":\"shop_01ARZ3NDEKTSV4RRFFQ69G5FAV\",\"status\":\"open\",\"type\":\"shop\",\"url\":\"https://checkout.withflintpay.com/checkout/cs_01ARZ3NDEKTSV4RRFFQ69G5FAV#checkout_token=cklt_v1.example\"},\"meta\":{\"api_version\":\"2026-09-07\"},\"request_id\":\"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D\"}"
+      }
+    ],
+    "data": {
+      "data": {
+        "checkout_session_id": "cs_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "expires_at": "2026-11-24T19:00:00Z",
+        "order_id": "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "shop_id": "shop_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "status": "open",
+        "type": "shop",
+        "url": "https://checkout.withflintpay.com/checkout/cs_01ARZ3NDEKTSV4RRFFQ69G5FAV#checkout_token=cklt_v1.example"
+      },
+      "meta": {
+        "api_version": "2026-09-07"
+      },
+      "request_id": "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"
+    },
+    "status": 201
   }
 ]

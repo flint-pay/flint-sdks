@@ -123,6 +123,10 @@ Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.payment_lin
 
 Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.payment_link_type](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributespayment_link_type).
 
+### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.platform_fee_rule
+
+Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.platform_fee_rule](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesplatform_fee_rule).
+
 ### PaymentLinkUpdatedMerchantEvent.data fields 1.previous_attributes.redirects
 
 Declared alternatives: [PaymentLinkUpdatedMerchantEventDataPreviousAttributes.redirects](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesredirects).

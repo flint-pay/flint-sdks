@@ -13,7 +13,7 @@ Request input.
 | `attributed_resource` | Optional | [ResourceReferenceInput](../models/ResourceReferenceInput.md#resourcereferenceinput) | The related activation, product variant, or return resolution described by this event. A reference to another resource by `resource_type` and `resource_id`. |
 | `changes` | Optional | Array of [ResourceTimelineFieldChangeInput](../models/ResourceTimelineFieldChangeInput.md#resourcetimelinefieldchangeinput) | Recorded before-and-after values for selected product, delivery option, and return fields. A null value means the field was unset. |
 | `entry_type` | Required | string | Always `webhook_event` for this kind of entry. Values: `"webhook_event"`. |
-| `event_type` | Required | string | Type of webhook event recorded for this resource. Values: [305 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
+| `event_type` | Required | string | Type of webhook event recorded for this resource. Values: [308 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
 | `initiator` | Optional | [PaymentActivityActorInput](../models/PaymentActivityActorInput.md#paymentactivityactorinput) | The teammate, API key, or app that initiated the change, when recorded and visible under request-log permissions. The label reflects its current name when available. The teammate, API key, or app that initiated the action. |
 | `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `request_id` | Optional | string | Records created before server-minted request IDs keep their original ID. maxLength: `128`. Example: `"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"`. |

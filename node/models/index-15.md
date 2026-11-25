@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# DeliveryWeeklyIntervalRequestInput to ExpandedOrderSummary
+# DeliveryWeeklyInterval to ExpandedInvoiceSummary
 
+- [DeliveryWeeklyInterval](DeliveryWeeklyInterval.md)
+- [DeliveryWeeklyIntervalPreviousAttributes](DeliveryWeeklyIntervalPreviousAttributes.md)
 - [DeliveryWeeklyIntervalRequestInput](DeliveryWeeklyIntervalRequestInput.md)
 - [DeliveryWeightUnitPrice](DeliveryWeightUnitPrice.md)
 - [DeliveryWeightUnitPricePreviousAttributes](DeliveryWeightUnitPricePreviousAttributes.md)
@@ -100,6 +102,4 @@
 - [ExpandedCustomerSummary](ExpandedCustomerSummary.md)
 - [ExpandedCustomerSummaryPreviousAttributes](ExpandedCustomerSummaryPreviousAttributes.md)
 - [ExpandedInvoiceSummary](ExpandedInvoiceSummary.md)
-- [ExpandedInvoiceSummaryPreviousAttributes](ExpandedInvoiceSummaryPreviousAttributes.md)
-- [ExpandedOrderSummary](ExpandedOrderSummary.md)
 

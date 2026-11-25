@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# InvoiceMarkedUncollectibleInstalledMerchantsEventInput to InvoiceScheduleDueWriteInvoiceDueDateInput
+# InvoiceManualPaymentReversedMerchantEventInput to InvoiceScheduleDueWriteDateInput
 
+- [InvoiceManualPaymentReversedMerchantEventInput](InvoiceManualPaymentReversedMerchantEventInput.md)
 - [InvoiceMarkedUncollectibleInstalledMerchantsEventInput](InvoiceMarkedUncollectibleInstalledMerchantsEventInput.md)
 - [InvoiceMarkedUncollectibleMerchantEventInput](InvoiceMarkedUncollectibleMerchantEventInput.md)
 - [InvoiceOverdueInstalledMerchantsEventInput](InvoiceOverdueInstalledMerchantsEventInput.md)
@@ -101,5 +102,4 @@
 - [InvoiceScheduleDueWriteInput](InvoiceScheduleDueWriteInput.md)
 - [InvoiceScheduleDueWriteAtIssueInput](InvoiceScheduleDueWriteAtIssueInput.md)
 - [InvoiceScheduleDueWriteDateInput](InvoiceScheduleDueWriteDateInput.md)
-- [InvoiceScheduleDueWriteInvoiceDueDateInput](InvoiceScheduleDueWriteInvoiceDueDateInput.md)
 

@@ -2,7 +2,7 @@ import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { File, FileResponse, FilesCompleteParams, FilesCreateParams, FilesGetParams } from '../declarations/types-27.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -18,17 +18,18 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { FilesCompleteParams, File, FileResponse, FilesCreateParams, FilesGetParams, FileUpload } from '../declarations/types-27.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CreateFileRequestInput } from '../declarations/types-10.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateFileRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeCreateFileRequest } from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface FilesResource {
     /**
  * Completing a merchant_logo or merchant_icon file requires a live-mode credential or a Dashboard

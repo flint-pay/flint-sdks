@@ -1,5 +1,5 @@
 import type { BuyerCheckoutSessionLaunch, BuyerCheckoutSession, BuyerAction } from './types-1.js';
-import type { ResponseMeta } from './types-62.js';
+import type { ResponseMeta } from './types-63.js';
 import type { CreateReturnEligibilityPreviewRequest, CreateReturnEligibilityPreviewRequestInput } from './types-13.js';
 import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-64.js';
 import type {
@@ -7,22 +7,24 @@ import type {
     BuyerReturnReplacementLineItemRequestInput,
     BuyerSubscriptionPlanLineItem
 } from './types-4.js';
-import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-65.js';
+import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-66.js';
 import type { CreditNoteLineItem } from './types-15.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
-import type { TaxCurrencyConversion, TaxIdentity, TaxReverseCharge } from './types-74.js';
+import type { TaxCurrencyConversion, TaxIdentity, TaxReverseCharge } from './types-75.js';
 import type { Address } from './types-0.js';
 import type { ErrorResourceReference } from './types-26.js';
 import type { DeferredPromotion, DeferredPromotionPreviousAttributes } from './types-18.js';
 import type { OrderSettlementAmounts, OrderSettlementAmountsPreviousAttributes } from './types-47.js';
-import type { PricingAmounts, PricingAmountsPreviousAttributes } from './types-56.js';
+import type { PricingAmounts } from './types-56.js';
+import type { PricingAmountsPreviousAttributes } from './types-57.js';
 import type { PaymentSourceSummary, PaymentSourceSummaryPreviousAttributes } from './types-54.js';
-import type { SubscriptionIntervalOption } from './types-70.js';
+import type { SubscriptionIntervalOption } from './types-71.js';
 import type { CardDetails } from './types-5.js';
-import type { StripeClientSetup, ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from './types-68.js';
+import type { StripeClientSetup } from './types-69.js';
 import type { FulfillmentChargeLink } from './types-27.js';
 import type { FulfillmentRecipient } from './types-28.js';
 import type { PickupFulfillmentDetails } from './types-55.js';
+import type { ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from './types-68.js';
 import type { BuyerOrderLineItemModifier, BuyerPaymentErrorSummary, BuyerOrderTaxExemption } from './types-3.js';
 import type { CheckoutMerchantSupport } from './types-6.js';
 import type { CheckoutTheme } from './types-7.js';
@@ -32,13 +34,13 @@ import type { InvoicePaymentOptionCostComparison } from './types-36.js';
 import type { InvoicePaymentTermsSnapshot } from './types-37.js';
 import type { InvoiceScheduleEntry, InvoiceSettlementAmounts, InvoiceTip } from './types-38.js';
 import type { OrderCharge } from './types-45.js';
-import type { TaxBreakdown } from './types-73.js';
+import type { TaxBreakdown } from './types-74.js';
 /** A response containing `BuyerCheckoutSessionLaunch` data. */
 export type BuyerCheckoutSessionLaunchResponse = {
     /**
      * Resource, collection, or operation result returned by this request. The session returned
-     * when launching checkout. A hosted launch includes url. A headless launch includes
-     * checkout_auth_token. A session in which a buyer completes an order's payment.
+     * when launching checkout. Use `url` for hosted checkout or `checkout_auth_token` for headless
+     * checkout. A session in which a buyer completes an order's payment.
      */
     "data": BuyerCheckoutSessionLaunch;
     /**
@@ -922,15 +924,15 @@ export type BuyerErrorRemediation = {
  */
 export type BuyerExpandedOrderSummary = {
     /**
-     * When the order closed. Present exactly when status is closed. Set once at the transition and
-     * never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * When the order last closed. Present exactly when status is closed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
      */
     "closed_at"?: string;
     /**
-     * Why the order closed. Present exactly when status is closed. Set once at closure.
-     * Unrecognized reasons are returned as other; new values may be added. Value enum:
-     * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-     * "superseded", "return_resolution_canceled", "other".
+     * Why the order closed. Present exactly when status is closed. Flint returns other for an
+     * unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+     * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+     * "return_resolution_canceled", "other".
      */
     "closed_reason"?: "invoice_voided"
         | "paid"
@@ -980,10 +982,10 @@ export type BuyerExpandedOrderSummary = {
     /** Human-readable order number for receipts and merchant reference. */
     "order_number"?: string;
     /**
-     * When `payment_status` became `paid`, including a final capture that releases the remaining
-     * balance. Set once and never changed, including after refunds. `null` when `payment_status`
-     * isn't `paid`, including an order whose balance was written off without being paid. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
+     * When the current paid state began, including a final capture that releases the remaining
+     * balance. A reversal that reopens the order clears this timestamp. `null` when
+     * `payment_status` isn't `paid`, including an order whose balance was written off without
+     * being paid. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
     "paid_at": string | null;
     /**
@@ -992,7 +994,8 @@ export type BuyerExpandedOrderSummary = {
      */
     "payment_intent_ids"?: Array<string>;
     /**
-     * Collection progress. An invoice write-off also completes collection without receiving the
+     * Collection progress. Reversing a recorded invoice payment can move this back to unpaid or
+     * partially_paid. An invoice write-off also completes collection without receiving the
      * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
      */
     "payment_status": "unpaid" | "partially_paid" | "paid" | (string & {});
@@ -1014,9 +1017,10 @@ export type BuyerExpandedOrderSummary = {
      */
     "settlement_amounts": OrderSettlementAmounts;
     /**
-     * Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes,
-     * returns, and metadata or note edits continue on a closed order. Value enum: "open",
-     * "closed".
+     * Whether the order still accepts changes and new payments. An order closed as paid reopens if
+     * reversing a recorded invoice payment leaves an outstanding order balance. Refunds,
+     * fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value
+     * enum: "open", "closed".
      */
     "status": "open" | "closed" | (string & {});
     /**
@@ -1027,21 +1031,20 @@ export type BuyerExpandedOrderSummary = {
 };
 export type BuyerExpandedOrderSummaryPreviousAttributes = {
     /**
-     * When the order closed. Present exactly when status is closed. Set once at the transition and
-     * never changed. anyOf[1] (Value): string. When the order closed. Present exactly when status
-     * is closed. Set once at the transition and never changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * When the order last closed. Present exactly when status is closed. anyOf[1] (Value): string.
+     * When the order last closed. Present exactly when status is closed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
      */
     "closed_at"?: ((string) | (null));
     /**
-     * Why the order closed. Present exactly when status is closed. Set once at closure.
-     * Unrecognized reasons are returned as other; new values may be added. Value enum:
-     * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-     * "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): string. Why the order
-     * closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are
-     * returned as other; new values may be added. Value enum: "invoice_voided", "paid",
+     * Why the order closed. Present exactly when status is closed. Flint returns other for an
+     * unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
      * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-     * "return_resolution_canceled", "other". anyOf[2] (Value): null.
+     * "return_resolution_canceled", "other". anyOf[1] (Value): string. Why the order closed.
+     * Present exactly when status is closed. Flint returns other for an unrecognized reason and
+     * may add new values. Value enum: "invoice_voided", "paid", "closed_by_merchant",
+     * "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+     * anyOf[2] (Value): null.
      */
     "closed_reason"?: (("invoice_voided"
         | "paid"
@@ -1109,13 +1112,14 @@ export type BuyerExpandedOrderSummaryPreviousAttributes = {
      */
     "order_number"?: ((string) | (null));
     /**
-     * When `payment_status` became `paid`, including a final capture that releases the remaining
-     * balance. Set once and never changed, including after refunds. `null` when `payment_status`
-     * isn't `paid`, including an order whose balance was written off without being paid. anyOf[1]
-     * (Value): string. When `payment_status` became `paid`, including a final capture that
-     * releases the remaining balance. Set once and never changed, including after refunds. `null`
-     * when `payment_status` isn't `paid`, including an order whose balance was written off without
-     * being paid. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     * When the current paid state began, including a final capture that releases the remaining
+     * balance. A reversal that reopens the order clears this timestamp. `null` when
+     * `payment_status` isn't `paid`, including an order whose balance was written off without
+     * being paid. anyOf[1] (Value): string. When the current paid state began, including a final
+     * capture that releases the remaining balance. A reversal that reopens the order clears this
+     * timestamp. `null` when `payment_status` isn't `paid`, including an order whose balance was
+     * written off without being paid. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2]
+     * (Value): null.
      */
     "paid_at"?: ((string) | (null));
     /**
@@ -1125,11 +1129,13 @@ export type BuyerExpandedOrderSummaryPreviousAttributes = {
      */
     "payment_intent_ids"?: ((Array<string>) | (null));
     /**
-     * Collection progress. An invoice write-off also completes collection without receiving the
+     * Collection progress. Reversing a recorded invoice payment can move this back to unpaid or
+     * partially_paid. An invoice write-off also completes collection without receiving the
      * written-off amount. Value enum: "unpaid", "partially_paid", "paid". anyOf[1] (Value):
-     * string. Collection progress. An invoice write-off also completes collection without
-     * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid". anyOf[2]
-     * (Value): null.
+     * string. Collection progress. Reversing a recorded invoice payment can move this back to
+     * unpaid or partially_paid. An invoice write-off also completes collection without receiving
+     * the written-off amount. Value enum: "unpaid", "partially_paid", "paid". anyOf[2] (Value):
+     * null.
      */
     "payment_status"?: (("unpaid" | "partially_paid" | "paid" | (string & {})) | (null));
     /**
@@ -1151,11 +1157,14 @@ export type BuyerExpandedOrderSummaryPreviousAttributes = {
      */
     "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
     /**
-     * Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes,
-     * returns, and metadata or note edits continue on a closed order. Value enum: "open",
-     * "closed". anyOf[1] (Value): string. Whether the order still accepts changes and new
-     * payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a
-     * closed order. Value enum: "open", "closed". anyOf[2] (Value): null.
+     * Whether the order still accepts changes and new payments. An order closed as paid reopens if
+     * reversing a recorded invoice payment leaves an outstanding order balance. Refunds,
+     * fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value
+     * enum: "open", "closed". anyOf[1] (Value): string. Whether the order still accepts changes
+     * and new payments. An order closed as paid reopens if reversing a recorded invoice payment
+     * leaves an outstanding order balance. Refunds, fulfillment, disputes, returns, and metadata
+     * or note edits continue on a closed order. Value enum: "open", "closed". anyOf[2] (Value):
+     * null.
      */
     "status"?: (("open" | "closed" | (string & {})) | (null));
     /**

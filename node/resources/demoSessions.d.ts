@@ -23,16 +23,17 @@ export type {
     DemoSessionsResetParams,
     DemoSessionAPIKey
 } from '../declarations/types-25.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResetDemoSessionRequestInput } from '../declarations/types-62.js';
+export type { RequestOptions, ResourceReference, ResetDemoSessionRequestInput } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateDemoSessionRequestInput } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeCreateDemoSessionRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeResetDemoSessionRequest } from '../declarations/types-91.js';
+export { makeCreateDemoSessionRequest } from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeResetDemoSessionRequest } from '../declarations/types-92.js';
 export interface DemoSessionsResource {
     /**
  * Creates a temporary demo sandbox and returns a short-lived test API key. The secret key is

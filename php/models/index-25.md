@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# PlatformFeeCapPreviousAttributesInput to PromotionCreatedInstalledMerchantsEventInput
+# PlatformFeeCapPreviousAttributesInput to PromotionCombinesWithPatchInput
 
 - [PlatformFeeCapPreviousAttributesInput](PlatformFeeCapPreviousAttributesInput.md)
 - [PlatformFeeCapRequestInput](PlatformFeeCapRequestInput.md)
@@ -15,6 +15,9 @@
 - [PlatformFeePayoutSucceededEventInput](PlatformFeePayoutSucceededEventInput.md)
 - [PlatformFeeRequestInput](PlatformFeeRequestInput.md)
 - [PlatformFeeResponseInput](PlatformFeeResponseInput.md)
+- [PlatformFeeRuleInput](PlatformFeeRuleInput.md)
+- [PlatformFeeRulePreviousAttributesInput](PlatformFeeRulePreviousAttributesInput.md)
+- [PlatformFeeRuleRequestInput](PlatformFeeRuleRequestInput.md)
 - [PlatformFeeSucceededEventInput](PlatformFeeSucceededEventInput.md)
 - [PlatformFeeUpdatedEventInput](PlatformFeeUpdatedEventInput.md)
 - [PoolLicenseKeyConfigurationInput](PoolLicenseKeyConfigurationInput.md)
@@ -99,7 +102,4 @@
 - [PromotionCodeUpdatedMerchantEventInput](PromotionCodeUpdatedMerchantEventInput.md)
 - [PromotionCombinesWithInput](PromotionCombinesWithInput.md)
 - [PromotionCombinesWithPatchInput](PromotionCombinesWithPatchInput.md)
-- [PromotionCombinesWithPreviousAttributesInput](PromotionCombinesWithPreviousAttributesInput.md)
-- [PromotionCombinesWithRequestInput](PromotionCombinesWithRequestInput.md)
-- [PromotionCreatedInstalledMerchantsEventInput](PromotionCreatedInstalledMerchantsEventInput.md)
 

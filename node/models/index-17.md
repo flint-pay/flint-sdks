@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# GiftCardFundingDisposition to GiftCardTransactionListResponse
+# GiftCardCustomAmountBoundsPreviousAttributes to GiftCardTransactionCreatedInstalledMerchantsEvent
 
+- [GiftCardCustomAmountBoundsPreviousAttributes](GiftCardCustomAmountBoundsPreviousAttributes.md)
+- [GiftCardCustomAmountBoundsRequestInput](GiftCardCustomAmountBoundsRequestInput.md)
 - [GiftCardFundingDisposition](GiftCardFundingDisposition.md)
 - [GiftCardFundingDispositionListResponse](GiftCardFundingDispositionListResponse.md)
 - [GiftCardFundingDispositionResponse](GiftCardFundingDispositionResponse.md)
@@ -100,6 +102,4 @@
 - [GiftCardRestrictionPreviousAttributes](GiftCardRestrictionPreviousAttributes.md)
 - [GiftCardTransaction](GiftCardTransaction.md)
 - [GiftCardTransactionCreatedInstalledMerchantsEvent](GiftCardTransactionCreatedInstalledMerchantsEvent.md)
-- [GiftCardTransactionCreatedMerchantEvent](GiftCardTransactionCreatedMerchantEvent.md)
-- [GiftCardTransactionListResponse](GiftCardTransactionListResponse.md)
 

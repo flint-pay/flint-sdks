@@ -1,34 +1,4013 @@
-import type { BundleComponent, BundleComponentPreviousAttributes } from './types-1.js';
-import type { Fulfillment } from './types-27.js';
-import type { Image, ImagePreviousAttributes } from './types-31.js';
-import type { OrderLineItemModifier, OrderLineItemModifierPreviousAttributes } from './types-46.js';
-import type { ReturnActor, ReturnActorPreviousAttributes } from './types-62.js';
-import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-68.js';
-import type { FulfillmentPreviousAttributes } from './types-28.js';
-import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
-import type { InputValue } from '../runtime.js';
-import type { CreateReturnPolicyRequestInput, CreateReturnPreviewRequestInput, CreateReturnReasonRequestInput } from './types-13.js';
-import type { PublishReturnPolicyRevisionRequestInput } from './types-59.js';
-import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdateReturnPolicyRequestInput, UpdateReturnReasonRequestInput } from './types-77.js';
-import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-43.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { ReturnDispositionPreviousAttributes, ReturnActor, ReturnActorPreviousAttributes } from './types-63.js';
 import type {
+    ReturnSourceSystem,
+    ReturnSourceSystemPreviousAttributes,
     ReturnRestockingFeePolicy,
     ReturnShippingPolicy,
     ReturnWindow,
     ReturnRestockingFeePolicyRequestInput,
     ReturnShippingPolicyRequestInput,
-    ReturnWindowRequestInput,
-    ReturnSourceSystemRequest,
-    ReturnSourceSystemRequestInput,
-    ReturnResource,
-    ReturnSourceSystem,
-    ReturnUnverifiedItem
+    ReturnWindowRequestInput
 } from './types-66.js';
-import type { ReturnReplacementLineItemRequest, ReturnReplacementLineItemRequestInput, ReturnResolution } from './types-65.js';
-import type { ReturnDisposition, ReturnInspection } from './types-63.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { WebhookSnapshotReturnDisposition } from './types-79.js';
+import type { WebhookSnapshotReturnDisposition } from './types-80.js';
+import type { InputValue } from '../runtime.js';
+import type {
+    CreateReturnInspectionRequestInput,
+    CreateReturnPolicyRequestInput,
+    CreateReturnPreviewRequestInput
+} from './types-13.js';
+import type { DecideReturnInspectionLineItemRequestInput } from './types-17.js';
+import type { DisputesAcceptParams } from './types-26.js';
+import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-32.js';
+import type { BundleComponent, BundleComponentPreviousAttributes } from './types-1.js';
+import type { Fulfillment } from './types-27.js';
+import type { Image, ImagePreviousAttributes } from './types-31.js';
+import type { OrderLineItemModifier } from './types-46.js';
+import type { ReturnReason, ReturnReasonPreviousAttributes } from './types-65.js';
+import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-68.js';
+import type { FulfillmentPreviousAttributes } from './types-28.js';
+import type { OrderLineItemModifierPreviousAttributes } from './types-47.js';
+import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+import type { PublishReturnPolicyRevisionRequestInput } from './types-59.js';
+import type { UpdateReturnPolicyRequestInput } from './types-78.js';
+export type ReturnInspectionAcceptanceDecidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "correction_reason"?: "entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {});
+            "correction_reason_message"?: string;
+            "created_at": string;
+            "external_actor_id"?: string;
+            "external_reference_id"?: string;
+            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+            "idempotency_key"?: string | null;
+            "inspected_at": string;
+            "inspection_location_id": string;
+            "line_items": Array<ReturnInspectionLineItem>;
+            "return_id": string;
+            "return_inspection_id": string;
+            "return_receipt_id": string;
+            "source_system": ((ReturnSourceSystem) | (null));
+            "status": "current" | "superseded" | (string & {});
+            "superseded_at"?: string;
+            "superseded_by_return_inspection_id"?: string;
+            "supersedes_return_inspection_id"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            "correction_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "external_actor_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "generated_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inspected_at"?: ((string) | (null));
+            "inspection_location_id"?: ((string) | (null));
+            "line_items"?: ((Array<ReturnInspectionLineItemPreviousAttributes>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_id"?: ((string) | (null));
+            "return_receipt_id"?: ((string) | (null));
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            "superseded_at"?: ((string) | (null));
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "return_inspection.acceptance_decided";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "correction_reason"?: "entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {});
+            "correction_reason_message"?: string;
+            "created_at": string;
+            "external_actor_id"?: string;
+            "external_reference_id"?: string;
+            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+            "idempotency_key"?: string | null;
+            "inspected_at": string;
+            "inspection_location_id": string;
+            "line_items": Array<ReturnInspectionLineItem>;
+            "return_id": string;
+            "return_inspection_id": string;
+            "return_receipt_id": string;
+            "source_system": ((ReturnSourceSystem) | (null));
+            "status": "current" | "superseded" | (string & {});
+            "superseded_at"?: string;
+            "superseded_by_return_inspection_id"?: string;
+            "supersedes_return_inspection_id"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            "correction_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "external_actor_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "generated_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inspected_at"?: ((string) | (null));
+            "inspection_location_id"?: ((string) | (null));
+            "line_items"?: ((Array<ReturnInspectionLineItemPreviousAttributes>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_id"?: ((string) | (null));
+            "return_receipt_id"?: ((string) | (null));
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            "superseded_at"?: ((string) | (null));
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "return_inspection.acceptance_decided";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "return_inspection.acceptance_decided";
+});
+/**
+ * The `return_inspection.acceptance_decided` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type ReturnInspectionAcceptanceDecidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.correction_reason (Optional): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other". object.correction_reason_message
+     * (Optional): string. Detail about `correction_reason`. object.created_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_actor_id (Optional): string. Your identifier for the actor who recorded the
+     * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842".
+     * object.generated_dispositions (Required): Array of {@link WebhookSnapshotReturnDisposition}.
+     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+     * `receipt_disposition_mode` is `automatic`. object.generated_dispositions[] (Value): {@link
+     * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+     * handled. object.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. object.inspected_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.inspection_location_id
+     * (Required): string. Location where the returned merchandise was inspected. Must match the
+     * receipt receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.line_items
+     * (Required): Array of {@link ReturnInspectionLineItem}. The lines recorded.
+     * object.line_items[] (Value): {@link ReturnInspectionLineItem}. The inspection result for a
+     * returned item. object.return_id (Required): string. ID of the Return the goods belong to.
+     * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_id (Required): string.
+     * Unique identifier for this return inspection, prefixed `retins_`. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_receipt_id (Required): string. ID of the
+     * receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.source_system
+     * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation. `null`
+     * when no source system was recorded. object.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+     * warehouse system, with its own identifier. object.source_system.anyOf[2] (Value): null.
+     * object.status (Required): string. Whether this is the current observation of these units or
+     * a correction replaced it. Value enum: "current", "superseded". object.superseded_at
+     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.superseded_by_return_inspection_id (Optional): string. ID of the inspection that
+     * corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.supersedes_return_inspection_id (Optional):
+     * string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current version of this resource's owned state. Send it as `expected_version` when
+     * changing the resource to reject a stale write. Format: int64. minimum: 1.
+     * previous_attributes (Optional): object and {@link ReturnInspectionPreviousAttributes}.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events. previous_attributes.correction_reason (Optional): string or
+     * null. Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id`
+     * or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[1] (Value): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[2] (Value): null.
+     * previous_attributes.correction_reason_message (Optional): string or null. Detail about
+     * `correction_reason`. previous_attributes.correction_reason_message.anyOf[1] (Value): string.
+     * Detail about `correction_reason`. previous_attributes.correction_reason_message.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_actor_id (Optional): string or null. Your identifier for
+     * the actor who recorded the event. Don't put secrets in this field.
+     * previous_attributes.external_actor_id.anyOf[1] (Value): string. Your identifier for the
+     * actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_actor_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.generated_dispositions (Optional): Array of {@link
+     * ReturnDispositionPreviousAttributes} or null. Dispositions Flint created when it recorded
+     * this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDispositionPreviousAttributes}. Dispositions Flint created when it recorded this
+     * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1][] (Value): {@link
+     * ReturnDispositionPreviousAttributes}. previous_attributes.generated_dispositions.anyOf[2]
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[2] (Value):
+     * null. previous_attributes.inspected_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.inspected_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.inspected_at.anyOf[2]
+     * (Value): null. previous_attributes.inspection_location_id (Optional): string or null.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. previous_attributes.inspection_location_id.anyOf[1] (Value): string.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.inspection_location_id.anyOf[2] (Value): null.
+     * previous_attributes.line_items (Optional): Array of {@link
+     * ReturnInspectionLineItemPreviousAttributes} or null. The lines recorded.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * ReturnInspectionLineItemPreviousAttributes}. The lines recorded.
+     * previous_attributes.line_items.anyOf[1][] (Value): {@link
+     * ReturnInspectionLineItemPreviousAttributes}. previous_attributes.line_items.anyOf[2]
+     * (Value): null. previous_attributes.return_id (Optional): string or null. ID of the Return
+     * the goods belong to. previous_attributes.return_id.anyOf[1] (Value): string. ID of the
+     * Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_id (Optional): string or null. Unique identifier for
+     * this return inspection, prefixed `retins_`.
+     * previous_attributes.return_inspection_id.anyOf[1] (Value): string. Unique identifier for
+     * this return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_id (Optional): string or null. ID of the receipt being
+     * inspected. previous_attributes.return_receipt_id.anyOf[1] (Value): string. ID of the receipt
+     * being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * previous_attributes.return_receipt_id.anyOf[2] (Value): null.
+     * previous_attributes.source_system (Optional): {@link ReturnSourceSystemPreviousAttributes}
+     * or null. System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystemPreviousAttributes}. previous_attributes.source_system.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Whether this is the current
+     * observation of these units or a correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether this is the current observation
+     * of these units or a correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.superseded_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.superseded_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.superseded_at.anyOf[2] (Value): null.
+     * previous_attributes.superseded_by_return_inspection_id (Optional): string or null. ID of the
+     * inspection that corrected this one. Absent while it is current.
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+     * inspection that corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.supersedes_return_inspection_id (Optional): string or null. ID of the
+     * inspection this one corrects. previous_attributes.supersedes_return_inspection_id.anyOf[1]
+     * (Value): string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.supersedes_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. previous_attributes.version.anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * correction_reason (Optional): string. Why this observation replaces an earlier one. Send
+         * with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+         * "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason_message (Optional): string.
+         * Detail about `correction_reason`. created_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". external_actor_id (Optional):
+         * string. Your identifier for the actor who recorded the event. Don't put secrets in this
+         * field. maxLength: 255. Example: "warehouse-1842". external_reference_id (Optional):
+         * string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". generated_dispositions (Required): Array of {@link
+         * WebhookSnapshotReturnDisposition}. Dispositions Flint created when it recorded this
+         * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+         * generated_dispositions[] (Value): {@link WebhookSnapshotReturnDisposition}. A decision
+         * about how returned merchandise will be handled. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inspected_at (Required): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". inspection_location_id (Required): string. Location
+         * where the returned merchandise was inspected. Must match the receipt
+         * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". line_items (Required):
+         * Array of {@link ReturnInspectionLineItem}. The lines recorded. line_items[] (Value):
+         * {@link ReturnInspectionLineItem}. The inspection result for a returned item. return_id
+         * (Required): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_id (Required): string. Unique
+         * identifier for this return inspection, prefixed `retins_`. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_receipt_id (Required): string. ID of the
+         * receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". source_system
+         * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+         * warehouse system, with its own identifier. source_system.anyOf[2] (Value): null. status
+         * (Required): string. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". superseded_at (Optional):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_by_return_inspection_id (Optional): string. ID of the inspection that
+         * corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". supersedes_return_inspection_id (Optional): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64. minimum: 1.
+         */
+        "object": {
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other".
+             */
+            "correction_reason"?: "entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {});
+            /** Detail about `correction_reason`. */
+            "correction_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_actor_id"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@link
+             * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+             * handled.
+             */
+            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
+             */
+            "idempotency_key"?: string | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "inspected_at": string;
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "inspection_location_id": string;
+            /**
+             * The lines recorded. [] (Value): {@link ReturnInspectionLineItem}. The inspection
+             * result for a returned item.
+             */
+            "line_items": Array<ReturnInspectionLineItem>;
+            /** ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+            "return_id": string;
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "return_inspection_id": string;
+            /** ID of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
+            "return_receipt_id": string;
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystem}. The system a return event came from,
+             * such as a point of sale or warehouse system, with its own identifier. anyOf[2]
+             * (Value): null.
+             */
+            "source_system": ((ReturnSourceSystem) | (null));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded".
+             */
+            "status": "current" | "superseded" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "superseded_at"?: string;
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "superseded_by_return_inspection_id"?: string;
+            /**
+             * ID of the inspection this one corrects. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "supersedes_return_inspection_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. correction_reason (Optional): string or null.
+         * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id`
+         * or `supersedes_return_inspection_id`. Value enum: "entry_error",
+         * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+         * correction_reason.anyOf[1] (Value): string. Why this observation replaces an earlier
+         * one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`.
+         * Value enum: "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason.anyOf[2] (Value): null.
+         * correction_reason_message (Optional): string or null. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[1] (Value): string. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * external_actor_id (Optional): string or null. Your identifier for the actor who recorded
+         * the event. Don't put secrets in this field. external_actor_id.anyOf[1] (Value): string.
+         * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+         * maxLength: 255. Example: "warehouse-1842". external_actor_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * generated_dispositions (Optional): Array of {@link ReturnDispositionPreviousAttributes}
+         * or null. Dispositions Flint created when it recorded this observation. Empty unless the
+         * policy's `receipt_disposition_mode` is `automatic`. generated_dispositions.anyOf[1]
+         * (Value): Array of {@link ReturnDispositionPreviousAttributes}. Dispositions Flint
+         * created when it recorded this observation. Empty unless the policy's
+         * `receipt_disposition_mode` is `automatic`. generated_dispositions.anyOf[1][] (Value):
+         * {@link ReturnDispositionPreviousAttributes}. generated_dispositions.anyOf[2] (Value):
+         * null. idempotency_key (Optional): string or null. The Idempotency-Key of the request
+         * that created this resource. `null` when that request sent no key, Flint created the
+         * resource, the reader isn't the caller that created it (another app install, a buyer, or
+         * the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[1] (Value): string.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[2] (Value): null. inspected_at (Optional): string or
+         * null. RFC3339 timestamp. inspected_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". inspected_at.anyOf[2] (Value): null.
+         * inspection_location_id (Optional): string or null. Location where the returned
+         * merchandise was inspected. Must match the receipt receiving_location_id.
+         * inspection_location_id.anyOf[1] (Value): string. Location where the returned merchandise
+         * was inspected. Must match the receipt receiving_location_id. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". inspection_location_id.anyOf[2] (Value): null.
+         * line_items (Optional): Array of {@link ReturnInspectionLineItemPreviousAttributes} or
+         * null. The lines recorded. line_items.anyOf[1] (Value): Array of {@link
+         * ReturnInspectionLineItemPreviousAttributes}. The lines recorded. line_items.anyOf[1][]
+         * (Value): {@link ReturnInspectionLineItemPreviousAttributes}. line_items.anyOf[2]
+         * (Value): null. return_id (Optional): string or null. ID of the Return the goods belong
+         * to. return_id.anyOf[1] (Value): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_inspection_id
+         * (Optional): string or null. Unique identifier for this return inspection, prefixed
+         * `retins_`. return_inspection_id.anyOf[1] (Value): string. Unique identifier for this
+         * return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * return_inspection_id.anyOf[2] (Value): null. return_receipt_id (Optional): string or
+         * null. ID of the receipt being inspected. return_receipt_id.anyOf[1] (Value): string. ID
+         * of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): {@link
+         * ReturnSourceSystemPreviousAttributes} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystemPreviousAttributes}. source_system.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". status.anyOf[1] (Value):
+         * string. Whether this is the current observation of these units or a correction replaced
+         * it. Value enum: "current", "superseded". status.anyOf[2] (Value): null. superseded_at
+         * (Optional): string or null. RFC3339 timestamp. superseded_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_at.anyOf[2] (Value): null. superseded_by_return_inspection_id (Optional):
+         * string or null. ID of the inspection that corrected this one. Absent while it is
+         * current. superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+         * inspection that corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". superseded_by_return_inspection_id.anyOf[2]
+         * (Value): null. supersedes_return_inspection_id (Optional): string or null. ID of the
+         * inspection this one corrects. supersedes_return_inspection_id.anyOf[1] (Value): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * supersedes_return_inspection_id.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other". anyOf[1] (Value): string. Why this observation
+             * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+             * `supersedes_return_inspection_id`. Value enum: "entry_error",
+             * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+             * anyOf[2] (Value): null.
+             */
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail about `correction_reason`. anyOf[1] (Value): string. Detail about
+             * `correction_reason`. anyOf[2] (Value): null.
+             */
+            "correction_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. anyOf[1] (Value): string. Your identifier for the actor who recorded the
+             * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_actor_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of
+             * {@link ReturnDispositionPreviousAttributes}. Dispositions Flint created when it
+             * recorded this observation. Empty unless the policy's `receipt_disposition_mode` is
+             * `automatic`. anyOf[1][] (Value): {@link ReturnDispositionPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "generated_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "inspected_at"?: ((string) | (null));
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. anyOf[1] (Value): string. Location where the returned
+             * merchandise was inspected. Must match the receipt receiving_location_id. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "inspection_location_id"?: ((string) | (null));
+            /**
+             * The lines recorded. anyOf[1] (Value): Array of {@link
+             * ReturnInspectionLineItemPreviousAttributes}. The lines recorded. anyOf[1][] (Value):
+             * {@link ReturnInspectionLineItemPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnInspectionLineItemPreviousAttributes>) | (null));
+            /**
+             * ID of the Return the goods belong to. anyOf[1] (Value): string. ID of the Return the
+             * goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. anyOf[1] (Value):
+             * string. Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the receipt being inspected. anyOf[1] (Value): string. ID of the receipt being
+             * inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_id"?: ((string) | (null));
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the
+             * current observation of these units or a correction replaced it. Value enum:
+             * "current", "superseded". anyOf[2] (Value): null.
+             */
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "superseded_at"?: ((string) | (null));
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. anyOf[1]
+             * (Value): string. ID of the inspection that corrected this one. Absent while it is
+             * current. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the inspection this one corrects. anyOf[1] (Value): string. ID of the
+             * inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "return_inspection.acceptance_decided". */
+    "event_type"?: "return_inspection.acceptance_decided";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `return_inspection.acceptance_decided` webhook payload for the `merchant` event source.
+ * Fields shared by merchant webhook payloads.
+ */
+export type ReturnInspectionAcceptanceDecidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.correction_reason (Optional): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other". object.correction_reason_message
+     * (Optional): string. Detail about `correction_reason`. object.created_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_actor_id (Optional): string. Your identifier for the actor who recorded the
+     * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842".
+     * object.generated_dispositions (Required): Array of {@link WebhookSnapshotReturnDisposition}.
+     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+     * `receipt_disposition_mode` is `automatic`. object.generated_dispositions[] (Value): {@link
+     * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+     * handled. object.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. object.inspected_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.inspection_location_id
+     * (Required): string. Location where the returned merchandise was inspected. Must match the
+     * receipt receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.line_items
+     * (Required): Array of {@link ReturnInspectionLineItem}. The lines recorded.
+     * object.line_items[] (Value): {@link ReturnInspectionLineItem}. The inspection result for a
+     * returned item. object.return_id (Required): string. ID of the Return the goods belong to.
+     * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_id (Required): string.
+     * Unique identifier for this return inspection, prefixed `retins_`. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_receipt_id (Required): string. ID of the
+     * receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.source_system
+     * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation. `null`
+     * when no source system was recorded. object.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+     * warehouse system, with its own identifier. object.source_system.anyOf[2] (Value): null.
+     * object.status (Required): string. Whether this is the current observation of these units or
+     * a correction replaced it. Value enum: "current", "superseded". object.superseded_at
+     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.superseded_by_return_inspection_id (Optional): string. ID of the inspection that
+     * corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.supersedes_return_inspection_id (Optional):
+     * string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current version of this resource's owned state. Send it as `expected_version` when
+     * changing the resource to reject a stale write. Format: int64. minimum: 1.
+     * previous_attributes (Optional): object and {@link ReturnInspectionPreviousAttributes}.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events. previous_attributes.correction_reason (Optional): string or
+     * null. Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id`
+     * or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[1] (Value): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[2] (Value): null.
+     * previous_attributes.correction_reason_message (Optional): string or null. Detail about
+     * `correction_reason`. previous_attributes.correction_reason_message.anyOf[1] (Value): string.
+     * Detail about `correction_reason`. previous_attributes.correction_reason_message.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_actor_id (Optional): string or null. Your identifier for
+     * the actor who recorded the event. Don't put secrets in this field.
+     * previous_attributes.external_actor_id.anyOf[1] (Value): string. Your identifier for the
+     * actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_actor_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.generated_dispositions (Optional): Array of {@link
+     * ReturnDispositionPreviousAttributes} or null. Dispositions Flint created when it recorded
+     * this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDispositionPreviousAttributes}. Dispositions Flint created when it recorded this
+     * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1][] (Value): {@link
+     * ReturnDispositionPreviousAttributes}. previous_attributes.generated_dispositions.anyOf[2]
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[2] (Value):
+     * null. previous_attributes.inspected_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.inspected_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.inspected_at.anyOf[2]
+     * (Value): null. previous_attributes.inspection_location_id (Optional): string or null.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. previous_attributes.inspection_location_id.anyOf[1] (Value): string.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.inspection_location_id.anyOf[2] (Value): null.
+     * previous_attributes.line_items (Optional): Array of {@link
+     * ReturnInspectionLineItemPreviousAttributes} or null. The lines recorded.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * ReturnInspectionLineItemPreviousAttributes}. The lines recorded.
+     * previous_attributes.line_items.anyOf[1][] (Value): {@link
+     * ReturnInspectionLineItemPreviousAttributes}. previous_attributes.line_items.anyOf[2]
+     * (Value): null. previous_attributes.return_id (Optional): string or null. ID of the Return
+     * the goods belong to. previous_attributes.return_id.anyOf[1] (Value): string. ID of the
+     * Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_id (Optional): string or null. Unique identifier for
+     * this return inspection, prefixed `retins_`.
+     * previous_attributes.return_inspection_id.anyOf[1] (Value): string. Unique identifier for
+     * this return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_id (Optional): string or null. ID of the receipt being
+     * inspected. previous_attributes.return_receipt_id.anyOf[1] (Value): string. ID of the receipt
+     * being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * previous_attributes.return_receipt_id.anyOf[2] (Value): null.
+     * previous_attributes.source_system (Optional): {@link ReturnSourceSystemPreviousAttributes}
+     * or null. System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystemPreviousAttributes}. previous_attributes.source_system.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Whether this is the current
+     * observation of these units or a correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether this is the current observation
+     * of these units or a correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.superseded_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.superseded_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.superseded_at.anyOf[2] (Value): null.
+     * previous_attributes.superseded_by_return_inspection_id (Optional): string or null. ID of the
+     * inspection that corrected this one. Absent while it is current.
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+     * inspection that corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.supersedes_return_inspection_id (Optional): string or null. ID of the
+     * inspection this one corrects. previous_attributes.supersedes_return_inspection_id.anyOf[1]
+     * (Value): string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.supersedes_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. previous_attributes.version.anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * correction_reason (Optional): string. Why this observation replaces an earlier one. Send
+         * with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+         * "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason_message (Optional): string.
+         * Detail about `correction_reason`. created_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". external_actor_id (Optional):
+         * string. Your identifier for the actor who recorded the event. Don't put secrets in this
+         * field. maxLength: 255. Example: "warehouse-1842". external_reference_id (Optional):
+         * string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". generated_dispositions (Required): Array of {@link
+         * WebhookSnapshotReturnDisposition}. Dispositions Flint created when it recorded this
+         * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+         * generated_dispositions[] (Value): {@link WebhookSnapshotReturnDisposition}. A decision
+         * about how returned merchandise will be handled. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inspected_at (Required): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". inspection_location_id (Required): string. Location
+         * where the returned merchandise was inspected. Must match the receipt
+         * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". line_items (Required):
+         * Array of {@link ReturnInspectionLineItem}. The lines recorded. line_items[] (Value):
+         * {@link ReturnInspectionLineItem}. The inspection result for a returned item. return_id
+         * (Required): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_id (Required): string. Unique
+         * identifier for this return inspection, prefixed `retins_`. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_receipt_id (Required): string. ID of the
+         * receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". source_system
+         * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+         * warehouse system, with its own identifier. source_system.anyOf[2] (Value): null. status
+         * (Required): string. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". superseded_at (Optional):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_by_return_inspection_id (Optional): string. ID of the inspection that
+         * corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". supersedes_return_inspection_id (Optional): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64. minimum: 1.
+         */
+        "object": {
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other".
+             */
+            "correction_reason"?: "entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {});
+            /** Detail about `correction_reason`. */
+            "correction_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_actor_id"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@link
+             * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+             * handled.
+             */
+            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
+             */
+            "idempotency_key"?: string | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "inspected_at": string;
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "inspection_location_id": string;
+            /**
+             * The lines recorded. [] (Value): {@link ReturnInspectionLineItem}. The inspection
+             * result for a returned item.
+             */
+            "line_items": Array<ReturnInspectionLineItem>;
+            /** ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+            "return_id": string;
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "return_inspection_id": string;
+            /** ID of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
+            "return_receipt_id": string;
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystem}. The system a return event came from,
+             * such as a point of sale or warehouse system, with its own identifier. anyOf[2]
+             * (Value): null.
+             */
+            "source_system": ((ReturnSourceSystem) | (null));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded".
+             */
+            "status": "current" | "superseded" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "superseded_at"?: string;
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "superseded_by_return_inspection_id"?: string;
+            /**
+             * ID of the inspection this one corrects. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "supersedes_return_inspection_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. correction_reason (Optional): string or null.
+         * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id`
+         * or `supersedes_return_inspection_id`. Value enum: "entry_error",
+         * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+         * correction_reason.anyOf[1] (Value): string. Why this observation replaces an earlier
+         * one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`.
+         * Value enum: "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason.anyOf[2] (Value): null.
+         * correction_reason_message (Optional): string or null. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[1] (Value): string. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * external_actor_id (Optional): string or null. Your identifier for the actor who recorded
+         * the event. Don't put secrets in this field. external_actor_id.anyOf[1] (Value): string.
+         * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+         * maxLength: 255. Example: "warehouse-1842". external_actor_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * generated_dispositions (Optional): Array of {@link ReturnDispositionPreviousAttributes}
+         * or null. Dispositions Flint created when it recorded this observation. Empty unless the
+         * policy's `receipt_disposition_mode` is `automatic`. generated_dispositions.anyOf[1]
+         * (Value): Array of {@link ReturnDispositionPreviousAttributes}. Dispositions Flint
+         * created when it recorded this observation. Empty unless the policy's
+         * `receipt_disposition_mode` is `automatic`. generated_dispositions.anyOf[1][] (Value):
+         * {@link ReturnDispositionPreviousAttributes}. generated_dispositions.anyOf[2] (Value):
+         * null. idempotency_key (Optional): string or null. The Idempotency-Key of the request
+         * that created this resource. `null` when that request sent no key, Flint created the
+         * resource, the reader isn't the caller that created it (another app install, a buyer, or
+         * the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[1] (Value): string.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[2] (Value): null. inspected_at (Optional): string or
+         * null. RFC3339 timestamp. inspected_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". inspected_at.anyOf[2] (Value): null.
+         * inspection_location_id (Optional): string or null. Location where the returned
+         * merchandise was inspected. Must match the receipt receiving_location_id.
+         * inspection_location_id.anyOf[1] (Value): string. Location where the returned merchandise
+         * was inspected. Must match the receipt receiving_location_id. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". inspection_location_id.anyOf[2] (Value): null.
+         * line_items (Optional): Array of {@link ReturnInspectionLineItemPreviousAttributes} or
+         * null. The lines recorded. line_items.anyOf[1] (Value): Array of {@link
+         * ReturnInspectionLineItemPreviousAttributes}. The lines recorded. line_items.anyOf[1][]
+         * (Value): {@link ReturnInspectionLineItemPreviousAttributes}. line_items.anyOf[2]
+         * (Value): null. return_id (Optional): string or null. ID of the Return the goods belong
+         * to. return_id.anyOf[1] (Value): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_inspection_id
+         * (Optional): string or null. Unique identifier for this return inspection, prefixed
+         * `retins_`. return_inspection_id.anyOf[1] (Value): string. Unique identifier for this
+         * return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * return_inspection_id.anyOf[2] (Value): null. return_receipt_id (Optional): string or
+         * null. ID of the receipt being inspected. return_receipt_id.anyOf[1] (Value): string. ID
+         * of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): {@link
+         * ReturnSourceSystemPreviousAttributes} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystemPreviousAttributes}. source_system.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". status.anyOf[1] (Value):
+         * string. Whether this is the current observation of these units or a correction replaced
+         * it. Value enum: "current", "superseded". status.anyOf[2] (Value): null. superseded_at
+         * (Optional): string or null. RFC3339 timestamp. superseded_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_at.anyOf[2] (Value): null. superseded_by_return_inspection_id (Optional):
+         * string or null. ID of the inspection that corrected this one. Absent while it is
+         * current. superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+         * inspection that corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". superseded_by_return_inspection_id.anyOf[2]
+         * (Value): null. supersedes_return_inspection_id (Optional): string or null. ID of the
+         * inspection this one corrects. supersedes_return_inspection_id.anyOf[1] (Value): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * supersedes_return_inspection_id.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other". anyOf[1] (Value): string. Why this observation
+             * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+             * `supersedes_return_inspection_id`. Value enum: "entry_error",
+             * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+             * anyOf[2] (Value): null.
+             */
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail about `correction_reason`. anyOf[1] (Value): string. Detail about
+             * `correction_reason`. anyOf[2] (Value): null.
+             */
+            "correction_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. anyOf[1] (Value): string. Your identifier for the actor who recorded the
+             * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_actor_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of
+             * {@link ReturnDispositionPreviousAttributes}. Dispositions Flint created when it
+             * recorded this observation. Empty unless the policy's `receipt_disposition_mode` is
+             * `automatic`. anyOf[1][] (Value): {@link ReturnDispositionPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "generated_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "inspected_at"?: ((string) | (null));
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. anyOf[1] (Value): string. Location where the returned
+             * merchandise was inspected. Must match the receipt receiving_location_id. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "inspection_location_id"?: ((string) | (null));
+            /**
+             * The lines recorded. anyOf[1] (Value): Array of {@link
+             * ReturnInspectionLineItemPreviousAttributes}. The lines recorded. anyOf[1][] (Value):
+             * {@link ReturnInspectionLineItemPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnInspectionLineItemPreviousAttributes>) | (null));
+            /**
+             * ID of the Return the goods belong to. anyOf[1] (Value): string. ID of the Return the
+             * goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. anyOf[1] (Value):
+             * string. Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the receipt being inspected. anyOf[1] (Value): string. ID of the receipt being
+             * inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_id"?: ((string) | (null));
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the
+             * current observation of these units or a correction replaced it. Value enum:
+             * "current", "superseded". anyOf[2] (Value): null.
+             */
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "superseded_at"?: ((string) | (null));
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. anyOf[1]
+             * (Value): string. ID of the inspection that corrected this one. Absent while it is
+             * current. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the inspection this one corrects. anyOf[1] (Value): string. ID of the
+             * inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "return_inspection.acceptance_decided". */
+    "event_type"?: "return_inspection.acceptance_decided";
+});
+export type ReturnInspectionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "correction_reason"?: "entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {});
+            "correction_reason_message"?: string;
+            "created_at": string;
+            "external_actor_id"?: string;
+            "external_reference_id"?: string;
+            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+            "idempotency_key"?: string | null;
+            "inspected_at": string;
+            "inspection_location_id": string;
+            "line_items": Array<ReturnInspectionLineItem>;
+            "return_id": string;
+            "return_inspection_id": string;
+            "return_receipt_id": string;
+            "source_system": ((ReturnSourceSystem) | (null));
+            "status": "current" | "superseded" | (string & {});
+            "superseded_at"?: string;
+            "superseded_by_return_inspection_id"?: string;
+            "supersedes_return_inspection_id"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "return_inspection.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "correction_reason"?: "entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {});
+            "correction_reason_message"?: string;
+            "created_at": string;
+            "external_actor_id"?: string;
+            "external_reference_id"?: string;
+            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+            "idempotency_key"?: string | null;
+            "inspected_at": string;
+            "inspection_location_id": string;
+            "line_items": Array<ReturnInspectionLineItem>;
+            "return_id": string;
+            "return_inspection_id": string;
+            "return_receipt_id": string;
+            "source_system": ((ReturnSourceSystem) | (null));
+            "status": "current" | "superseded" | (string & {});
+            "superseded_at"?: string;
+            "superseded_by_return_inspection_id"?: string;
+            "supersedes_return_inspection_id"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "return_inspection.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "return_inspection.created";
+});
+/**
+ * The `return_inspection.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type ReturnInspectionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.correction_reason (Optional): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other". object.correction_reason_message
+     * (Optional): string. Detail about `correction_reason`. object.created_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_actor_id (Optional): string. Your identifier for the actor who recorded the
+     * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842".
+     * object.generated_dispositions (Required): Array of {@link WebhookSnapshotReturnDisposition}.
+     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+     * `receipt_disposition_mode` is `automatic`. object.generated_dispositions[] (Value): {@link
+     * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+     * handled. object.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. object.inspected_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.inspection_location_id
+     * (Required): string. Location where the returned merchandise was inspected. Must match the
+     * receipt receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.line_items
+     * (Required): Array of {@link ReturnInspectionLineItem}. The lines recorded.
+     * object.line_items[] (Value): {@link ReturnInspectionLineItem}. The inspection result for a
+     * returned item. object.return_id (Required): string. ID of the Return the goods belong to.
+     * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_id (Required): string.
+     * Unique identifier for this return inspection, prefixed `retins_`. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_receipt_id (Required): string. ID of the
+     * receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.source_system
+     * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation. `null`
+     * when no source system was recorded. object.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+     * warehouse system, with its own identifier. object.source_system.anyOf[2] (Value): null.
+     * object.status (Required): string. Whether this is the current observation of these units or
+     * a correction replaced it. Value enum: "current", "superseded". object.superseded_at
+     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.superseded_by_return_inspection_id (Optional): string. ID of the inspection that
+     * corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.supersedes_return_inspection_id (Optional):
+     * string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current version of this resource's owned state. Send it as `expected_version` when
+     * changing the resource to reject a stale write. Format: int64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * correction_reason (Optional): string. Why this observation replaces an earlier one. Send
+         * with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+         * "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason_message (Optional): string.
+         * Detail about `correction_reason`. created_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". external_actor_id (Optional):
+         * string. Your identifier for the actor who recorded the event. Don't put secrets in this
+         * field. maxLength: 255. Example: "warehouse-1842". external_reference_id (Optional):
+         * string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". generated_dispositions (Required): Array of {@link
+         * WebhookSnapshotReturnDisposition}. Dispositions Flint created when it recorded this
+         * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+         * generated_dispositions[] (Value): {@link WebhookSnapshotReturnDisposition}. A decision
+         * about how returned merchandise will be handled. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inspected_at (Required): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". inspection_location_id (Required): string. Location
+         * where the returned merchandise was inspected. Must match the receipt
+         * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". line_items (Required):
+         * Array of {@link ReturnInspectionLineItem}. The lines recorded. line_items[] (Value):
+         * {@link ReturnInspectionLineItem}. The inspection result for a returned item. return_id
+         * (Required): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_id (Required): string. Unique
+         * identifier for this return inspection, prefixed `retins_`. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_receipt_id (Required): string. ID of the
+         * receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". source_system
+         * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+         * warehouse system, with its own identifier. source_system.anyOf[2] (Value): null. status
+         * (Required): string. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". superseded_at (Optional):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_by_return_inspection_id (Optional): string. ID of the inspection that
+         * corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". supersedes_return_inspection_id (Optional): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64. minimum: 1.
+         */
+        "object": {
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other".
+             */
+            "correction_reason"?: "entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {});
+            /** Detail about `correction_reason`. */
+            "correction_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_actor_id"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@link
+             * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+             * handled.
+             */
+            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
+             */
+            "idempotency_key"?: string | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "inspected_at": string;
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "inspection_location_id": string;
+            /**
+             * The lines recorded. [] (Value): {@link ReturnInspectionLineItem}. The inspection
+             * result for a returned item.
+             */
+            "line_items": Array<ReturnInspectionLineItem>;
+            /** ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+            "return_id": string;
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "return_inspection_id": string;
+            /** ID of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
+            "return_receipt_id": string;
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystem}. The system a return event came from,
+             * such as a point of sale or warehouse system, with its own identifier. anyOf[2]
+             * (Value): null.
+             */
+            "source_system": ((ReturnSourceSystem) | (null));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded".
+             */
+            "status": "current" | "superseded" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "superseded_at"?: string;
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "superseded_by_return_inspection_id"?: string;
+            /**
+             * ID of the inspection this one corrects. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "supersedes_return_inspection_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64. minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "return_inspection.created". */
+    "event_type"?: "return_inspection.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `return_inspection.created` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type ReturnInspectionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.correction_reason (Optional): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other". object.correction_reason_message
+     * (Optional): string. Detail about `correction_reason`. object.created_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_actor_id (Optional): string. Your identifier for the actor who recorded the
+     * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842".
+     * object.generated_dispositions (Required): Array of {@link WebhookSnapshotReturnDisposition}.
+     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+     * `receipt_disposition_mode` is `automatic`. object.generated_dispositions[] (Value): {@link
+     * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+     * handled. object.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. object.inspected_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.inspection_location_id
+     * (Required): string. Location where the returned merchandise was inspected. Must match the
+     * receipt receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.line_items
+     * (Required): Array of {@link ReturnInspectionLineItem}. The lines recorded.
+     * object.line_items[] (Value): {@link ReturnInspectionLineItem}. The inspection result for a
+     * returned item. object.return_id (Required): string. ID of the Return the goods belong to.
+     * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_id (Required): string.
+     * Unique identifier for this return inspection, prefixed `retins_`. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_receipt_id (Required): string. ID of the
+     * receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.source_system
+     * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation. `null`
+     * when no source system was recorded. object.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+     * warehouse system, with its own identifier. object.source_system.anyOf[2] (Value): null.
+     * object.status (Required): string. Whether this is the current observation of these units or
+     * a correction replaced it. Value enum: "current", "superseded". object.superseded_at
+     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.superseded_by_return_inspection_id (Optional): string. ID of the inspection that
+     * corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.supersedes_return_inspection_id (Optional):
+     * string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current version of this resource's owned state. Send it as `expected_version` when
+     * changing the resource to reject a stale write. Format: int64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * correction_reason (Optional): string. Why this observation replaces an earlier one. Send
+         * with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+         * "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason_message (Optional): string.
+         * Detail about `correction_reason`. created_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". external_actor_id (Optional):
+         * string. Your identifier for the actor who recorded the event. Don't put secrets in this
+         * field. maxLength: 255. Example: "warehouse-1842". external_reference_id (Optional):
+         * string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". generated_dispositions (Required): Array of {@link
+         * WebhookSnapshotReturnDisposition}. Dispositions Flint created when it recorded this
+         * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+         * generated_dispositions[] (Value): {@link WebhookSnapshotReturnDisposition}. A decision
+         * about how returned merchandise will be handled. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inspected_at (Required): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". inspection_location_id (Required): string. Location
+         * where the returned merchandise was inspected. Must match the receipt
+         * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". line_items (Required):
+         * Array of {@link ReturnInspectionLineItem}. The lines recorded. line_items[] (Value):
+         * {@link ReturnInspectionLineItem}. The inspection result for a returned item. return_id
+         * (Required): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_id (Required): string. Unique
+         * identifier for this return inspection, prefixed `retins_`. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_receipt_id (Required): string. ID of the
+         * receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". source_system
+         * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+         * warehouse system, with its own identifier. source_system.anyOf[2] (Value): null. status
+         * (Required): string. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". superseded_at (Optional):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_by_return_inspection_id (Optional): string. ID of the inspection that
+         * corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". supersedes_return_inspection_id (Optional): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64. minimum: 1.
+         */
+        "object": {
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other".
+             */
+            "correction_reason"?: "entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {});
+            /** Detail about `correction_reason`. */
+            "correction_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_actor_id"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@link
+             * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+             * handled.
+             */
+            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
+             */
+            "idempotency_key"?: string | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "inspected_at": string;
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "inspection_location_id": string;
+            /**
+             * The lines recorded. [] (Value): {@link ReturnInspectionLineItem}. The inspection
+             * result for a returned item.
+             */
+            "line_items": Array<ReturnInspectionLineItem>;
+            /** ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+            "return_id": string;
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "return_inspection_id": string;
+            /** ID of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
+            "return_receipt_id": string;
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystem}. The system a return event came from,
+             * such as a point of sale or warehouse system, with its own identifier. anyOf[2]
+             * (Value): null.
+             */
+            "source_system": ((ReturnSourceSystem) | (null));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded".
+             */
+            "status": "current" | "superseded" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "superseded_at"?: string;
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "superseded_by_return_inspection_id"?: string;
+            /**
+             * ID of the inspection this one corrects. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "supersedes_return_inspection_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64. minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "return_inspection.created". */
+    "event_type"?: "return_inspection.created";
+});
+/** The inspection result for a returned item. */
+export type ReturnInspectionLineItem = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "acceptance_decided_at"?: string;
+    /**
+     * Who made the acceptance decision. Who performed a return action: a buyer, merchant,
+     * integration, or the system, with an optional ID.
+     */
+    "acceptance_decided_by"?: ReturnActor;
+    /**
+     * Why the units were accepted or rejected after review. Value enum: "inspection_result",
+     * "return_policy", "manual_review", "other".
+     */
+    "acceptance_decision_reason"?: "inspection_result" | "return_policy" | "manual_review" | "other" | (string & {});
+    /** Detail about `acceptance_decision_reason`. */
+    "acceptance_decision_reason_message"?: string;
+    /**
+     * Whether the inspected units were accepted, rejected, or need a merchant's decision. Value
+     * enum: "accepted", "rejected", "review_required".
+     */
+    "acceptance_status": "accepted" | "rejected" | "review_required" | (string & {});
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "available_disposition_quantity": number;
+    /**
+     * `undetermined`: The item's condition could not be assessed. Value enum: "new", "unopened",
+     * "opened", "used", "damaged", "defective", "incomplete", "undetermined".
+     */
+    "condition": "new"
+        | "unopened"
+        | "opened"
+        | "used"
+        | "damaged"
+        | "defective"
+        | "incomplete"
+        | "undetermined"
+        | (string & {});
+    /**
+     * What the inspection found. Up to 50 values, none repeated. [] enum: "matches_expected_item",
+     * "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package",
+     * "counterfeit_suspected", "other". [] (Value): string. Value enum: "matches_expected_item",
+     * "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package",
+     * "counterfeit_suspected", "other".
+     */
+    "finding_codes": Array<"matches_expected_item"
+        | "wrong_item"
+        | "damaged"
+        | "defective"
+        | "used"
+        | "missing_parts"
+        | "empty_package"
+        | "counterfeit_suspected"
+        | "other"
+        | (string & {})>;
+    /** Note for your own team about this line. */
+    "internal_note"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Return that owns return_line_item_id. `null` when return_line_item_id is null. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string | null;
+    /** ID of the inspection the line belongs to. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". */
+    "return_inspection_id": string;
+    /**
+     * Unique identifier for this return inspection line item, prefixed `retinli_`. Example:
+     * "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+     */
+    "return_inspection_line_item_id": string;
+    /** ID of the Return line inspected. Example: "retli_01KEZF7C00R813VR7ECXS062QG". */
+    "return_line_item_id"?: string;
+    /**
+     * Receipt that owns return_receipt_line_item_id. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     */
+    "return_receipt_id": string;
+    /** ID of the receipt line inspected. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". */
+    "return_receipt_line_item_id": string;
+    /**
+     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
+     * left out. `decide` is listed while the inspection is current and the line's
+     * `acceptance_status` is `review_required`. Otherwise empty. [] enum: "decide". [] (Value):
+     * string. Value enum: "decide".
+     */
+    "supported_actions": Array<"decide" | (string & {})>;
+};
+export type ReturnInspectionLineItemPreviousAttributes = {
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "acceptance_decided_at"?: ((string) | (null));
+    /**
+     * Who made the acceptance decision. anyOf[1] (Value): {@link ReturnActorPreviousAttributes}.
+     * anyOf[2] (Value): null.
+     */
+    "acceptance_decided_by"?: ((ReturnActorPreviousAttributes) | (null));
+    /**
+     * Why the units were accepted or rejected after review. Value enum: "inspection_result",
+     * "return_policy", "manual_review", "other". anyOf[1] (Value): string. Why the units were
+     * accepted or rejected after review. Value enum: "inspection_result", "return_policy",
+     * "manual_review", "other". anyOf[2] (Value): null.
+     */
+    "acceptance_decision_reason"?: (("inspection_result" | "return_policy" | "manual_review" | "other" | (string & {})) | (null));
+    /**
+     * Detail about `acceptance_decision_reason`. anyOf[1] (Value): string. Detail about
+     * `acceptance_decision_reason`. anyOf[2] (Value): null.
+     */
+    "acceptance_decision_reason_message"?: ((string) | (null));
+    /**
+     * Whether the inspected units were accepted, rejected, or need a merchant's decision. Value
+     * enum: "accepted", "rejected", "review_required". anyOf[1] (Value): string. Whether the
+     * inspected units were accepted, rejected, or need a merchant's decision. Value enum:
+     * "accepted", "rejected", "review_required". anyOf[2] (Value): null.
+     */
+    "acceptance_status"?: (("accepted" | "rejected" | "review_required" | (string & {})) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
+     * (Value): null.
+     */
+    "available_disposition_quantity"?: ((number) | (null));
+    /**
+     * `undetermined`: The item's condition could not be assessed. Value enum: "new", "unopened",
+     * "opened", "used", "damaged", "defective", "incomplete", "undetermined". anyOf[1] (Value):
+     * string. `undetermined`: The item's condition could not be assessed. Value enum: "new",
+     * "unopened", "opened", "used", "damaged", "defective", "incomplete", "undetermined". anyOf[2]
+     * (Value): null.
+     */
+    "condition"?: (("new"
+        | "unopened"
+        | "opened"
+        | "used"
+        | "damaged"
+        | "defective"
+        | "incomplete"
+        | "undetermined"
+        | (string & {}))
+        | (null));
+    /**
+     * What the inspection found. Up to 50 values, none repeated. [] enum: "matches_expected_item",
+     * "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package",
+     * "counterfeit_suspected", "other". anyOf[1] (Value): Array of string. What the inspection
+     * found. Up to 50 values, none repeated. [] enum: "matches_expected_item", "wrong_item",
+     * "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected",
+     * "other". anyOf[1][] (Value): string. Value enum: "matches_expected_item", "wrong_item",
+     * "damaged", "defective", "used", "missing_parts", "empty_package", "counterfeit_suspected",
+     * "other". anyOf[2] (Value): null.
+     */
+    "finding_codes"?: ((Array<"matches_expected_item"
+        | "wrong_item"
+        | "damaged"
+        | "defective"
+        | "used"
+        | "missing_parts"
+        | "empty_package"
+        | "counterfeit_suspected"
+        | "other"
+        | (string & {})>)
+        | (null));
+    /**
+     * Note for your own team about this line. anyOf[1] (Value): string. Note for your own team
+     * about this line. anyOf[2] (Value): null.
+     */
+    "internal_note"?: ((string) | (null));
+    /**
+     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
+     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
+     * (Value): null.
+     */
+    "quantity"?: ((number) | (null));
+    /**
+     * Return that owns return_line_item_id. `null` when return_line_item_id is null. anyOf[1]
+     * (Value): string. Return that owns return_line_item_id. `null` when return_line_item_id is
+     * null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+     */
+    "return_id"?: ((string) | (null));
+    /**
+     * ID of the inspection the line belongs to. anyOf[1] (Value): string. ID of the inspection the
+     * line belongs to. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+     */
+    "return_inspection_id"?: ((string) | (null));
+    /**
+     * Unique identifier for this return inspection line item, prefixed `retinli_`. anyOf[1]
+     * (Value): string. Unique identifier for this return inspection line item, prefixed
+     * `retinli_`. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4". anyOf[2] (Value): null.
+     */
+    "return_inspection_line_item_id"?: ((string) | (null));
+    /**
+     * ID of the Return line inspected. anyOf[1] (Value): string. ID of the Return line inspected.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG". anyOf[2] (Value): null.
+     */
+    "return_line_item_id"?: ((string) | (null));
+    /**
+     * Receipt that owns return_receipt_line_item_id. anyOf[1] (Value): string. Receipt that owns
+     * return_receipt_line_item_id. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value):
+     * null.
+     */
+    "return_receipt_id"?: ((string) | (null));
+    /**
+     * ID of the receipt line inspected. anyOf[1] (Value): string. ID of the receipt line
+     * inspected. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE". anyOf[2] (Value): null.
+     */
+    "return_receipt_line_item_id"?: ((string) | (null));
+    /**
+     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
+     * left out. `decide` is listed while the inspection is current and the line's
+     * `acceptance_status` is `review_required`. Otherwise empty. [] enum: "decide". anyOf[1]
+     * (Value): Array of string. Actions that can succeed now. Actions the API key or token doesn't
+     * have the scope for are left out. `decide` is listed while the inspection is current and the
+     * line's `acceptance_status` is `review_required`. Otherwise empty. [] enum: "decide".
+     * anyOf[1][] (Value): string. Value enum: "decide". anyOf[2] (Value): null.
+     */
+    "supported_actions"?: ((Array<"decide" | (string & {})>) | (null));
+};
+/**
+ * The inspection result for one received return line: acceptance status, condition, and findings.
+ */
+export type ReturnInspectionLineItemRequest = ({
+    /**
+     * Whether the inspected units were accepted, rejected, or need a merchant's decision. Value
+     * enum: "accepted", "rejected", "review_required".
+     */
+    "acceptance_status": "accepted" | "rejected" | "review_required" | (string & {});
+    /**
+     * `undetermined`: The item's condition could not be assessed. Value enum: "new", "unopened",
+     * "opened", "used", "damaged", "defective", "incomplete", "undetermined".
+     */
+    "condition": "new"
+        | "unopened"
+        | "opened"
+        | "used"
+        | "damaged"
+        | "defective"
+        | "incomplete"
+        | "undetermined"
+        | (string & {});
+    /**
+     * What the inspection found. Up to 50 values, none repeated. [] enum: "matches_expected_item",
+     * "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package",
+     * "counterfeit_suspected", "other". [] (Value): string. Value enum: "matches_expected_item",
+     * "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package",
+     * "counterfeit_suspected", "other".
+     */
+    "finding_codes"?: Array<"matches_expected_item"
+        | "wrong_item"
+        | "damaged"
+        | "defective"
+        | "used"
+        | "missing_parts"
+        | "empty_package"
+        | "counterfeit_suspected"
+        | "other"
+        | (string & {})>;
+    /**
+     * Note for your own team about this line. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1.
+     */
+    "internal_note"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * ID of the Return line to verify the receipt line against. Send with `verification_reason`.
+     * minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id"?: string;
+    /**
+     * ID of the receipt line inspected. minLength: 1. Example:
+     * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id": string;
+    /**
+     * Why the receipt line was verified against the Return line. Required when you send
+     * `return_line_item_id`. Value enum: "order_match_confirmed", "sku_match_confirmed",
+     * "inspection_confirmed", "merchant_review", "other".
+     */
+    "verification_reason"?: "order_match_confirmed"
+        | "sku_match_confirmed"
+        | "inspection_confirmed"
+        | "merchant_review"
+        | "other"
+        | (string & {});
+    /**
+     * Detail about `verification_reason`. Send only with `return_line_item_id` and
+     * `verification_reason`. minLength: 1.
+     */
+    "verification_reason_message"?: string;
+});
+/**
+ * The inspection result for one received return line: acceptance status, condition, and findings.
+ */
+export type ReturnInspectionLineItemRequestInput = ({
+    /**
+     * Whether the inspected units were accepted, rejected, or need a merchant's decision. Value
+     * enum: "accepted", "rejected", "review_required".
+     */
+    "acceptance_status": "accepted" | "rejected" | "review_required";
+    /**
+     * `undetermined`: The item's condition could not be assessed. Value enum: "new", "unopened",
+     * "opened", "used", "damaged", "defective", "incomplete", "undetermined".
+     */
+    "condition": "new" | "unopened" | "opened" | "used" | "damaged" | "defective" | "incomplete" | "undetermined";
+    /**
+     * What the inspection found. Up to 50 values, none repeated. [] enum: "matches_expected_item",
+     * "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package",
+     * "counterfeit_suspected", "other". [] (Value): string. Value enum: "matches_expected_item",
+     * "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package",
+     * "counterfeit_suspected", "other".
+     */
+    "finding_codes"?: Array<"matches_expected_item"
+        | "wrong_item"
+        | "damaged"
+        | "defective"
+        | "used"
+        | "missing_parts"
+        | "empty_package"
+        | "counterfeit_suspected"
+        | "other">;
+    /**
+     * Note for your own team about this line. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1.
+     */
+    "internal_note"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * ID of the Return line to verify the receipt line against. Send with `verification_reason`.
+     * minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id"?: string;
+    /**
+     * ID of the receipt line inspected. minLength: 1. Example:
+     * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+     */
+    "return_receipt_line_item_id": string;
+    /**
+     * Why the receipt line was verified against the Return line. Required when you send
+     * `return_line_item_id`. Value enum: "order_match_confirmed", "sku_match_confirmed",
+     * "inspection_confirmed", "merchant_review", "other".
+     */
+    "verification_reason"?: "order_match_confirmed"
+        | "sku_match_confirmed"
+        | "inspection_confirmed"
+        | "merchant_review"
+        | "other";
+    /**
+     * Detail about `verification_reason`. Send only with `return_line_item_id` and
+     * `verification_reason`. minLength: 1.
+     */
+    "verification_reason_message"?: string;
+});
+export type ReturnInspectionPreviousAttributes = {
+    /**
+     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other". anyOf[1] (Value): string. Why
+     * this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other". anyOf[2] (Value): null.
+     */
+    "correction_reason"?: (("entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other"
+        | (string & {}))
+        | (null));
+    /**
+     * Detail about `correction_reason`. anyOf[1] (Value): string. Detail about
+     * `correction_reason`. anyOf[2] (Value): null.
+     */
+    "correction_reason_message"?: ((string) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * anyOf[1] (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. maxLength: 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_actor_id"?: ((string) | (null));
+    /**
+     * Caller-owned identifier for this resource in an external system. anyOf[1] (Value): string.
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842". anyOf[2] (Value): null.
+     */
+    "external_reference_id"?: ((string) | (null));
+    /**
+     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+     * `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of {@link
+     * ReturnDispositionPreviousAttributes}. Dispositions Flint created when it recorded this
+     * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`. anyOf[1][]
+     * (Value): {@link ReturnDispositionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "generated_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. anyOf[1] (Value): string. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource. anyOf[2] (Value): null.
+     */
+    "idempotency_key"?: ((string) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "inspected_at"?: ((string) | (null));
+    /**
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. anyOf[1] (Value): string. Location where the returned merchandise was
+     * inspected. Must match the receipt receiving_location_id. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+     */
+    "inspection_location_id"?: ((string) | (null));
+    /**
+     * The lines recorded. anyOf[1] (Value): Array of {@link
+     * ReturnInspectionLineItemPreviousAttributes}. The lines recorded. anyOf[1][] (Value): {@link
+     * ReturnInspectionLineItemPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "line_items"?: ((Array<ReturnInspectionLineItemPreviousAttributes>) | (null));
+    /**
+     * ID of the Return the goods belong to. anyOf[1] (Value): string. ID of the Return the goods
+     * belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+     */
+    "return_id"?: ((string) | (null));
+    /**
+     * Unique identifier for this return inspection, prefixed `retins_`. anyOf[1] (Value): string.
+     * Unique identifier for this return inspection, prefixed `retins_`. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+     */
+    "return_inspection_id"?: ((string) | (null));
+    /**
+     * ID of the receipt being inspected. anyOf[1] (Value): string. ID of the receipt being
+     * inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+     */
+    "return_receipt_id"?: ((string) | (null));
+    /**
+     * System that recorded the observation. `null` when no source system was recorded. anyOf[1]
+     * (Value): {@link ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
+    /**
+     * Whether this is the current observation of these units or a correction replaced it. Value
+     * enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the current
+     * observation of these units or a correction replaced it. Value enum: "current", "superseded".
+     * anyOf[2] (Value): null.
+     */
+    "status"?: (("current" | "superseded" | (string & {})) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "superseded_at"?: ((string) | (null));
+    /**
+     * ID of the inspection that corrected this one. Absent while it is current. anyOf[1] (Value):
+     * string. ID of the inspection that corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+     */
+    "superseded_by_return_inspection_id"?: ((string) | (null));
+    /**
+     * ID of the inspection this one corrects. anyOf[1] (Value): string. ID of the inspection this
+     * one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+     */
+    "supersedes_return_inspection_id"?: ((string) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. minimum: 1. anyOf[2] (Value): null.
+     */
+    "version"?: ((number) | (null));
+};
+export type ReturnInspectionSupersededEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "correction_reason"?: "entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {});
+            "correction_reason_message"?: string;
+            "created_at": string;
+            "external_actor_id"?: string;
+            "external_reference_id"?: string;
+            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+            "idempotency_key"?: string | null;
+            "inspected_at": string;
+            "inspection_location_id": string;
+            "line_items": Array<ReturnInspectionLineItem>;
+            "return_id": string;
+            "return_inspection_id": string;
+            "return_receipt_id": string;
+            "source_system": ((ReturnSourceSystem) | (null));
+            "status": "current" | "superseded" | (string & {});
+            "superseded_at"?: string;
+            "superseded_by_return_inspection_id"?: string;
+            "supersedes_return_inspection_id"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            "correction_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "external_actor_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "generated_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inspected_at"?: ((string) | (null));
+            "inspection_location_id"?: ((string) | (null));
+            "line_items"?: ((Array<ReturnInspectionLineItemPreviousAttributes>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_id"?: ((string) | (null));
+            "return_receipt_id"?: ((string) | (null));
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            "superseded_at"?: ((string) | (null));
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "return_inspection.superseded";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "correction_reason"?: "entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {});
+            "correction_reason_message"?: string;
+            "created_at": string;
+            "external_actor_id"?: string;
+            "external_reference_id"?: string;
+            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+            "idempotency_key"?: string | null;
+            "inspected_at": string;
+            "inspection_location_id": string;
+            "line_items": Array<ReturnInspectionLineItem>;
+            "return_id": string;
+            "return_inspection_id": string;
+            "return_receipt_id": string;
+            "source_system": ((ReturnSourceSystem) | (null));
+            "status": "current" | "superseded" | (string & {});
+            "superseded_at"?: string;
+            "superseded_by_return_inspection_id"?: string;
+            "supersedes_return_inspection_id"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            "correction_reason_message"?: ((string) | (null));
+            "created_at"?: ((string) | (null));
+            "external_actor_id"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "generated_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+            "idempotency_key"?: ((string) | (null));
+            "inspected_at"?: ((string) | (null));
+            "inspection_location_id"?: ((string) | (null));
+            "line_items"?: ((Array<ReturnInspectionLineItemPreviousAttributes>) | (null));
+            "return_id"?: ((string) | (null));
+            "return_inspection_id"?: ((string) | (null));
+            "return_receipt_id"?: ((string) | (null));
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            "superseded_at"?: ((string) | (null));
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "return_inspection.superseded";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "return_inspection.superseded";
+});
+/**
+ * The `return_inspection.superseded` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type ReturnInspectionSupersededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.correction_reason (Optional): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other". object.correction_reason_message
+     * (Optional): string. Detail about `correction_reason`. object.created_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_actor_id (Optional): string. Your identifier for the actor who recorded the
+     * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842".
+     * object.generated_dispositions (Required): Array of {@link WebhookSnapshotReturnDisposition}.
+     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+     * `receipt_disposition_mode` is `automatic`. object.generated_dispositions[] (Value): {@link
+     * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+     * handled. object.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. object.inspected_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.inspection_location_id
+     * (Required): string. Location where the returned merchandise was inspected. Must match the
+     * receipt receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.line_items
+     * (Required): Array of {@link ReturnInspectionLineItem}. The lines recorded.
+     * object.line_items[] (Value): {@link ReturnInspectionLineItem}. The inspection result for a
+     * returned item. object.return_id (Required): string. ID of the Return the goods belong to.
+     * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_id (Required): string.
+     * Unique identifier for this return inspection, prefixed `retins_`. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_receipt_id (Required): string. ID of the
+     * receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.source_system
+     * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation. `null`
+     * when no source system was recorded. object.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+     * warehouse system, with its own identifier. object.source_system.anyOf[2] (Value): null.
+     * object.status (Required): string. Whether this is the current observation of these units or
+     * a correction replaced it. Value enum: "current", "superseded". object.superseded_at
+     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.superseded_by_return_inspection_id (Optional): string. ID of the inspection that
+     * corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.supersedes_return_inspection_id (Optional):
+     * string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current version of this resource's owned state. Send it as `expected_version` when
+     * changing the resource to reject a stale write. Format: int64. minimum: 1.
+     * previous_attributes (Optional): object and {@link ReturnInspectionPreviousAttributes}.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events. previous_attributes.correction_reason (Optional): string or
+     * null. Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id`
+     * or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[1] (Value): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[2] (Value): null.
+     * previous_attributes.correction_reason_message (Optional): string or null. Detail about
+     * `correction_reason`. previous_attributes.correction_reason_message.anyOf[1] (Value): string.
+     * Detail about `correction_reason`. previous_attributes.correction_reason_message.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_actor_id (Optional): string or null. Your identifier for
+     * the actor who recorded the event. Don't put secrets in this field.
+     * previous_attributes.external_actor_id.anyOf[1] (Value): string. Your identifier for the
+     * actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_actor_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.generated_dispositions (Optional): Array of {@link
+     * ReturnDispositionPreviousAttributes} or null. Dispositions Flint created when it recorded
+     * this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDispositionPreviousAttributes}. Dispositions Flint created when it recorded this
+     * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1][] (Value): {@link
+     * ReturnDispositionPreviousAttributes}. previous_attributes.generated_dispositions.anyOf[2]
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[2] (Value):
+     * null. previous_attributes.inspected_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.inspected_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.inspected_at.anyOf[2]
+     * (Value): null. previous_attributes.inspection_location_id (Optional): string or null.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. previous_attributes.inspection_location_id.anyOf[1] (Value): string.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.inspection_location_id.anyOf[2] (Value): null.
+     * previous_attributes.line_items (Optional): Array of {@link
+     * ReturnInspectionLineItemPreviousAttributes} or null. The lines recorded.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * ReturnInspectionLineItemPreviousAttributes}. The lines recorded.
+     * previous_attributes.line_items.anyOf[1][] (Value): {@link
+     * ReturnInspectionLineItemPreviousAttributes}. previous_attributes.line_items.anyOf[2]
+     * (Value): null. previous_attributes.return_id (Optional): string or null. ID of the Return
+     * the goods belong to. previous_attributes.return_id.anyOf[1] (Value): string. ID of the
+     * Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_id (Optional): string or null. Unique identifier for
+     * this return inspection, prefixed `retins_`.
+     * previous_attributes.return_inspection_id.anyOf[1] (Value): string. Unique identifier for
+     * this return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_id (Optional): string or null. ID of the receipt being
+     * inspected. previous_attributes.return_receipt_id.anyOf[1] (Value): string. ID of the receipt
+     * being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * previous_attributes.return_receipt_id.anyOf[2] (Value): null.
+     * previous_attributes.source_system (Optional): {@link ReturnSourceSystemPreviousAttributes}
+     * or null. System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystemPreviousAttributes}. previous_attributes.source_system.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Whether this is the current
+     * observation of these units or a correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether this is the current observation
+     * of these units or a correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.superseded_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.superseded_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.superseded_at.anyOf[2] (Value): null.
+     * previous_attributes.superseded_by_return_inspection_id (Optional): string or null. ID of the
+     * inspection that corrected this one. Absent while it is current.
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+     * inspection that corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.supersedes_return_inspection_id (Optional): string or null. ID of the
+     * inspection this one corrects. previous_attributes.supersedes_return_inspection_id.anyOf[1]
+     * (Value): string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.supersedes_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. previous_attributes.version.anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * correction_reason (Optional): string. Why this observation replaces an earlier one. Send
+         * with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+         * "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason_message (Optional): string.
+         * Detail about `correction_reason`. created_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". external_actor_id (Optional):
+         * string. Your identifier for the actor who recorded the event. Don't put secrets in this
+         * field. maxLength: 255. Example: "warehouse-1842". external_reference_id (Optional):
+         * string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". generated_dispositions (Required): Array of {@link
+         * WebhookSnapshotReturnDisposition}. Dispositions Flint created when it recorded this
+         * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+         * generated_dispositions[] (Value): {@link WebhookSnapshotReturnDisposition}. A decision
+         * about how returned merchandise will be handled. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inspected_at (Required): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". inspection_location_id (Required): string. Location
+         * where the returned merchandise was inspected. Must match the receipt
+         * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". line_items (Required):
+         * Array of {@link ReturnInspectionLineItem}. The lines recorded. line_items[] (Value):
+         * {@link ReturnInspectionLineItem}. The inspection result for a returned item. return_id
+         * (Required): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_id (Required): string. Unique
+         * identifier for this return inspection, prefixed `retins_`. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_receipt_id (Required): string. ID of the
+         * receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". source_system
+         * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+         * warehouse system, with its own identifier. source_system.anyOf[2] (Value): null. status
+         * (Required): string. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". superseded_at (Optional):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_by_return_inspection_id (Optional): string. ID of the inspection that
+         * corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". supersedes_return_inspection_id (Optional): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64. minimum: 1.
+         */
+        "object": {
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other".
+             */
+            "correction_reason"?: "entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {});
+            /** Detail about `correction_reason`. */
+            "correction_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_actor_id"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@link
+             * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+             * handled.
+             */
+            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
+             */
+            "idempotency_key"?: string | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "inspected_at": string;
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "inspection_location_id": string;
+            /**
+             * The lines recorded. [] (Value): {@link ReturnInspectionLineItem}. The inspection
+             * result for a returned item.
+             */
+            "line_items": Array<ReturnInspectionLineItem>;
+            /** ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+            "return_id": string;
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "return_inspection_id": string;
+            /** ID of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
+            "return_receipt_id": string;
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystem}. The system a return event came from,
+             * such as a point of sale or warehouse system, with its own identifier. anyOf[2]
+             * (Value): null.
+             */
+            "source_system": ((ReturnSourceSystem) | (null));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded".
+             */
+            "status": "current" | "superseded" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "superseded_at"?: string;
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "superseded_by_return_inspection_id"?: string;
+            /**
+             * ID of the inspection this one corrects. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "supersedes_return_inspection_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. correction_reason (Optional): string or null.
+         * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id`
+         * or `supersedes_return_inspection_id`. Value enum: "entry_error",
+         * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+         * correction_reason.anyOf[1] (Value): string. Why this observation replaces an earlier
+         * one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`.
+         * Value enum: "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason.anyOf[2] (Value): null.
+         * correction_reason_message (Optional): string or null. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[1] (Value): string. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * external_actor_id (Optional): string or null. Your identifier for the actor who recorded
+         * the event. Don't put secrets in this field. external_actor_id.anyOf[1] (Value): string.
+         * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+         * maxLength: 255. Example: "warehouse-1842". external_actor_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * generated_dispositions (Optional): Array of {@link ReturnDispositionPreviousAttributes}
+         * or null. Dispositions Flint created when it recorded this observation. Empty unless the
+         * policy's `receipt_disposition_mode` is `automatic`. generated_dispositions.anyOf[1]
+         * (Value): Array of {@link ReturnDispositionPreviousAttributes}. Dispositions Flint
+         * created when it recorded this observation. Empty unless the policy's
+         * `receipt_disposition_mode` is `automatic`. generated_dispositions.anyOf[1][] (Value):
+         * {@link ReturnDispositionPreviousAttributes}. generated_dispositions.anyOf[2] (Value):
+         * null. idempotency_key (Optional): string or null. The Idempotency-Key of the request
+         * that created this resource. `null` when that request sent no key, Flint created the
+         * resource, the reader isn't the caller that created it (another app install, a buyer, or
+         * the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[1] (Value): string.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[2] (Value): null. inspected_at (Optional): string or
+         * null. RFC3339 timestamp. inspected_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". inspected_at.anyOf[2] (Value): null.
+         * inspection_location_id (Optional): string or null. Location where the returned
+         * merchandise was inspected. Must match the receipt receiving_location_id.
+         * inspection_location_id.anyOf[1] (Value): string. Location where the returned merchandise
+         * was inspected. Must match the receipt receiving_location_id. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". inspection_location_id.anyOf[2] (Value): null.
+         * line_items (Optional): Array of {@link ReturnInspectionLineItemPreviousAttributes} or
+         * null. The lines recorded. line_items.anyOf[1] (Value): Array of {@link
+         * ReturnInspectionLineItemPreviousAttributes}. The lines recorded. line_items.anyOf[1][]
+         * (Value): {@link ReturnInspectionLineItemPreviousAttributes}. line_items.anyOf[2]
+         * (Value): null. return_id (Optional): string or null. ID of the Return the goods belong
+         * to. return_id.anyOf[1] (Value): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_inspection_id
+         * (Optional): string or null. Unique identifier for this return inspection, prefixed
+         * `retins_`. return_inspection_id.anyOf[1] (Value): string. Unique identifier for this
+         * return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * return_inspection_id.anyOf[2] (Value): null. return_receipt_id (Optional): string or
+         * null. ID of the receipt being inspected. return_receipt_id.anyOf[1] (Value): string. ID
+         * of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): {@link
+         * ReturnSourceSystemPreviousAttributes} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystemPreviousAttributes}. source_system.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". status.anyOf[1] (Value):
+         * string. Whether this is the current observation of these units or a correction replaced
+         * it. Value enum: "current", "superseded". status.anyOf[2] (Value): null. superseded_at
+         * (Optional): string or null. RFC3339 timestamp. superseded_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_at.anyOf[2] (Value): null. superseded_by_return_inspection_id (Optional):
+         * string or null. ID of the inspection that corrected this one. Absent while it is
+         * current. superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+         * inspection that corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". superseded_by_return_inspection_id.anyOf[2]
+         * (Value): null. supersedes_return_inspection_id (Optional): string or null. ID of the
+         * inspection this one corrects. supersedes_return_inspection_id.anyOf[1] (Value): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * supersedes_return_inspection_id.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other". anyOf[1] (Value): string. Why this observation
+             * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+             * `supersedes_return_inspection_id`. Value enum: "entry_error",
+             * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+             * anyOf[2] (Value): null.
+             */
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail about `correction_reason`. anyOf[1] (Value): string. Detail about
+             * `correction_reason`. anyOf[2] (Value): null.
+             */
+            "correction_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. anyOf[1] (Value): string. Your identifier for the actor who recorded the
+             * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_actor_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of
+             * {@link ReturnDispositionPreviousAttributes}. Dispositions Flint created when it
+             * recorded this observation. Empty unless the policy's `receipt_disposition_mode` is
+             * `automatic`. anyOf[1][] (Value): {@link ReturnDispositionPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "generated_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "inspected_at"?: ((string) | (null));
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. anyOf[1] (Value): string. Location where the returned
+             * merchandise was inspected. Must match the receipt receiving_location_id. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "inspection_location_id"?: ((string) | (null));
+            /**
+             * The lines recorded. anyOf[1] (Value): Array of {@link
+             * ReturnInspectionLineItemPreviousAttributes}. The lines recorded. anyOf[1][] (Value):
+             * {@link ReturnInspectionLineItemPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnInspectionLineItemPreviousAttributes>) | (null));
+            /**
+             * ID of the Return the goods belong to. anyOf[1] (Value): string. ID of the Return the
+             * goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. anyOf[1] (Value):
+             * string. Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the receipt being inspected. anyOf[1] (Value): string. ID of the receipt being
+             * inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_id"?: ((string) | (null));
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the
+             * current observation of these units or a correction replaced it. Value enum:
+             * "current", "superseded". anyOf[2] (Value): null.
+             */
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "superseded_at"?: ((string) | (null));
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. anyOf[1]
+             * (Value): string. ID of the inspection that corrected this one. Absent while it is
+             * current. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the inspection this one corrects. anyOf[1] (Value): string. ID of the
+             * inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "return_inspection.superseded". */
+    "event_type"?: "return_inspection.superseded";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `return_inspection.superseded` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type ReturnInspectionSupersededMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.correction_reason (Optional): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other". object.correction_reason_message
+     * (Optional): string. Detail about `correction_reason`. object.created_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.external_actor_id (Optional): string. Your identifier for the actor who recorded the
+     * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842".
+     * object.generated_dispositions (Required): Array of {@link WebhookSnapshotReturnDisposition}.
+     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
+     * `receipt_disposition_mode` is `automatic`. object.generated_dispositions[] (Value): {@link
+     * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+     * handled. object.idempotency_key (Optional): string or null. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. object.inspected_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.inspection_location_id
+     * (Required): string. Location where the returned merchandise was inspected. Must match the
+     * receipt receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.line_items
+     * (Required): Array of {@link ReturnInspectionLineItem}. The lines recorded.
+     * object.line_items[] (Value): {@link ReturnInspectionLineItem}. The inspection result for a
+     * returned item. object.return_id (Required): string. ID of the Return the goods belong to.
+     * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_id (Required): string.
+     * Unique identifier for this return inspection, prefixed `retins_`. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_receipt_id (Required): string. ID of the
+     * receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.source_system
+     * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation. `null`
+     * when no source system was recorded. object.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+     * warehouse system, with its own identifier. object.source_system.anyOf[2] (Value): null.
+     * object.status (Required): string. Whether this is the current observation of these units or
+     * a correction replaced it. Value enum: "current", "superseded". object.superseded_at
+     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.superseded_by_return_inspection_id (Optional): string. ID of the inspection that
+     * corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.supersedes_return_inspection_id (Optional):
+     * string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Current version of this resource's owned state. Send it as `expected_version` when
+     * changing the resource to reject a stale write. Format: int64. minimum: 1.
+     * previous_attributes (Optional): object and {@link ReturnInspectionPreviousAttributes}.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events. previous_attributes.correction_reason (Optional): string or
+     * null. Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id`
+     * or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[1] (Value): string. Why this observation
+     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     * previous_attributes.correction_reason.anyOf[2] (Value): null.
+     * previous_attributes.correction_reason_message (Optional): string or null. Detail about
+     * `correction_reason`. previous_attributes.correction_reason_message.anyOf[1] (Value): string.
+     * Detail about `correction_reason`. previous_attributes.correction_reason_message.anyOf[2]
+     * (Value): null. previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.external_actor_id (Optional): string or null. Your identifier for
+     * the actor who recorded the event. Don't put secrets in this field.
+     * previous_attributes.external_actor_id.anyOf[1] (Value): string. Your identifier for the
+     * actor who recorded the event. Don't put secrets in this field. maxLength: 255. Example:
+     * "warehouse-1842". previous_attributes.external_actor_id.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.generated_dispositions (Optional): Array of {@link
+     * ReturnDispositionPreviousAttributes} or null. Dispositions Flint created when it recorded
+     * this observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1] (Value): Array of {@link
+     * ReturnDispositionPreviousAttributes}. Dispositions Flint created when it recorded this
+     * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+     * previous_attributes.generated_dispositions.anyOf[1][] (Value): {@link
+     * ReturnDispositionPreviousAttributes}. previous_attributes.generated_dispositions.anyOf[2]
+     * (Value): null. previous_attributes.idempotency_key (Optional): string or null. The
+     * Idempotency-Key of the request that created this resource. `null` when that request sent no
+     * key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     * previous_attributes.idempotency_key.anyOf[1] (Value): string. The Idempotency-Key of the
+     * request that created this resource. `null` when that request sent no key, Flint created the
+     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
+     * merchant reading an app's or buyer's record), or the caller that created an older record is
+     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
+     * replayed responses and webhook events, can return `null`. To find a key that a replay
+     * returns as `null`, read the resource. previous_attributes.idempotency_key.anyOf[2] (Value):
+     * null. previous_attributes.inspected_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.inspected_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.inspected_at.anyOf[2]
+     * (Value): null. previous_attributes.inspection_location_id (Optional): string or null.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. previous_attributes.inspection_location_id.anyOf[1] (Value): string.
+     * Location where the returned merchandise was inspected. Must match the receipt
+     * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     * previous_attributes.inspection_location_id.anyOf[2] (Value): null.
+     * previous_attributes.line_items (Optional): Array of {@link
+     * ReturnInspectionLineItemPreviousAttributes} or null. The lines recorded.
+     * previous_attributes.line_items.anyOf[1] (Value): Array of {@link
+     * ReturnInspectionLineItemPreviousAttributes}. The lines recorded.
+     * previous_attributes.line_items.anyOf[1][] (Value): {@link
+     * ReturnInspectionLineItemPreviousAttributes}. previous_attributes.line_items.anyOf[2]
+     * (Value): null. previous_attributes.return_id (Optional): string or null. ID of the Return
+     * the goods belong to. previous_attributes.return_id.anyOf[1] (Value): string. ID of the
+     * Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * previous_attributes.return_id.anyOf[2] (Value): null.
+     * previous_attributes.return_inspection_id (Optional): string or null. Unique identifier for
+     * this return inspection, prefixed `retins_`.
+     * previous_attributes.return_inspection_id.anyOf[1] (Value): string. Unique identifier for
+     * this return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.return_receipt_id (Optional): string or null. ID of the receipt being
+     * inspected. previous_attributes.return_receipt_id.anyOf[1] (Value): string. ID of the receipt
+     * being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * previous_attributes.return_receipt_id.anyOf[2] (Value): null.
+     * previous_attributes.source_system (Optional): {@link ReturnSourceSystemPreviousAttributes}
+     * or null. System that recorded the observation. `null` when no source system was recorded.
+     * previous_attributes.source_system.anyOf[1] (Value): {@link
+     * ReturnSourceSystemPreviousAttributes}. previous_attributes.source_system.anyOf[2] (Value):
+     * null. previous_attributes.status (Optional): string or null. Whether this is the current
+     * observation of these units or a correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[1] (Value): string. Whether this is the current observation
+     * of these units or a correction replaced it. Value enum: "current", "superseded".
+     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.superseded_at
+     * (Optional): string or null. RFC3339 timestamp. previous_attributes.superseded_at.anyOf[1]
+     * (Value): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * previous_attributes.superseded_at.anyOf[2] (Value): null.
+     * previous_attributes.superseded_by_return_inspection_id (Optional): string or null. ID of the
+     * inspection that corrected this one. Absent while it is current.
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+     * inspection that corrected this one. Absent while it is current. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.superseded_by_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.supersedes_return_inspection_id (Optional): string or null. ID of the
+     * inspection this one corrects. previous_attributes.supersedes_return_inspection_id.anyOf[1]
+     * (Value): string. ID of the inspection this one corrects. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * previous_attributes.supersedes_return_inspection_id.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.version (Optional): integer or null. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. previous_attributes.version.anyOf[1] (Value): integer. Current version of this
+     * resource's owned state. Send it as `expected_version` when changing the resource to reject a
+     * stale write. Format: int64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * correction_reason (Optional): string. Why this observation replaces an earlier one. Send
+         * with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+         * "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason_message (Optional): string.
+         * Detail about `correction_reason`. created_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". external_actor_id (Optional):
+         * string. Your identifier for the actor who recorded the event. Don't put secrets in this
+         * field. maxLength: 255. Example: "warehouse-1842". external_reference_id (Optional):
+         * string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". generated_dispositions (Required): Array of {@link
+         * WebhookSnapshotReturnDisposition}. Dispositions Flint created when it recorded this
+         * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
+         * generated_dispositions[] (Value): {@link WebhookSnapshotReturnDisposition}. A decision
+         * about how returned merchandise will be handled. idempotency_key (Optional): string or
+         * null. The Idempotency-Key of the request that created this resource. `null` when that
+         * request sent no key, Flint created the resource, the reader isn't the caller that
+         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
+         * record), or the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. inspected_at (Required): string. RFC3339 timestamp. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". inspection_location_id (Required): string. Location
+         * where the returned merchandise was inspected. Must match the receipt
+         * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". line_items (Required):
+         * Array of {@link ReturnInspectionLineItem}. The lines recorded. line_items[] (Value):
+         * {@link ReturnInspectionLineItem}. The inspection result for a returned item. return_id
+         * (Required): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_id (Required): string. Unique
+         * identifier for this return inspection, prefixed `retins_`. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_receipt_id (Required): string. ID of the
+         * receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". source_system
+         * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
+         * warehouse system, with its own identifier. source_system.anyOf[2] (Value): null. status
+         * (Required): string. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". superseded_at (Optional):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_by_return_inspection_id (Optional): string. ID of the inspection that
+         * corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". supersedes_return_inspection_id (Optional): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64. minimum: 1.
+         */
+        "object": {
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other".
+             */
+            "correction_reason"?: "entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {});
+            /** Detail about `correction_reason`. */
+            "correction_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_actor_id"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@link
+             * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
+             * handled.
+             */
+            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource.
+             */
+            "idempotency_key"?: string | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "inspected_at": string;
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "inspection_location_id": string;
+            /**
+             * The lines recorded. [] (Value): {@link ReturnInspectionLineItem}. The inspection
+             * result for a returned item.
+             */
+            "line_items": Array<ReturnInspectionLineItem>;
+            /** ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+            "return_id": string;
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "return_inspection_id": string;
+            /** ID of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
+            "return_receipt_id": string;
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystem}. The system a return event came from,
+             * such as a point of sale or warehouse system, with its own identifier. anyOf[2]
+             * (Value): null.
+             */
+            "source_system": ((ReturnSourceSystem) | (null));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded".
+             */
+            "status": "current" | "superseded" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "superseded_at"?: string;
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "superseded_by_return_inspection_id"?: string;
+            /**
+             * ID of the inspection this one corrects. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "supersedes_return_inspection_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. correction_reason (Optional): string or null.
+         * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id`
+         * or `supersedes_return_inspection_id`. Value enum: "entry_error",
+         * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+         * correction_reason.anyOf[1] (Value): string. Why this observation replaces an earlier
+         * one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`.
+         * Value enum: "entry_error", "duplicate_observation", "source_correction",
+         * "reconciliation_correction", "other". correction_reason.anyOf[2] (Value): null.
+         * correction_reason_message (Optional): string or null. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[1] (Value): string. Detail about `correction_reason`.
+         * correction_reason_message.anyOf[2] (Value): null. created_at (Optional): string or null.
+         * RFC3339 timestamp. created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
+         * external_actor_id (Optional): string or null. Your identifier for the actor who recorded
+         * the event. Don't put secrets in this field. external_actor_id.anyOf[1] (Value): string.
+         * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+         * maxLength: 255. Example: "warehouse-1842". external_actor_id.anyOf[2] (Value): null.
+         * external_reference_id (Optional): string or null. Caller-owned identifier for this
+         * resource in an external system. external_reference_id.anyOf[1] (Value): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". external_reference_id.anyOf[2] (Value): null.
+         * generated_dispositions (Optional): Array of {@link ReturnDispositionPreviousAttributes}
+         * or null. Dispositions Flint created when it recorded this observation. Empty unless the
+         * policy's `receipt_disposition_mode` is `automatic`. generated_dispositions.anyOf[1]
+         * (Value): Array of {@link ReturnDispositionPreviousAttributes}. Dispositions Flint
+         * created when it recorded this observation. Empty unless the policy's
+         * `receipt_disposition_mode` is `automatic`. generated_dispositions.anyOf[1][] (Value):
+         * {@link ReturnDispositionPreviousAttributes}. generated_dispositions.anyOf[2] (Value):
+         * null. idempotency_key (Optional): string or null. The Idempotency-Key of the request
+         * that created this resource. `null` when that request sent no key, Flint created the
+         * resource, the reader isn't the caller that created it (another app install, a buyer, or
+         * the merchant reading an app's or buyer's record), or the caller that created an older
+         * record is unknown. Filter its list with `idempotency_key` to find it. Recorded payloads,
+         * including replayed responses and webhook events, can return `null`. To find a key that a
+         * replay returns as `null`, read the resource. idempotency_key.anyOf[1] (Value): string.
+         * The Idempotency-Key of the request that created this resource. `null` when that request
+         * sent no key, Flint created the resource, the reader isn't the caller that created it
+         * (another app install, a buyer, or the merchant reading an app's or buyer's record), or
+         * the caller that created an older record is unknown. Filter its list with
+         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
+         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
+         * the resource. idempotency_key.anyOf[2] (Value): null. inspected_at (Optional): string or
+         * null. RFC3339 timestamp. inspected_at.anyOf[1] (Value): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". inspected_at.anyOf[2] (Value): null.
+         * inspection_location_id (Optional): string or null. Location where the returned
+         * merchandise was inspected. Must match the receipt receiving_location_id.
+         * inspection_location_id.anyOf[1] (Value): string. Location where the returned merchandise
+         * was inspected. Must match the receipt receiving_location_id. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". inspection_location_id.anyOf[2] (Value): null.
+         * line_items (Optional): Array of {@link ReturnInspectionLineItemPreviousAttributes} or
+         * null. The lines recorded. line_items.anyOf[1] (Value): Array of {@link
+         * ReturnInspectionLineItemPreviousAttributes}. The lines recorded. line_items.anyOf[1][]
+         * (Value): {@link ReturnInspectionLineItemPreviousAttributes}. line_items.anyOf[2]
+         * (Value): null. return_id (Optional): string or null. ID of the Return the goods belong
+         * to. return_id.anyOf[1] (Value): string. ID of the Return the goods belong to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_id.anyOf[2] (Value): null. return_inspection_id
+         * (Optional): string or null. Unique identifier for this return inspection, prefixed
+         * `retins_`. return_inspection_id.anyOf[1] (Value): string. Unique identifier for this
+         * return inspection, prefixed `retins_`. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * return_inspection_id.anyOf[2] (Value): null. return_receipt_id (Optional): string or
+         * null. ID of the receipt being inspected. return_receipt_id.anyOf[1] (Value): string. ID
+         * of the receipt being inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+         * return_receipt_id.anyOf[2] (Value): null. source_system (Optional): {@link
+         * ReturnSourceSystemPreviousAttributes} or null. System that recorded the observation.
+         * `null` when no source system was recorded. source_system.anyOf[1] (Value): {@link
+         * ReturnSourceSystemPreviousAttributes}. source_system.anyOf[2] (Value): null. status
+         * (Optional): string or null. Whether this is the current observation of these units or a
+         * correction replaced it. Value enum: "current", "superseded". status.anyOf[1] (Value):
+         * string. Whether this is the current observation of these units or a correction replaced
+         * it. Value enum: "current", "superseded". status.anyOf[2] (Value): null. superseded_at
+         * (Optional): string or null. RFC3339 timestamp. superseded_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * superseded_at.anyOf[2] (Value): null. superseded_by_return_inspection_id (Optional):
+         * string or null. ID of the inspection that corrected this one. Absent while it is
+         * current. superseded_by_return_inspection_id.anyOf[1] (Value): string. ID of the
+         * inspection that corrected this one. Absent while it is current. Example:
+         * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". superseded_by_return_inspection_id.anyOf[2]
+         * (Value): null. supersedes_return_inspection_id (Optional): string or null. ID of the
+         * inspection this one corrects. supersedes_return_inspection_id.anyOf[1] (Value): string.
+         * ID of the inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+         * supersedes_return_inspection_id.anyOf[2] (Value): null. updated_at (Optional): string or
+         * null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
+         * (Optional): integer or null. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. version.anyOf[1]
+         * (Value): integer. Current version of this resource's owned state. Send it as
+         * `expected_version` when changing the resource to reject a stale write. Format: int64.
+         * minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Why this observation replaces an earlier one. Send with
+             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
+             * "entry_error", "duplicate_observation", "source_correction",
+             * "reconciliation_correction", "other". anyOf[1] (Value): string. Why this observation
+             * replaces an earlier one. Send with `supersedes_return_receipt_id` or
+             * `supersedes_return_inspection_id`. Value enum: "entry_error",
+             * "duplicate_observation", "source_correction", "reconciliation_correction", "other".
+             * anyOf[2] (Value): null.
+             */
+            "correction_reason"?: (("entry_error"
+                | "duplicate_observation"
+                | "source_correction"
+                | "reconciliation_correction"
+                | "other"
+                | (string & {}))
+                | (null));
+            /**
+             * Detail about `correction_reason`. anyOf[1] (Value): string. Detail about
+             * `correction_reason`. anyOf[2] (Value): null.
+             */
+            "correction_reason_message"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Your identifier for the actor who recorded the event. Don't put secrets in this
+             * field. anyOf[1] (Value): string. Your identifier for the actor who recorded the
+             * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_actor_id"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
+             * string. Caller-owned identifier for this resource in an external system. maxLength:
+             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Dispositions Flint created when it recorded this observation. Empty unless the
+             * policy's `receipt_disposition_mode` is `automatic`. anyOf[1] (Value): Array of
+             * {@link ReturnDispositionPreviousAttributes}. Dispositions Flint created when it
+             * recorded this observation. Empty unless the policy's `receipt_disposition_mode` is
+             * `automatic`. anyOf[1][] (Value): {@link ReturnDispositionPreviousAttributes}.
+             * anyOf[2] (Value): null.
+             */
+            "generated_dispositions"?: ((Array<ReturnDispositionPreviousAttributes>) | (null));
+            /**
+             * The Idempotency-Key of the request that created this resource. `null` when that
+             * request sent no key, Flint created the resource, the reader isn't the caller that
+             * created it (another app install, a buyer, or the merchant reading an app's or
+             * buyer's record), or the caller that created an older record is unknown. Filter its
+             * list with `idempotency_key` to find it. Recorded payloads, including replayed
+             * responses and webhook events, can return `null`. To find a key that a replay returns
+             * as `null`, read the resource. anyOf[1] (Value): string. The Idempotency-Key of the
+             * request that created this resource. `null` when that request sent no key, Flint
+             * created the resource, the reader isn't the caller that created it (another app
+             * install, a buyer, or the merchant reading an app's or buyer's record), or the caller
+             * that created an older record is unknown. Filter its list with `idempotency_key` to
+             * find it. Recorded payloads, including replayed responses and webhook events, can
+             * return `null`. To find a key that a replay returns as `null`, read the resource.
+             * anyOf[2] (Value): null.
+             */
+            "idempotency_key"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "inspected_at"?: ((string) | (null));
+            /**
+             * Location where the returned merchandise was inspected. Must match the receipt
+             * receiving_location_id. anyOf[1] (Value): string. Location where the returned
+             * merchandise was inspected. Must match the receipt receiving_location_id. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value): null.
+             */
+            "inspection_location_id"?: ((string) | (null));
+            /**
+             * The lines recorded. anyOf[1] (Value): Array of {@link
+             * ReturnInspectionLineItemPreviousAttributes}. The lines recorded. anyOf[1][] (Value):
+             * {@link ReturnInspectionLineItemPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "line_items"?: ((Array<ReturnInspectionLineItemPreviousAttributes>) | (null));
+            /**
+             * ID of the Return the goods belong to. anyOf[1] (Value): string. ID of the Return the
+             * goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". anyOf[2] (Value): null.
+             */
+            "return_id"?: ((string) | (null));
+            /**
+             * Unique identifier for this return inspection, prefixed `retins_`. anyOf[1] (Value):
+             * string. Unique identifier for this return inspection, prefixed `retins_`. Example:
+             * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the receipt being inspected. anyOf[1] (Value): string. ID of the receipt being
+             * inspected. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". anyOf[2] (Value): null.
+             */
+            "return_receipt_id"?: ((string) | (null));
+            /**
+             * System that recorded the observation. `null` when no source system was recorded.
+             * anyOf[1] (Value): {@link ReturnSourceSystemPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "source_system"?: ((ReturnSourceSystemPreviousAttributes) | (null));
+            /**
+             * Whether this is the current observation of these units or a correction replaced it.
+             * Value enum: "current", "superseded". anyOf[1] (Value): string. Whether this is the
+             * current observation of these units or a correction replaced it. Value enum:
+             * "current", "superseded". anyOf[2] (Value): null.
+             */
+            "status"?: (("current" | "superseded" | (string & {})) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "superseded_at"?: ((string) | (null));
+            /**
+             * ID of the inspection that corrected this one. Absent while it is current. anyOf[1]
+             * (Value): string. ID of the inspection that corrected this one. Absent while it is
+             * current. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2] (Value): null.
+             */
+            "superseded_by_return_inspection_id"?: ((string) | (null));
+            /**
+             * ID of the inspection this one corrects. anyOf[1] (Value): string. ID of the
+             * inspection this one corrects. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". anyOf[2]
+             * (Value): null.
+             */
+            "supersedes_return_inspection_id"?: ((string) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. anyOf[1] (Value): integer. Current
+             * version of this resource's owned state. Send it as `expected_version` when changing
+             * the resource to reject a stale write. Format: int64. minimum: 1. anyOf[2] (Value):
+             * null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "return_inspection.superseded". */
+    "event_type"?: "return_inspection.superseded";
+});
+export type ReturnInspectionsCreateParams = (InputValue<CreateReturnInspectionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnInspectionsDecideLineItemParams = (InputValue<DecideReturnInspectionLineItemRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnInspectionsGetParams = DisputesAcceptParams;
+export type ReturnInspectionsListParams = {
+    /**
+     * Filter by acceptance status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "accepted", "rejected", "review_required". Value enum: "accepted",
+     * "rejected", "review_required". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "accepted", "rejected", "review_required". anyOf[1][] (Value): string. Value enum:
+     * "accepted", "rejected", "review_required". anyOf[2] (Value): string. Value enum: "accepted",
+     * "rejected", "review_required".
+     */
+    "acceptance_status"?: InputValue<("accepted" | "rejected" | "review_required")
+        | readonly ("accepted" | "rejected" | "review_required")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns only resources created in your caller namespace, plus
+     * resources created before caller scoping under the original key. Returns current authorized
+     * resources, not the recorded response. A pending resource does not prove that the operation
+     * succeeded, and an empty list does not prove that it had no effect. A match can show
+     * `idempotency_key: null` when that request sent no key, Flint created the resource, the
+     * reader isn't the caller that created it (another app install, a buyer, or the merchant
+     * reading an app's or buyer's record), or the caller that created an older record is unknown.
+     * minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Inclusive lower bound on inspected_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     */
+    "inspected_after"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exclusive upper bound on inspected_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     */
+    "inspected_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Filter by inspection location id. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "inspection_location_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Search by return inspection ID or external reference ID. */
+    "query"?: InputValue<string>;
+    /**
+     * Filter by return id. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id"?: InputValue<string>;
+    /**
+     * Filter by return line item id. pattern: ^retli_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id"?: InputValue<string>;
+    /**
+     * Filter by return receipt id. pattern: ^retrc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     */
+    "return_receipt_id"?: InputValue<string>;
+    /**
+     * Filter by source system type. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "manual", "pos", "wms", "erp", "other", "flint". Value enum: "manual",
+     * "pos", "wms", "erp", "other", "flint". anyOf[1] (Value): Array of string. minItems: 1. []
+     * enum: "manual", "pos", "wms", "erp", "other", "flint". anyOf[1][] (Value): string. Value
+     * enum: "manual", "pos", "wms", "erp", "other", "flint". anyOf[2] (Value): string. Value enum:
+     * "manual", "pos", "wms", "erp", "other", "flint".
+     */
+    "source_system_type"?: InputValue<("manual" | "pos" | "wms" | "erp" | "other" | "flint")
+        | readonly ("manual" | "pos" | "wms" | "erp" | "other" | "flint")[]>;
+    /**
+     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "current", "superseded". Value enum: "current", "superseded". anyOf[1] (Value): Array
+     * of string. minItems: 1. [] enum: "current", "superseded". anyOf[1][] (Value): string. Value
+     * enum: "current", "superseded". anyOf[2] (Value): string. Value enum: "current",
+     * "superseded".
+     */
+    "status"?: InputValue<("current" | "superseded") | readonly ("current" | "superseded")[]>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** Puts in-transit stock back at the origin location. */
+export type ReturnInventoryTransferToOriginRequest = {
+    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
+     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
+     * Transfer line this action changes. minLength: 1. Example:
+     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_returned_quantity (Required): integer.
+     * Cumulative quantity that should have returned to the origin. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64. minimum: 0.
+     */
+    "lines": Array<{
+        /**
+         * Transfer line this action changes. minLength: 1. Example:
+         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
+         */
+        "inventory_transfer_line_id": string;
+        /**
+         * Cumulative quantity that should have returned to the origin. Whole-number quantity;
+         * fractional quantities are not supported. Format: int64. minimum: 0.
+         */
+        "target_returned_quantity": number;
+    }>;
+    /**
+     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
+     * received the command as occurred_at and a null source_system. Where and when an inventory
+     * event happened: the source system, external actor, and time.
+     */
+    "provenance"?: InventoryProvenanceRequest;
+};
+/** Puts in-transit stock back at the origin location. */
+export type ReturnInventoryTransferToOriginRequestInput = {
+    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
+     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
+     * Transfer line this action changes. minLength: 1. Example:
+     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_returned_quantity (Required): integer.
+     * Cumulative quantity that should have returned to the origin. Whole-number quantity;
+     * fractional quantities are not supported. Format: int64. minimum: 0.
+     */
+    "lines": Array<{
+        /**
+         * Transfer line this action changes. minLength: 1. Example:
+         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
+         */
+        "inventory_transfer_line_id": string;
+        /**
+         * Cumulative quantity that should have returned to the origin. Whole-number quantity;
+         * fractional quantities are not supported. Format: int64. minimum: 0.
+         */
+        "target_returned_quantity": number;
+    }>;
+    /**
+     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
+     * received the command as occurred_at and a null source_system. Where and when an inventory
+     * event happened: the source system, external actor, and time.
+     */
+    "provenance"?: InventoryProvenanceRequestInput;
+};
+/**
+ * Start from the pinned policy proposal recomputed for approved_quantity when the line has a
+ * policy evaluation and the proposal can be built. Otherwise start with return_required_quantity
+ * equal to approved_quantity, allowed_resolution_types containing refund, exchange, replacement,
+ * no_monetary_action, and store_credit in that order regardless of whether the original payment is
+ * refundable, no automatic_resolution_type, is_inspection_required false, and no
+ * receiving_location_id. Each supplied field replaces its starting value; allowed_resolution_types
+ * replaces the whole list. Omit automatic_resolution_type to keep its starting value, or send null
+ * to resolve manually. Then fill an omitted release_timing with after_inspection when merchandise
+ * is required and inspection is required, after_receipt when merchandise is required without
+ * inspection, or after_approval when no merchandise is required. Validate the merged decision for
+ * quantity bounds, allowed resolution types, and reachable timing and inspection requirements. A
+ * pinned policy always requires override_reason when approved_quantity exceeds evaluated
+ * eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal,
+ * other decision fields use these defaults and override_reason is otherwise optional. Example:
+ * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ","return_line_item_id":"retli_01KEZF7C001NHF6JPD83VD0MRK"}.
+ */
+export type ReturnLineDecision = ({
+    /**
+     * Optional replacement for the entire starting list. Defaults to the buildable pinned policy
+     * proposal; otherwise refund, exchange, replacement, no_monetary_action, and store_credit in
+     * that order, independent of the original payment's refundability. The resulting list must be
+     * valid and non-empty when approved_quantity is above zero. [] enum: "refund", "exchange",
+     * "replacement", "no_monetary_action", "store_credit". [] (Value): string. Value enum:
+     * "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     */
+    "allowed_resolution_types"?: Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>;
+    /**
+     * Required whole-number quantity from zero through the line's requested_quantity; fractional
+     * quantities are not supported. When approved_quantity is below requested_quantity, send
+     * decline_reason; decline_reason_message is optional. Both decline fields are forbidden when
+     * all requested quantity is approved. Format: int64. minimum: 0.
+     */
+    "approved_quantity": number;
+    /**
+     * Optional refund, store_credit, or no_monetary_action that Flint creates and confirms
+     * automatically. Omit to keep the policy proposal's value, or the absent value from no-policy
+     * defaults. Send null to resolve the line manually; clearing a policy proposal's automatic
+     * value requires override_reason. Must be in the resulting allowed_resolution_types. Exchange
+     * and replacement cannot be automated. An unavailable automatic refund or store credit fails
+     * with 409 ACTION_NOT_ALLOWED and reason refund_unavailable or store_credit_unavailable. Value
+     * enum: "refund", "store_credit", "no_monetary_action", null.
+     */
+    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | null | (string & {}) | null;
+    /**
+     * Why the line's declined quantity is declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason"?: "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /**
+     * Optional explanation accompanying decline_reason, up to 2048 characters (Unicode code
+     * points), counted before normalization. Requires decline_reason and is forbidden when all
+     * requested quantity is approved. minLength: 1. maxLength: 2048.
+     */
+    "decline_reason_message"?: string;
+    /**
+     * Optional inspection requirement. Defaults to the buildable pinned policy proposal or false
+     * when no proposal can be built. The resulting requirement must be reachable with the merged
+     * merchandise quantity and release timing.
+     */
+    "is_inspection_required"?: boolean;
+    /**
+     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
+     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
+     * when no proposal can be built. The release timing fill also applies to the proposal and does
+     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
+     * or no deviation exists. Forbidden without a pinned policy. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason"?: "customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /**
+     * Optional explanation accompanying override_reason. Requires override_reason and is forbidden
+     * without a pinned policy. minLength: 1.
+     */
+    "override_reason_message"?: string;
+    /**
+     * Optional receiving Location with a postal address. Defaults to the buildable pinned policy
+     * proposal or no location when no proposal can be built. Required when the resulting
+     * return_required_quantity is above zero and there is no starting location. A process receipt
+     * does not supply the decision's location. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "receiving_location_id"?: string;
+    /**
+     * Optional gate for every resolution type. Defaults to the policy proposal's timing when set.
+     * After merging supplied fields, an unset timing becomes after_inspection when
+     * return_required_quantity is above zero and inspection is required, after_receipt when
+     * return_required_quantity is above zero without inspection, or after_approval when
+     * return_required_quantity is zero. Applies to every resolution type, including exchanges and
+     * replacements. manual is held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual".
+     */
+    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
+    /**
+     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+    /**
+     * How much of the approved quantity the buyer must physically send back; fractional quantities
+     * are not supported. Set 0 for a returnless refund, where the buyer keeps the merchandise and
+     * the Return still settles the money. Format: int64. minimum: 0.
+     */
+    "return_required_quantity"?: number;
+})
+    & (((unknown)
+    | ({
+    /**
+     * Why the line's declined quantity is declined. Value enum: "not_eligible",
+     * "quantity_unavailable", "evidence_missing", "suspected_abuse", "merchant_discretion",
+     * "other".
+     */
+    "decline_reason": "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+})
+    | (Record<string, unknown>)))
+    & (((unknown)
+    | ({
+    /**
+     * Required when a decision differs from a buildable pinned policy proposal. With a pinned
+     * policy, also required whenever approved_quantity exceeds evaluated eligible_quantity, even
+     * when no proposal can be built. The release timing fill also applies to the proposal and does
+     * not count as a deviation. Otherwise optional when a pinned policy proposal cannot be built
+     * or no deviation exists. Forbidden without a pinned policy. Value enum:
+     * "customer_service_exception", "policy_correction", "risk_review", "merchant_discretion",
+     * "other".
+     */
+    "override_reason": "customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+})
+    | (Record<string, unknown>)));
 /**
  * Start from the pinned policy proposal recomputed for approved_quantity when the line has a
  * policy evaluation and the proposal can be built. Otherwise start with return_required_quantity
@@ -3144,13 +7123,13 @@ export type ReturnPolicyScope = ({
      */
     "category_handles"?: Array<string>;
     /**
-     * Order origins the policy covers: `checkout`, `payment_link`, `virtual_terminal`, `api`, or
-     * `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum: "checkout",
-     * "payment_link", "virtual_terminal", "api", "subscription". [] (Value): string. minLength: 1.
-     * maxLength: 255. Value enum: "checkout", "payment_link", "virtual_terminal", "api",
-     * "subscription".
+     * Order origins the policy covers: `checkout`, `payment_link`, `shop`, `virtual_terminal`,
+     * `api`, or `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum:
+     * "checkout", "payment_link", "shop", "virtual_terminal", "api", "subscription". [] (Value):
+     * string. minLength: 1. maxLength: 255. Value enum: "checkout", "payment_link", "shop",
+     * "virtual_terminal", "api", "subscription".
      */
-    "channel_types"?: Array<"checkout" | "payment_link" | "virtual_terminal" | "api" | "subscription" | (string & {})>;
+    "channel_types"?: Array<"checkout" | "payment_link" | "shop" | "virtual_terminal" | "api" | "subscription" | (string & {})>;
     /**
      * IDs of the Locations the item was fulfilled from. Up to 100 values. maxItems: 100.
      * uniqueItems: true. [] (Value): string. A nonblank value of at most 255 bytes, counted before
@@ -3188,13 +7167,13 @@ export type ReturnPolicyScopeAll = ({
      */
     "category_handles"?: Array<string>;
     /**
-     * Order origins the policy covers: `checkout`, `payment_link`, `virtual_terminal`, `api`, or
-     * `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum: "checkout",
-     * "payment_link", "virtual_terminal", "api", "subscription". [] (Value): string. minLength: 1.
-     * maxLength: 255. Value enum: "checkout", "payment_link", "virtual_terminal", "api",
-     * "subscription".
+     * Order origins the policy covers: `checkout`, `payment_link`, `shop`, `virtual_terminal`,
+     * `api`, or `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum:
+     * "checkout", "payment_link", "shop", "virtual_terminal", "api", "subscription". [] (Value):
+     * string. minLength: 1. maxLength: 255. Value enum: "checkout", "payment_link", "shop",
+     * "virtual_terminal", "api", "subscription".
      */
-    "channel_types"?: Array<"checkout" | "payment_link" | "virtual_terminal" | "api" | "subscription" | (string & {})>;
+    "channel_types"?: Array<"checkout" | "payment_link" | "shop" | "virtual_terminal" | "api" | "subscription" | (string & {})>;
     /**
      * IDs of the Locations the item was fulfilled from. Up to 100 values. maxItems: 100.
      * uniqueItems: true. [] (Value): string. A nonblank value of at most 255 bytes, counted before
@@ -3226,8 +7205,8 @@ export type ReturnPolicyScopeAll = ({
      */
     "category_handles"?: unknown;
     /**
-     * Order origins the policy covers: `checkout`, `payment_link`, `virtual_terminal`, `api`, or
-     * `subscription`. Up to 100 values. maxItems: 0.
+     * Order origins the policy covers: `checkout`, `payment_link`, `shop`, `virtual_terminal`,
+     * `api`, or `subscription`. Up to 100 values. maxItems: 0.
      */
     "channel_types"?: unknown;
     /** IDs of the Locations the item was fulfilled from. Up to 100 values. maxItems: 0. */
@@ -3252,13 +7231,13 @@ export type ReturnPolicyScopeAllRequestInput = ({
      */
     "category_handles"?: Array<string>;
     /**
-     * Order origins the policy covers: `checkout`, `payment_link`, `virtual_terminal`, `api`, or
-     * `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum: "checkout",
-     * "payment_link", "virtual_terminal", "api", "subscription". [] (Value): string. minLength: 1.
-     * maxLength: 255. Value enum: "checkout", "payment_link", "virtual_terminal", "api",
-     * "subscription".
+     * Order origins the policy covers: `checkout`, `payment_link`, `shop`, `virtual_terminal`,
+     * `api`, or `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum:
+     * "checkout", "payment_link", "shop", "virtual_terminal", "api", "subscription". [] (Value):
+     * string. minLength: 1. maxLength: 255. Value enum: "checkout", "payment_link", "shop",
+     * "virtual_terminal", "api", "subscription".
      */
-    "channel_types"?: Array<"checkout" | "payment_link" | "virtual_terminal" | "api" | "subscription">;
+    "channel_types"?: Array<"checkout" | "payment_link" | "shop" | "virtual_terminal" | "api" | "subscription">;
     /**
      * IDs of the Locations the item was fulfilled from. Up to 100 values. maxItems: 100.
      * uniqueItems: true. [] (Value): string. A nonblank value of at most 255 bytes, counted before
@@ -3290,8 +7269,8 @@ export type ReturnPolicyScopeAllRequestInput = ({
      */
     "category_handles"?: unknown;
     /**
-     * Order origins the policy covers: `checkout`, `payment_link`, `virtual_terminal`, `api`, or
-     * `subscription`. Up to 100 values. maxItems: 0.
+     * Order origins the policy covers: `checkout`, `payment_link`, `shop`, `virtual_terminal`,
+     * `api`, or `subscription`. Up to 100 values. maxItems: 0.
      */
     "channel_types"?: unknown;
     /** IDs of the Locations the item was fulfilled from. Up to 100 values. maxItems: 0. */
@@ -3316,13 +7295,13 @@ export type ReturnPolicyScopeInclude = ({
      */
     "category_handles"?: Array<string>;
     /**
-     * Order origins the policy covers: `checkout`, `payment_link`, `virtual_terminal`, `api`, or
-     * `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum: "checkout",
-     * "payment_link", "virtual_terminal", "api", "subscription". [] (Value): string. minLength: 1.
-     * maxLength: 255. Value enum: "checkout", "payment_link", "virtual_terminal", "api",
-     * "subscription".
+     * Order origins the policy covers: `checkout`, `payment_link`, `shop`, `virtual_terminal`,
+     * `api`, or `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum:
+     * "checkout", "payment_link", "shop", "virtual_terminal", "api", "subscription". [] (Value):
+     * string. minLength: 1. maxLength: 255. Value enum: "checkout", "payment_link", "shop",
+     * "virtual_terminal", "api", "subscription".
      */
-    "channel_types"?: Array<"checkout" | "payment_link" | "virtual_terminal" | "api" | "subscription" | (string & {})>;
+    "channel_types"?: Array<"checkout" | "payment_link" | "shop" | "virtual_terminal" | "api" | "subscription" | (string & {})>;
     /**
      * IDs of the Locations the item was fulfilled from. Up to 100 values. maxItems: 100.
      * uniqueItems: true. [] (Value): string. A nonblank value of at most 255 bytes, counted before
@@ -3375,8 +7354,8 @@ export type ReturnPolicyScopeInclude = ({
 })
     | ({
     /**
-     * Order origins the policy covers: `checkout`, `payment_link`, `virtual_terminal`, `api`, or
-     * `subscription`. Up to 100 values. minItems: 1.
+     * Order origins the policy covers: `checkout`, `payment_link`, `shop`, `virtual_terminal`,
+     * `api`, or `subscription`. Up to 100 values. minItems: 1.
      */
     "channel_types": unknown;
 })
@@ -3391,13 +7370,13 @@ export type ReturnPolicyScopeIncludeRequestInput = ({
      */
     "category_handles"?: Array<string>;
     /**
-     * Order origins the policy covers: `checkout`, `payment_link`, `virtual_terminal`, `api`, or
-     * `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum: "checkout",
-     * "payment_link", "virtual_terminal", "api", "subscription". [] (Value): string. minLength: 1.
-     * maxLength: 255. Value enum: "checkout", "payment_link", "virtual_terminal", "api",
-     * "subscription".
+     * Order origins the policy covers: `checkout`, `payment_link`, `shop`, `virtual_terminal`,
+     * `api`, or `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum:
+     * "checkout", "payment_link", "shop", "virtual_terminal", "api", "subscription". [] (Value):
+     * string. minLength: 1. maxLength: 255. Value enum: "checkout", "payment_link", "shop",
+     * "virtual_terminal", "api", "subscription".
      */
-    "channel_types"?: Array<"checkout" | "payment_link" | "virtual_terminal" | "api" | "subscription">;
+    "channel_types"?: Array<"checkout" | "payment_link" | "shop" | "virtual_terminal" | "api" | "subscription">;
     /**
      * IDs of the Locations the item was fulfilled from. Up to 100 values. maxItems: 100.
      * uniqueItems: true. [] (Value): string. A nonblank value of at most 255 bytes, counted before
@@ -3450,8 +7429,8 @@ export type ReturnPolicyScopeIncludeRequestInput = ({
 })
     | ({
     /**
-     * Order origins the policy covers: `checkout`, `payment_link`, `virtual_terminal`, `api`, or
-     * `subscription`. Up to 100 values. minItems: 1.
+     * Order origins the policy covers: `checkout`, `payment_link`, `shop`, `virtual_terminal`,
+     * `api`, or `subscription`. Up to 100 values. minItems: 1.
      */
     "channel_types": unknown;
 })));
@@ -3468,13 +7447,13 @@ export type ReturnPolicyScopeRequestInput = ({
      */
     "category_handles"?: Array<string>;
     /**
-     * Order origins the policy covers: `checkout`, `payment_link`, `virtual_terminal`, `api`, or
-     * `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum: "checkout",
-     * "payment_link", "virtual_terminal", "api", "subscription". [] (Value): string. minLength: 1.
-     * maxLength: 255. Value enum: "checkout", "payment_link", "virtual_terminal", "api",
-     * "subscription".
+     * Order origins the policy covers: `checkout`, `payment_link`, `shop`, `virtual_terminal`,
+     * `api`, or `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum:
+     * "checkout", "payment_link", "shop", "virtual_terminal", "api", "subscription". [] (Value):
+     * string. minLength: 1. maxLength: 255. Value enum: "checkout", "payment_link", "shop",
+     * "virtual_terminal", "api", "subscription".
      */
-    "channel_types"?: Array<"checkout" | "payment_link" | "virtual_terminal" | "api" | "subscription">;
+    "channel_types"?: Array<"checkout" | "payment_link" | "shop" | "virtual_terminal" | "api" | "subscription">;
     /**
      * IDs of the Locations the item was fulfilled from. Up to 100 values. maxItems: 100.
      * uniqueItems: true. [] (Value): string. A nonblank value of at most 255 bytes, counted before
@@ -3865,1302 +7844,4 @@ export type ReturnProcessDispositionRequest = {
         | (string & {});
     /** Optional detail about `reason`, kept with the record. minLength: 1. */
     "reason_message"?: string;
-};
-/**
- * What was done with a returned item, such as restocked as sellable or sent for repair, supplied
- * when processing an existing return.
- */
-export type ReturnProcessDispositionRequestInput = {
-    /**
-     * What happens to the received units. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
-     * "lost".
-     */
-    "disposition_type": "sellable"
-        | "quality_control"
-        | "damaged"
-        | "quarantined"
-        | "repair"
-        | "refurbish"
-        | "liquidate"
-        | "donate"
-        | "discard"
-        | "return_to_buyer"
-        | "lost";
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * ID of the Location whose stock the disposition changes. Required for `sellable`,
-     * `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types.
-     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "inventory_location_id"?: string;
-    /**
-     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at": string | globalThis.Date;
-    /**
-     * Why the disposition was made. Value enum: "inspection_result", "return_policy",
-     * "warehouse_override", "safety_requirement", "other".
-     */
-    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-};
-/** An inspection result for a returned item, supplied when processing an existing return. */
-export type ReturnProcessInspectionRequest = {
-    /**
-     * Whether the inspected units were accepted, rejected, or need a merchant's decision. Value
-     * enum: "accepted", "rejected", "review_required".
-     */
-    "acceptance_status": "accepted" | "rejected" | "review_required" | (string & {});
-    /**
-     * `undetermined`: The item's condition could not be assessed. Value enum: "new", "unopened",
-     * "opened", "used", "damaged", "defective", "incomplete", "undetermined".
-     */
-    "condition": "new"
-        | "unopened"
-        | "opened"
-        | "used"
-        | "damaged"
-        | "defective"
-        | "incomplete"
-        | "undetermined"
-        | (string & {});
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * What the inspection found. Up to 50 values, none repeated. [] enum: "matches_expected_item",
-     * "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package",
-     * "counterfeit_suspected", "other". [] (Value): string. Value enum: "matches_expected_item",
-     * "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package",
-     * "counterfeit_suspected", "other".
-     */
-    "finding_codes"?: Array<"matches_expected_item"
-        | "wrong_item"
-        | "damaged"
-        | "defective"
-        | "used"
-        | "missing_parts"
-        | "empty_package"
-        | "counterfeit_suspected"
-        | "other"
-        | (string & {})>;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "inspected_at": string;
-    /**
-     * Note for your own team about this line. Surrounding whitespace is trimmed before length
-     * validation. A supplied value cannot be blank; use null where clearing is supported.
-     * minLength: 1.
-     */
-    "internal_note"?: string;
-};
-/** An inspection result for a returned item, supplied when processing an existing return. */
-export type ReturnProcessInspectionRequestInput = {
-    /**
-     * Whether the inspected units were accepted, rejected, or need a merchant's decision. Value
-     * enum: "accepted", "rejected", "review_required".
-     */
-    "acceptance_status": "accepted" | "rejected" | "review_required";
-    /**
-     * `undetermined`: The item's condition could not be assessed. Value enum: "new", "unopened",
-     * "opened", "used", "damaged", "defective", "incomplete", "undetermined".
-     */
-    "condition": "new" | "unopened" | "opened" | "used" | "damaged" | "defective" | "incomplete" | "undetermined";
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * What the inspection found. Up to 50 values, none repeated. [] enum: "matches_expected_item",
-     * "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package",
-     * "counterfeit_suspected", "other". [] (Value): string. Value enum: "matches_expected_item",
-     * "wrong_item", "damaged", "defective", "used", "missing_parts", "empty_package",
-     * "counterfeit_suspected", "other".
-     */
-    "finding_codes"?: Array<"matches_expected_item"
-        | "wrong_item"
-        | "damaged"
-        | "defective"
-        | "used"
-        | "missing_parts"
-        | "empty_package"
-        | "counterfeit_suspected"
-        | "other">;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "inspected_at": string | globalThis.Date;
-    /**
-     * Note for your own team about this line. Surrounding whitespace is trimmed before length
-     * validation. A supplied value cannot be blank; use null where clearing is supported.
-     * minLength: 1.
-     */
-    "internal_note"?: string;
-};
-/**
- * The receipt of returned merchandise, with when and where it was received, supplied when
- * processing an existing return.
- */
-export type ReturnProcessReceiptRequest = {
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "received_at": string;
-    /**
-     * ID of the Location that received the goods. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "receiving_location_id": string;
-    /**
-     * System that recorded the observation. `null` when no source system was recorded. The system
-     * a return event came from, such as a point of sale or warehouse system, with its own
-     * identifier.
-     */
-    "source_system"?: ReturnSourceSystemRequest;
-};
-/**
- * The receipt of returned merchandise, with when and where it was received, supplied when
- * processing an existing return.
- */
-export type ReturnProcessReceiptRequestInput = {
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "received_at": string | globalThis.Date;
-    /**
-     * ID of the Location that received the goods. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "receiving_location_id": string;
-    /**
-     * System that recorded the observation. `null` when no source system was recorded. The system
-     * a return event came from, such as a point of sale or warehouse system, with its own
-     * identifier.
-     */
-    "source_system"?: ReturnSourceSystemRequestInput;
-};
-/**
- * The resolution to apply to a returned item, such as refund or exchange, with the quantity and
- * any replacement items.
- */
-export type ReturnProcessResolutionRequest = ({
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination
-     * and conflicting_fields naming resolution_type. Store credit and its corrections always issue
-     * new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
-    /**
-     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Required for merchant exchange and replacement requests. original_price preserves the
-     * selected units' net paid amounts using refund allocation; current_price uses catalog prices;
-     * merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit
-     * pricing_basis: replacements use original_price; exchanges use original_price when every
-     * replacement matches selected returned merchandise by variant, bundle, or product, otherwise
-     * current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. []
-     * (Value): {@link ReturnReplacementLineItemRequest}. A replacement item to include in a return
-     * resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequest>;
-    /**
-     * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
-     * "replacement", "no_monetary_action", "store_credit".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
-});
-/**
- * The resolution to apply to a returned item, such as refund or exchange, with the quantity and
- * any replacement items.
- */
-export type ReturnProcessResolutionRequestInput = ({
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination
-     * and conflicting_fields naming resolution_type. Store credit and its corrections always issue
-     * new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
-     * Caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Required for merchant exchange and replacement requests. original_price preserves the
-     * selected units' net paid amounts using refund allocation; current_price uses catalog prices;
-     * merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit
-     * pricing_basis: replacements use original_price; exchanges use original_price when every
-     * replacement matches selected returned merchandise by variant, bundle, or product, otherwise
-     * current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. []
-     * (Value): {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in a
-     * return resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
-    /**
-     * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
-     * "replacement", "no_monetary_action", "store_credit".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
-});
-/**
- * The return is the primary resource and expected_version target; the other resources report the
- * processing effects.
- */
-export type ReturnProcessResult = {
-    /** The Return after this request's changes. A request to send purchased items back. */
-    "return": ReturnResource;
-    /**
-     * Dispositions this request recorded, including any Flint created automatically. [] (Value):
-     * {@link ReturnDisposition}. A decision about how returned merchandise will be handled.
-     */
-    "return_dispositions": Array<ReturnDisposition>;
-    /**
-     * Inspections this request recorded. [] (Value): {@link ReturnInspection}. An assessment of
-     * the condition of returned items.
-     */
-    "return_inspections": Array<ReturnInspection>;
-    /**
-     * Receipts this request recorded. [] (Value): {@link ReturnReceipt}. A record of returned
-     * items arriving at a location.
-     */
-    "return_receipts": Array<ReturnReceipt>;
-    /**
-     * Resolutions this request created and confirmed. [] (Value): {@link ReturnResolution}. The
-     * refund, exchange, or other outcome of a return.
-     */
-    "return_resolutions": Array<ReturnResolution>;
-};
-/** A reason customers can select when requesting a return. */
-export type ReturnReason = {
-    /**
-     * Catalog category handles this reason applies to. A reason with categories is suggested, and
-     * accepted from a customer session, only for order lines whose product is in one of them. A
-     * reason with no categories applies to every line. Not product types or tags: use handles from
-     * GET /v1/categories. [] (Value): string.
-     */
-    "category_handles": Array<string>;
-    /**
-     * When the reason was created. Built-in Flint reasons use their release time,
-     * 2026-07-27T00:00:00Z. Their updated_at is the merchant availability change time, or the same
-     * release time if unchanged. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "created_at": string;
-    /** Longer explanation of when to use the reason. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Lowercase snake_case identifier, unique among your reasons. Flint's own reasons have fixed
-     * handles. Can't be changed after create, and an archived reason keeps its handle reserved.
-     * minLength: 1. maxLength: 100. pattern: ^[a-z][a-z0-9_]{0,99}$.
-     */
-    "handle": string;
-    /** Whether a Return line with this reason needs a buyer_note. */
-    "is_note_required": boolean;
-    /** Name buyers and staff see. */
-    "name": string;
-    /**
-     * Flint's ID for the reason. Send it as return_reason_id on a Return line. Example:
-     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
-     */
-    "return_reason_id": string;
-    /** Whether Flint provides the reason or you created it. Value enum: "flint", "merchant". */
-    "source": "flint" | "merchant" | (string & {});
-    /**
-     * Whether the reason is offered. An active reason is offered and accepted on new Return lines.
-     * An inactive reason is not offered or accepted until you set it back to active. An archived
-     * reason is retired for good and stays readable on Returns that recorded it. Archive a
-     * merchant reason with DELETE /v1/return-reasons/{return_reason_id}. Flint reasons cannot be
-     * deleted, but you can set them inactive. Value enum: "active", "archived", "inactive".
-     */
-    "status": "active" | "archived" | "inactive" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Increases whenever the reason changes. Send it as expected_version to update or archive the
-     * reason only if it hasn't changed since you read it. Format: int64. minimum: 1.
-     */
-    "version": number;
-};
-export type ReturnReasonPreviousAttributes = {
-    /**
-     * Catalog category handles this reason applies to. A reason with categories is suggested, and
-     * accepted from a customer session, only for order lines whose product is in one of them. A
-     * reason with no categories applies to every line. Not product types or tags: use handles from
-     * GET /v1/categories. anyOf[1] (Value): Array of string. Catalog category handles this reason
-     * applies to. A reason with categories is suggested, and accepted from a customer session,
-     * only for order lines whose product is in one of them. A reason with no categories applies to
-     * every line. Not product types or tags: use handles from GET /v1/categories. anyOf[1][]
-     * (Value): string. anyOf[2] (Value): null.
-     */
-    "category_handles"?: ((Array<string>) | (null));
-    /**
-     * When the reason was created. Built-in Flint reasons use their release time,
-     * 2026-07-27T00:00:00Z. Their updated_at is the merchant availability change time, or the same
-     * release time if unchanged. anyOf[1] (Value): string. When the reason was created. Built-in
-     * Flint reasons use their release time, 2026-07-27T00:00:00Z. Their updated_at is the merchant
-     * availability change time, or the same release time if unchanged. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "created_at"?: ((string) | (null));
-    /**
-     * Longer explanation of when to use the reason. anyOf[1] (Value): string. Longer explanation
-     * of when to use the reason. anyOf[2] (Value): null.
-     */
-    "description"?: ((string) | (null));
-    /**
-     * Caller-owned identifier for this resource in an external system. anyOf[1] (Value): string.
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". anyOf[2] (Value): null.
-     */
-    "external_reference_id"?: ((string) | (null));
-    /**
-     * Lowercase snake_case identifier, unique among your reasons. Flint's own reasons have fixed
-     * handles. Can't be changed after create, and an archived reason keeps its handle reserved.
-     * anyOf[1] (Value): string. Lowercase snake_case identifier, unique among your reasons.
-     * Flint's own reasons have fixed handles. Can't be changed after create, and an archived
-     * reason keeps its handle reserved. minLength: 1. maxLength: 100. pattern:
-     * ^[a-z][a-z0-9_]{0,99}$. anyOf[2] (Value): null.
-     */
-    "handle"?: ((string) | (null));
-    /**
-     * Whether a Return line with this reason needs a buyer_note. anyOf[1] (Value): boolean.
-     * Whether a Return line with this reason needs a buyer_note. anyOf[2] (Value): null.
-     */
-    "is_note_required"?: ((boolean) | (null));
-    /**
-     * Name buyers and staff see. anyOf[1] (Value): string. Name buyers and staff see. anyOf[2]
-     * (Value): null.
-     */
-    "name"?: ((string) | (null));
-    /**
-     * Flint's ID for the reason. Send it as return_reason_id on a Return line. anyOf[1] (Value):
-     * string. Flint's ID for the reason. Send it as return_reason_id on a Return line. Example:
-     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E". anyOf[2] (Value): null.
-     */
-    "return_reason_id"?: ((string) | (null));
-    /**
-     * Whether Flint provides the reason or you created it. Value enum: "flint", "merchant".
-     * anyOf[1] (Value): string. Whether Flint provides the reason or you created it. Value enum:
-     * "flint", "merchant". anyOf[2] (Value): null.
-     */
-    "source"?: (("flint" | "merchant" | (string & {})) | (null));
-    /**
-     * Whether the reason is offered. An active reason is offered and accepted on new Return lines.
-     * An inactive reason is not offered or accepted until you set it back to active. An archived
-     * reason is retired for good and stays readable on Returns that recorded it. Archive a
-     * merchant reason with DELETE /v1/return-reasons/{return_reason_id}. Flint reasons cannot be
-     * deleted, but you can set them inactive. Value enum: "active", "archived", "inactive".
-     * anyOf[1] (Value): string. Whether the reason is offered. An active reason is offered and
-     * accepted on new Return lines. An inactive reason is not offered or accepted until you set it
-     * back to active. An archived reason is retired for good and stays readable on Returns that
-     * recorded it. Archive a merchant reason with DELETE /v1/return-reasons/{return_reason_id}.
-     * Flint reasons cannot be deleted, but you can set them inactive. Value enum: "active",
-     * "archived", "inactive". anyOf[2] (Value): null.
-     */
-    "status"?: (("active" | "archived" | "inactive" | (string & {})) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "updated_at"?: ((string) | (null));
-    /**
-     * Increases whenever the reason changes. Send it as expected_version to update or archive the
-     * reason only if it hasn't changed since you read it. anyOf[1] (Value): integer. Increases
-     * whenever the reason changes. Send it as expected_version to update or archive the reason
-     * only if it hasn't changed since you read it. Format: int64. minimum: 1. anyOf[2] (Value):
-     * null.
-     */
-    "version"?: ((number) | (null));
-};
-/**
- * A return reason a buyer can pick for a line, with its `handle` and whether a note is required.
- */
-export type ReturnReasonSummary = {
-    /** Handle of the reason. */
-    "handle": string;
-    /** Whether a line that uses this reason needs a `buyer_note`. */
-    "is_note_required": boolean;
-    /** Name of the reason. */
-    "name": string;
-    /** ID of the reason. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E". */
-    "return_reason_id": string;
-};
-export type ReturnReasonsCreateParams = (InputValue<CreateReturnReasonRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ReturnReasonsDeleteParams = {
-    /**
-     * Optional. The reason's current version. If it changed, the archive fails with 409
-     * VERSION_CONFLICT and nothing changes. Format: int64. minimum: 1. maximum: 9007199254740991.
-     */
-    "expected_version"?: InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ReturnReasonsGetParams = DisputesAcceptParams;
-export type ReturnReasonsListParams = {
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /** Exact, case-sensitive match on the reason's handle, for Flint and merchant reasons. */
-    "handle"?: InputValue<string>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
-     * 1. maximum: 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /** Search by return reason ID, handle, name, description, or external reference ID. */
-    "query"?: InputValue<string>;
-    /**
-     * Filter by source. Values are trimmed and deduplicated in first-seen order; empty or unknown
-     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
-     * enum: "flint", "merchant". Value enum: "flint", "merchant". anyOf[1] (Value): Array of
-     * string. minItems: 1. [] enum: "flint", "merchant". anyOf[1][] (Value): string. Value enum:
-     * "flint", "merchant". anyOf[2] (Value): string. Value enum: "flint", "merchant".
-     */
-    "source"?: InputValue<("flint" | "merchant") | readonly ("flint" | "merchant")[]>;
-    /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "archived", "inactive". Value enum: "active", "archived", "inactive". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "active", "archived", "inactive". anyOf[1][] (Value):
-     * string. Value enum: "active", "archived", "inactive". anyOf[2] (Value): string. Value enum:
-     * "active", "archived", "inactive".
-     */
-    "status"?: InputValue<("active" | "archived" | "inactive") | readonly ("active" | "archived" | "inactive")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ReturnReasonsUpdateParams = (InputValue<UpdateReturnReasonRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/** A record of returned items arriving at a location. */
-export type ReturnReceipt = {
-    /**
-     * Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or
-     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other".
-     */
-    "correction_reason"?: "entry_error"
-        | "duplicate_observation"
-        | "source_correction"
-        | "reconciliation_correction"
-        | "other"
-        | (string & {});
-    /** Detail about `correction_reason`. */
-    "correction_reason_message"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
-     * `receipt_disposition_mode` is `automatic`. [] (Value): {@link ReturnDisposition}. A decision
-     * about how returned merchandise will be handled.
-     */
-    "generated_dispositions": Array<ReturnDisposition>;
-    /**
-     * The Idempotency-Key of the request that created this resource. `null` when that request sent
-     * no key, Flint created the resource, the reader isn't the caller that created it (another app
-     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
-     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
-     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
-     * find a key that a replay returns as `null`, read the resource.
-     */
-    "idempotency_key": string | null;
-    /**
-     * The lines recorded. [] (Value): {@link ReturnReceiptLineItem}. A returned item recorded as
-     * received.
-     */
-    "line_items": Array<ReturnReceiptLineItem>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "received_at": string;
-    /** ID of the Location that received the goods. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-    "receiving_location_id": string;
-    /** ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
-    "return_id": string;
-    /**
-     * Unique identifier for this return receipt, prefixed `retrc_`. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-     */
-    "return_receipt_id": string;
-    /**
-     * ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a
-     * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     */
-    "shipment_id"?: string;
-    /**
-     * System that recorded the observation. `null` when no source system was recorded. anyOf[1]
-     * (Value): {@link ReturnSourceSystem}. The system a return event came from, such as a point of
-     * sale or warehouse system, with its own identifier. anyOf[2] (Value): null.
-     */
-    "source_system": ((ReturnSourceSystem) | (null));
-    /**
-     * Whether this is the current observation of these units or a correction replaced it. Value
-     * enum: "current", "superseded".
-     */
-    "status": "current" | "superseded" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "superseded_at"?: string;
-    /**
-     * ID of the receipt that corrected this one. Absent while it is current. Example:
-     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-     */
-    "superseded_by_return_receipt_id"?: string;
-    /** ID of the receipt this one corrects. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
-    "supersedes_return_receipt_id"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: int64. minimum: 1.
-     */
-    "version": number;
-};
-export type ReturnReceiptCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "correction_reason"?: "entry_error"
-                | "duplicate_observation"
-                | "source_correction"
-                | "reconciliation_correction"
-                | "other"
-                | (string & {});
-            "correction_reason_message"?: string;
-            "created_at": string;
-            "external_actor_id"?: string;
-            "external_reference_id"?: string;
-            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
-            "idempotency_key"?: string | null;
-            "line_items": Array<ReturnReceiptLineItem>;
-            "received_at": string;
-            "receiving_location_id": string;
-            "return_id": string;
-            "return_receipt_id": string;
-            "shipment_id"?: string;
-            "source_system": ((ReturnSourceSystem) | (null));
-            "status": "current" | "superseded" | (string & {});
-            "superseded_at"?: string;
-            "superseded_by_return_receipt_id"?: string;
-            "supersedes_return_receipt_id"?: string;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "return_receipt.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "correction_reason"?: "entry_error"
-                | "duplicate_observation"
-                | "source_correction"
-                | "reconciliation_correction"
-                | "other"
-                | (string & {});
-            "correction_reason_message"?: string;
-            "created_at": string;
-            "external_actor_id"?: string;
-            "external_reference_id"?: string;
-            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
-            "idempotency_key"?: string | null;
-            "line_items": Array<ReturnReceiptLineItem>;
-            "received_at": string;
-            "receiving_location_id": string;
-            "return_id": string;
-            "return_receipt_id": string;
-            "shipment_id"?: string;
-            "source_system": ((ReturnSourceSystem) | (null));
-            "status": "current" | "superseded" | (string & {});
-            "superseded_at"?: string;
-            "superseded_by_return_receipt_id"?: string;
-            "supersedes_return_receipt_id"?: string;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "return_receipt.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "return_receipt.created";
-});
-/**
- * The `return_receipt.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type ReturnReceiptCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.correction_reason (Optional): string. Why this observation
-     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
-     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other". object.correction_reason_message
-     * (Optional): string. Detail about `correction_reason`. object.created_at (Required): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.external_actor_id (Optional): string. Your identifier for the actor who recorded the
-     * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.generated_dispositions (Required): Array of {@link WebhookSnapshotReturnDisposition}.
-     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
-     * `receipt_disposition_mode` is `automatic`. object.generated_dispositions[] (Value): {@link
-     * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
-     * handled. object.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource. `null` when that request sent no key, Flint created the
-     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
-     * merchant reading an app's or buyer's record), or the caller that created an older record is
-     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
-     * replayed responses and webhook events, can return `null`. To find a key that a replay
-     * returns as `null`, read the resource. object.line_items (Required): Array of {@link
-     * ReturnReceiptLineItem}. The lines recorded. object.line_items[] (Value): {@link
-     * ReturnReceiptLineItem}. A returned item recorded as received. object.received_at (Required):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.receiving_location_id (Required): string. ID of the Location that received the goods.
-     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.return_id (Required): string. ID of the
-     * Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_receipt_id (Required): string. Unique identifier for this return receipt,
-     * prefixed `retrc_`. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.shipment_id
-     * (Optional): string. ID of the return shipment the goods arrived in. Absent when the receipt
-     * isn't tied to a shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.source_system
-     * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation. `null`
-     * when no source system was recorded. object.source_system.anyOf[1] (Value): {@link
-     * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
-     * warehouse system, with its own identifier. object.source_system.anyOf[2] (Value): null.
-     * object.status (Required): string. Whether this is the current observation of these units or
-     * a correction replaced it. Value enum: "current", "superseded". object.superseded_at
-     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.superseded_by_return_receipt_id (Optional): string. ID of the receipt that corrected
-     * this one. Absent while it is current. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-     * object.supersedes_return_receipt_id (Optional): string. ID of the receipt this one corrects.
-     * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.updated_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current version of this resource's owned state. Send it as `expected_version` when
-     * changing the resource to reject a stale write. Format: int64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * correction_reason (Optional): string. Why this observation replaces an earlier one. Send
-         * with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
-         * "entry_error", "duplicate_observation", "source_correction",
-         * "reconciliation_correction", "other". correction_reason_message (Optional): string.
-         * Detail about `correction_reason`. created_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". external_actor_id (Optional):
-         * string. Your identifier for the actor who recorded the event. Don't put secrets in this
-         * field. maxLength: 255. Example: "warehouse-1842". external_reference_id (Optional):
-         * string. Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". generated_dispositions (Required): Array of {@link
-         * WebhookSnapshotReturnDisposition}. Dispositions Flint created when it recorded this
-         * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
-         * generated_dispositions[] (Value): {@link WebhookSnapshotReturnDisposition}. A decision
-         * about how returned merchandise will be handled. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource. `null` when that
-         * request sent no key, Flint created the resource, the reader isn't the caller that
-         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
-         * record), or the caller that created an older record is unknown. Filter its list with
-         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
-         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
-         * the resource. line_items (Required): Array of {@link ReturnReceiptLineItem}. The lines
-         * recorded. line_items[] (Value): {@link ReturnReceiptLineItem}. A returned item recorded
-         * as received. received_at (Required): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". receiving_location_id (Required): string. ID of the
-         * Location that received the goods. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". return_id
-         * (Required): string. ID of the Return the goods belong to. Example:
-         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_receipt_id (Required): string. Unique
-         * identifier for this return receipt, prefixed `retrc_`. Example:
-         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". shipment_id (Optional): string. ID of the return
-         * shipment the goods arrived in. Absent when the receipt isn't tied to a shipment.
-         * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". source_system (Required): {@link
-         * ReturnSourceSystem} or null. System that recorded the observation. `null` when no source
-         * system was recorded. source_system.anyOf[1] (Value): {@link ReturnSourceSystem}. The
-         * system a return event came from, such as a point of sale or warehouse system, with its
-         * own identifier. source_system.anyOf[2] (Value): null. status (Required): string. Whether
-         * this is the current observation of these units or a correction replaced it. Value enum:
-         * "current", "superseded". superseded_at (Optional): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". superseded_by_return_receipt_id (Optional):
-         * string. ID of the receipt that corrected this one. Absent while it is current. Example:
-         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". supersedes_return_receipt_id (Optional): string. ID
-         * of the receipt this one corrects. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: int64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Why this observation replaces an earlier one. Send with
-             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
-             * "entry_error", "duplicate_observation", "source_correction",
-             * "reconciliation_correction", "other".
-             */
-            "correction_reason"?: "entry_error"
-                | "duplicate_observation"
-                | "source_correction"
-                | "reconciliation_correction"
-                | "other"
-                | (string & {});
-            /** Detail about `correction_reason`. */
-            "correction_reason_message"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Your identifier for the actor who recorded the event. Don't put secrets in this
-             * field. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_actor_id"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Dispositions Flint created when it recorded this observation. Empty unless the
-             * policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@link
-             * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
-             * handled.
-             */
-            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
-            /**
-             * The Idempotency-Key of the request that created this resource. `null` when that
-             * request sent no key, Flint created the resource, the reader isn't the caller that
-             * created it (another app install, a buyer, or the merchant reading an app's or
-             * buyer's record), or the caller that created an older record is unknown. Filter its
-             * list with `idempotency_key` to find it. Recorded payloads, including replayed
-             * responses and webhook events, can return `null`. To find a key that a replay returns
-             * as `null`, read the resource.
-             */
-            "idempotency_key"?: string | null;
-            /**
-             * The lines recorded. [] (Value): {@link ReturnReceiptLineItem}. A returned item
-             * recorded as received.
-             */
-            "line_items": Array<ReturnReceiptLineItem>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "received_at": string;
-            /**
-             * ID of the Location that received the goods. Example:
-             * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "receiving_location_id": string;
-            /** ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
-            "return_id": string;
-            /**
-             * Unique identifier for this return receipt, prefixed `retrc_`. Example:
-             * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-             */
-            "return_receipt_id": string;
-            /**
-             * ID of the return shipment the goods arrived in. Absent when the receipt isn't tied
-             * to a shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-             */
-            "shipment_id"?: string;
-            /**
-             * System that recorded the observation. `null` when no source system was recorded.
-             * anyOf[1] (Value): {@link ReturnSourceSystem}. The system a return event came from,
-             * such as a point of sale or warehouse system, with its own identifier. anyOf[2]
-             * (Value): null.
-             */
-            "source_system": ((ReturnSourceSystem) | (null));
-            /**
-             * Whether this is the current observation of these units or a correction replaced it.
-             * Value enum: "current", "superseded".
-             */
-            "status": "current" | "superseded" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "superseded_at"?: string;
-            /**
-             * ID of the receipt that corrected this one. Absent while it is current. Example:
-             * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-             */
-            "superseded_by_return_receipt_id"?: string;
-            /** ID of the receipt this one corrects. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
-            "supersedes_return_receipt_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: int64. minimum: 1.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "return_receipt.created". */
-    "event_type"?: "return_receipt.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `return_receipt.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ReturnReceiptCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.correction_reason (Optional): string. Why this observation
-     * replaces an earlier one. Send with `supersedes_return_receipt_id` or
-     * `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation",
-     * "source_correction", "reconciliation_correction", "other". object.correction_reason_message
-     * (Optional): string. Detail about `correction_reason`. object.created_at (Required): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.external_actor_id (Optional): string. Your identifier for the actor who recorded the
-     * event. Don't put secrets in this field. maxLength: 255. Example: "warehouse-1842".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.generated_dispositions (Required): Array of {@link WebhookSnapshotReturnDisposition}.
-     * Dispositions Flint created when it recorded this observation. Empty unless the policy's
-     * `receipt_disposition_mode` is `automatic`. object.generated_dispositions[] (Value): {@link
-     * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
-     * handled. object.idempotency_key (Optional): string or null. The Idempotency-Key of the
-     * request that created this resource. `null` when that request sent no key, Flint created the
-     * resource, the reader isn't the caller that created it (another app install, a buyer, or the
-     * merchant reading an app's or buyer's record), or the caller that created an older record is
-     * unknown. Filter its list with `idempotency_key` to find it. Recorded payloads, including
-     * replayed responses and webhook events, can return `null`. To find a key that a replay
-     * returns as `null`, read the resource. object.line_items (Required): Array of {@link
-     * ReturnReceiptLineItem}. The lines recorded. object.line_items[] (Value): {@link
-     * ReturnReceiptLineItem}. A returned item recorded as received. object.received_at (Required):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.receiving_location_id (Required): string. ID of the Location that received the goods.
-     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". object.return_id (Required): string. ID of the
-     * Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_receipt_id (Required): string. Unique identifier for this return receipt,
-     * prefixed `retrc_`. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.shipment_id
-     * (Optional): string. ID of the return shipment the goods arrived in. Absent when the receipt
-     * isn't tied to a shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.source_system
-     * (Required): {@link ReturnSourceSystem} or null. System that recorded the observation. `null`
-     * when no source system was recorded. object.source_system.anyOf[1] (Value): {@link
-     * ReturnSourceSystem}. The system a return event came from, such as a point of sale or
-     * warehouse system, with its own identifier. object.source_system.anyOf[2] (Value): null.
-     * object.status (Required): string. Whether this is the current observation of these units or
-     * a correction replaced it. Value enum: "current", "superseded". object.superseded_at
-     * (Optional): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.superseded_by_return_receipt_id (Optional): string. ID of the receipt that corrected
-     * this one. Absent while it is current. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-     * object.supersedes_return_receipt_id (Optional): string. ID of the receipt this one corrects.
-     * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.updated_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current version of this resource's owned state. Send it as `expected_version` when
-     * changing the resource to reject a stale write. Format: int64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * correction_reason (Optional): string. Why this observation replaces an earlier one. Send
-         * with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
-         * "entry_error", "duplicate_observation", "source_correction",
-         * "reconciliation_correction", "other". correction_reason_message (Optional): string.
-         * Detail about `correction_reason`. created_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". external_actor_id (Optional):
-         * string. Your identifier for the actor who recorded the event. Don't put secrets in this
-         * field. maxLength: 255. Example: "warehouse-1842". external_reference_id (Optional):
-         * string. Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". generated_dispositions (Required): Array of {@link
-         * WebhookSnapshotReturnDisposition}. Dispositions Flint created when it recorded this
-         * observation. Empty unless the policy's `receipt_disposition_mode` is `automatic`.
-         * generated_dispositions[] (Value): {@link WebhookSnapshotReturnDisposition}. A decision
-         * about how returned merchandise will be handled. idempotency_key (Optional): string or
-         * null. The Idempotency-Key of the request that created this resource. `null` when that
-         * request sent no key, Flint created the resource, the reader isn't the caller that
-         * created it (another app install, a buyer, or the merchant reading an app's or buyer's
-         * record), or the caller that created an older record is unknown. Filter its list with
-         * `idempotency_key` to find it. Recorded payloads, including replayed responses and
-         * webhook events, can return `null`. To find a key that a replay returns as `null`, read
-         * the resource. line_items (Required): Array of {@link ReturnReceiptLineItem}. The lines
-         * recorded. line_items[] (Value): {@link ReturnReceiptLineItem}. A returned item recorded
-         * as received. received_at (Required): string. RFC3339 timestamp. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". receiving_location_id (Required): string. ID of the
-         * Location that received the goods. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". return_id
-         * (Required): string. ID of the Return the goods belong to. Example:
-         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_receipt_id (Required): string. Unique
-         * identifier for this return receipt, prefixed `retrc_`. Example:
-         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". shipment_id (Optional): string. ID of the return
-         * shipment the goods arrived in. Absent when the receipt isn't tied to a shipment.
-         * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". source_system (Required): {@link
-         * ReturnSourceSystem} or null. System that recorded the observation. `null` when no source
-         * system was recorded. source_system.anyOf[1] (Value): {@link ReturnSourceSystem}. The
-         * system a return event came from, such as a point of sale or warehouse system, with its
-         * own identifier. source_system.anyOf[2] (Value): null. status (Required): string. Whether
-         * this is the current observation of these units or a correction replaced it. Value enum:
-         * "current", "superseded". superseded_at (Optional): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". superseded_by_return_receipt_id (Optional):
-         * string. ID of the receipt that corrected this one. Absent while it is current. Example:
-         * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". supersedes_return_receipt_id (Optional): string. ID
-         * of the receipt this one corrects. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: int64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Why this observation replaces an earlier one. Send with
-             * `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum:
-             * "entry_error", "duplicate_observation", "source_correction",
-             * "reconciliation_correction", "other".
-             */
-            "correction_reason"?: "entry_error"
-                | "duplicate_observation"
-                | "source_correction"
-                | "reconciliation_correction"
-                | "other"
-                | (string & {});
-            /** Detail about `correction_reason`. */
-            "correction_reason_message"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Your identifier for the actor who recorded the event. Don't put secrets in this
-             * field. maxLength: 255. Example: "warehouse-1842".
-             */
-            "external_actor_id"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Dispositions Flint created when it recorded this observation. Empty unless the
-             * policy's `receipt_disposition_mode` is `automatic`. [] (Value): {@link
-             * WebhookSnapshotReturnDisposition}. A decision about how returned merchandise will be
-             * handled.
-             */
-            "generated_dispositions": Array<WebhookSnapshotReturnDisposition>;
-            /**
-             * The Idempotency-Key of the request that created this resource. `null` when that
-             * request sent no key, Flint created the resource, the reader isn't the caller that
-             * created it (another app install, a buyer, or the merchant reading an app's or
-             * buyer's record), or the caller that created an older record is unknown. Filter its
-             * list with `idempotency_key` to find it. Recorded payloads, including replayed
-             * responses and webhook events, can return `null`. To find a key that a replay returns
-             * as `null`, read the resource.
-             */
-            "idempotency_key"?: string | null;
-            /**
-             * The lines recorded. [] (Value): {@link ReturnReceiptLineItem}. A returned item
-             * recorded as received.
-             */
-            "line_items": Array<ReturnReceiptLineItem>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "received_at": string;
-            /**
-             * ID of the Location that received the goods. Example:
-             * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "receiving_location_id": string;
-            /** ID of the Return the goods belong to. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
-            "return_id": string;
-            /**
-             * Unique identifier for this return receipt, prefixed `retrc_`. Example:
-             * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-             */
-            "return_receipt_id": string;
-            /**
-             * ID of the return shipment the goods arrived in. Absent when the receipt isn't tied
-             * to a shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-             */
-            "shipment_id"?: string;
-            /**
-             * System that recorded the observation. `null` when no source system was recorded.
-             * anyOf[1] (Value): {@link ReturnSourceSystem}. The system a return event came from,
-             * such as a point of sale or warehouse system, with its own identifier. anyOf[2]
-             * (Value): null.
-             */
-            "source_system": ((ReturnSourceSystem) | (null));
-            /**
-             * Whether this is the current observation of these units or a correction replaced it.
-             * Value enum: "current", "superseded".
-             */
-            "status": "current" | "superseded" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "superseded_at"?: string;
-            /**
-             * ID of the receipt that corrected this one. Absent while it is current. Example:
-             * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
-             */
-            "superseded_by_return_receipt_id"?: string;
-            /** ID of the receipt this one corrects. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
-            "supersedes_return_receipt_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: int64. minimum: 1.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "return_receipt.created". */
-    "event_type"?: "return_receipt.created";
-});
-/** A returned item recorded as received. */
-export type ReturnReceiptLineItem = {
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "available_disposition_quantity": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * Return that owns return_line_item_id. `null` when return_line_item_id is null. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string | null;
-    /**
-     * ID of the Return line the units were matched to. Absent for unverified units. Example:
-     * "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id"?: string;
-    /** ID of the receipt the line belongs to. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". */
-    "return_receipt_id": string;
-    /**
-     * Unique identifier for this return receipt line item, prefixed `retrcli_`. Example:
-     * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
-     */
-    "return_receipt_line_item_id": string;
-    /**
-     * Actions that can succeed now. Actions the API key or token doesn't have the scope for are
-     * left out. `verify` is listed while the receipt is current and the line's
-     * `verification_status` is `unverified`. Otherwise empty. [] enum: "verify". [] (Value):
-     * string. Value enum: "verify".
-     */
-    "supported_actions": Array<"verify" | (string & {})>;
-    /**
-     * What the operator recorded for units that match no line. Present on `unverified` lines.
-     * Merchandise received in a return that does not match an expected return line, described by
-     * name, SKU, and description.
-     */
-    "unverified_item"?: ReturnUnverifiedItem;
-    /**
-     * Why the units were verified against the line. Value enum: "order_match_confirmed",
-     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
-     */
-    "verification_reason"?: "order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other"
-        | (string & {});
-    /** Detail about `verification_reason`. */
-    "verification_reason_message"?: string;
-    /** Whether the units are matched to a line. Value enum: "matched", "unverified", "excess". */
-    "verification_status": "matched" | "unverified" | "excess" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "verified_at"?: string;
-    /**
-     * Who verified the line. Who performed a return action: a buyer, merchant, integration, or the
-     * system, with an optional ID.
-     */
-    "verified_by"?: ReturnActor;
 };

@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# DeliveryFixedPricingStrategyRequestInput to DeliveryPricingRateRequestInput
+# DeliveryFixedPricingStrategy to DeliveryPricingRatePreviousAttributes
 
+- [DeliveryFixedPricingStrategy](DeliveryFixedPricingStrategy.md)
+- [DeliveryFixedPricingStrategyPreviousAttributes](DeliveryFixedPricingStrategyPreviousAttributes.md)
 - [DeliveryFixedPricingStrategyRequestInput](DeliveryFixedPricingStrategyRequestInput.md)
 - [DeliveryFulfillmentDetails](DeliveryFulfillmentDetails.md)
 - [DeliveryFulfillmentDetailsPreviousAttributes](DeliveryFulfillmentDetailsPreviousAttributes.md)
@@ -100,6 +102,4 @@
 - [DeliveryPricingRateCreateRequest](DeliveryPricingRateCreateRequest.md)
 - [DeliveryPricingRateCreateRequestInput](DeliveryPricingRateCreateRequestInput.md)
 - [DeliveryPricingRatePreviousAttributes](DeliveryPricingRatePreviousAttributes.md)
-- [DeliveryPricingRateRequest](DeliveryPricingRateRequest.md)
-- [DeliveryPricingRateRequestInput](DeliveryPricingRateRequestInput.md)
 

@@ -11,7 +11,7 @@ import type {
     InventoryItemsUpdateParams
 } from '../declarations/types-32.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,28 +34,27 @@ export type {
     InventoryItemsGetParams,
     InventoryItemsListParams,
     InventoryItemListResponse,
-    InventoryItemsUpdateParams
+    InventoryItemsUpdateParams,
+    InventoryBackorderPolicyRequestInput,
+    InventoryBackorderPolicyRequest
 } from '../declarations/types-32.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateInventoryItemRequestInput, CreateInventoryBackorderPolicyRequestInput } from '../declarations/types-10.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode, BackorderPolicy } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { UpdateInventoryItemRequestInput } from '../declarations/types-76.js';
-export type {
-    InventoryBackorderPolicyRequestInput,
-    InventoryAllocationPoliciesDeleteParams,
-    InventoryBackorderPolicyRequest
-} from '../declarations/types-31.js';
+export type { UpdateInventoryItemRequestInput } from '../declarations/types-77.js';
+export type { InventoryAllocationPoliciesDeleteParams } from '../declarations/types-31.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateInventoryBackorderPolicyRequest, makeCreateInventoryItemRequest } from '../declarations/types-83.js';
-export { makeInventoryBackorderPolicyRequest } from '../declarations/types-87.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdateInventoryItemRequest } from '../declarations/types-94.js';
+export { makeCreateInventoryBackorderPolicyRequest, makeCreateInventoryItemRequest } from '../declarations/types-84.js';
+export { makeInventoryBackorderPolicyRequest } from '../declarations/types-88.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-89.js';
+export { makeUpdateInventoryItemRequest } from '../declarations/types-95.js';
 export interface InventoryItemsResource {
     /**
  * Create an inventory item. SKU and barcode are searchable attributes, not identity: they are not

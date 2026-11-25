@@ -87,6 +87,10 @@ Field definitions: [OrderResponse.data.payment_intents[]](../models/OrderRespons
 
 Declared alternatives: [CheckoutSessionResponse.data.payment_link](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatapayment_link).
 
+### CheckoutSessionClosedMerchantEvent.data fields 1.object.platform_fee_rule
+
+Field definitions: [CheckoutSessionResponse.data.platform_fee_rule](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataplatform_fee_rule).
+
 ### CheckoutSessionClosedMerchantEvent.data fields 1.object.redirects
 
 Field definitions: [CheckoutSessionResponse.data.redirects](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataredirects).
@@ -229,6 +233,10 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.payment_return_url](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_return_url).
 
+### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.platform_fee_rule
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.platform_fee_rule](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesplatform_fee_rule).
+
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.problems
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.problems](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesproblems).
@@ -240,6 +248,10 @@ Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.refunds
 
 Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.refunds](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesrefunds).
+
+### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.shop_id
+
+Declared alternatives: [CheckoutSessionClosedMerchantEventDataPreviousAttributes.shop_id](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesshop_id).
 
 ### CheckoutSessionClosedMerchantEvent.data fields 1.previous_attributes.status
 

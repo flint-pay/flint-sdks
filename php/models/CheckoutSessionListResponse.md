@@ -75,6 +75,10 @@ Field definitions: [CheckoutSessionResponse.data.payment_method_save](../models/
 
 Field definitions: [CheckoutSessionResponse.data.platform_fee](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataplatform_fee).
 
+### CheckoutSessionListResponse.data[].platform_fee_rule
+
+Field definitions: [CheckoutSessionResponse.data.platform_fee_rule](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataplatform_fee_rule).
+
 ### CheckoutSessionListResponse.data[].redirects
 
 Field definitions: [CheckoutSessionResponse.data.redirects](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataredirects).

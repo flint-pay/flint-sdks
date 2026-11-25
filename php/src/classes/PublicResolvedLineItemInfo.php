@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read ?list<PublicResolvedModifierGroup> $available_modifiers
- * @property-read ?list<PaymentLinkAvailableVariant> $available_variants
+ * @property-read ?list<PublicCatalogVariant> $available_variants
  * @property-read ?list<PublicResolvedBundleComponent> $bundle_components
  * @property-read ?string $bundle_id
  * @property-read ?string $catalog_object_type
@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read bool $is_sold_out
  * @property-read string $key
  * @property-read ?string $product_id
- * @property-read ?list<PaymentLinkProductOption> $product_options
+ * @property-read ?list<PublicCatalogOption> $product_options
  * @property-read list<QuantityPriceBreak> $quantity_price_breaks
  * @property-read ?string $resolved_description
  * @property-read ?string $resolved_name
@@ -29,8 +29,8 @@ final class PublicResolvedLineItemInfo extends Model {
      */
     public function getAvailableModifiers(): ?array { return $this->get('available_modifiers'); }
     public function hasAvailableModifiers(): bool { return $this->has('available_modifiers'); }
-    /** Listed variants that can currently be sold in the line currency, in variant_ids order. Inactive, archived, unsellable, and other-currency variants are omitted. Each variant includes its advisory sold-out state and its own modifiers. Present only on variant_ids lines. [] (Value): {@see PaymentLinkAvailableVariant}. A listed payment link variant that can be sold in the line currency, with its current price, options, image, modifiers, and advisory stock state.
-     * @return ?list<PaymentLinkAvailableVariant>
+    /** Listed variants that can currently be sold in the line currency, in variant_ids order. Inactive, archived, unsellable, and other-currency variants are omitted. Each variant includes its advisory sold-out state and its own modifiers. Present only on variant_ids lines. [] (Value): {@see PublicCatalogVariant}. A variant that can be sold now, with its current price, options, image, modifiers, and advisory stock state.
+     * @return ?list<PublicCatalogVariant>
      */
     public function getAvailableVariants(): ?array { return $this->get('available_variants'); }
     public function hasAvailableVariants(): bool { return $this->has('available_variants'); }
@@ -64,7 +64,7 @@ final class PublicResolvedLineItemInfo extends Model {
      */
     public function getIsInventoryTracked(): ?bool { return $this->get('is_inventory_tracked'); }
     public function hasIsInventoryTracked(): bool { return $this->has('is_inventory_tracked'); }
-    /** True when the fixed variant or bundle components cannot be bought at the line minimum quantity from the link inventory_routing_source. The minimum is min_quantity when quantity adjustment is enabled, otherwise quantity. For variant choice lines, true only when every available_variants entry is sold out. Always false for untracked and ad hoc lines. Exposes no stock counts and reserves no stock.
+    /** True when the link inventory_routing_source cannot supply the fixed variant or bundle components at the line minimum quantity. Offered delivery methods affect availability for items that need a delivery quote. If no quote is needed, stock alone decides. Separate bundle components can use different fulfillment methods. Shipping can use remaining backorder capacity for a fixed variant. Pickup requires physical stock. The minimum is min_quantity when quantity adjustment is enabled, otherwise quantity. For variant choice lines, true only when every available_variants entry is sold out. Always false for untracked and ad hoc lines. Exposes no stock counts and reserves no stock.
      * @return bool
      */
     public function getIsSoldOut(): bool { return $this->get('is_sold_out'); }
@@ -79,8 +79,8 @@ final class PublicResolvedLineItemInfo extends Model {
      */
     public function getProductId(): ?string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** Active product options for a variant_ids line, in option position order. Values include only those used by available_variants and retain value position order. Empty when the product has no options; omitted on fixed variant and bundle lines. [] (Value): {@see PaymentLinkProductOption}. An active product option offered on a payment link, with values used by its available variants.
-     * @return ?list<PaymentLinkProductOption>
+    /** Active product options for a variant_ids line, in option position order. Values include only those used by available_variants and retain value position order. Empty when the product has no options; omitted on fixed variant and bundle lines. [] (Value): {@see PublicCatalogOption}. An active product option, with the values its available variants use.
+     * @return ?list<PublicCatalogOption>
      */
     public function getProductOptions(): ?array { return $this->get('product_options'); }
     public function hasProductOptions(): bool { return $this->has('product_options'); }

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PayoutCanceledInstalledMerchantsEvent to ProductOptionPreviousAttributes
+# Payout to ProductCreatedInstalledMerchantsEvent
 
+- [Payout](Payout.md)
 - [PayoutCanceledInstalledMerchantsEvent](PayoutCanceledInstalledMerchantsEvent.md)
 - [PayoutCanceledMerchantEvent](PayoutCanceledMerchantEvent.md)
 - [PayoutCreatedInstalledMerchantsEvent](PayoutCreatedInstalledMerchantsEvent.md)
@@ -65,6 +66,10 @@
 - [PlatformFeeRequest](PlatformFeeRequest.md)
 - [PlatformFeeRequestInput](PlatformFeeRequestInput.md)
 - [PlatformFeeResponse](PlatformFeeResponse.md)
+- [PlatformFeeRule](PlatformFeeRule.md)
+- [PlatformFeeRulePreviousAttributes](PlatformFeeRulePreviousAttributes.md)
+- [PlatformFeeRuleRequest](PlatformFeeRuleRequest.md)
+- [PlatformFeeRuleRequestInput](PlatformFeeRuleRequestInput.md)
 - [PlatformFeeSucceededEvent](PlatformFeeSucceededEvent.md)
 - [PlatformFeeUpdatedEvent](PlatformFeeUpdatedEvent.md)
 - [PoolLicenseKeyConfiguration](PoolLicenseKeyConfiguration.md)
@@ -97,9 +102,4 @@
 - [ProductArchivedInstalledMerchantsEvent](ProductArchivedInstalledMerchantsEvent.md)
 - [ProductArchivedMerchantEvent](ProductArchivedMerchantEvent.md)
 - [ProductCreatedInstalledMerchantsEvent](ProductCreatedInstalledMerchantsEvent.md)
-- [ProductCreatedMerchantEvent](ProductCreatedMerchantEvent.md)
-- [ProductListResponse](ProductListResponse.md)
-- [ProductOption](ProductOption.md)
-- [ProductOptionListResponse](ProductOptionListResponse.md)
-- [ProductOptionPreviousAttributes](ProductOptionPreviousAttributes.md)
 

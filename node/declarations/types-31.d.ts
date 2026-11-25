@@ -1,4 +1,6 @@
 import type { InputValue } from '../runtime.js';
+import type { CashOutGiftCardRequestInput } from './types-5.js';
+import type { CloseGiftCardRequestInput } from './types-7.js';
 import type {
     CreateGiftCardRequestInput,
     CreateInventoryAdjustmentRequestInput,
@@ -8,14 +10,59 @@ import type { FreezeGiftCardRequestInput } from './types-27.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { LookupGiftCardRequestInput } from './types-40.js';
 import type { RotateGiftCardCodeRequestInput } from './types-67.js';
-import type { UnfreezeGiftCardRequestInput, TextModifierConfigRequest, TextModifierConfigRequestInput } from './types-75.js';
-import type { UpdateGiftCardRequestInput, UpdateInventoryAllocationPolicyRequestInput } from './types-76.js';
-import type { ResponseMeta } from './types-62.js';
+import type { UnfreezeGiftCardRequestInput } from './types-76.js';
+import type { UpdateGiftCardRequestInput, UpdateInventoryAllocationPolicyRequestInput } from './types-77.js';
+import type { ResponseMeta } from './types-63.js';
 import type { GiftCardFundingSource, GiftCardFundingSourceRequestInput } from './types-29.js';
-import type { MoneyValue, MoneyValueInput } from './types-44.js';
-import type { MetadataMap, ModifierRequest, MetadataRequestInput, ModifierRequestInput } from './types-43.js';
+import type { MoneyValue, MoneyValueInput, ModifierRequestInput } from './types-44.js';
+import type { MetadataMap, ModifierRequest, MetadataRequestInput } from './types-43.js';
+import type { TextModifierConfigRequest, TextModifierConfigRequestInput } from './types-75.js';
 import type { InventorySourceSystem } from './types-34.js';
 import type { InventoryLevel } from './types-32.js';
+export type GiftCardsCashOutParams = (InputValue<CashOutGiftCardRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type GiftCardsCloseParams = (InputValue<CloseGiftCardRequestInput> | {
+    "expected_version"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type GiftCardsCreateParams = (InputValue<CreateGiftCardRequestInput>)
     & {
     /**
@@ -1894,20 +1941,3 @@ export type InventoryAllocationPolicyRevisionResponse = {
      */
     "request_id": string;
 };
-/** Patch object: fields you send are applied, fields you omit are unchanged. minProperties: 1. */
-export type InventoryBackorderPolicyRequest = {
-    /** Whether this inventory item allows backorders. */
-    "enabled"?: boolean;
-    /**
-     * Expected shipping date. Send null to clear it. Format: date. minLength: 1. pattern:
-     * ^[0-9]{4}-[0-9]{2}-[0-9]{2}$. Example: "2026-08-02".
-     */
-    "expected_ship_date"?: string | null;
-    /**
-     * Maximum units on backorder across the item's levels. Send null for no cap. Format: int64.
-     * minimum: 1. maximum: 9007199254740991.
-     */
-    "limit_quantity"?: number | null;
-};
-/** Patch object: fields you send are applied, fields you omit are unchanged. minProperties: 1. */
-export type InventoryBackorderPolicyRequestInput = InventoryBackorderPolicyRequest;

@@ -19,6 +19,10 @@ A customer's saved payment details.
 
 Field definitions: [shared fields](BuyerPaymentMethodResponse.md#buyerpaymentmethodresponsedata).
 
+### BuyerPaymentMethodListResponse.data[].consent
+
+Declared alternatives: [BuyerSavePaymentMethodResponse.data.consent](../models/BuyerSavePaymentMethodResponse.md#buyersavepaymentmethodresponsedataconsent).
+
 ### BuyerPaymentMethodListResponse.meta
 
 Field definitions: [DisputeResponse.meta](../models/DisputeResponse.md#disputeresponsemeta).

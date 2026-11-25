@@ -1,4 +1,14 @@
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+import type { CreateDeveloperSandboxResult } from './types-9.js';
+import type {
+    ResponseMeta,
+    ReturnHandoffRequirementLineItem,
+    ReturnHandoffRequirementLineItemPreviousAttributes
+} from './types-63.js';
+import type { CreateSandboxRequestInput, CreateShipmentRequestInput } from './types-14.js';
+import type { InputValue } from '../runtime.js';
+import type { PartnerAppsListParams, PartnerWebhookEnvelope } from './types-50.js';
+import type { PaymentMethodWithSetup } from './types-53.js';
+import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type {
     PaymentCollection,
     PaymentErrorSummary,
@@ -8,21 +18,20 @@ import type {
     PaymentCollectionStripeElementsPreviousAttributes
 } from './types-51.js';
 import type { BrandingSettings } from './types-1.js';
-import type { CheckoutSettings } from './types-7.js';
+import type { CheckoutSettings, CheckoutTaxConfig, CheckoutTipConfig, CheckoutTipConfigPreviousAttributes } from './types-7.js';
 import type { CustomerAccountSettings, CustomerEmailDeliverySettings } from './types-16.js';
 import type { FulfillmentSettings } from './types-28.js';
-import type { InventorySettings } from './types-34.js';
+import type { InventorySettings, InventoryRoutingSourcePreviousAttributes } from './types-34.js';
 import type { InvoiceSettings } from './types-38.js';
 import type { LegalSettings } from './types-39.js';
-import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-43.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { PaymentLimitSettings } from './types-52.js';
 import type { PaymentSettings } from './types-54.js';
 import type { PromotionSettings } from './types-59.js';
 import type { ReceiptSettings } from './types-60.js';
-import type { SubscriptionSettings } from './types-72.js';
-import type { TaxIdentity, TaxSettings } from './types-74.js';
-import type { TippingSettings } from './types-75.js';
-import type { InputValue } from '../runtime.js';
+import type { SubscriptionSettings, SubscriptionTaxPreviousAttributes } from './types-73.js';
+import type { TaxIdentity, TaxSettings } from './types-75.js';
+import type { TippingSettings } from './types-76.js';
 import type {
     DisputesAcceptParams,
     ExpandedOrderSummary,
@@ -30,16 +39,583 @@ import type {
     ExpandedOrderSummaryPreviousAttributes,
     ExpandedPackageSummaryPreviousAttributes
 } from './types-26.js';
-import type { ResponseMeta } from './types-62.js';
-import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput, VoidShipmentRequestInput } from './types-78.js';
-import type { ReturnHandoffRequirementLineItem, ReturnHandoffRequirementLineItemPreviousAttributes } from './types-63.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { CreateShipmentRequestInput } from './types-14.js';
-import type { Dimensions, DimensionsRequestInput } from './types-25.js';
-import type { Weight, WeightRequestInput } from './types-80.js';
-import type { ConfigurationVersionRequestInput } from './types-8.js';
-import type { AcceptFulfillmentRequestInput } from './types-0.js';
-import type { StripeClientSetupStripe } from './types-69.js';
+import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput, VoidShipmentRequestInput } from './types-79.js';
+import type {
+    CheckoutBuyerFields,
+    CheckoutCustomTextConfig,
+    CheckoutPaymentConfig,
+    CheckoutPromotionConfig,
+    CheckoutRedirects,
+    CheckoutBuyerFieldsPreviousAttributes,
+    CheckoutCustomTextConfigPreviousAttributes,
+    CheckoutLegalConfigPreviousAttributes,
+    CheckoutPaymentConfigPreviousAttributes,
+    CheckoutPromotionConfigPreviousAttributes,
+    CheckoutRedirectsPreviousAttributes
+} from './types-6.js';
+import type { ImageAttachment, ImageAttachmentPreviousAttributes } from './types-31.js';
+import type { InventoryRoutingSource } from './types-33.js';
+/** A response containing `CreateDeveloperSandboxResult` data. */
+export type SandboxWithAPIKeyResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The created sandbox is
+     * the primary resource, with the API key and one-time secret_key when issue_test_key is true.
+     */
+    "data": CreateDeveloperSandboxResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type SandboxesCreateParams = (CreateSandboxRequestInput);
+export type SandboxesDeleteParams = {};
+export type SandboxesGetParams = {};
+export type SandboxesListParams = PartnerAppsListParams;
+export type SandboxesResetParams = {};
+/** The request body for: Save a gift card to your account. */
+export type SaveMeGiftCardRequest = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code"?: string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code", "recipient_access".
+     */
+    "credential_type": "code" | "recipient_access" | (string & {});
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id"?: string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & ((Exclude<SaveMeGiftCardRequestCode & object, readonly unknown[]>)
+    | (Exclude<SaveMeGiftCardRequestRecipientAccess & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The `code` variant of `SaveMeGiftCardRequest`. */
+export type SaveMeGiftCardRequestCode = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code": string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code".
+     */
+    "credential_type": "code" | (string & {});
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id"?: string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & (({
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code".
+     */
+    "credential_type": unknown;
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code": string;
+}));
+/** The `code` variant of `SaveMeGiftCardRequest`. */
+export type SaveMeGiftCardRequestCodeInput = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code": string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code".
+     */
+    "credential_type": "code";
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id"?: string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & (({
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code".
+     */
+    "credential_type": ("code") & ("code");
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code": string;
+})
+    & (({
+    "grant_id"?: never;
+}) & ({
+    "recipient_access_token"?: never;
+})));
+/** The request body for: Save a gift card to your account. */
+export type SaveMeGiftCardRequestInput = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code"?: string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code", "recipient_access".
+     */
+    "credential_type": "code" | "recipient_access";
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id"?: string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & ((Exclude<SaveMeGiftCardRequestCodeInput & object, readonly unknown[]>)
+    | (Exclude<SaveMeGiftCardRequestRecipientAccessInput & object, readonly unknown[]>));
+/** The `recipient_access` variant of `SaveMeGiftCardRequest`. */
+export type SaveMeGiftCardRequestRecipientAccess = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code"?: string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "recipient_access".
+     */
+    "credential_type": "recipient_access" | (string & {});
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id": string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token": string;
+})
+    & (({
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "recipient_access".
+     */
+    "credential_type": unknown;
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id": string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token": string;
+}));
+/** The `recipient_access` variant of `SaveMeGiftCardRequest`. */
+export type SaveMeGiftCardRequestRecipientAccessInput = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code"?: string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "recipient_access".
+     */
+    "credential_type": "recipient_access";
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id": string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token": string;
+})
+    & (({
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "recipient_access".
+     */
+    "credential_type": ("recipient_access") & ("recipient_access");
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id": string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token": string;
+})
+    & ({
+    "code"?: never;
+}));
+/** The request body for: Create a payment method for the current buyer. */
+export type SaveMePaymentMethodRequest = {
+    /**
+     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
+     */
+    "type"?: "card" | (string & {});
+};
+/** The request body for: Create a payment method for the current buyer. */
+export type SaveMePaymentMethodRequestInput = {
+    /**
+     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
+     */
+    "type"?: "card";
+};
+/** The request body for: Create a payment method. */
+export type SavePaymentMethodRequest = {
+    /**
+     * The customer to save the payment method for. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
+     */
+    "type"?: "card" | (string & {});
+};
+/** The request body for: Create a payment method. */
+export type SavePaymentMethodRequestInput = {
+    /**
+     * The customer to save the payment method for. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Kind of payment method to save. card is the only value and the default. Value enum: "card".
+     */
+    "type"?: "card";
+};
+/** A response containing `PaymentMethodWithSetup` data. */
+export type SavePaymentMethodResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The saved payment
+     * method, with `client_setup` when the buyer must still complete processor setup before the
+     * payment method can be used. A customer's saved payment details.
+     */
+    "data": PaymentMethodWithSetup;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** Sets the start and end of a service fulfillment's appointment window. */
+export type ScheduleFulfillmentRequest = {
+    /**
+     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
+     * "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /** Resource version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * When the action occurred, as an RFC 3339 timestamp. On complete, also records completion
+     * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /**
+     * Your internal note explaining this transition. Not included in buyer emails. minLength: 1.
+     * maxLength: 500.
+     */
+    "reason_message"?: string;
+    /**
+     * End of the service appointment window, after scheduled_start_at, as an RFC 3339 timestamp.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "scheduled_end_at": string;
+    /**
+     * Start of the service appointment window, as an RFC 3339 timestamp. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "scheduled_start_at": string;
+    /** IANA timezone of the service appointment. minLength: 1. */
+    "timezone"?: string;
+};
+/** Sets the start and end of a service fulfillment's appointment window. */
+export type ScheduleFulfillmentRequestInput = {
+    /**
+     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
+     * "suppress".
+     */
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /** Resource version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * When the action occurred, as an RFC 3339 timestamp. On complete, also records completion
+     * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /**
+     * Your internal note explaining this transition. Not included in buyer emails. minLength: 1.
+     * maxLength: 500.
+     */
+    "reason_message"?: string;
+    /**
+     * End of the service appointment window, after scheduled_start_at, as an RFC 3339 timestamp.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "scheduled_end_at": string | globalThis.Date;
+    /**
+     * Start of the service appointment window, as an RFC 3339 timestamp. Format: date-time.
+     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "scheduled_start_at": string | globalThis.Date;
+    /** IANA timezone of the service appointment. minLength: 1. */
+    "timezone"?: string;
+};
+/**
+ * The scopes an authorization decision required and whether `all` or `any` of them were needed,
+ * returned in error details.
+ */
+export type ScopeRequirement = {
+    /**
+     * How the required scopes are evaluated. all requires every listed scope; any requires at
+     * least one listed scope. Example: "all". Value enum: "all", "any".
+     */
+    "mode": "all" | "any" | (string & {});
+    /**
+     * Canonical public scope names evaluated for this authorization decision. Example:
+     * ["developer.sandboxes.write","accounts.api_keys.write"]. [] (Value): string.
+     */
+    "scopes": Array<string>;
+};
+/** A resource the caller can select for a request field. */
+export type SelectableErrorResource = {
+    /**
+     * Amount for this choice when available. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /** Resource display name when available. */
+    "display_name"?: string;
+    /**
+     * Most recent payment failure when available. A summary of why a payment attempt failed, with
+     * a normalized error code, a message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /**
+     * Payment collection details when available. Client-side details for collecting payment from
+     * the buyer, such as the Stripe settings to initialize Stripe.js.
+     */
+    "payment_collection"?: PaymentCollection;
+    /**
+     * Public Flint ID to submit in the refused request field. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "resource_id": string;
+    /**
+     * Stable public resource name for this choice. Example: "order". Value enum: "api_key",
+     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
+     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
+     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_tax_exemption", "customer_verification", "delivery_choice_group",
+     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
+     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
+     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
+     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
+     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
+     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
+     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
+     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
+     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
+     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
+     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
+     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
+     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
+     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "shop", "shop_listing",
+     * "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_calculation_callback", "tax_connection",
+     * "tax_registration", "test_clock", "ticket", "user", "webhook_delivery", "webhook_endpoint",
+     * "webhook_event", "workload_identity".
+     */
+    "resource_type": "api_key"
+        | "api_request_log"
+        | "balance"
+        | "balance_transaction"
+        | "bundle"
+        | "bundle_component"
+        | "category"
+        | "checkout_session"
+        | "checkout_session_customer_verification"
+        | "credit_note"
+        | "credit_note_allocation"
+        | "custom_domain"
+        | "customer"
+        | "customer_address"
+        | "customer_deletion_request"
+        | "customer_email_preferences"
+        | "customer_session"
+        | "customer_tax_exemption"
+        | "customer_verification"
+        | "delivery_choice_group"
+        | "delivery_location_set"
+        | "delivery_method"
+        | "delivery_profile"
+        | "delivery_quote"
+        | "delivery_rate"
+        | "delivery_rate_callback"
+        | "delivery_revocation"
+        | "delivery_selection"
+        | "delivery_zone"
+        | "demo_session"
+        | "device"
+        | "discount"
+        | "dispute"
+        | "email_change_request"
+        | "environment_grant"
+        | "file"
+        | "flint_wallet"
+        | "flint_wallet_card"
+        | "fraud_warning"
+        | "fulfillment"
+        | "fulfillment_event"
+        | "fulfillment_notification"
+        | "gift_card"
+        | "gift_card_funding_disposition"
+        | "gift_card_load"
+        | "gift_card_notification"
+        | "gift_card_redemption"
+        | "gift_card_transaction"
+        | "image"
+        | "inventory_adjustment"
+        | "inventory_allocation_policy"
+        | "inventory_allocation_policy_revision"
+        | "inventory_count"
+        | "inventory_item"
+        | "inventory_level"
+        | "inventory_movement"
+        | "inventory_receipt"
+        | "inventory_reservation"
+        | "inventory_reservation_line"
+        | "inventory_transfer"
+        | "inventory_transfer_line"
+        | "invoice"
+        | "invoice_delivery_attempt"
+        | "invoice_late_fee"
+        | "invoice_line_item"
+        | "invoice_manual_payment"
+        | "invoice_payment_attempt"
+        | "invoice_payment_term"
+        | "license_key"
+        | "license_key_activation"
+        | "license_key_pool"
+        | "license_key_pool_key"
+        | "location"
+        | "merchant"
+        | "merchant_billing_balance"
+        | "merchant_billing_entry"
+        | "merchant_billing_invoice"
+        | "merchant_signup"
+        | "modifier"
+        | "modifier_group"
+        | "modifier_set"
+        | "order"
+        | "order_charge"
+        | "order_edit"
+        | "order_line_item"
+        | "order_line_item_modifier"
+        | "order_payment_attempt"
+        | "package"
+        | "package_item"
+        | "partner_app"
+        | "partner_app_credential"
+        | "partner_app_install"
+        | "payment_attempt"
+        | "payment_intent"
+        | "payment_link"
+        | "payment_link_custom_field"
+        | "payment_link_line_item"
+        | "payment_method"
+        | "payment_method_domain"
+        | "payment_review"
+        | "payment_split"
+        | "payout"
+        | "payout_destination"
+        | "payout_settings"
+        | "platform_fee"
+        | "platform_fee_balance_transaction"
+        | "platform_fee_payout"
+        | "price_list"
+        | "price_list_price"
+        | "product"
+        | "product_option"
+        | "product_option_value"
+        | "product_variant"
+        | "promotion"
+        | "promotion_code"
+        | "purchase_refund_allocation"
+        | "reader"
+        | "refund"
+        | "refund_allocation"
+        | "refund_line_item_adjustment"
+        | "remembered_buyer"
+        | "report"
+        | "report_download"
+        | "return"
+        | "return_activity"
+        | "return_disposition"
+        | "return_inspection"
+        | "return_inspection_line_item"
+        | "return_line_item"
+        | "return_policy"
+        | "return_policy_revision"
+        | "return_reason"
+        | "return_receipt"
+        | "return_receipt_line_item"
+        | "return_resolution"
+        | "risk_list"
+        | "risk_list_item"
+        | "risk_rule"
+        | "sandbox"
+        | "settings"
+        | "shipment"
+        | "shop"
+        | "shop_listing"
+        | "subscription"
+        | "subscription_delivery_migration"
+        | "subscription_line_item"
+        | "subscription_offer"
+        | "subscription_payment_retry"
+        | "subscription_plan"
+        | "subscription_plan_line_item"
+        | "tax_calculation_callback"
+        | "tax_connection"
+        | "tax_registration"
+        | "test_clock"
+        | "ticket"
+        | "user"
+        | "webhook_delivery"
+        | "webhook_endpoint"
+        | "webhook_event"
+        | "workload_identity"
+        | (string & {});
+    /** Current public status when available. */
+    "status"?: string;
+    /**
+     * Actions offered for this resource when the request was refused. An empty array means no
+     * action is offered; an omitted field means actions were not reported. [] (Value): string.
+     */
+    "supported_actions"?: Array<string>;
+    /**
+     * Tip for this choice when available. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tip_money"?: MoneyValue;
+};
 /**
  * A payment intent on an order the caller can pick, with its amount, status, and last payment
  * error.
@@ -3157,755 +3733,1595 @@ export type ShipmentsVoidParams = (InputValue<VoidShipmentRequestInput>
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/** The request body for: Sign a sandbox webhook delivery. */
-export type SignWebhookEndpointDeliveryRequest = {
+/** A hosted catalog configured by a merchant. */
+export type Shop = {
     /**
-     * Retained merchant event in the endpoint's sandbox. The endpoint must subscribe to its event
-     * type. minLength: 1. Example: "whev_01KEZF7C00362MS3HV970TRZGS".
+     * Buyer information requested at checkout. Omitted when the shop has no override. What
+     * checkout asks the buyer for. Each field you leave out uses your checkout settings.
      */
-    "webhook_event_id": string;
-};
-/** The request body for: Sign a sandbox webhook delivery. */
-export type SignWebhookEndpointDeliveryRequestInput = SignWebhookEndpointDeliveryRequest;
-/** Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-export type SignedMoneyRequestInput = {
+    "buyer_fields"?: CheckoutBuyerFields;
+    /** Checkout lifetime in seconds. Null when checkout settings apply. Format: int64. */
+    "checkout_session_expires_in_seconds": number | null;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
     /**
-     * Signed amount in the currency's minor unit, such as cents for USD. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64.
-     */
-    "amount": `${bigint}` | bigint;
-    /**
-     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * Listing currency. Null when the shop is empty. Uses ISO 4217 currency codes. minLength: 3.
      * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
-    "currency": string;
+    "currency": string | null;
+    /**
+     * Merchant text shown in checkout. Omitted when the shop has no override. Custom text shown in
+     * checkout: an order summary message and a shipping address label.
+     */
+    "custom_text"?: CheckoutCustomTextConfig;
+    /**
+     * An empty array follows checkout settings. [] (Value): string. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids": Array<string>;
+    /** Shop description. Null when unset. */
+    "description": string | null;
+    /**
+     * Caller-owned identifier for this resource in an external system. Null when unset. minLength:
+     * 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+    /** Readable address. Null when a handle has not been assigned. */
+    "handle": string | null;
+    /**
+     * Cover image. Null when unset. anyOf[1] (Value): {@link ImageAttachment}. An image attached
+     * to a resource, with its display properties and attachment metadata. anyOf[2] (Value): null.
+     */
+    "image": ((ImageAttachment) | (null));
+    /** Inactive message. Null when unset. */
+    "inactive_message": string | null;
+    /**
+     * Explicit inventory routing. Null when checkout settings apply. anyOf[1] (Value): {@link
+     * InventoryRoutingSource}. Where an order, payment link, or reservation routes inventory from:
+     * a fixed Location, an inventory allocation policy, or one policy revision. anyOf[2] (Value):
+     * null.
+     */
+    "inventory_routing_source": ((InventoryRoutingSource) | (null));
+    /**
+     * Legal policies shown to buyers. Omitted when the shop has no override. Legal settings for a
+     * checkout: whether buyers must accept terms, and links to the terms, refund policy, shipping
+     * policy, and contract.
+     */
+    "legal"?: LegalSettings;
+    /** The number of listings on the shop, including unavailable entries. Format: int32. */
+    "listing_count": number;
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata": MetadataMap;
+    /** The title buyers see on the shop. */
+    "name": string;
+    /**
+     * Payment options for the shop. Omitted when the shop has no override. Payment settings for a
+     * checkout: the enabled payment options and a note shown with payment.
+     */
+    "payments"?: CheckoutPaymentConfig;
+    /**
+     * Promotion settings for shop checkouts. Omitted when the shop has no override. Promotion
+     * settings for a checkout: whether automatic promotions apply and whether the buyer can apply
+     * promotion codes.
+     */
+    "promotion_config"?: CheckoutPromotionConfig;
+    /**
+     * Redirects configured for checkouts started from the shop. Where hosted checkout sends the
+     * buyer. Not allowed when surface is headless; use payment_return_url.
+     */
+    "redirects": CheckoutRedirects;
+    /**
+     * Shop ID. pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+     */
+    "shop_id": string;
+    /** Availability or retirement status. Value enum: "active", "inactive", "archived". */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * Tax settings for shop checkouts. Omitted when the shop has no override. Whether tax is
+     * collected for a checkout session or payment link.
+     */
+    "tax"?: CheckoutTaxConfig;
+    /**
+     * Tipping options for the shop. Omitted when the shop has no override. Tip settings for a
+     * checkout: whether tips are enabled, the percent or fixed amount options, the default tip,
+     * and custom tips.
+     */
+    "tip"?: CheckoutTipConfig;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * The hosted shop address. Live shops use the merchant's healthy custom checkout hostname when
+     * available.
+     */
+    "url": string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
 };
-/**
- * A transient signed delivery for the caller's sandbox endpoint. Forward body bytes and headers
- * unchanged; this is not a persisted delivery or HTTP dispatch.
- */
-export type SignedWebhookEndpointDelivery = {
-    /** Exact UTF-8 JSON delivery bytes. Do not parse and reserialize before forwarding. */
-    "body": string;
-    /**
-     * JWT expiry, 300 seconds after signing. Existing receiver clock skew rules apply. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string;
-    /**
-     * Application headers from the real sender, including Authorization and any configured HMAC
-     * signature. Never log these credentials. * (Value): string.
-     */
-    "headers": Record<string, string>;
-    /**
-     * The authorized sandbox endpoint and JWT audience. Example:
-     * "whep_01KEZF7C006FXYTAJRZCGCBJTN".
-     */
-    "webhook_endpoint_id": string;
-    /**
-     * The event ID, also sent as webhook-id for receiver deduplication. Example:
-     * "whev_01KEZF7C00362MS3HV970TRZGS".
-     */
-    "webhook_event_id": string;
-};
-/** A response containing `SignedWebhookEndpointDelivery` data. */
-export type SignedWebhookEndpointDeliveryResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A transient signed
-     * delivery for the caller's sandbox endpoint. Forward body bytes and headers unchanged; this
-     * is not a persisted delivery or HTTP dispatch.
-     */
-    "data": SignedWebhookEndpointDelivery;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The request body for: Simulate a dispute outcome. */
-export type SimulateDisputeRequest = {
-    /**
-     * The ruling to simulate. `won` and `lost` decide a chargeback; `inquiry_closed` and
-     * `escalated` decide an inquiry. Value enum: "won", "lost", "inquiry_closed", "escalated".
-     */
-    "outcome": "won" | "lost" | "inquiry_closed" | "escalated" | (string & {});
-};
-/** The request body for: Simulate a dispute outcome. */
-export type SimulateDisputeRequestInput = {
-    /**
-     * The ruling to simulate. `won` and `lost` decide a chargeback; `inquiry_closed` and
-     * `escalated` decide an inquiry. Value enum: "won", "lost", "inquiry_closed", "escalated".
-     */
-    "outcome": "won" | "lost" | "inquiry_closed" | "escalated";
-};
-/** Sandbox only. Presents a test card on a simulated reader. */
-export type SimulateReaderRequest = {
-    /**
-     * The brand of the test card to present. Defaults to `visa`. Declines present Visa test cards
-     * whatever brand you send. Value enum: "visa", "mastercard", "amex", "discover".
-     */
-    "card_brand"?: "visa" | "mastercard" | "amex" | "discover" | (string & {});
-    /**
-     * The buyer's and issuer's decision. Value enum: "approved", "declined", "insufficient_funds".
-     */
-    "outcome": "approved" | "declined" | "insufficient_funds" | (string & {});
-    /**
-     * The tip the buyer picks, when the payment was sent with the tip screen on. USD only.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tip_money"?: MoneyValue;
-};
-/** Sandbox only. Presents a test card on a simulated reader. */
-export type SimulateReaderRequestInput = {
-    /**
-     * The brand of the test card to present. Defaults to `visa`. Declines present Visa test cards
-     * whatever brand you send. Value enum: "visa", "mastercard", "amex", "discover".
-     */
-    "card_brand"?: "visa" | "mastercard" | "amex" | "discover";
-    /**
-     * The buyer's and issuer's decision. Value enum: "approved", "declined", "insufficient_funds".
-     */
-    "outcome": "approved" | "declined" | "insufficient_funds";
-    /**
-     * The tip the buyer picks, when the payment was sent with the tip screen on. USD only.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tip_money"?: MoneyValueInput;
-};
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputCreated = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created".
-     */
-    "status": "created" | (string & {});
-    /**
-     * Explanation of the package's status, kept as the package's `status_reason`. At most 500
-     * characters. `null` is the same as omitting the field. minLength: 1.
-     */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-});
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputCreatedInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created".
-     */
-    "status": "created";
-    /**
-     * Explanation of the package's status, kept as the package's `status_reason`. At most 500
-     * characters. `null` is the same as omitting the field. minLength: 1.
-     */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & (({
-    "shipped_at"?: never;
+export type ShopArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_fields"?: CheckoutBuyerFields;
+            "checkout_session_expires_in_seconds": number | null;
+            "created_at": string;
+            "currency": string | null;
+            "custom_text"?: CheckoutCustomTextConfig;
+            "delivery_method_ids": Array<string>;
+            "description": string | null;
+            "external_reference_id": string | null;
+            "handle": string | null;
+            "image": ((ImageAttachment) | (null));
+            "inactive_message": string | null;
+            "inventory_routing_source": ((InventoryRoutingSource) | (null));
+            "legal"?: LegalSettings;
+            "listing_count": number;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "payments"?: CheckoutPaymentConfig;
+            "promotion_config"?: CheckoutPromotionConfig;
+            "redirects": CheckoutRedirects;
+            "shop_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "tax"?: CheckoutTaxConfig;
+            "tip"?: CheckoutTipConfig;
+            "updated_at": string;
+            "url": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            "checkout_session_expires_in_seconds"?: ((number) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "handle"?: ((string) | (null));
+            "image"?: ((ImageAttachmentPreviousAttributes) | (null));
+            "inactive_message"?: ((string) | (null));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            "listing_count"?: ((number) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            "shop_id"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            "updated_at"?: ((string) | (null));
+            "url"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "shop.archived";
 }))
-    & (({
-    "buyer_notification_behavior"?: never;
-}));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputShipped = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "shipped".
-     */
-    "status": "shipped" | (string & {});
-    /**
-     * Explanation of the package's status, kept as the package's `status_reason` and recorded as
-     * the reason on the shipped status change. At most 500 characters. `null` is the same as
-     * omitting the field. minLength: 1.
-     */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_fields"?: CheckoutBuyerFields;
+            "checkout_session_expires_in_seconds": number | null;
+            "created_at": string;
+            "currency": string | null;
+            "custom_text"?: CheckoutCustomTextConfig;
+            "delivery_method_ids": Array<string>;
+            "description": string | null;
+            "external_reference_id": string | null;
+            "handle": string | null;
+            "image": ((ImageAttachment) | (null));
+            "inactive_message": string | null;
+            "inventory_routing_source": ((InventoryRoutingSource) | (null));
+            "legal"?: LegalSettings;
+            "listing_count": number;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "payments"?: CheckoutPaymentConfig;
+            "promotion_config"?: CheckoutPromotionConfig;
+            "redirects": CheckoutRedirects;
+            "shop_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "tax"?: CheckoutTaxConfig;
+            "tip"?: CheckoutTipConfig;
+            "updated_at": string;
+            "url": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            "checkout_session_expires_in_seconds"?: ((number) | (null));
+            "created_at"?: ((string) | (null));
+            "currency"?: ((string) | (null));
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            "description"?: ((string) | (null));
+            "external_reference_id"?: ((string) | (null));
+            "handle"?: ((string) | (null));
+            "image"?: ((ImageAttachmentPreviousAttributes) | (null));
+            "inactive_message"?: ((string) | (null));
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            "listing_count"?: ((number) | (null));
+            "merchant_id"?: ((string) | (null));
+            "metadata"?: ((MetadataMap) | (null));
+            "name"?: ((string) | (null));
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            "shop_id"?: ((string) | (null));
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            "updated_at"?: ((string) | (null));
+            "url"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "shop.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "shop.archived";
 });
 /**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
+ * The `shop.archived` webhook payload for the `installed_merchants` event source. Fields shared by
+ * partner webhook payloads.
  */
-export type SinglePackageCreateInputShippedInput = ({
+export type ShopArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.buyer_fields (Optional): {@link CheckoutBuyerFields}. Buyer
+     * information requested at checkout. Omitted when the shop has no override. What checkout asks
+     * the buyer for. Each field you leave out uses your checkout settings.
+     * object.checkout_session_expires_in_seconds (Required): integer or null. Checkout lifetime in
+     * seconds. Null when checkout settings apply. Format: int64. object.created_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.currency (Required): string or null. Listing currency. Null when the shop is empty.
+     * Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+     * "USD". object.custom_text (Optional): {@link CheckoutCustomTextConfig}. Merchant text shown
+     * in checkout. Omitted when the shop has no override. Custom text shown in checkout: an order
+     * summary message and a shipping address label. object.delivery_method_ids (Required): Array
+     * of string. An empty array follows checkout settings. object.delivery_method_ids[] (Value):
+     * string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". object.description (Required): string or
+     * null. Shop description. Null when unset. object.external_reference_id (Required): string or
+     * null. Caller-owned identifier for this resource in an external system. Null when unset.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842". object.handle (Required): string or
+     * null. Readable address. Null when a handle has not been assigned. object.image (Required):
+     * {@link ImageAttachment} or null. Cover image. Null when unset. object.image.anyOf[1]
+     * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+     * properties and attachment metadata. object.image.anyOf[2] (Value): null.
+     * object.inactive_message (Required): string or null. Inactive message. Null when unset.
+     * object.inventory_routing_source (Required): {@link InventoryRoutingSource} or null. Explicit
+     * inventory routing. Null when checkout settings apply.
+     * object.inventory_routing_source.anyOf[1] (Value): {@link InventoryRoutingSource}. Where an
+     * order, payment link, or reservation routes inventory from: a fixed Location, an inventory
+     * allocation policy, or one policy revision. object.inventory_routing_source.anyOf[2] (Value):
+     * null. object.legal (Optional): {@link LegalSettings}. Legal policies shown to buyers.
+     * Omitted when the shop has no override. Legal settings for a checkout: whether buyers must
+     * accept terms, and links to the terms, refund policy, shipping policy, and contract.
+     * object.listing_count (Required): integer. The number of listings on the shop, including
+     * unavailable entries. Format: int32. object.merchant_id (Required): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Required): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.name (Required): string. The title buyers see on the shop.
+     * object.payments (Optional): {@link CheckoutPaymentConfig}. Payment options for the shop.
+     * Omitted when the shop has no override. Payment settings for a checkout: the enabled payment
+     * options and a note shown with payment. object.promotion_config (Optional): {@link
+     * CheckoutPromotionConfig}. Promotion settings for shop checkouts. Omitted when the shop has
+     * no override. Promotion settings for a checkout: whether automatic promotions apply and
+     * whether the buyer can apply promotion codes. object.redirects (Required): {@link
+     * CheckoutRedirects}. Redirects configured for checkouts started from the shop. Where hosted
+     * checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
+     * object.shop_id (Required): string. Shop ID. pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "shop_01KEZF7C005VQBPV4FZHDZPAHE". object.status (Required): string. Availability or
+     * retirement status. Value enum: "active", "inactive", "archived". object.tax (Optional):
+     * {@link CheckoutTaxConfig}. Tax settings for shop checkouts. Omitted when the shop has no
+     * override. Whether tax is collected for a checkout session or payment link. object.tip
+     * (Optional): {@link CheckoutTipConfig}. Tipping options for the shop. Omitted when the shop
+     * has no override. Tip settings for a checkout: whether tips are enabled, the percent or fixed
+     * amount options, the default tip, and custom tips. object.updated_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.url
+     * (Required): string. The hosted shop address. Live shops use the merchant's healthy custom
+     * checkout hostname when available. object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.buyer_fields (Optional): {@link
+     * CheckoutBuyerFieldsPreviousAttributes} or null. Buyer information requested at checkout.
+     * Omitted when the shop has no override. previous_attributes.buyer_fields.anyOf[1] (Value):
+     * {@link CheckoutBuyerFieldsPreviousAttributes}. previous_attributes.buyer_fields.anyOf[2]
+     * (Value): null. previous_attributes.checkout_session_expires_in_seconds (Optional): integer
+     * or null. Checkout lifetime in seconds. Null when checkout settings apply.
+     * previous_attributes.checkout_session_expires_in_seconds.anyOf[1] (Value): integer. Checkout
+     * lifetime in seconds. Null when checkout settings apply. Format: int64.
+     * previous_attributes.checkout_session_expires_in_seconds.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.currency (Optional): string or null. Listing currency. Null when
+     * the shop is empty. Uses ISO 4217 currency codes. previous_attributes.currency.anyOf[1]
+     * (Value): string. Listing currency. Null when the shop is empty. Uses ISO 4217 currency
+     * codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * previous_attributes.currency.anyOf[2] (Value): null. previous_attributes.custom_text
+     * (Optional): {@link CheckoutCustomTextConfigPreviousAttributes} or null. Merchant text shown
+     * in checkout. Omitted when the shop has no override. previous_attributes.custom_text.anyOf[1]
+     * (Value): {@link CheckoutCustomTextConfigPreviousAttributes}.
+     * previous_attributes.custom_text.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_ids (Optional): Array of string or null. An empty array
+     * follows checkout settings. previous_attributes.delivery_method_ids.anyOf[1] (Value): Array
+     * of string. An empty array follows checkout settings.
+     * previous_attributes.delivery_method_ids.anyOf[1][] (Value): string. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". previous_attributes.delivery_method_ids.anyOf[2] (Value):
+     * null. previous_attributes.description (Optional): string or null. Shop description. Null
+     * when unset. previous_attributes.description.anyOf[1] (Value): string. Shop description. Null
+     * when unset. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system. Null when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. Null when unset. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.handle (Optional): string or null. Readable address. Null when a handle
+     * has not been assigned. previous_attributes.handle.anyOf[1] (Value): string. Readable
+     * address. Null when a handle has not been assigned. previous_attributes.handle.anyOf[2]
+     * (Value): null. previous_attributes.image (Optional): {@link
+     * ImageAttachmentPreviousAttributes} or null. Cover image. Null when unset.
+     * previous_attributes.image.anyOf[1] (Value): {@link ImageAttachmentPreviousAttributes}.
+     * previous_attributes.image.anyOf[2] (Value): null. previous_attributes.inactive_message
+     * (Optional): string or null. Inactive message. Null when unset.
+     * previous_attributes.inactive_message.anyOf[1] (Value): string. Inactive message. Null when
+     * unset. previous_attributes.inactive_message.anyOf[2] (Value): null.
+     * previous_attributes.inventory_routing_source (Optional): {@link
+     * InventoryRoutingSourcePreviousAttributes} or null. Explicit inventory routing. Null when
+     * checkout settings apply. previous_attributes.inventory_routing_source.anyOf[1] (Value):
+     * {@link InventoryRoutingSourcePreviousAttributes}.
+     * previous_attributes.inventory_routing_source.anyOf[2] (Value): null.
+     * previous_attributes.legal (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null.
+     * Legal policies shown to buyers. Omitted when the shop has no override.
+     * previous_attributes.legal.anyOf[1] (Value): {@link CheckoutLegalConfigPreviousAttributes}.
+     * previous_attributes.legal.anyOf[2] (Value): null. previous_attributes.listing_count
+     * (Optional): integer or null. The number of listings on the shop, including unavailable
+     * entries. previous_attributes.listing_count.anyOf[1] (Value): integer. The number of listings
+     * on the shop, including unavailable entries. Format: int32.
+     * previous_attributes.listing_count.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. ID of the merchant this resource belongs to.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant this resource
+     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. The title buyers see on the shop.
+     * previous_attributes.name.anyOf[1] (Value): string. The title buyers see on the shop.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.payments (Optional):
+     * {@link CheckoutPaymentConfigPreviousAttributes} or null. Payment options for the shop.
+     * Omitted when the shop has no override. previous_attributes.payments.anyOf[1] (Value): {@link
+     * CheckoutPaymentConfigPreviousAttributes}. previous_attributes.payments.anyOf[2] (Value):
+     * null. previous_attributes.promotion_config (Optional): {@link
+     * CheckoutPromotionConfigPreviousAttributes} or null. Promotion settings for shop checkouts.
+     * Omitted when the shop has no override. previous_attributes.promotion_config.anyOf[1]
+     * (Value): {@link CheckoutPromotionConfigPreviousAttributes}.
+     * previous_attributes.promotion_config.anyOf[2] (Value): null. previous_attributes.redirects
+     * (Optional): {@link CheckoutRedirectsPreviousAttributes} or null. Redirects configured for
+     * checkouts started from the shop. previous_attributes.redirects.anyOf[1] (Value): {@link
+     * CheckoutRedirectsPreviousAttributes}. previous_attributes.redirects.anyOf[2] (Value): null.
+     * previous_attributes.shop_id (Optional): string or null. Shop ID.
+     * previous_attributes.shop_id.anyOf[1] (Value): string. Shop ID. pattern:
+     * ^shop_[0-9A-HJKMNP-TV-Z]{26}$. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+     * previous_attributes.shop_id.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Availability or retirement status. Value enum: "active", "inactive",
+     * "archived". previous_attributes.status.anyOf[1] (Value): string. Availability or retirement
+     * status. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.tax (Optional): {@link SubscriptionTaxPreviousAttributes}
+     * or null. Tax settings for shop checkouts. Omitted when the shop has no override.
+     * previous_attributes.tax.anyOf[1] (Value): {@link SubscriptionTaxPreviousAttributes}.
+     * previous_attributes.tax.anyOf[2] (Value): null. previous_attributes.tip (Optional): {@link
+     * CheckoutTipConfigPreviousAttributes} or null. Tipping options for the shop. Omitted when the
+     * shop has no override. previous_attributes.tip.anyOf[1] (Value): {@link
+     * CheckoutTipConfigPreviousAttributes}. previous_attributes.tip.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.url (Optional): string or null. The hosted shop address. Live
+     * shops use the merchant's healthy custom checkout hostname when available.
+     * previous_attributes.url.anyOf[1] (Value): string. The hosted shop address. Live shops use
+     * the merchant's healthy custom checkout hostname when available.
+     * previous_attributes.url.anyOf[2] (Value): null. previous_attributes.version (Optional):
+     * integer or null. Persisted version of this resource's owned state. Expanded resources and
+     * external observations can change independently. previous_attributes.version.anyOf[1]
+     * (Value): integer. Persisted version of this resource's owned state. Expanded resources and
+     * external observations can change independently. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "shipped".
-     */
-    "status": "shipped";
-    /**
-     * Explanation of the package's status, kept as the package's `status_reason` and recorded as
-     * the reason on the shipped status change. At most 500 characters. `null` is the same as
-     * omitting the field. minLength: 1.
-     */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & (({
-    "return_line_items"?: never;
-}));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateRequest = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped" | (string & {});
-    /** Additional explanation of the package's starting status. minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-})
-    & ((Exclude<SinglePackageCreateInputCreated & object, readonly unknown[]>)
-    | (Exclude<SinglePackageCreateInputShipped & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateRequestInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped";
-    /** Additional explanation of the package's starting status. minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & ((Exclude<SinglePackageCreateInputCreatedInput & object, readonly unknown[]>)
-    | (Exclude<SinglePackageCreateInputShippedInput & object, readonly unknown[]>));
-/** The request body for: Skip subscription cycle. */
-export type SkipMeSubscriptionCycleRequestInput = ConfigurationVersionRequestInput;
-/** The request body for: Skip subscription cycle. */
-export type SkipSubscriptionCycleRequest = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Attribution
-     * only; this does not apply the store's buyer limits. To enforce them, use a customer session
-     * on POST /v1/me/subscriptions/{subscription_id}/skip-cycle. Flint's skip email says the buyer
-     * skipped for buyer, and that the store skipped otherwise. Default: "merchant". Value enum:
-     * "buyer", "merchant", "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration" | (string & {});
-};
-/** The request body for: Skip subscription cycle. */
-export type SkipSubscriptionCycleRequestInput = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Attribution
-     * only; this does not apply the store's buyer limits. To enforce them, use a customer session
-     * on POST /v1/me/subscriptions/{subscription_id}/skip-cycle. Flint's skip email says the buyer
-     * skipped for buyer, and that the store skipped otherwise. Default: "merchant". Value enum:
-     * "buyer", "merchant", "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration";
-};
-/**
- * A fixed allocation referencing a read-only reversal nested in a payment split. This reference
- * has no independent lifecycle or write routes.
- */
-export type SplitReversalReference = {
-    /**
-     * The amount fixed at allocation, unchanged by recovery or reinstatement. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** The split whose seller share was allocated. Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8". */
-    "payment_split_id": string;
-    /**
-     * The reversal in PaymentSplit.reversals that records recovery status. Example:
-     * "psrev_01KEZF7C00XC1HA7S8YCQJDBDM".
-     */
-    "payment_split_reversal_id": string;
-};
-export type SplitReversalReferencePreviousAttributes = {
-    /**
-     * The amount fixed at allocation, unchanged by recovery or reinstatement. anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "amount_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * The split whose seller share was allocated. anyOf[1] (Value): string. The split whose seller
-     * share was allocated. Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8". anyOf[2] (Value): null.
-     */
-    "payment_split_id"?: ((string) | (null));
-    /**
-     * The reversal in PaymentSplit.reversals that records recovery status. anyOf[1] (Value):
-     * string. The reversal in PaymentSplit.reversals that records recovery status. Example:
-     * "psrev_01KEZF7C00XC1HA7S8YCQJDBDM". anyOf[2] (Value): null.
-     */
-    "payment_split_reversal_id"?: ((string) | (null));
-};
-/** The seller amount to take back from one eligible payment split when creating a refund. */
-export type SplitReversalRequest = {
-    /**
-     * Positive seller amount to take back, in the payment's currency. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code. amount (Required): integer string.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
-     * 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency
-     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
-     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "amount_money": ({
+    "data"?: {
         /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * buyer_fields (Optional): {@link CheckoutBuyerFields}. Buyer information requested at
+         * checkout. Omitted when the shop has no override. What checkout asks the buyer for. Each
+         * field you leave out uses your checkout settings. checkout_session_expires_in_seconds
+         * (Required): integer or null. Checkout lifetime in seconds. Null when checkout settings
+         * apply. Format: int64. created_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". currency (Required): string or null. Listing
+         * currency. Null when the shop is empty. Uses ISO 4217 currency codes. minLength: 3.
+         * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". custom_text (Optional): {@link
+         * CheckoutCustomTextConfig}. Merchant text shown in checkout. Omitted when the shop has no
+         * override. Custom text shown in checkout: an order summary message and a shipping address
+         * label. delivery_method_ids (Required): Array of string. An empty array follows checkout
+         * settings. delivery_method_ids[] (Value): string. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". description (Required): string or null. Shop
+         * description. Null when unset. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. Null when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". handle (Required): string or
+         * null. Readable address. Null when a handle has not been assigned. image (Required):
+         * {@link ImageAttachment} or null. Cover image. Null when unset. image.anyOf[1] (Value):
+         * {@link ImageAttachment}. An image attached to a resource, with its display properties
+         * and attachment metadata. image.anyOf[2] (Value): null. inactive_message (Required):
+         * string or null. Inactive message. Null when unset. inventory_routing_source (Required):
+         * {@link InventoryRoutingSource} or null. Explicit inventory routing. Null when checkout
+         * settings apply. inventory_routing_source.anyOf[1] (Value): {@link
+         * InventoryRoutingSource}. Where an order, payment link, or reservation routes inventory
+         * from: a fixed Location, an inventory allocation policy, or one policy revision.
+         * inventory_routing_source.anyOf[2] (Value): null. legal (Optional): {@link
+         * LegalSettings}. Legal policies shown to buyers. Omitted when the shop has no override.
+         * Legal settings for a checkout: whether buyers must accept terms, and links to the terms,
+         * refund policy, shipping policy, and contract. listing_count (Required): integer. The
+         * number of listings on the shop, including unavailable entries. Format: int32.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Stored
+         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
+         * for Flint and are not returned. Writes follow the limits on MetadataInput and
+         * MetadataPatchInput; maps written before those limits may not satisfy them. name
+         * (Required): string. The title buyers see on the shop. payments (Optional): {@link
+         * CheckoutPaymentConfig}. Payment options for the shop. Omitted when the shop has no
+         * override. Payment settings for a checkout: the enabled payment options and a note shown
+         * with payment. promotion_config (Optional): {@link CheckoutPromotionConfig}. Promotion
+         * settings for shop checkouts. Omitted when the shop has no override. Promotion settings
+         * for a checkout: whether automatic promotions apply and whether the buyer can apply
+         * promotion codes. redirects (Required): {@link CheckoutRedirects}. Redirects configured
+         * for checkouts started from the shop. Where hosted checkout sends the buyer. Not allowed
+         * when surface is headless; use payment_return_url. shop_id (Required): string. Shop ID.
+         * pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+         * status (Required): string. Availability or retirement status. Value enum: "active",
+         * "inactive", "archived". tax (Optional): {@link CheckoutTaxConfig}. Tax settings for shop
+         * checkouts. Omitted when the shop has no override. Whether tax is collected for a
+         * checkout session or payment link. tip (Optional): {@link CheckoutTipConfig}. Tipping
+         * options for the shop. Omitted when the shop has no override. Tip settings for a
+         * checkout: whether tips are enabled, the percent or fixed amount options, the default
+         * tip, and custom tips. updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". url (Required): string. The hosted shop
+         * address. Live shops use the merchant's healthy custom checkout hostname when available.
+         * version (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1.
          */
-        "amount"?: `${bigint}`;
-    })
-        & (Exclude<MoneyValue & object, readonly unknown[]>);
-    /**
-     * An eligible split on a payment this refund covers. Each split may appear once. minLength: 1.
-     * pattern: ^psplit_[0-9A-HJKMNP-TV-Z]{26}$. Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8".
-     */
-    "payment_split_id": string;
-};
-/** The seller amount to take back from one eligible payment split when creating a refund. */
-export type SplitReversalRequestInput = {
-    /**
-     * Positive seller amount to take back, in the payment's currency. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code. amount (Required): integer string.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
-     * 1. Amount in the currency's minor unit, such as cents for USD. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency
-     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
-     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     */
-    "amount_money": ({
+        "object": {
+            /**
+             * Buyer information requested at checkout. Omitted when the shop has no override. What
+             * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+             */
+            "buyer_fields"?: CheckoutBuyerFields;
+            /** Checkout lifetime in seconds. Null when checkout settings apply. Format: int64. */
+            "checkout_session_expires_in_seconds": number | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Listing currency. Null when the shop is empty. Uses ISO 4217 currency codes.
+             * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             */
+            "currency": string | null;
+            /**
+             * Merchant text shown in checkout. Omitted when the shop has no override. Custom text
+             * shown in checkout: an order summary message and a shipping address label.
+             */
+            "custom_text"?: CheckoutCustomTextConfig;
+            /**
+             * An empty array follows checkout settings. [] (Value): string. Example:
+             * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_ids": Array<string>;
+            /** Shop description. Null when unset. */
+            "description": string | null;
+            /**
+             * Caller-owned identifier for this resource in an external system. Null when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /** Readable address. Null when a handle has not been assigned. */
+            "handle": string | null;
+            /**
+             * Cover image. Null when unset. anyOf[1] (Value): {@link ImageAttachment}. An image
+             * attached to a resource, with its display properties and attachment metadata.
+             * anyOf[2] (Value): null.
+             */
+            "image": ((ImageAttachment) | (null));
+            /** Inactive message. Null when unset. */
+            "inactive_message": string | null;
+            /**
+             * Explicit inventory routing. Null when checkout settings apply. anyOf[1] (Value):
+             * {@link InventoryRoutingSource}. Where an order, payment link, or reservation routes
+             * inventory from: a fixed Location, an inventory allocation policy, or one policy
+             * revision. anyOf[2] (Value): null.
+             */
+            "inventory_routing_source": ((InventoryRoutingSource) | (null));
+            /**
+             * Legal policies shown to buyers. Omitted when the shop has no override. Legal
+             * settings for a checkout: whether buyers must accept terms, and links to the terms,
+             * refund policy, shipping policy, and contract.
+             */
+            "legal"?: LegalSettings;
+            /** The number of listings on the shop, including unavailable entries. Format: int32. */
+            "listing_count": number;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** The title buyers see on the shop. */
+            "name": string;
+            /**
+             * Payment options for the shop. Omitted when the shop has no override. Payment
+             * settings for a checkout: the enabled payment options and a note shown with payment.
+             */
+            "payments"?: CheckoutPaymentConfig;
+            /**
+             * Promotion settings for shop checkouts. Omitted when the shop has no override.
+             * Promotion settings for a checkout: whether automatic promotions apply and whether
+             * the buyer can apply promotion codes.
+             */
+            "promotion_config"?: CheckoutPromotionConfig;
+            /**
+             * Redirects configured for checkouts started from the shop. Where hosted checkout
+             * sends the buyer. Not allowed when surface is headless; use payment_return_url.
+             */
+            "redirects": CheckoutRedirects;
+            /**
+             * Shop ID. pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+             * "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+             */
+            "shop_id": string;
+            /** Availability or retirement status. Value enum: "active", "inactive", "archived". */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * Tax settings for shop checkouts. Omitted when the shop has no override. Whether tax
+             * is collected for a checkout session or payment link.
+             */
+            "tax"?: CheckoutTaxConfig;
+            /**
+             * Tipping options for the shop. Omitted when the shop has no override. Tip settings
+             * for a checkout: whether tips are enabled, the percent or fixed amount options, the
+             * default tip, and custom tips.
+             */
+            "tip"?: CheckoutTipConfig;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The hosted shop address. Live shops use the merchant's healthy custom checkout
+             * hostname when available.
+             */
+            "url": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
         /**
-         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
-         * minimum: 1.
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. buyer_fields (Optional): {@link
+         * CheckoutBuyerFieldsPreviousAttributes} or null. Buyer information requested at checkout.
+         * Omitted when the shop has no override. buyer_fields.anyOf[1] (Value): {@link
+         * CheckoutBuyerFieldsPreviousAttributes}. buyer_fields.anyOf[2] (Value): null.
+         * checkout_session_expires_in_seconds (Optional): integer or null. Checkout lifetime in
+         * seconds. Null when checkout settings apply. checkout_session_expires_in_seconds.anyOf[1]
+         * (Value): integer. Checkout lifetime in seconds. Null when checkout settings apply.
+         * Format: int64. checkout_session_expires_in_seconds.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. currency (Optional): string or null. Listing
+         * currency. Null when the shop is empty. Uses ISO 4217 currency codes. currency.anyOf[1]
+         * (Value): string. Listing currency. Null when the shop is empty. Uses ISO 4217 currency
+         * codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         * currency.anyOf[2] (Value): null. custom_text (Optional): {@link
+         * CheckoutCustomTextConfigPreviousAttributes} or null. Merchant text shown in checkout.
+         * Omitted when the shop has no override. custom_text.anyOf[1] (Value): {@link
+         * CheckoutCustomTextConfigPreviousAttributes}. custom_text.anyOf[2] (Value): null.
+         * delivery_method_ids (Optional): Array of string or null. An empty array follows checkout
+         * settings. delivery_method_ids.anyOf[1] (Value): Array of string. An empty array follows
+         * checkout settings. delivery_method_ids.anyOf[1][] (Value): string. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_ids.anyOf[2] (Value): null.
+         * description (Optional): string or null. Shop description. Null when unset.
+         * description.anyOf[1] (Value): string. Shop description. Null when unset.
+         * description.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this resource in an external system. Null when unset.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. Null when unset. minLength: 1. maxLength: 255. Example:
+         * "warehouse-1842". external_reference_id.anyOf[2] (Value): null. handle (Optional):
+         * string or null. Readable address. Null when a handle has not been assigned.
+         * handle.anyOf[1] (Value): string. Readable address. Null when a handle has not been
+         * assigned. handle.anyOf[2] (Value): null. image (Optional): {@link
+         * ImageAttachmentPreviousAttributes} or null. Cover image. Null when unset. image.anyOf[1]
+         * (Value): {@link ImageAttachmentPreviousAttributes}. image.anyOf[2] (Value): null.
+         * inactive_message (Optional): string or null. Inactive message. Null when unset.
+         * inactive_message.anyOf[1] (Value): string. Inactive message. Null when unset.
+         * inactive_message.anyOf[2] (Value): null. inventory_routing_source (Optional): {@link
+         * InventoryRoutingSourcePreviousAttributes} or null. Explicit inventory routing. Null when
+         * checkout settings apply. inventory_routing_source.anyOf[1] (Value): {@link
+         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
+         * null. legal (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. Legal
+         * policies shown to buyers. Omitted when the shop has no override. legal.anyOf[1] (Value):
+         * {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null.
+         * listing_count (Optional): integer or null. The number of listings on the shop, including
+         * unavailable entries. listing_count.anyOf[1] (Value): integer. The number of listings on
+         * the shop, including unavailable entries. Format: int32. listing_count.anyOf[2] (Value):
+         * null. merchant_id (Optional): string or null. ID of the merchant this resource belongs
+         * to. merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
+         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. metadata.anyOf[2] (Value): null. name (Optional): string or null. The
+         * title buyers see on the shop. name.anyOf[1] (Value): string. The title buyers see on the
+         * shop. name.anyOf[2] (Value): null. payments (Optional): {@link
+         * CheckoutPaymentConfigPreviousAttributes} or null. Payment options for the shop. Omitted
+         * when the shop has no override. payments.anyOf[1] (Value): {@link
+         * CheckoutPaymentConfigPreviousAttributes}. payments.anyOf[2] (Value): null.
+         * promotion_config (Optional): {@link CheckoutPromotionConfigPreviousAttributes} or null.
+         * Promotion settings for shop checkouts. Omitted when the shop has no override.
+         * promotion_config.anyOf[1] (Value): {@link CheckoutPromotionConfigPreviousAttributes}.
+         * promotion_config.anyOf[2] (Value): null. redirects (Optional): {@link
+         * CheckoutRedirectsPreviousAttributes} or null. Redirects configured for checkouts started
+         * from the shop. redirects.anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+         * redirects.anyOf[2] (Value): null. shop_id (Optional): string or null. Shop ID.
+         * shop_id.anyOf[1] (Value): string. Shop ID. pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$.
+         * Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". shop_id.anyOf[2] (Value): null. status
+         * (Optional): string or null. Availability or retirement status. Value enum: "active",
+         * "inactive", "archived". status.anyOf[1] (Value): string. Availability or retirement
+         * status. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. tax
+         * (Optional): {@link SubscriptionTaxPreviousAttributes} or null. Tax settings for shop
+         * checkouts. Omitted when the shop has no override. tax.anyOf[1] (Value): {@link
+         * SubscriptionTaxPreviousAttributes}. tax.anyOf[2] (Value): null. tip (Optional): {@link
+         * CheckoutTipConfigPreviousAttributes} or null. Tipping options for the shop. Omitted when
+         * the shop has no override. tip.anyOf[1] (Value): {@link
+         * CheckoutTipConfigPreviousAttributes}. tip.anyOf[2] (Value): null. updated_at (Optional):
+         * string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. url (Optional): string or null. The hosted shop address. Live shops use
+         * the merchant's healthy custom checkout hostname when available. url.anyOf[1] (Value):
+         * string. The hosted shop address. Live shops use the merchant's healthy custom checkout
+         * hostname when available. url.anyOf[2] (Value): null. version (Optional): integer or
+         * null. Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. version.anyOf[1] (Value): integer. Persisted
+         * version of this resource's owned state. Expanded resources and external observations can
+         * change independently. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
          */
-        "amount"?: `${bigint}` | bigint;
-    })
-        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Buyer information requested at checkout. Omitted when the shop has no override.
+             * anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            /**
+             * Checkout lifetime in seconds. Null when checkout settings apply. anyOf[1] (Value):
+             * integer. Checkout lifetime in seconds. Null when checkout settings apply. Format:
+             * int64. anyOf[2] (Value): null.
+             */
+            "checkout_session_expires_in_seconds"?: ((number) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Listing currency. Null when the shop is empty. Uses ISO 4217 currency codes.
+             * anyOf[1] (Value): string. Listing currency. Null when the shop is empty. Uses ISO
+             * 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+             * "USD". anyOf[2] (Value): null.
+             */
+            "currency"?: ((string) | (null));
+            /**
+             * Merchant text shown in checkout. Omitted when the shop has no override. anyOf[1]
+             * (Value): {@link CheckoutCustomTextConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            /**
+             * An empty array follows checkout settings. anyOf[1] (Value): Array of string. An
+             * empty array follows checkout settings. anyOf[1][] (Value): string. Example:
+             * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            /**
+             * Shop description. Null when unset. anyOf[1] (Value): string. Shop description. Null
+             * when unset. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. Null when unset.
+             * anyOf[1] (Value): string. Caller-owned identifier for this resource in an external
+             * system. Null when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Readable address. Null when a handle has not been assigned. anyOf[1] (Value):
+             * string. Readable address. Null when a handle has not been assigned. anyOf[2]
+             * (Value): null.
+             */
+            "handle"?: ((string) | (null));
+            /**
+             * Cover image. Null when unset. anyOf[1] (Value): {@link
+             * ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "image"?: ((ImageAttachmentPreviousAttributes) | (null));
+            /**
+             * Inactive message. Null when unset. anyOf[1] (Value): string. Inactive message. Null
+             * when unset. anyOf[2] (Value): null.
+             */
+            "inactive_message"?: ((string) | (null));
+            /**
+             * Explicit inventory routing. Null when checkout settings apply. anyOf[1] (Value):
+             * {@link InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            /**
+             * Legal policies shown to buyers. Omitted when the shop has no override. anyOf[1]
+             * (Value): {@link CheckoutLegalConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            /**
+             * The number of listings on the shop, including unavailable entries. anyOf[1] (Value):
+             * integer. The number of listings on the shop, including unavailable entries. Format:
+             * int32. anyOf[2] (Value): null.
+             */
+            "listing_count"?: ((number) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * The title buyers see on the shop. anyOf[1] (Value): string. The title buyers see on
+             * the shop. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Payment options for the shop. Omitted when the shop has no override. anyOf[1]
+             * (Value): {@link CheckoutPaymentConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            /**
+             * Promotion settings for shop checkouts. Omitted when the shop has no override.
+             * anyOf[1] (Value): {@link CheckoutPromotionConfigPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            /**
+             * Redirects configured for checkouts started from the shop. anyOf[1] (Value): {@link
+             * CheckoutRedirectsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            /**
+             * Shop ID. anyOf[1] (Value): string. Shop ID. pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". anyOf[2] (Value): null.
+             */
+            "shop_id"?: ((string) | (null));
+            /**
+             * Availability or retirement status. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Availability or retirement status. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Tax settings for shop checkouts. Omitted when the shop has no override. anyOf[1]
+             * (Value): {@link SubscriptionTaxPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
+            /**
+             * Tipping options for the shop. Omitted when the shop has no override. anyOf[1]
+             * (Value): {@link CheckoutTipConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * The hosted shop address. Live shops use the merchant's healthy custom checkout
+             * hostname when available. anyOf[1] (Value): string. The hosted shop address. Live
+             * shops use the merchant's healthy custom checkout hostname when available. anyOf[2]
+             * (Value): null.
+             */
+            "url"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "shop.archived". */
+    "event_type"?: "shop.archived";
     /**
-     * An eligible split on a payment this refund covers. Each split may appear once. minLength: 1.
-     * pattern: ^psplit_[0-9A-HJKMNP-TV-Z]{26}$. Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8".
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
      */
-    "payment_split_id": string;
-};
-/** Starts fulfillment work. */
-export type StartFulfillmentRequestInput = AcceptFulfillmentRequestInput;
-/** Stripe's current decision about the card statement name. */
-export type StatementDescriptorStatus = {
-    /** Stripe's refusal reason in plain language. `null` when status is accepted or pending. */
-    "reason": string | null;
-    /**
-     * accepted when Stripe has no outstanding descriptor requirement, rejected when Stripe reports
-     * a refusal, or pending while a change or review is unresolved. Value enum: "accepted",
-     * "rejected", "pending".
-     */
-    "status": "accepted" | "rejected" | "pending" | (string & {});
-};
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
 /**
- * One-time client authority for the named Stripe object. This payload always names the Stripe.js
- * call and carries its client secret.
+ * The `shop.archived` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
  */
-export type StripeClientAuthority = {
-    /** Stripe client secret for the named PaymentIntent or SetupIntent. */
-    "client_secret": string;
+export type ShopArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
     /**
-     * Stripe.js operation to perform now. confirm_setup applies to client_setup. Standalone
-     * PaymentIntents use payment_collection plus server confirmation instead of initial
-     * confirm_payment authority. Value enum: "confirm_payment", "confirm_setup".
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.buyer_fields (Optional): {@link CheckoutBuyerFields}. Buyer
+     * information requested at checkout. Omitted when the shop has no override. What checkout asks
+     * the buyer for. Each field you leave out uses your checkout settings.
+     * object.checkout_session_expires_in_seconds (Required): integer or null. Checkout lifetime in
+     * seconds. Null when checkout settings apply. Format: int64. object.created_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.currency (Required): string or null. Listing currency. Null when the shop is empty.
+     * Uses ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+     * "USD". object.custom_text (Optional): {@link CheckoutCustomTextConfig}. Merchant text shown
+     * in checkout. Omitted when the shop has no override. Custom text shown in checkout: an order
+     * summary message and a shipping address label. object.delivery_method_ids (Required): Array
+     * of string. An empty array follows checkout settings. object.delivery_method_ids[] (Value):
+     * string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". object.description (Required): string or
+     * null. Shop description. Null when unset. object.external_reference_id (Required): string or
+     * null. Caller-owned identifier for this resource in an external system. Null when unset.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842". object.handle (Required): string or
+     * null. Readable address. Null when a handle has not been assigned. object.image (Required):
+     * {@link ImageAttachment} or null. Cover image. Null when unset. object.image.anyOf[1]
+     * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+     * properties and attachment metadata. object.image.anyOf[2] (Value): null.
+     * object.inactive_message (Required): string or null. Inactive message. Null when unset.
+     * object.inventory_routing_source (Required): {@link InventoryRoutingSource} or null. Explicit
+     * inventory routing. Null when checkout settings apply.
+     * object.inventory_routing_source.anyOf[1] (Value): {@link InventoryRoutingSource}. Where an
+     * order, payment link, or reservation routes inventory from: a fixed Location, an inventory
+     * allocation policy, or one policy revision. object.inventory_routing_source.anyOf[2] (Value):
+     * null. object.legal (Optional): {@link LegalSettings}. Legal policies shown to buyers.
+     * Omitted when the shop has no override. Legal settings for a checkout: whether buyers must
+     * accept terms, and links to the terms, refund policy, shipping policy, and contract.
+     * object.listing_count (Required): integer. The number of listings on the shop, including
+     * unavailable entries. Format: int32. object.merchant_id (Required): string. ID of the
+     * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Required): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.name (Required): string. The title buyers see on the shop.
+     * object.payments (Optional): {@link CheckoutPaymentConfig}. Payment options for the shop.
+     * Omitted when the shop has no override. Payment settings for a checkout: the enabled payment
+     * options and a note shown with payment. object.promotion_config (Optional): {@link
+     * CheckoutPromotionConfig}. Promotion settings for shop checkouts. Omitted when the shop has
+     * no override. Promotion settings for a checkout: whether automatic promotions apply and
+     * whether the buyer can apply promotion codes. object.redirects (Required): {@link
+     * CheckoutRedirects}. Redirects configured for checkouts started from the shop. Where hosted
+     * checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
+     * object.shop_id (Required): string. Shop ID. pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "shop_01KEZF7C005VQBPV4FZHDZPAHE". object.status (Required): string. Availability or
+     * retirement status. Value enum: "active", "inactive", "archived". object.tax (Optional):
+     * {@link CheckoutTaxConfig}. Tax settings for shop checkouts. Omitted when the shop has no
+     * override. Whether tax is collected for a checkout session or payment link. object.tip
+     * (Optional): {@link CheckoutTipConfig}. Tipping options for the shop. Omitted when the shop
+     * has no override. Tip settings for a checkout: whether tips are enabled, the percent or fixed
+     * amount options, the default tip, and custom tips. object.updated_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.url
+     * (Required): string. The hosted shop address. Live shops use the merchant's healthy custom
+     * checkout hostname when available. object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events. previous_attributes.buyer_fields (Optional): {@link
+     * CheckoutBuyerFieldsPreviousAttributes} or null. Buyer information requested at checkout.
+     * Omitted when the shop has no override. previous_attributes.buyer_fields.anyOf[1] (Value):
+     * {@link CheckoutBuyerFieldsPreviousAttributes}. previous_attributes.buyer_fields.anyOf[2]
+     * (Value): null. previous_attributes.checkout_session_expires_in_seconds (Optional): integer
+     * or null. Checkout lifetime in seconds. Null when checkout settings apply.
+     * previous_attributes.checkout_session_expires_in_seconds.anyOf[1] (Value): integer. Checkout
+     * lifetime in seconds. Null when checkout settings apply. Format: int64.
+     * previous_attributes.checkout_session_expires_in_seconds.anyOf[2] (Value): null.
+     * previous_attributes.created_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.created_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2] (Value):
+     * null. previous_attributes.currency (Optional): string or null. Listing currency. Null when
+     * the shop is empty. Uses ISO 4217 currency codes. previous_attributes.currency.anyOf[1]
+     * (Value): string. Listing currency. Null when the shop is empty. Uses ISO 4217 currency
+     * codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * previous_attributes.currency.anyOf[2] (Value): null. previous_attributes.custom_text
+     * (Optional): {@link CheckoutCustomTextConfigPreviousAttributes} or null. Merchant text shown
+     * in checkout. Omitted when the shop has no override. previous_attributes.custom_text.anyOf[1]
+     * (Value): {@link CheckoutCustomTextConfigPreviousAttributes}.
+     * previous_attributes.custom_text.anyOf[2] (Value): null.
+     * previous_attributes.delivery_method_ids (Optional): Array of string or null. An empty array
+     * follows checkout settings. previous_attributes.delivery_method_ids.anyOf[1] (Value): Array
+     * of string. An empty array follows checkout settings.
+     * previous_attributes.delivery_method_ids.anyOf[1][] (Value): string. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". previous_attributes.delivery_method_ids.anyOf[2] (Value):
+     * null. previous_attributes.description (Optional): string or null. Shop description. Null
+     * when unset. previous_attributes.description.anyOf[1] (Value): string. Shop description. Null
+     * when unset. previous_attributes.description.anyOf[2] (Value): null.
+     * previous_attributes.external_reference_id (Optional): string or null. Caller-owned
+     * identifier for this resource in an external system. Null when unset.
+     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
+     * for this resource in an external system. Null when unset. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842". previous_attributes.external_reference_id.anyOf[2] (Value): null.
+     * previous_attributes.handle (Optional): string or null. Readable address. Null when a handle
+     * has not been assigned. previous_attributes.handle.anyOf[1] (Value): string. Readable
+     * address. Null when a handle has not been assigned. previous_attributes.handle.anyOf[2]
+     * (Value): null. previous_attributes.image (Optional): {@link
+     * ImageAttachmentPreviousAttributes} or null. Cover image. Null when unset.
+     * previous_attributes.image.anyOf[1] (Value): {@link ImageAttachmentPreviousAttributes}.
+     * previous_attributes.image.anyOf[2] (Value): null. previous_attributes.inactive_message
+     * (Optional): string or null. Inactive message. Null when unset.
+     * previous_attributes.inactive_message.anyOf[1] (Value): string. Inactive message. Null when
+     * unset. previous_attributes.inactive_message.anyOf[2] (Value): null.
+     * previous_attributes.inventory_routing_source (Optional): {@link
+     * InventoryRoutingSourcePreviousAttributes} or null. Explicit inventory routing. Null when
+     * checkout settings apply. previous_attributes.inventory_routing_source.anyOf[1] (Value):
+     * {@link InventoryRoutingSourcePreviousAttributes}.
+     * previous_attributes.inventory_routing_source.anyOf[2] (Value): null.
+     * previous_attributes.legal (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null.
+     * Legal policies shown to buyers. Omitted when the shop has no override.
+     * previous_attributes.legal.anyOf[1] (Value): {@link CheckoutLegalConfigPreviousAttributes}.
+     * previous_attributes.legal.anyOf[2] (Value): null. previous_attributes.listing_count
+     * (Optional): integer or null. The number of listings on the shop, including unavailable
+     * entries. previous_attributes.listing_count.anyOf[1] (Value): integer. The number of listings
+     * on the shop, including unavailable entries. Format: int32.
+     * previous_attributes.listing_count.anyOf[2] (Value): null. previous_attributes.merchant_id
+     * (Optional): string or null. ID of the merchant this resource belongs to.
+     * previous_attributes.merchant_id.anyOf[1] (Value): string. ID of the merchant this resource
+     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * previous_attributes.merchant_id.anyOf[2] (Value): null. previous_attributes.metadata
+     * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. previous_attributes.metadata.anyOf[1]
+     * (Value): {@link MetadataMap}. previous_attributes.metadata.anyOf[2] (Value): null.
+     * previous_attributes.name (Optional): string or null. The title buyers see on the shop.
+     * previous_attributes.name.anyOf[1] (Value): string. The title buyers see on the shop.
+     * previous_attributes.name.anyOf[2] (Value): null. previous_attributes.payments (Optional):
+     * {@link CheckoutPaymentConfigPreviousAttributes} or null. Payment options for the shop.
+     * Omitted when the shop has no override. previous_attributes.payments.anyOf[1] (Value): {@link
+     * CheckoutPaymentConfigPreviousAttributes}. previous_attributes.payments.anyOf[2] (Value):
+     * null. previous_attributes.promotion_config (Optional): {@link
+     * CheckoutPromotionConfigPreviousAttributes} or null. Promotion settings for shop checkouts.
+     * Omitted when the shop has no override. previous_attributes.promotion_config.anyOf[1]
+     * (Value): {@link CheckoutPromotionConfigPreviousAttributes}.
+     * previous_attributes.promotion_config.anyOf[2] (Value): null. previous_attributes.redirects
+     * (Optional): {@link CheckoutRedirectsPreviousAttributes} or null. Redirects configured for
+     * checkouts started from the shop. previous_attributes.redirects.anyOf[1] (Value): {@link
+     * CheckoutRedirectsPreviousAttributes}. previous_attributes.redirects.anyOf[2] (Value): null.
+     * previous_attributes.shop_id (Optional): string or null. Shop ID.
+     * previous_attributes.shop_id.anyOf[1] (Value): string. Shop ID. pattern:
+     * ^shop_[0-9A-HJKMNP-TV-Z]{26}$. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+     * previous_attributes.shop_id.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Availability or retirement status. Value enum: "active", "inactive",
+     * "archived". previous_attributes.status.anyOf[1] (Value): string. Availability or retirement
+     * status. Value enum: "active", "inactive", "archived". previous_attributes.status.anyOf[2]
+     * (Value): null. previous_attributes.tax (Optional): {@link SubscriptionTaxPreviousAttributes}
+     * or null. Tax settings for shop checkouts. Omitted when the shop has no override.
+     * previous_attributes.tax.anyOf[1] (Value): {@link SubscriptionTaxPreviousAttributes}.
+     * previous_attributes.tax.anyOf[2] (Value): null. previous_attributes.tip (Optional): {@link
+     * CheckoutTipConfigPreviousAttributes} or null. Tipping options for the shop. Omitted when the
+     * shop has no override. previous_attributes.tip.anyOf[1] (Value): {@link
+     * CheckoutTipConfigPreviousAttributes}. previous_attributes.tip.anyOf[2] (Value): null.
+     * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
+     * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
+     * null. previous_attributes.url (Optional): string or null. The hosted shop address. Live
+     * shops use the merchant's healthy custom checkout hostname when available.
+     * previous_attributes.url.anyOf[1] (Value): string. The hosted shop address. Live shops use
+     * the merchant's healthy custom checkout hostname when available.
+     * previous_attributes.url.anyOf[2] (Value): null. previous_attributes.version (Optional):
+     * integer or null. Persisted version of this resource's owned state. Expanded resources and
+     * external observations can change independently. previous_attributes.version.anyOf[1]
+     * (Value): integer. Persisted version of this resource's owned state. Expanded resources and
+     * external observations can change independently. Format: uint64. minimum: 1.
+     * previous_attributes.version.anyOf[2] (Value): null.
      */
-    "stripe_js_call": "confirm_payment" | "confirm_setup" | (string & {});
-};
-/**
- * Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now.
- * setup_collection is guidance instead and never carries a secret.
- */
-export type StripeClientSetup = {
-    /**
-     * Stripe.js initialization context and the SetupIntent authority for saving the payment
-     * method. Stripe.js initialization context and SetupIntent setup authority.
-     */
-    "stripe"?: StripeClientSetupStripe;
-};
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * buyer_fields (Optional): {@link CheckoutBuyerFields}. Buyer information requested at
+         * checkout. Omitted when the shop has no override. What checkout asks the buyer for. Each
+         * field you leave out uses your checkout settings. checkout_session_expires_in_seconds
+         * (Required): integer or null. Checkout lifetime in seconds. Null when checkout settings
+         * apply. Format: int64. created_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". currency (Required): string or null. Listing
+         * currency. Null when the shop is empty. Uses ISO 4217 currency codes. minLength: 3.
+         * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". custom_text (Optional): {@link
+         * CheckoutCustomTextConfig}. Merchant text shown in checkout. Omitted when the shop has no
+         * override. Custom text shown in checkout: an order summary message and a shipping address
+         * label. delivery_method_ids (Required): Array of string. An empty array follows checkout
+         * settings. delivery_method_ids[] (Value): string. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". description (Required): string or null. Shop
+         * description. Null when unset. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. Null when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". handle (Required): string or
+         * null. Readable address. Null when a handle has not been assigned. image (Required):
+         * {@link ImageAttachment} or null. Cover image. Null when unset. image.anyOf[1] (Value):
+         * {@link ImageAttachment}. An image attached to a resource, with its display properties
+         * and attachment metadata. image.anyOf[2] (Value): null. inactive_message (Required):
+         * string or null. Inactive message. Null when unset. inventory_routing_source (Required):
+         * {@link InventoryRoutingSource} or null. Explicit inventory routing. Null when checkout
+         * settings apply. inventory_routing_source.anyOf[1] (Value): {@link
+         * InventoryRoutingSource}. Where an order, payment link, or reservation routes inventory
+         * from: a fixed Location, an inventory allocation policy, or one policy revision.
+         * inventory_routing_source.anyOf[2] (Value): null. legal (Optional): {@link
+         * LegalSettings}. Legal policies shown to buyers. Omitted when the shop has no override.
+         * Legal settings for a checkout: whether buyers must accept terms, and links to the terms,
+         * refund policy, shipping policy, and contract. listing_count (Required): integer. The
+         * number of listings on the shop, including unavailable entries. Format: int32.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Stored
+         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
+         * for Flint and are not returned. Writes follow the limits on MetadataInput and
+         * MetadataPatchInput; maps written before those limits may not satisfy them. name
+         * (Required): string. The title buyers see on the shop. payments (Optional): {@link
+         * CheckoutPaymentConfig}. Payment options for the shop. Omitted when the shop has no
+         * override. Payment settings for a checkout: the enabled payment options and a note shown
+         * with payment. promotion_config (Optional): {@link CheckoutPromotionConfig}. Promotion
+         * settings for shop checkouts. Omitted when the shop has no override. Promotion settings
+         * for a checkout: whether automatic promotions apply and whether the buyer can apply
+         * promotion codes. redirects (Required): {@link CheckoutRedirects}. Redirects configured
+         * for checkouts started from the shop. Where hosted checkout sends the buyer. Not allowed
+         * when surface is headless; use payment_return_url. shop_id (Required): string. Shop ID.
+         * pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+         * status (Required): string. Availability or retirement status. Value enum: "active",
+         * "inactive", "archived". tax (Optional): {@link CheckoutTaxConfig}. Tax settings for shop
+         * checkouts. Omitted when the shop has no override. Whether tax is collected for a
+         * checkout session or payment link. tip (Optional): {@link CheckoutTipConfig}. Tipping
+         * options for the shop. Omitted when the shop has no override. Tip settings for a
+         * checkout: whether tips are enabled, the percent or fixed amount options, the default
+         * tip, and custom tips. updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". url (Required): string. The hosted shop
+         * address. Live shops use the merchant's healthy custom checkout hostname when available.
+         * version (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1.
+         */
+        "object": {
+            /**
+             * Buyer information requested at checkout. Omitted when the shop has no override. What
+             * checkout asks the buyer for. Each field you leave out uses your checkout settings.
+             */
+            "buyer_fields"?: CheckoutBuyerFields;
+            /** Checkout lifetime in seconds. Null when checkout settings apply. Format: int64. */
+            "checkout_session_expires_in_seconds": number | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Listing currency. Null when the shop is empty. Uses ISO 4217 currency codes.
+             * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             */
+            "currency": string | null;
+            /**
+             * Merchant text shown in checkout. Omitted when the shop has no override. Custom text
+             * shown in checkout: an order summary message and a shipping address label.
+             */
+            "custom_text"?: CheckoutCustomTextConfig;
+            /**
+             * An empty array follows checkout settings. [] (Value): string. Example:
+             * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_ids": Array<string>;
+            /** Shop description. Null when unset. */
+            "description": string | null;
+            /**
+             * Caller-owned identifier for this resource in an external system. Null when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /** Readable address. Null when a handle has not been assigned. */
+            "handle": string | null;
+            /**
+             * Cover image. Null when unset. anyOf[1] (Value): {@link ImageAttachment}. An image
+             * attached to a resource, with its display properties and attachment metadata.
+             * anyOf[2] (Value): null.
+             */
+            "image": ((ImageAttachment) | (null));
+            /** Inactive message. Null when unset. */
+            "inactive_message": string | null;
+            /**
+             * Explicit inventory routing. Null when checkout settings apply. anyOf[1] (Value):
+             * {@link InventoryRoutingSource}. Where an order, payment link, or reservation routes
+             * inventory from: a fixed Location, an inventory allocation policy, or one policy
+             * revision. anyOf[2] (Value): null.
+             */
+            "inventory_routing_source": ((InventoryRoutingSource) | (null));
+            /**
+             * Legal policies shown to buyers. Omitted when the shop has no override. Legal
+             * settings for a checkout: whether buyers must accept terms, and links to the terms,
+             * refund policy, shipping policy, and contract.
+             */
+            "legal"?: LegalSettings;
+            /** The number of listings on the shop, including unavailable entries. Format: int32. */
+            "listing_count": number;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** The title buyers see on the shop. */
+            "name": string;
+            /**
+             * Payment options for the shop. Omitted when the shop has no override. Payment
+             * settings for a checkout: the enabled payment options and a note shown with payment.
+             */
+            "payments"?: CheckoutPaymentConfig;
+            /**
+             * Promotion settings for shop checkouts. Omitted when the shop has no override.
+             * Promotion settings for a checkout: whether automatic promotions apply and whether
+             * the buyer can apply promotion codes.
+             */
+            "promotion_config"?: CheckoutPromotionConfig;
+            /**
+             * Redirects configured for checkouts started from the shop. Where hosted checkout
+             * sends the buyer. Not allowed when surface is headless; use payment_return_url.
+             */
+            "redirects": CheckoutRedirects;
+            /**
+             * Shop ID. pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+             * "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+             */
+            "shop_id": string;
+            /** Availability or retirement status. Value enum: "active", "inactive", "archived". */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * Tax settings for shop checkouts. Omitted when the shop has no override. Whether tax
+             * is collected for a checkout session or payment link.
+             */
+            "tax"?: CheckoutTaxConfig;
+            /**
+             * Tipping options for the shop. Omitted when the shop has no override. Tip settings
+             * for a checkout: whether tips are enabled, the percent or fixed amount options, the
+             * default tip, and custom tips.
+             */
+            "tip"?: CheckoutTipConfig;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The hosted shop address. Live shops use the merchant's healthy custom checkout
+             * hostname when available.
+             */
+            "url": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events. buyer_fields (Optional): {@link
+         * CheckoutBuyerFieldsPreviousAttributes} or null. Buyer information requested at checkout.
+         * Omitted when the shop has no override. buyer_fields.anyOf[1] (Value): {@link
+         * CheckoutBuyerFieldsPreviousAttributes}. buyer_fields.anyOf[2] (Value): null.
+         * checkout_session_expires_in_seconds (Optional): integer or null. Checkout lifetime in
+         * seconds. Null when checkout settings apply. checkout_session_expires_in_seconds.anyOf[1]
+         * (Value): integer. Checkout lifetime in seconds. Null when checkout settings apply.
+         * Format: int64. checkout_session_expires_in_seconds.anyOf[2] (Value): null. created_at
+         * (Optional): string or null. RFC3339 timestamp. created_at.anyOf[1] (Value): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_at.anyOf[2] (Value): null. currency (Optional): string or null. Listing
+         * currency. Null when the shop is empty. Uses ISO 4217 currency codes. currency.anyOf[1]
+         * (Value): string. Listing currency. Null when the shop is empty. Uses ISO 4217 currency
+         * codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+         * currency.anyOf[2] (Value): null. custom_text (Optional): {@link
+         * CheckoutCustomTextConfigPreviousAttributes} or null. Merchant text shown in checkout.
+         * Omitted when the shop has no override. custom_text.anyOf[1] (Value): {@link
+         * CheckoutCustomTextConfigPreviousAttributes}. custom_text.anyOf[2] (Value): null.
+         * delivery_method_ids (Optional): Array of string or null. An empty array follows checkout
+         * settings. delivery_method_ids.anyOf[1] (Value): Array of string. An empty array follows
+         * checkout settings. delivery_method_ids.anyOf[1][] (Value): string. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_method_ids.anyOf[2] (Value): null.
+         * description (Optional): string or null. Shop description. Null when unset.
+         * description.anyOf[1] (Value): string. Shop description. Null when unset.
+         * description.anyOf[2] (Value): null. external_reference_id (Optional): string or null.
+         * Caller-owned identifier for this resource in an external system. Null when unset.
+         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
+         * resource in an external system. Null when unset. minLength: 1. maxLength: 255. Example:
+         * "warehouse-1842". external_reference_id.anyOf[2] (Value): null. handle (Optional):
+         * string or null. Readable address. Null when a handle has not been assigned.
+         * handle.anyOf[1] (Value): string. Readable address. Null when a handle has not been
+         * assigned. handle.anyOf[2] (Value): null. image (Optional): {@link
+         * ImageAttachmentPreviousAttributes} or null. Cover image. Null when unset. image.anyOf[1]
+         * (Value): {@link ImageAttachmentPreviousAttributes}. image.anyOf[2] (Value): null.
+         * inactive_message (Optional): string or null. Inactive message. Null when unset.
+         * inactive_message.anyOf[1] (Value): string. Inactive message. Null when unset.
+         * inactive_message.anyOf[2] (Value): null. inventory_routing_source (Optional): {@link
+         * InventoryRoutingSourcePreviousAttributes} or null. Explicit inventory routing. Null when
+         * checkout settings apply. inventory_routing_source.anyOf[1] (Value): {@link
+         * InventoryRoutingSourcePreviousAttributes}. inventory_routing_source.anyOf[2] (Value):
+         * null. legal (Optional): {@link CheckoutLegalConfigPreviousAttributes} or null. Legal
+         * policies shown to buyers. Omitted when the shop has no override. legal.anyOf[1] (Value):
+         * {@link CheckoutLegalConfigPreviousAttributes}. legal.anyOf[2] (Value): null.
+         * listing_count (Optional): integer or null. The number of listings on the shop, including
+         * unavailable entries. listing_count.anyOf[1] (Value): integer. The number of listings on
+         * the shop, including unavailable entries. Format: int32. listing_count.anyOf[2] (Value):
+         * null. merchant_id (Optional): string or null. ID of the merchant this resource belongs
+         * to. merchant_id.anyOf[1] (Value): string. ID of the merchant this resource belongs to.
+         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". merchant_id.anyOf[2] (Value): null. metadata
+         * (Optional): {@link MetadataMap} or null. Stored caller-owned key-value data. See
+         * `MetadataInput` for key, value, and size rules. metadata.anyOf[1] (Value): {@link
+         * MetadataMap}. metadata.anyOf[2] (Value): null. name (Optional): string or null. The
+         * title buyers see on the shop. name.anyOf[1] (Value): string. The title buyers see on the
+         * shop. name.anyOf[2] (Value): null. payments (Optional): {@link
+         * CheckoutPaymentConfigPreviousAttributes} or null. Payment options for the shop. Omitted
+         * when the shop has no override. payments.anyOf[1] (Value): {@link
+         * CheckoutPaymentConfigPreviousAttributes}. payments.anyOf[2] (Value): null.
+         * promotion_config (Optional): {@link CheckoutPromotionConfigPreviousAttributes} or null.
+         * Promotion settings for shop checkouts. Omitted when the shop has no override.
+         * promotion_config.anyOf[1] (Value): {@link CheckoutPromotionConfigPreviousAttributes}.
+         * promotion_config.anyOf[2] (Value): null. redirects (Optional): {@link
+         * CheckoutRedirectsPreviousAttributes} or null. Redirects configured for checkouts started
+         * from the shop. redirects.anyOf[1] (Value): {@link CheckoutRedirectsPreviousAttributes}.
+         * redirects.anyOf[2] (Value): null. shop_id (Optional): string or null. Shop ID.
+         * shop_id.anyOf[1] (Value): string. Shop ID. pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$.
+         * Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". shop_id.anyOf[2] (Value): null. status
+         * (Optional): string or null. Availability or retirement status. Value enum: "active",
+         * "inactive", "archived". status.anyOf[1] (Value): string. Availability or retirement
+         * status. Value enum: "active", "inactive", "archived". status.anyOf[2] (Value): null. tax
+         * (Optional): {@link SubscriptionTaxPreviousAttributes} or null. Tax settings for shop
+         * checkouts. Omitted when the shop has no override. tax.anyOf[1] (Value): {@link
+         * SubscriptionTaxPreviousAttributes}. tax.anyOf[2] (Value): null. tip (Optional): {@link
+         * CheckoutTipConfigPreviousAttributes} or null. Tipping options for the shop. Omitted when
+         * the shop has no override. tip.anyOf[1] (Value): {@link
+         * CheckoutTipConfigPreviousAttributes}. tip.anyOf[2] (Value): null. updated_at (Optional):
+         * string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. url (Optional): string or null. The hosted shop address. Live shops use
+         * the merchant's healthy custom checkout hostname when available. url.anyOf[1] (Value):
+         * string. The hosted shop address. Live shops use the merchant's healthy custom checkout
+         * hostname when available. url.anyOf[2] (Value): null. version (Optional): integer or
+         * null. Persisted version of this resource's owned state. Expanded resources and external
+         * observations can change independently. version.anyOf[1] (Value): integer. Persisted
+         * version of this resource's owned state. Expanded resources and external observations can
+         * change independently. Format: uint64. minimum: 1. version.anyOf[2] (Value): null.
+         */
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            /**
+             * Buyer information requested at checkout. Omitted when the shop has no override.
+             * anyOf[1] (Value): {@link CheckoutBuyerFieldsPreviousAttributes}. anyOf[2] (Value):
+             * null.
+             */
+            "buyer_fields"?: ((CheckoutBuyerFieldsPreviousAttributes) | (null));
+            /**
+             * Checkout lifetime in seconds. Null when checkout settings apply. anyOf[1] (Value):
+             * integer. Checkout lifetime in seconds. Null when checkout settings apply. Format:
+             * int64. anyOf[2] (Value): null.
+             */
+            "checkout_session_expires_in_seconds"?: ((number) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "created_at"?: ((string) | (null));
+            /**
+             * Listing currency. Null when the shop is empty. Uses ISO 4217 currency codes.
+             * anyOf[1] (Value): string. Listing currency. Null when the shop is empty. Uses ISO
+             * 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+             * "USD". anyOf[2] (Value): null.
+             */
+            "currency"?: ((string) | (null));
+            /**
+             * Merchant text shown in checkout. Omitted when the shop has no override. anyOf[1]
+             * (Value): {@link CheckoutCustomTextConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "custom_text"?: ((CheckoutCustomTextConfigPreviousAttributes) | (null));
+            /**
+             * An empty array follows checkout settings. anyOf[1] (Value): Array of string. An
+             * empty array follows checkout settings. anyOf[1][] (Value): string. Example:
+             * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". anyOf[2] (Value): null.
+             */
+            "delivery_method_ids"?: ((Array<string>) | (null));
+            /**
+             * Shop description. Null when unset. anyOf[1] (Value): string. Shop description. Null
+             * when unset. anyOf[2] (Value): null.
+             */
+            "description"?: ((string) | (null));
+            /**
+             * Caller-owned identifier for this resource in an external system. Null when unset.
+             * anyOf[1] (Value): string. Caller-owned identifier for this resource in an external
+             * system. Null when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             * anyOf[2] (Value): null.
+             */
+            "external_reference_id"?: ((string) | (null));
+            /**
+             * Readable address. Null when a handle has not been assigned. anyOf[1] (Value):
+             * string. Readable address. Null when a handle has not been assigned. anyOf[2]
+             * (Value): null.
+             */
+            "handle"?: ((string) | (null));
+            /**
+             * Cover image. Null when unset. anyOf[1] (Value): {@link
+             * ImageAttachmentPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "image"?: ((ImageAttachmentPreviousAttributes) | (null));
+            /**
+             * Inactive message. Null when unset. anyOf[1] (Value): string. Inactive message. Null
+             * when unset. anyOf[2] (Value): null.
+             */
+            "inactive_message"?: ((string) | (null));
+            /**
+             * Explicit inventory routing. Null when checkout settings apply. anyOf[1] (Value):
+             * {@link InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
+            /**
+             * Legal policies shown to buyers. Omitted when the shop has no override. anyOf[1]
+             * (Value): {@link CheckoutLegalConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "legal"?: ((CheckoutLegalConfigPreviousAttributes) | (null));
+            /**
+             * The number of listings on the shop, including unavailable entries. anyOf[1] (Value):
+             * integer. The number of listings on the shop, including unavailable entries. Format:
+             * int32. anyOf[2] (Value): null.
+             */
+            "listing_count"?: ((number) | (null));
+            /**
+             * ID of the merchant this resource belongs to. anyOf[1] (Value): string. ID of the
+             * merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             * anyOf[2] (Value): null.
+             */
+            "merchant_id"?: ((string) | (null));
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value): null.
+             */
+            "metadata"?: ((MetadataMap) | (null));
+            /**
+             * The title buyers see on the shop. anyOf[1] (Value): string. The title buyers see on
+             * the shop. anyOf[2] (Value): null.
+             */
+            "name"?: ((string) | (null));
+            /**
+             * Payment options for the shop. Omitted when the shop has no override. anyOf[1]
+             * (Value): {@link CheckoutPaymentConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            /**
+             * Promotion settings for shop checkouts. Omitted when the shop has no override.
+             * anyOf[1] (Value): {@link CheckoutPromotionConfigPreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
+            /**
+             * Redirects configured for checkouts started from the shop. anyOf[1] (Value): {@link
+             * CheckoutRedirectsPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
+            /**
+             * Shop ID. anyOf[1] (Value): string. Shop ID. pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". anyOf[2] (Value): null.
+             */
+            "shop_id"?: ((string) | (null));
+            /**
+             * Availability or retirement status. Value enum: "active", "inactive", "archived".
+             * anyOf[1] (Value): string. Availability or retirement status. Value enum: "active",
+             * "inactive", "archived". anyOf[2] (Value): null.
+             */
+            "status"?: (("active" | "inactive" | "archived" | (string & {})) | (null));
+            /**
+             * Tax settings for shop checkouts. Omitted when the shop has no override. anyOf[1]
+             * (Value): {@link SubscriptionTaxPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tax"?: ((SubscriptionTaxPreviousAttributes) | (null));
+            /**
+             * Tipping options for the shop. Omitted when the shop has no override. anyOf[1]
+             * (Value): {@link CheckoutTipConfigPreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
+            /**
+             * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             */
+            "updated_at"?: ((string) | (null));
+            /**
+             * The hosted shop address. Live shops use the merchant's healthy custom checkout
+             * hostname when available. anyOf[1] (Value): string. The hosted shop address. Live
+             * shops use the merchant's healthy custom checkout hostname when available. anyOf[2]
+             * (Value): null.
+             */
+            "url"?: ((string) | (null));
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. anyOf[1] (Value): integer. Persisted version
+             * of this resource's owned state. Expanded resources and external observations can
+             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+             */
+            "version"?: ((number) | (null));
+        });
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "shop.archived". */
+    "event_type"?: "shop.archived";
+});
+export type ShopCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_fields"?: CheckoutBuyerFields;
+            "checkout_session_expires_in_seconds": number | null;
+            "created_at": string;
+            "currency": string | null;
+            "custom_text"?: CheckoutCustomTextConfig;
+            "delivery_method_ids": Array<string>;
+            "description": string | null;
+            "external_reference_id": string | null;
+            "handle": string | null;
+            "image": ((ImageAttachment) | (null));
+            "inactive_message": string | null;
+            "inventory_routing_source": ((InventoryRoutingSource) | (null));
+            "legal"?: LegalSettings;
+            "listing_count": number;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "payments"?: CheckoutPaymentConfig;
+            "promotion_config"?: CheckoutPromotionConfig;
+            "redirects": CheckoutRedirects;
+            "shop_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "tax"?: CheckoutTaxConfig;
+            "tip"?: CheckoutTipConfig;
+            "updated_at": string;
+            "url": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "shop.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_fields"?: CheckoutBuyerFields;
+            "checkout_session_expires_in_seconds": number | null;
+            "created_at": string;
+            "currency": string | null;
+            "custom_text"?: CheckoutCustomTextConfig;
+            "delivery_method_ids": Array<string>;
+            "description": string | null;
+            "external_reference_id": string | null;
+            "handle": string | null;
+            "image": ((ImageAttachment) | (null));
+            "inactive_message": string | null;
+            "inventory_routing_source": ((InventoryRoutingSource) | (null));
+            "legal"?: LegalSettings;
+            "listing_count": number;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "payments"?: CheckoutPaymentConfig;
+            "promotion_config"?: CheckoutPromotionConfig;
+            "redirects": CheckoutRedirects;
+            "shop_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "tax"?: CheckoutTaxConfig;
+            "tip"?: CheckoutTipConfig;
+            "updated_at": string;
+            "url": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "shop.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "shop.created";
+});

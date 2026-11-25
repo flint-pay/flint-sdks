@@ -12,34 +12,28 @@ import type {
     BuyerOrderPaymentAttempt
 } from './types-3.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
-import type { ReturnReplacementLineItem, ReturnResolutionLineItem, ReturnRefundTenderEstimate } from './types-65.js';
-import type { ResponseMeta } from './types-62.js';
-import type { ReturnHandoffRequirementLineItem } from './types-63.js';
+import type { ReturnReplacementLineItem, ReturnRefundTenderEstimate } from './types-65.js';
+import type { ReturnResolutionLineItem } from './types-66.js';
+import type { ResponseMeta, ReturnHandoffRequirementLineItem } from './types-63.js';
 import type { BuyerAction } from './types-1.js';
 import type { BuyerExpandedSubscriptionPlanSummary } from './types-2.js';
-import type { SubscriptionDelivery } from './types-69.js';
-import type {
-    SubscriptionDeliveryHold,
-    SubscriptionEndAfter,
-    SubscriptionGiftRecipient,
-    SubscriptionIntervalOption
-} from './types-70.js';
-import type { SubscriptionPausedDeliveryHold, SubscriptionPlanChangePreview } from './types-71.js';
+import type { SubscriptionDelivery, SubscriptionDeliveryHold } from './types-70.js';
+import type { SubscriptionEndAfter, SubscriptionGiftRecipient, SubscriptionIntervalOption } from './types-71.js';
+import type { SubscriptionPausedDeliveryHold, SubscriptionPlanSwapVariant, SubscriptionPlanChangePreview } from './types-72.js';
 import type {
     SubscriptionPromotion,
-    SubscriptionPlanSwapVariant,
+    SubscriptionUpcomingDeliveryHold,
     SubscriptionPreview,
     SubscriptionQuantityChangePreview,
     SubscriptionRenewalPreview
-} from './types-72.js';
-import type { SubscriptionUpcomingDeliveryHold } from './types-73.js';
+} from './types-73.js';
 import type { CategoryReference } from './types-5.js';
 import type { Image } from './types-31.js';
 import type { SelectedProductOption } from './types-68.js';
 import type { PaymentErrorSummary } from './types-51.js';
 import type { OrderLineItemTax } from './types-47.js';
 import type { Address } from './types-0.js';
-import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-75.js';
+import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-76.js';
 import type { ContextSummary } from './types-8.js';
 import type { DeliveryWindowRequest, DeliveryWindowRequestInput } from './types-24.js';
 /** The `variant` variant of `BuyerReturnReplacementLineItemInput`. */

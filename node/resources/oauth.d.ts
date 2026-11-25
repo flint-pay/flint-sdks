@@ -13,7 +13,7 @@ import type {
 } from '../declarations/types-44.js';
 import type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-50.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -47,8 +47,8 @@ export type {
     NextAction,
     OAuthRevokeRequestInput
 } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type {
     CLIDeviceResponse,
     CLIContextsResponse,
@@ -56,23 +56,27 @@ export type {
     CLIContextsRequestInput,
     CLIReauthorizeRequestInput
 } from '../declarations/types-4.js';
-export type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse, PartnerAppPlatformContact } from '../declarations/types-50.js';
+export type {
+    PartnerAuthorizePreview,
+    PartnerAuthorizePreviewResponse,
+    PartnerAppPlatformContact,
+    PartnerAppPermissionManifestEntry
+} from '../declarations/types-50.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
 export type { ContextSummary } from '../declarations/types-8.js';
-export type { PartnerAppPaymentSplits, PartnerAppPermissionManifestEntry } from '../declarations/types-49.js';
+export type { PartnerAppPaymentSplits } from '../declarations/types-49.js';
 export type { PlatformFeeCap } from '../declarations/types-56.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeCLIContextsRequest, makeCLIDeviceRequest, makeCLIReauthorizeRequest } from '../declarations/types-80.js';
+export { makeCLIContextsRequest, makeCLIDeviceRequest, makeCLIReauthorizeRequest } from '../declarations/types-81.js';
 export {
     makeMoneyValue,
     makeOAuthRevokeRequest,
     makeOAuthTokenRequest,
     makeOAuthTokenRequestAuthorizationCode,
-    makeOAuthTokenRequestClientCredentials
-} from '../declarations/types-88.js';
-export {
+    makeOAuthTokenRequestClientCredentials,
     makeOAuthTokenRequestDeviceCode,
     makeOAuthTokenRequestRefreshToken,
     makeOAuthTokenRequestTokenExchange

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# LookupGiftCardRequestInput to MoneyMovementHistoryMetaInput
+# LookupEmailPreferencesRequestInput to MoneyMovementBlockedReasonPreviousAttributesInput
 
+- [LookupEmailPreferencesRequestInput](LookupEmailPreferencesRequestInput.md)
 - [LookupGiftCardRequestInput](LookupGiftCardRequestInput.md)
 - [LookupLicenseKeyRequestInput](LookupLicenseKeyRequestInput.md)
 - [LookupTicketRequestInput](LookupTicketRequestInput.md)
@@ -101,5 +102,4 @@
 - [ModifierSetUpdatedMerchantEventInput](ModifierSetUpdatedMerchantEventInput.md)
 - [MoneyMovementBlockedReasonInput](MoneyMovementBlockedReasonInput.md)
 - [MoneyMovementBlockedReasonPreviousAttributesInput](MoneyMovementBlockedReasonPreviousAttributesInput.md)
-- [MoneyMovementHistoryMetaInput](MoneyMovementHistoryMetaInput.md)
 

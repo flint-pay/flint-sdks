@@ -67,6 +67,7 @@ Resource, collection, or operation result returned by this request. A customer's
 | `payment_method` | Optional | [ExpandedPaymentMethodSummary](../models/ExpandedPaymentMethodSummary.md#expandedpaymentmethodsummary) or null | Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. `payment_method`: [declared alternatives](../models/SubscriptionResponse.md#subscriptionresponsedatapayment_method). |
 | `payment_method_due_at` | Required | string or null | First charge boundary while no card is bound: the later of trial_end_at and next_billing_at during a trial, or the next billing date for an imported period, even when that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a card at its boundary cancels without an order or payment attempt. At that boundary, an imported subscription with a positive charge that still has no card enters its normal dunning schedule without a payment attempt. For an imported subscription, a zero charge completes the renewal without a card and the deadline advances to the following boundary. Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel at period end), an active or trialing subscription is in its final end_after cycle, or an external schedule has no known boundary. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `payment_method_id` | Required | string or null | Saved payment method used for renewal charges. Null when no card is bound. Bind a card to this subscription with PATCH; changing the customer's default alone does not bind it. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
+| `platform_fee_rule` | Optional | [PlatformFeeRule](../models/PlatformFeeRule.md#platformfeerule) | The active platform fee rule for the subscription. The rule that sets the platform fee for each payment. `platform_fee_rule`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedataplatform_fee_rule). |
 | `promotions` | Required | Array of [SubscriptionPromotion](../models/SubscriptionPromotion.md#subscriptionpromotion) | Recurring promotions applying to the next charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are excluded. `promotions[]`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatapromotions). |
 | `prorate_first_period` | Required | boolean | Whether this subscription was created to prorate its first anchored paid period. Set at creation and never changes; starting on the anchor day still bills a normal full period. |
 | `recurring_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | What one billing period's items cost before discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes when items, quantity, or the plan change; editing the plan doesn't change it. For the next charge, use a subscription preview in next_renewal mode. `null` when a cancellation succeeds but Flint couldn't load the billing snapshot afterward, so the cancel response returns it as null. Retrieve the subscription again to get it. |
@@ -310,6 +311,29 @@ anyOf variant 2.
 
 - Undeclared: `card`, `created_at`, `customer_id`, `payment_method_id`, `status`, `type`, `updated_at`.
 - Value shape: null. Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. 
+
+### SubscriptionResponse.data.platform_fee_rule
+
+The active platform fee rule for the subscription. The rule that sets the platform fee for each payment.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `fixed_fee_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The fixed amount per payment. Monetary amount represented as integer minor units plus an ISO 4217 currency code. The fixed amount per payment. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `fixed_fee_money`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedataplatform_fee_rulefixed_fee_money). |
+| `maximum_fee_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The maximum fee per payment, at least the fixed amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code. The maximum fee per payment, at least the fixed amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `maximum_fee_money`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedataplatform_fee_rulemaximum_fee_money). |
+| `partner_app_id` | Required | string | The partner app whose install set the rule. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
+| `percent` | Required | number | Percent of the amount collected. Zero requires fixed_fee_money. minimum: `0`. maximum: `25`. multipleOf: `0.0001`. |
+
+### SubscriptionResponse.data.platform_fee_rule.fixed_fee_money
+
+The fixed amount per payment. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](PlatformFeeRuleMaximumFeeMoney.md#platformfeerulemaximumfeemoney).
+
+### SubscriptionResponse.data.platform_fee_rule.maximum_fee_money
+
+The maximum fee per payment, at least the fixed amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](PlatformFeeRuleMaximumFeeMoney.md#platformfeerulemaximumfeemoney).
 
 ### SubscriptionResponse.data.promotions[]
 

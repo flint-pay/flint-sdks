@@ -1,1 +1,1 @@
-{"shared":"UpdatePriceListPriceRequest","dependencies":["MoneyValue","QuantityPriceBreakRequest","SharedCodec3175","UpdatePriceListPriceRequest"]}
+{"shared":"UpdatePriceListPriceRequest","dependencies":["MoneyValue","QuantityPriceBreakRequest","SharedCodec3223","UpdatePriceListPriceRequest"]}

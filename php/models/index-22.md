@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PartnerAppCredentialInput to PaymentIntentExpiredInstalledMerchantsEventInput
+# PartnerAppAuthContextInput to PaymentIntentCreatedMerchantEventInput
 
+- [PartnerAppAuthContextInput](PartnerAppAuthContextInput.md)
 - [PartnerAppCredentialInput](PartnerAppCredentialInput.md)
 - [PartnerAppCredentialJWKSURLInput](PartnerAppCredentialJWKSURLInput.md)
 - [PartnerAppCredentialJWKSURLRequestInput](PartnerAppCredentialJWKSURLRequestInput.md)
@@ -101,5 +102,4 @@
 - [PaymentIntentCanceledMerchantEventInput](PaymentIntentCanceledMerchantEventInput.md)
 - [PaymentIntentCreatedInstalledMerchantsEventInput](PaymentIntentCreatedInstalledMerchantsEventInput.md)
 - [PaymentIntentCreatedMerchantEventInput](PaymentIntentCreatedMerchantEventInput.md)
-- [PaymentIntentExpiredInstalledMerchantsEventInput](PaymentIntentExpiredInstalledMerchantsEventInput.md)
 

@@ -15,7 +15,7 @@
 
 ### TextModifierRequest variant 1
 
-anyOf variant 1: Declared schema ResolvePaymentLinkTextModifierRequest. The text a buyer entered for a text modifier group on a payment link line item..
+anyOf variant 1: Declared schema PublicCatalogTextModifierRequest. The text a buyer entered for a text modifier group..
 
 - Constraints for `modifier_group_id`: ID of the text modifier group the buyer answered.
 - Constraints for `value`: The text the buyer entered.

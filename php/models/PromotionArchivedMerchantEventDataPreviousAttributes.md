@@ -253,7 +253,7 @@ Rule comparison value. Use a primitive string, number, boolean, or a money objec
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount` | Conditional | integer string or null | Amount in the currency's minor unit, such as cents for USD. `amount`: [declared alternatives](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributesamount). |
-| `currency` | Conditional | string or null | Three-letter uppercase ISO 4217 currency code for this amount, such as USD. `currency`: [declared alternatives](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributescurrency). |
+| `currency` | Conditional | string or null | Three-letter uppercase ISO 4217 currency code for this amount, such as USD. `currency`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money-variant-1currency). |
 
 ### PromotionArchivedMerchantEventDataPreviousAttributes.application_method variant 1.discounted_item_rules variant 1.all variant 1.[] fields 1 variant 1.values variant 1.[] fields 1 variant 1
 
@@ -288,7 +288,7 @@ Declared alternatives: [MoneyValuePreviousAttributes.amount](../models/MoneyValu
 
 ### PromotionArchivedMerchantEventDataPreviousAttributes.application_method variant 1.discounted_item_rules variant 1.all variant 1.[] fields 1 variant 1.values variant 1.[] fields 1 variant 4.currency
 
-Declared alternatives: [MoneyValuePreviousAttributes.currency](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributescurrency).
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 1.currency](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money-variant-1currency).
 
 ### PromotionArchivedMerchantEventDataPreviousAttributes.application_method variant 1.discounted_item_rules variant 1.all variant 1.[] fields 1 variant 2.all
 

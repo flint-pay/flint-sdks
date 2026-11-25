@@ -1,16 +1,12 @@
-import type { ResponseMeta } from './types-62.js';
-import type {
-    DeliveryRateCallbackConfiguration,
-    DeliveryRateCallbackConfigurationPreviousAttributes,
-    DeliveryRateCallback
-} from './types-22.js';
+import type { ResponseMeta } from './types-63.js';
+import type { DeliveryRateCallbackConfiguration, DeliveryRateCallback } from './types-22.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { InputValue } from '../runtime.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { CreateDeliveryRateCallbackRequestInput } from './types-9.js';
 import type { DeliveryLocationSetsDeleteParams } from './types-19.js';
-import type { UpdateDeliveryRateCallbackRequestInput } from './types-76.js';
+import type { UpdateDeliveryRateCallbackRequestInput } from './types-77.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type {
     DeliveryPricingRate,
@@ -20,12 +16,84 @@ import type {
     DeliveryPricingRateRequest,
     DeliveryPricingRateRequestInput
 } from './types-21.js';
-import type {
-    DeliveryRevocationTargetDeliveryMethodRevision,
-    DeliveryRevocationTargetDeliveryRateCallbackRevision,
-    DeliveryRevocationTargetDeliveryRateCallbackSigningKey,
-    DeliveryRevocationTargetLocationGeography
-} from './types-24.js';
+import type { DeliveryRevocationTarget } from './types-24.js';
+export type DeliveryRateCallbackConfigurationPreviousAttributes = {
+    /**
+     * Maximum callback request body size in bytes. Defaults to 262144; accepts 1 through 1048576.
+     * anyOf[1] (Value): integer. Maximum callback request body size in bytes. Defaults to 262144;
+     * accepts 1 through 1048576. Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
+     * anyOf[2] (Value): null.
+     */
+    "maximum_request_bytes"?: ((number) | (null));
+    /**
+     * Maximum callback response body size in bytes. Defaults to 262144; accepts 1 through 1048576.
+     * anyOf[1] (Value): integer. Maximum callback response body size in bytes. Defaults to 262144;
+     * accepts 1 through 1048576. Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
+     * anyOf[2] (Value): null.
+     */
+    "maximum_response_bytes"?: ((number) | (null));
+    /**
+     * Whether delivery previews call this callback. Previews call it only when this setting and
+     * `preview_enabled` on the delivery method are both `true`. Defaults to `false`. anyOf[1]
+     * (Value): boolean. Whether delivery previews call this callback. Previews call it only when
+     * this setting and `preview_enabled` on the delivery method are both `true`. Defaults to
+     * `false`. Default: false. anyOf[2] (Value): null.
+     */
+    "preview_enabled"?: ((boolean) | (null));
+    /**
+     * What Flint does when the callback responds with an HTTP redirect. Defaults to `reject`.
+     * Value enum: "reject". anyOf[1] (Value): string. What Flint does when the callback responds
+     * with an HTTP redirect. Defaults to `reject`. Default: "reject". Value enum: "reject".
+     * anyOf[2] (Value): null.
+     */
+    "redirect_policy"?: (("reject" | (string & {})) | (null));
+    /**
+     * Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1
+     * through 10. anyOf[1] (Value): number. Maximum time to wait for the callback response, in
+     * seconds. Defaults to 2; accepts 0.1 through 10. minimum: 0.1. maximum: 10. Default: 2.
+     * anyOf[2] (Value): null.
+     */
+    "request_timeout_seconds"?: ((number) | (null));
+    /**
+     * HTTPS URL that Flint calls to get a delivery rate. anyOf[1] (Value): string. HTTPS URL that
+     * Flint calls to get a delivery rate. minLength: 1. anyOf[2] (Value): null.
+     */
+    "url"?: ((string) | (null));
+};
+/**
+ * Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request
+ * and response size limits, redirect policy, and whether previews can use it.
+ */
+export type DeliveryRateCallbackConfigurationRequestInput = {
+    /**
+     * Maximum callback request body size in bytes. Defaults to 262144; accepts 1 through 1048576.
+     * Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
+     */
+    "maximum_request_bytes"?: number;
+    /**
+     * Maximum callback response body size in bytes. Defaults to 262144; accepts 1 through 1048576.
+     * Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
+     */
+    "maximum_response_bytes"?: number;
+    /**
+     * Whether delivery previews call this callback. Previews call it only when this setting and
+     * `preview_enabled` on the delivery method are both `true`. Defaults to `false`. Default:
+     * false.
+     */
+    "preview_enabled"?: boolean;
+    /**
+     * What Flint does when the callback responds with an HTTP redirect. Defaults to `reject`.
+     * Default: "reject". Value enum: "reject".
+     */
+    "redirect_policy"?: "reject";
+    /**
+     * Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1
+     * through 10. minimum: 0.1. maximum: 10. Default: 2.
+     */
+    "request_timeout_seconds"?: number;
+    /** HTTPS URL that Flint calls to get a delivery rate. minLength: 1. */
+    "url": string;
+};
 /**
  * Result of checking the connection to a delivery rate callback endpoint, with its status,
  * latency, HTTP status code, and failure category if it failed.
@@ -4409,76 +4477,3 @@ export type DeliveryRevocationListResponse = {
      */
     "request_id": string;
 };
-/** A response containing `DeliveryRevocation` data. */
-export type DeliveryRevocationResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A permanent fence on an
-     * exact delivery method revision, rate callback revision, callback signing key, or Location
-     * geography version. Quotes that depend on it are revoked, and selections that depend on it
-     * stop being current.
-     */
-    "data": DeliveryRevocation;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The parent and exact child identity permanently fenced by this revocation. */
-export type DeliveryRevocationTarget = ({
-    /**
-     * ID of the delivery method that owns the targeted revision. Example:
-     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "delivery_method_id"?: string;
-    /**
-     * ID of the immutable revision to fence. It must belong to delivery_method_id. Example:
-     * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
-     */
-    "delivery_method_revision_id"?: string;
-    /**
-     * ID of the delivery rate callback that owns the targeted revision or signing key. Example:
-     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
-     */
-    "delivery_rate_callback_id"?: string;
-    /**
-     * ID of the immutable revision to fence. It must belong to delivery_rate_callback_id. Example:
-     * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
-     */
-    "delivery_rate_callback_revision_id"?: string;
-    /**
-     * ID of the HMAC signing key to fence. It must be the named callback's current or previous
-     * key; secret material is never returned. Example: "cbkey_00112233445566778899aabb".
-     */
-    "delivery_rate_callback_signing_key_id"?: string;
-    /**
-     * Exact recorded geography version of location_id to fence. Future and unrecorded versions are
-     * not accepted. Format: int64. minimum: 1.
-     */
-    "location_geography_version"?: number;
-    /**
-     * ID of the Location that recorded the targeted geography version. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * The kind of exact dependency this revocation fences. Value enum: "location_geography",
-     * "delivery_rate_callback_signing_key", "delivery_rate_callback_revision",
-     * "delivery_method_revision".
-     */
-    "target_type": "location_geography"
-        | "delivery_rate_callback_signing_key"
-        | "delivery_rate_callback_revision"
-        | "delivery_method_revision"
-        | (string & {});
-})
-    & ((Exclude<DeliveryRevocationTargetLocationGeography & object, readonly unknown[]>)
-    | (Exclude<DeliveryRevocationTargetDeliveryRateCallbackSigningKey & object, readonly unknown[]>)
-    | (Exclude<DeliveryRevocationTargetDeliveryRateCallbackRevision & object, readonly unknown[]>)
-    | (Exclude<DeliveryRevocationTargetDeliveryMethodRevision & object, readonly unknown[]>)
-    | (Record<string, unknown>));

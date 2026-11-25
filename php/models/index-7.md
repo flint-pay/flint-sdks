@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# CreateReturnPreviewDataEligibilityInput to CustomerAccessLinkReturnedInput
+# CreateReturnPreviewDataEligibilityInput to CustomerAccessLinkResponseInput
 
 - [CreateReturnPreviewDataEligibilityInput](CreateReturnPreviewDataEligibilityInput.md)
 - [CreateReturnPreviewDataResolutionInput](CreateReturnPreviewDataResolutionInput.md)
@@ -31,6 +31,7 @@
 - [CreateShipmentRequestInput](CreateShipmentRequestInput.md)
 - [CreateShipmentRequestOutboundInput](CreateShipmentRequestOutboundInput.md)
 - [CreateShipmentRequestReturnInput](CreateShipmentRequestReturnInput.md)
+- [CreateShopRequestInput](CreateShopRequestInput.md)
 - [CreateSmartReaderRequestInput](CreateSmartReaderRequestInput.md)
 - [CreateSubscriptionAccessLinkRequestInput](CreateSubscriptionAccessLinkRequestInput.md)
 - [CreateSubscriptionDeliveryMigrationRequestInput](CreateSubscriptionDeliveryMigrationRequestInput.md)
@@ -101,5 +102,4 @@
 - [CustomerAccessLinkInput](CustomerAccessLinkInput.md)
 - [CustomerAccessLinkEmailedInput](CustomerAccessLinkEmailedInput.md)
 - [CustomerAccessLinkResponseInput](CustomerAccessLinkResponseInput.md)
-- [CustomerAccessLinkReturnedInput](CustomerAccessLinkReturnedInput.md)
 

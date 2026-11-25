@@ -256,7 +256,7 @@ final class WebhookPaymentIntentInput extends Model {
      */
     public function getOvercapture(): mixed { return $this->get('overcapture'); }
     public function hasOvercapture(): bool { return $this->has('overcapture'); }
-    /** How the payment was started. Fixed when the payment intent is created. Value enum: "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+    /** How the payment was started. Fixed when the payment intent is created. Value enum: "checkout", "payment_link", "shop", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
      * @return string
      * @throws SdkError When payment_flow is omitted; use hasPaymentFlow() or valueOrDefault().
      */

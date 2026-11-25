@@ -1,17 +1,15 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { SubscriptionPlan } from '../declarations/types-71.js';
+import type { SubscriptionPlan, SubscriptionPlanListResponse, SubscriptionPlanResponse } from '../declarations/types-72.js';
 import type {
-    SubscriptionPlanListResponse,
-    SubscriptionPlanResponse,
     SubscriptionPlansCreateParams,
     SubscriptionPlansDeleteParams,
     SubscriptionPlansGetParams,
     SubscriptionPlansListParams,
     SubscriptionPlansUpdateParams
-} from '../declarations/types-72.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+} from '../declarations/types-73.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,38 +26,37 @@ export type {
 } from '../runtime.js';
 export type {
     SubscriptionPlansCreateParams,
-    SubscriptionPlanResponse,
     SubscriptionPlansDeleteParams,
     SubscriptionPlansGetParams,
     SubscriptionPlansListParams,
-    SubscriptionPlanListResponse,
-    SubscriptionPlansUpdateParams,
-    SubscriptionPlanLineItemRequestInput,
-    SubscriptionPlanSwapVariant,
-    SubscriptionPlanLineItemVariant
-} from '../declarations/types-72.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+    SubscriptionPlansUpdateParams
+} from '../declarations/types-73.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type {
     SubscriptionPlan,
+    SubscriptionPlanResponse,
+    SubscriptionPlanListResponse,
+    SubscriptionPlanLineItemRequestInput,
     SubscriptionPlanLineItemInputVariantInput,
     SubscriptionPlanLineItemInputBundleInput,
     SubscriptionPlanLineItemInputCustomInput,
     SubscriptionPlanChangeOptionRequestInput,
     SubscriptionPlanLineItem,
+    SubscriptionPlanSwapVariant,
+    SubscriptionPlanLineItemVariant,
     SubscriptionPlanLineItemBundle,
     SubscriptionPlanLineItemCustom,
     SubscriptionPlanChangeOption
-} from '../declarations/types-71.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+} from '../declarations/types-72.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateSubscriptionPlanRequestInput } from '../declarations/types-14.js';
 export type {
     SubscriptionIntervalOptionRequestInput,
     SubscriptionEndAfterCyclesRequestInput,
     SubscriptionIntervalOption,
-    SubscriptionDeliveryMethodCounts,
     SubscriptionEndAfterCycles
-} from '../declarations/types-70.js';
+} from '../declarations/types-71.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment, Image } from '../declarations/types-31.js';
 export type { InventoryRoutingSourceRequestInput } from '../declarations/types-34.js';
@@ -79,9 +76,10 @@ export type {
 } from '../declarations/types-46.js';
 export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
-export type { SubscriptionCounts } from '../declarations/types-69.js';
+export type { SubscriptionDeliveryMethodCounts, SubscriptionCounts } from '../declarations/types-70.js';
 export type { SelectedProductOption } from '../declarations/types-68.js';
 export type { CategoryReference } from '../declarations/types-5.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type {
     UpdateSubscriptionPlanRequestInput,
@@ -89,9 +87,9 @@ export type {
     UpdateSubscriptionPlanLineItemInputVariantInput,
     UpdateSubscriptionPlanLineItemInputBundleInput,
     UpdateSubscriptionPlanLineItemInputCustomInput
-} from '../declarations/types-78.js';
+} from '../declarations/types-79.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateSubscriptionPlanRequest } from '../declarations/types-84.js';
+export { makeCreateSubscriptionPlanRequest } from '../declarations/types-85.js';
 export {
     makeImageInputFile,
     makeImageInputSourceURL,
@@ -100,14 +98,14 @@ export {
     makeInventoryRoutingSourceInputPolicy,
     makeInventoryRoutingSourceInputPolicyRevision,
     makeInventoryRoutingSourceRequest
-} from '../declarations/types-87.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
+} from '../declarations/types-88.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-89.js';
 export {
     makeOrderLineItemModifierInputCatalogRequest,
     makeOrderLineItemModifierInputTextRequest,
     makeOrderLineItemModifierRequestModel,
     makeOrderLineItemTaxRequest
-} from '../declarations/types-89.js';
+} from '../declarations/types-90.js';
 export {
     makeSubscriptionEndAfterCyclesRequest,
     makeSubscriptionIntervalOptionRequest,
@@ -117,14 +115,14 @@ export {
     makeSubscriptionPlanLineItemInputVariant,
     makeSubscriptionPlanLineItemRequest,
     makeTextModifierRequest
-} from '../declarations/types-93.js';
+} from '../declarations/types-94.js';
 export {
     makeUpdateSubscriptionPlanLineItemInputBundle,
     makeUpdateSubscriptionPlanLineItemInputCustom,
     makeUpdateSubscriptionPlanLineItemInputVariant,
     makeUpdateSubscriptionPlanLineItemRequest,
     makeUpdateSubscriptionPlanRequest
-} from '../declarations/types-94.js';
+} from '../declarations/types-96.js';
 export interface SubscriptionPlansResource {
     /**
  * Creates a subscription plan: the recurring price and terms customers sign up to. Send `name`,

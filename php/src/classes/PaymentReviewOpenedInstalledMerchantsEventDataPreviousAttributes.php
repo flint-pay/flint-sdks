@@ -92,7 +92,7 @@ final class PaymentReviewOpenedInstalledMerchantsEventDataPreviousAttributes ext
      */
     public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** How the reviewed payment was started. Value enum: "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api". anyOf[1] (Value): string. How the reviewed payment was started. Value enum: "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): null.
+    /** How the reviewed payment was started. Value enum: "checkout", "payment_link", "shop", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api". anyOf[1] (Value): string. How the reviewed payment was started. Value enum: "checkout", "payment_link", "shop", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getPaymentFlow(): string|null { return $this->get('payment_flow'); }

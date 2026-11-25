@@ -1,8 +1,9 @@
-import type { GiftCardFundingDisposition, GiftCard } from './types-28.js';
-import type { ResponseMeta } from './types-62.js';
+import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+import type { ResponseMeta } from './types-63.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateGiftCardFundingDispositionRequestInput, CreateGiftCardLoadRequestInput } from './types-10.js';
 import type { DisputesAcceptParams } from './types-26.js';
+import type { GiftCard } from './types-28.js';
 import type {
     GiftCardPurchaseRefundAllocation,
     GiftCardPurchaseRefundValueHold,
@@ -13,9 +14,92 @@ import type {
     GiftCardPurchaseRestorationPreviousAttributes,
     GiftCardRefundProvenancePreviousAttributes
 } from './types-30.js';
-import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
+/** A merchant decision to honor gift card value after its funding payment lost a dispute. */
+export type GiftCardFundingDisposition = {
+    /** When the disposition was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * How Flint handles the lost funding. honor_value keeps the affected cards' unspent value
+     * spendable and removes the freeze this dispute placed on them. Value enum: "honor_value".
+     */
+    "disposition": "honor_value" | (string & {});
+    /**
+     * The whole disputed payment amount, which can include consideration for other purchases. It
+     * is separate from the original gift card consideration and honored face value. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "dispute_amount_money": MoneyValue;
+    /** The lost dispute this disposition resolves. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". */
+    "dispute_id": string;
+    /** Stable identifier of the disposition. Example: "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8". */
+    "gift_card_funding_disposition_id": string;
+    /**
+     * Gift cards whose value this disposition honors, including replacement cards that received
+     * value from the disputed funding. [] (Value): string. Example:
+     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
+     */
+    "gift_card_ids": Array<string>;
+    /**
+     * Unspent value that stays spendable under this disposition, summed across the affected cards,
+     * including replacement cards that received value from the disputed funding. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "honored_value_money": MoneyValue;
+    /**
+     * The Idempotency-Key of the request that created this resource. `null` when that request sent
+     * no key, Flint created the resource, the reader isn't the caller that created it (another app
+     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
+     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
+     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
+     * find a key that a replay returns as `null`, read the resource.
+     */
+    "idempotency_key": string | null;
+    /**
+     * What the buyer paid for the gift card value the disputed payment funded, summed across its
+     * funding loads. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "original_gift_card_consideration_money": MoneyValue;
+    /**
+     * The disputed payment that funded the gift card value. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+    /**
+     * Part of honored_value_money that pending redemptions held when the disposition was created.
+     * It stays reserved for them. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "preserved_reserved_value_money": MoneyValue;
+    /** Your reason for honoring the value, from the create request. */
+    "reason_message": string;
+};
+/** A page of `GiftCardFundingDisposition` objects. */
+export type GiftCardFundingDispositionListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * GiftCardFundingDisposition}. A merchant decision to honor gift card value after its funding
+     * payment lost a dispute.
+     */
+    "data": Array<GiftCardFundingDisposition>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /** A response containing `GiftCardFundingDisposition` data. */
 export type GiftCardFundingDispositionResponse = {
     /**
@@ -4571,107 +4655,3 @@ export type GiftCardNotificationRecipientPreviousAttributes = {
      */
     "send_at"?: ((string) | (null));
 };
-/** A response containing `GiftCardNotification` data. */
-export type GiftCardNotificationResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A message sent to a gift
-     * card recipient.
-     */
-    "data": GiftCardNotification;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type GiftCardNotificationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "delivery"?: GiftCardNotificationDelivery;
-            "gift_card_id": string;
-            "gift_card_notification_id": string;
-            "recipient": GiftCardNotificationRecipient;
-            "resend_of_notification_id"?: string;
-            "sent_at"?: string;
-            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
-            "status_reason": "credential_rotated" | null | (string & {}) | null;
-            "supported_actions": Array<"cancel" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "created_at"?: ((string) | (null));
-            "delivery"?: ((GiftCardNotificationDeliveryPreviousAttributes) | (null));
-            "gift_card_id"?: ((string) | (null));
-            "gift_card_notification_id"?: ((string) | (null));
-            "recipient"?: ((GiftCardNotificationRecipientPreviousAttributes) | (null));
-            "resend_of_notification_id"?: ((string) | (null));
-            "sent_at"?: ((string) | (null));
-            "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
-            "status_reason"?: (("credential_rotated" | null | (string & {})) | (null));
-            "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "gift_card_notification.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at": string;
-            "delivery"?: GiftCardNotificationDelivery;
-            "gift_card_id": string;
-            "gift_card_notification_id": string;
-            "recipient": GiftCardNotificationRecipient;
-            "resend_of_notification_id"?: string;
-            "sent_at"?: string;
-            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
-            "status_reason": "credential_rotated" | null | (string & {}) | null;
-            "supported_actions": Array<"cancel" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "created_at"?: ((string) | (null));
-            "delivery"?: ((GiftCardNotificationDeliveryPreviousAttributes) | (null));
-            "gift_card_id"?: ((string) | (null));
-            "gift_card_notification_id"?: ((string) | (null));
-            "recipient"?: ((GiftCardNotificationRecipientPreviousAttributes) | (null));
-            "resend_of_notification_id"?: ((string) | (null));
-            "sent_at"?: ((string) | (null));
-            "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
-            "status_reason"?: (("credential_rotated" | null | (string & {})) | (null));
-            "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "gift_card_notification.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "gift_card_notification.updated";
-});

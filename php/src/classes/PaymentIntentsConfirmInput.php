@@ -5,10 +5,10 @@ namespace Flint;
  * @internal
  *
  * @property-read string $payment_intent_id
- * @property-read array{'buyer_ip_address'?: string, 'client_action_type'?: string, 'expected_version'?: int, 'payment_return_url'?: string, 'payment_source'?: mixed, 'save_payment_method'?: bool}|object $body
+ * @property-read array{'buyer_ip_address'?: string, 'client_action_type'?: string, 'expected_version'?: int, 'payment_return_url'?: string, 'payment_source'?: mixed, 'save_payment_method'?: bool, 'save_payment_method_consent_text'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsConfirmInput extends Model {
-    /** @param array{'payment_intent_id': string, 'Flint-Buyer-Device'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body'?: array{'buyer_ip_address'?: string, 'client_action_type'?: string, 'expected_version'?: int, 'payment_return_url'?: string, 'payment_source'?: mixed, 'save_payment_method'?: bool}|object}|object $values */
+    /** @param array{'payment_intent_id': string, 'Flint-Buyer-Device'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body'?: array{'buyer_ip_address'?: string, 'client_action_type'?: string, 'expected_version'?: int, 'payment_return_url'?: string, 'payment_source'?: mixed, 'save_payment_method'?: bool, 'save_payment_method_consent_text'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsConfirmInput')); }
     /** Flint payment intent ID. Must be a valid ID with prefix pi_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
@@ -41,7 +41,7 @@ final class PaymentIntentsConfirmInput extends Model {
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Confirm payment intent.
-     * @return array{'buyer_ip_address'?: string, 'client_action_type'?: string, 'expected_version'?: int, 'payment_return_url'?: string, 'payment_source'?: mixed, 'save_payment_method'?: bool}|object
+     * @return array{'buyer_ip_address'?: string, 'client_action_type'?: string, 'expected_version'?: int, 'payment_return_url'?: string, 'payment_source'?: mixed, 'save_payment_method'?: bool, 'save_payment_method_consent_text'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

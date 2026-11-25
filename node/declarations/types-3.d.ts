@@ -7,7 +7,13 @@ import type {
     BuyerExpandedOrderSummary,
     BuyerExpandedOrderSummaryPreviousAttributes
 } from './types-2.js';
-import type { ResponseMeta } from './types-62.js';
+import type {
+    ResponseMeta,
+    ReturnHandoffRequirementLineItem,
+    ReturnFinancialSummary,
+    ReturnEligibilitySelection,
+    ReturnExchangeVariant
+} from './types-63.js';
 import type { BuyerAction, BundleComponent } from './types-1.js';
 import type { BuyerSetupCollection, BuyerTip, BuyerSelectableOrderPaymentIntent, BuyerReturnResolutionPreview } from './types-4.js';
 import type { CheckoutBuyerContact } from './types-6.js';
@@ -35,7 +41,7 @@ import type {
     OrderPaymentAttemptPaymentMethodSave
 } from './types-47.js';
 import type { PricingAmounts } from './types-56.js';
-import type { TicketedEvent, TextModifierRequest } from './types-75.js';
+import type { TicketedEvent } from './types-76.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { CategoryReference, CardDetails } from './types-5.js';
 import type { Dimensions } from './types-25.js';
@@ -43,37 +49,28 @@ import type { GiftCardPurchaseSnapshot } from './types-30.js';
 import type { Image } from './types-31.js';
 import type { LineItemInventorySnapshot } from './types-40.js';
 import type { PurchasedGiftCard } from './types-59.js';
-import type { SelectedProductOption, StripeClientSetup } from './types-68.js';
-import type { SubscribedLine } from './types-69.js';
-import type { Weight } from './types-80.js';
+import type { SelectedProductOption } from './types-68.js';
+import type { SubscribedLine, StripeClientSetup } from './types-69.js';
+import type { Weight } from './types-81.js';
+import type { TextModifierRequest, TaxReverseCharge } from './types-75.js';
 import type { PaymentAttemptGiftCardRedemption, PaymentErrorSummary, PaymentFulfillmentHold } from './types-51.js';
 import type { PendingPaymentAction } from './types-55.js';
-import type { TaxBreakdown } from './types-73.js';
-import type { TaxReverseCharge } from './types-74.js';
+import type { TaxBreakdown } from './types-74.js';
 import type { CustomerTaxExemptionCoverage } from './types-17.js';
 import type { Address } from './types-0.js';
-import type {
-    ReturnHandoffRequirementLineItem,
-    ReturnFinancialSummary,
-    ReturnEligibilitySelection,
-    ReturnExchangeVariant
-} from './types-63.js';
 import type { PaymentSourceSummary } from './types-54.js';
+import type { PaymentMethodConsent } from './types-53.js';
 import type { ExpandedCustomerSummary, ExpandedCustomerSummaryPreviousAttributes } from './types-26.js';
-import type { RefundLineItemAllocation, RefundLineItemAllocationPreviousAttributes } from './types-60.js';
 import type {
+    RefundLineItemAllocation,
     RefundTaxBreakdownRefund,
     RefundTenderAllocation,
+    RefundLineItemAllocationPreviousAttributes,
     RefundTaxBreakdownRefundPreviousAttributes,
     RefundTenderAllocationPreviousAttributes
 } from './types-61.js';
-import type {
-    ReturnReasonSummary,
-    ReturnLineItemValue,
-    ReturnLineItemDecisionProposal,
-    ReturnPolicyAdjustmentProposal
-} from './types-64.js';
-import type { ReturnRefundTenderEstimate } from './types-65.js';
+import type { ReturnReasonSummary, ReturnRefundTenderEstimate } from './types-65.js';
+import type { ReturnLineItemValue, ReturnLineItemDecisionProposal, ReturnPolicyAdjustmentProposal } from './types-64.js';
 /** A page of `BuyerLicenseKey` objects. */
 export type BuyerLicenseKeyListResponse = {
     /**
@@ -159,15 +156,15 @@ export type BuyerOrder = {
      */
     "checkout_session_ids": Array<string>;
     /**
-     * When the order closed. Present exactly when status is closed. Set once at the transition and
-     * never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * When the order last closed. Present exactly when status is closed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
      */
     "closed_at"?: string;
     /**
-     * Why the order closed. Present exactly when status is closed. Set once at closure.
-     * Unrecognized reasons are returned as other; new values may be added. Value enum:
-     * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-     * "superseded", "return_resolution_canceled", "other".
+     * Why the order closed. Present exactly when status is closed. Flint returns other for an
+     * unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+     * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+     * "return_resolution_canceled", "other".
      */
     "closed_reason"?: "invoice_voided"
         | "paid"
@@ -284,20 +281,21 @@ export type BuyerOrder = {
     /**
      * How the order was created. invoice means a Quick Pay invoice created the order; attaching an
      * invoice to an existing order preserves its origin. Value enum: "virtual_terminal",
-     * "payment_link", "checkout", "api", "subscription", "invoice".
+     * "payment_link", "shop", "checkout", "api", "subscription", "invoice".
      */
     "origin"?: "virtual_terminal"
         | "payment_link"
+        | "shop"
         | "checkout"
         | "api"
         | "subscription"
         | "invoice"
         | (string & {});
     /**
-     * When `payment_status` became `paid`, including a final capture that releases the remaining
-     * balance. Set once and never changed, including after refunds. `null` when `payment_status`
-     * isn't `paid`, including an order whose balance was written off without being paid. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
+     * When the current paid state began, including a final capture that releases the remaining
+     * balance. A reversal that reopens the order clears this timestamp. `null` when
+     * `payment_status` isn't `paid`, including an order whose balance was written off without
+     * being paid. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
     "paid_at": string | null;
     /**
@@ -318,7 +316,8 @@ export type BuyerOrder = {
      */
     "payment_link_id"?: string;
     /**
-     * Collection progress. An invoice write-off also completes collection without receiving the
+     * Collection progress. Reversing a recorded invoice payment can move this back to unpaid or
+     * partially_paid. An invoice write-off also completes collection without receiving the
      * written-off amount. Value enum: "unpaid", "partially_paid", "paid".
      */
     "payment_status": "unpaid" | "partially_paid" | "paid" | (string & {});
@@ -371,10 +370,13 @@ export type BuyerOrder = {
      * account.
      */
     "setup_collection"?: BuyerSetupCollection;
+    /** ID of the shop that started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". */
+    "shop_id"?: string;
     /**
-     * Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes,
-     * returns, and metadata or note edits continue on a closed order. Value enum: "open",
-     * "closed".
+     * Whether the order still accepts changes and new payments. An order closed as paid reopens if
+     * reversing a recorded invoice payment leaves an outstanding order balance. Refunds,
+     * fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value
+     * enum: "open", "closed".
      */
     "status": "open" | "closed" | (string & {});
     /**
@@ -1739,11 +1741,12 @@ export type BuyerPaymentIntent = {
     "order_id"?: string;
     /**
      * How the payment was started. Fixed when the payment is created. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
+     * "payment_link", "shop", "invoice", "subscription_initial", "subscription_renewal",
      * "virtual_terminal", "api".
      */
     "payment_flow": "checkout"
         | "payment_link"
+        | "shop"
         | "invoice"
         | "subscription_initial"
         | "subscription_renewal"
@@ -1908,6 +1911,12 @@ export type BuyerPaymentMethod = {
      * used.
      */
     "card"?: CardDetails;
+    /**
+     * Recorded consent for the card save. Null when Flint has no recorded wording for this card.
+     * anyOf[1] (Value): {@link PaymentMethodConsent}. The wording and acceptance time recorded
+     * when the buyer agreed to save this card. anyOf[2] (Value): null.
+     */
+    "consent": ((PaymentMethodConsent) | (null));
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
     /** Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */

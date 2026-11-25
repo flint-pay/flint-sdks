@@ -38,12 +38,14 @@ namespace Flint;
  * @property-read ?string $payment_link_id
  * @property-read ?string $payment_return_url
  * @property-read ?CheckoutPaymentConfig $payments
+ * @property-read ?PlatformFeeRule $platform_fee_rule
  * @property-read ?CheckoutPrefill $prefill
  * @property-read list<CheckoutProblemResource> $problems
  * @property-read ?CheckoutPromotionConfig $promotion_config
  * @property-read ?CheckoutRedirects $redirects
  * @property-read ?list<BuyerRefund> $refunds
  * @property-read ?SetupCollection $setup_collection
+ * @property-read ?string $shop_id
  * @property-read string $status
  * @property-read ?string $subscription_plan_id
  * @property-read ?CheckoutSubscriptionTerms $subscription_terms
@@ -59,7 +61,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutSessionInvalidatedMerchantEventDataObject extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_apply_promotion_code': bool, 'checkout_session_id': string, 'client_reference'?: string|null, 'closed_reason_message'?: string, 'created_at': string, 'custom_field_answers'?: list<mixed>, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_id'?: string, 'delivery'?: mixed, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'gift_card_challenge'?: mixed, 'inventory_reservation_ids'?: list<string>, 'invoice'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_return_url'?: string, 'payments'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'redirects'?: mixed, 'refunds'?: list<mixed>, 'setup_collection'?: mixed, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'supported_actions'?: list<string>, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_apply_promotion_code': bool, 'checkout_session_id': string, 'client_reference'?: string|null, 'closed_reason_message'?: string, 'created_at': string, 'custom_field_answers'?: list<mixed>, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_id'?: string, 'delivery'?: mixed, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'gift_card_challenge'?: mixed, 'inventory_reservation_ids'?: list<string>, 'invoice'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_return_url'?: string, 'payments'?: mixed, 'platform_fee_rule'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'redirects'?: mixed, 'refunds'?: list<mixed>, 'setup_collection'?: mixed, 'shop_id'?: string, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'supported_actions'?: list<string>, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionInvalidatedMerchantEventDataObject')); }
     /** The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. An attempt to pay an order.
      * @return ?WebhookSnapshotOrderPaymentAttempt
@@ -241,6 +243,11 @@ final class CheckoutSessionInvalidatedMerchantEventDataObject extends Model {
      */
     public function getPayments(): ?CheckoutPaymentConfig { return $this->get('payments'); }
     public function hasPayments(): bool { return $this->has('payments'); }
+    /** The platform fee rule that the session was created with. The rule that sets the platform fee for each payment.
+     * @return ?PlatformFeeRule
+     */
+    public function getPlatformFeeRule(): ?PlatformFeeRule { return $this->get('platform_fee_rule'); }
+    public function hasPlatformFeeRule(): bool { return $this->has('platform_fee_rule'); }
     /** Contact details and addresses to fill in for the buyer, who can change them. For a customer with saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's tax location. Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the checkout credential reads from the customer record.
      * @return ?CheckoutPrefill
      */
@@ -271,6 +278,11 @@ final class CheckoutSessionInvalidatedMerchantEventDataObject extends Model {
      */
     public function getSetupCollection(): ?SetupCollection { return $this->get('setup_collection'); }
     public function hasSetupCollection(): bool { return $this->has('setup_collection'); }
+    /** ID of the shop that started checkout.
+     * @return ?string
+     */
+    public function getShopId(): ?string { return $this->get('shop_id'); }
+    public function hasShopId(): bool { return $this->has('shop_id'); }
     /** Where the session is in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
      * @return string
      */
@@ -321,7 +333,7 @@ final class CheckoutSessionInvalidatedMerchantEventDataObject extends Model {
      */
     public function getTip(): ?CheckoutTipConfig { return $this->get('tip'); }
     public function hasTip(): bool { return $this->has('tip'); }
-    /** What the session collects payment for, fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link".
+    /** What the session collects payment for, fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link", "shop".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

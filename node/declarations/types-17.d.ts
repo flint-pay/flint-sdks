@@ -1,5 +1,5 @@
-import type { Customer, CustomerReceivables, CustomerReceivablesPreviousAttributes } from './types-16.js';
-import type { ResponseMeta } from './types-62.js';
+import type { CustomerReceivableBalance, CustomerReceivableBalancePreviousAttributes, Customer } from './types-16.js';
+import type { ResponseMeta } from './types-63.js';
 import type { InputValue } from '../runtime.js';
 import type {
     CreateCustomerSessionRequestInput,
@@ -18,15 +18,43 @@ import type {
     DisputesAcceptParams
 } from './types-26.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { TaxIdentity, TaxIdentityPreviousAttributes } from './types-74.js';
+import type { TaxIdentity, TaxIdentityPreviousAttributes } from './types-75.js';
 import type { ConfirmCustomerVerificationRequestInput } from './types-8.js';
 import type { CreateEmailChangeRequestInput } from './types-10.js';
 import type { LinkCustomerGuestPurchasesRequestInput } from './types-40.js';
-import type { UpdateCustomerAddressRequestInput } from './types-75.js';
-import type { UpdateCustomerRequestInput, UpdateCustomerTaxExemptionRequestInput } from './types-76.js';
+import type {
+    UpdateCustomerAddressRequestInput,
+    UpdateCustomerRequestInput,
+    UpdateCustomerTaxExemptionRequestInput
+} from './types-76.js';
 import type { GetReturnInspectionResponse, GetReturnResponse } from './types-28.js';
-import type { ReturnLineDecision } from './types-63.js';
-import type { ReturnLineDecisionInput } from './types-64.js';
+import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-64.js';
+/** A customer's receivable balances by currency and when they were observed. */
+export type CustomerReceivables = {
+    /**
+     * One balance per currency in which the customer has an outstanding or overdue amount. Empty
+     * when the customer owes nothing. [] (Value): {@link CustomerReceivableBalance}. A customer's
+     * outstanding and overdue amounts in one currency.
+     */
+    "balances": Array<CustomerReceivableBalance>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "observed_at": string;
+};
+export type CustomerReceivablesPreviousAttributes = {
+    /**
+     * One balance per currency in which the customer has an outstanding or overdue amount. Empty
+     * when the customer owes nothing. anyOf[1] (Value): Array of {@link
+     * CustomerReceivableBalancePreviousAttributes}. One balance per currency in which the customer
+     * has an outstanding or overdue amount. Empty when the customer owes nothing. anyOf[1][]
+     * (Value): {@link CustomerReceivableBalancePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "balances"?: ((Array<CustomerReceivableBalancePreviousAttributes>) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "observed_at"?: ((string) | (null));
+};
 /** A response containing `Customer` data. */
 export type CustomerResponse = {
     /**
@@ -3522,14 +3550,3 @@ export type DecideReturnRequestInput = {
     "line_items": Array<ReturnLineDecisionInput>;
 };
 export type DecideReturnResponse = GetReturnResponse;
-/** The request body for: Decline a payment review. */
-export type DeclinePaymentReviewRequest = {
-    /**
-     * Add the payment's card fingerprint, email and IP address to Flint's default block lists, so
-     * later payments with any of them are blocked. Values the payment didn't have are skipped.
-     * Defaults to false. Default: false.
-     */
-    "add_to_block_lists"?: boolean;
-};
-/** The request body for: Decline a payment review. */
-export type DeclinePaymentReviewRequestInput = DeclinePaymentReviewRequest;

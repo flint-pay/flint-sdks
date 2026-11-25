@@ -20,7 +20,7 @@ import type {
     LicenseKeysValidateParams
 } from '../declarations/types-40.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -56,9 +56,9 @@ export type {
     LicenseKeyVersionRequestInput,
     LookupLicenseKeyRequest
 } from '../declarations/types-40.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResendLicenseKeyRequestInput } from '../declarations/types-62.js';
+export type { RequestOptions, ResourceReference, ResendLicenseKeyRequestInput } from '../declarations/types-62.js';
 export type { LicenseKey, LicenseKeyListResponse, LicenseKeyActivation } from '../declarations/types-39.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { CheckoutLicenseKey, CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { DisableLicenseKeyRequestInput } from '../declarations/types-25.js';
@@ -71,21 +71,22 @@ export type { PricingAmounts } from '../declarations/types-56.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { RevealLicenseKeyRequestInput } from '../declarations/types-66.js';
-export type { UpdateLicenseKeyRequestInput } from '../declarations/types-76.js';
-export type { ValidateLicenseKeyRequestInput, ValidateLicenseKeyRequest } from '../declarations/types-78.js';
-export { makeDisableLicenseKeyRequest } from '../declarations/types-86.js';
+export type { UpdateLicenseKeyRequestInput } from '../declarations/types-77.js';
+export type { ValidateLicenseKeyRequestInput, ValidateLicenseKeyRequest } from '../declarations/types-79.js';
+export { makeDisableLicenseKeyRequest } from '../declarations/types-87.js';
 export {
     makeLicenseKeyVersionRequest,
     makeLookupLicenseKeyRequest,
     makeMetadataPatchRequest,
     makeMoneyValue
-} from '../declarations/types-88.js';
-export { makeResendLicenseKeyRequest } from '../declarations/types-91.js';
-export { makeRevealLicenseKeyRequest } from '../declarations/types-92.js';
-export { makeUpdateLicenseKeyRequest } from '../declarations/types-94.js';
-export { makeValidateLicenseKeyRequest } from '../declarations/types-95.js';
+} from '../declarations/types-89.js';
+export { makeResendLicenseKeyRequest } from '../declarations/types-92.js';
+export { makeRevealLicenseKeyRequest } from '../declarations/types-93.js';
+export { makeUpdateLicenseKeyRequest } from '../declarations/types-95.js';
+export { makeValidateLicenseKeyRequest } from '../declarations/types-96.js';
 export interface LicenseKeysResource {
     /**
  * Adds a merchant restriction, including when another cause already disables the key. A second

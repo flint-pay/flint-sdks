@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# LicenseKeyDisabledInstalledMerchantsEvent to MerchantAccountSessionStripeRequirements
+# LicenseKeyCreatedInstalledMerchantsEvent to MerchantAccountSessionStripeCollectionOptions
 
+- [LicenseKeyCreatedInstalledMerchantsEvent](LicenseKeyCreatedInstalledMerchantsEvent.md)
+- [LicenseKeyCreatedMerchantEvent](LicenseKeyCreatedMerchantEvent.md)
 - [LicenseKeyDisabledInstalledMerchantsEvent](LicenseKeyDisabledInstalledMerchantsEvent.md)
 - [LicenseKeyDisabledMerchantEvent](LicenseKeyDisabledMerchantEvent.md)
 - [LicenseKeyExpiredInstalledMerchantsEvent](LicenseKeyExpiredInstalledMerchantsEvent.md)
@@ -100,6 +102,4 @@
 - [MerchantAccountSessionResponse](MerchantAccountSessionResponse.md)
 - [MerchantAccountSessionStripe](MerchantAccountSessionStripe.md)
 - [MerchantAccountSessionStripeCollectionOptions](MerchantAccountSessionStripeCollectionOptions.md)
-- [MerchantAccountSessionStripeComponent](MerchantAccountSessionStripeComponent.md)
-- [MerchantAccountSessionStripeRequirements](MerchantAccountSessionStripeRequirements.md)
 

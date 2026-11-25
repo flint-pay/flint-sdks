@@ -47,6 +47,7 @@ The affected public resource without expansions, client authority fields, or fie
 | `paid_at` | Optional | string | When the invoice most recently became paid. Cleared when status leaves paid and set again on a later paid transition. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `payment_due` | Required | object and ([InvoicePaymentDueNone](../models/InvoicePaymentDueNone.md#invoicepaymentduenone) or [InvoicePaymentDueDate](../models/InvoicePaymentDueDate.md#invoicepaymentduedate) or [InvoicePaymentDuePaymentTerms](../models/InvoicePaymentDuePaymentTerms.md#invoicepaymentduepaymentterms)) | The resolved due-date policy. Send this object back when updating the draft; payment_terms captures the term's current revision again. The invoice due-date policy resolved at write time. The object can be sent back when updating a draft. `payment_due`: [declared alternatives](../models/InvoiceResponse.md#invoiceresponsedatapayment_due). |
 | `payment_terms_snapshot` | Optional | [InvoicePaymentTermsSnapshot](../models/InvoicePaymentTermsSnapshot.md#invoicepaymenttermssnapshot) | The payment term captured on the draft, with its due date rule and late fee policy. Later changes to the payment term don't affect this invoice. The payment terms saved on an invoice: the term's name, version, due date calculation, and late fee policy. `payment_terms_snapshot`: [field definitions](../models/InvoiceResponse.md#invoiceresponsedatapayment_terms_snapshot). |
+| `platform_fee_rule` | Optional | [PlatformFeeRule](../models/PlatformFeeRule.md#platformfeerule) | The active rule for payments Flint collects for this invoice. Omitted when no rule is set. The rule that sets the platform fee for each payment. `platform_fee_rule`: [field definitions](../models/InvoiceResponse.md#invoiceresponsedataplatform_fee_rule). |
 | `po_number` | Required | string or null | The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. `null` when unset. |
 | `pricing_amounts` | Required | [PricingAmounts](../models/PricingAmounts.md#pricingamounts) | The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money excludes late fees, which are in settlement_amounts.late_fee_money. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total. |
 | `recipient_email` | Required | string or null | Where Flint emails the invoice and its reminders. Email delivery requires it at issue. `null` when unset. |
@@ -97,6 +98,10 @@ Declared alternatives: [InvoiceResponse.data.payment_due](../models/InvoiceRespo
 ### InvoiceCollectionBlockResolvedMerchantEventData.object fields 1.payment_terms_snapshot
 
 Field definitions: [InvoiceResponse.data.payment_terms_snapshot](../models/InvoiceResponse.md#invoiceresponsedatapayment_terms_snapshot).
+
+### InvoiceCollectionBlockResolvedMerchantEventData.object fields 1.platform_fee_rule
+
+Field definitions: [InvoiceResponse.data.platform_fee_rule](../models/InvoiceResponse.md#invoiceresponsedataplatform_fee_rule).
 
 ### InvoiceCollectionBlockResolvedMerchantEventData.object fields 1.remit_to_address
 

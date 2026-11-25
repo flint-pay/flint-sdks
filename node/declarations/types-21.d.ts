@@ -1,8 +1,19 @@
-import type { DeliveryPickupAvailability, DeliveryPreview } from './types-20.js';
-import type { ResponseMeta } from './types-62.js';
-import type { InputValue } from '../runtime.js';
-import type { CreateDeliveryPreviewRequestInput } from './types-9.js';
+import type { Address } from './types-0.js';
+import type { CreateOrderLineItem } from './types-11.js';
 import type {
+    DeliveryBuyerLocationResource,
+    DeliveryCandidateOutcomeResource,
+    DeliveryCalculatedPricingStrategy,
+    DeliveryCalculatedPricingStrategyPreviousAttributes,
+    DeliveryCallbackPricingStrategyRequest,
+    DeliveryCallerSuppliedPricingStrategyRequest,
+    DeliveryCalculatedPricingStrategyRequestInput,
+    DeliveryCallbackPricingStrategyRequestInput,
+    DeliveryCallerSuppliedPricingStrategyRequestInput
+} from './types-18.js';
+import type {
+    DeliveryInputRequirement,
+    DeliveryMerchantDiagnostic,
     DeliveryEligibilityExpression,
     DeliveryEligibilityExpressionRequest,
     DeliveryEligibilityExpressionRequestInput,
@@ -13,16 +24,21 @@ import type {
     DeliveryFixedPricingStrategyPreviousAttributes,
     DeliveryFixedPricingStrategyRequestInput
 } from './types-19.js';
-import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-44.js';
+import type { DeliveryOptionProjection, DeliveryPickupAvailability } from './types-20.js';
 import type {
-    DeliveryCalculatedPricingStrategy,
-    DeliveryCalculatedPricingStrategyPreviousAttributes,
-    DeliveryCallbackPricingStrategyRequest,
-    DeliveryCallerSuppliedPricingStrategyRequest,
-    DeliveryCalculatedPricingStrategyRequestInput,
-    DeliveryCallbackPricingStrategyRequestInput,
-    DeliveryCallerSuppliedPricingStrategyRequestInput
-} from './types-18.js';
+    DeliveryQuoteExecutionLegResource,
+    DeliveryQuoteLineItemResource,
+    DeliveryProfileDiagnostics,
+    DeliveryProfileUnconfiguredAssignment,
+    DeliveryProfileConfigurationPreviousAttributes,
+    DeliveryProfileOriginPolicy,
+    DeliveryProfileOriginPolicyRequest,
+    DeliveryProfileOriginPolicyRequestInput
+} from './types-22.js';
+import type { ResponseMeta } from './types-63.js';
+import type { InputValue } from '../runtime.js';
+import type { CreateDeliveryPreviewRequestInput } from './types-9.js';
+import type { MoneyValue, MoneyValueInput, MoneyValuePreviousAttributes } from './types-44.js';
 import type {
     DeliveryRateTablePricingStrategy,
     DeliveryRateTablePricingStrategyPreviousAttributes,
@@ -36,17 +52,139 @@ import type {
     DeliveryTieredPricingStrategyPreviousAttributes,
     DeliveryTieredPricingStrategyRequestInput
 } from './types-24.js';
-import type {
-    DeliveryProfileDiagnostics,
-    DeliveryProfileUnconfiguredAssignment,
-    DeliveryProfileConfigurationPreviousAttributes,
-    DeliveryProfileOriginPolicy,
-    DeliveryProfileOriginPolicyRequest,
-    DeliveryProfileOriginPolicyRequestInput
-} from './types-22.js';
 import type { MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { WebhookDeliveryProfile } from './types-79.js';
+import type { WebhookDeliveryProfile } from './types-80.js';
+/**
+ * The delivery options and prices Flint would offer for the supplied items and buyer location,
+ * with input requirements and merchant diagnostics.
+ */
+export type DeliveryPreview = {
+    /**
+     * Buyer location used to evaluate delivery availability and pickup proximity. Omitted when the
+     * request sent none. The normalized buyer address or coordinate used for this quote.
+     */
+    "buyer_location"?: DeliveryBuyerLocationResource;
+    /**
+     * Groups of order items that each choose their own delivery option. [] (Value): {@link
+     * DeliveryPreviewChoiceGroupResource}. One group of order items in a delivery options preview,
+     * with the options a buyer could choose, its availability status, and any input still needed.
+     */
+    "choice_groups": Array<DeliveryPreviewChoiceGroupResource>;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /**
+     * Delivery methods the preview evaluated. [] (Value): string. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids": Array<string>;
+    /**
+     * Destination address used to evaluate shipment and local delivery options. Omitted when the
+     * request sent none. A postal address. Every address has country. Addresses Flint checked as
+     * complete (customer and saved addresses, merchant, location, invoice, order delivery
+     * destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and
+     * city, and US ones always have state and postal_code. Delivery quote destinations, buyer
+     * locations and postal-code tax locations hold only what was provided, such as postal_code and
+     * country.
+     */
+    "destination_address"?: Address;
+    /** Time Flint computed this preview. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "evaluated_at": string;
+    /**
+     * How completely Flint evaluated the candidate delivery methods. Value enum: "complete",
+     * "incomplete", "degraded".
+     */
+    "evaluation_status": "complete" | "incomplete" | "degraded" | (string & {});
+    /**
+     * Request a new preview after this time, because prices and availability may have changed.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string;
+    /**
+     * Inputs the delivery methods need. A quote requirement, such as the destination address, is
+     * input a method needs before Flint can price it. A selection requirement is input a delivery
+     * selection needs before payment, such as a recipient field or delivery window an option
+     * requires. A method that waits on the buyer's address or store, or on an address the buyer
+     * must correct, already lists the recipient fields it requires. Those requirements name the
+     * method's choice group and have no delivery_option_ids. [] (Value): {@link
+     * DeliveryInputRequirement}. An input a delivery method needs, such as an address field or
+     * time window, with its `field_path`, purpose, and constraint.
+     */
+    "input_requirements": Array<DeliveryInputRequirement>;
+    /**
+     * Items the preview evaluated. [] (Value): {@link CreateOrderLineItem}. A line item in a
+     * delivery preview: a catalog variant, a bundle, or a custom item with a name and unit price.
+     */
+    "line_items": Array<CreateOrderLineItem>;
+    /**
+     * Present for merchant callers as an array, including when empty. Absent for buyer callers. []
+     * (Value): {@link DeliveryMerchantDiagnostic}. A merchant-only diagnostic explaining why a
+     * delivery method produced no option, with its outcome, recommended action, and eligibility
+     * mismatches.
+     */
+    "merchant_diagnostics"?: Array<DeliveryMerchantDiagnostic>;
+    /**
+     * The delivery question this preview answers. - `delivery_options`: Evaluates delivery methods
+     * and prices for the supplied items and buyer location. Value enum: "delivery_options".
+     */
+    "mode": "delivery_options" | (string & {});
+    /**
+     * ID of the Location at which pickup methods were priced. Omitted when the request sent none.
+     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "pickup_location_id"?: string;
+};
+/**
+ * One group of order items in a delivery options preview, with the options a buyer could choose,
+ * its availability status, and any input still needed.
+ */
+export type DeliveryPreviewChoiceGroupResource = {
+    /** Delivery types permitted by this group's items. [] (Value): string. */
+    "allowed_types"?: Array<string>;
+    /**
+     * Whether this group has a delivery option available. Value enum: "ready", "needs_input",
+     * "needs_checkout_context", "unavailable".
+     */
+    "availability_status": "ready" | "needs_input" | "needs_checkout_context" | "unavailable" | (string & {});
+    /**
+     * Evaluation result for each candidate delivery method, keyed by its method ID. * (Value):
+     * {@link DeliveryCandidateOutcomeResource}. The result of evaluating one delivery method for a
+     * choice group, selected by `type`: available with an option, unavailable, input required,
+     * cannot calculate, or requires checkout context.
+     */
+    "candidate_outcomes": Record<string, DeliveryCandidateOutcomeResource>;
+    /**
+     * How completely Flint evaluated the group's candidate delivery methods. Value enum:
+     * "complete", "incomplete", "degraded".
+     */
+    "evaluation_status": "complete" | "incomplete" | "degraded" | (string & {});
+    /**
+     * Where the group's items leave from, one leg per origin Location, when all of its methods
+     * leave from the same Locations. Omitted when the origin depends on the chosen method, such as
+     * shipping from a warehouse or picking up at a store. Each option then lists its own
+     * execution_legs. [] (Value): {@link DeliveryQuoteExecutionLegResource}. One leg of a delivery
+     * choice group, identifying the origin Location the group's items leave from.
+     */
+    "execution_legs"?: Array<DeliveryQuoteExecutionLegResource>;
+    /**
+     * Inputs this group's delivery methods need before they can be priced. [] (Value): {@link
+     * DeliveryInputRequirement}. An input a delivery method needs, such as an address field or
+     * time window, with its `field_path`, purpose, and constraint.
+     */
+    "input_requirements": Array<DeliveryInputRequirement>;
+    /**
+     * Order line items, or bundle components, this group covers, with the quantity covered. []
+     * (Value): {@link DeliveryQuoteLineItemResource}. An order line item, or one bundle component
+     * of it, and the quantity covered by a delivery choice group.
+     */
+    "line_items": Array<DeliveryQuoteLineItemResource>;
+    /**
+     * Delivery options available for these items. [] (Value): {@link DeliveryOptionProjection}. A
+     * delivery option in a quote or preview: its price, type, timing, delivery plan, execution
+     * legs, and shipment, pickup, or local delivery details.
+     */
+    "options": Array<DeliveryOptionProjection>;
+};
 /** The response for: Create delivery preview. */
 export type DeliveryPreviewResponse = {
     /**
@@ -3430,125 +3568,6 @@ export type DeliveryProfileConfigurationInputManualInput = ({
     "resolution_mode": "manual";
 })
     & (({
-    "origin_policy"?: never;
-})
-    & ({
-    "combination_policy"?: never;
-})
-    & ({
-    "splitting_policy"?: never;
-})));
-/** The `none` variant of `DeliveryProfileConfigurationInput`. */
-export type DeliveryProfileConfigurationInputNone = ({
-    /**
-     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
-     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
-     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
-     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
-     */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls which delivery obligations can share a choice group. Value enum:
-     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible"
-        | "separate_profile"
-        | "separate_line_item"
-        | "fulfill_alone"
-        | (string & {});
-    /**
-     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
-     * requires location_id. inventory_routing forbids location_id and applies only to tracked
-     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
-     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
-     * delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
-    /**
-     * Whether delivery planning applies. none forbids every other configuration field. required
-     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
-     * mode. Value enum: "none".
-     */
-    "requirement": "none" | (string & {});
-    /**
-     * Required when requirement is required. quote plans physical delivery and requires
-     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
-     * items and forbids physical planning fields. Value enum: "quote", "manual".
-     */
-    "resolution_mode"?: "quote" | "manual" | (string & {});
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls whether a line item quantity can be split across delivery assignments.
-     * Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
-})
-    & (({
-    /**
-     * Whether delivery planning applies. none forbids every other configuration field. required
-     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
-     * mode. Value enum: "none".
-     */
-    "requirement": unknown;
-}));
-/** The `none` variant of `DeliveryProfileConfigurationInput`. */
-export type DeliveryProfileConfigurationInputNoneInput = ({
-    /**
-     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
-     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
-     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
-     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
-     */
-    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls which delivery obligations can share a choice group. Value enum:
-     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
-     */
-    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
-    /**
-     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
-     * requires location_id. inventory_routing forbids location_id and applies only to tracked
-     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
-     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
-     * delivery method.
-     */
-    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
-    /**
-     * Whether delivery planning applies. none forbids every other configuration field. required
-     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
-     * mode. Value enum: "none".
-     */
-    "requirement": "none";
-    /**
-     * Required when requirement is required. quote plans physical delivery and requires
-     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
-     * items and forbids physical planning fields. Value enum: "quote", "manual".
-     */
-    "resolution_mode"?: "quote" | "manual";
-    /**
-     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
-     * manual. Controls whether a line item quantity can be split across delivery assignments.
-     * Value enum: "whole_line_item", "quantity_split_allowed".
-     */
-    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
-})
-    & (({
-    /**
-     * Whether delivery planning applies. none forbids every other configuration field. required
-     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
-     * mode. Value enum: "none".
-     */
-    "requirement": "none";
-})
-    & (({
-    "resolution_mode"?: never;
-})
-    & ({
-    "allowed_types"?: never;
-})
-    & ({
     "origin_policy"?: never;
 })
     & ({

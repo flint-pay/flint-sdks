@@ -1,34 +1,105 @@
 import type {
-    PromotionRefInputPromotionCode,
-    PromotionRefInputPromotionID,
-    PromotionRefInputPromotionCodeInput,
-    PromotionRefInputPromotionIDInput,
+    PromotionRecurrenceForeverRequestInput,
+    PromotionRecurrenceOnceRequestInput,
+    PromotionRecurrenceRepeatingRequestInput,
+    PromotionApplicationMethodPreviousAttributes,
     PromotionCodesSummaryPreviousAttributes,
     PromotionCombinesWithPreviousAttributes,
     PromotionExclusivityPreviousAttributes
 } from './types-58.js';
-import type { Promotion, PromotionApplicationMethodPreviousAttributes } from './types-57.js';
-import type { ResponseMeta } from './types-62.js';
+import type { Promotion, ProductPriceRange } from './types-57.js';
+import type { ResponseMeta } from './types-63.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { WebhookPromotion, WebhookReader } from './types-79.js';
+import type { WebhookPromotion } from './types-80.js';
 import type { InputValue } from '../runtime.js';
 import type { CreatePromotionRequestInput } from './types-12.js';
 import type { CategoriesDeleteParams } from './types-5.js';
 import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdatePromotionRequestInput } from './types-77.js';
-import type { CheckoutCustomTextConfig, CheckoutPaymentConfig, CheckoutMerchantSupport } from './types-6.js';
+import type { UpdatePromotionRequestInput } from './types-78.js';
+import type { TextModifierRequest, TextModifierConfigRequest } from './types-75.js';
 import type { Image } from './types-31.js';
-import type { LegalSettings } from './types-39.js';
-import type { PaymentLinkCustomField, PaymentLinkEventConfig, PaymentLinkLineItem, PaymentLinkAvailableVariant } from './types-52.js';
-import type { ThemeConfig, TextModifierConfigRequest } from './types-75.js';
-import type { CheckoutTheme } from './types-7.js';
-import type { PaymentLinkSubscriptionPreview, PaymentLinkProductOption } from './types-53.js';
-import type { BundleComponentVariantSummary } from './types-1.js';
+import type { QuantityPriceBreak } from './types-60.js';
 import type { SelectedProductOption } from './types-68.js';
+import type { CheckoutCustomTextConfig, CheckoutPaymentConfig, CheckoutMerchantSupport } from './types-6.js';
+import type { LegalSettings } from './types-39.js';
+import type { PaymentLinkCustomField, PaymentLinkEventConfig, PaymentLinkLineItem } from './types-52.js';
+import type { ThemeConfig } from './types-76.js';
+import type { CheckoutTheme } from './types-7.js';
+import type { PaymentLinkSubscriptionPreview } from './types-53.js';
+import type { BundleComponentVariantSummary } from './types-1.js';
 import type { ReturnPolicyRevisionRequest, ReturnPolicyRevisionRequestInput } from './types-64.js';
 import type { GetReturnPolicyResponse } from './types-28.js';
+/**
+ * How often a promotion's discount repeats on a subscription: once, for a number of charged
+ * payments, or forever.
+ */
+export type PromotionRecurrenceRequestInput = ({
+    /**
+     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+     */
+    "period_count"?: number;
+    /**
+     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
+     * forever for every payment. period_count is required only for repeating. Value enum: "once",
+     * "repeating", "forever".
+     */
+    "type": "once" | "repeating" | "forever";
+})
+    & ((Exclude<PromotionRecurrenceOnceRequestInput & object, readonly unknown[]>)
+    | (Exclude<PromotionRecurrenceRepeatingRequestInput & object, readonly unknown[]>)
+    | (Exclude<PromotionRecurrenceForeverRequestInput & object, readonly unknown[]>));
+/** The `Promotion code` variant of `PromotionRefInput`. */
+export type PromotionRefInputPromotionCode = ({
+    /** Human-entered promotion code to apply. minLength: 1. */
+    "promotion_code": string;
+    /**
+     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
+     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
+     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     */
+    "promotion_id"?: string;
+});
+/** The `Promotion code` variant of `PromotionRefInput`. */
+export type PromotionRefInputPromotionCodeInput = ({
+    /** Human-entered promotion code to apply. minLength: 1. */
+    "promotion_code": string;
+    /**
+     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
+     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
+     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     */
+    "promotion_id"?: string;
+})
+    & (({
+    "promotion_id"?: never;
+}));
+/** The `Promotion ID` variant of `PromotionRefInput`. */
+export type PromotionRefInputPromotionID = ({
+    /** Human-entered promotion code to apply. minLength: 1. */
+    "promotion_code"?: string;
+    /**
+     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
+     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
+     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     */
+    "promotion_id": string;
+});
+/** The `Promotion ID` variant of `PromotionRefInput`. */
+export type PromotionRefInputPromotionIDInput = ({
+    /** Human-entered promotion code to apply. minLength: 1. */
+    "promotion_code"?: string;
+    /**
+     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
+     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
+     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+     */
+    "promotion_id": string;
+})
+    & (({
+    "promotion_code"?: never;
+}));
 /** Identifies the promotion to apply, by promotion code or by promotion ID. */
 export type PromotionRefRequest = ({
     /** Human-entered promotion code to apply. minLength: 1. */
@@ -1762,6 +1833,249 @@ export type PromotionsUpdateParams = (InputValue<UpdatePromotionRequestInput>)
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
+/** The `catalog` variant of `PublicCatalogModifierInput`. */
+export type PublicCatalogModifierInputCatalog = ({
+    /**
+     * ID of the modifier option the buyer chose. Required for `type: catalog`; omit for `type:
+     * text`. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+    /**
+     * The text the buyer entered for a text modifier group. Required for `type: text`; omit for
+     * `type: catalog`. The text a buyer entered for a text modifier group.
+     */
+    "text"?: TextModifierRequest;
+    /** Selects a catalog modifier or a text modifier. Value enum: "catalog". */
+    "type": "catalog" | (string & {});
+})
+    & (({
+    /** Selects a catalog modifier or a text modifier. Value enum: "catalog". */
+    "type": "catalog" | (string & {});
+    /**
+     * ID of the modifier option the buyer chose. Required for `type: catalog`; omit for `type:
+     * text`. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id": string;
+}));
+/** The `catalog` variant of `PublicCatalogModifierInput`. */
+export type PublicCatalogModifierInputCatalogInput = ({
+    /**
+     * ID of the modifier option the buyer chose. Required for `type: catalog`; omit for `type:
+     * text`. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+    /**
+     * The text the buyer entered for a text modifier group. Required for `type: text`; omit for
+     * `type: catalog`. The text a buyer entered for a text modifier group.
+     */
+    "text"?: PublicCatalogTextModifierRequestInput;
+    /** Selects a catalog modifier or a text modifier. Value enum: "catalog". */
+    "type": "catalog";
+})
+    & (({
+    /** Selects a catalog modifier or a text modifier. Value enum: "catalog". */
+    "type": ("catalog") & ("catalog");
+    /**
+     * ID of the modifier option the buyer chose. Required for `type: catalog`; omit for `type:
+     * text`. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id": string;
+})
+    & ({
+    "text"?: never;
+}));
+/** The `text` variant of `PublicCatalogModifierInput`. */
+export type PublicCatalogModifierInputText = ({
+    /**
+     * ID of the modifier option the buyer chose. Required for `type: catalog`; omit for `type:
+     * text`. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+    /**
+     * The text the buyer entered for a text modifier group. Required for `type: text`; omit for
+     * `type: catalog`. The text a buyer entered for a text modifier group.
+     */
+    "text": TextModifierRequest;
+    /** Selects a catalog modifier or a text modifier. Value enum: "text". */
+    "type": "text" | (string & {});
+})
+    & (({
+    /** Selects a catalog modifier or a text modifier. Value enum: "text". */
+    "type": "text" | (string & {});
+    /**
+     * The text the buyer entered for a text modifier group. Required for `type: text`; omit for
+     * `type: catalog`. The text a buyer entered for a text modifier group.
+     */
+    "text": TextModifierRequest;
+}));
+/** The `text` variant of `PublicCatalogModifierInput`. */
+export type PublicCatalogModifierInputTextInput = ({
+    /**
+     * ID of the modifier option the buyer chose. Required for `type: catalog`; omit for `type:
+     * text`. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+    /**
+     * The text the buyer entered for a text modifier group. Required for `type: text`; omit for
+     * `type: catalog`. The text a buyer entered for a text modifier group.
+     */
+    "text": PublicCatalogTextModifierRequestInput;
+    /** Selects a catalog modifier or a text modifier. Value enum: "text". */
+    "type": "text";
+})
+    & (({
+    /** Selects a catalog modifier or a text modifier. Value enum: "text". */
+    "type": ("text") & ("text");
+    /**
+     * The text the buyer entered for a text modifier group. Required for `type: text`; omit for
+     * `type: catalog`. The text a buyer entered for a text modifier group.
+     */
+    "text": PublicCatalogTextModifierRequestInput;
+})
+    & (({
+    "modifier_id"?: never;
+}) & ({
+    "quantity"?: never;
+})));
+/** A buyer's modifier choice for one line of a checkout started without an API key. */
+export type PublicCatalogModifierRequest = ({
+    /**
+     * ID of the modifier option the buyer chose. Required for `type: catalog`; omit for `type:
+     * text`. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+    /**
+     * The text the buyer entered for a text modifier group. Required for `type: text`; omit for
+     * `type: catalog`. The text a buyer entered for a text modifier group.
+     */
+    "text"?: TextModifierRequest;
+    /** Selects a catalog modifier or a text modifier. Value enum: "catalog", "text". */
+    "type": "catalog" | "text" | (string & {});
+})
+    & ((Exclude<PublicCatalogModifierInputCatalog & object, readonly unknown[]>)
+    | (Exclude<PublicCatalogModifierInputText & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** A buyer's modifier choice for one line of a checkout started without an API key. */
+export type PublicCatalogModifierRequestInput = ({
+    /**
+     * ID of the modifier option the buyer chose. Required for `type: catalog`; omit for `type:
+     * text`. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity"?: number;
+    /**
+     * The text the buyer entered for a text modifier group. Required for `type: text`; omit for
+     * `type: catalog`. The text a buyer entered for a text modifier group.
+     */
+    "text"?: PublicCatalogTextModifierRequestInput;
+    /** Selects a catalog modifier or a text modifier. Value enum: "catalog", "text". */
+    "type": "catalog" | "text";
+})
+    & ((Exclude<PublicCatalogModifierInputCatalogInput & object, readonly unknown[]>)
+    | (Exclude<PublicCatalogModifierInputTextInput & object, readonly unknown[]>));
+/** An active product option, with the values its available variants use. */
+export type PublicCatalogOption = {
+    /** Product option name, such as Size or Color. */
+    "name": string;
+    /** ID of the product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". */
+    "option_id": string;
+    /**
+     * Values used by at least one available variant, in product option value position order. []
+     * (Value): {@link PublicCatalogOptionValue}. A product option value used by an available
+     * variant.
+     */
+    "values": Array<PublicCatalogOptionValue>;
+};
+/** A product option value used by an available variant. */
+export type PublicCatalogOptionValue = {
+    /** ID of the product option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F". */
+    "option_value_id": string;
+    /** Product option value shown to the buyer, such as M or Blue. */
+    "value": string;
+};
+/** The text a buyer entered for a text modifier group. */
+export type PublicCatalogTextModifierRequestInput = {
+    /**
+     * ID of the text modifier group the buyer answered. minLength: 1. Example:
+     * "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+    /** The text the buyer entered. minLength: 1. */
+    "value": string;
+};
+/**
+ * A variant that can be sold now, with its current price, options, image, modifiers, and advisory
+ * stock state.
+ */
+export type PublicCatalogVariant = {
+    /**
+     * Modifier groups available for this variant's effective modifier set. Omitted when the
+     * variant has none. [] (Value): {@link PublicResolvedModifierGroup}. A modifier group as
+     * resolved for a payment link line item, with its selection limits, display flags, and options
+     * or text settings.
+     */
+    "available_modifiers"?: Array<PublicResolvedModifierGroup>;
+    /**
+     * Current catalog reference unit price for sale display. Null when no variant compare-at price
+     * is set. Does not affect the amount charged. anyOf[1] (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value):
+     * null.
+     */
+    "compare_at_price_money": ((MoneyValue) | (null));
+    /**
+     * Effective primary variant image, inherited from the product when the variant has none.
+     * Omitted when neither has an image. An image with its URL, size, and alt text.
+     */
+    "image"?: Image;
+    /**
+     * True when the starting quantity of a tracked variant cannot be supplied. For a variant that
+     * needs a delivery quote, the configured inventory routing source must supply that quantity
+     * for at least one offered delivery method. For a variant that needs no quote, stock alone
+     * decides. Shipping can use remaining backorder capacity. Pickup requires physical stock. Uses
+     * the minimum quantity when the buyer can adjust the quantity. Always false for untracked
+     * variants. Availability is advisory. Reads and checkout resolution do not hold stock or
+     * expose stock counts.
+     */
+    "is_sold_out": boolean;
+    /** Order line name for this variant: the product name plus the variant label. */
+    "name": string;
+    /**
+     * Identifier of the product the offered variant belongs to. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id": string;
+    /**
+     * Default quantity breaks for this variant. Use the largest `minimum_quantity` at or below the
+     * quantity on the order line. An empty array uses the base price. [] (Value): {@link
+     * QuantityPriceBreak}. A net unit price that applies when one catalog line reaches
+     * minimum_quantity.
+     */
+    "quantity_price_breaks": Array<QuantityPriceBreak>;
+    /**
+     * The variant's product option values, in product option position order. Empty when the
+     * product has no options. [] (Value): {@link SelectedProductOption}. An option and value
+     * chosen for a product variant, such as size Large.
+     */
+    "selected_options": Array<SelectedProductOption>;
+    /**
+     * Current catalog base unit price. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /** ID of the offered product variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "variant_id": string;
+};
 /** A temporary link for downloading a generated report. */
 export type PublicDownload = {
     /**
@@ -2058,11 +2372,10 @@ export type PublicResolvedLineItemInfo = {
      * Listed variants that can currently be sold in the line currency, in variant_ids order.
      * Inactive, archived, unsellable, and other-currency variants are omitted. Each variant
      * includes its advisory sold-out state and its own modifiers. Present only on variant_ids
-     * lines. [] (Value): {@link PaymentLinkAvailableVariant}. A listed payment link variant that
-     * can be sold in the line currency, with its current price, options, image, modifiers, and
-     * advisory stock state.
+     * lines. [] (Value): {@link PublicCatalogVariant}. A variant that can be sold now, with its
+     * current price, options, image, modifiers, and advisory stock state.
      */
-    "available_variants"?: Array<PaymentLinkAvailableVariant>;
+    "available_variants"?: Array<PublicCatalogVariant>;
     /**
      * The components of the bundle. Present for a bundle line item. [] (Value): {@link
      * PublicResolvedBundleComponent}. One component of a bundle on a resolved payment link line
@@ -2085,11 +2398,14 @@ export type PublicResolvedLineItemInfo = {
     /** Whether Flint tracks stock for the item. */
     "is_inventory_tracked"?: boolean;
     /**
-     * True when the fixed variant or bundle components cannot be bought at the line minimum
-     * quantity from the link inventory_routing_source. The minimum is min_quantity when quantity
-     * adjustment is enabled, otherwise quantity. For variant choice lines, true only when every
-     * available_variants entry is sold out. Always false for untracked and ad hoc lines. Exposes
-     * no stock counts and reserves no stock.
+     * True when the link inventory_routing_source cannot supply the fixed variant or bundle
+     * components at the line minimum quantity. Offered delivery methods affect availability for
+     * items that need a delivery quote. If no quote is needed, stock alone decides. Separate
+     * bundle components can use different fulfillment methods. Shipping can use remaining
+     * backorder capacity for a fixed variant. Pickup requires physical stock. The minimum is
+     * min_quantity when quantity adjustment is enabled, otherwise quantity. For variant choice
+     * lines, true only when every available_variants entry is sold out. Always false for untracked
+     * and ad hoc lines. Exposes no stock counts and reserves no stock.
      */
     "is_sold_out": boolean;
     /** Key of the payment link line item this entry describes. */
@@ -2100,10 +2416,9 @@ export type PublicResolvedLineItemInfo = {
      * Active product options for a variant_ids line, in option position order. Values include only
      * those used by available_variants and retain value position order. Empty when the product has
      * no options; omitted on fixed variant and bundle lines. [] (Value): {@link
-     * PaymentLinkProductOption}. An active product option offered on a payment link, with values
-     * used by its available variants.
+     * PublicCatalogOption}. An active product option, with the values its available variants use.
      */
-    "product_options"?: Array<PaymentLinkProductOption>;
+    "product_options"?: Array<PublicCatalogOption>;
     /**
      * Default quantity breaks for a fixed variant. Empty for bundles, variant choice lines, and ad
      * hoc lines. Each offered variant on a variant choice line has its own schedule in
@@ -2238,6 +2553,212 @@ export type PublicResolvedModifierOption = {
      */
     "unit_price_delta_money": MoneyValue;
 };
+/** Buyer-facing shop. */
+export type PublicShop = {
+    /**
+     * Shop currency. Null when the shop has no listings. Uses ISO 4217 currency codes. minLength:
+     * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string | null;
+    /** Shop description. */
+    "description"?: string;
+    /** Shop cover image. An image with its URL, size, and alt text. */
+    "image"?: Image;
+    /** Message shown when the shop is closed. */
+    "inactive_message"?: string;
+    /** Shop name. */
+    "name": string;
+    /** Shop ID. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". */
+    "shop_id": string;
+    /** Shop status. Value enum: "active", "inactive", "archived". */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /** Hosted shop URL. */
+    "url": string;
+    /** Shop version. Format: int64. */
+    "version": number;
+};
+/** Category shown on the shop. */
+export type PublicShopCategory = {
+    /** Category ID. Example: "ctg_01KEZF7C001T4WWBPVGWRZD88Q". */
+    "category_id": string;
+    /** Category handle. */
+    "handle": string;
+    /** Category name. */
+    "name": string;
+};
+/** Public listing details. */
+export type PublicShopListing = {
+    /**
+     * Modifier choices for a bundle. [] (Value): {@link PublicResolvedModifierGroup}. A modifier
+     * group as resolved for a payment link line item, with its selection limits, display flags,
+     * and options or text settings.
+     */
+    "available_modifiers"?: Array<PublicResolvedModifierGroup>;
+    /**
+     * Available variants priced in the shop currency. [] (Value): {@link PublicCatalogVariant}. A
+     * variant that can be sold now, with its current price, options, image, modifiers, and
+     * advisory stock state.
+     */
+    "available_variants"?: Array<PublicCatalogVariant>;
+    /**
+     * Components of a listed bundle. [] (Value): {@link PublicResolvedBundleComponent}. One
+     * component of a bundle on a resolved payment link line item, with its variant and quantity.
+     */
+    "bundle_components"?: Array<PublicResolvedBundleComponent>;
+    /** Listed bundle ID. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+    "bundle_id"?: string;
+    /** Active category handles for this listing. [] (Value): string. */
+    "category_handles": Array<string>;
+    /**
+     * Compare-at price for a single variant. Null when the listing has no single variant
+     * compare-at price. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     */
+    "compare_at_price_money": ((MoneyValue) | (null));
+    /** Listed item description. */
+    "description"?: string;
+    /** First listed item image. An image with its URL, size, and alt text. */
+    "image"?: Image;
+    /**
+     * Listing images in display order. [] (Value): {@link Image}. An image with its URL, size, and
+     * alt text.
+     */
+    "images": Array<Image>;
+    /** Whether all sellable choices are sold out. */
+    "is_sold_out": boolean;
+    /** Listed item name. */
+    "name": string;
+    /**
+     * Current price range in the shop currency. The lowest and highest unit prices across a
+     * product's variants.
+     */
+    "price_range": ProductPriceRange;
+    /** Listed product ID. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+    "product_id"?: string;
+    /**
+     * Product options used by available variants. [] (Value): {@link PublicCatalogOption}. An
+     * active product option, with the values its available variants use.
+     */
+    "product_options"?: Array<PublicCatalogOption>;
+    /** Whether a variant or required modifier must be selected. */
+    "requires_selection": boolean;
+    /** Shop listing ID. Example: "shl_01KEZF7C005YZXRPWEH31ZXGKA". */
+    "shop_listing_id": string;
+    /** Listing type. Value enum: "product", "bundle". */
+    "type": "product" | "bundle" | (string & {});
+};
+/** A response containing `PublicShopListing` data. */
+export type PublicShopListingResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Public listing details.
+     */
+    "data": PublicShopListing;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** Summary of a public listing. */
+export type PublicShopListingSummary = {
+    /** Listed bundle ID. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+    "bundle_id"?: string;
+    /** Active category handles for this listing. [] (Value): string. */
+    "category_handles": Array<string>;
+    /**
+     * Compare-at price for a single variant. Null when the listing has no single variant
+     * compare-at price. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     */
+    "compare_at_price_money": ((MoneyValue) | (null));
+    /** First listed item image. An image with its URL, size, and alt text. */
+    "image"?: Image;
+    /** Whether all sellable choices are sold out. */
+    "is_sold_out": boolean;
+    /** Listed item name. */
+    "name": string;
+    /**
+     * Current price range in the shop currency. The lowest and highest unit prices across a
+     * product's variants.
+     */
+    "price_range": ProductPriceRange;
+    /** Listed product ID. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+    "product_id"?: string;
+    /** Whether a variant or required modifier must be selected. */
+    "requires_selection": boolean;
+    /** Shop listing ID. Example: "shl_01KEZF7C005YZXRPWEH31ZXGKA". */
+    "shop_listing_id": string;
+    /** Listing type. Value enum: "product", "bundle". */
+    "type": "product" | "bundle" | (string & {});
+};
+/** A response containing `PublicShopResult` data. */
+export type PublicShopResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Public shop and
+     * resolution context.
+     */
+    "data": PublicShopResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** Public shop and resolution context. */
+export type PublicShopResult = {
+    /**
+     * Active categories of the returned listings, sorted by name. [] (Value): {@link
+     * PublicShopCategory}. Category shown on the shop.
+     */
+    "categories": Array<PublicShopCategory>;
+    /** Deadline for starting checkout. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "checkout_start_due_at": string;
+    /**
+     * Merchant checkout theme. Colors, corner radius, font family, and title that style a
+     * checkout, taken from the session or link theme or the merchant's branding settings.
+     */
+    "checkout_theme"?: CheckoutTheme;
+    /**
+     * Checkout policy links and terms acceptance settings. Legal settings for a checkout: whether
+     * buyers must accept terms, and links to the terms, refund policy, shipping policy, and
+     * contract.
+     */
+    "legal"?: LegalSettings;
+    /**
+     * Sellable listings in display order. [] (Value): {@link PublicShopListingSummary}. Summary of
+     * a public listing.
+     */
+    "listings": Array<PublicShopListingSummary>;
+    /** Merchant icon. An image with its URL, size, and alt text. */
+    "merchant_icon"?: Image;
+    /** Merchant logo. An image with its URL, size, and alt text. */
+    "merchant_logo"?: Image;
+    /** Merchant display name. */
+    "merchant_name"?: string;
+    /**
+     * Merchant support contact information. The merchant's support contact. Each field is omitted
+     * when the merchant has not set it.
+     */
+    "merchant_support"?: CheckoutMerchantSupport;
+    /** Private context for starting checkout from this shop. */
+    "resolution_context": string;
+    /** Resolution context expiry. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "resolution_context_expires_at": string;
+    /** Shop details. Buyer-facing shop. */
+    "shop": PublicShop;
+    /** Whether the hosted shop shows the Flint mark. */
+    "show_flint_mark": boolean;
+};
 /** The request body for: Publish return policy revision. */
 export type PublishReturnPolicyRevisionRequest = {
     /**
@@ -2327,1035 +2848,3 @@ export type PurchasedGiftCardPreviousAttributes = {
      */
     "unit_ordinal"?: ((number) | (null));
 };
-/** A net unit price that applies when one catalog line reaches minimum_quantity. */
-export type QuantityPriceBreak = {
-    /**
-     * Minimum whole-number quantity on one line for this price to apply; fractional quantities are
-     * not supported. Must strictly increase between entries. Format: int64. minimum: 2.
-     */
-    "minimum_quantity": number;
-    /**
-     * Net unit price in the base unit price's currency. Must be greater than zero and below the
-     * preceding price, starting with the base unit price. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValue;
-};
-export type QuantityPriceBreakPreviousAttributes = {
-    /**
-     * Minimum whole-number quantity on one line for this price to apply; fractional quantities are
-     * not supported. Must strictly increase between entries. anyOf[1] (Value): integer. Minimum
-     * whole-number quantity on one line for this price to apply; fractional quantities are not
-     * supported. Must strictly increase between entries. Format: int64. minimum: 2. anyOf[2]
-     * (Value): null.
-     */
-    "minimum_quantity"?: ((number) | (null));
-    /**
-     * Net unit price in the base unit price's currency. Must be greater than zero and below the
-     * preceding price, starting with the base unit price. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "unit_price_money"?: ((MoneyValuePreviousAttributes) | (null));
-};
-/** A net unit price that applies when one catalog line reaches minimum_quantity. */
-export type QuantityPriceBreakRequestInput = {
-    /**
-     * Minimum whole-number quantity on one line for this price to apply; fractional quantities are
-     * not supported. Must strictly increase between entries. Format: int64. minimum: 2.
-     */
-    "minimum_quantity": number;
-    /**
-     * Net unit price in the base unit price's currency. Must be greater than zero and below the
-     * preceding price, starting with the base unit price. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValueInput;
-};
-/**
- * Storage usage and limits for a resource, returned in the error details when an image quota is
- * exhausted.
- */
-export type QuotaDetails = {
-    /** Maximum bytes available for the resource in the authenticated scope. Format: int64. */
-    "limit_bytes": number;
-    /**
-     * RFC 3339 time when the next ready unattached image becomes eligible for cleanup, when known.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "next_expiration_at"?: string;
-    /** Stored bytes held by completed images that are not attached to a resource. Format: int64. */
-    "ready_unattached_bytes": number;
-    /** Bytes reserved by in-progress resource mutations. Format: int64. */
-    "reserved_bytes": number;
-    /** Stable resource name whose quota was exhausted. */
-    "resource": string;
-    /** Bytes currently stored for the resource in the authenticated scope. Format: int64. */
-    "used_bytes": number;
-};
-/** A card reader or Tap to Pay phone that takes in-person payments at a location. */
-export type Reader = {
-    /**
-     * The payment intent presented on the reader now. Omitted while the reader is idle. It follows
-     * the payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "active_payment_intent_id"?: string;
-    /**
-     * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-     * changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on
-     * it: Flint checks the reader itself before it sends a payment. Observed connectivity of a
-     * smart reader. Flint refreshes it when it sends or cancels a payment or simulates one, and
-     * every five minutes for active live smart readers.
-     */
-    "connectivity"?: ReaderConnectivity;
-    /** When the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader, the
-     * phone it runs on. Omitted when none is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
-     */
-    "device_id"?: string;
-    /**
-     * `true` for a sandbox simulated reader, registered with `registration_code: simulated-s700`.
-     */
-    "is_simulated": boolean;
-    /**
-     * The location the reader is at. Set at registration and never changed: to move a reader,
-     * archive it and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-    /**
-     * Your key-value pairs for the reader. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them.
-     */
-    "metadata": MetadataMap;
-    /**
-     * The smart reader's model, read from the reader at registration. Smart readers only. Value
-     * enum: "stripe_reader_s700", "stripe_reader_s710", "other".
-     */
-    "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-    /** Your label for the reader. minLength: 1. maxLength: 255. */
-    "name": string;
-    /** Unique identifier for the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". */
-    "reader_id": string;
-    /**
-     * The smart reader's serial number, read from the reader at registration. Smart readers only.
-     */
-    "serial_number"?: string;
-    /** Whether the reader can take payments. Value enum: "active", "archived". */
-    "status": "active" | "archived" | (string & {});
-    /**
-     * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay reader is
-     * a phone driven by the Stripe Terminal SDK in your app. Value enum: "smart_reader",
-     * "tap_to_pay".
-     */
-    "type": "smart_reader" | "tap_to_pay" | (string & {});
-    /** When the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Persisted version of this resource's owned state. Expanded resources and external
-     * observations can change independently. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-export type ReaderArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookReader;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "device_id"?: ((string) | (null));
-            "is_simulated"?: ((boolean) | (null));
-            "location_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
-            "name"?: ((string) | (null));
-            "reader_id"?: ((string) | (null));
-            "serial_number"?: ((string) | (null));
-            "status"?: (("active" | "archived" | (string & {})) | (null));
-            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "reader.archived";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookReader;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "device_id"?: ((string) | (null));
-            "is_simulated"?: ((boolean) | (null));
-            "location_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
-            "name"?: ((string) | (null));
-            "reader_id"?: ((string) | (null));
-            "serial_number"?: ((string) | (null));
-            "status"?: (("active" | "archived" | (string & {})) | (null));
-            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "reader.archived";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "reader.archived";
-});
-/**
- * The `reader.archived` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type ReaderArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookReader}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `active_payment_intent_id`. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events. previous_attributes.connectivity (Optional): {@link
-     * ReaderConnectivityPreviousAttributes} or null. Smart readers only, and omitted once the
-     * reader is archived. Observed reader state: it changes without a write, doesn't advance
-     * `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself
-     * before it sends a payment. previous_attributes.connectivity.anyOf[1] (Value): {@link
-     * ReaderConnectivityPreviousAttributes}. previous_attributes.connectivity.anyOf[2] (Value):
-     * null. previous_attributes.created_at (Optional): string or null. When the reader was
-     * registered. previous_attributes.created_at.anyOf[1] (Value): string. When the reader was
-     * registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.device_id
-     * (Optional): string or null. The register, kiosk or phone the reader takes payments for; on a
-     * Tap to Pay reader, the phone it runs on. Omitted when none is set.
-     * previous_attributes.device_id.anyOf[1] (Value): string. The register, kiosk or phone the
-     * reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none
-     * is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". previous_attributes.device_id.anyOf[2]
-     * (Value): null. previous_attributes.is_simulated (Optional): boolean or null. `true` for a
-     * sandbox simulated reader, registered with `registration_code: simulated-s700`.
-     * previous_attributes.is_simulated.anyOf[1] (Value): boolean. `true` for a sandbox simulated
-     * reader, registered with `registration_code: simulated-s700`.
-     * previous_attributes.is_simulated.anyOf[2] (Value): null. previous_attributes.location_id
-     * (Optional): string or null. The location the reader is at. Set at registration and never
-     * changed: to move a reader, archive it and register it again.
-     * previous_attributes.location_id.anyOf[1] (Value): string. The location the reader is at. Set
-     * at registration and never changed: to move a reader, archive it and register it again.
-     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". previous_attributes.location_id.anyOf[2] (Value):
-     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Your key-value
-     * pairs for the reader. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.model (Optional):
-     * string or null. The smart reader's model, read from the reader at registration. Smart
-     * readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
-     * previous_attributes.model.anyOf[1] (Value): string. The smart reader's model, read from the
-     * reader at registration. Smart readers only. Value enum: "stripe_reader_s700",
-     * "stripe_reader_s710", "other". previous_attributes.model.anyOf[2] (Value): null.
-     * previous_attributes.name (Optional): string or null. Your label for the reader.
-     * previous_attributes.name.anyOf[1] (Value): string. Your label for the reader. minLength: 1.
-     * maxLength: 255. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.reader_id (Optional): string or null. Unique identifier for the reader.
-     * previous_attributes.reader_id.anyOf[1] (Value): string. Unique identifier for the reader.
-     * Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". previous_attributes.reader_id.anyOf[2] (Value):
-     * null. previous_attributes.serial_number (Optional): string or null. The smart reader's
-     * serial number, read from the reader at registration. Smart readers only.
-     * previous_attributes.serial_number.anyOf[1] (Value): string. The smart reader's serial
-     * number, read from the reader at registration. Smart readers only.
-     * previous_attributes.serial_number.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Whether the reader can take payments. Value enum: "active",
-     * "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the reader can take
-     * payments. Value enum: "active", "archived". previous_attributes.status.anyOf[2] (Value):
-     * null. previous_attributes.type (Optional): string or null. What kind of reader it is. A
-     * smart reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe
-     * Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
-     * previous_attributes.type.anyOf[1] (Value): string. What kind of reader it is. A smart reader
-     * is driven from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK
-     * in your app. Value enum: "smart_reader", "tap_to_pay". previous_attributes.type.anyOf[2]
-     * (Value): null. previous_attributes.updated_at (Optional): string or null. When the reader
-     * last changed. previous_attributes.updated_at.anyOf[1] (Value): string. When the reader last
-     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
-     * resources and external observations can change independently.
-     * previous_attributes.version.anyOf[1] (Value): integer. Persisted version of this resource's
-     * owned state. Expanded resources and external observations can change independently. Format:
-     * uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `active_payment_intent_id`.
-         */
-        "object": WebhookReader;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. connectivity (Optional): {@link
-         * ReaderConnectivityPreviousAttributes} or null. Smart readers only, and omitted once the
-         * reader is archived. Observed reader state: it changes without a write, doesn't advance
-         * `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself
-         * before it sends a payment. connectivity.anyOf[1] (Value): {@link
-         * ReaderConnectivityPreviousAttributes}. connectivity.anyOf[2] (Value): null. created_at
-         * (Optional): string or null. When the reader was registered. created_at.anyOf[1] (Value):
-         * string. When the reader was registered. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. device_id (Optional): string
-         * or null. The register, kiosk or phone the reader takes payments for; on a Tap to Pay
-         * reader, the phone it runs on. Omitted when none is set. device_id.anyOf[1] (Value):
-         * string. The register, kiosk or phone the reader takes payments for; on a Tap to Pay
-         * reader, the phone it runs on. Omitted when none is set. Example:
-         * "dev_01KEZF7C0051ZP8MZSGHP989F6". device_id.anyOf[2] (Value): null. is_simulated
-         * (Optional): boolean or null. `true` for a sandbox simulated reader, registered with
-         * `registration_code: simulated-s700`. is_simulated.anyOf[1] (Value): boolean. `true` for
-         * a sandbox simulated reader, registered with `registration_code: simulated-s700`.
-         * is_simulated.anyOf[2] (Value): null. location_id (Optional): string or null. The
-         * location the reader is at. Set at registration and never changed: to move a reader,
-         * archive it and register it again. location_id.anyOf[1] (Value): string. The location the
-         * reader is at. Set at registration and never changed: to move a reader, archive it and
-         * register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2]
-         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Your key-value pairs
-         * for the reader. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2]
-         * (Value): null. model (Optional): string or null. The smart reader's model, read from the
-         * reader at registration. Smart readers only. Value enum: "stripe_reader_s700",
-         * "stripe_reader_s710", "other". model.anyOf[1] (Value): string. The smart reader's model,
-         * read from the reader at registration. Smart readers only. Value enum:
-         * "stripe_reader_s700", "stripe_reader_s710", "other". model.anyOf[2] (Value): null. name
-         * (Optional): string or null. Your label for the reader. name.anyOf[1] (Value): string.
-         * Your label for the reader. minLength: 1. maxLength: 255. name.anyOf[2] (Value): null.
-         * reader_id (Optional): string or null. Unique identifier for the reader.
-         * reader_id.anyOf[1] (Value): string. Unique identifier for the reader. Example:
-         * "rdr_01KEZF7C007JA0G24M7SD6P46C". reader_id.anyOf[2] (Value): null. serial_number
-         * (Optional): string or null. The smart reader's serial number, read from the reader at
-         * registration. Smart readers only. serial_number.anyOf[1] (Value): string. The smart
-         * reader's serial number, read from the reader at registration. Smart readers only.
-         * serial_number.anyOf[2] (Value): null. status (Optional): string or null. Whether the
-         * reader can take payments. Value enum: "active", "archived". status.anyOf[1] (Value):
-         * string. Whether the reader can take payments. Value enum: "active", "archived".
-         * status.anyOf[2] (Value): null. type (Optional): string or null. What kind of reader it
-         * is. A smart reader is driven from your server; a Tap to Pay reader is a phone driven by
-         * the Stripe Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
-         * type.anyOf[1] (Value): string. What kind of reader it is. A smart reader is driven from
-         * your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK in your
-         * app. Value enum: "smart_reader", "tap_to_pay". type.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. When the reader last changed. updated_at.anyOf[1] (Value):
-         * string. When the reader last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. version.anyOf[1] (Value): integer.
-         * Persisted version of this resource's owned state. Expanded resources and external
-         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
-         * (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Smart readers only, and omitted once the reader is archived. Observed reader state:
-             * it changes without a write, doesn't advance `version`, and sends no event. Don't
-             * gate a sale on it: Flint checks the reader itself before it sends a payment.
-             * anyOf[1] (Value): {@link ReaderConnectivityPreviousAttributes}. anyOf[2] (Value):
-             * null.
-             */
-            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null));
-            /**
-             * When the reader was registered. anyOf[1] (Value): string. When the reader was
-             * registered. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader,
-             * the phone it runs on. Omitted when none is set. anyOf[1] (Value): string. The
-             * register, kiosk or phone the reader takes payments for; on a Tap to Pay reader, the
-             * phone it runs on. Omitted when none is set. Example:
-             * "dev_01KEZF7C0051ZP8MZSGHP989F6". anyOf[2] (Value): null.
-             */
-            "device_id"?: ((string) | (null));
-            /**
-             * `true` for a sandbox simulated reader, registered with `registration_code:
-             * simulated-s700`. anyOf[1] (Value): boolean. `true` for a sandbox simulated reader,
-             * registered with `registration_code: simulated-s700`. anyOf[2] (Value): null.
-             */
-            "is_simulated"?: ((boolean) | (null));
-            /**
-             * The location the reader is at. Set at registration and never changed: to move a
-             * reader, archive it and register it again. anyOf[1] (Value): string. The location the
-             * reader is at. Set at registration and never changed: to move a reader, archive it
-             * and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
-             * null.
-             */
-            "location_id"?: ((string) | (null));
-            /**
-             * Your key-value pairs for the reader. anyOf[1] (Value): {@link MetadataMap}. anyOf[2]
-             * (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * The smart reader's model, read from the reader at registration. Smart readers only.
-             * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other". anyOf[1] (Value):
-             * string. The smart reader's model, read from the reader at registration. Smart
-             * readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
-             * anyOf[2] (Value): null.
-             */
-            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
-            /**
-             * Your label for the reader. anyOf[1] (Value): string. Your label for the reader.
-             * minLength: 1. maxLength: 255. anyOf[2] (Value): null.
-             */
-            "name"?: ((string) | (null));
-            /**
-             * Unique identifier for the reader. anyOf[1] (Value): string. Unique identifier for
-             * the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". anyOf[2] (Value): null.
-             */
-            "reader_id"?: ((string) | (null));
-            /**
-             * The smart reader's serial number, read from the reader at registration. Smart
-             * readers only. anyOf[1] (Value): string. The smart reader's serial number, read from
-             * the reader at registration. Smart readers only. anyOf[2] (Value): null.
-             */
-            "serial_number"?: ((string) | (null));
-            /**
-             * Whether the reader can take payments. Value enum: "active", "archived". anyOf[1]
-             * (Value): string. Whether the reader can take payments. Value enum: "active",
-             * "archived". anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "archived" | (string & {})) | (null));
-            /**
-             * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
-             * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
-             * "smart_reader", "tap_to_pay". anyOf[1] (Value): string. What kind of reader it is. A
-             * smart reader is driven from your server; a Tap to Pay reader is a phone driven by
-             * the Stripe Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
-             * anyOf[2] (Value): null.
-             */
-            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
-            /**
-             * When the reader last changed. anyOf[1] (Value): string. When the reader last
-             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. anyOf[1] (Value): integer. Persisted version
-             * of this resource's owned state. Expanded resources and external observations can
-             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "reader.archived". */
-    "event_type"?: "reader.archived";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `reader.archived` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type ReaderArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookReader}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `active_payment_intent_id`. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events. previous_attributes.connectivity (Optional): {@link
-     * ReaderConnectivityPreviousAttributes} or null. Smart readers only, and omitted once the
-     * reader is archived. Observed reader state: it changes without a write, doesn't advance
-     * `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself
-     * before it sends a payment. previous_attributes.connectivity.anyOf[1] (Value): {@link
-     * ReaderConnectivityPreviousAttributes}. previous_attributes.connectivity.anyOf[2] (Value):
-     * null. previous_attributes.created_at (Optional): string or null. When the reader was
-     * registered. previous_attributes.created_at.anyOf[1] (Value): string. When the reader was
-     * registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.created_at.anyOf[2] (Value): null. previous_attributes.device_id
-     * (Optional): string or null. The register, kiosk or phone the reader takes payments for; on a
-     * Tap to Pay reader, the phone it runs on. Omitted when none is set.
-     * previous_attributes.device_id.anyOf[1] (Value): string. The register, kiosk or phone the
-     * reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when none
-     * is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". previous_attributes.device_id.anyOf[2]
-     * (Value): null. previous_attributes.is_simulated (Optional): boolean or null. `true` for a
-     * sandbox simulated reader, registered with `registration_code: simulated-s700`.
-     * previous_attributes.is_simulated.anyOf[1] (Value): boolean. `true` for a sandbox simulated
-     * reader, registered with `registration_code: simulated-s700`.
-     * previous_attributes.is_simulated.anyOf[2] (Value): null. previous_attributes.location_id
-     * (Optional): string or null. The location the reader is at. Set at registration and never
-     * changed: to move a reader, archive it and register it again.
-     * previous_attributes.location_id.anyOf[1] (Value): string. The location the reader is at. Set
-     * at registration and never changed: to move a reader, archive it and register it again.
-     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". previous_attributes.location_id.anyOf[2] (Value):
-     * null. previous_attributes.metadata (Optional): {@link MetadataMap} or null. Your key-value
-     * pairs for the reader. previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.model (Optional):
-     * string or null. The smart reader's model, read from the reader at registration. Smart
-     * readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
-     * previous_attributes.model.anyOf[1] (Value): string. The smart reader's model, read from the
-     * reader at registration. Smart readers only. Value enum: "stripe_reader_s700",
-     * "stripe_reader_s710", "other". previous_attributes.model.anyOf[2] (Value): null.
-     * previous_attributes.name (Optional): string or null. Your label for the reader.
-     * previous_attributes.name.anyOf[1] (Value): string. Your label for the reader. minLength: 1.
-     * maxLength: 255. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.reader_id (Optional): string or null. Unique identifier for the reader.
-     * previous_attributes.reader_id.anyOf[1] (Value): string. Unique identifier for the reader.
-     * Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". previous_attributes.reader_id.anyOf[2] (Value):
-     * null. previous_attributes.serial_number (Optional): string or null. The smart reader's
-     * serial number, read from the reader at registration. Smart readers only.
-     * previous_attributes.serial_number.anyOf[1] (Value): string. The smart reader's serial
-     * number, read from the reader at registration. Smart readers only.
-     * previous_attributes.serial_number.anyOf[2] (Value): null. previous_attributes.status
-     * (Optional): string or null. Whether the reader can take payments. Value enum: "active",
-     * "archived". previous_attributes.status.anyOf[1] (Value): string. Whether the reader can take
-     * payments. Value enum: "active", "archived". previous_attributes.status.anyOf[2] (Value):
-     * null. previous_attributes.type (Optional): string or null. What kind of reader it is. A
-     * smart reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe
-     * Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
-     * previous_attributes.type.anyOf[1] (Value): string. What kind of reader it is. A smart reader
-     * is driven from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK
-     * in your app. Value enum: "smart_reader", "tap_to_pay". previous_attributes.type.anyOf[2]
-     * (Value): null. previous_attributes.updated_at (Optional): string or null. When the reader
-     * last changed. previous_attributes.updated_at.anyOf[1] (Value): string. When the reader last
-     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
-     * resources and external observations can change independently.
-     * previous_attributes.version.anyOf[1] (Value): integer. Persisted version of this resource's
-     * owned state. Expanded resources and external observations can change independently. Format:
-     * uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `active_payment_intent_id`.
-         */
-        "object": WebhookReader;
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. connectivity (Optional): {@link
-         * ReaderConnectivityPreviousAttributes} or null. Smart readers only, and omitted once the
-         * reader is archived. Observed reader state: it changes without a write, doesn't advance
-         * `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself
-         * before it sends a payment. connectivity.anyOf[1] (Value): {@link
-         * ReaderConnectivityPreviousAttributes}. connectivity.anyOf[2] (Value): null. created_at
-         * (Optional): string or null. When the reader was registered. created_at.anyOf[1] (Value):
-         * string. When the reader was registered. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null. device_id (Optional): string
-         * or null. The register, kiosk or phone the reader takes payments for; on a Tap to Pay
-         * reader, the phone it runs on. Omitted when none is set. device_id.anyOf[1] (Value):
-         * string. The register, kiosk or phone the reader takes payments for; on a Tap to Pay
-         * reader, the phone it runs on. Omitted when none is set. Example:
-         * "dev_01KEZF7C0051ZP8MZSGHP989F6". device_id.anyOf[2] (Value): null. is_simulated
-         * (Optional): boolean or null. `true` for a sandbox simulated reader, registered with
-         * `registration_code: simulated-s700`. is_simulated.anyOf[1] (Value): boolean. `true` for
-         * a sandbox simulated reader, registered with `registration_code: simulated-s700`.
-         * is_simulated.anyOf[2] (Value): null. location_id (Optional): string or null. The
-         * location the reader is at. Set at registration and never changed: to move a reader,
-         * archive it and register it again. location_id.anyOf[1] (Value): string. The location the
-         * reader is at. Set at registration and never changed: to move a reader, archive it and
-         * register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_id.anyOf[2]
-         * (Value): null. metadata (Optional): {@link MetadataMap} or null. Your key-value pairs
-         * for the reader. metadata.anyOf[1] (Value): {@link MetadataMap}. metadata.anyOf[2]
-         * (Value): null. model (Optional): string or null. The smart reader's model, read from the
-         * reader at registration. Smart readers only. Value enum: "stripe_reader_s700",
-         * "stripe_reader_s710", "other". model.anyOf[1] (Value): string. The smart reader's model,
-         * read from the reader at registration. Smart readers only. Value enum:
-         * "stripe_reader_s700", "stripe_reader_s710", "other". model.anyOf[2] (Value): null. name
-         * (Optional): string or null. Your label for the reader. name.anyOf[1] (Value): string.
-         * Your label for the reader. minLength: 1. maxLength: 255. name.anyOf[2] (Value): null.
-         * reader_id (Optional): string or null. Unique identifier for the reader.
-         * reader_id.anyOf[1] (Value): string. Unique identifier for the reader. Example:
-         * "rdr_01KEZF7C007JA0G24M7SD6P46C". reader_id.anyOf[2] (Value): null. serial_number
-         * (Optional): string or null. The smart reader's serial number, read from the reader at
-         * registration. Smart readers only. serial_number.anyOf[1] (Value): string. The smart
-         * reader's serial number, read from the reader at registration. Smart readers only.
-         * serial_number.anyOf[2] (Value): null. status (Optional): string or null. Whether the
-         * reader can take payments. Value enum: "active", "archived". status.anyOf[1] (Value):
-         * string. Whether the reader can take payments. Value enum: "active", "archived".
-         * status.anyOf[2] (Value): null. type (Optional): string or null. What kind of reader it
-         * is. A smart reader is driven from your server; a Tap to Pay reader is a phone driven by
-         * the Stripe Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
-         * type.anyOf[1] (Value): string. What kind of reader it is. A smart reader is driven from
-         * your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK in your
-         * app. Value enum: "smart_reader", "tap_to_pay". type.anyOf[2] (Value): null. updated_at
-         * (Optional): string or null. When the reader last changed. updated_at.anyOf[1] (Value):
-         * string. When the reader last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version (Optional): integer
-         * or null. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. version.anyOf[1] (Value): integer.
-         * Persisted version of this resource's owned state. Expanded resources and external
-         * observations can change independently. Format: uint64. minimum: 1. version.anyOf[2]
-         * (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Smart readers only, and omitted once the reader is archived. Observed reader state:
-             * it changes without a write, doesn't advance `version`, and sends no event. Don't
-             * gate a sale on it: Flint checks the reader itself before it sends a payment.
-             * anyOf[1] (Value): {@link ReaderConnectivityPreviousAttributes}. anyOf[2] (Value):
-             * null.
-             */
-            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null));
-            /**
-             * When the reader was registered. anyOf[1] (Value): string. When the reader was
-             * registered. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value):
-             * null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader,
-             * the phone it runs on. Omitted when none is set. anyOf[1] (Value): string. The
-             * register, kiosk or phone the reader takes payments for; on a Tap to Pay reader, the
-             * phone it runs on. Omitted when none is set. Example:
-             * "dev_01KEZF7C0051ZP8MZSGHP989F6". anyOf[2] (Value): null.
-             */
-            "device_id"?: ((string) | (null));
-            /**
-             * `true` for a sandbox simulated reader, registered with `registration_code:
-             * simulated-s700`. anyOf[1] (Value): boolean. `true` for a sandbox simulated reader,
-             * registered with `registration_code: simulated-s700`. anyOf[2] (Value): null.
-             */
-            "is_simulated"?: ((boolean) | (null));
-            /**
-             * The location the reader is at. Set at registration and never changed: to move a
-             * reader, archive it and register it again. anyOf[1] (Value): string. The location the
-             * reader is at. Set at registration and never changed: to move a reader, archive it
-             * and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2] (Value):
-             * null.
-             */
-            "location_id"?: ((string) | (null));
-            /**
-             * Your key-value pairs for the reader. anyOf[1] (Value): {@link MetadataMap}. anyOf[2]
-             * (Value): null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * The smart reader's model, read from the reader at registration. Smart readers only.
-             * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other". anyOf[1] (Value):
-             * string. The smart reader's model, read from the reader at registration. Smart
-             * readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
-             * anyOf[2] (Value): null.
-             */
-            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
-            /**
-             * Your label for the reader. anyOf[1] (Value): string. Your label for the reader.
-             * minLength: 1. maxLength: 255. anyOf[2] (Value): null.
-             */
-            "name"?: ((string) | (null));
-            /**
-             * Unique identifier for the reader. anyOf[1] (Value): string. Unique identifier for
-             * the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". anyOf[2] (Value): null.
-             */
-            "reader_id"?: ((string) | (null));
-            /**
-             * The smart reader's serial number, read from the reader at registration. Smart
-             * readers only. anyOf[1] (Value): string. The smart reader's serial number, read from
-             * the reader at registration. Smart readers only. anyOf[2] (Value): null.
-             */
-            "serial_number"?: ((string) | (null));
-            /**
-             * Whether the reader can take payments. Value enum: "active", "archived". anyOf[1]
-             * (Value): string. Whether the reader can take payments. Value enum: "active",
-             * "archived". anyOf[2] (Value): null.
-             */
-            "status"?: (("active" | "archived" | (string & {})) | (null));
-            /**
-             * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
-             * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
-             * "smart_reader", "tap_to_pay". anyOf[1] (Value): string. What kind of reader it is. A
-             * smart reader is driven from your server; a Tap to Pay reader is a phone driven by
-             * the Stripe Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay".
-             * anyOf[2] (Value): null.
-             */
-            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
-            /**
-             * When the reader last changed. anyOf[1] (Value): string. When the reader last
-             * changed. Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. anyOf[1] (Value): integer. Persisted version
-             * of this resource's owned state. Expanded resources and external observations can
-             * change independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "reader.archived". */
-    "event_type"?: "reader.archived";
-});
-/**
- * A Tap to Pay connection session: a fresh single-use Stripe Terminal connection token for the
- * reader's location, returned only in the response that creates it.
- */
-export type ReaderConnectionSession = {
-    /**
-     * What the Stripe Terminal SDK takes. Appears only in this response, never on the reader, in
-     * lists or in webhooks. Stripe Terminal SDK inputs for one connection.
-     */
-    "client_session": ReaderConnectionSessionClientSession;
-    /** The reader's Flint location. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-    "location_id": string;
-    /** The Tap to Pay reader the session is for. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". */
-    "reader_id": string;
-};
-/** Stripe Terminal SDK inputs for one connection. */
-export type ReaderConnectionSessionClientSession = {
-    /**
-     * Inputs for the Stripe Terminal SDK. Return `connection_token` from the SDK's
-     * `fetchConnectionToken` callback, and pass `location_id` to
-     * `TapToPayConnectionConfiguration`.
-     */
-    "stripe": ReaderConnectionSessionStripe;
-};
-/** A response containing `ReaderConnectionSession` data. */
-export type ReaderConnectionSessionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A Tap to Pay connection
-     * session: a fresh single-use Stripe Terminal connection token for the reader's location,
-     * returned only in the response that creates it.
-     */
-    "data": ReaderConnectionSession;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Return `connection_token` from the SDK's `fetchConnectionToken` callback, and pass `location_id`
- * to `TapToPayConnectionConfiguration`.
- */
-export type ReaderConnectionSessionStripe = {
-    /**
-     * Single-use Stripe Terminal connection token, scoped to the reader's Stripe location. Create
-     * another session when the SDK asks for a new token. minLength: 1.
-     */
-    "connection_token": string;
-    /**
-     * The Stripe Terminal location ID the SDK's Tap to Pay connection requires. This is a Stripe
-     * ID, not a Flint location ID. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id": string;
-};
-/**
- * Observed connectivity of a smart reader. Flint refreshes it when it sends or cancels a payment
- * or simulates one, and every five minutes for active live smart readers.
- */
-export type ReaderConnectivity = {
-    /**
-     * When the reader last reached Stripe. Omitted when it never has. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "last_seen_at"?: string | null;
-    /** When Flint observed this. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "observed_at": string;
-    /**
-     * Whether the reader was reaching Stripe when Flint last observed it. Value enum: "online",
-     * "offline".
-     */
-    "status": "online" | "offline" | (string & {});
-};
-export type ReaderConnectivityPreviousAttributes = {
-    /**
-     * When the reader last reached Stripe. Omitted when it never has. anyOf[1] (Value): string.
-     * When the reader last reached Stripe. Omitted when it never has. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "last_seen_at"?: ((string) | (null));
-    /**
-     * When Flint observed this. anyOf[1] (Value): string. When Flint observed this. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "observed_at"?: ((string) | (null));
-    /**
-     * Whether the reader was reaching Stripe when Flint last observed it. Value enum: "online",
-     * "offline". anyOf[1] (Value): string. Whether the reader was reaching Stripe when Flint last
-     * observed it. Value enum: "online", "offline". anyOf[2] (Value): null.
-     */
-    "status"?: (("online" | "offline" | (string & {})) | (null));
-};
-export type ReaderCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookReader;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "reader.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookReader;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "reader.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "reader.created";
-});
-/**
- * The `reader.created` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type ReaderCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookReader}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `active_payment_intent_id`.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `active_payment_intent_id`.
-         */
-        "object": WebhookReader;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "reader.created". */
-    "event_type"?: "reader.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `reader.created` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type ReaderCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): {@link WebhookReader}. The resource snapshot, without expansions.
-     * Webhooks omit these fields: `active_payment_intent_id`.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `active_payment_intent_id`.
-         */
-        "object": WebhookReader;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "reader.created". */
-    "event_type"?: "reader.created";
-});
-/** A page of `Reader` objects. */
-export type ReaderListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * Reader}. A card reader or Tap to Pay phone that takes in-person payments at a location.
-     */
-    "data": Array<Reader>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Tip collection settings for a payment presented on a smart reader. */
-export type ReaderPaymentSourceTip = {
-    /**
-     * Show the smart reader's tip screen before the card. Not accepted on Tap to Pay readers, on
-     * an order with a requested tip, or on a payment that already carries a tip. Default: false.
-     */
-    "enabled": boolean;
-};
-/** Tip collection settings for a payment presented on a smart reader. */
-export type ReaderPaymentSourceTipInput = ReaderPaymentSourceTip;
-/** A response containing `Reader` data. */
-export type ReaderResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A card reader or Tap to
-     * Pay phone that takes in-person payments at a location.
-     */
-    "data": Reader;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type ReaderUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookReader;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "device_id"?: ((string) | (null));
-            "is_simulated"?: ((boolean) | (null));
-            "location_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
-            "name"?: ((string) | (null));
-            "reader_id"?: ((string) | (null));
-            "serial_number"?: ((string) | (null));
-            "status"?: (("active" | "archived" | (string & {})) | (null));
-            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "reader.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": WebhookReader;
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "connectivity"?: ((ReaderConnectivityPreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "device_id"?: ((string) | (null));
-            "is_simulated"?: ((boolean) | (null));
-            "location_id"?: ((string) | (null));
-            "metadata"?: ((MetadataMap) | (null));
-            "model"?: (("stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {})) | (null));
-            "name"?: ((string) | (null));
-            "reader_id"?: ((string) | (null));
-            "serial_number"?: ((string) | (null));
-            "status"?: (("active" | "archived" | (string & {})) | (null));
-            "type"?: (("smart_reader" | "tap_to_pay" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-            "version"?: ((number) | (null));
-        });
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "reader.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "reader.updated";
-});

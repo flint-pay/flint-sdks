@@ -13,13 +13,16 @@ import type {
     LicenseKeyPoolsCreateKeysParams,
     LicenseKeyPoolsCreateParams,
     LicenseKeyPoolsDeleteParams,
-    LicenseKeyPoolsGetParams,
-    LicenseKeyPoolsListKeysParams,
-    LicenseKeyPoolsListParams
+    LicenseKeyPoolsGetParams
 } from '../declarations/types-39.js';
-import type { LicenseKeyPoolsRemoveKeysParams, LicenseKeyPoolsUpdateParams } from '../declarations/types-40.js';
+import type {
+    LicenseKeyPoolsListKeysParams,
+    LicenseKeyPoolsListParams,
+    LicenseKeyPoolsRemoveKeysParams,
+    LicenseKeyPoolsUpdateParams
+} from '../declarations/types-40.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -43,33 +46,36 @@ export type {
     LicenseKeyPoolAdditionsResponse,
     LicenseKeyPoolsDeleteParams,
     LicenseKeyPoolsGetParams,
-    LicenseKeyPoolsListKeysParams,
     LicenseKeyPoolKeyListResponse,
     LicenseKeyPoolKey,
-    LicenseKeyPoolsListParams,
     LicenseKeyPoolListResponse,
     LicenseKeyPoolRemovals,
     LicenseKeyPoolRemovalsResponse,
     LicenseKeyPoolKeyAddition,
     LicenseKeyPoolKeyRemoval
 } from '../declarations/types-39.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type { LicenseKeyPoolsRemoveKeysParams, LicenseKeyPoolsUpdateParams } from '../declarations/types-40.js';
+export type { RequestOptions, ResourceReference, RemoveLicenseKeyPoolKeysRequestInput } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
+export type {
+    LicenseKeyPoolsListKeysParams,
+    LicenseKeyPoolsListParams,
+    LicenseKeyPoolsRemoveKeysParams,
+    LicenseKeyPoolsUpdateParams
+} from '../declarations/types-40.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateLicenseKeyPoolRequestInput, CreateLicenseKeyPoolKeysRequestInput } from '../declarations/types-11.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { RemoveLicenseKeyPoolKeysRequestInput } from '../declarations/types-61.js';
-export type { UpdateLicenseKeyPoolRequestInput } from '../declarations/types-76.js';
+export type { UpdateLicenseKeyPoolRequestInput } from '../declarations/types-77.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateLicenseKeyPoolKeysRequest, makeCreateLicenseKeyPoolRequest } from '../declarations/types-83.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeRemoveLicenseKeyPoolKeysRequest } from '../declarations/types-91.js';
-export { makeUpdateLicenseKeyPoolRequest } from '../declarations/types-94.js';
+export { makeCreateLicenseKeyPoolKeysRequest, makeCreateLicenseKeyPoolRequest } from '../declarations/types-84.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-89.js';
+export { makeRemoveLicenseKeyPoolKeysRequest } from '../declarations/types-92.js';
+export { makeUpdateLicenseKeyPoolRequest } from '../declarations/types-95.js';
 export interface LicenseKeyPoolsResource {
     /**
  * Creates an empty pool.

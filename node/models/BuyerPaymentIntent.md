@@ -31,7 +31,7 @@ A payment as the buyer sees it. Omits the store's fees, net, risk assessment, an
 | `merchant_id` | Optional | string | Merchant that owns this payment intent. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `order_edit_id` | Optional | string | The edit whose added balance this payment collects. Omitted when this payment doesn't collect an edit's balance. Example: `"oed_01KEZF7C00A6BQ4TBGWFDJ944A"`. |
 | `order_id` | Optional | string | Order this payment belongs to. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `payment_flow` | Required | string | How the payment was started. Fixed when the payment is created. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
+| `payment_flow` | Required | string | How the payment was started. Fixed when the payment is created. Values: `"checkout"`, `"payment_link"`, `"shop"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
 | `payment_intent_id` | Required | string | Flint payment intent ID. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 | `payment_options` | Required | Array of string | Payment options the buyer can use for this payment. Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `"card_present"`. |
 | `payment_source` | Optional | [PaymentSourceSummary](../models/PaymentSourceSummary.md#paymentsourcesummary) | Summary of the card or bank account used for the payment. Absent until a payment source is attached. A summary of the payment source used for a payment, by funding-method family, with card or bank account display details. |

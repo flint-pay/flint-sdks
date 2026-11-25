@@ -49,7 +49,7 @@ final class ResourceTimelineLicenseKeyRestrictionChangeEntry extends Model {
      */
     public function getSubscriptionId(): ?string { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
-    /** What caused the restriction. Value enum: "merchant", "refund", "dispute", "subscription".
+    /** What caused the restriction. Value enum: "merchant", "refund", "dispute", "subscription", "payment_reversal".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

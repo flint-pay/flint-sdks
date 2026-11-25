@@ -224,7 +224,7 @@ final class PaymentIntentRequiresCaptureMerchantEventDataPreviousAttributes exte
      */
     public function getOvercapture(): PaymentIntentOvercapturePreviousAttributes|null { return $this->get('overcapture'); }
     public function hasOvercapture(): bool { return $this->has('overcapture'); }
-    /** How the payment was started. Fixed when the payment intent is created. Value enum: "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api". anyOf[1] (Value): string. How the payment was started. Fixed when the payment intent is created. Value enum: "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): null.
+    /** How the payment was started. Fixed when the payment intent is created. Value enum: "checkout", "payment_link", "shop", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api". anyOf[1] (Value): string. How the payment was started. Fixed when the payment intent is created. Value enum: "checkout", "payment_link", "shop", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getPaymentFlow(): string|null { return $this->get('payment_flow'); }

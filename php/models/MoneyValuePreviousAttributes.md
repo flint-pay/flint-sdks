@@ -9,7 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount` | Optional | integer string or null | Amount in the currency's minor unit, such as cents for USD. `amount`: [declared alternatives](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributesamount). |
-| `currency` | Optional | string or null | Three-letter uppercase ISO 4217 currency code for this amount, such as USD. `currency`: [declared alternatives](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributescurrency). |
+| `currency` | Optional | string or null | Three-letter uppercase ISO 4217 currency code for this amount, such as USD. `currency`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money-variant-1currency). |
 
 ### MoneyValuePreviousAttributes.amount
 
@@ -27,15 +27,5 @@ anyOf variant 2.
 
 ### MoneyValuePreviousAttributes.currency
 
-### MoneyValuePreviousAttributes.currency variant 1
-
-anyOf variant 1: Three-letter uppercase ISO 4217 currency code for this amount, such as USD..
-
-- Value shape: string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. 
-
-### MoneyValuePreviousAttributes.currency variant 2
-
-anyOf variant 2.
-
-- Value shape: null. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. 
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 1.currency](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money-variant-1currency).
 

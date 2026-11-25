@@ -1,5 +1,5 @@
+import type { OrderLineItemModifierPreviousAttributes } from './types-47.js';
 import type {
-    FulfillmentLineItemRequest,
     Fulfillment,
     FulfillmentEventsGetParams,
     FulfillmentItemizedPackagesRequest,
@@ -7,14 +7,13 @@ import type {
     ExpandedShipmentSummaryPreviousAttributes,
     FulfillmentChargeLinkPreviousAttributes,
     FulfillmentHoldPreviousAttributes,
-    FulfillmentLineItemPreviousAttributes,
     ExpandedShipmentSummary,
     FulfillmentChargeLink,
     FulfillmentHold,
     FulfillmentLineItem,
     FailFulfillmentRequestInput
 } from './types-27.js';
-import type { ResponseMeta } from './types-62.js';
+import type { ResponseMeta, ReturnDisposition, ReturnInspection } from './types-63.js';
 import type {
     ExpandedOrderSummary,
     ExpandedOrderSummaryPreviousAttributes,
@@ -24,16 +23,9 @@ import type {
 import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-43.js';
 import type { InputValue } from '../runtime.js';
 import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-12.js';
-import type { PackageCreateRequest, PackageCreateRequestInput } from './types-48.js';
-import type {
-    SinglePackageCreateRequest,
-    SinglePackageCreateRequestInput,
-    ServiceFulfillmentDetailsPreviousAttributes,
-    ShipmentFulfillmentDetailsPreviousAttributes,
-    ServiceFulfillmentDetails,
-    ShipmentFulfillmentDetails,
-    StartFulfillmentRequestInput
-} from './types-68.js';
+import type { PackageCreateRequest } from './types-48.js';
+import type { SinglePackageCreateRequest, SinglePackageCreateRequestInput, StartFulfillmentRequestInput } from './types-69.js';
+import type { PackageCreateRequestInput } from './types-49.js';
 import type { DeliveryFulfillmentDetailsPreviousAttributes, DeliveryFulfillmentDetails } from './types-19.js';
 import type {
     DigitalFulfillmentDetailsPreviousAttributes,
@@ -41,6 +33,13 @@ import type {
     DispatchFulfillmentRequestInput
 } from './types-25.js';
 import type { PickupFulfillmentDetailsPreviousAttributes, PickupFulfillmentDetails } from './types-55.js';
+import type {
+    ServiceFulfillmentDetailsPreviousAttributes,
+    ShipmentFulfillmentDetailsPreviousAttributes,
+    ServiceFulfillmentDetails,
+    ShipmentFulfillmentDetails,
+    ScheduleFulfillmentRequestInput
+} from './types-68.js';
 import type {
     Address,
     AddressPreviousAttributes,
@@ -61,14 +60,66 @@ import type {
     MarkFulfillmentReadyRequestInput
 } from './types-41.js';
 import type { ReleaseFulfillmentHoldRequestInput } from './types-61.js';
-import type { ScheduleFulfillmentRequestInput } from './types-67.js';
-import type { UpdateFulfillmentRequestInput } from './types-76.js';
-import type { ReturnDisposition, ReturnInspection } from './types-63.js';
-import type { ReturnLineItem, ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-64.js';
-import type { ReturnResolution } from './types-65.js';
+import type { UpdateFulfillmentRequestInput } from './types-77.js';
+import type { ReturnLineItem, ReturnPolicy, ReturnPolicyRevision } from './types-64.js';
+import type { ReturnReason, ReturnReceipt, ReturnResolution } from './types-65.js';
 import type { ReturnResource } from './types-66.js';
 import type { GiftCardRestriction } from './types-30.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+export type FulfillmentLineItemPreviousAttributes = {
+    /**
+     * Bundle component this row counts, in component units. `null` when the line isn't a bundle
+     * component. Look it up in the order line's bundle_components. anyOf[1] (Value): string.
+     * Bundle component this row counts, in component units. `null` when the line isn't a bundle
+     * component. Look it up in the order line's bundle_components. Example:
+     * "bunc_01KEZF7C00CQASEZGAPEANTGD1". anyOf[2] (Value): null.
+     */
+    "bundle_component_id"?: ((string) | (null));
+    /**
+     * Modifier selections snapshotted from the order line for fulfillment. anyOf[1] (Value): Array
+     * of {@link OrderLineItemModifierPreviousAttributes}. Modifier selections snapshotted from the
+     * order line for fulfillment. anyOf[1][] (Value): {@link
+     * OrderLineItemModifierPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "modifiers"?: ((Array<OrderLineItemModifierPreviousAttributes>) | (null));
+    /**
+     * Order that owns the referenced line item. anyOf[1] (Value): string. Order that owns the
+     * referenced line item. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
+     */
+    "order_id"?: ((string) | (null));
+    /**
+     * Order line whose quantity is allocated to the fulfillment. anyOf[1] (Value): string. Order
+     * line whose quantity is allocated to the fulfillment. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". anyOf[2] (Value): null.
+     */
+    "order_line_item_id"?: ((string) | (null));
+    /**
+     * Whole-number quantity in component units for a bundle component, or line units otherwise;
+     * fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity in
+     * component units for a bundle component, or line units otherwise; fractional quantities are
+     * not supported. Format: int64. anyOf[2] (Value): null.
+     */
+    "quantity"?: ((number) | (null));
+};
+/** An order line item and quantity to include when creating a fulfillment. */
+export type FulfillmentLineItemRequest = {
+    /**
+     * Bundle component to fulfill, from the order line's bundle_components. Omit or send `null`
+     * when the line isn't a bundle component. A bundle line requires its component ID. minLength:
+     * 1. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     */
+    "bundle_component_id"?: string | null;
+    /**
+     * Order line whose quantity is allocated. minLength: 1. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id": string;
+    /**
+     * Whole-number quantity in component units for a bundle component, or line units otherwise;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "quantity": number;
+};
 /** An order line item and quantity to include when creating a fulfillment. */
 export type FulfillmentLineItemRequestInput = FulfillmentLineItemRequest;
 /** A page of `Fulfillment` objects. */
@@ -5986,88 +6037,4 @@ export type GiftCardCustomAmountBoundsRequestInput = {
      * as integer minor units plus an ISO 4217 currency code.
      */
     "minimum_money": MoneyValueInput;
-};
-/** A merchant decision to honor gift card value after its funding payment lost a dispute. */
-export type GiftCardFundingDisposition = {
-    /** When the disposition was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * How Flint handles the lost funding. honor_value keeps the affected cards' unspent value
-     * spendable and removes the freeze this dispute placed on them. Value enum: "honor_value".
-     */
-    "disposition": "honor_value" | (string & {});
-    /**
-     * The whole disputed payment amount, which can include consideration for other purchases. It
-     * is separate from the original gift card consideration and honored face value. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "dispute_amount_money": MoneyValue;
-    /** The lost dispute this disposition resolves. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". */
-    "dispute_id": string;
-    /** Stable identifier of the disposition. Example: "gfd_01KEZF7C0077Q8RK3Q4FD2DTW8". */
-    "gift_card_funding_disposition_id": string;
-    /**
-     * Gift cards whose value this disposition honors, including replacement cards that received
-     * value from the disputed funding. [] (Value): string. Example:
-     * "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     */
-    "gift_card_ids": Array<string>;
-    /**
-     * Unspent value that stays spendable under this disposition, summed across the affected cards,
-     * including replacement cards that received value from the disputed funding. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "honored_value_money": MoneyValue;
-    /**
-     * The Idempotency-Key of the request that created this resource. `null` when that request sent
-     * no key, Flint created the resource, the reader isn't the caller that created it (another app
-     * install, a buyer, or the merchant reading an app's or buyer's record), or the caller that
-     * created an older record is unknown. Filter its list with `idempotency_key` to find it.
-     * Recorded payloads, including replayed responses and webhook events, can return `null`. To
-     * find a key that a replay returns as `null`, read the resource.
-     */
-    "idempotency_key": string | null;
-    /**
-     * What the buyer paid for the gift card value the disputed payment funded, summed across its
-     * funding loads. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "original_gift_card_consideration_money": MoneyValue;
-    /**
-     * The disputed payment that funded the gift card value. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id": string;
-    /**
-     * Part of honored_value_money that pending redemptions held when the disposition was created.
-     * It stays reserved for them. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "preserved_reserved_value_money": MoneyValue;
-    /** Your reason for honoring the value, from the create request. */
-    "reason_message": string;
-};
-/** A page of `GiftCardFundingDisposition` objects. */
-export type GiftCardFundingDispositionListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * GiftCardFundingDisposition}. A merchant decision to honor gift card value after its funding
-     * payment lost a dispute.
-     */
-    "data": Array<GiftCardFundingDisposition>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
 };

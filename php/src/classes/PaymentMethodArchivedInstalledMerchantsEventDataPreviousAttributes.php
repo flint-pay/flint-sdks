@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read CardDetailsPreviousAttributes|null $card
+ * @property-read PaymentMethodConsentPreviousAttributes|null $consent
  * @property-read string|null $created_at
  * @property-read ExpandedCustomerSummaryPreviousAttributes|null $customer
  * @property-read string|null $customer_id
@@ -19,13 +20,18 @@ namespace Flint;
  * @property-read string|null $usage
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentMethodArchivedInstalledMerchantsEventDataPreviousAttributes extends Model {
-    /** @param array{'card'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'fingerprint'?: mixed, 'is_default'?: mixed, 'is_removing'?: mixed, 'merchant_id'?: mixed, 'origin'?: mixed, 'payment_method_id'?: mixed, 'saved_with'?: mixed, 'status'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'usage'?: mixed, ...}|object $values */
+    /** @param array{'card'?: mixed, 'consent'?: mixed, 'created_at'?: mixed, 'customer'?: mixed, 'customer_id'?: mixed, 'fingerprint'?: mixed, 'is_default'?: mixed, 'is_removing'?: mixed, 'merchant_id'?: mixed, 'origin'?: mixed, 'payment_method_id'?: mixed, 'saved_with'?: mixed, 'status'?: mixed, 'type'?: mixed, 'updated_at'?: mixed, 'usage'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodArchivedInstalledMerchantsEventDataPreviousAttributes')); }
     /** Brand, expiry and last four digits. Present when `type` is `card`. anyOf[1] (Value): {@see CardDetailsPreviousAttributes}. anyOf[2] (Value): null.
      * @return CardDetailsPreviousAttributes|null
      */
     public function getCard(): CardDetailsPreviousAttributes|null { return $this->get('card'); }
     public function hasCard(): bool { return $this->has('card'); }
+    /** Recorded consent for the card save. Null when Flint has no recorded wording for this card. anyOf[1] (Value): {@see PaymentMethodConsentPreviousAttributes}. anyOf[2] (Value): null.
+     * @return PaymentMethodConsentPreviousAttributes|null
+     */
+    public function getConsent(): PaymentMethodConsentPreviousAttributes|null { return $this->get('consent'); }
+    public function hasConsent(): bool { return $this->has('consent'); }
     /** RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. anyOf[2] (Value): null.
      * @return string|null
      */

@@ -5,14 +5,14 @@ import type { DecideReturnInspectionLineItemResponse } from '../declarations/typ
 import type { GetReturnInspectionResponse } from '../declarations/types-28.js';
 import type { ListReturnInspectionsResponse } from '../declarations/types-40.js';
 import type { RequestOptions } from '../declarations/types-62.js';
+import type { ReturnInspection } from '../declarations/types-63.js';
 import type {
-    ReturnInspection,
     ReturnInspectionsCreateParams,
     ReturnInspectionsDecideLineItemParams,
     ReturnInspectionsGetParams,
     ReturnInspectionsListParams
-} from '../declarations/types-63.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
+} from '../declarations/types-64.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,16 +29,15 @@ export type {
 } from '../runtime.js';
 export type {
     ReturnInspectionsCreateParams,
-    ReturnInspection,
     ReturnInspectionsDecideLineItemParams,
     ReturnInspectionsGetParams,
     ReturnInspectionsListParams,
     ReturnInspectionLineItemRequestInput,
-    ReturnDisposition,
     ReturnInspectionLineItem
-} from '../declarations/types-63.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type { RequestOptions, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+} from '../declarations/types-64.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-81.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
+export type { ReturnInspection, ReturnDisposition, ReturnActor, ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { CreateReturnInspectionResponse, CreateReturnInspectionRequestInput } from '../declarations/types-13.js';
 export type { DecideReturnInspectionLineItemResponse, DecideReturnInspectionLineItemRequestInput } from '../declarations/types-17.js';
 export type { GetReturnInspectionResponse } from '../declarations/types-28.js';
@@ -51,11 +50,11 @@ export type { MetadataMap } from '../declarations/types-43.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateReturnInspectionRequest } from '../declarations/types-84.js';
-export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeReturnInspectionLineItemRequest } from '../declarations/types-91.js';
-export { makeReturnSourceSystemRequest } from '../declarations/types-92.js';
+export { makeCreateReturnInspectionRequest } from '../declarations/types-85.js';
+export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-86.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeReturnInspectionLineItemRequest } from '../declarations/types-92.js';
+export { makeReturnSourceSystemRequest } from '../declarations/types-93.js';
 export interface ReturnInspectionsResource {
     /**
  * Record an immutable inspection observation. Corrections supersede an earlier inspection instead

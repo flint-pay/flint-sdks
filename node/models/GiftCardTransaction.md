@@ -70,7 +70,7 @@ The resource that caused this transaction, such as a gift_card_load, gift_card_r
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Conditional | string | Public Flint ID of the referenced resource. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Conditional | string | Public resource kind identified by resource_id, such as payment_intent for a payment. Example: `"order"`. Values: [158 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
+| `resource_type` | Conditional | string | Public resource kind identified by resource_id, such as payment_intent for a payment. Example: `"order"`. Values: [160 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
 
 ### GiftCardTransaction.source variant 1
 

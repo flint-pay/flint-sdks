@@ -15,5 +15,5 @@ Response model.
 | `refund_id` | Optional | string | The refund that caused this restriction, when applicable. |
 | `resource_timeline_entry_id` | Required | string | Stable ID of this restriction change. |
 | `subscription_id` | Optional | string | The subscription that caused this restriction, when applicable. |
-| `type` | Required | string | What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`. |
+| `type` | Required | string | What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`, `"payment_reversal"`. |
 

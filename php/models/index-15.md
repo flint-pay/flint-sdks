@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# InventoryActionRequiredInput to InventoryRoutingSourcePreviousAttributesInput
+# InlineModifierGroupRequestInput to InventoryRoutingSourceInputPolicyRevisionInput
 
+- [InlineModifierGroupRequestInput](InlineModifierGroupRequestInput.md)
 - [InventoryActionRequiredInput](InventoryActionRequiredInput.md)
 - [InventoryActionRequiredPreviousAttributesInput](InventoryActionRequiredPreviousAttributesInput.md)
 - [InventoryAdjustmentInput](InventoryAdjustmentInput.md)
@@ -101,5 +102,4 @@
 - [InventoryRoutingSourceInputFixedLocationInput](InventoryRoutingSourceInputFixedLocationInput.md)
 - [InventoryRoutingSourceInputPolicyInput](InventoryRoutingSourceInputPolicyInput.md)
 - [InventoryRoutingSourceInputPolicyRevisionInput](InventoryRoutingSourceInputPolicyRevisionInput.md)
-- [InventoryRoutingSourcePreviousAttributesInput](InventoryRoutingSourcePreviousAttributesInput.md)
 

@@ -50,16 +50,20 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `checkout_session_id` | Optional | string or null | The checkout session the payment came from. Absent when the fee was sent with the payment itself. `checkout_session_id`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributescheckout_session_id). |
 | `collected_at` | Optional | string or null | When Flint collected the fee with the payment. Absent unless status is succeeded. `collected_at`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributescollected_at). |
 | `created_at` | Optional | string or null | When the payment's create recorded the fee. `created_at`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributescreated_at). |
+| `invoice_id` | Optional | string or null | The invoice the payment collected. `invoice_id`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributesinvoice_id). |
 | `merchant_id` | Optional | string or null | The installed merchant charged the fee, as on the install. `merchant_id`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributesmerchant_id). |
 | `partner_app_id` | Optional | string or null | The partner app that charged the fee. `partner_app_id`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributespartner_app_id). |
 | `partner_app_install_id` | Optional | string or null | The install whose partner app token created the payment. `partner_app_install_id`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributespartner_app_install_id). |
 | `payment_intent_id` | Optional | string or null | The payment the fee rides on, owned by the installed merchant. After that merchant resets the sandbox the payment was in, the ID no longer resolves. `payment_intent_id`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributespayment_intent_id). |
+| `payment_link_id` | Optional | string or null | The payment link whose checkout made the payment. `payment_link_id`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributespayment_link_id). |
 | `platform_fee_id` | Optional | string or null | Unique identifier for the platform fee, the payment intent's platform_fee.platform_fee_id. `platform_fee_id`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributesplatform_fee_id). |
+| `platform_fee_rule` | Optional | [PlatformFeeRulePreviousAttributesInput](../models/PlatformFeeRulePreviousAttributesInput.md#platformfeerulepreviousattributesinput) or null | The rule that priced this fee, as it stood when the payment was created. |
 | `refunded_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The fee debited from the platform for returns so far, including opted-in payment refunds and returns of the whole application fee. Matches the platform ledger, including returns awaiting completion; reversals reduce the total. 0 when nothing has been debited. |
 | `requested_amount_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The fee the request asked for. |
 | `reserve_available_at` | Optional | string or null | The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event. `reserve_available_at`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributesreserve_available_at). |
 | `reserve_hold_money` | Optional | [MoneyValuePreviousAttributesInput](../models/MoneyValuePreviousAttributesInput.md#moneyvaluepreviousattributesinput) or null | The share of the fee Flint held in your reserve when it posted the fee to your ledger. Absent until then. The original collection snapshot: refunds release their proportional share early, and loss coverage draws on the reserve as a whole. Read PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event. |
 | `status` | Optional | string or null | Where the fee stands. canceled is final. Values: `"pending"`, `"succeeded"`, `"canceled"`. `status`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributesstatus). |
+| `subscription_id` | Optional | string or null | The subscription associated with the payment. `subscription_id`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributessubscription_id). |
 | `updated_at` | Optional | string or null | When the fee last changed. `updated_at`: [declared alternatives](../models/PlatformFeeCanceledEventInput.md#platformfeecanceledeventinputdataprevious_attributesupdated_at). |
 | `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/BuyerExpandedPaymentIntentSummaryPreviousAttributesInput.md#buyerexpandedpaymentintentsummarypreviousattributesinputversion). |
 
@@ -119,6 +123,20 @@ anyOf variant 2.
 
 - Value shape: null. When the payment's create recorded the fee. 
 
+### PlatformFeeCanceledEventInput.data.previous_attributes.invoice_id
+
+### PlatformFeeCanceledEventInput.data.previous_attributes.invoice_id variant 1
+
+anyOf variant 1: The invoice the payment collected..
+
+- Value shape: string. The invoice the payment collected. The invoice the payment collected. Example: `"inv_01KEZF7C00A5GEBMWHEAJFSAR4"`. 
+
+### PlatformFeeCanceledEventInput.data.previous_attributes.invoice_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The invoice the payment collected. 
+
 ### PlatformFeeCanceledEventInput.data.previous_attributes.merchant_id
 
 ### PlatformFeeCanceledEventInput.data.previous_attributes.merchant_id variant 1
@@ -175,6 +193,20 @@ anyOf variant 2.
 
 - Value shape: null. The payment the fee rides on, owned by the installed merchant. After that merchant resets the sandbox the payment was in, the ID no longer resolves. 
 
+### PlatformFeeCanceledEventInput.data.previous_attributes.payment_link_id
+
+### PlatformFeeCanceledEventInput.data.previous_attributes.payment_link_id variant 1
+
+anyOf variant 1: The payment link whose checkout made the payment..
+
+- Value shape: string. The payment link whose checkout made the payment. The payment link whose checkout made the payment. Example: `"pl_01KEZF7C007WDMA5P9BPZ8J2AM"`. 
+
+### PlatformFeeCanceledEventInput.data.previous_attributes.payment_link_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The payment link whose checkout made the payment. 
+
 ### PlatformFeeCanceledEventInput.data.previous_attributes.platform_fee_id
 
 ### PlatformFeeCanceledEventInput.data.previous_attributes.platform_fee_id variant 1
@@ -216,6 +248,20 @@ anyOf variant 1: Where the fee stands. canceled is final..
 anyOf variant 2.
 
 - Value shape: null. Where the fee stands. canceled is final. 
+
+### PlatformFeeCanceledEventInput.data.previous_attributes.subscription_id
+
+### PlatformFeeCanceledEventInput.data.previous_attributes.subscription_id variant 1
+
+anyOf variant 1: The subscription associated with the payment..
+
+- Value shape: string. The subscription associated with the payment. The subscription associated with the payment. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. 
+
+### PlatformFeeCanceledEventInput.data.previous_attributes.subscription_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The subscription associated with the payment. 
 
 ### PlatformFeeCanceledEventInput.data.previous_attributes.updated_at
 

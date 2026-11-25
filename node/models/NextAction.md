@@ -10,14 +10,14 @@ A follow-up action. When target_resource is present, send its resource_id in the
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [169 declared values](#nextaction-action_type-values). |
+| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [172 declared values](#nextaction-action_type-values). |
 | `expires_at` | Optional | string | When this suggested action expires, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `merchant_account_session` | Optional | [ReadinessMerchantAccountSession](../models/ReadinessMerchantAccountSession.md#readinessmerchantaccountsession) | Request body to send unchanged to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. When absent, GET merchant readiness and use its recommended session body. Shared request body for `create_merchant_account_session` next actions in readiness, onboarding, errors, and warnings. Send unchanged to POST /v1/merchant-account-sessions; components and collection policy describe which requirements to collect. |
 | `method` | Optional | string | HTTP method for the recovery read. Values: `"GET"`. |
 | `reason_code` | Optional | string | Machine-readable reason this action is suggested. |
 | `reason_message` | Optional | string | Explanation of why this action is suggested. |
 | `required_fields` | Optional | Array of string | Field names that must be supplied to perform this action. |
-| `required_scope` | Optional | string | API key scope required to call the public endpoint in url, when the action points at another Flint API endpoint. Values: [103 declared values](APIKey.md#apikey-scopes--values). |
+| `required_scope` | Optional | string | API key scope required to call the public endpoint in url, when the action points at another Flint API endpoint. Values: [105 declared values](APIKey.md#apikey-scopes--values). |
 | `requires_human_confirmation` | Optional | boolean | Whether a person must approve the action before it is performed. |
 | `suggested_delay_milliseconds` | Optional | integer | Suggested wait before performing the action, in milliseconds. Format: `int32`. |
 | `target_resource` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | Resource whose ID to send in the target request field named {resource_type}_id when url cannot carry the target. A reference to another resource by `resource_type` and `resource_id`. `target_resource`: [field definitions](../models/NextAction.md#nextactiontarget_resource). |
@@ -121,6 +121,8 @@ A follow-up action. When target_resource is present, send its resource_id in the
 - `"get_sandbox"`
 - `"get_settings"`
 - `"get_shipment"`
+- `"get_shop"`
+- `"get_shop_public"`
 - `"get_subscription"`
 - `"get_subscription_offer"`
 - `"get_subscription_plan"`
@@ -194,6 +196,7 @@ A follow-up action. When target_resource is present, send its resource_id in the
 - `"update_order"`
 - `"update_payment_link"`
 - `"update_settings"`
+- `"update_shop"`
 
 ### NextAction.target_resource
 

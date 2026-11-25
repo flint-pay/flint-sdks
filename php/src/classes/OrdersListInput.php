@@ -28,6 +28,7 @@ namespace Flint;
  * @property-read bool $subscription_delivery_changed
  * @property-read string $return_id
  * @property-read string $return_resolution_id
+ * @property-read string $shop_id
  * @property-read string $payment_link_id
  * @property-read int $min_amount
  * @property-read int $max_amount
@@ -41,7 +42,7 @@ namespace Flint;
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'customer_id'?: string, 'product_id'?: string, 'variant_id'?: string, 'email'?: string, 'order_id'?: list<string>|string, 'closed_reason'?: list<string>|string, 'status'?: list<string>|string, 'payment_status'?: list<string>|string, 'refund_status'?: list<string>|string, 'fulfillment_status'?: list<string>|string, 'order_number'?: string, 'has_backordered_quantity'?: bool, 'has_unassigned_fulfillment_quantity'?: bool, 'has_invoice'?: bool, 'has_open_fulfillment'?: bool, 'external_reference_id'?: string, 'origin'?: list<string>|string, 'query'?: string, 'subscription_id'?: string, 'subscription_delivery_changed'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'payment_link_id'?: string, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'customer_id'?: string, 'product_id'?: string, 'variant_id'?: string, 'email'?: string, 'order_id'?: list<string>|string, 'closed_reason'?: list<string>|string, 'status'?: list<string>|string, 'payment_status'?: list<string>|string, 'refund_status'?: list<string>|string, 'fulfillment_status'?: list<string>|string, 'order_number'?: string, 'has_backordered_quantity'?: bool, 'has_unassigned_fulfillment_quantity'?: bool, 'has_invoice'?: bool, 'has_open_fulfillment'?: bool, 'external_reference_id'?: string, 'origin'?: list<string>|string, 'query'?: string, 'subscription_id'?: string, 'subscription_delivery_changed'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'shop_id'?: string, 'payment_link_id'?: string, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersListInput')); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
@@ -151,7 +152,7 @@ final class OrdersListInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Filter by order origin. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". anyOf[1][] (Value): string.  Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". anyOf[2] (Value): string.  Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
+    /** Filter by order origin. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription", "invoice". Value enum: "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription", "invoice". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription", "invoice". anyOf[1][] (Value): string.  Value enum: "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription", "invoice". anyOf[2] (Value): string.  Value enum: "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription", "invoice".
      * @return list<string>|string
      * @throws SdkError When origin is omitted; use hasOrigin() or valueOrDefault().
      */
@@ -187,6 +188,12 @@ final class OrdersListInput extends Model {
      */
     public function getReturnResolutionId(): string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
+    /** Filter by Flint shop ID. pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+     * @return string
+     * @throws SdkError When shop_id is omitted; use hasShopId() or valueOrDefault().
+     */
+    public function getShopId(): string { return $this->get('shop_id'); }
+    public function hasShopId(): bool { return $this->has('shop_id'); }
     /** Filter by the payment link whose checkout created the order. pattern: ^pl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      * @return string
      * @throws SdkError When payment_link_id is omitted; use hasPaymentLinkId() or valueOrDefault().

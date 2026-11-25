@@ -13,7 +13,7 @@ import type {
     InvoicePaymentTermsUpdateParams
 } from '../declarations/types-37.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -58,8 +58,8 @@ export type {
     InvoicePaymentTermCalculationDayOfMonthPreviousAttributes,
     InvoicePaymentTermCalculationDayOfNextMonthPreviousAttributes
 } from '../declarations/types-37.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateInvoicePaymentTermRequestInput } from '../declarations/types-11.js';
 export type {
@@ -76,25 +76,26 @@ export type {
 export type { MoneyValueInput, MoneyValue, NextAction, MoneyValuePreviousAttributes } from '../declarations/types-44.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { UpdateInvoicePaymentTermRequestInput } from '../declarations/types-76.js';
+export type { UpdateInvoicePaymentTermRequestInput } from '../declarations/types-77.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateInvoicePaymentTermRequest } from '../declarations/types-83.js';
+export { makeCreateInvoicePaymentTermRequest } from '../declarations/types-84.js';
 export {
     makeInvoiceLateFeePolicyFixedRequest,
     makeInvoiceLateFeePolicyPercentageRequest,
     makeInvoiceLateFeePolicyRequest,
-    makeInvoicePaymentTermCalculationDayOfMonthRequest
-} from '../declarations/types-87.js';
-export {
+    makeInvoicePaymentTermCalculationDayOfMonthRequest,
     makeInvoicePaymentTermCalculationDayOfNextMonthRequest,
     makeInvoicePaymentTermCalculationDaysAfterMonthEndRequest,
-    makeInvoicePaymentTermCalculationNetDaysRequest,
+    makeInvoicePaymentTermCalculationNetDaysRequest
+} from '../declarations/types-88.js';
+export {
     makeInvoicePaymentTermCalculationOnReceiptRequest,
     makeInvoicePaymentTermCalculationRequest,
     makeMoneyValue
-} from '../declarations/types-88.js';
-export { makeUpdateInvoicePaymentTermRequest } from '../declarations/types-94.js';
+} from '../declarations/types-89.js';
+export { makeUpdateInvoicePaymentTermRequest } from '../declarations/types-95.js';
 export interface InvoicePaymentTermsResource {
     /**
  * Creates a reusable payment term that decides when an invoice is due, for example on receipt, net

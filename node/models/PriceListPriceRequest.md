@@ -22,7 +22,7 @@ Field definitions: [shared fields](QuantityPriceBreak.md#quantitypricebreak).
 
 ### PriceListPriceRequest.quantity_price_breaks[].unit_price_money
 
-Field definitions: [PaymentLinkAvailableVariant.quantity_price_breaks[].unit_price_money](../models/PaymentLinkAvailableVariant.md#paymentlinkavailablevariantquantity_price_breaksunit_price_money).
+Field definitions: [PriceListPrice.quantity_price_breaks[].unit_price_money](../models/PriceListPrice.md#pricelistpricequantity_price_breaksunit_price_money).
 
 ### PriceListPriceRequest.unit_price_money
 

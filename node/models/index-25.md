@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# OrderInventoryExceptionResolvedMerchantEvent to Package
+# OrderInventoryExceptionCreatedMerchantEvent to OrderUpdatedInstalledMerchantsEvent
 
+- [OrderInventoryExceptionCreatedMerchantEvent](OrderInventoryExceptionCreatedMerchantEvent.md)
+- [OrderInventoryExceptionResolvedInstalledMerchantsEvent](OrderInventoryExceptionResolvedInstalledMerchantsEvent.md)
 - [OrderInventoryExceptionResolvedMerchantEvent](OrderInventoryExceptionResolvedMerchantEvent.md)
 - [OrderLineItem](OrderLineItem.md)
 - [OrderLineItemFulfillmentComponent](OrderLineItemFulfillmentComponent.md)
@@ -100,6 +102,4 @@
 - [OrderTaxUpdateRequest](OrderTaxUpdateRequest.md)
 - [OrderTaxUpdateRequestInput](OrderTaxUpdateRequestInput.md)
 - [OrderUpdatedInstalledMerchantsEvent](OrderUpdatedInstalledMerchantsEvent.md)
-- [OrderUpdatedMerchantEvent](OrderUpdatedMerchantEvent.md)
-- [Package](Package.md)
 

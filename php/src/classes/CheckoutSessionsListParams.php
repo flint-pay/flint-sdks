@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read string $page_token
  * @property-read list<string>|string $status
  * @property-read string $order_id
+ * @property-read string $shop_id
  * @property-read string $payment_link_id
  * @property-read string $customer_id
  * @property-read string $subscription_plan_id
@@ -25,7 +26,7 @@ namespace Flint;
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsListParams extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>|string, 'order_id'?: string, 'payment_link_id'?: string, 'customer_id'?: string, 'subscription_plan_id'?: string, 'invoice_id'?: string, 'surface'?: list<string>|string, 'type'?: list<string>|string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expires_after'?: string|\DateTimeInterface, 'expires_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>|string, 'order_id'?: string, 'shop_id'?: string, 'payment_link_id'?: string, 'customer_id'?: string, 'subscription_plan_id'?: string, 'invoice_id'?: string, 'surface'?: list<string>|string, 'type'?: list<string>|string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expires_after'?: string|\DateTimeInterface, 'expires_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionsListParams')); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
@@ -51,6 +52,12 @@ final class CheckoutSessionsListParams extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
+    /** Filter by Flint shop ID. pattern: ^shop_[0-9A-HJKMNP-TV-Z]{26}$. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+     * @return string
+     * @throws SdkError When shop_id is omitted; use hasShopId() or valueOrDefault().
+     */
+    public function getShopId(): string { return $this->get('shop_id'); }
+    public function hasShopId(): bool { return $this->has('shop_id'); }
     /** Filter by Flint payment link ID. pattern: ^pl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      * @return string
      * @throws SdkError When payment_link_id is omitted; use hasPaymentLinkId() or valueOrDefault().
@@ -81,7 +88,7 @@ final class CheckoutSessionsListParams extends Model {
      */
     public function getSurface(): mixed { return $this->get('surface'); }
     public function hasSurface(): bool { return $this->has('surface'); }
-    /** Filter by checkout session type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link". Value enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[1][] (Value): string.  Value enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[2] (Value): string.  Value enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link".
+    /** Filter by checkout session type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link", "shop". Value enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link", "shop". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link", "shop". anyOf[1][] (Value): string.  Value enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link", "shop". anyOf[2] (Value): string.  Value enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link", "shop".
      * @return list<string>|string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

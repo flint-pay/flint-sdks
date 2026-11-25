@@ -25,7 +25,7 @@ final class CustomerAccessLinkReturnedInput extends Model {
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** The returned link opens the customer's account. Value enum: "customer_account".
+    /** What the returned or emailed link opens. New purposes may be added. Value enum: "customer_account", "payment_method_setup".
      * @return string
      * @throws SdkError When purpose is omitted; use hasPurpose() or valueOrDefault().
      */

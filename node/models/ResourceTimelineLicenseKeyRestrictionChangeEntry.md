@@ -17,5 +17,5 @@ One restriction taking effect or being lifted on a license key.
 | `refund_id` | Optional | string | The refund that caused this restriction, when applicable. Example: `"ref_01KEZF7C003DTD59WKYHEXYQ1K"`. |
 | `resource_timeline_entry_id` | Required | string | Stable ID of this restriction change. Example: `"rlog_01KEZF7C008XJCH6BHA224X46F"`. |
 | `subscription_id` | Optional | string | The subscription that caused this restriction, when applicable. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
-| `type` | Required | string | What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`. |
+| `type` | Required | string | What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`, `"payment_reversal"`. |
 

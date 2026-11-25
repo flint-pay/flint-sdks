@@ -18,8 +18,8 @@ import type {
     RiskListsListParams,
     RiskListsListRiskListItemsParams,
     RiskListsUpdateParams
-} from '../declarations/types-66.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+} from '../declarations/types-67.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -51,27 +51,28 @@ export type {
     RiskListListResponse,
     RiskListsUpdateParams,
     RiskListItemAddition
-} from '../declarations/types-66.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+} from '../declarations/types-67.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type {
     AddRiskListItemsResult,
     AddRiskListItemsResponse,
     AddRiskListItemsRequestInput,
     AddRiskListItemsRequest
 } from '../declarations/types-0.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateRiskListRequestInput } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateRiskListRequestInput, UpdateRiskListRequest } from '../declarations/types-78.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeAddRiskListItemsRequest } from '../declarations/types-80.js';
-export { makeCreateRiskListRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdateRiskListRequest } from '../declarations/types-94.js';
+export { makeAddRiskListItemsRequest } from '../declarations/types-81.js';
+export { makeCreateRiskListRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeUpdateRiskListRequest } from '../declarations/types-95.js';
 export interface RiskListsResource {
     /**
  * Creates an empty list. Rules refer to it by alias, which can't be changed or reused, even after

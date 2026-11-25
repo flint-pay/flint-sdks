@@ -10,7 +10,7 @@ import type {
     CustomerDeletionRequestsResolveParams
 } from '../declarations/types-16.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,24 +34,19 @@ export type {
     CustomerDeletionRequestListResponse,
     CustomerDeletionRequestsResolveParams
 } from '../declarations/types-16.js';
-export type {
-    RequestOptions,
-    ResponseMeta,
-    ResponseWarning,
-    ResourceReference,
-    ResolveCustomerDeletionRequestInput
-} from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { RequestOptions, ResourceReference, ResolveCustomerDeletionRequestInput } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateCustomerDeletionRequestInput, CreateCustomerDeletionRequest } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
 export type { ErrorResourceReference } from '../declarations/types-26.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeCreateCustomerDeletionRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeResolveCustomerDeletionRequest } from '../declarations/types-91.js';
+export { makeCreateCustomerDeletionRequest } from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeResolveCustomerDeletionRequest } from '../declarations/types-92.js';
 export interface CustomerDeletionRequestsResource {
     /**
  * Creates a deletion request for merchant review, or returns the customer's open request

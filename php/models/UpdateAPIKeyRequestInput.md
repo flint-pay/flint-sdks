@@ -14,7 +14,7 @@ Request input.
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `100`. |
-| `scopes` | Conditional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [103 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
+| `scopes` | Conditional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [105 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
 
 ### UpdateAPIKeyRequestInput variant 1: `access` = `"full"`
 

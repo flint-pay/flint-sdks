@@ -27,6 +27,7 @@ namespace Flint;
  * @property-read string|null $payment_link_id
  * @property-read string|null $payment_link_type
  * @property-read CheckoutPaymentConfigPreviousAttributes|null $payments
+ * @property-read PlatformFeeRulePreviousAttributes|null $platform_fee_rule
  * @property-read CheckoutPromotionConfigPreviousAttributes|null $promotion_config
  * @property-read CheckoutRedirectsPreviousAttributes|null $redirects
  * @property-read string|null $sales_end_at
@@ -44,7 +45,7 @@ namespace Flint;
  * @property-read int|null $version
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentLinkUpdatedMerchantEventDataPreviousAttributes extends Model {
-    /** @param array{'buyer_fields'?: mixed, 'checkout_session_expires_in_seconds'?: mixed, 'completed_count'?: mixed, 'created_at'?: mixed, 'custom_fields'?: mixed, 'custom_text'?: mixed, 'delivery_method_ids'?: mixed, 'description'?: mixed, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: mixed, 'event_config'?: mixed, 'external_reference_id'?: mixed, 'image'?: mixed, 'inactive_message'?: mixed, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: mixed, 'max_completions'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'payment_link_id'?: mixed, 'payment_link_type'?: mixed, 'payments'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'sales_end_at'?: mixed, 'sales_start_at'?: mixed, 'sales_summary'?: mixed, 'status'?: mixed, 'subscription_plan'?: mixed, 'subscription_plan_id'?: mixed, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold'?: mixed, 'updated_at'?: mixed, 'url'?: mixed, 'version'?: mixed, ...}|object $values */
+    /** @param array{'buyer_fields'?: mixed, 'checkout_session_expires_in_seconds'?: mixed, 'completed_count'?: mixed, 'created_at'?: mixed, 'custom_fields'?: mixed, 'custom_text'?: mixed, 'delivery_method_ids'?: mixed, 'description'?: mixed, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: mixed, 'event_config'?: mixed, 'external_reference_id'?: mixed, 'image'?: mixed, 'inactive_message'?: mixed, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: mixed, 'max_completions'?: mixed, 'merchant_id'?: mixed, 'metadata'?: mixed, 'name'?: mixed, 'payment_link_id'?: mixed, 'payment_link_type'?: mixed, 'payments'?: mixed, 'platform_fee_rule'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'sales_end_at'?: mixed, 'sales_start_at'?: mixed, 'sales_summary'?: mixed, 'status'?: mixed, 'subscription_plan'?: mixed, 'subscription_plan_id'?: mixed, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold'?: mixed, 'updated_at'?: mixed, 'url'?: mixed, 'version'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkUpdatedMerchantEventDataPreviousAttributes')); }
     /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. anyOf[1] (Value): {@see CheckoutBuyerFieldsPreviousAttributes}. anyOf[2] (Value): null.
      * @return CheckoutBuyerFieldsPreviousAttributes|null
@@ -171,6 +172,11 @@ final class PaymentLinkUpdatedMerchantEventDataPreviousAttributes extends Model 
      */
     public function getPayments(): CheckoutPaymentConfigPreviousAttributes|null { return $this->get('payments'); }
     public function hasPayments(): bool { return $this->has('payments'); }
+    /** The platform fee rule copied to checkouts started from this link. anyOf[1] (Value): {@see PlatformFeeRulePreviousAttributes}. anyOf[2] (Value): null.
+     * @return PlatformFeeRulePreviousAttributes|null
+     */
+    public function getPlatformFeeRule(): PlatformFeeRulePreviousAttributes|null { return $this->get('platform_fee_rule'); }
+    public function hasPlatformFeeRule(): bool { return $this->has('platform_fee_rule'); }
     /** Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. anyOf[1] (Value): {@see CheckoutPromotionConfigPreviousAttributes}. anyOf[2] (Value): null.
      * @return CheckoutPromotionConfigPreviousAttributes|null
      */

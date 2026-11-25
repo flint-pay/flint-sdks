@@ -43,6 +43,7 @@ Resource, collection, or operation result returned by this request. A bill issue
 | `paid_at` | Optional | string | When the invoice most recently became paid. Cleared when status leaves paid and set again on a later paid transition. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `payment_due` | Required | object and ([InvoicePaymentDueNone](../models/InvoicePaymentDueNone.md#invoicepaymentduenone) or [InvoicePaymentDueDate](../models/InvoicePaymentDueDate.md#invoicepaymentduedate) or [InvoicePaymentDuePaymentTerms](../models/InvoicePaymentDuePaymentTerms.md#invoicepaymentduepaymentterms)) | The resolved due-date policy. Send this object back when updating the draft; payment_terms captures the term's current revision again. The invoice due-date policy resolved at write time. The object can be sent back when updating a draft. `payment_due`: [declared alternatives](../models/InvoiceResponse.md#invoiceresponsedatapayment_due). |
 | `payment_terms_snapshot` | Optional | [InvoicePaymentTermsSnapshot](../models/InvoicePaymentTermsSnapshot.md#invoicepaymenttermssnapshot) | The payment term captured on the draft, with its due date rule and late fee policy. Later changes to the payment term don't affect this invoice. The payment terms saved on an invoice: the term's name, version, due date calculation, and late fee policy. `payment_terms_snapshot`: [field definitions](../models/InvoiceResponse.md#invoiceresponsedatapayment_terms_snapshot). |
+| `platform_fee_rule` | Optional | [PlatformFeeRule](../models/PlatformFeeRule.md#platformfeerule) | The active rule for payments Flint collects for this invoice. Omitted when no rule is set. The rule that sets the platform fee for each payment. `platform_fee_rule`: [field definitions](../models/InvoiceResponse.md#invoiceresponsedataplatform_fee_rule). |
 | `po_number` | Required | string or null | The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. `null` when unset. |
 | `pricing_amounts` | Required | [PricingAmounts](../models/PricingAmounts.md#pricingamounts) | The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money excludes late fees, which are in settlement_amounts.late_fee_money. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total. |
 | `public_url` | Optional | string | The hosted invoice link where the buyer views and pays the invoice. Present after issue on API reads, except a list filtered by idempotency_key; webhook payloads leave it out. regenerate-public-link replaces it. Anyone with the link can open the invoice, so treat it as a secret. |
@@ -339,6 +340,20 @@ oneOf with type: "percentage": The `percentage` variant of `InvoiceLateFeePolicy
 - Required: `percent`.
 - Optional: `amount_money`.
 - Constraints for `type`: Values: `"percentage"`.
+
+### InvoiceResponse.data.platform_fee_rule
+
+The active rule for payments Flint collects for this invoice. Omitted when no rule is set. The rule that sets the platform fee for each payment.
+
+Field definitions: [shared fields](SubscriptionResponse.md#subscriptionresponsedataplatform_fee_rule).
+
+### InvoiceResponse.data.platform_fee_rule.fixed_fee_money
+
+Field definitions: [SubscriptionResponse.data.platform_fee_rule.fixed_fee_money](../models/SubscriptionResponse.md#subscriptionresponsedataplatform_fee_rulefixed_fee_money).
+
+### InvoiceResponse.data.platform_fee_rule.maximum_fee_money
+
+Field definitions: [SubscriptionResponse.data.platform_fee_rule.maximum_fee_money](../models/SubscriptionResponse.md#subscriptionresponsedataplatform_fee_rulemaximum_fee_money).
 
 ### InvoiceResponse.data.remit_to_address
 

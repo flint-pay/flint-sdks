@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $mode
- * @property-read CreateSubscriptionRequestInput|array<array-key, mixed>|\stdClass $subscription
+ * @property-read SubscriptionCreatePreviewRequestInput|array<array-key, mixed>|\stdClass $subscription
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateSubscriptionPreviewRequestCreateInput extends Model {
-    /** @param array{'mode': string, 'subscription': CreateSubscriptionRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'mode': string, 'subscription': SubscriptionCreatePreviewRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateSubscriptionPreviewRequestCreateInput')); }
     /** Selects the create preview. Value enum: "create".
      * @return string
@@ -14,8 +14,8 @@ final class CreateSubscriptionPreviewRequestCreateInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** The subscription to validate and price, in the same shape as the body of Create subscription. The request body for: Create subscription.
-     * @return CreateSubscriptionRequestInput|array<array-key, mixed>|\stdClass
+    /** The subscription to validate and price, in the same shape as the body of Create subscription. Subscription terms and billing settings to preview.
+     * @return SubscriptionCreatePreviewRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When subscription is omitted; use hasSubscription() or valueOrDefault().
      */
     public function getSubscription(): mixed { return $this->get('subscription'); }

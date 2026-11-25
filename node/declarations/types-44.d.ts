@@ -1,22 +1,153 @@
 import type {
-    MerchantWebhookEnvelope,
+    MetadataRequestInput,
     MetadataMap,
+    MerchantWebhookEnvelope,
     ModifierGroup,
     ModifierOverride,
     ModifierOverrideRequestInput,
     ModifierGroupPreviousAttributes,
-    ModifierOverridePreviousAttributes,
-    ModifierSet
+    ModifierOverridePreviousAttributes
 } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-31.js';
-import type { ResponseMeta, ResponseWarning, ResourceReference, ResourceReferencePreviousAttributes } from './types-62.js';
+import type { ResponseMeta, ResponseWarning } from './types-63.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateModifierSetRequestInput, CreateOnboardingAccessLinkRequestInput } from './types-11.js';
 import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdateModifierSetRequestInput } from './types-76.js';
+import type { UpdateModifierSetRequestInput } from './types-77.js';
 import type { ReadinessMerchantAccountSession, ReadinessMerchantAccountSessionPreviousAttributes } from './types-60.js';
+import type { ResourceReference, ResourceReferencePreviousAttributes } from './types-62.js';
 import type { CLIDeviceRequestInput, CLIContextsRequestInput, CLIReauthorizeRequestInput } from './types-4.js';
+import type { OnboardingProfileRequest, OnboardingProfileRequestInput } from './types-45.js';
+/**
+ * A modifier you supply when creating or updating a modifier group, such as an add-on with a price
+ * change.
+ */
+export type ModifierRequestInput = {
+    /**
+     * Whole-number quantity selected by default. Used only when the choice is available and
+     * selected_by_default is true. A modifier set can override this value; fractional quantities
+     * are not supported. Format: int64.
+     */
+    "default_quantity"?: number;
+    /**
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission";
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Stable identifier of the modifier. In a replacement request, include it to retain a modifier
+     * or omit it to create one. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
+     */
+    "modifier_id"?: string;
+    /**
+     * Name of the choice shown to buyers. Surrounding whitespace is trimmed before length
+     * validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Display position of the choice within its group; lower values appear first. Format: int32.
+     */
+    "position"?: number;
+    /**
+     * Whether this choice is selected when the buyer has not supplied selections for the group. A
+     * modifier set can override this value; unavailable choices are never selected by default.
+     * Default: false.
+     */
+    "selected_by_default"?: boolean;
+    /** Whether this modifier appears in fulfillment details. */
+    "show_on_fulfillment"?: boolean;
+    /** Whether this modifier appears on buyer receipts. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Value
+     * enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /** Whether this modifier's price is taxable. A modifier set can override this value. */
+    "taxable"?: boolean;
+    /**
+     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
+     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_delta_money"?: MoneyValueInput;
+};
+/** A reusable collection of customization groups. */
+export type ModifierSet = {
+    /**
+     * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Identifier of the merchant that owns this modifier set. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
+     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+     * written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Ordered group entries in this set, including the full content of reusable groups and groups
+     * owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as it appears in a
+     * modifier set, with its selection limits, display options, and per-modifier overrides.
+     */
+    "modifier_groups": Array<ModifierSetGroup>;
+    /**
+     * Stable identifier of the modifier set assigned to catalog items. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id": string;
+    /** Name used to identify this modifier set. */
+    "name": string;
+    /**
+     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
+     * sets remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * When the modifier set or any group it contains last changed, as an RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "updated_at"?: string;
+    /**
+     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
 export type ModifierSetArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -2675,18 +2806,18 @@ export type NextAction = {
      * "get_product_variant", "get_promotion", "get_promotion_code", "get_reader", "get_refund",
      * "get_return", "get_return_line_item", "get_return_policy", "get_return_resolution",
      * "get_risk_list", "get_risk_list_item", "get_risk_rule", "get_sandbox", "get_settings",
-     * "get_shipment", "get_subscription", "get_subscription_offer", "get_subscription_plan",
-     * "get_tax_calculation_callback", "get_tax_connection", "get_tax_registration",
-     * "get_test_clock", "get_ticket", "get_webhook_delivery", "get_webhook_endpoint",
-     * "get_workload_identity", "issue_developer_sandbox_test_key", "list_credit_note_allocations",
-     * "list_credit_notes", "list_fulfillment_events", "list_fulfillments",
-     * "list_gift_card_funding_dispositions", "list_gift_card_loads", "list_gift_card_redemptions",
-     * "list_gift_card_transactions", "list_gift_cards", "list_inventory_counts",
-     * "list_inventory_movements", "list_inventory_receipts", "list_inventory_reservations",
-     * "list_inventory_transfers", "list_invoice_activities", "list_invoice_late_fees",
-     * "list_invoice_manual_payments", "list_invoice_payment_attempts", "list_invoices",
-     * "list_license_key_pool_keys", "list_me_gift_cards", "list_me_remembered_buyers",
-     * "list_me_returns", "list_me_subscription_payment_retries",
+     * "get_shipment", "get_shop", "get_shop_public", "get_subscription", "get_subscription_offer",
+     * "get_subscription_plan", "get_tax_calculation_callback", "get_tax_connection",
+     * "get_tax_registration", "get_test_clock", "get_ticket", "get_webhook_delivery",
+     * "get_webhook_endpoint", "get_workload_identity", "issue_developer_sandbox_test_key",
+     * "list_credit_note_allocations", "list_credit_notes", "list_fulfillment_events",
+     * "list_fulfillments", "list_gift_card_funding_dispositions", "list_gift_card_loads",
+     * "list_gift_card_redemptions", "list_gift_card_transactions", "list_gift_cards",
+     * "list_inventory_counts", "list_inventory_movements", "list_inventory_receipts",
+     * "list_inventory_reservations", "list_inventory_transfers", "list_invoice_activities",
+     * "list_invoice_late_fees", "list_invoice_manual_payments", "list_invoice_payment_attempts",
+     * "list_invoices", "list_license_key_pool_keys", "list_me_gift_cards",
+     * "list_me_remembered_buyers", "list_me_returns", "list_me_subscription_payment_retries",
      * "list_merchant_partner_app_installs", "list_order_charges", "list_order_edits",
      * "list_order_line_items", "list_order_payment_attempts", "list_orders", "list_package_items",
      * "list_packages", "list_payment_intent_activities", "list_payouts", "list_product_variants",
@@ -2697,7 +2828,7 @@ export type NextAction = {
      * "replace_default_payout_destination", "review_merchant_readiness",
      * "review_onboarding_state", "start_new_image_ingestion", "update_checkout_session",
      * "update_delivery_profile", "update_inventory_allocation_policy", "update_invoice",
-     * "update_location", "update_order", "update_payment_link", "update_settings".
+     * "update_location", "update_order", "update_payment_link", "update_settings", "update_shop".
      */
     "action_type": "add_line_items"
         | "cancel_order_edit"
@@ -2795,6 +2926,8 @@ export type NextAction = {
         | "get_sandbox"
         | "get_settings"
         | "get_shipment"
+        | "get_shop"
+        | "get_shop_public"
         | "get_subscription"
         | "get_subscription_offer"
         | "get_subscription_plan"
@@ -2868,6 +3001,7 @@ export type NextAction = {
         | "update_order"
         | "update_payment_link"
         | "update_settings"
+        | "update_shop"
         | (string & {});
     /**
      * When this suggested action expires, in RFC3339 format. Format: date-time. Example:
@@ -2897,9 +3031,10 @@ export type NextAction = {
      * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -2945,6 +3080,8 @@ export type NextAction = {
         | "checkouts.checkout_sessions.write"
         | "checkouts.payment_links.read"
         | "checkouts.payment_links.write"
+        | "checkouts.shops.read"
+        | "checkouts.shops.write"
         | "commerce.bundles.read"
         | "commerce.bundles.write"
         | "commerce.catalog.read"
@@ -3081,18 +3218,18 @@ export type NextActionPreviousAttributes = {
      * "get_product_variant", "get_promotion", "get_promotion_code", "get_reader", "get_refund",
      * "get_return", "get_return_line_item", "get_return_policy", "get_return_resolution",
      * "get_risk_list", "get_risk_list_item", "get_risk_rule", "get_sandbox", "get_settings",
-     * "get_shipment", "get_subscription", "get_subscription_offer", "get_subscription_plan",
-     * "get_tax_calculation_callback", "get_tax_connection", "get_tax_registration",
-     * "get_test_clock", "get_ticket", "get_webhook_delivery", "get_webhook_endpoint",
-     * "get_workload_identity", "issue_developer_sandbox_test_key", "list_credit_note_allocations",
-     * "list_credit_notes", "list_fulfillment_events", "list_fulfillments",
-     * "list_gift_card_funding_dispositions", "list_gift_card_loads", "list_gift_card_redemptions",
-     * "list_gift_card_transactions", "list_gift_cards", "list_inventory_counts",
-     * "list_inventory_movements", "list_inventory_receipts", "list_inventory_reservations",
-     * "list_inventory_transfers", "list_invoice_activities", "list_invoice_late_fees",
-     * "list_invoice_manual_payments", "list_invoice_payment_attempts", "list_invoices",
-     * "list_license_key_pool_keys", "list_me_gift_cards", "list_me_remembered_buyers",
-     * "list_me_returns", "list_me_subscription_payment_retries",
+     * "get_shipment", "get_shop", "get_shop_public", "get_subscription", "get_subscription_offer",
+     * "get_subscription_plan", "get_tax_calculation_callback", "get_tax_connection",
+     * "get_tax_registration", "get_test_clock", "get_ticket", "get_webhook_delivery",
+     * "get_webhook_endpoint", "get_workload_identity", "issue_developer_sandbox_test_key",
+     * "list_credit_note_allocations", "list_credit_notes", "list_fulfillment_events",
+     * "list_fulfillments", "list_gift_card_funding_dispositions", "list_gift_card_loads",
+     * "list_gift_card_redemptions", "list_gift_card_transactions", "list_gift_cards",
+     * "list_inventory_counts", "list_inventory_movements", "list_inventory_receipts",
+     * "list_inventory_reservations", "list_inventory_transfers", "list_invoice_activities",
+     * "list_invoice_late_fees", "list_invoice_manual_payments", "list_invoice_payment_attempts",
+     * "list_invoices", "list_license_key_pool_keys", "list_me_gift_cards",
+     * "list_me_remembered_buyers", "list_me_returns", "list_me_subscription_payment_retries",
      * "list_merchant_partner_app_installs", "list_order_charges", "list_order_edits",
      * "list_order_line_items", "list_order_payment_attempts", "list_orders", "list_package_items",
      * "list_packages", "list_payment_intent_activities", "list_payouts", "list_product_variants",
@@ -3103,11 +3240,11 @@ export type NextActionPreviousAttributes = {
      * "replace_default_payout_destination", "review_merchant_readiness",
      * "review_onboarding_state", "start_new_image_ingestion", "update_checkout_session",
      * "update_delivery_profile", "update_inventory_allocation_policy", "update_invoice",
-     * "update_location", "update_order", "update_payment_link", "update_settings". anyOf[1]
-     * (Value): string. Action to take next. Use its target resource and required_fields to prepare
-     * the request. Value enum: "add_line_items", "cancel_order_edit", "cancel_payment_intent",
-     * "capture_payment_intent", "close_checkout_session", "close_order", "collect_invoice",
-     * "complete_gift_card_challenge", "confirm_payment_intent",
+     * "update_location", "update_order", "update_payment_link", "update_settings", "update_shop".
+     * anyOf[1] (Value): string. Action to take next. Use its target resource and required_fields
+     * to prepare the request. Value enum: "add_line_items", "cancel_order_edit",
+     * "cancel_payment_intent", "capture_payment_intent", "close_checkout_session", "close_order",
+     * "collect_invoice", "complete_gift_card_challenge", "confirm_payment_intent",
      * "create_checkout_session_customer_verification", "create_delivery_selection",
      * "create_dispute_response_session", "create_merchant_account_session", "create_refund",
      * "create_subscription_payment_retry", "get_api_key", "get_bundle", "get_category",
@@ -3132,18 +3269,18 @@ export type NextActionPreviousAttributes = {
      * "get_product_variant", "get_promotion", "get_promotion_code", "get_reader", "get_refund",
      * "get_return", "get_return_line_item", "get_return_policy", "get_return_resolution",
      * "get_risk_list", "get_risk_list_item", "get_risk_rule", "get_sandbox", "get_settings",
-     * "get_shipment", "get_subscription", "get_subscription_offer", "get_subscription_plan",
-     * "get_tax_calculation_callback", "get_tax_connection", "get_tax_registration",
-     * "get_test_clock", "get_ticket", "get_webhook_delivery", "get_webhook_endpoint",
-     * "get_workload_identity", "issue_developer_sandbox_test_key", "list_credit_note_allocations",
-     * "list_credit_notes", "list_fulfillment_events", "list_fulfillments",
-     * "list_gift_card_funding_dispositions", "list_gift_card_loads", "list_gift_card_redemptions",
-     * "list_gift_card_transactions", "list_gift_cards", "list_inventory_counts",
-     * "list_inventory_movements", "list_inventory_receipts", "list_inventory_reservations",
-     * "list_inventory_transfers", "list_invoice_activities", "list_invoice_late_fees",
-     * "list_invoice_manual_payments", "list_invoice_payment_attempts", "list_invoices",
-     * "list_license_key_pool_keys", "list_me_gift_cards", "list_me_remembered_buyers",
-     * "list_me_returns", "list_me_subscription_payment_retries",
+     * "get_shipment", "get_shop", "get_shop_public", "get_subscription", "get_subscription_offer",
+     * "get_subscription_plan", "get_tax_calculation_callback", "get_tax_connection",
+     * "get_tax_registration", "get_test_clock", "get_ticket", "get_webhook_delivery",
+     * "get_webhook_endpoint", "get_workload_identity", "issue_developer_sandbox_test_key",
+     * "list_credit_note_allocations", "list_credit_notes", "list_fulfillment_events",
+     * "list_fulfillments", "list_gift_card_funding_dispositions", "list_gift_card_loads",
+     * "list_gift_card_redemptions", "list_gift_card_transactions", "list_gift_cards",
+     * "list_inventory_counts", "list_inventory_movements", "list_inventory_receipts",
+     * "list_inventory_reservations", "list_inventory_transfers", "list_invoice_activities",
+     * "list_invoice_late_fees", "list_invoice_manual_payments", "list_invoice_payment_attempts",
+     * "list_invoices", "list_license_key_pool_keys", "list_me_gift_cards",
+     * "list_me_remembered_buyers", "list_me_returns", "list_me_subscription_payment_retries",
      * "list_merchant_partner_app_installs", "list_order_charges", "list_order_edits",
      * "list_order_line_items", "list_order_payment_attempts", "list_orders", "list_package_items",
      * "list_packages", "list_payment_intent_activities", "list_payouts", "list_product_variants",
@@ -3154,8 +3291,8 @@ export type NextActionPreviousAttributes = {
      * "replace_default_payout_destination", "review_merchant_readiness",
      * "review_onboarding_state", "start_new_image_ingestion", "update_checkout_session",
      * "update_delivery_profile", "update_inventory_allocation_policy", "update_invoice",
-     * "update_location", "update_order", "update_payment_link", "update_settings". anyOf[2]
-     * (Value): null.
+     * "update_location", "update_order", "update_payment_link", "update_settings", "update_shop".
+     * anyOf[2] (Value): null.
      */
     "action_type"?: (("add_line_items"
         | "cancel_order_edit"
@@ -3253,6 +3390,8 @@ export type NextActionPreviousAttributes = {
         | "get_sandbox"
         | "get_settings"
         | "get_shipment"
+        | "get_shop"
+        | "get_shop_public"
         | "get_subscription"
         | "get_subscription_offer"
         | "get_subscription_plan"
@@ -3326,6 +3465,7 @@ export type NextActionPreviousAttributes = {
         | "update_order"
         | "update_payment_link"
         | "update_settings"
+        | "update_shop"
         | (string & {}))
         | (null));
     /**
@@ -3368,9 +3508,10 @@ export type NextActionPreviousAttributes = {
      * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -3409,9 +3550,10 @@ export type NextActionPreviousAttributes = {
      * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -3458,6 +3600,8 @@ export type NextActionPreviousAttributes = {
         | "checkouts.checkout_sessions.write"
         | "checkouts.payment_links.read"
         | "checkouts.payment_links.write"
+        | "checkouts.shops.read"
+        | "checkouts.shops.write"
         | "commerce.bundles.read"
         | "commerce.bundles.write"
         | "commerce.catalog.read"
@@ -5093,28 +5237,3 @@ export type OnboardingProfile = {
     /** The business's website recorded for onboarding. Omitted when none is recorded. */
     "website_url"?: string;
 };
-/**
- * Contact and website details you submit for a merchant during onboarding. Send null to clear a
- * field.
- */
-export type OnboardingProfileRequest = {
-    /** Send null to clear it. minLength: 1. */
-    "email"?: string | null;
-    /**
-     * Buyers see this address on receipts and in their account. A support email is required before
-     * initial live activation. Existing live merchants may clear it and receive a nonblocking
-     * prompt to add one. Send null to clear it. minLength: 1.
-     */
-    "support_email"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "support_phone"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "support_url"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "website_url"?: string | null;
-};
-/**
- * Contact and website details you submit for a merchant during onboarding. Send null to clear a
- * field.
- */
-export type OnboardingProfileRequestInput = OnboardingProfileRequest;

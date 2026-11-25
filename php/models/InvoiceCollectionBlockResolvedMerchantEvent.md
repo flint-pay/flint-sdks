@@ -71,6 +71,10 @@ Declared alternatives: [InvoiceResponse.data.payment_due](../models/InvoiceRespo
 
 Field definitions: [InvoiceResponse.data.payment_terms_snapshot](../models/InvoiceResponse.md#invoiceresponsedatapayment_terms_snapshot).
 
+### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.object.platform_fee_rule
+
+Field definitions: [InvoiceResponse.data.platform_fee_rule](../models/InvoiceResponse.md#invoiceresponsedataplatform_fee_rule).
+
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.object.remit_to_address
 
 Field definitions: [InvoiceResponse.data.remit_to_address](../models/InvoiceResponse.md#invoiceresponsedataremit_to_address).
@@ -188,6 +192,10 @@ Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousA
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.payment_terms_snapshot
 
 Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.payment_terms_snapshot](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributespayment_terms_snapshot).
+
+### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.platform_fee_rule
+
+Declared alternatives: [InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.platform_fee_rule](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesplatform_fee_rule).
 
 ### InvoiceCollectionBlockResolvedMerchantEvent.data fields 1.previous_attributes.po_number
 

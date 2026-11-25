@@ -84,7 +84,7 @@ oneOf with match_type: "all": The `all` variant of `ReturnPolicyScope`..
 
 - Optional: `category_handles`, `channel_types`, `location_ids`, `product_ids`, `variant_ids`.
 - Constraints for `category_handles`: maxItems: `0`.
-- Constraints for `channel_types`: maxItems: `0`. Items values: `"checkout"`, `"payment_link"`, `"virtual_terminal"`, `"api"`, `"subscription"`.
+- Constraints for `channel_types`: maxItems: `0`. Items values: `"checkout"`, `"payment_link"`, `"shop"`, `"virtual_terminal"`, `"api"`, `"subscription"`.
 - Constraints for `location_ids`: maxItems: `0`.
 - Constraints for `match_type`: Values: `"all"`.
 - Constraints for `product_ids`: maxItems: `0`.
@@ -132,7 +132,7 @@ oneOf with match_type: "include": The `include` variant of `ReturnPolicyScope`.;
 
 - Required: `channel_types`.
 - Optional: `category_handles`, `location_ids`, `product_ids`, `variant_ids`.
-- Constraints for `channel_types`: minItems: `1`. Items values: `"checkout"`, `"payment_link"`, `"virtual_terminal"`, `"api"`, `"subscription"`.
+- Constraints for `channel_types`: minItems: `1`. Items values: `"checkout"`, `"payment_link"`, `"shop"`, `"virtual_terminal"`, `"api"`, `"subscription"`.
 - Constraints for `match_type`: Values: `"include"`.
 
 ### CreateReturnPolicyResponse.data.metadata

@@ -151,7 +151,7 @@ final class BuyerPaymentIntent extends Model {
      */
     public function getOrderId(): ?string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** How the payment was started. Fixed when the payment is created. Value enum: "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+    /** How the payment was started. Fixed when the payment is created. Value enum: "checkout", "payment_link", "shop", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
      * @return string
      */
     public function getPaymentFlow(): string { return $this->get('payment_flow'); }

@@ -14,7 +14,7 @@ Request input.
 | `reason` | Optional | string or null | Reason for a merchant or subscription restriction. `reason`: [declared alternatives](../models/LicenseKeyRestrictionPreviousAttributesInput.md#licensekeyrestrictionpreviousattributesinputreason). |
 | `refund_id` | Optional | string or null | The refund that restricted the key. `refund_id`: [declared alternatives](../models/LicenseKeyRestrictionPreviousAttributesInput.md#licensekeyrestrictionpreviousattributesinputrefund_id). |
 | `subscription_id` | Optional | string or null | The subscription that restricted the key. `subscription_id`: [declared alternatives](../models/LicenseKeyRestrictionPreviousAttributesInput.md#licensekeyrestrictionpreviousattributesinputsubscription_id). |
-| `type` | Optional | string or null | What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`. `type`: [declared alternatives](../models/LicenseKeyRestrictionPreviousAttributesInput.md#licensekeyrestrictionpreviousattributesinputtype). |
+| `type` | Optional | string or null | What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`, `"payment_reversal"`. `type`: [declared alternatives](../models/LicenseKeyRestrictionPreviousAttributesInput.md#licensekeyrestrictionpreviousattributesinputtype). |
 
 ### LicenseKeyRestrictionPreviousAttributesInput.created_at
 
@@ -106,7 +106,7 @@ anyOf variant 2.
 
 anyOf variant 1: What caused the restriction..
 
-- Value shape: string. What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`.
+- Value shape: string. What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`, `"payment_reversal"`.
 
 ### LicenseKeyRestrictionPreviousAttributesInput.type variant 2
 

@@ -43,7 +43,7 @@ final class LicenseKeyRestrictionPreviousAttributes extends Model {
      */
     public function getSubscriptionId(): string|null { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
-    /** What caused the restriction. Value enum: "merchant", "refund", "dispute", "subscription". anyOf[1] (Value): string. What caused the restriction. Value enum: "merchant", "refund", "dispute", "subscription". anyOf[2] (Value): null.
+    /** What caused the restriction. Value enum: "merchant", "refund", "dispute", "subscription", "payment_reversal". anyOf[1] (Value): string. What caused the restriction. Value enum: "merchant", "refund", "dispute", "subscription", "payment_reversal". anyOf[2] (Value): null.
      * @return string|null
      */
     public function getType(): string|null { return $this->get('type'); }

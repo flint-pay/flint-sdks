@@ -1,25 +1,37 @@
 import type { PlatformFeeBalanceTransaction, PlatformFee } from './types-55.js';
-import type { ResponseMeta } from './types-62.js';
+import type { ResponseMeta } from './types-63.js';
 import type { InputValue } from '../runtime.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { QuantityPriceBreak, QuantityPriceBreakRequestInput } from './types-59.js';
+import type { QuantityPriceBreak, QuantityPriceBreakRequestInput } from './types-60.js';
 import type { CreatePriceListRequestInput, CreatePriceListPricesRequestInput } from './types-12.js';
 import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from './types-77.js';
-import type {
-    ReturnProcessDecision,
-    ReturnProcessDispositionRequest,
-    ReturnProcessInspectionRequest,
-    ReturnProcessResolutionRequest,
-    ReturnProcessDecisionInput,
-    ReturnProcessDispositionRequestInput,
-    ReturnProcessInspectionRequestInput,
-    ReturnProcessResolutionRequestInput,
-    ReturnProcessReceiptRequest,
-    ReturnProcessReceiptRequestInput
-} from './types-64.js';
+import type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from './types-78.js';
+/** A page of `PlatformFeeBalanceTransaction` objects. */
+export type PlatformFeeBalanceTransactionListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PlatformFeeBalanceTransaction}. One entry of a partner app's platform fee ledger. Entries
+     * keep their amounts; status, available_at and the payout link can be filled later.
+     */
+    "data": Array<PlatformFeeBalanceTransaction>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /** A response containing `PlatformFeeBalanceTransaction` data. */
 export type PlatformFeeBalanceTransactionResponse = {
     /**
@@ -145,16 +157,20 @@ export type PlatformFeeCanceledEvent = ((Exclude<MerchantWebhookEnvelope & objec
             "checkout_session_id"?: string;
             "collected_at"?: string;
             "created_at": string;
+            "invoice_id"?: string;
             "merchant_id": string;
             "partner_app_id": string;
             "partner_app_install_id": string;
             "payment_intent_id": string;
+            "payment_link_id"?: string;
             "platform_fee_id": string;
+            "platform_fee_rule"?: PlatformFeeRule;
             "refunded_money": MoneyValue;
             "requested_amount_money": MoneyValue;
             "reserve_available_at"?: string;
             "reserve_hold_money"?: MoneyValue;
             "status": "pending" | "succeeded" | "canceled" | (string & {});
+            "subscription_id"?: string;
             "updated_at": string;
             "version": number;
         };
@@ -173,16 +189,20 @@ export type PlatformFeeCanceledEvent = ((Exclude<MerchantWebhookEnvelope & objec
             "checkout_session_id"?: ((string) | (null));
             "collected_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
+            "invoice_id"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
             "partner_app_id"?: ((string) | (null));
             "partner_app_install_id"?: ((string) | (null));
             "payment_intent_id"?: ((string) | (null));
+            "payment_link_id"?: ((string) | (null));
             "platform_fee_id"?: ((string) | (null));
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
             "requested_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "reserve_available_at"?: ((string) | (null));
             "reserve_hold_money"?: ((MoneyValuePreviousAttributes) | (null));
             "status"?: (("pending" | "succeeded" | "canceled" | (string & {})) | (null));
+            "subscription_id"?: ((string) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -288,16 +308,20 @@ export type PlatformFeeCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object
             "checkout_session_id"?: string;
             "collected_at"?: string;
             "created_at": string;
+            "invoice_id"?: string;
             "merchant_id": string;
             "partner_app_id": string;
             "partner_app_install_id": string;
             "payment_intent_id": string;
+            "payment_link_id"?: string;
             "platform_fee_id": string;
+            "platform_fee_rule"?: PlatformFeeRule;
             "refunded_money": MoneyValue;
             "requested_amount_money": MoneyValue;
             "reserve_available_at"?: string;
             "reserve_hold_money"?: MoneyValue;
             "status": "pending" | "succeeded" | "canceled" | (string & {});
+            "subscription_id"?: string;
             "updated_at": string;
             "version": number;
         };
@@ -614,6 +638,195 @@ export type PlatformFeeResponse = {
      */
     "request_id": string;
 };
+/** The rule that sets the platform fee for each payment. */
+export type PlatformFeeRule = {
+    /**
+     * The fixed amount per payment. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. maximum: 1000000. Amount in
+     * the currency's minor unit, such as cents for USD. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 0. currency (Required): string.
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "fixed_fee_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1. maximum: 1000000.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /**
+     * The maximum fee per payment, at least the fixed amount. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. amount (Required): integer string. Use
+     * an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     * maximum: 1000000. Amount in the currency's minor unit, such as cents for USD. Use an integer
+     * string (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency
+     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
+     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "maximum_fee_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1. maximum: 1000000.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /** The partner app whose install set the rule. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". */
+    "partner_app_id": string;
+    /**
+     * Percent of the amount collected. Zero requires fixed_fee_money. minimum: 0. maximum: 25.
+     * multipleOf: 0.0001.
+     */
+    "percent": number;
+};
+export type PlatformFeeRulePreviousAttributes = {
+    /**
+     * The fixed amount per payment. anyOf[1] (Value): object and {@link
+     * MoneyValuePreviousAttributes}. anyOf[1].amount (Optional): (integer string or null). Amount
+     * in the currency's minor unit, such as cents for USD. anyOf[1].amount.anyOf[1] (Value):
+     * integer string. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 1. maximum: 1000000. anyOf[1].amount.anyOf[2] (Value): null.
+     * anyOf[1].amount.anyOf[1] (Value): integer string. Amount in the currency's minor unit, such
+     * as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. anyOf[1].currency (Optional): string or null. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. anyOf[1].currency.anyOf[1]
+     * (Value): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[1].currency.anyOf[2] (Value): null.
+     * anyOf[2] (Value): null.
+     */
+    "fixed_fee_money"?: ((({
+        /**
+         *  anyOf[1] (Value): integer string. Use an integer string (decimal digits), not a
+         * floating-point number. Format: int64. minimum: 1. maximum: 1000000. anyOf[2] (Value):
+         * null.
+         */
+        "amount"?: ((`${bigint}`) | (null));
+    })
+        & (Exclude<MoneyValuePreviousAttributes & object, readonly unknown[]>))
+        | (null));
+    /**
+     * The maximum fee per payment, at least the fixed amount. anyOf[1] (Value): object and {@link
+     * MoneyValuePreviousAttributes}. anyOf[1].amount (Optional): (integer string or null). Amount
+     * in the currency's minor unit, such as cents for USD. anyOf[1].amount.anyOf[1] (Value):
+     * integer string. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 1. maximum: 1000000. anyOf[1].amount.anyOf[2] (Value): null.
+     * anyOf[1].amount.anyOf[1] (Value): integer string. Amount in the currency's minor unit, such
+     * as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. anyOf[1].currency (Optional): string or null. Three-letter
+     * uppercase ISO 4217 currency code for this amount, such as USD. anyOf[1].currency.anyOf[1]
+     * (Value): string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[1].currency.anyOf[2] (Value): null.
+     * anyOf[2] (Value): null.
+     */
+    "maximum_fee_money"?: ((({
+        /**
+         *  anyOf[1] (Value): integer string. Use an integer string (decimal digits), not a
+         * floating-point number. Format: int64. minimum: 1. maximum: 1000000. anyOf[2] (Value):
+         * null.
+         */
+        "amount"?: ((`${bigint}`) | (null));
+    })
+        & (Exclude<MoneyValuePreviousAttributes & object, readonly unknown[]>))
+        | (null));
+    /**
+     * The partner app whose install set the rule. anyOf[1] (Value): string. The partner app whose
+     * install set the rule. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". anyOf[2] (Value): null.
+     */
+    "partner_app_id"?: ((string) | (null));
+    /**
+     * Percent of the amount collected. Zero requires fixed_fee_money. anyOf[1] (Value): number.
+     * Percent of the amount collected. Zero requires fixed_fee_money. minimum: 0. maximum: 25.
+     * multipleOf: 0.0001. anyOf[2] (Value): null.
+     */
+    "percent"?: ((number) | (null));
+};
+/** Replaced as a whole: send every field you want to keep. */
+export type PlatformFeeRuleRequest = {
+    /**
+     * The fixed amount per payment. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. maximum: 1000000. Amount in
+     * the currency's minor unit, such as cents for USD. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 0. currency (Required): string.
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "fixed_fee_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1. maximum: 1000000.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /**
+     * The maximum fee per payment, at least the fixed amount. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. amount (Required): integer string. Use
+     * an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     * maximum: 1000000. Amount in the currency's minor unit, such as cents for USD. Use an integer
+     * string (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency
+     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
+     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "maximum_fee_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1. maximum: 1000000.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>);
+    /**
+     * Percent of the amount collected. Zero requires fixed_fee_money. minimum: 0. maximum: 25.
+     * multipleOf: 0.0001.
+     */
+    "percent": number;
+};
+/** Replaced as a whole: send every field you want to keep. */
+export type PlatformFeeRuleRequestInput = {
+    /**
+     * The fixed amount per payment. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. maximum: 1000000. Amount in
+     * the currency's minor unit, such as cents for USD. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 0. currency (Required): string.
+     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "fixed_fee_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1. maximum: 1000000.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /**
+     * The maximum fee per payment, at least the fixed amount. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. amount (Required): integer string. Use
+     * an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     * maximum: 1000000. Amount in the currency's minor unit, such as cents for USD. Use an integer
+     * string (decimal digits), not a floating-point number. Format: int64. minimum: 0. currency
+     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
+     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "maximum_fee_money"?: ({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1. maximum: 1000000.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>);
+    /**
+     * Percent of the amount collected. Zero requires fixed_fee_money. minimum: 0. maximum: 25.
+     * multipleOf: 0.0001.
+     */
+    "percent": number;
+};
 export type PlatformFeeSucceededEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -628,16 +841,20 @@ export type PlatformFeeSucceededEvent = ((Exclude<MerchantWebhookEnvelope & obje
             "checkout_session_id"?: string;
             "collected_at"?: string;
             "created_at": string;
+            "invoice_id"?: string;
             "merchant_id": string;
             "partner_app_id": string;
             "partner_app_install_id": string;
             "payment_intent_id": string;
+            "payment_link_id"?: string;
             "platform_fee_id": string;
+            "platform_fee_rule"?: PlatformFeeRule;
             "refunded_money": MoneyValue;
             "requested_amount_money": MoneyValue;
             "reserve_available_at"?: string;
             "reserve_hold_money"?: MoneyValue;
             "status": "pending" | "succeeded" | "canceled" | (string & {});
+            "subscription_id"?: string;
             "updated_at": string;
             "version": number;
         };
@@ -656,16 +873,20 @@ export type PlatformFeeSucceededEvent = ((Exclude<MerchantWebhookEnvelope & obje
             "checkout_session_id"?: ((string) | (null));
             "collected_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
+            "invoice_id"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
             "partner_app_id"?: ((string) | (null));
             "partner_app_install_id"?: ((string) | (null));
             "payment_intent_id"?: ((string) | (null));
+            "payment_link_id"?: ((string) | (null));
             "platform_fee_id"?: ((string) | (null));
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
             "requested_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "reserve_available_at"?: ((string) | (null));
             "reserve_hold_money"?: ((MoneyValuePreviousAttributes) | (null));
             "status"?: (("pending" | "succeeded" | "canceled" | (string & {})) | (null));
+            "subscription_id"?: ((string) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -690,16 +911,20 @@ export type PlatformFeeUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object
             "checkout_session_id"?: string;
             "collected_at"?: string;
             "created_at": string;
+            "invoice_id"?: string;
             "merchant_id": string;
             "partner_app_id": string;
             "partner_app_install_id": string;
             "payment_intent_id": string;
+            "payment_link_id"?: string;
             "platform_fee_id": string;
+            "platform_fee_rule"?: PlatformFeeRule;
             "refunded_money": MoneyValue;
             "requested_amount_money": MoneyValue;
             "reserve_available_at"?: string;
             "reserve_hold_money"?: MoneyValue;
             "status": "pending" | "succeeded" | "canceled" | (string & {});
+            "subscription_id"?: string;
             "updated_at": string;
             "version": number;
         };
@@ -718,16 +943,20 @@ export type PlatformFeeUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object
             "checkout_session_id"?: ((string) | (null));
             "collected_at"?: ((string) | (null));
             "created_at"?: ((string) | (null));
+            "invoice_id"?: ((string) | (null));
             "merchant_id"?: ((string) | (null));
             "partner_app_id"?: ((string) | (null));
             "partner_app_install_id"?: ((string) | (null));
             "payment_intent_id"?: ((string) | (null));
+            "payment_link_id"?: ((string) | (null));
             "platform_fee_id"?: ((string) | (null));
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             "refunded_money"?: ((MoneyValuePreviousAttributes) | (null));
             "requested_amount_money"?: ((MoneyValuePreviousAttributes) | (null));
             "reserve_available_at"?: ((string) | (null));
             "reserve_hold_money"?: ((MoneyValuePreviousAttributes) | (null));
             "status"?: (("pending" | "succeeded" | "canceled" | (string & {})) | (null));
+            "subscription_id"?: ((string) | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -772,6 +1001,21 @@ export type PlatformFeesListParams = {
      * ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      */
     "payment_intent_id"?: InputValue<string>;
+    /**
+     * Exact match on the subscription. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id"?: InputValue<string>;
+    /**
+     * Exact match on the invoice. minLength: 1. pattern: ^inv_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     */
+    "invoice_id"?: InputValue<string>;
+    /**
+     * Exact match on the payment link. minLength: 1. pattern: ^pl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     */
+    "payment_link_id"?: InputValue<string>;
     /**
      * Statuses to include. Omit it to list every status. Values are trimmed and deduplicated in
      * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
@@ -3388,211 +3632,4 @@ export type PricingAmounts = {
      * currency code.
      */
     "total_money": MoneyValue;
-};
-export type PricingAmountsPreviousAttributes = {
-    /**
-     * Tax added on top of prices, included in total_money. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "additive_tax_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Total of the order's service charges after service-charge discounts. anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "charge_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Total of order and line-item discounts. Service-charge discounts, such as free shipping, are
-     * not included; they reduce charge_money. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "discount_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Tax already included in subtotal_money and charge_money. Informational; it is not added
-     * again to total_money. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
-     * (Value): null.
-     */
-    "inclusive_tax_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Tip money included in the price. After payment, it includes the original settled tip. Each
-     * tip reports any refund in its refunded_money field. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "requested_tip_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Sum of the line items' subtotal_money: prices with modifiers, before discounts. Lines with
-     * tax-inclusive prices include their tax here. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Total tax, equal to additive_tax_money + inclusive_tax_money. anyOf[1] (Value): {@link
-     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "tax_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * subtotal_money - discount_money + charge_money + additive_tax_money + requested_tip_money,
-     * never below zero. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value):
-     * null.
-     */
-    "total_money"?: ((MoneyValuePreviousAttributes) | (null));
-};
-/**
- * How to process one line of an existing return: the received quantity, inspection, decision,
- * disposition, and resolution.
- */
-export type ProcessExistingReturnLineItemRequest = {
-    /**
-     * The decision for this line, as an assertion about the committed terms. Example:
-     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}. Start from
-     * the pinned policy proposal recomputed for approved_quantity when the line has a policy
-     * evaluation and the proposal can be built. Otherwise start with return_required_quantity
-     * equal to approved_quantity, allowed_resolution_types containing refund, exchange,
-     * replacement, no_monetary_action, and store_credit in that order regardless of whether the
-     * original payment is refundable, no automatic_resolution_type, is_inspection_required false,
-     * and no receiving_location_id. Each supplied field replaces its starting value;
-     * allowed_resolution_types replaces the whole list. Omit automatic_resolution_type to keep its
-     * starting value, or send null to resolve manually. Then fill an omitted release_timing with
-     * after_inspection when merchandise is required and inspection is required, after_receipt when
-     * merchandise is required without inspection, or after_approval when no merchandise is
-     * required. Validate the merged decision for quantity bounds, allowed resolution types, and
-     * reachable timing and inspection requirements. A pinned policy always requires
-     * override_reason when approved_quantity exceeds evaluated eligible_quantity, even when no
-     * proposal can be built. With a pinned policy but no proposal, other decision fields use these
-     * defaults and override_reason is otherwise optional. Example:
-     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
-     */
-    "decision"?: ReturnProcessDecision;
-    /**
-     * A disposition to record for this line's units. What was done with a returned item, such as
-     * restocked as sellable or sent for repair, supplied when processing an existing return.
-     */
-    "disposition"?: ReturnProcessDispositionRequest;
-    /**
-     * An inspection to record for this line's units. An inspection result for a returned item,
-     * supplied when processing an existing return.
-     */
-    "inspection"?: ReturnProcessInspectionRequest;
-    /**
-     * Whole number of units received. It must equal the line's committed return_required_quantity;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "received_quantity"?: number;
-    /**
-     * A resolution to create and confirm for this line. The resolution to apply to a returned
-     * item, such as refund or exchange, with the quantity and any replacement items.
-     */
-    "resolution"?: ReturnProcessResolutionRequest;
-    /**
-     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-};
-/**
- * How to process one line of an existing return: the received quantity, inspection, decision,
- * disposition, and resolution.
- */
-export type ProcessExistingReturnLineItemRequestInput = {
-    /**
-     * The decision for this line, as an assertion about the committed terms. Example:
-     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}. Start from
-     * the pinned policy proposal recomputed for approved_quantity when the line has a policy
-     * evaluation and the proposal can be built. Otherwise start with return_required_quantity
-     * equal to approved_quantity, allowed_resolution_types containing refund, exchange,
-     * replacement, no_monetary_action, and store_credit in that order regardless of whether the
-     * original payment is refundable, no automatic_resolution_type, is_inspection_required false,
-     * and no receiving_location_id. Each supplied field replaces its starting value;
-     * allowed_resolution_types replaces the whole list. Omit automatic_resolution_type to keep its
-     * starting value, or send null to resolve manually. Then fill an omitted release_timing with
-     * after_inspection when merchandise is required and inspection is required, after_receipt when
-     * merchandise is required without inspection, or after_approval when no merchandise is
-     * required. Validate the merged decision for quantity bounds, allowed resolution types, and
-     * reachable timing and inspection requirements. A pinned policy always requires
-     * override_reason when approved_quantity exceeds evaluated eligible_quantity, even when no
-     * proposal can be built. With a pinned policy but no proposal, other decision fields use these
-     * defaults and override_reason is otherwise optional. Example:
-     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
-     */
-    "decision"?: ReturnProcessDecisionInput;
-    /**
-     * A disposition to record for this line's units. What was done with a returned item, such as
-     * restocked as sellable or sent for repair, supplied when processing an existing return.
-     */
-    "disposition"?: ReturnProcessDispositionRequestInput;
-    /**
-     * An inspection to record for this line's units. An inspection result for a returned item,
-     * supplied when processing an existing return.
-     */
-    "inspection"?: ReturnProcessInspectionRequestInput;
-    /**
-     * Whole number of units received. It must equal the line's committed return_required_quantity;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "received_quantity"?: number;
-    /**
-     * A resolution to create and confirm for this line. The resolution to apply to a returned
-     * item, such as refund or exchange, with the quantity and any replacement items.
-     */
-    "resolution"?: ReturnProcessResolutionRequestInput;
-    /**
-     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-};
-/** The request body for: Process existing return. */
-export type ProcessExistingReturnRequest = {
-    /**
-     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
-     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
-     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
-     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
-     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
-     * completion_mode. Value enum: "manual", "automatic".
-     */
-    "completion_mode"?: "manual" | "automatic" | (string & {});
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * One decision for each line. minItems: 1. [] (Value): {@link
-     * ProcessExistingReturnLineItemRequest}. How to process one line of an existing return: the
-     * received quantity, inspection, decision, disposition, and resolution.
-     */
-    "line_items": Array<ProcessExistingReturnLineItemRequest>;
-    /**
-     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
-     * it was received, supplied when processing an existing return.
-     */
-    "receipt"?: ReturnProcessReceiptRequest;
-};
-/** The request body for: Process existing return. */
-export type ProcessExistingReturnRequestInput = {
-    /**
-     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
-     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
-     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
-     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
-     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
-     * completion_mode. Value enum: "manual", "automatic".
-     */
-    "completion_mode"?: "manual" | "automatic";
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * One decision for each line. minItems: 1. [] (Value): {@link
-     * ProcessExistingReturnLineItemRequestInput}. How to process one line of an existing return:
-     * the received quantity, inspection, decision, disposition, and resolution.
-     */
-    "line_items": Array<ProcessExistingReturnLineItemRequestInput>;
-    /**
-     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
-     * it was received, supplied when processing an existing return.
-     */
-    "receipt"?: ReturnProcessReceiptRequestInput;
 };

@@ -19,6 +19,7 @@ Money collected, returned, waived, and still owed on a bill.
 | `released_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Authorized money a final capture released instead of collecting, which the order no longer owes. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `released_money`: [field definitions](../models/OrderSettlementAmounts.md#ordersettlementamountsreleased_money). |
 | `removed_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Value order edits removed from the order, which it no longer owes: removed units' value plus each edit's charge_refunds[].amount_money, whether that value was refunded or applied to lines the edit added. This reduces outstanding_money without changing paid_money or refunded_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `removed_money`: [field definitions](../models/OrderSettlementAmounts.md#ordersettlementamountsremoved_money). |
 | `settled_tip_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Portion of the collected money settled as tips. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `settled_tip_money`: [field definitions](../models/OrderSettlementAmounts.md#ordersettlementamountssettled_tip_money). |
+| `subscription_credit_refundable_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Remaining money available for an order refund while the order funds a subscription renewal or change. Excludes money reserved for the credit, exchanges, and processing refunds. Present on affected order reads, including when the amount is zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `subscription_credit_refundable_money`: [field definitions](../models/OrderSettlementAmounts.md#ordersettlementamountssubscription_credit_refundable_money). |
 | `outstanding_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Money still owed on the bill, never below zero. Refunds return money already collected and do not add to it. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `outstanding_money`: [field definitions](../models/InvoiceSettlementAmounts.md#invoicesettlementamountsoutstanding_money). |
 | `paid_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Money collected toward the bill, net of reversed payments. Excludes written-off debt. On orders, dispute losses do not reduce this amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `paid_money`: [field definitions](../models/InvoiceSettlementAmounts.md#invoicesettlementamountspaid_money). |
 | `refunded_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Money returned to the buyer from what was collected toward the bill. On orders, this counts successful refunds. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `refunded_money`: [field definitions](../models/InvoiceSettlementAmounts.md#invoicesettlementamountsrefunded_money). |
@@ -75,6 +76,12 @@ Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 ### OrderSettlementAmounts.settled_tip_money
 
 Portion of the collected money settled as tips. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+
+### OrderSettlementAmounts.subscription_credit_refundable_money
+
+Remaining money available for an order refund while the order funds a subscription renewal or change. Excludes money reserved for the credit, exchanges, and processing refunds. Present on affected order reads, including when the amount is zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
 Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 

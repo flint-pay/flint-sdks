@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes to LicenseKeyCreatedMerchantEvent
+# InvoicePaymentTermCalculationDayOfNextMonthRequestInput to LicenseKeyConfigurationRequestInput
 
+- [InvoicePaymentTermCalculationDayOfNextMonthRequestInput](InvoicePaymentTermCalculationDayOfNextMonthRequestInput.md)
+- [InvoicePaymentTermCalculationDaysAfterMonthEnd](InvoicePaymentTermCalculationDaysAfterMonthEnd.md)
 - [InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes](InvoicePaymentTermCalculationDaysAfterMonthEndPreviousAttributes.md)
 - [InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput](InvoicePaymentTermCalculationDaysAfterMonthEndRequestInput.md)
 - [InvoicePaymentTermCalculationNetDays](InvoicePaymentTermCalculationNetDays.md)
@@ -100,6 +102,4 @@
 - [LicenseKeyConfigurationPreviousAttributes](LicenseKeyConfigurationPreviousAttributes.md)
 - [LicenseKeyConfigurationRequest](LicenseKeyConfigurationRequest.md)
 - [LicenseKeyConfigurationRequestInput](LicenseKeyConfigurationRequestInput.md)
-- [LicenseKeyCreatedInstalledMerchantsEvent](LicenseKeyCreatedInstalledMerchantsEvent.md)
-- [LicenseKeyCreatedMerchantEvent](LicenseKeyCreatedMerchantEvent.md)
 
