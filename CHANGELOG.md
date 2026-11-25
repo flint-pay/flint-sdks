@@ -1,5 +1,13 @@
 # Changelog
 
+## 8.0.0-beta.12
+
+Node and PHP pin Flint `a99c1d7b204cfc2931e623b04a341ea296e897dd` at API date `2026-09-07` and SDK generator `06dde7ef2d3e39e1f608b8fe5b5a31d17e2d65a7`. This prerelease publishes to npm `next`. The `latest` tag stays on `7.0.0`.
+
+The `shops` resource adds six merchant methods. Use `create`, `list`, `get`, `update`, and `delete` to manage shops and `listListings` to list their listings. Public storefronts can call `getPublic` and `getListingPublic` without merchant credentials. The keyless `resolve` method turns a cart into a hosted checkout session and order. Save and reuse the resolution context and idempotency key when retrying the same cart.
+
+The refreshed contract has [52 breaking-class compatibility findings](https://github.com/flint-pay/flint-sdks/pull/48). Payment links and shops share public catalog models. Update payment-link imports, Node model factories, and PHP type declarations. Review payment-method consent, customer access-link purpose, platform-fee and settlement fields, resource ID patterns, and webhook and authentication changes. The [beta.12 migration notes](https://github.com/flint-pay/flint-sdks/blob/v8.0.0-beta.12/MIGRATION.md#changes-in-800-beta12) list the renamed exports and affected integration checks.
+
 ## 8.0.0-beta.11
 
 Node and PHP pin Flint `cfe039b718f875a039e518f8e1a1193f9d582195` at API date `2026-09-07` and SDK generator `06dde7ef2d3e39e1f608b8fe5b5a31d17e2d65a7`. This prerelease publishes to npm `next`. The `latest` tag stays on `7.0.0`.

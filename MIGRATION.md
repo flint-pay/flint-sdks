@@ -1,6 +1,6 @@
 # SDK 8.0.0
 
-This guide covers upgrading from `7.0.0` to the `8.0.0-beta.11` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.11` or `flintpay/flint:8.0.0-beta.11`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
+This guide covers upgrading from `7.0.0` to the `8.0.0-beta.12` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.12` or `flintpay/flint:8.0.0-beta.12`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
 
 TypeScript reports most of these changes as compile errors, so run `tsc` after upgrading and work through the output. PHP reports them when the call runs; use the search patterns in [Finding call sites](#finding-call-sites).
 
@@ -14,6 +14,28 @@ What changed, most common first:
 - [Results](#results-carry-lastresponse): results carry `lastResponse`, and the `*WithResponse` methods are removed.
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
+
+## Changes in 8.0.0-beta.12
+
+Replace the old payment-link model names with the shared public catalog names. Update TypeScript imports from the package root or payment-links resource, the corresponding `make…` factory calls and `…Input` imports where used, and PHP `Flint\\…` imports and type declarations.
+
+| Previous model | Replacement |
+| --- | --- |
+| `PaymentLinkAvailableVariant` | `PublicCatalogVariant` |
+| `PaymentLinkProductOption` | `PublicCatalogOption` |
+| `PaymentLinkProductOptionValue` | `PublicCatalogOptionValue` |
+| `ResolvePaymentLinkLineItemModifierRequest` | `PublicCatalogModifierRequest` |
+| `ResolvePaymentLinkLineItemModifierInputCatalog` | `PublicCatalogModifierInputCatalog` |
+| `ResolvePaymentLinkLineItemModifierInputText` | `PublicCatalogModifierInputText` |
+| `ResolvePaymentLinkTextModifierRequest` | `PublicCatalogTextModifierRequest` |
+
+The 52 breaking-class findings also cover APIs outside shops. Re-run TypeScript type checking and PHP integration tests against the refreshed contract, including fixtures for these areas.
+
+- **Payment-method consent.** For merchant card-save flows that take consent, send the buyer-approved wording in `save_payment_method_consent_text` with `save_payment_method: true`. Checkout supplies its own wording. Handle nullable saved-card `consent`. When present, it contains `accepted_at` and `text`.
+- **Customer access links.** Use `purpose: "payment_method_setup"` to open Add card. The default, `customer_account`, opens the account home. Include `purpose` in typed access-link response fixtures.
+- **Platform fees and settlement.** Update money-movement and settlement consumers to the new response models. Include required fields in fixtures and handle newly reported fee transaction types.
+- **Resource IDs.** Use IDs returned by the corresponding API operations and update hardcoded test IDs to match the resource-specific patterns.
+- **Webhooks and authentication.** Replay representative signed webhook fixtures against the new event types and test each credential profile you use against the generated method reference. For public shop operations, omit merchant credentials.
 
 ## Changes in 8.0.0-beta.11
 
