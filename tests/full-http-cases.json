@@ -3573,6 +3573,7 @@
   },
   {
     "name": "resolve shop without merchant credentials",
+    "baseUrl": "https://api.example.invalid",
     "operation": "resolveShop",
     "input": {
       "shop_id": "shop_01ARZ3NDEKTSV4RRFFQ69G5FAV",
