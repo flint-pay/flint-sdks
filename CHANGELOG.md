@@ -6,7 +6,12 @@ Node and PHP pin Flint `a99c1d7b204cfc2931e623b04a341ea296e897dd` at API date `2
 
 The `shops` resource adds six merchant methods. Use `create`, `list`, `get`, `update`, and `delete` to manage shops and `listListings` to list their listings. Public storefronts can call `getPublic` and `getListingPublic` without merchant credentials. The keyless `resolve` method turns a cart into a hosted checkout session and order. Save and reuse the resolution context and idempotency key when retrying the same cart.
 
-The refreshed contract has [52 breaking-class compatibility findings](https://github.com/flint-pay/flint-sdks/pull/48). Payment links and shops share public catalog models. Update payment-link imports, Node model factories, and PHP type declarations. Review payment-method consent, customer access-link purpose, platform-fee and settlement fields, resource ID patterns, and webhook and authentication changes. The [beta.12 migration notes](https://github.com/flint-pay/flint-sdks/blob/v8.0.0-beta.12/MIGRATION.md#changes-in-800-beta12) list the renamed exports and affected integration checks.
+The refreshed contract has [52 breaking-class compatibility findings](https://github.com/flint-pay/flint-sdks/pull/48). Payment links and shops share public catalog models. Update payment-link imports, Node model factories, and PHP type declarations to use these names.
+
+- `PaymentLinkAvailableVariant`, `PaymentLinkProductOption`, and `PaymentLinkProductOptionValue` become `PublicCatalogVariant`, `PublicCatalogOption`, and `PublicCatalogOptionValue`.
+- `ResolvePaymentLinkLineItemModifierRequest` and its Catalog and Text branches become `PublicCatalogModifierRequest`, `PublicCatalogModifierInputCatalog`, and `PublicCatalogModifierInputText`. `ResolvePaymentLinkTextModifierRequest` becomes `PublicCatalogTextModifierRequest`.
+
+Review payment-method consent, customer access-link purpose, platform-fee and settlement fields, resource ID patterns, and webhook and authentication changes. See the [beta.12 migration notes](https://github.com/flint-pay/flint-sdks/blob/v8.0.0-beta.12/MIGRATION.md#changes-in-800-beta12) for the affected integration checks.
 
 ## 8.0.0-beta.11
 
