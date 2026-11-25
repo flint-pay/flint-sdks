@@ -33,6 +33,7 @@ Response model.
 | `paid_at` | Optional | string or null | When the invoice most recently became paid. Cleared when status leaves paid and set again on a later paid transition. `paid_at`: [declared alternatives](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributespaid_at). |
 | `payment_due` | Optional | object and Alternative shapes (see declared variants) or null | The resolved due-date policy. Send this object back when updating the draft; payment_terms captures the term's current revision again. `payment_due`: [declared alternatives](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributespayment_due). |
 | `payment_terms_snapshot` | Optional | [InvoicePaymentTermsSnapshotPreviousAttributes](../models/InvoicePaymentTermsSnapshotPreviousAttributes.md#invoicepaymenttermssnapshotpreviousattributes) or null | The payment term captured on the draft, with its due date rule and late fee policy. Later changes to the payment term don't affect this invoice. `payment_terms_snapshot`: [declared alternatives](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributespayment_terms_snapshot). |
+| `platform_fee_rule` | Optional | [PlatformFeeRulePreviousAttributes](../models/PlatformFeeRulePreviousAttributes.md#platformfeerulepreviousattributes) or null | The active rule for payments Flint collects for this invoice. Omitted when no rule is set. `platform_fee_rule`: [declared alternatives](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesplatform_fee_rule). |
 | `po_number` | Optional | string or null | The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. `null` when unset. `po_number`: [declared alternatives](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributespo_number). |
 | `pricing_amounts` | Optional | [PricingAmountsPreviousAttributes](../models/PricingAmountsPreviousAttributes.md#pricingamountspreviousattributes) or null | The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money excludes late fees, which are in settlement_amounts.late_fee_money. |
 | `recipient_email` | Optional | string or null | Where Flint emails the invoice and its reminders. Email delivery requires it at issue. `null` when unset. `recipient_email`: [declared alternatives](../models/InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.md#invoicecollectionblockresolvedmerchanteventdatapreviousattributesrecipient_email). |
@@ -934,6 +935,41 @@ Declared alternatives: [InvoicePaymentTermsSnapshotPreviousAttributes.name](../m
 ### InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.payment_terms_snapshot variant 1.version
 
 Declared alternatives: [InvoicePaymentTermsSnapshotPreviousAttributes.version](../models/InvoicePaymentTermsSnapshotPreviousAttributes.md#invoicepaymenttermssnapshotpreviousattributesversion).
+
+### InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.platform_fee_rule
+
+The active rule for payments Flint collects for this invoice. Omitted when no rule is set.
+
+Field definitions: [shared fields](PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule).
+
+### InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1
+
+anyOf PlatformFeeRulePreviousAttributes.
+
+- Optional: `fixed_fee_money`, `maximum_fee_money`, `partner_app_id`, `percent`.
+
+### InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.platform_fee_rule variant 2
+
+anyOf variant 2.
+
+- Undeclared: `fixed_fee_money`, `maximum_fee_money`, `partner_app_id`, `percent`.
+- Value shape: null. The active rule for payments Flint collects for this invoice. Omitted when no rule is set. 
+
+### InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.fixed_fee_money
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money).
+
+### InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.maximum_fee_money
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.maximum_fee_money](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1maximum_fee_money).
+
+### InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.partner_app_id
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.partner_app_id](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1partner_app_id).
+
+### InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.percent
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.percent](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1percent).
 
 ### InvoiceCollectionBlockResolvedMerchantEventDataPreviousAttributes.po_number
 

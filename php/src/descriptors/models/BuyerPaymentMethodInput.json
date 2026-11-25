@@ -1,1 +1,1 @@
-{"shared":"BuyerPaymentMethod","dependencies":["BuyerPaymentMethod","CardDetails"]}
+{"shared":"BuyerPaymentMethod","dependencies":["BuyerPaymentMethod","CardDetails","SharedCodec139","SharedCodec140"]}

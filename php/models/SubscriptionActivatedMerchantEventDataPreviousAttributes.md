@@ -57,6 +57,7 @@ Response model.
 | `payment_method` | Optional | [ExpandedPaymentMethodSummaryPreviousAttributes](../models/ExpandedPaymentMethodSummaryPreviousAttributes.md#expandedpaymentmethodsummarypreviousattributes) or null | Present only when `expand` includes `payment_method`; `null` when expanded and there is no related payment method. `payment_method`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributespayment_method). |
 | `payment_method_due_at` | Optional | string or null | First charge boundary while no card is bound: the later of trial_end_at and next_billing_at during a trial, or the next billing date for an imported period, even when that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a card at its boundary cancels without an order or payment attempt. At that boundary, an imported subscription with a positive charge that still has no card enters its normal dunning schedule without a payment attempt. For an imported subscription, a zero charge completes the renewal without a card and the deadline advances to the following boundary. Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel at period end), an active or trialing subscription is in its final end_after cycle, or an external schedule has no known boundary. `payment_method_due_at`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributespayment_method_due_at). |
 | `payment_method_id` | Optional | string or null | Saved payment method used for renewal charges. Null when no card is bound. Bind a card to this subscription with PATCH; changing the customer's default alone does not bind it. `payment_method_id`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributespayment_method_id). |
+| `platform_fee_rule` | Optional | [PlatformFeeRulePreviousAttributes](../models/PlatformFeeRulePreviousAttributes.md#platformfeerulepreviousattributes) or null | The active platform fee rule for the subscription. `platform_fee_rule`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesplatform_fee_rule). |
 | `promotions` | Optional | Array of [SubscriptionPromotionPreviousAttributes](../models/SubscriptionPromotionPreviousAttributes.md#subscriptionpromotionpreviousattributes) or null | Recurring promotions applying to the next charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are excluded. `promotions`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributespromotions). |
 | `prorate_first_period` | Optional | boolean or null | Whether this subscription was created to prorate its first anchored paid period. Set at creation and never changes; starting on the anchor day still bills a normal full period. `prorate_first_period`: [declared alternatives](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesprorate_first_period). |
 | `recurring_subtotal_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | What one billing period's items cost before discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes when items, quantity, or the plan change; editing the plan doesn't change it. For the next charge, use a subscription preview in next_renewal mode. `null` when a cancellation succeeds but Flint couldn't load the billing snapshot afterward, so the cancel response returns it as null. Retrieve the subscription again to get it. |
@@ -920,6 +921,41 @@ anyOf variant 1: Saved payment method used for renewal charges. Null when no car
 anyOf variant 2.
 
 - Value shape: null. Saved payment method used for renewal charges. Null when no card is bound. Bind a card to this subscription with PATCH; changing the customer's default alone does not bind it. 
+
+### SubscriptionActivatedMerchantEventDataPreviousAttributes.platform_fee_rule
+
+The active platform fee rule for the subscription.
+
+Field definitions: [shared fields](PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule).
+
+### SubscriptionActivatedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1
+
+anyOf PlatformFeeRulePreviousAttributes.
+
+- Optional: `fixed_fee_money`, `maximum_fee_money`, `partner_app_id`, `percent`.
+
+### SubscriptionActivatedMerchantEventDataPreviousAttributes.platform_fee_rule variant 2
+
+anyOf variant 2.
+
+- Undeclared: `fixed_fee_money`, `maximum_fee_money`, `partner_app_id`, `percent`.
+- Value shape: null. The active platform fee rule for the subscription. 
+
+### SubscriptionActivatedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.fixed_fee_money
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money).
+
+### SubscriptionActivatedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.maximum_fee_money
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.maximum_fee_money](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1maximum_fee_money).
+
+### SubscriptionActivatedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.partner_app_id
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.partner_app_id](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1partner_app_id).
+
+### SubscriptionActivatedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.percent
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.percent](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1percent).
 
 ### SubscriptionActivatedMerchantEventDataPreviousAttributes.promotions
 

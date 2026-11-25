@@ -3,7 +3,7 @@ import type { ClientOptions } from '../declarations/types-7.js';
 import type { CustomerEmailPreferences, CustomerEmailPreferencesResponse } from '../declarations/types-16.js';
 import type { EmailPreferencesLookupParams } from '../declarations/types-26.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -19,16 +19,17 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { EmailPreferencesLookupParams } from '../declarations/types-26.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type { CustomerEmailPreferences, CustomerEmailPreferencesResponse } from '../declarations/types-16.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { LookupEmailPreferencesRequestInput, LookupEmailPreferencesRequest } from '../declarations/types-40.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeLookupEmailPreferencesRequest, makeMoneyValue } from '../declarations/types-88.js';
+export { makeLookupEmailPreferencesRequest, makeMoneyValue } from '../declarations/types-89.js';
 export interface EmailPreferencesResource {
     /**
  * Reads an address's email preferences without putting it in a URL. Matches after trimming

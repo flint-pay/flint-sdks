@@ -50,5 +50,5 @@ anyOf variant 5.
 
 - Required: `channel_types`.
 - Optional: `category_handles`, `location_ids`, `product_ids`, `variant_ids`.
-- Constraints for `channel_types`: minItems: `1`. Items values: `"checkout"`, `"payment_link"`, `"virtual_terminal"`, `"api"`, `"subscription"`.
+- Constraints for `channel_types`: minItems: `1`. Items values: `"checkout"`, `"payment_link"`, `"shop"`, `"virtual_terminal"`, `"api"`, `"subscription"`.
 

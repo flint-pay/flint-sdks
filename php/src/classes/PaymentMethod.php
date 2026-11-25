@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read ?CardDetails $card
+ * @property-read PaymentMethodConsent|null $consent
  * @property-read string $created_at
  * @property-read ExpandedCustomerSummary|null $customer
  * @property-read string $customer_id
@@ -19,13 +20,18 @@ namespace Flint;
  * @property-read string $usage
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentMethod extends Model {
-    /** @param array{'card'?: mixed, 'created_at': string, 'customer'?: mixed, 'customer_id': string, 'fingerprint'?: string, 'is_default': bool, 'is_removing': bool, 'merchant_id': string, 'origin'?: string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string, 'usage': string, ...}|object $values */
+    /** @param array{'card'?: mixed, 'consent': mixed, 'created_at': string, 'customer'?: mixed, 'customer_id': string, 'fingerprint'?: string, 'is_default': bool, 'is_removing': bool, 'merchant_id': string, 'origin'?: string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string, 'usage': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethod')); }
     /** Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
      * @return ?CardDetails
      */
     public function getCard(): ?CardDetails { return $this->get('card'); }
     public function hasCard(): bool { return $this->has('card'); }
+    /** Recorded consent for the card save. Null when Flint has no recorded wording for this card. anyOf[1] (Value): {@see PaymentMethodConsent}. The wording and acceptance time recorded when the buyer agreed to save this card. anyOf[2] (Value): null.
+     * @return PaymentMethodConsent|null
+     */
+    public function getConsent(): PaymentMethodConsent|null { return $this->get('consent'); }
+    public function hasConsent(): bool { return $this->has('consent'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
      */

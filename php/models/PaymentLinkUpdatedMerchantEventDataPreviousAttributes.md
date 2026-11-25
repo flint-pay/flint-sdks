@@ -33,6 +33,7 @@ Response model.
 | `payment_link_id` | Optional | string or null | Unique identifier for this payment link, prefixed `pl_`. `payment_link_id`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributespayment_link_id). |
 | `payment_link_type` | Optional | string or null | What kind of link this is. Values: `"standard"`, `"donation"`, `"event"`. `payment_link_type`: [declared alternatives](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributespayment_link_type). |
 | `payments` | Optional | [CheckoutPaymentConfigPreviousAttributes](../models/CheckoutPaymentConfigPreviousAttributes.md#checkoutpaymentconfigpreviousattributes) or null | Payment options for checkouts started from this link. |
+| `platform_fee_rule` | Optional | [PlatformFeeRulePreviousAttributes](../models/PlatformFeeRulePreviousAttributes.md#platformfeerulepreviousattributes) or null | The platform fee rule copied to checkouts started from this link. `platform_fee_rule`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesplatform_fee_rule). |
 | `promotion_config` | Optional | [CheckoutPromotionConfigPreviousAttributes](../models/CheckoutPromotionConfigPreviousAttributes.md#checkoutpromotionconfigpreviousattributes) or null | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. |
 | `redirects` | Optional | [CheckoutRedirectsPreviousAttributes](../models/CheckoutRedirectsPreviousAttributes.md#checkoutredirectspreviousattributes) or null | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. `redirects`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributesredirects). |
 | `sales_end_at` | Optional | string or null | RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. `sales_end_at`: [declared alternatives](../models/PaymentLinkUpdatedMerchantEventDataPreviousAttributes.md#paymentlinkupdatedmerchanteventdatapreviousattributessales_end_at). |
@@ -901,6 +902,41 @@ Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.payment_lin
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.payment_link_type
 
 Declared alternatives: [ExpandedPaymentLinkSummaryPreviousAttributes.payment_link_type](../models/ExpandedPaymentLinkSummaryPreviousAttributes.md#expandedpaymentlinksummarypreviousattributespayment_link_type).
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.platform_fee_rule
+
+The platform fee rule copied to checkouts started from this link.
+
+Field definitions: [shared fields](PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule).
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1
+
+anyOf PlatformFeeRulePreviousAttributes.
+
+- Optional: `fixed_fee_money`, `maximum_fee_money`, `partner_app_id`, `percent`.
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.platform_fee_rule variant 2
+
+anyOf variant 2.
+
+- Undeclared: `fixed_fee_money`, `maximum_fee_money`, `partner_app_id`, `percent`.
+- Value shape: null. The platform fee rule copied to checkouts started from this link. 
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.fixed_fee_money
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money).
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.maximum_fee_money
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.maximum_fee_money](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1maximum_fee_money).
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.partner_app_id
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.partner_app_id](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1partner_app_id).
+
+### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.percent
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.percent](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1percent).
 
 ### PaymentLinkUpdatedMerchantEventDataPreviousAttributes.redirects
 

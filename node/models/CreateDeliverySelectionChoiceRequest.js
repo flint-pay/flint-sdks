@@ -1,7 +1,7 @@
-import { d8826 as c0, d8830 as c1 } from '../descriptors/data/395.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d8826 as d8826 } from '../descriptors/data/395.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
+import { d8906 as c0, d8910 as c1 } from '../descriptors/data/399.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d8906 as d8906 } from '../descriptors/data/399.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d8826;
+const read = d8906;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreateDeliverySelectionChoiceRequest"]:c0(),["DeliverySelectionInstructionsRequest"]:c1()}); }
 export { codec as _validate };

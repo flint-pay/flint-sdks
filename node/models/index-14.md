@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateCallbackArchivedMerchantEvent to DeliveryWeeklyIntervalPreviousAttributes
+# DeliveryRateCallbackActivatedMerchantEvent to DeliveryTransitTimeRuleRequestInput
 
+- [DeliveryRateCallbackActivatedMerchantEvent](DeliveryRateCallbackActivatedMerchantEvent.md)
+- [DeliveryRateCallbackArchivedInstalledMerchantsEvent](DeliveryRateCallbackArchivedInstalledMerchantsEvent.md)
 - [DeliveryRateCallbackArchivedMerchantEvent](DeliveryRateCallbackArchivedMerchantEvent.md)
 - [DeliveryRateCallbackConfiguration](DeliveryRateCallbackConfiguration.md)
 - [DeliveryRateCallbackConfigurationPatchRequest](DeliveryRateCallbackConfigurationPatchRequest.md)
@@ -100,6 +102,4 @@
 - [DeliveryTransitTimeRule](DeliveryTransitTimeRule.md)
 - [DeliveryTransitTimeRulePreviousAttributes](DeliveryTransitTimeRulePreviousAttributes.md)
 - [DeliveryTransitTimeRuleRequestInput](DeliveryTransitTimeRuleRequestInput.md)
-- [DeliveryWeeklyInterval](DeliveryWeeklyInterval.md)
-- [DeliveryWeeklyIntervalPreviousAttributes](DeliveryWeeklyIntervalPreviousAttributes.md)
 

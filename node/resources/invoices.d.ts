@@ -46,7 +46,7 @@ import type {
     InvoicesWaiveLateFeeParams
 } from '../declarations/types-38.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -97,10 +97,9 @@ export type {
     InvoiceScheduleEntry,
     InvoiceSettlementAmounts,
     InvoiceSnapshot,
-    InvoiceTip,
-    IssueInvoiceRequestInput
+    InvoiceTip
 } from '../declarations/types-38.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning, ResourceVersionRequestInput } from '../declarations/types-62.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type {
     InvoicePaymentAttempt,
     InvoicePaymentAttemptResponse,
@@ -116,14 +115,13 @@ export type {
     InvoicePaymentDueInputPaymentTermsInput,
     InvoicePaymentDueInputCustomerDefaultInput,
     InvoicePaymentDueInputMerchantDefaultInput,
-    InvoicePaymentPolicy,
     InvoicePaymentOptionLimit,
     InvoicePaymentDue,
     InvoicePaymentDueNone,
     InvoicePaymentDueDate,
     InvoicePaymentDuePaymentTerms
 } from '../declarations/types-36.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightRequestInput } from '../declarations/types-80.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightRequestInput } from '../declarations/types-81.js';
 export type {
     CollectInvoiceResult,
     CollectInvoiceResponse,
@@ -138,8 +136,7 @@ export type {
     InventoryRoutingSourceRequestInput,
     InvoiceCollection,
     InvoiceCollectionBuyerInitiated,
-    InvoiceCollectionAutomatic,
-    InvoiceCollectionExternal
+    InvoiceCollectionAutomatic
 } from '../declarations/types-34.js';
 export type {
     InvoiceResponse,
@@ -148,6 +145,7 @@ export type {
     InvoiceScheduleAmountSpecificationFixedRequestInput,
     InvoiceScheduleAmountSpecificationPercentageRequestInput,
     InvoiceScheduleAmountSpecificationRemainingBalanceRequestInput,
+    InvoicePaymentPolicy,
     InvoicePaymentTermsSnapshot,
     InvoicePaymentTermCalculation,
     InvoicePaymentTermCalculationOnReceipt,
@@ -176,6 +174,7 @@ export type {
     InvoiceCollectionInputBuyerInitiatedInput,
     InvoiceCollectionInputAutomaticInput,
     InvoiceCollectionInputExternalInput,
+    InvoiceCollectionExternal,
     InvoiceLateFeePolicy,
     InvoiceLateFeePolicyFixed,
     InvoiceLateFeePolicyPercentage,
@@ -194,6 +193,7 @@ export type {
     DisputesAcceptParams
 } from '../declarations/types-26.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { ResponseMeta, ResponseWarning, ResourceVersionRequestInput } from '../declarations/types-63.js';
 export type {
     CreateInvoiceRequestInput,
     CreateInvoiceQuickPayRequestInput,
@@ -206,6 +206,7 @@ export type {
 } from '../declarations/types-11.js';
 export type { CreateInvoiceIssueRequestInput } from '../declarations/types-10.js';
 export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-43.js';
+export type { PlatformFeeRuleRequestInput, PricingAmounts, PlatformFeeRule } from '../declarations/types-56.js';
 export type {
     OrderDeliveryDestinationRequestInput,
     OrderDeliveryDestinationRecipientRequestInput,
@@ -213,7 +214,6 @@ export type {
     OrderDraftLineItemTaxRequestModelInput,
     OrderDraftLineItemTaxCalculationRequestModelInput,
     OrderDraftTaxComponentRequestModelInput,
-    OrderDraftTaxJurisdictionRequestModelInput,
     OrderCharge,
     OrderCalculatedChargeTax,
     OrderDeliveryDestinationRecipientRequest,
@@ -226,13 +226,8 @@ export type {
     AddressRequest,
     AssessInvoiceLateFeeRequest
 } from '../declarations/types-0.js';
-export type {
-    ManualDiscountRequestInput,
-    LineItemFulfillmentRequestModelInput,
-    LineItemFulfillmentOriginRequestModelInput
-} from '../declarations/types-40.js';
-export type { PromotionRefRequestInput } from '../declarations/types-59.js';
-export type { PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-58.js';
+export type { ManualDiscountRequestInput } from '../declarations/types-41.js';
+export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-59.js';
 export type {
     InventoryRoutingSourceInputFixedLocationInput,
     InventoryRoutingSourceInputPolicyInput,
@@ -247,6 +242,7 @@ export type {
     CreateOrderTipAmountInput,
     CreateOrderTipPercentInput
 } from '../declarations/types-12.js';
+export type { LineItemFulfillmentRequestModelInput, LineItemFulfillmentOriginRequestModelInput } from '../declarations/types-40.js';
 export type { GiftCardPurchaseDetailsRequestInput, GiftCardPurchaseRecipientRequestInput } from '../declarations/types-30.js';
 export type { ImageReferenceRequestInput, Image, ImageReferenceRequest } from '../declarations/types-31.js';
 export type {
@@ -257,22 +253,32 @@ export type {
     OrderTaxCalculationInputExternalInput,
     OrderTaxExemptionInputCustomerInput,
     OrderTaxExemptionInputNoneInput,
-    OrderTaxExemptionInputOrderInput,
     OrderSettlementAmounts,
     OrderTaxExemption
 } from '../declarations/types-47.js';
-export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-75.js';
+export type {
+    TextModifierRequestInput,
+    TaxComponentRequestModelInput,
+    TaxJurisdictionRequestModelInput,
+    TaxIdentity,
+    TextModifierRequest,
+    TaxJurisdiction,
+    TaxCurrencyConversion,
+    TaxReverseCharge
+} from '../declarations/types-75.js';
 export type {
     OrderLineItemModifierInputCatalogRequestInput,
     OrderLineItemModifierInputTextRequestInput,
+    OrderDraftTaxJurisdictionRequestModelInput,
     OrderLineItemModifier
 } from '../declarations/types-46.js';
-export type { SubscribedLineRequestModelInput } from '../declarations/types-69.js';
+export type { SubscribedLineRequestModelInput } from '../declarations/types-70.js';
 export type { DimensionsRequestInput } from '../declarations/types-25.js';
 export type {
     OrderTaxRequestInput,
     OrderTaxJurisdictionRequestInput,
     OrderTaxExemptionRequestInput,
+    OrderTaxExemptionInputOrderInput,
     OrderTaxLocationRequestInput,
     OrderTaxLocationInputPostalCodeInput,
     OrderTaxLocationPostalAddressRequestInput,
@@ -282,14 +288,6 @@ export type {
     OrderTaxLocationFullAddressRequest
 } from '../declarations/types-48.js';
 export type { DeliveryChargeTaxCalculationRequestModelInput, DeferredPromotion } from '../declarations/types-18.js';
-export type {
-    TaxComponentRequestModelInput,
-    TaxJurisdictionRequestModelInput,
-    TaxIdentity,
-    TaxJurisdiction,
-    TaxCurrencyConversion,
-    TaxReverseCharge
-} from '../declarations/types-74.js';
 export type {
     CustomerTaxExemptionCoverageRequestInput,
     CustomerTaxExemptionCoverageAllStatesRequestInput,
@@ -301,16 +299,16 @@ export type {
     CustomersListAddressesParams
 } from '../declarations/types-17.js';
 export type { CheckoutBuyerContact } from '../declarations/types-6.js';
-export type { PricingAmounts } from '../declarations/types-56.js';
 export type { SettlementAmounts, SelectedProductOption } from '../declarations/types-68.js';
 export type { CategoryReference } from '../declarations/types-5.js';
-export type { TaxBreakdown, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-73.js';
+export type { TaxBreakdown, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-74.js';
+export type { IssueInvoiceRequestInput } from '../declarations/types-39.js';
 export type { ReverseInvoiceManualPaymentRequestInput } from '../declarations/types-66.js';
-export type { UpdateInvoiceRequestInput, UpdateInvoiceQuickPayRequestInput } from '../declarations/types-76.js';
-export type { WaiveInvoiceLateFeeRequestInput, WaiveInvoiceLateFeeRequest } from '../declarations/types-78.js';
+export type { UpdateInvoiceRequestInput, UpdateInvoiceQuickPayRequestInput } from '../declarations/types-77.js';
+export type { WaiveInvoiceLateFeeRequestInput, WaiveInvoiceLateFeeRequest } from '../declarations/types-79.js';
 export type { ConfirmReturnResolutionRequestInput } from '../declarations/types-8.js';
-export { makeAddressRequest, makeAssessInvoiceLateFeeRequest } from '../declarations/types-80.js';
-export { makeCollectInvoiceRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-81.js';
+export { makeAddressRequest, makeAssessInvoiceLateFeeRequest } from '../declarations/types-81.js';
+export { makeCollectInvoiceRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-82.js';
 export {
     makeCreateInvoiceIssueRequest,
     makeCreateInvoiceManualPaymentRequest,
@@ -328,14 +326,14 @@ export {
     makeCreateOrderTip,
     makeCreateOrderTipAmount,
     makeCreateOrderTipPercent
-} from '../declarations/types-83.js';
+} from '../declarations/types-84.js';
 export {
     makeCustomerTaxExemptionCoverageAllStatesRequest,
     makeCustomerTaxExemptionCoverageRequest,
     makeCustomerTaxExemptionCoverageStatesRequest,
     makeDeliveryChargeTaxCalculationRequestModel
-} from '../declarations/types-85.js';
-export { makeDimensionsRequest } from '../declarations/types-86.js';
+} from '../declarations/types-86.js';
+export { makeDimensionsRequest } from '../declarations/types-87.js';
 export {
     makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientRequest,
@@ -357,7 +355,7 @@ export {
     makeInvoicePaymentDueRequest,
     makeInvoicePaymentOptionLimitRequest,
     makeInvoicePaymentPolicyRequest
-} from '../declarations/types-87.js';
+} from '../declarations/types-88.js';
 export {
     makeInvoiceScheduleAmountSpecificationFixedRequest,
     makeInvoiceScheduleAmountSpecificationPercentageRequest,
@@ -378,7 +376,7 @@ export {
     makeMetadataPatchRequest,
     makeMetadataRequest,
     makeMoneyValue
-} from '../declarations/types-88.js';
+} from '../declarations/types-89.js';
 export {
     makeOrderDeliveryDestinationRecipientRequest,
     makeOrderDeliveryDestinationRequest,
@@ -405,13 +403,18 @@ export {
     makeOrderTaxLocationPostalAddressRequest,
     makeOrderTaxLocationRequest,
     makeOrderTaxRequest
-} from '../declarations/types-89.js';
-export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-90.js';
-export { makeResourceVersionRequest } from '../declarations/types-91.js';
-export { makeReverseInvoiceManualPaymentRequest, makeSubscribedLineRequestModel } from '../declarations/types-92.js';
-export { makeTaxComponentRequestModel, makeTaxJurisdictionRequestModel, makeTextModifierRequest } from '../declarations/types-93.js';
-export { makeUpdateInvoiceQuickPayRequest, makeUpdateInvoiceRequest } from '../declarations/types-94.js';
-export { makeWaiveInvoiceLateFeeRequest, makeWeightRequest } from '../declarations/types-95.js';
+} from '../declarations/types-90.js';
+export {
+    makePlatformFeeRuleRequest,
+    makePromotionRefInputPromotionCode,
+    makePromotionRefInputPromotionID,
+    makePromotionRefRequest
+} from '../declarations/types-91.js';
+export { makeResourceVersionRequest } from '../declarations/types-92.js';
+export { makeReverseInvoiceManualPaymentRequest, makeSubscribedLineRequestModel } from '../declarations/types-93.js';
+export { makeTaxComponentRequestModel, makeTaxJurisdictionRequestModel, makeTextModifierRequest } from '../declarations/types-94.js';
+export { makeUpdateInvoiceQuickPayRequest, makeUpdateInvoiceRequest } from '../declarations/types-95.js';
+export { makeWaiveInvoiceLateFeeRequest, makeWeightRequest } from '../declarations/types-96.js';
 export interface InvoicesResource {
     /**
  * Cancels an active invoice payment attempt and its payment intent before the payment is
@@ -797,11 +800,11 @@ export interface InvoicesResource {
  */
     sendReminder(invoice_id: InputValue<string>, params?: InvoicesSendReminderParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<Invoice, InvoiceResponse>>;
     /**
- * Updates a draft invoice. To replace Quick Pay pricing, send quick_pay and the invoice's
+ * Updates an invoice. To replace Quick Pay pricing, send quick_pay and the invoice's
  * expected_version. You can also send expected_order_version to require a specific backing order
  * version. Change the scheduled issue time in a separate request. Send [] to clear cc_emails or
- * the authored schedule. After issue, only reminders_paused is writable on an open or partially
- * paid invoice.
+ * the authored schedule. On an open or partially paid invoice, you can change platform_fee_rule
+ * and reminders_paused. Send expected_version with platform_fee_rule.
  *
  * `PATCH /v1/invoices/{invoice_id}`
  * @param invoice_id Flint invoice ID. Must be a valid ID with prefix inv_. Malformed IDs return

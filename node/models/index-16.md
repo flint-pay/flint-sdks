@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# ExpandedOrderSummaryPreviousAttributes to GiftCardCustomAmountBoundsRequestInput
+# ExpandedInvoiceSummaryPreviousAttributes to GiftCardCustomAmountBounds
 
+- [ExpandedInvoiceSummaryPreviousAttributes](ExpandedInvoiceSummaryPreviousAttributes.md)
+- [ExpandedOrderSummary](ExpandedOrderSummary.md)
 - [ExpandedOrderSummaryPreviousAttributes](ExpandedOrderSummaryPreviousAttributes.md)
 - [ExpandedPackageSummary](ExpandedPackageSummary.md)
 - [ExpandedPackageSummaryPreviousAttributes](ExpandedPackageSummaryPreviousAttributes.md)
@@ -100,6 +102,4 @@
 - [GiftCardCreatedInstalledMerchantsEvent](GiftCardCreatedInstalledMerchantsEvent.md)
 - [GiftCardCreatedMerchantEvent](GiftCardCreatedMerchantEvent.md)
 - [GiftCardCustomAmountBounds](GiftCardCustomAmountBounds.md)
-- [GiftCardCustomAmountBoundsPreviousAttributes](GiftCardCustomAmountBoundsPreviousAttributes.md)
-- [GiftCardCustomAmountBoundsRequestInput](GiftCardCustomAmountBoundsRequestInput.md)
 

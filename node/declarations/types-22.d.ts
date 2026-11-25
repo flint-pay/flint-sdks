@@ -1,14 +1,12 @@
 import type {
     DeliveryProfileConfigurationInputManual,
     DeliveryProfileConfigurationInputManualInput,
-    DeliveryProfileConfigurationInputNone,
-    DeliveryProfileConfigurationInputNoneInput,
     DeliveryProfile
 } from './types-21.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { WebhookDeliveryProfile } from './types-79.js';
-import type { ResponseMeta } from './types-62.js';
+import type { WebhookDeliveryProfile } from './types-80.js';
+import type { ResponseMeta } from './types-63.js';
 import type { InputValue } from '../runtime.js';
 import type { AssignToUnconfiguredDeliveryProfileRequestInput } from './types-1.js';
 import type { CreateDeliveryProfileRequestInput } from './types-9.js';
@@ -17,18 +15,18 @@ import type {
     DeliveryInputRequirement,
     DeliveryMerchantDiagnostic,
     DeliveryInputRequirementPreviousAttributes,
+    DeliveryDistance,
+    DeliveryDistancePreviousAttributes,
     DeliveryDistanceRequestInput
 } from './types-19.js';
-import type { UpdateDeliveryProfileRequestInput } from './types-76.js';
+import type { UpdateDeliveryProfileRequestInput } from './types-77.js';
 import type { Address } from './types-0.js';
 import type {
     DeliveryBuyerLocationResource,
     DeliveryAddressAdvisoryResource,
     DeliveryCandidateOutcomeResource,
     DeliveryAddressAdvisoryResourcePreviousAttributes,
-    DeliveryCandidateOutcomeResourcePreviousAttributes,
-    DeliveryDistance,
-    DeliveryDistancePreviousAttributes
+    DeliveryCandidateOutcomeResourcePreviousAttributes
 } from './types-18.js';
 import type {
     DeliveryPendingCallerRateRequest,
@@ -40,6 +38,126 @@ import type { BuyerInstructionsConfig } from './types-2.js';
 import type { MoneyValue } from './types-44.js';
 import type { CreateCheckoutDeliveryQuoteRequestInput } from './types-8.js';
 import type { DisputesAcceptParams } from './types-26.js';
+import type { DeliveryRateCallbackConfigurationPreviousAttributes } from './types-23.js';
+/** The `none` variant of `DeliveryProfileConfigurationInput`. */
+export type DeliveryProfileConfigurationInputNone = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible"
+        | "separate_profile"
+        | "separate_line_item"
+        | "fulfill_alone"
+        | (string & {});
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequest;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none".
+     */
+    "requirement": "none" | (string & {});
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode"?: "quote" | "manual" | (string & {});
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed" | (string & {});
+})
+    & (({
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none".
+     */
+    "requirement": unknown;
+}));
+/** The `none` variant of `DeliveryProfileConfigurationInput`. */
+export type DeliveryProfileConfigurationInputNoneInput = ({
+    /**
+     * Required as a non-empty unique list when requirement is required. quote accepts shipment,
+     * pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems:
+     * true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". [] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+     */
+    "allowed_types"?: Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service">;
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls which delivery obligations can share a choice group. Value enum:
+     * "combine_when_compatible", "separate_profile", "separate_line_item", "fulfill_alone".
+     */
+    "combination_policy"?: "combine_when_compatible" | "separate_profile" | "separate_line_item" | "fulfill_alone";
+    /**
+     * Required for quote resolution and forbidden for none or manual resolution. fixed_location
+     * requires location_id. inventory_routing forbids location_id and applies only to tracked
+     * inventory. method_origin forbids location_id. Origin policy you supply for a delivery
+     * profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+     * delivery method.
+     */
+    "origin_policy"?: DeliveryProfileOriginPolicyRequestInput;
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none".
+     */
+    "requirement": "none";
+    /**
+     * Required when requirement is required. quote plans physical delivery and requires
+     * origin_policy, combination_policy, and splitting_policy. manual supports digital and service
+     * items and forbids physical planning fields. Value enum: "quote", "manual".
+     */
+    "resolution_mode"?: "quote" | "manual";
+    /**
+     * Required for quote resolution and forbidden when requirement is none or resolution_mode is
+     * manual. Controls whether a line item quantity can be split across delivery assignments.
+     * Value enum: "whole_line_item", "quantity_split_allowed".
+     */
+    "splitting_policy"?: "whole_line_item" | "quantity_split_allowed";
+})
+    & (({
+    /**
+     * Whether delivery planning applies. none forbids every other configuration field. required
+     * also requires resolution_mode and allowed_types, plus the fields required by that resolution
+     * mode. Value enum: "none".
+     */
+    "requirement": "none";
+})
+    & (({
+    "resolution_mode"?: never;
+})
+    & ({
+    "allowed_types"?: never;
+})
+    & ({
+    "origin_policy"?: never;
+})
+    & ({
+    "combination_policy"?: never;
+})
+    & ({
+    "splitting_policy"?: never;
+})));
 /** The `quote` variant of `DeliveryProfileConfigurationInputRequired`. */
 export type DeliveryProfileConfigurationInputQuote = ({
     /**
@@ -4288,81 +4406,4 @@ export type DeliveryRateCallbackConfigurationPatchRequestInput = {
     "request_timeout_seconds"?: number | null;
     /** HTTPS URL that Flint calls to get a delivery rate. Null is invalid. minLength: 1. */
     "url"?: string;
-};
-export type DeliveryRateCallbackConfigurationPreviousAttributes = {
-    /**
-     * Maximum callback request body size in bytes. Defaults to 262144; accepts 1 through 1048576.
-     * anyOf[1] (Value): integer. Maximum callback request body size in bytes. Defaults to 262144;
-     * accepts 1 through 1048576. Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
-     * anyOf[2] (Value): null.
-     */
-    "maximum_request_bytes"?: ((number) | (null));
-    /**
-     * Maximum callback response body size in bytes. Defaults to 262144; accepts 1 through 1048576.
-     * anyOf[1] (Value): integer. Maximum callback response body size in bytes. Defaults to 262144;
-     * accepts 1 through 1048576. Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
-     * anyOf[2] (Value): null.
-     */
-    "maximum_response_bytes"?: ((number) | (null));
-    /**
-     * Whether delivery previews call this callback. Previews call it only when this setting and
-     * `preview_enabled` on the delivery method are both `true`. Defaults to `false`. anyOf[1]
-     * (Value): boolean. Whether delivery previews call this callback. Previews call it only when
-     * this setting and `preview_enabled` on the delivery method are both `true`. Defaults to
-     * `false`. Default: false. anyOf[2] (Value): null.
-     */
-    "preview_enabled"?: ((boolean) | (null));
-    /**
-     * What Flint does when the callback responds with an HTTP redirect. Defaults to `reject`.
-     * Value enum: "reject". anyOf[1] (Value): string. What Flint does when the callback responds
-     * with an HTTP redirect. Defaults to `reject`. Default: "reject". Value enum: "reject".
-     * anyOf[2] (Value): null.
-     */
-    "redirect_policy"?: (("reject" | (string & {})) | (null));
-    /**
-     * Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1
-     * through 10. anyOf[1] (Value): number. Maximum time to wait for the callback response, in
-     * seconds. Defaults to 2; accepts 0.1 through 10. minimum: 0.1. maximum: 10. Default: 2.
-     * anyOf[2] (Value): null.
-     */
-    "request_timeout_seconds"?: ((number) | (null));
-    /**
-     * HTTPS URL that Flint calls to get a delivery rate. anyOf[1] (Value): string. HTTPS URL that
-     * Flint calls to get a delivery rate. minLength: 1. anyOf[2] (Value): null.
-     */
-    "url"?: ((string) | (null));
-};
-/**
- * Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request
- * and response size limits, redirect policy, and whether previews can use it.
- */
-export type DeliveryRateCallbackConfigurationRequestInput = {
-    /**
-     * Maximum callback request body size in bytes. Defaults to 262144; accepts 1 through 1048576.
-     * Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
-     */
-    "maximum_request_bytes"?: number;
-    /**
-     * Maximum callback response body size in bytes. Defaults to 262144; accepts 1 through 1048576.
-     * Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
-     */
-    "maximum_response_bytes"?: number;
-    /**
-     * Whether delivery previews call this callback. Previews call it only when this setting and
-     * `preview_enabled` on the delivery method are both `true`. Defaults to `false`. Default:
-     * false.
-     */
-    "preview_enabled"?: boolean;
-    /**
-     * What Flint does when the callback responds with an HTTP redirect. Defaults to `reject`.
-     * Default: "reject". Value enum: "reject".
-     */
-    "redirect_policy"?: "reject";
-    /**
-     * Maximum time to wait for the callback response, in seconds. Defaults to 2; accepts 0.1
-     * through 10. minimum: 0.1. maximum: 10. Default: 2.
-     */
-    "request_timeout_seconds"?: number;
-    /** HTTPS URL that Flint calls to get a delivery rate. minLength: 1. */
-    "url": string;
 };

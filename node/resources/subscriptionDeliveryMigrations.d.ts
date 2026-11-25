@@ -11,8 +11,8 @@ import type {
     SubscriptionDeliveryMigrationsGetParams,
     SubscriptionDeliveryMigrationsListFailuresParams,
     SubscriptionDeliveryMigrationsListParams
-} from '../declarations/types-70.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+} from '../declarations/types-71.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,18 +38,19 @@ export type {
     SubscriptionDeliveryMigrationsListParams,
     SubscriptionDeliveryMigrationListResponse,
     SubscriptionDeliveryMigrationFailureReasonCount
-} from '../declarations/types-70.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+} from '../declarations/types-71.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateSubscriptionDeliveryMigrationRequestInput, CreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-14.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface SubscriptionDeliveryMigrationsResource {
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription

@@ -15,7 +15,7 @@ final class AccessLink extends Model {
      */
     public function getExpiresAt(): string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** What the link opens and how long it works. New purposes may be added; treat one you don't recognize as opening its resource. Value enum: "order_view", "subscription_view", "subscription_manage", "return_view", "customer_account", "merchant_onboarding".
+    /** What the link opens and how long it works. New purposes may be added; treat one you don't recognize as opening its resource. Value enum: "order_view", "subscription_view", "subscription_manage", "return_view", "customer_account", "merchant_onboarding", "payment_method_setup".
      * @return string
      */
     public function getPurpose(): string { return $this->get('purpose'); }

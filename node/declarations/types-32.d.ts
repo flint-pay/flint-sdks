@@ -1,6 +1,6 @@
 import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { ResponseMeta, ResourceReference } from './types-62.js';
+import type { ResponseMeta } from './types-63.js';
 import type {
     InventorySourceSystem,
     InventorySourceSystemPreviousAttributes,
@@ -16,9 +16,27 @@ import type {
     UpdateInventoryCountRequestInput,
     UpdateInventoryItemRequestInput,
     UpdateInventoryLevelRequestInput
-} from './types-76.js';
+} from './types-77.js';
 import type { BackorderPolicy, BackorderPolicyPreviousAttributes } from './types-1.js';
 import type { InventoryAllocationPoliciesDeleteParams } from './types-31.js';
+import type { ResourceReference } from './types-62.js';
+/** Patch object: fields you send are applied, fields you omit are unchanged. minProperties: 1. */
+export type InventoryBackorderPolicyRequest = {
+    /** Whether this inventory item allows backorders. */
+    "enabled"?: boolean;
+    /**
+     * Expected shipping date. Send null to clear it. Format: date. minLength: 1. pattern:
+     * ^[0-9]{4}-[0-9]{2}-[0-9]{2}$. Example: "2026-08-02".
+     */
+    "expected_ship_date"?: string | null;
+    /**
+     * Maximum units on backorder across the item's levels. Send null for no cap. Format: int64.
+     * minimum: 1. maximum: 9007199254740991.
+     */
+    "limit_quantity"?: number | null;
+};
+/** Patch object: fields you send are applied, fields you omit are unchanged. minProperties: 1. */
+export type InventoryBackorderPolicyRequestInput = InventoryBackorderPolicyRequest;
 /** A physical count used to reconcile stock. */
 export type InventoryCount = {
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -6364,48 +6382,4 @@ export type InventoryReceiptLineRequestInput = {
      * "loc_01KEZF7C00CMHRRYA3MV996JB2".
      */
     "receiving_location_id": string;
-};
-/** A page of `InventoryReceipt` objects. */
-export type InventoryReceiptListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * InventoryReceipt}. Returned units received into Inventory, from a Return disposition or
-     * against the reservation line that consumed them. For supplier deliveries, use POST
-     * /v1/inventory-adjustments with reason: received.
-     */
-    "data": Array<InventoryReceipt>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `InventoryReceipt` data. */
-export type InventoryReceiptResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. Returned units received
-     * into Inventory, from a Return disposition or against the reservation line that consumed
-     * them. For supplier deliveries, use POST /v1/inventory-adjustments with reason: received.
-     */
-    "data": InventoryReceipt;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
 };

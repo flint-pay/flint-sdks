@@ -224,7 +224,7 @@ final class PaymentIntentUpdatedInstalledMerchantsEventDataObject extends Model 
      */
     public function getOvercapture(): ?PaymentIntentOvercapture { return $this->get('overcapture'); }
     public function hasOvercapture(): bool { return $this->has('overcapture'); }
-    /** How the payment was started. Fixed when the payment intent is created. Value enum: "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+    /** How the payment was started. Fixed when the payment intent is created. Value enum: "checkout", "payment_link", "shop", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
      * @return string
      */
     public function getPaymentFlow(): string { return $this->get('payment_flow'); }

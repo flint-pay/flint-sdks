@@ -1,6 +1,6 @@
 export { parseExact } from './runtime.js';
-export { verifyWebhook, verifyWebhookAsync } from './declarations/types-95.js';
-export type { WebhookVerificationOptions } from './declarations/types-80.js';
+export { verifyWebhook, verifyWebhookAsync } from './declarations/types-96.js';
+export type { WebhookVerificationOptions } from './declarations/types-81.js';
 export type {
     KnownWebhookEvent,
     LicenseKeyActivationCreatedEvent,
@@ -14,7 +14,7 @@ export type {
     LicenseKeyDisabledEvent,
     LicenseKeyExpiredEvent
 } from './declarations/types-39.js';
-export type { VerifiedWebhook } from './declarations/types-78.js';
+export type { VerifiedWebhook } from './declarations/types-79.js';
 export type { ApiKeyCreatedEvent, ApiKeyRevokedEvent, ApiKeyUpdatedEvent } from './declarations/types-0.js';
 export type {
     BalanceTransactionCreatedEvent,
@@ -38,10 +38,10 @@ export type {
     CreditNoteCreatedEvent,
     CreditNoteIssuedEvent,
     CreditNoteUpdatedEvent,
-    CreditNoteVoidedEvent,
-    CustomDomainArchivedEvent
+    CreditNoteVoidedEvent
 } from './declarations/types-15.js';
 export type {
+    CustomDomainArchivedEvent,
     CustomDomainUpdatedEvent,
     CustomerDeletionRequestCompletedEvent,
     CustomerDeletionRequestCreatedEvent,
@@ -80,10 +80,10 @@ export type {
     DeliveryZoneUpdatedEvent,
     DisputeCreatedEvent,
     DisputeInquiryClosedEvent,
-    DisputeLostEvent,
-    DisputeNeedsResponseEvent
+    DisputeLostEvent
 } from './declarations/types-25.js';
 export type {
+    DisputeNeedsResponseEvent,
     DisputePreventedEvent,
     DisputeUpdatedEvent,
     DisputeWonEvent,
@@ -101,13 +101,9 @@ export type {
     FulfillmentFailedEvent
 } from './declarations/types-27.js';
 export type { FulfillmentUpdatedEvent, GiftCardCreatedEvent } from './declarations/types-28.js';
+export type { GiftCardLoadCreatedEvent, GiftCardLoadUpdatedEvent, GiftCardNotificationCreatedEvent } from './declarations/types-29.js';
 export type {
-    GiftCardLoadCreatedEvent,
-    GiftCardLoadUpdatedEvent,
-    GiftCardNotificationCreatedEvent,
-    GiftCardNotificationUpdatedEvent
-} from './declarations/types-29.js';
-export type {
+    GiftCardNotificationUpdatedEvent,
     GiftCardRedemptionCreatedEvent,
     GiftCardRedemptionUpdatedEvent,
     GiftCardTransactionCreatedEvent,
@@ -145,7 +141,6 @@ export type {
     InvoiceDeliveryAttemptFailedEvent,
     InvoiceDeliveryAttemptSentEvent,
     InvoiceDeliveryAttemptSuppressedEvent,
-    InvoiceManualPaymentCreatedEvent,
     InvoiceCreatedEvent,
     InvoiceCreditedEvent,
     InvoiceIssueFailedEvent,
@@ -155,6 +150,7 @@ export type {
     InvoiceLateFeeWaivedEvent
 } from './declarations/types-35.js';
 export type {
+    InvoiceManualPaymentCreatedEvent,
     InvoiceManualPaymentReversedEvent,
     InvoicePaymentAttemptCanceledEvent,
     InvoicePaymentAttemptExpiredEvent,
@@ -170,12 +166,9 @@ export type {
 export type { InvoiceRefundedEvent, InvoiceReminderDueEvent, InvoiceReopenedEvent } from './declarations/types-37.js';
 export type { InvoiceSentEvent, InvoiceUpdatedEvent, InvoiceVoidedEvent } from './declarations/types-38.js';
 export type { LicenseKeyUpdatedEvent } from './declarations/types-40.js';
+export type { MerchantBillingBalanceUpdatedEvent, MerchantBillingInvoiceIssuedEvent } from './declarations/types-42.js';
 export type {
-    MerchantBillingBalanceUpdatedEvent,
-    MerchantBillingInvoiceIssuedEvent,
-    MerchantBillingInvoiceUpdatedEvent
-} from './declarations/types-42.js';
-export type {
+    MerchantBillingInvoiceUpdatedEvent,
     MerchantReadinessUpdatedEvent,
     MerchantUpdatedEvent,
     ModifierGroupArchivedEvent,
@@ -193,8 +186,9 @@ export type {
 } from './declarations/types-46.js';
 export type { OrderClosedEvent, OrderCreatedEvent } from './declarations/types-45.js';
 export type { OrderPaidEvent, OrderPartiallyPaidEvent, OrderPartiallyRefundedEvent, OrderRefundedEvent } from './declarations/types-47.js';
-export type { OrderUpdatedEvent, PackageCreatedEvent } from './declarations/types-48.js';
+export type { OrderUpdatedEvent } from './declarations/types-48.js';
 export type {
+    PackageCreatedEvent,
     PackageUpdatedEvent,
     PartnerAppInstallCreatedEvent,
     PartnerAppInstallPermissionsUpdatedEvent,
@@ -278,36 +272,45 @@ export type {
     PromotionArchivedEvent,
     PromotionCreatedEvent
 } from './declarations/types-58.js';
-export type { PromotionUpdatedEvent, ReaderArchivedEvent, ReaderCreatedEvent, ReaderUpdatedEvent } from './declarations/types-59.js';
-export type { RefundCreatedEvent, RefundFailedEvent, RefundPartiallySucceededEvent } from './declarations/types-60.js';
-export type { RefundSucceededEvent, RefundUpdatedEvent, ReportFailedEvent } from './declarations/types-61.js';
-export type { ReportSucceededEvent, ReturnCanceledEvent, ReturnCompletedEvent } from './declarations/types-62.js';
+export type { PromotionUpdatedEvent } from './declarations/types-59.js';
+export type {
+    ReaderArchivedEvent,
+    ReaderCreatedEvent,
+    ReaderUpdatedEvent,
+    RefundCreatedEvent,
+    RefundFailedEvent
+} from './declarations/types-60.js';
+export type { RefundPartiallySucceededEvent, RefundSucceededEvent, RefundUpdatedEvent } from './declarations/types-61.js';
+export type { ReportFailedEvent, ReportSucceededEvent } from './declarations/types-62.js';
 export type {
     ReturnDispositionCreatedEvent,
     ReturnDispositionUpdatedEvent,
-    ReturnInspectionAcceptanceDecidedEvent,
-    ReturnInspectionCreatedEvent,
-    ReturnInspectionSupersededEvent,
+    ReturnCanceledEvent,
+    ReturnCompletedEvent,
     ReturnCreatedEvent,
     ReturnDecisionRecordedEvent
 } from './declarations/types-63.js';
-export type { ReturnReceiptCreatedEvent } from './declarations/types-64.js';
 export type {
+    ReturnInspectionAcceptanceDecidedEvent,
+    ReturnInspectionCreatedEvent,
+    ReturnInspectionSupersededEvent
+} from './declarations/types-64.js';
+export type {
+    ReturnReceiptCreatedEvent,
     ReturnReceiptSupersededEvent,
     ReturnReceiptVerifiedEvent,
-    ReturnResolutionCreatedEvent,
-    ReturnResolutionUpdatedEvent,
     ReturnReopenedEvent
 } from './declarations/types-65.js';
-export type { ReturnUpdatedEvent } from './declarations/types-66.js';
-export type { ShipmentCreatedEvent, ShipmentUpdatedEvent } from './declarations/types-68.js';
+export type { ReturnResolutionCreatedEvent, ReturnResolutionUpdatedEvent, ReturnUpdatedEvent } from './declarations/types-66.js';
+export type { ShipmentCreatedEvent, ShipmentUpdatedEvent, ShopArchivedEvent, ShopCreatedEvent } from './declarations/types-68.js';
+export type { ShopUpdatedEvent } from './declarations/types-69.js';
 export type {
     SubscriptionDeliveryMigrationCompletedEvent,
     SubscriptionDeliveryPauseUpcomingEvent,
     SubscriptionDeliveryUpdatedEvent,
     SubscriptionDunningExhaustedEvent,
     SubscriptionEndUpcomingEvent
-} from './declarations/types-70.js';
+} from './declarations/types-71.js';
 export type {
     SubscriptionPaymentRetryCreatedEvent,
     SubscriptionPaymentRetryFailedEvent,
@@ -318,7 +321,7 @@ export type {
     SubscriptionPlanChangeCanceledEvent,
     SubscriptionPlanChangeScheduledEvent,
     SubscriptionPlanChangedEvent
-} from './declarations/types-71.js';
+} from './declarations/types-72.js';
 export type {
     SubscriptionActivatedEvent,
     SubscriptionCanceledEvent,
@@ -326,17 +329,21 @@ export type {
     SubscriptionCreatedEvent,
     SubscriptionCycleSkippedEvent,
     SubscriptionDeliveryActionRequiredEvent
-} from './declarations/types-69.js';
-export type { SubscriptionReactivatedEvent, SubscriptionRenewalUpcomingEvent, SubscriptionResumedEvent } from './declarations/types-72.js';
+} from './declarations/types-70.js';
 export type {
-    SubscriptionTrialEndingEvent,
+    SubscriptionReactivatedEvent,
+    SubscriptionRenewalUpcomingEvent,
+    SubscriptionResumedEvent,
+    SubscriptionTrialEndingEvent
+} from './declarations/types-73.js';
+export type {
     SubscriptionUpdatedEvent,
     TaxCalculationCallbackActivatedEvent,
     TaxCalculationCallbackArchivedEvent,
     TaxCalculationCallbackCreatedEvent,
     TaxCalculationCallbackDeactivatedEvent,
     TaxCalculationCallbackUpdatedEvent
-} from './declarations/types-73.js';
+} from './declarations/types-74.js';
 export type {
     TaxConnectionUpdatedEvent,
     TestClockAdvancingEvent,
@@ -344,5 +351,5 @@ export type {
     TestClockCreatedEvent,
     TestClockFailedEvent,
     TestClockReadyEvent
-} from './declarations/types-74.js';
-export type { TicketCheckedInEvent, TicketCreatedEvent, TicketUpdatedEvent, TicketVoidedEvent } from './declarations/types-75.js';
+} from './declarations/types-75.js';
+export type { TicketCheckedInEvent, TicketCreatedEvent, TicketUpdatedEvent, TicketVoidedEvent } from './declarations/types-76.js';

@@ -1,0 +1,43 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @internal
+ *
+ * @property-read string $shop_id
+ * @property-read array{'buyer_fields'?: array{'address_autocomplete_enabled'?: bool, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool}|object|null, 'checkout_session_expires_in_seconds'?: int|null, 'custom_text'?: array{'order_summary_message'?: string, 'shipping_address_label'?: string}|object|null, 'delivery_method_ids'?: list<string>, 'description'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'image'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'inactive_message'?: string|null, 'inventory_routing_source'?: array{'location_id': string, 'type': string}|object|array{'inventory_allocation_policy_id': string, 'type': string}|object|array{'inventory_allocation_policy_revision_id': string, 'type': string}|object|null, 'legal'?: array{'contract_url'?: string, 'refund_policy_url'?: string, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string, 'terms_of_service_url'?: string}|object|null, 'listings'?: list<mixed>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'payments'?: array{'enabled_payment_options'?: list<string>, 'payment_note'?: string}|object|null, 'promotion_config'?: array{'automatic_enabled'?: bool, 'codes_enabled'?: bool|null}|object|null, 'redirects'?: array{'cancel_url'?: string, 'expired_url'?: string, 'success_url'?: string}|object|null, 'status'?: string, 'tax'?: array{'calculation'?: mixed, 'enabled'?: bool}|object|null, 'tip'?: array{'custom_tip_enabled'?: bool, 'default_smart_tip_money'?: mixed, 'default_tip_percent'?: int|float, 'enabled'?: bool, 'smart_tip_money_options'?: list<mixed>, 'smart_tips_enabled'?: bool, 'tip_percent_options'?: list<int|float>}|object|null}|object $body
+ * Presence-aware input; omitted fields throw when accessed. */
+final class ShopsUpdateInput extends Model {
+    /** @param array{'shop_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'buyer_fields'?: array{'address_autocomplete_enabled'?: bool, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool}|object|null, 'checkout_session_expires_in_seconds'?: int|null, 'custom_text'?: array{'order_summary_message'?: string, 'shipping_address_label'?: string}|object|null, 'delivery_method_ids'?: list<string>, 'description'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'image'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'inactive_message'?: string|null, 'inventory_routing_source'?: array{'location_id': string, 'type': string}|object|array{'inventory_allocation_policy_id': string, 'type': string}|object|array{'inventory_allocation_policy_revision_id': string, 'type': string}|object|null, 'legal'?: array{'contract_url'?: string, 'refund_policy_url'?: string, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string, 'terms_of_service_url'?: string}|object|null, 'listings'?: list<mixed>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'payments'?: array{'enabled_payment_options'?: list<string>, 'payment_note'?: string}|object|null, 'promotion_config'?: array{'automatic_enabled'?: bool, 'codes_enabled'?: bool|null}|object|null, 'redirects'?: array{'cancel_url'?: string, 'expired_url'?: string, 'success_url'?: string}|object|null, 'status'?: string, 'tax'?: array{'calculation'?: mixed, 'enabled'?: bool}|object|null, 'tip'?: array{'custom_tip_enabled'?: bool, 'default_smart_tip_money'?: mixed, 'default_tip_percent'?: int|float, 'enabled'?: bool, 'smart_tip_money_options'?: list<mixed>, 'smart_tips_enabled'?: bool, 'tip_percent_options'?: list<int|float>}|object|null}|object}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ShopsUpdateInput')); }
+    /** Flint shop ID. Must be a valid ID with prefix shop_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+     * @return string
+     * @throws SdkError When shop_id is omitted; use hasShopId() or valueOrDefault().
+     */
+    public function getShopId(): string { return $this->get('shop_id'); }
+    public function hasShopId(): bool { return $this->has('shop_id'); }
+    /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Merchant-Id is omitted; use hasFlintMerchantId() or valueOrDefault().
+     */
+    public function getFlintMerchantId(): string { return $this->get('Flint-Merchant-Id'); }
+    public function hasFlintMerchantId(): bool { return $this->has('Flint-Merchant-Id'); }
+    /** Mode of the request context, live or test. Optional; it must match the credential's mode. Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When Flint-Mode is omitted; use hasFlintMode() or valueOrDefault().
+     */
+    public function getFlintMode(): string { return $this->get('Flint-Mode'); }
+    public function hasFlintMode(): bool { return $this->has('Flint-Mode'); }
+    /** Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When Flint-Sandbox-Id is omitted; use hasFlintSandboxId() or valueOrDefault().
+     */
+    public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
+    public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
+    /** Send at least one field to update.
+     * @return array{'buyer_fields'?: array{'address_autocomplete_enabled'?: bool, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool}|object|null, 'checkout_session_expires_in_seconds'?: int|null, 'custom_text'?: array{'order_summary_message'?: string, 'shipping_address_label'?: string}|object|null, 'delivery_method_ids'?: list<string>, 'description'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'image'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'inactive_message'?: string|null, 'inventory_routing_source'?: array{'location_id': string, 'type': string}|object|array{'inventory_allocation_policy_id': string, 'type': string}|object|array{'inventory_allocation_policy_revision_id': string, 'type': string}|object|null, 'legal'?: array{'contract_url'?: string, 'refund_policy_url'?: string, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string, 'terms_of_service_url'?: string}|object|null, 'listings'?: list<mixed>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'payments'?: array{'enabled_payment_options'?: list<string>, 'payment_note'?: string}|object|null, 'promotion_config'?: array{'automatic_enabled'?: bool, 'codes_enabled'?: bool|null}|object|null, 'redirects'?: array{'cancel_url'?: string, 'expired_url'?: string, 'success_url'?: string}|object|null, 'status'?: string, 'tax'?: array{'calculation'?: mixed, 'enabled'?: bool}|object|null, 'tip'?: array{'custom_tip_enabled'?: bool, 'default_smart_tip_money'?: mixed, 'default_tip_percent'?: int|float, 'enabled'?: bool, 'smart_tip_money_options'?: list<mixed>, 'smart_tips_enabled'?: bool, 'tip_percent_options'?: list<int|float>}|object|null}|object
+     * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
+     */
+    public function getBody(): array|object { return $this->get('body'); }
+    public function hasBody(): bool { return $this->has('body'); }
+}

@@ -1,17 +1,8 @@
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-43.js';
-import type { MoneyValuePreviousAttributes, MoneyValue, MoneyValueInput } from './types-44.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { WebhookOrderEdit, WebhookOrder } from './types-79.js';
-import type {
-    OrderEdit,
-    OrderAuthorizationAmountsPreviousAttributes,
-    OrderChargePreviousAttributes,
-    OrderDeliveryDestinationPreviousAttributes,
-    OrderDeliverySummaryPreviousAttributes,
-    OrderDiscountPreviousAttributes,
-    OrderCalculatedLineItemTax
-} from './types-45.js';
-import type { ResponseMeta } from './types-62.js';
+import type { WebhookOrderEdit, WebhookOrder } from './types-80.js';
+import type { ResponseMeta } from './types-63.js';
 import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-12.js';
 import type { RefundCharge, RefundDestinations, RefundChargeInput, RefundDestinationsInput } from './types-60.js';
 import type { InputValue } from '../runtime.js';
@@ -21,7 +12,15 @@ import type { DeferredPromotionPreviousAttributes } from './types-18.js';
 import type { ExpandedCustomerSummaryPreviousAttributes, ExpandedPaymentIntentSummaryPreviousAttributes } from './types-26.js';
 import type { ExpandedSubscriptionPlanSummaryPreviousAttributes, ExpandedSubscriptionSummaryPreviousAttributes } from './types-27.js';
 import type { FulfillmentPreviousAttributes } from './types-28.js';
-import type { InventoryRoutingSourcePreviousAttributes } from './types-33.js';
+import type { InventoryRoutingSourcePreviousAttributes } from './types-34.js';
+import type {
+    OrderAuthorizationAmountsPreviousAttributes,
+    OrderChargePreviousAttributes,
+    OrderDeliveryDestinationPreviousAttributes,
+    OrderDeliverySummaryPreviousAttributes,
+    OrderDiscountPreviousAttributes,
+    OrderCalculatedLineItemTax
+} from './types-45.js';
 import type {
     OrderLineItemPreviousAttributes,
     OrderReturnCreditSettlementPreviousAttributes,
@@ -30,14 +29,8 @@ import type {
     OrderLineSubscriptionOfferSummary
 } from './types-47.js';
 import type { OrderTaxPreviousAttributes } from './types-48.js';
-import type { PricingAmountsPreviousAttributes } from './types-56.js';
-import type {
-    TicketedEventPreviousAttributes,
-    TipPreviousAttributes,
-    TextModifierRequest,
-    TextModifierRequestInput,
-    TextModifierRequestPreviousAttributes
-} from './types-75.js';
+import type { PricingAmountsPreviousAttributes } from './types-57.js';
+import type { TicketedEventPreviousAttributes, TipPreviousAttributes } from './types-76.js';
 import type { BundleComponent } from './types-1.js';
 import type { CatalogPricing, CategoryReference } from './types-5.js';
 import type { Dimensions } from './types-25.js';
@@ -47,7 +40,191 @@ import type { LineItemInventorySnapshot } from './types-40.js';
 import type { PurchasedGiftCard } from './types-59.js';
 import type { SelectedProductOption } from './types-68.js';
 import type { SubscribedLine } from './types-69.js';
-import type { Weight } from './types-80.js';
+import type { Weight } from './types-81.js';
+import type { TextModifierRequest, TextModifierRequestInput } from './types-75.js';
+/**
+ * The taxing jurisdiction of a draft tax component, identified by code, level, name, state, and
+ * country.
+ */
+export type OrderDraftTaxJurisdictionRequestModelInput = {
+    /**
+     * Your stable key for the jurisdiction: 1 to 128 letters, digits, `.`, `_`, `:`, or `-`,
+     * starting with a letter or digit. Reports group tax by this code. minLength: 1.
+     */
+    "code": string;
+    /**
+     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
+     * "US".
+     */
+    "country": string;
+    /**
+     * The level of government that imposes the tax. Value enum: "state", "county", "city",
+     * "district", "country", "province".
+     */
+    "level": "state" | "county" | "city" | "district" | "country" | "province";
+    /**
+     * Name of the jurisdiction, up to 200 characters. Surrounding whitespace is trimmed before
+     * length validation. A supplied value cannot be blank; use null where clearing is supported.
+     * minLength: 1.
+     */
+    "name": string;
+    /**
+     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
+     * letters or digits), required below country level and omitted at country level. minLength: 1.
+     */
+    "state"?: string;
+};
+/**
+ * Nested child of an order with frozen item changes, balance and refund amounts. A pending edit
+ * changes the order only when its balance payment succeeds. Refund completion is tracked on the
+ * refunds.
+ */
+export type OrderEdit = {
+    /**
+     * Added order lines, in request order, with their quantities and values frozen at creation.
+     * Empty when the edit added nothing. [] (Value): {@link OrderEditLineAddition}. An order line
+     * added by the enclosing edit, with its value frozen at creation.
+     */
+    "add_line_items": Array<OrderEditLineAddition>;
+    /**
+     * The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit
+     * added nothing. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "added_total_money": MoneyValue;
+    /**
+     * What the added lines cost beyond the removed value and released charges, tax included,
+     * frozen when the edit was created. Zero when the edit had no balance. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_due_money": MoneyValue;
+    /**
+     * When the edit was canceled. `null` when the edit is not canceled. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "canceled_at": string | null;
+    /**
+     * Why the edit was canceled. `null` when the edit is not canceled. Value enum:
+     * "merchant_request", "expired", "payment_disputed", "payment_returned", null.
+     */
+    "cancellation_reason": "merchant_request"
+        | "expired"
+        | "payment_disputed"
+        | "payment_returned"
+        | null
+        | (string & {})
+        | null;
+    /**
+     * Charges released by this edit, frozen at creation. Empty when no charges were released. []
+     * (Value): {@link OrderEditChargeRefund}. The value an edit releases from one order charge,
+     * and the part refunded to the buyer.
+     */
+    "charge_refunds": Array<OrderEditChargeRefund>;
+    /**
+     * When the item changes were applied to the order. `null` when the edit is pending or
+     * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "completed_at": string | null;
+    /** When the edit was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * When Flint cancels the edit if the balance isn't paid. `null` when the edit never had a
+     * balance. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string | null;
+    /**
+     * Internal merchant note. Omitted from buyer and webhook payloads and refund messages.
+     * maxLength: 500.
+     */
+    "note"?: string;
+    /**
+     * Stable ID of this order edit. pattern: ^oed_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     */
+    "order_edit_id": string;
+    /** The order this edit belongs to. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /**
+     * The payment intent that collects amount_due_money. Confirm it to pay the balance. `null`
+     * when the edit has no balance, and for a moment while Flint is still creating it. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string | null;
+    /**
+     * Reason for the edit and its refund. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", "out_of_stock".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | "out_of_stock"
+        | (string & {});
+    /**
+     * Refunds created for this edit. Empty when no refund is needed or processing has not created
+     * it yet. [] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
+    "refund_ids": Array<string>;
+    /**
+     * Money to refund after the removed value and released charges pay for added lines. May be
+     * zero; an edit with no refund money creates no refund. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "refund_money": MoneyValue;
+    /**
+     * Removed units and their refund amounts frozen at creation. [] (Value): {@link
+     * OrderEditLineRemoval}. Removed whole units of an order line and their refund amount frozen
+     * at creation. The enclosing edit identifies the order.
+     */
+    "remove_line_items": Array<OrderEditLineRemoval>;
+    /**
+     * The value of the removed units: the sum of remove_line_items[].total_money. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "removed_total_money": MoneyValue;
+    /**
+     * Signed noncash adjustment: positive for an edit balance below the payment minimum, negative
+     * when removing previously absorbed value. Included in settlement_amounts.written_off_money,
+     * never paid or refundable. Signed monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "small_balance_adjustment_money": MoneyValue;
+    /**
+     * Pending while waiting for a balance payment, completed once the item changes are applied, or
+     * canceled when it ends without changing the order. Refund processing has its own status on
+     * each refund. Value enum: "pending", "completed", "canceled".
+     */
+    "status": "pending" | "completed" | "canceled" | (string & {});
+    /**
+     * Contains cancel while pending and the payment is neither processing nor succeeded. Contains
+     * retry when unrefunded_money is positive and no linked refund is pending. Empty while Flint
+     * is still processing the original refund before any linked refund exists; retry becomes
+     * available if that processing ends without a refund. Independent of caller permissions. []
+     * enum: "cancel", "retry". [] (Value): string. Value enum: "cancel", "retry".
+     */
+    "supported_actions": Array<"cancel" | "retry" | (string & {})>;
+    /**
+     * Frozen refund money not covered by pending or succeeded allocations from refunds linked to
+     * this edit. Failed allocations do not reduce it. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "unrefunded_money": MoneyValue;
+    /**
+     * The counter advances when status, payment_intent_id, completed_at, canceled_at or
+     * cancellation_reason change. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
 export type OrderEditCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -4242,6 +4419,7 @@ export type OrderInventoryExceptionCreatedEvent = ((((Exclude<MerchantWebhookEnv
             "order_number"?: ((string) | (null));
             "origin"?: (("virtual_terminal"
                 | "payment_link"
+                | "shop"
                 | "checkout"
                 | "api"
                 | "subscription"
@@ -4261,6 +4439,7 @@ export type OrderInventoryExceptionCreatedEvent = ((((Exclude<MerchantWebhookEnv
             "return_credit_settlements"?: ((Array<OrderReturnCreditSettlementPreviousAttributes>) | (null));
             "return_resolution_id"?: ((string) | (null));
             "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
+            "shop_id"?: ((string) | (null));
             "status"?: (("open" | "closed" | (string & {})) | (null));
             "subscription"?: ((ExpandedSubscriptionSummaryPreviousAttributes) | (null));
             "subscription_cycle"?: ((number) | (null));
@@ -4365,6 +4544,7 @@ export type OrderInventoryExceptionCreatedEvent = ((((Exclude<MerchantWebhookEnv
             "order_number"?: ((string) | (null));
             "origin"?: (("virtual_terminal"
                 | "payment_link"
+                | "shop"
                 | "checkout"
                 | "api"
                 | "subscription"
@@ -4384,6 +4564,7 @@ export type OrderInventoryExceptionCreatedEvent = ((((Exclude<MerchantWebhookEnv
             "return_credit_settlements"?: ((Array<OrderReturnCreditSettlementPreviousAttributes>) | (null));
             "return_resolution_id"?: ((string) | (null));
             "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
+            "shop_id"?: ((string) | (null));
             "status"?: (("open" | "closed" | (string & {})) | (null));
             "subscription"?: ((ExpandedSubscriptionSummaryPreviousAttributes) | (null));
             "subscription_cycle"?: ((number) | (null));
@@ -4477,19 +4658,18 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
      * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
      * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
      * previous_attributes.client_reference.anyOf[2] (Value): null. previous_attributes.closed_at
-     * (Optional): string or null. When the order closed. Present exactly when status is closed.
-     * Set once at the transition and never changed. previous_attributes.closed_at.anyOf[1]
-     * (Value): string. When the order closed. Present exactly when status is closed. Set once at
-     * the transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * (Optional): string or null. When the order last closed. Present exactly when status is
+     * closed. previous_attributes.closed_at.anyOf[1] (Value): string. When the order last closed.
+     * Present exactly when status is closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.closed_at.anyOf[2] (Value): null. previous_attributes.closed_reason
-     * (Optional): string or null. Why the order closed. Present exactly when status is closed. Set
-     * once at closure. Unrecognized reasons are returned as other; new values may be added. Value
-     * enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+     * (Optional): string or null. Why the order closed. Present exactly when status is closed.
+     * Flint returns other for an unrecognized reason and may add new values. Value enum:
+     * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
      * "superseded", "return_resolution_canceled", "other".
      * previous_attributes.closed_reason.anyOf[1] (Value): string. Why the order closed. Present
-     * exactly when status is closed. Set once at closure. Unrecognized reasons are returned as
-     * other; new values may be added. Value enum: "invoice_voided", "paid", "closed_by_merchant",
-     * "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+     * exactly when status is closed. Flint returns other for an unrecognized reason and may add
+     * new values. Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired",
+     * "written_off", "superseded", "return_resolution_canceled", "other".
      * previous_attributes.closed_reason.anyOf[2] (Value): null.
      * previous_attributes.closed_reason_message (Optional): string or null. The caller note
      * supplied when closing the order. System closures leave it absent. It is not shown to the
@@ -4707,26 +4887,27 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
      * receipts and merchant reference. previous_attributes.order_number.anyOf[2] (Value): null.
      * previous_attributes.origin (Optional): string or null. How the order was created. invoice
      * means a Quick Pay invoice created the order; attaching an invoice to an existing order
-     * preserves its origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-     * "subscription", "invoice". previous_attributes.origin.anyOf[1] (Value): string. How the
-     * order was created. invoice means a Quick Pay invoice created the order; attaching an invoice
-     * to an existing order preserves its origin. Value enum: "virtual_terminal", "payment_link",
-     * "checkout", "api", "subscription", "invoice". previous_attributes.origin.anyOf[2] (Value):
-     * null. previous_attributes.paid_at (Optional): string or null. When `payment_status` became
-     * `paid`, including a final capture that releases the remaining balance. Set once and never
-     * changed, including after refunds. `null` when `payment_status` isn't `paid`, including an
-     * order whose balance was written off without being paid. previous_attributes.paid_at.anyOf[1]
-     * (Value): string. When `payment_status` became `paid`, including a final capture that
-     * releases the remaining balance. Set once and never changed, including after refunds. `null`
-     * when `payment_status` isn't `paid`, including an order whose balance was written off without
-     * being paid. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.paid_at.anyOf[2] (Value): null. previous_attributes.payment_intent_ids
-     * (Optional): Array of string or null. IDs of the payment intents created to collect this
-     * order. previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the
+     * preserves its origin. Value enum: "virtual_terminal", "payment_link", "shop", "checkout",
+     * "api", "subscription", "invoice". previous_attributes.origin.anyOf[1] (Value): string. How
+     * the order was created. invoice means a Quick Pay invoice created the order; attaching an
+     * invoice to an existing order preserves its origin. Value enum: "virtual_terminal",
+     * "payment_link", "shop", "checkout", "api", "subscription", "invoice".
+     * previous_attributes.origin.anyOf[2] (Value): null. previous_attributes.paid_at (Optional):
+     * string or null. When the current paid state began, including a final capture that releases
+     * the remaining balance. A reversal that reopens the order clears this timestamp. `null` when
+     * `payment_status` isn't `paid`, including an order whose balance was written off without
+     * being paid. previous_attributes.paid_at.anyOf[1] (Value): string. When the current paid
+     * state began, including a final capture that releases the remaining balance. A reversal that
+     * reopens the order clears this timestamp. `null` when `payment_status` isn't `paid`,
+     * including an order whose balance was written off without being paid. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.paid_at.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
      * payment intents created to collect this order.
-     * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_ids.anyOf[2] (Value):
-     * null. previous_attributes.payment_intents (Optional): Array of {@link
+     * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
+     * intents created to collect this order. previous_attributes.payment_intent_ids.anyOf[1][]
+     * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent_ids.anyOf[2] (Value): null.
+     * previous_attributes.payment_intents (Optional): Array of {@link
      * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Payment intents included when
      * `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1] (Value):
      * Array of {@link ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included
@@ -4740,10 +4921,12 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
      * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
      * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      * previous_attributes.payment_link_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_status (Optional): string or null. Collection progress. An
+     * previous_attributes.payment_status (Optional): string or null. Collection progress.
+     * Reversing a recorded invoice payment can move this back to unpaid or partially_paid. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
-     * (Value): string. Collection progress. An invoice write-off also completes collection without
+     * (Value): string. Collection progress. Reversing a recorded invoice payment can move this
+     * back to unpaid or partially_paid. An invoice write-off also completes collection without
      * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
      * previous_attributes.payment_status.anyOf[2] (Value): null.
      * previous_attributes.pending_order_edit_id (Optional): string or null. The order edit waiting
@@ -4800,18 +4983,23 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
      * refunded, credited, written off, and settled as tips, and what is still outstanding.
      * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
      * OrderSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. Whether the order
-     * still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and
-     * metadata or note edits continue on a closed order. Value enum: "open", "closed".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the order still accepts changes
-     * and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits
-     * continue on a closed order. Value enum: "open", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription
-     * (Optional): {@link ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription
-     * summary included when `expand` names `subscription`; `null` when expanded and this order
-     * does not bill a subscription. Present only when `expand` includes `subscription`; `null`
-     * when expanded and there is no related subscription.
-     * previous_attributes.subscription.anyOf[1] (Value): {@link
+     * (Value): null. previous_attributes.shop_id (Optional): string or null. ID of the shop that
+     * started checkout. previous_attributes.shop_id.anyOf[1] (Value): string. ID of the shop that
+     * started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+     * previous_attributes.shop_id.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Whether the order still accepts changes and new payments. An order closed as
+     * paid reopens if reversing a recorded invoice payment leaves an outstanding order balance.
+     * Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed
+     * order. Value enum: "open", "closed". previous_attributes.status.anyOf[1] (Value): string.
+     * Whether the order still accepts changes and new payments. An order closed as paid reopens if
+     * reversing a recorded invoice payment leaves an outstanding order balance. Refunds,
+     * fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value
+     * enum: "open", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.subscription (Optional): {@link
+     * ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription summary included when
+     * `expand` names `subscription`; `null` when expanded and this order does not bill a
+     * subscription. Present only when `expand` includes `subscription`; `null` when expanded and
+     * there is no related subscription. previous_attributes.subscription.anyOf[1] (Value): {@link
      * ExpandedSubscriptionSummaryPreviousAttributes}. previous_attributes.subscription.anyOf[2]
      * (Value): null. previous_attributes.subscription_cycle (Optional): integer or null. Charged
      * subscription cycle associated with this order. Signup is cycle 1; unpaid retries and skipped
@@ -4942,18 +5130,17 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
          * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
          * browser, so treat it as a claim, not proof of identity. Always present with merchant
          * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
-         * closed_at (Optional): string or null. When the order closed. Present exactly when status
-         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
-         * string. When the order closed. Present exactly when status is closed. Set once at the
-         * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
-         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
-         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
-         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-         * "return_resolution_canceled", "other". closed_reason.anyOf[1] (Value): string. Why the
-         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
-         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
-         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+         * closed_at (Optional): string or null. When the order last closed. Present exactly when
+         * status is closed. closed_at.anyOf[1] (Value): string. When the order last closed.
+         * Present exactly when status is closed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason (Optional):
+         * string or null. Why the order closed. Present exactly when status is closed. Flint
+         * returns other for an unrecognized reason and may add new values. Value enum:
+         * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+         * "superseded", "return_resolution_canceled", "other". closed_reason.anyOf[1] (Value):
+         * string. Why the order closed. Present exactly when status is closed. Flint returns other
+         * for an unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+         * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
          * "return_resolution_canceled", "other". closed_reason.anyOf[2] (Value): null.
          * closed_reason_message (Optional): string or null. The caller note supplied when closing
          * the order. System closures leave it absent. It is not shown to the buyer.
@@ -5149,18 +5336,18 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
          * receipts and merchant reference. order_number.anyOf[2] (Value): null. origin (Optional):
          * string or null. How the order was created. invoice means a Quick Pay invoice created the
          * order; attaching an invoice to an existing order preserves its origin. Value enum:
-         * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-         * origin.anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
-         * invoice created the order; attaching an invoice to an existing order preserves its
-         * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
+         * "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription",
+         * "invoice". origin.anyOf[1] (Value): string. How the order was created. invoice means a
+         * Quick Pay invoice created the order; attaching an invoice to an existing order preserves
+         * its origin. Value enum: "virtual_terminal", "payment_link", "shop", "checkout", "api",
          * "subscription", "invoice". origin.anyOf[2] (Value): null. paid_at (Optional): string or
-         * null. When `payment_status` became `paid`, including a final capture that releases the
-         * remaining balance. Set once and never changed, including after refunds. `null` when
+         * null. When the current paid state began, including a final capture that releases the
+         * remaining balance. A reversal that reopens the order clears this timestamp. `null` when
          * `payment_status` isn't `paid`, including an order whose balance was written off without
-         * being paid. paid_at.anyOf[1] (Value): string. When `payment_status` became `paid`,
-         * including a final capture that releases the remaining balance. Set once and never
-         * changed, including after refunds. `null` when `payment_status` isn't `paid`, including
-         * an order whose balance was written off without being paid. Format: date-time. Example:
+         * being paid. paid_at.anyOf[1] (Value): string. When the current paid state began,
+         * including a final capture that releases the remaining balance. A reversal that reopens
+         * the order clears this timestamp. `null` when `payment_status` isn't `paid`, including an
+         * order whose balance was written off without being paid. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_intent_ids (Optional):
          * Array of string or null. IDs of the payment intents created to collect this order.
          * payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment intents created
@@ -5178,10 +5365,12 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
          * Payment link that created this order or started the subscription it renews. Absent for
          * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
          * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
-         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * (Optional): string or null. Collection progress. Reversing a recorded invoice payment
+         * can move this back to unpaid or partially_paid. An invoice write-off also completes
          * collection without receiving the written-off amount. Value enum: "unpaid",
          * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
-         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Reversing a recorded invoice payment can move this back to unpaid or partially_paid. An
+         * invoice write-off also completes collection without receiving the written-off amount.
          * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
          * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
@@ -5229,34 +5418,39 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
          * null. How much of the order has been paid, refunded, credited, written off, and settled
          * as tips, and what is still outstanding. settlement_amounts.anyOf[1] (Value): {@link
          * OrderSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2] (Value): null.
-         * status (Optional): string or null. Whether the order still accepts changes and new
-         * payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue
-         * on a closed order. Value enum: "open", "closed". status.anyOf[1] (Value): string.
-         * Whether the order still accepts changes and new payments. Refunds, fulfillment,
-         * disputes, returns, and metadata or note edits continue on a closed order. Value enum:
-         * "open", "closed". status.anyOf[2] (Value): null. subscription (Optional): {@link
-         * ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription summary included
-         * when `expand` names `subscription`; `null` when expanded and this order does not bill a
-         * subscription. Present only when `expand` includes `subscription`; `null` when expanded
-         * and there is no related subscription. subscription.anyOf[1] (Value): {@link
-         * ExpandedSubscriptionSummaryPreviousAttributes}. subscription.anyOf[2] (Value): null.
-         * subscription_cycle (Optional): integer or null. Charged subscription cycle associated
-         * with this order. Signup is cycle 1; unpaid retries and skipped renewals do not advance
-         * the cycle. subscription_cycle.anyOf[1] (Value): integer. Charged subscription cycle
-         * associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do
-         * not advance the cycle. Format: uint64. minimum: 0. subscription_cycle.anyOf[2] (Value):
-         * null. subscription_delivery_changed_at (Optional): string or null. Time the subscriber
-         * changed delivery after this paid renewal was prepared. The order keeps its committed
-         * destination until you correct it or refund and replace it.
-         * subscription_delivery_changed_at.anyOf[1] (Value): string. Time the subscriber changed
-         * delivery after this paid renewal was prepared. The order keeps its committed destination
-         * until you correct it or refund and replace it. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". subscription_delivery_changed_at.anyOf[2] (Value): null.
-         * subscription_delivery_number (Optional): integer or null. Position of this delivery
-         * among the deliveries one charge paid for, starting at 2. Null when this is not a prepaid
-         * delivery order. subscription_delivery_number.anyOf[1] (Value): integer. Position of this
+         * shop_id (Optional): string or null. ID of the shop that started checkout.
+         * shop_id.anyOf[1] (Value): string. ID of the shop that started checkout. Example:
+         * "shop_01KEZF7C005VQBPV4FZHDZPAHE". shop_id.anyOf[2] (Value): null. status (Optional):
+         * string or null. Whether the order still accepts changes and new payments. An order
+         * closed as paid reopens if reversing a recorded invoice payment leaves an outstanding
+         * order balance. Refunds, fulfillment, disputes, returns, and metadata or note edits
+         * continue on a closed order. Value enum: "open", "closed". status.anyOf[1] (Value):
+         * string. Whether the order still accepts changes and new payments. An order closed as
+         * paid reopens if reversing a recorded invoice payment leaves an outstanding order
+         * balance. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on
+         * a closed order. Value enum: "open", "closed". status.anyOf[2] (Value): null.
+         * subscription (Optional): {@link ExpandedSubscriptionSummaryPreviousAttributes} or null.
+         * Subscription summary included when `expand` names `subscription`; `null` when expanded
+         * and this order does not bill a subscription. Present only when `expand` includes
+         * `subscription`; `null` when expanded and there is no related subscription.
+         * subscription.anyOf[1] (Value): {@link ExpandedSubscriptionSummaryPreviousAttributes}.
+         * subscription.anyOf[2] (Value): null. subscription_cycle (Optional): integer or null.
+         * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries
+         * and skipped renewals do not advance the cycle. subscription_cycle.anyOf[1] (Value):
+         * integer. Charged subscription cycle associated with this order. Signup is cycle 1;
+         * unpaid retries and skipped renewals do not advance the cycle. Format: uint64. minimum:
+         * 0. subscription_cycle.anyOf[2] (Value): null. subscription_delivery_changed_at
+         * (Optional): string or null. Time the subscriber changed delivery after this paid renewal
+         * was prepared. The order keeps its committed destination until you correct it or refund
+         * and replace it. subscription_delivery_changed_at.anyOf[1] (Value): string. Time the
+         * subscriber changed delivery after this paid renewal was prepared. The order keeps its
+         * committed destination until you correct it or refund and replace it. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". subscription_delivery_changed_at.anyOf[2] (Value):
+         * null. subscription_delivery_number (Optional): integer or null. Position of this
          * delivery among the deliveries one charge paid for, starting at 2. Null when this is not
-         * a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+         * a prepaid delivery order. subscription_delivery_number.anyOf[1] (Value): integer.
+         * Position of this delivery among the deliveries one charge paid for, starting at 2. Null
+         * when this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
          * subscription_delivery_number.anyOf[2] (Value): null. subscription_id (Optional): string
          * or null. ID of the subscription this order bills. Absent on an order that isn't from a
          * subscription. subscription_id.anyOf[1] (Value): string. ID of the subscription this
@@ -5373,21 +5567,20 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
              */
             "client_reference"?: ((string) | (null));
             /**
-             * When the order closed. Present exactly when status is closed. Set once at the
-             * transition and never changed. anyOf[1] (Value): string. When the order closed.
-             * Present exactly when status is closed. Set once at the transition and never changed.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * When the order last closed. Present exactly when status is closed. anyOf[1] (Value):
+             * string. When the order last closed. Present exactly when status is closed. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "closed_at"?: ((string) | (null));
             /**
-             * Why the order closed. Present exactly when status is closed. Set once at closure.
-             * Unrecognized reasons are returned as other; new values may be added. Value enum:
-             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-             * "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): string. Why
-             * the order closed. Present exactly when status is closed. Set once at closure.
-             * Unrecognized reasons are returned as other; new values may be added. Value enum:
-             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-             * "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): null.
+             * Why the order closed. Present exactly when status is closed. Flint returns other for
+             * an unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+             * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+             * "return_resolution_canceled", "other". anyOf[1] (Value): string. Why the order
+             * closed. Present exactly when status is closed. Flint returns other for an
+             * unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+             * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+             * "return_resolution_canceled", "other". anyOf[2] (Value): null.
              */
             "closed_reason"?: (("invoice_voided"
                 | "paid"
@@ -5687,14 +5880,15 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
             /**
              * How the order was created. invoice means a Quick Pay invoice created the order;
              * attaching an invoice to an existing order preserves its origin. Value enum:
-             * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-             * anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
-             * invoice created the order; attaching an invoice to an existing order preserves its
-             * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-             * "subscription", "invoice". anyOf[2] (Value): null.
+             * "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription",
+             * "invoice". anyOf[1] (Value): string. How the order was created. invoice means a
+             * Quick Pay invoice created the order; attaching an invoice to an existing order
+             * preserves its origin. Value enum: "virtual_terminal", "payment_link", "shop",
+             * "checkout", "api", "subscription", "invoice". anyOf[2] (Value): null.
              */
             "origin"?: (("virtual_terminal"
                 | "payment_link"
+                | "shop"
                 | "checkout"
                 | "api"
                 | "subscription"
@@ -5702,12 +5896,12 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
                 | (string & {}))
                 | (null));
             /**
-             * When `payment_status` became `paid`, including a final capture that releases the
-             * remaining balance. Set once and never changed, including after refunds. `null` when
-             * `payment_status` isn't `paid`, including an order whose balance was written off
-             * without being paid. anyOf[1] (Value): string. When `payment_status` became `paid`,
-             * including a final capture that releases the remaining balance. Set once and never
-             * changed, including after refunds. `null` when `payment_status` isn't `paid`,
+             * When the current paid state began, including a final capture that releases the
+             * remaining balance. A reversal that reopens the order clears this timestamp. `null`
+             * when `payment_status` isn't `paid`, including an order whose balance was written off
+             * without being paid. anyOf[1] (Value): string. When the current paid state began,
+             * including a final capture that releases the remaining balance. A reversal that
+             * reopens the order clears this timestamp. `null` when `payment_status` isn't `paid`,
              * including an order whose balance was written off without being paid. Format:
              * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
@@ -5735,9 +5929,11 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
              */
             "payment_link_id"?: ((string) | (null));
             /**
-             * Collection progress. An invoice write-off also completes collection without
+             * Collection progress. Reversing a recorded invoice payment can move this back to
+             * unpaid or partially_paid. An invoice write-off also completes collection without
              * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-             * anyOf[1] (Value): string. Collection progress. An invoice write-off also completes
+             * anyOf[1] (Value): string. Collection progress. Reversing a recorded invoice payment
+             * can move this back to unpaid or partially_paid. An invoice write-off also completes
              * collection without receiving the written-off amount. Value enum: "unpaid",
              * "partially_paid", "paid". anyOf[2] (Value): null.
              */
@@ -5808,12 +6004,20 @@ export type OrderInventoryExceptionCreatedInstalledMerchantsEvent = (Exclude<Par
              */
             "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
             /**
-             * Whether the order still accepts changes and new payments. Refunds, fulfillment,
-             * disputes, returns, and metadata or note edits continue on a closed order. Value
-             * enum: "open", "closed". anyOf[1] (Value): string. Whether the order still accepts
-             * changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or
-             * note edits continue on a closed order. Value enum: "open", "closed". anyOf[2]
-             * (Value): null.
+             * ID of the shop that started checkout. anyOf[1] (Value): string. ID of the shop that
+             * started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". anyOf[2] (Value):
+             * null.
+             */
+            "shop_id"?: ((string) | (null));
+            /**
+             * Whether the order still accepts changes and new payments. An order closed as paid
+             * reopens if reversing a recorded invoice payment leaves an outstanding order balance.
+             * Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a
+             * closed order. Value enum: "open", "closed". anyOf[1] (Value): string. Whether the
+             * order still accepts changes and new payments. An order closed as paid reopens if
+             * reversing a recorded invoice payment leaves an outstanding order balance. Refunds,
+             * fulfillment, disputes, returns, and metadata or note edits continue on a closed
+             * order. Value enum: "open", "closed". anyOf[2] (Value): null.
              */
             "status"?: (("open" | "closed" | (string & {})) | (null));
             /**
@@ -6024,19 +6228,18 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
      * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
      * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
      * previous_attributes.client_reference.anyOf[2] (Value): null. previous_attributes.closed_at
-     * (Optional): string or null. When the order closed. Present exactly when status is closed.
-     * Set once at the transition and never changed. previous_attributes.closed_at.anyOf[1]
-     * (Value): string. When the order closed. Present exactly when status is closed. Set once at
-     * the transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * (Optional): string or null. When the order last closed. Present exactly when status is
+     * closed. previous_attributes.closed_at.anyOf[1] (Value): string. When the order last closed.
+     * Present exactly when status is closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.closed_at.anyOf[2] (Value): null. previous_attributes.closed_reason
-     * (Optional): string or null. Why the order closed. Present exactly when status is closed. Set
-     * once at closure. Unrecognized reasons are returned as other; new values may be added. Value
-     * enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+     * (Optional): string or null. Why the order closed. Present exactly when status is closed.
+     * Flint returns other for an unrecognized reason and may add new values. Value enum:
+     * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
      * "superseded", "return_resolution_canceled", "other".
      * previous_attributes.closed_reason.anyOf[1] (Value): string. Why the order closed. Present
-     * exactly when status is closed. Set once at closure. Unrecognized reasons are returned as
-     * other; new values may be added. Value enum: "invoice_voided", "paid", "closed_by_merchant",
-     * "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+     * exactly when status is closed. Flint returns other for an unrecognized reason and may add
+     * new values. Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired",
+     * "written_off", "superseded", "return_resolution_canceled", "other".
      * previous_attributes.closed_reason.anyOf[2] (Value): null.
      * previous_attributes.closed_reason_message (Optional): string or null. The caller note
      * supplied when closing the order. System closures leave it absent. It is not shown to the
@@ -6254,26 +6457,27 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
      * receipts and merchant reference. previous_attributes.order_number.anyOf[2] (Value): null.
      * previous_attributes.origin (Optional): string or null. How the order was created. invoice
      * means a Quick Pay invoice created the order; attaching an invoice to an existing order
-     * preserves its origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-     * "subscription", "invoice". previous_attributes.origin.anyOf[1] (Value): string. How the
-     * order was created. invoice means a Quick Pay invoice created the order; attaching an invoice
-     * to an existing order preserves its origin. Value enum: "virtual_terminal", "payment_link",
-     * "checkout", "api", "subscription", "invoice". previous_attributes.origin.anyOf[2] (Value):
-     * null. previous_attributes.paid_at (Optional): string or null. When `payment_status` became
-     * `paid`, including a final capture that releases the remaining balance. Set once and never
-     * changed, including after refunds. `null` when `payment_status` isn't `paid`, including an
-     * order whose balance was written off without being paid. previous_attributes.paid_at.anyOf[1]
-     * (Value): string. When `payment_status` became `paid`, including a final capture that
-     * releases the remaining balance. Set once and never changed, including after refunds. `null`
-     * when `payment_status` isn't `paid`, including an order whose balance was written off without
-     * being paid. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.paid_at.anyOf[2] (Value): null. previous_attributes.payment_intent_ids
-     * (Optional): Array of string or null. IDs of the payment intents created to collect this
-     * order. previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the
+     * preserves its origin. Value enum: "virtual_terminal", "payment_link", "shop", "checkout",
+     * "api", "subscription", "invoice". previous_attributes.origin.anyOf[1] (Value): string. How
+     * the order was created. invoice means a Quick Pay invoice created the order; attaching an
+     * invoice to an existing order preserves its origin. Value enum: "virtual_terminal",
+     * "payment_link", "shop", "checkout", "api", "subscription", "invoice".
+     * previous_attributes.origin.anyOf[2] (Value): null. previous_attributes.paid_at (Optional):
+     * string or null. When the current paid state began, including a final capture that releases
+     * the remaining balance. A reversal that reopens the order clears this timestamp. `null` when
+     * `payment_status` isn't `paid`, including an order whose balance was written off without
+     * being paid. previous_attributes.paid_at.anyOf[1] (Value): string. When the current paid
+     * state began, including a final capture that releases the remaining balance. A reversal that
+     * reopens the order clears this timestamp. `null` when `payment_status` isn't `paid`,
+     * including an order whose balance was written off without being paid. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.paid_at.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
      * payment intents created to collect this order.
-     * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_ids.anyOf[2] (Value):
-     * null. previous_attributes.payment_intents (Optional): Array of {@link
+     * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
+     * intents created to collect this order. previous_attributes.payment_intent_ids.anyOf[1][]
+     * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent_ids.anyOf[2] (Value): null.
+     * previous_attributes.payment_intents (Optional): Array of {@link
      * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Payment intents included when
      * `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1] (Value):
      * Array of {@link ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included
@@ -6287,10 +6491,12 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
      * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
      * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      * previous_attributes.payment_link_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_status (Optional): string or null. Collection progress. An
+     * previous_attributes.payment_status (Optional): string or null. Collection progress.
+     * Reversing a recorded invoice payment can move this back to unpaid or partially_paid. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
-     * (Value): string. Collection progress. An invoice write-off also completes collection without
+     * (Value): string. Collection progress. Reversing a recorded invoice payment can move this
+     * back to unpaid or partially_paid. An invoice write-off also completes collection without
      * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
      * previous_attributes.payment_status.anyOf[2] (Value): null.
      * previous_attributes.pending_order_edit_id (Optional): string or null. The order edit waiting
@@ -6347,18 +6553,23 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
      * refunded, credited, written off, and settled as tips, and what is still outstanding.
      * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
      * OrderSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. Whether the order
-     * still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and
-     * metadata or note edits continue on a closed order. Value enum: "open", "closed".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the order still accepts changes
-     * and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits
-     * continue on a closed order. Value enum: "open", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription
-     * (Optional): {@link ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription
-     * summary included when `expand` names `subscription`; `null` when expanded and this order
-     * does not bill a subscription. Present only when `expand` includes `subscription`; `null`
-     * when expanded and there is no related subscription.
-     * previous_attributes.subscription.anyOf[1] (Value): {@link
+     * (Value): null. previous_attributes.shop_id (Optional): string or null. ID of the shop that
+     * started checkout. previous_attributes.shop_id.anyOf[1] (Value): string. ID of the shop that
+     * started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+     * previous_attributes.shop_id.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Whether the order still accepts changes and new payments. An order closed as
+     * paid reopens if reversing a recorded invoice payment leaves an outstanding order balance.
+     * Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed
+     * order. Value enum: "open", "closed". previous_attributes.status.anyOf[1] (Value): string.
+     * Whether the order still accepts changes and new payments. An order closed as paid reopens if
+     * reversing a recorded invoice payment leaves an outstanding order balance. Refunds,
+     * fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value
+     * enum: "open", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.subscription (Optional): {@link
+     * ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription summary included when
+     * `expand` names `subscription`; `null` when expanded and this order does not bill a
+     * subscription. Present only when `expand` includes `subscription`; `null` when expanded and
+     * there is no related subscription. previous_attributes.subscription.anyOf[1] (Value): {@link
      * ExpandedSubscriptionSummaryPreviousAttributes}. previous_attributes.subscription.anyOf[2]
      * (Value): null. previous_attributes.subscription_cycle (Optional): integer or null. Charged
      * subscription cycle associated with this order. Signup is cycle 1; unpaid retries and skipped
@@ -6489,18 +6700,17 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
          * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
          * browser, so treat it as a claim, not proof of identity. Always present with merchant
          * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
-         * closed_at (Optional): string or null. When the order closed. Present exactly when status
-         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
-         * string. When the order closed. Present exactly when status is closed. Set once at the
-         * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
-         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
-         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
-         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-         * "return_resolution_canceled", "other". closed_reason.anyOf[1] (Value): string. Why the
-         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
-         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
-         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+         * closed_at (Optional): string or null. When the order last closed. Present exactly when
+         * status is closed. closed_at.anyOf[1] (Value): string. When the order last closed.
+         * Present exactly when status is closed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason (Optional):
+         * string or null. Why the order closed. Present exactly when status is closed. Flint
+         * returns other for an unrecognized reason and may add new values. Value enum:
+         * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+         * "superseded", "return_resolution_canceled", "other". closed_reason.anyOf[1] (Value):
+         * string. Why the order closed. Present exactly when status is closed. Flint returns other
+         * for an unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+         * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
          * "return_resolution_canceled", "other". closed_reason.anyOf[2] (Value): null.
          * closed_reason_message (Optional): string or null. The caller note supplied when closing
          * the order. System closures leave it absent. It is not shown to the buyer.
@@ -6696,18 +6906,18 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
          * receipts and merchant reference. order_number.anyOf[2] (Value): null. origin (Optional):
          * string or null. How the order was created. invoice means a Quick Pay invoice created the
          * order; attaching an invoice to an existing order preserves its origin. Value enum:
-         * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-         * origin.anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
-         * invoice created the order; attaching an invoice to an existing order preserves its
-         * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
+         * "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription",
+         * "invoice". origin.anyOf[1] (Value): string. How the order was created. invoice means a
+         * Quick Pay invoice created the order; attaching an invoice to an existing order preserves
+         * its origin. Value enum: "virtual_terminal", "payment_link", "shop", "checkout", "api",
          * "subscription", "invoice". origin.anyOf[2] (Value): null. paid_at (Optional): string or
-         * null. When `payment_status` became `paid`, including a final capture that releases the
-         * remaining balance. Set once and never changed, including after refunds. `null` when
+         * null. When the current paid state began, including a final capture that releases the
+         * remaining balance. A reversal that reopens the order clears this timestamp. `null` when
          * `payment_status` isn't `paid`, including an order whose balance was written off without
-         * being paid. paid_at.anyOf[1] (Value): string. When `payment_status` became `paid`,
-         * including a final capture that releases the remaining balance. Set once and never
-         * changed, including after refunds. `null` when `payment_status` isn't `paid`, including
-         * an order whose balance was written off without being paid. Format: date-time. Example:
+         * being paid. paid_at.anyOf[1] (Value): string. When the current paid state began,
+         * including a final capture that releases the remaining balance. A reversal that reopens
+         * the order clears this timestamp. `null` when `payment_status` isn't `paid`, including an
+         * order whose balance was written off without being paid. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_intent_ids (Optional):
          * Array of string or null. IDs of the payment intents created to collect this order.
          * payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment intents created
@@ -6725,10 +6935,12 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
          * Payment link that created this order or started the subscription it renews. Absent for
          * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
          * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
-         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * (Optional): string or null. Collection progress. Reversing a recorded invoice payment
+         * can move this back to unpaid or partially_paid. An invoice write-off also completes
          * collection without receiving the written-off amount. Value enum: "unpaid",
          * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
-         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Reversing a recorded invoice payment can move this back to unpaid or partially_paid. An
+         * invoice write-off also completes collection without receiving the written-off amount.
          * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
          * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
@@ -6776,34 +6988,39 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
          * null. How much of the order has been paid, refunded, credited, written off, and settled
          * as tips, and what is still outstanding. settlement_amounts.anyOf[1] (Value): {@link
          * OrderSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2] (Value): null.
-         * status (Optional): string or null. Whether the order still accepts changes and new
-         * payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue
-         * on a closed order. Value enum: "open", "closed". status.anyOf[1] (Value): string.
-         * Whether the order still accepts changes and new payments. Refunds, fulfillment,
-         * disputes, returns, and metadata or note edits continue on a closed order. Value enum:
-         * "open", "closed". status.anyOf[2] (Value): null. subscription (Optional): {@link
-         * ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription summary included
-         * when `expand` names `subscription`; `null` when expanded and this order does not bill a
-         * subscription. Present only when `expand` includes `subscription`; `null` when expanded
-         * and there is no related subscription. subscription.anyOf[1] (Value): {@link
-         * ExpandedSubscriptionSummaryPreviousAttributes}. subscription.anyOf[2] (Value): null.
-         * subscription_cycle (Optional): integer or null. Charged subscription cycle associated
-         * with this order. Signup is cycle 1; unpaid retries and skipped renewals do not advance
-         * the cycle. subscription_cycle.anyOf[1] (Value): integer. Charged subscription cycle
-         * associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do
-         * not advance the cycle. Format: uint64. minimum: 0. subscription_cycle.anyOf[2] (Value):
-         * null. subscription_delivery_changed_at (Optional): string or null. Time the subscriber
-         * changed delivery after this paid renewal was prepared. The order keeps its committed
-         * destination until you correct it or refund and replace it.
-         * subscription_delivery_changed_at.anyOf[1] (Value): string. Time the subscriber changed
-         * delivery after this paid renewal was prepared. The order keeps its committed destination
-         * until you correct it or refund and replace it. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". subscription_delivery_changed_at.anyOf[2] (Value): null.
-         * subscription_delivery_number (Optional): integer or null. Position of this delivery
-         * among the deliveries one charge paid for, starting at 2. Null when this is not a prepaid
-         * delivery order. subscription_delivery_number.anyOf[1] (Value): integer. Position of this
+         * shop_id (Optional): string or null. ID of the shop that started checkout.
+         * shop_id.anyOf[1] (Value): string. ID of the shop that started checkout. Example:
+         * "shop_01KEZF7C005VQBPV4FZHDZPAHE". shop_id.anyOf[2] (Value): null. status (Optional):
+         * string or null. Whether the order still accepts changes and new payments. An order
+         * closed as paid reopens if reversing a recorded invoice payment leaves an outstanding
+         * order balance. Refunds, fulfillment, disputes, returns, and metadata or note edits
+         * continue on a closed order. Value enum: "open", "closed". status.anyOf[1] (Value):
+         * string. Whether the order still accepts changes and new payments. An order closed as
+         * paid reopens if reversing a recorded invoice payment leaves an outstanding order
+         * balance. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on
+         * a closed order. Value enum: "open", "closed". status.anyOf[2] (Value): null.
+         * subscription (Optional): {@link ExpandedSubscriptionSummaryPreviousAttributes} or null.
+         * Subscription summary included when `expand` names `subscription`; `null` when expanded
+         * and this order does not bill a subscription. Present only when `expand` includes
+         * `subscription`; `null` when expanded and there is no related subscription.
+         * subscription.anyOf[1] (Value): {@link ExpandedSubscriptionSummaryPreviousAttributes}.
+         * subscription.anyOf[2] (Value): null. subscription_cycle (Optional): integer or null.
+         * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries
+         * and skipped renewals do not advance the cycle. subscription_cycle.anyOf[1] (Value):
+         * integer. Charged subscription cycle associated with this order. Signup is cycle 1;
+         * unpaid retries and skipped renewals do not advance the cycle. Format: uint64. minimum:
+         * 0. subscription_cycle.anyOf[2] (Value): null. subscription_delivery_changed_at
+         * (Optional): string or null. Time the subscriber changed delivery after this paid renewal
+         * was prepared. The order keeps its committed destination until you correct it or refund
+         * and replace it. subscription_delivery_changed_at.anyOf[1] (Value): string. Time the
+         * subscriber changed delivery after this paid renewal was prepared. The order keeps its
+         * committed destination until you correct it or refund and replace it. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". subscription_delivery_changed_at.anyOf[2] (Value):
+         * null. subscription_delivery_number (Optional): integer or null. Position of this
          * delivery among the deliveries one charge paid for, starting at 2. Null when this is not
-         * a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+         * a prepaid delivery order. subscription_delivery_number.anyOf[1] (Value): integer.
+         * Position of this delivery among the deliveries one charge paid for, starting at 2. Null
+         * when this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
          * subscription_delivery_number.anyOf[2] (Value): null. subscription_id (Optional): string
          * or null. ID of the subscription this order bills. Absent on an order that isn't from a
          * subscription. subscription_id.anyOf[1] (Value): string. ID of the subscription this
@@ -6920,21 +7137,20 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
              */
             "client_reference"?: ((string) | (null));
             /**
-             * When the order closed. Present exactly when status is closed. Set once at the
-             * transition and never changed. anyOf[1] (Value): string. When the order closed.
-             * Present exactly when status is closed. Set once at the transition and never changed.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * When the order last closed. Present exactly when status is closed. anyOf[1] (Value):
+             * string. When the order last closed. Present exactly when status is closed. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "closed_at"?: ((string) | (null));
             /**
-             * Why the order closed. Present exactly when status is closed. Set once at closure.
-             * Unrecognized reasons are returned as other; new values may be added. Value enum:
-             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-             * "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): string. Why
-             * the order closed. Present exactly when status is closed. Set once at closure.
-             * Unrecognized reasons are returned as other; new values may be added. Value enum:
-             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-             * "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): null.
+             * Why the order closed. Present exactly when status is closed. Flint returns other for
+             * an unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+             * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+             * "return_resolution_canceled", "other". anyOf[1] (Value): string. Why the order
+             * closed. Present exactly when status is closed. Flint returns other for an
+             * unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+             * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+             * "return_resolution_canceled", "other". anyOf[2] (Value): null.
              */
             "closed_reason"?: (("invoice_voided"
                 | "paid"
@@ -7234,14 +7450,15 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
             /**
              * How the order was created. invoice means a Quick Pay invoice created the order;
              * attaching an invoice to an existing order preserves its origin. Value enum:
-             * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-             * anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
-             * invoice created the order; attaching an invoice to an existing order preserves its
-             * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-             * "subscription", "invoice". anyOf[2] (Value): null.
+             * "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription",
+             * "invoice". anyOf[1] (Value): string. How the order was created. invoice means a
+             * Quick Pay invoice created the order; attaching an invoice to an existing order
+             * preserves its origin. Value enum: "virtual_terminal", "payment_link", "shop",
+             * "checkout", "api", "subscription", "invoice". anyOf[2] (Value): null.
              */
             "origin"?: (("virtual_terminal"
                 | "payment_link"
+                | "shop"
                 | "checkout"
                 | "api"
                 | "subscription"
@@ -7249,12 +7466,12 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
                 | (string & {}))
                 | (null));
             /**
-             * When `payment_status` became `paid`, including a final capture that releases the
-             * remaining balance. Set once and never changed, including after refunds. `null` when
-             * `payment_status` isn't `paid`, including an order whose balance was written off
-             * without being paid. anyOf[1] (Value): string. When `payment_status` became `paid`,
-             * including a final capture that releases the remaining balance. Set once and never
-             * changed, including after refunds. `null` when `payment_status` isn't `paid`,
+             * When the current paid state began, including a final capture that releases the
+             * remaining balance. A reversal that reopens the order clears this timestamp. `null`
+             * when `payment_status` isn't `paid`, including an order whose balance was written off
+             * without being paid. anyOf[1] (Value): string. When the current paid state began,
+             * including a final capture that releases the remaining balance. A reversal that
+             * reopens the order clears this timestamp. `null` when `payment_status` isn't `paid`,
              * including an order whose balance was written off without being paid. Format:
              * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
@@ -7282,9 +7499,11 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
              */
             "payment_link_id"?: ((string) | (null));
             /**
-             * Collection progress. An invoice write-off also completes collection without
+             * Collection progress. Reversing a recorded invoice payment can move this back to
+             * unpaid or partially_paid. An invoice write-off also completes collection without
              * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-             * anyOf[1] (Value): string. Collection progress. An invoice write-off also completes
+             * anyOf[1] (Value): string. Collection progress. Reversing a recorded invoice payment
+             * can move this back to unpaid or partially_paid. An invoice write-off also completes
              * collection without receiving the written-off amount. Value enum: "unpaid",
              * "partially_paid", "paid". anyOf[2] (Value): null.
              */
@@ -7355,12 +7574,20 @@ export type OrderInventoryExceptionCreatedMerchantEvent = (Exclude<MerchantWebho
              */
             "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
             /**
-             * Whether the order still accepts changes and new payments. Refunds, fulfillment,
-             * disputes, returns, and metadata or note edits continue on a closed order. Value
-             * enum: "open", "closed". anyOf[1] (Value): string. Whether the order still accepts
-             * changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or
-             * note edits continue on a closed order. Value enum: "open", "closed". anyOf[2]
-             * (Value): null.
+             * ID of the shop that started checkout. anyOf[1] (Value): string. ID of the shop that
+             * started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". anyOf[2] (Value):
+             * null.
+             */
+            "shop_id"?: ((string) | (null));
+            /**
+             * Whether the order still accepts changes and new payments. An order closed as paid
+             * reopens if reversing a recorded invoice payment leaves an outstanding order balance.
+             * Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a
+             * closed order. Value enum: "open", "closed". anyOf[1] (Value): string. Whether the
+             * order still accepts changes and new payments. An order closed as paid reopens if
+             * reversing a recorded invoice payment leaves an outstanding order balance. Refunds,
+             * fulfillment, disputes, returns, and metadata or note edits continue on a closed
+             * order. Value enum: "open", "closed". anyOf[2] (Value): null.
              */
             "status"?: (("open" | "closed" | (string & {})) | (null));
             /**
@@ -7558,6 +7785,7 @@ export type OrderInventoryExceptionResolvedEvent = ((((Exclude<MerchantWebhookEn
             "order_number"?: ((string) | (null));
             "origin"?: (("virtual_terminal"
                 | "payment_link"
+                | "shop"
                 | "checkout"
                 | "api"
                 | "subscription"
@@ -7577,6 +7805,7 @@ export type OrderInventoryExceptionResolvedEvent = ((((Exclude<MerchantWebhookEn
             "return_credit_settlements"?: ((Array<OrderReturnCreditSettlementPreviousAttributes>) | (null));
             "return_resolution_id"?: ((string) | (null));
             "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
+            "shop_id"?: ((string) | (null));
             "status"?: (("open" | "closed" | (string & {})) | (null));
             "subscription"?: ((ExpandedSubscriptionSummaryPreviousAttributes) | (null));
             "subscription_cycle"?: ((number) | (null));
@@ -7681,6 +7910,7 @@ export type OrderInventoryExceptionResolvedEvent = ((((Exclude<MerchantWebhookEn
             "order_number"?: ((string) | (null));
             "origin"?: (("virtual_terminal"
                 | "payment_link"
+                | "shop"
                 | "checkout"
                 | "api"
                 | "subscription"
@@ -7700,6 +7930,7 @@ export type OrderInventoryExceptionResolvedEvent = ((((Exclude<MerchantWebhookEn
             "return_credit_settlements"?: ((Array<OrderReturnCreditSettlementPreviousAttributes>) | (null));
             "return_resolution_id"?: ((string) | (null));
             "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
+            "shop_id"?: ((string) | (null));
             "status"?: (("open" | "closed" | (string & {})) | (null));
             "subscription"?: ((ExpandedSubscriptionSummaryPreviousAttributes) | (null));
             "subscription_cycle"?: ((number) | (null));
@@ -7793,19 +8024,18 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
      * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
      * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
      * previous_attributes.client_reference.anyOf[2] (Value): null. previous_attributes.closed_at
-     * (Optional): string or null. When the order closed. Present exactly when status is closed.
-     * Set once at the transition and never changed. previous_attributes.closed_at.anyOf[1]
-     * (Value): string. When the order closed. Present exactly when status is closed. Set once at
-     * the transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * (Optional): string or null. When the order last closed. Present exactly when status is
+     * closed. previous_attributes.closed_at.anyOf[1] (Value): string. When the order last closed.
+     * Present exactly when status is closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.closed_at.anyOf[2] (Value): null. previous_attributes.closed_reason
-     * (Optional): string or null. Why the order closed. Present exactly when status is closed. Set
-     * once at closure. Unrecognized reasons are returned as other; new values may be added. Value
-     * enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+     * (Optional): string or null. Why the order closed. Present exactly when status is closed.
+     * Flint returns other for an unrecognized reason and may add new values. Value enum:
+     * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
      * "superseded", "return_resolution_canceled", "other".
      * previous_attributes.closed_reason.anyOf[1] (Value): string. Why the order closed. Present
-     * exactly when status is closed. Set once at closure. Unrecognized reasons are returned as
-     * other; new values may be added. Value enum: "invoice_voided", "paid", "closed_by_merchant",
-     * "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+     * exactly when status is closed. Flint returns other for an unrecognized reason and may add
+     * new values. Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired",
+     * "written_off", "superseded", "return_resolution_canceled", "other".
      * previous_attributes.closed_reason.anyOf[2] (Value): null.
      * previous_attributes.closed_reason_message (Optional): string or null. The caller note
      * supplied when closing the order. System closures leave it absent. It is not shown to the
@@ -8023,26 +8253,27 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
      * receipts and merchant reference. previous_attributes.order_number.anyOf[2] (Value): null.
      * previous_attributes.origin (Optional): string or null. How the order was created. invoice
      * means a Quick Pay invoice created the order; attaching an invoice to an existing order
-     * preserves its origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-     * "subscription", "invoice". previous_attributes.origin.anyOf[1] (Value): string. How the
-     * order was created. invoice means a Quick Pay invoice created the order; attaching an invoice
-     * to an existing order preserves its origin. Value enum: "virtual_terminal", "payment_link",
-     * "checkout", "api", "subscription", "invoice". previous_attributes.origin.anyOf[2] (Value):
-     * null. previous_attributes.paid_at (Optional): string or null. When `payment_status` became
-     * `paid`, including a final capture that releases the remaining balance. Set once and never
-     * changed, including after refunds. `null` when `payment_status` isn't `paid`, including an
-     * order whose balance was written off without being paid. previous_attributes.paid_at.anyOf[1]
-     * (Value): string. When `payment_status` became `paid`, including a final capture that
-     * releases the remaining balance. Set once and never changed, including after refunds. `null`
-     * when `payment_status` isn't `paid`, including an order whose balance was written off without
-     * being paid. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.paid_at.anyOf[2] (Value): null. previous_attributes.payment_intent_ids
-     * (Optional): Array of string or null. IDs of the payment intents created to collect this
-     * order. previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the
+     * preserves its origin. Value enum: "virtual_terminal", "payment_link", "shop", "checkout",
+     * "api", "subscription", "invoice". previous_attributes.origin.anyOf[1] (Value): string. How
+     * the order was created. invoice means a Quick Pay invoice created the order; attaching an
+     * invoice to an existing order preserves its origin. Value enum: "virtual_terminal",
+     * "payment_link", "shop", "checkout", "api", "subscription", "invoice".
+     * previous_attributes.origin.anyOf[2] (Value): null. previous_attributes.paid_at (Optional):
+     * string or null. When the current paid state began, including a final capture that releases
+     * the remaining balance. A reversal that reopens the order clears this timestamp. `null` when
+     * `payment_status` isn't `paid`, including an order whose balance was written off without
+     * being paid. previous_attributes.paid_at.anyOf[1] (Value): string. When the current paid
+     * state began, including a final capture that releases the remaining balance. A reversal that
+     * reopens the order clears this timestamp. `null` when `payment_status` isn't `paid`,
+     * including an order whose balance was written off without being paid. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.paid_at.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
      * payment intents created to collect this order.
-     * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_ids.anyOf[2] (Value):
-     * null. previous_attributes.payment_intents (Optional): Array of {@link
+     * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
+     * intents created to collect this order. previous_attributes.payment_intent_ids.anyOf[1][]
+     * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent_ids.anyOf[2] (Value): null.
+     * previous_attributes.payment_intents (Optional): Array of {@link
      * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Payment intents included when
      * `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1] (Value):
      * Array of {@link ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included
@@ -8056,10 +8287,12 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
      * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
      * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      * previous_attributes.payment_link_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_status (Optional): string or null. Collection progress. An
+     * previous_attributes.payment_status (Optional): string or null. Collection progress.
+     * Reversing a recorded invoice payment can move this back to unpaid or partially_paid. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
-     * (Value): string. Collection progress. An invoice write-off also completes collection without
+     * (Value): string. Collection progress. Reversing a recorded invoice payment can move this
+     * back to unpaid or partially_paid. An invoice write-off also completes collection without
      * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
      * previous_attributes.payment_status.anyOf[2] (Value): null.
      * previous_attributes.pending_order_edit_id (Optional): string or null. The order edit waiting
@@ -8116,18 +8349,23 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
      * refunded, credited, written off, and settled as tips, and what is still outstanding.
      * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
      * OrderSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. Whether the order
-     * still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and
-     * metadata or note edits continue on a closed order. Value enum: "open", "closed".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the order still accepts changes
-     * and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits
-     * continue on a closed order. Value enum: "open", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription
-     * (Optional): {@link ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription
-     * summary included when `expand` names `subscription`; `null` when expanded and this order
-     * does not bill a subscription. Present only when `expand` includes `subscription`; `null`
-     * when expanded and there is no related subscription.
-     * previous_attributes.subscription.anyOf[1] (Value): {@link
+     * (Value): null. previous_attributes.shop_id (Optional): string or null. ID of the shop that
+     * started checkout. previous_attributes.shop_id.anyOf[1] (Value): string. ID of the shop that
+     * started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+     * previous_attributes.shop_id.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Whether the order still accepts changes and new payments. An order closed as
+     * paid reopens if reversing a recorded invoice payment leaves an outstanding order balance.
+     * Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed
+     * order. Value enum: "open", "closed". previous_attributes.status.anyOf[1] (Value): string.
+     * Whether the order still accepts changes and new payments. An order closed as paid reopens if
+     * reversing a recorded invoice payment leaves an outstanding order balance. Refunds,
+     * fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value
+     * enum: "open", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.subscription (Optional): {@link
+     * ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription summary included when
+     * `expand` names `subscription`; `null` when expanded and this order does not bill a
+     * subscription. Present only when `expand` includes `subscription`; `null` when expanded and
+     * there is no related subscription. previous_attributes.subscription.anyOf[1] (Value): {@link
      * ExpandedSubscriptionSummaryPreviousAttributes}. previous_attributes.subscription.anyOf[2]
      * (Value): null. previous_attributes.subscription_cycle (Optional): integer or null. Charged
      * subscription cycle associated with this order. Signup is cycle 1; unpaid retries and skipped
@@ -8258,18 +8496,17 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
          * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
          * browser, so treat it as a claim, not proof of identity. Always present with merchant
          * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
-         * closed_at (Optional): string or null. When the order closed. Present exactly when status
-         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
-         * string. When the order closed. Present exactly when status is closed. Set once at the
-         * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
-         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
-         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
-         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-         * "return_resolution_canceled", "other". closed_reason.anyOf[1] (Value): string. Why the
-         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
-         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
-         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+         * closed_at (Optional): string or null. When the order last closed. Present exactly when
+         * status is closed. closed_at.anyOf[1] (Value): string. When the order last closed.
+         * Present exactly when status is closed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason (Optional):
+         * string or null. Why the order closed. Present exactly when status is closed. Flint
+         * returns other for an unrecognized reason and may add new values. Value enum:
+         * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+         * "superseded", "return_resolution_canceled", "other". closed_reason.anyOf[1] (Value):
+         * string. Why the order closed. Present exactly when status is closed. Flint returns other
+         * for an unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+         * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
          * "return_resolution_canceled", "other". closed_reason.anyOf[2] (Value): null.
          * closed_reason_message (Optional): string or null. The caller note supplied when closing
          * the order. System closures leave it absent. It is not shown to the buyer.
@@ -8465,18 +8702,18 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
          * receipts and merchant reference. order_number.anyOf[2] (Value): null. origin (Optional):
          * string or null. How the order was created. invoice means a Quick Pay invoice created the
          * order; attaching an invoice to an existing order preserves its origin. Value enum:
-         * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-         * origin.anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
-         * invoice created the order; attaching an invoice to an existing order preserves its
-         * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
+         * "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription",
+         * "invoice". origin.anyOf[1] (Value): string. How the order was created. invoice means a
+         * Quick Pay invoice created the order; attaching an invoice to an existing order preserves
+         * its origin. Value enum: "virtual_terminal", "payment_link", "shop", "checkout", "api",
          * "subscription", "invoice". origin.anyOf[2] (Value): null. paid_at (Optional): string or
-         * null. When `payment_status` became `paid`, including a final capture that releases the
-         * remaining balance. Set once and never changed, including after refunds. `null` when
+         * null. When the current paid state began, including a final capture that releases the
+         * remaining balance. A reversal that reopens the order clears this timestamp. `null` when
          * `payment_status` isn't `paid`, including an order whose balance was written off without
-         * being paid. paid_at.anyOf[1] (Value): string. When `payment_status` became `paid`,
-         * including a final capture that releases the remaining balance. Set once and never
-         * changed, including after refunds. `null` when `payment_status` isn't `paid`, including
-         * an order whose balance was written off without being paid. Format: date-time. Example:
+         * being paid. paid_at.anyOf[1] (Value): string. When the current paid state began,
+         * including a final capture that releases the remaining balance. A reversal that reopens
+         * the order clears this timestamp. `null` when `payment_status` isn't `paid`, including an
+         * order whose balance was written off without being paid. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_intent_ids (Optional):
          * Array of string or null. IDs of the payment intents created to collect this order.
          * payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment intents created
@@ -8494,10 +8731,12 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
          * Payment link that created this order or started the subscription it renews. Absent for
          * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
          * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
-         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * (Optional): string or null. Collection progress. Reversing a recorded invoice payment
+         * can move this back to unpaid or partially_paid. An invoice write-off also completes
          * collection without receiving the written-off amount. Value enum: "unpaid",
          * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
-         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Reversing a recorded invoice payment can move this back to unpaid or partially_paid. An
+         * invoice write-off also completes collection without receiving the written-off amount.
          * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
          * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
@@ -8545,34 +8784,39 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
          * null. How much of the order has been paid, refunded, credited, written off, and settled
          * as tips, and what is still outstanding. settlement_amounts.anyOf[1] (Value): {@link
          * OrderSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2] (Value): null.
-         * status (Optional): string or null. Whether the order still accepts changes and new
-         * payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue
-         * on a closed order. Value enum: "open", "closed". status.anyOf[1] (Value): string.
-         * Whether the order still accepts changes and new payments. Refunds, fulfillment,
-         * disputes, returns, and metadata or note edits continue on a closed order. Value enum:
-         * "open", "closed". status.anyOf[2] (Value): null. subscription (Optional): {@link
-         * ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription summary included
-         * when `expand` names `subscription`; `null` when expanded and this order does not bill a
-         * subscription. Present only when `expand` includes `subscription`; `null` when expanded
-         * and there is no related subscription. subscription.anyOf[1] (Value): {@link
-         * ExpandedSubscriptionSummaryPreviousAttributes}. subscription.anyOf[2] (Value): null.
-         * subscription_cycle (Optional): integer or null. Charged subscription cycle associated
-         * with this order. Signup is cycle 1; unpaid retries and skipped renewals do not advance
-         * the cycle. subscription_cycle.anyOf[1] (Value): integer. Charged subscription cycle
-         * associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do
-         * not advance the cycle. Format: uint64. minimum: 0. subscription_cycle.anyOf[2] (Value):
-         * null. subscription_delivery_changed_at (Optional): string or null. Time the subscriber
-         * changed delivery after this paid renewal was prepared. The order keeps its committed
-         * destination until you correct it or refund and replace it.
-         * subscription_delivery_changed_at.anyOf[1] (Value): string. Time the subscriber changed
-         * delivery after this paid renewal was prepared. The order keeps its committed destination
-         * until you correct it or refund and replace it. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". subscription_delivery_changed_at.anyOf[2] (Value): null.
-         * subscription_delivery_number (Optional): integer or null. Position of this delivery
-         * among the deliveries one charge paid for, starting at 2. Null when this is not a prepaid
-         * delivery order. subscription_delivery_number.anyOf[1] (Value): integer. Position of this
+         * shop_id (Optional): string or null. ID of the shop that started checkout.
+         * shop_id.anyOf[1] (Value): string. ID of the shop that started checkout. Example:
+         * "shop_01KEZF7C005VQBPV4FZHDZPAHE". shop_id.anyOf[2] (Value): null. status (Optional):
+         * string or null. Whether the order still accepts changes and new payments. An order
+         * closed as paid reopens if reversing a recorded invoice payment leaves an outstanding
+         * order balance. Refunds, fulfillment, disputes, returns, and metadata or note edits
+         * continue on a closed order. Value enum: "open", "closed". status.anyOf[1] (Value):
+         * string. Whether the order still accepts changes and new payments. An order closed as
+         * paid reopens if reversing a recorded invoice payment leaves an outstanding order
+         * balance. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on
+         * a closed order. Value enum: "open", "closed". status.anyOf[2] (Value): null.
+         * subscription (Optional): {@link ExpandedSubscriptionSummaryPreviousAttributes} or null.
+         * Subscription summary included when `expand` names `subscription`; `null` when expanded
+         * and this order does not bill a subscription. Present only when `expand` includes
+         * `subscription`; `null` when expanded and there is no related subscription.
+         * subscription.anyOf[1] (Value): {@link ExpandedSubscriptionSummaryPreviousAttributes}.
+         * subscription.anyOf[2] (Value): null. subscription_cycle (Optional): integer or null.
+         * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries
+         * and skipped renewals do not advance the cycle. subscription_cycle.anyOf[1] (Value):
+         * integer. Charged subscription cycle associated with this order. Signup is cycle 1;
+         * unpaid retries and skipped renewals do not advance the cycle. Format: uint64. minimum:
+         * 0. subscription_cycle.anyOf[2] (Value): null. subscription_delivery_changed_at
+         * (Optional): string or null. Time the subscriber changed delivery after this paid renewal
+         * was prepared. The order keeps its committed destination until you correct it or refund
+         * and replace it. subscription_delivery_changed_at.anyOf[1] (Value): string. Time the
+         * subscriber changed delivery after this paid renewal was prepared. The order keeps its
+         * committed destination until you correct it or refund and replace it. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". subscription_delivery_changed_at.anyOf[2] (Value):
+         * null. subscription_delivery_number (Optional): integer or null. Position of this
          * delivery among the deliveries one charge paid for, starting at 2. Null when this is not
-         * a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+         * a prepaid delivery order. subscription_delivery_number.anyOf[1] (Value): integer.
+         * Position of this delivery among the deliveries one charge paid for, starting at 2. Null
+         * when this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
          * subscription_delivery_number.anyOf[2] (Value): null. subscription_id (Optional): string
          * or null. ID of the subscription this order bills. Absent on an order that isn't from a
          * subscription. subscription_id.anyOf[1] (Value): string. ID of the subscription this
@@ -8689,21 +8933,20 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
              */
             "client_reference"?: ((string) | (null));
             /**
-             * When the order closed. Present exactly when status is closed. Set once at the
-             * transition and never changed. anyOf[1] (Value): string. When the order closed.
-             * Present exactly when status is closed. Set once at the transition and never changed.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * When the order last closed. Present exactly when status is closed. anyOf[1] (Value):
+             * string. When the order last closed. Present exactly when status is closed. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "closed_at"?: ((string) | (null));
             /**
-             * Why the order closed. Present exactly when status is closed. Set once at closure.
-             * Unrecognized reasons are returned as other; new values may be added. Value enum:
-             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-             * "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): string. Why
-             * the order closed. Present exactly when status is closed. Set once at closure.
-             * Unrecognized reasons are returned as other; new values may be added. Value enum:
-             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-             * "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): null.
+             * Why the order closed. Present exactly when status is closed. Flint returns other for
+             * an unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+             * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+             * "return_resolution_canceled", "other". anyOf[1] (Value): string. Why the order
+             * closed. Present exactly when status is closed. Flint returns other for an
+             * unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+             * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+             * "return_resolution_canceled", "other". anyOf[2] (Value): null.
              */
             "closed_reason"?: (("invoice_voided"
                 | "paid"
@@ -9003,14 +9246,15 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
             /**
              * How the order was created. invoice means a Quick Pay invoice created the order;
              * attaching an invoice to an existing order preserves its origin. Value enum:
-             * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-             * anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
-             * invoice created the order; attaching an invoice to an existing order preserves its
-             * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-             * "subscription", "invoice". anyOf[2] (Value): null.
+             * "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription",
+             * "invoice". anyOf[1] (Value): string. How the order was created. invoice means a
+             * Quick Pay invoice created the order; attaching an invoice to an existing order
+             * preserves its origin. Value enum: "virtual_terminal", "payment_link", "shop",
+             * "checkout", "api", "subscription", "invoice". anyOf[2] (Value): null.
              */
             "origin"?: (("virtual_terminal"
                 | "payment_link"
+                | "shop"
                 | "checkout"
                 | "api"
                 | "subscription"
@@ -9018,12 +9262,12 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
                 | (string & {}))
                 | (null));
             /**
-             * When `payment_status` became `paid`, including a final capture that releases the
-             * remaining balance. Set once and never changed, including after refunds. `null` when
-             * `payment_status` isn't `paid`, including an order whose balance was written off
-             * without being paid. anyOf[1] (Value): string. When `payment_status` became `paid`,
-             * including a final capture that releases the remaining balance. Set once and never
-             * changed, including after refunds. `null` when `payment_status` isn't `paid`,
+             * When the current paid state began, including a final capture that releases the
+             * remaining balance. A reversal that reopens the order clears this timestamp. `null`
+             * when `payment_status` isn't `paid`, including an order whose balance was written off
+             * without being paid. anyOf[1] (Value): string. When the current paid state began,
+             * including a final capture that releases the remaining balance. A reversal that
+             * reopens the order clears this timestamp. `null` when `payment_status` isn't `paid`,
              * including an order whose balance was written off without being paid. Format:
              * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
@@ -9051,9 +9295,11 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
              */
             "payment_link_id"?: ((string) | (null));
             /**
-             * Collection progress. An invoice write-off also completes collection without
+             * Collection progress. Reversing a recorded invoice payment can move this back to
+             * unpaid or partially_paid. An invoice write-off also completes collection without
              * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-             * anyOf[1] (Value): string. Collection progress. An invoice write-off also completes
+             * anyOf[1] (Value): string. Collection progress. Reversing a recorded invoice payment
+             * can move this back to unpaid or partially_paid. An invoice write-off also completes
              * collection without receiving the written-off amount. Value enum: "unpaid",
              * "partially_paid", "paid". anyOf[2] (Value): null.
              */
@@ -9124,12 +9370,20 @@ export type OrderInventoryExceptionResolvedInstalledMerchantsEvent = (Exclude<Pa
              */
             "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
             /**
-             * Whether the order still accepts changes and new payments. Refunds, fulfillment,
-             * disputes, returns, and metadata or note edits continue on a closed order. Value
-             * enum: "open", "closed". anyOf[1] (Value): string. Whether the order still accepts
-             * changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or
-             * note edits continue on a closed order. Value enum: "open", "closed". anyOf[2]
-             * (Value): null.
+             * ID of the shop that started checkout. anyOf[1] (Value): string. ID of the shop that
+             * started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". anyOf[2] (Value):
+             * null.
+             */
+            "shop_id"?: ((string) | (null));
+            /**
+             * Whether the order still accepts changes and new payments. An order closed as paid
+             * reopens if reversing a recorded invoice payment leaves an outstanding order balance.
+             * Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a
+             * closed order. Value enum: "open", "closed". anyOf[1] (Value): string. Whether the
+             * order still accepts changes and new payments. An order closed as paid reopens if
+             * reversing a recorded invoice payment leaves an outstanding order balance. Refunds,
+             * fulfillment, disputes, returns, and metadata or note edits continue on a closed
+             * order. Value enum: "open", "closed". anyOf[2] (Value): null.
              */
             "status"?: (("open" | "closed" | (string & {})) | (null));
             /**
@@ -9340,19 +9594,18 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
      * for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of
      * identity. Always present with merchant credentials. minLength: 1. maxLength: 255.
      * previous_attributes.client_reference.anyOf[2] (Value): null. previous_attributes.closed_at
-     * (Optional): string or null. When the order closed. Present exactly when status is closed.
-     * Set once at the transition and never changed. previous_attributes.closed_at.anyOf[1]
-     * (Value): string. When the order closed. Present exactly when status is closed. Set once at
-     * the transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * (Optional): string or null. When the order last closed. Present exactly when status is
+     * closed. previous_attributes.closed_at.anyOf[1] (Value): string. When the order last closed.
+     * Present exactly when status is closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * previous_attributes.closed_at.anyOf[2] (Value): null. previous_attributes.closed_reason
-     * (Optional): string or null. Why the order closed. Present exactly when status is closed. Set
-     * once at closure. Unrecognized reasons are returned as other; new values may be added. Value
-     * enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+     * (Optional): string or null. Why the order closed. Present exactly when status is closed.
+     * Flint returns other for an unrecognized reason and may add new values. Value enum:
+     * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
      * "superseded", "return_resolution_canceled", "other".
      * previous_attributes.closed_reason.anyOf[1] (Value): string. Why the order closed. Present
-     * exactly when status is closed. Set once at closure. Unrecognized reasons are returned as
-     * other; new values may be added. Value enum: "invoice_voided", "paid", "closed_by_merchant",
-     * "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+     * exactly when status is closed. Flint returns other for an unrecognized reason and may add
+     * new values. Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired",
+     * "written_off", "superseded", "return_resolution_canceled", "other".
      * previous_attributes.closed_reason.anyOf[2] (Value): null.
      * previous_attributes.closed_reason_message (Optional): string or null. The caller note
      * supplied when closing the order. System closures leave it absent. It is not shown to the
@@ -9570,26 +9823,27 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
      * receipts and merchant reference. previous_attributes.order_number.anyOf[2] (Value): null.
      * previous_attributes.origin (Optional): string or null. How the order was created. invoice
      * means a Quick Pay invoice created the order; attaching an invoice to an existing order
-     * preserves its origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-     * "subscription", "invoice". previous_attributes.origin.anyOf[1] (Value): string. How the
-     * order was created. invoice means a Quick Pay invoice created the order; attaching an invoice
-     * to an existing order preserves its origin. Value enum: "virtual_terminal", "payment_link",
-     * "checkout", "api", "subscription", "invoice". previous_attributes.origin.anyOf[2] (Value):
-     * null. previous_attributes.paid_at (Optional): string or null. When `payment_status` became
-     * `paid`, including a final capture that releases the remaining balance. Set once and never
-     * changed, including after refunds. `null` when `payment_status` isn't `paid`, including an
-     * order whose balance was written off without being paid. previous_attributes.paid_at.anyOf[1]
-     * (Value): string. When `payment_status` became `paid`, including a final capture that
-     * releases the remaining balance. Set once and never changed, including after refunds. `null`
-     * when `payment_status` isn't `paid`, including an order whose balance was written off without
-     * being paid. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.paid_at.anyOf[2] (Value): null. previous_attributes.payment_intent_ids
-     * (Optional): Array of string or null. IDs of the payment intents created to collect this
-     * order. previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the
+     * preserves its origin. Value enum: "virtual_terminal", "payment_link", "shop", "checkout",
+     * "api", "subscription", "invoice". previous_attributes.origin.anyOf[1] (Value): string. How
+     * the order was created. invoice means a Quick Pay invoice created the order; attaching an
+     * invoice to an existing order preserves its origin. Value enum: "virtual_terminal",
+     * "payment_link", "shop", "checkout", "api", "subscription", "invoice".
+     * previous_attributes.origin.anyOf[2] (Value): null. previous_attributes.paid_at (Optional):
+     * string or null. When the current paid state began, including a final capture that releases
+     * the remaining balance. A reversal that reopens the order clears this timestamp. `null` when
+     * `payment_status` isn't `paid`, including an order whose balance was written off without
+     * being paid. previous_attributes.paid_at.anyOf[1] (Value): string. When the current paid
+     * state began, including a final capture that releases the remaining balance. A reversal that
+     * reopens the order clears this timestamp. `null` when `payment_status` isn't `paid`,
+     * including an order whose balance was written off without being paid. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". previous_attributes.paid_at.anyOf[2] (Value): null.
+     * previous_attributes.payment_intent_ids (Optional): Array of string or null. IDs of the
      * payment intents created to collect this order.
-     * previous_attributes.payment_intent_ids.anyOf[1][] (Value): string. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". previous_attributes.payment_intent_ids.anyOf[2] (Value):
-     * null. previous_attributes.payment_intents (Optional): Array of {@link
+     * previous_attributes.payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment
+     * intents created to collect this order. previous_attributes.payment_intent_ids.anyOf[1][]
+     * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * previous_attributes.payment_intent_ids.anyOf[2] (Value): null.
+     * previous_attributes.payment_intents (Optional): Array of {@link
      * ExpandedPaymentIntentSummaryPreviousAttributes} or null. Payment intents included when
      * `expand` names `payment_intents`. previous_attributes.payment_intents.anyOf[1] (Value):
      * Array of {@link ExpandedPaymentIntentSummaryPreviousAttributes}. Payment intents included
@@ -9603,10 +9857,12 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
      * order or started the subscription it renews. Absent for other orders. Filter GET /v1/orders
      * by payment_link_id to list a link's orders. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      * previous_attributes.payment_link_id.anyOf[2] (Value): null.
-     * previous_attributes.payment_status (Optional): string or null. Collection progress. An
+     * previous_attributes.payment_status (Optional): string or null. Collection progress.
+     * Reversing a recorded invoice payment can move this back to unpaid or partially_paid. An
      * invoice write-off also completes collection without receiving the written-off amount. Value
      * enum: "unpaid", "partially_paid", "paid". previous_attributes.payment_status.anyOf[1]
-     * (Value): string. Collection progress. An invoice write-off also completes collection without
+     * (Value): string. Collection progress. Reversing a recorded invoice payment can move this
+     * back to unpaid or partially_paid. An invoice write-off also completes collection without
      * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
      * previous_attributes.payment_status.anyOf[2] (Value): null.
      * previous_attributes.pending_order_edit_id (Optional): string or null. The order edit waiting
@@ -9663,18 +9919,23 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
      * refunded, credited, written off, and settled as tips, and what is still outstanding.
      * previous_attributes.settlement_amounts.anyOf[1] (Value): {@link
      * OrderSettlementAmountsPreviousAttributes}. previous_attributes.settlement_amounts.anyOf[2]
-     * (Value): null. previous_attributes.status (Optional): string or null. Whether the order
-     * still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and
-     * metadata or note edits continue on a closed order. Value enum: "open", "closed".
-     * previous_attributes.status.anyOf[1] (Value): string. Whether the order still accepts changes
-     * and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits
-     * continue on a closed order. Value enum: "open", "closed".
-     * previous_attributes.status.anyOf[2] (Value): null. previous_attributes.subscription
-     * (Optional): {@link ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription
-     * summary included when `expand` names `subscription`; `null` when expanded and this order
-     * does not bill a subscription. Present only when `expand` includes `subscription`; `null`
-     * when expanded and there is no related subscription.
-     * previous_attributes.subscription.anyOf[1] (Value): {@link
+     * (Value): null. previous_attributes.shop_id (Optional): string or null. ID of the shop that
+     * started checkout. previous_attributes.shop_id.anyOf[1] (Value): string. ID of the shop that
+     * started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE".
+     * previous_attributes.shop_id.anyOf[2] (Value): null. previous_attributes.status (Optional):
+     * string or null. Whether the order still accepts changes and new payments. An order closed as
+     * paid reopens if reversing a recorded invoice payment leaves an outstanding order balance.
+     * Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed
+     * order. Value enum: "open", "closed". previous_attributes.status.anyOf[1] (Value): string.
+     * Whether the order still accepts changes and new payments. An order closed as paid reopens if
+     * reversing a recorded invoice payment leaves an outstanding order balance. Refunds,
+     * fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value
+     * enum: "open", "closed". previous_attributes.status.anyOf[2] (Value): null.
+     * previous_attributes.subscription (Optional): {@link
+     * ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription summary included when
+     * `expand` names `subscription`; `null` when expanded and this order does not bill a
+     * subscription. Present only when `expand` includes `subscription`; `null` when expanded and
+     * there is no related subscription. previous_attributes.subscription.anyOf[1] (Value): {@link
      * ExpandedSubscriptionSummaryPreviousAttributes}. previous_attributes.subscription.anyOf[2]
      * (Value): null. previous_attributes.subscription_cycle (Optional): integer or null. Charged
      * subscription cycle associated with this order. Signup is cycle 1; unpaid retries and skipped
@@ -9805,18 +10066,17 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
          * Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's
          * browser, so treat it as a claim, not proof of identity. Always present with merchant
          * credentials. minLength: 1. maxLength: 255. client_reference.anyOf[2] (Value): null.
-         * closed_at (Optional): string or null. When the order closed. Present exactly when status
-         * is closed. Set once at the transition and never changed. closed_at.anyOf[1] (Value):
-         * string. When the order closed. Present exactly when status is closed. Set once at the
-         * transition and never changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * closed_at.anyOf[2] (Value): null. closed_reason (Optional): string or null. Why the
-         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
-         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
-         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
-         * "return_resolution_canceled", "other". closed_reason.anyOf[1] (Value): string. Why the
-         * order closed. Present exactly when status is closed. Set once at closure. Unrecognized
-         * reasons are returned as other; new values may be added. Value enum: "invoice_voided",
-         * "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+         * closed_at (Optional): string or null. When the order last closed. Present exactly when
+         * status is closed. closed_at.anyOf[1] (Value): string. When the order last closed.
+         * Present exactly when status is closed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". closed_at.anyOf[2] (Value): null. closed_reason (Optional):
+         * string or null. Why the order closed. Present exactly when status is closed. Flint
+         * returns other for an unrecognized reason and may add new values. Value enum:
+         * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
+         * "superseded", "return_resolution_canceled", "other". closed_reason.anyOf[1] (Value):
+         * string. Why the order closed. Present exactly when status is closed. Flint returns other
+         * for an unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+         * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
          * "return_resolution_canceled", "other". closed_reason.anyOf[2] (Value): null.
          * closed_reason_message (Optional): string or null. The caller note supplied when closing
          * the order. System closures leave it absent. It is not shown to the buyer.
@@ -10012,18 +10272,18 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
          * receipts and merchant reference. order_number.anyOf[2] (Value): null. origin (Optional):
          * string or null. How the order was created. invoice means a Quick Pay invoice created the
          * order; attaching an invoice to an existing order preserves its origin. Value enum:
-         * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-         * origin.anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
-         * invoice created the order; attaching an invoice to an existing order preserves its
-         * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
+         * "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription",
+         * "invoice". origin.anyOf[1] (Value): string. How the order was created. invoice means a
+         * Quick Pay invoice created the order; attaching an invoice to an existing order preserves
+         * its origin. Value enum: "virtual_terminal", "payment_link", "shop", "checkout", "api",
          * "subscription", "invoice". origin.anyOf[2] (Value): null. paid_at (Optional): string or
-         * null. When `payment_status` became `paid`, including a final capture that releases the
-         * remaining balance. Set once and never changed, including after refunds. `null` when
+         * null. When the current paid state began, including a final capture that releases the
+         * remaining balance. A reversal that reopens the order clears this timestamp. `null` when
          * `payment_status` isn't `paid`, including an order whose balance was written off without
-         * being paid. paid_at.anyOf[1] (Value): string. When `payment_status` became `paid`,
-         * including a final capture that releases the remaining balance. Set once and never
-         * changed, including after refunds. `null` when `payment_status` isn't `paid`, including
-         * an order whose balance was written off without being paid. Format: date-time. Example:
+         * being paid. paid_at.anyOf[1] (Value): string. When the current paid state began,
+         * including a final capture that releases the remaining balance. A reversal that reopens
+         * the order clears this timestamp. `null` when `payment_status` isn't `paid`, including an
+         * order whose balance was written off without being paid. Format: date-time. Example:
          * "2026-08-02T16:00:00Z". paid_at.anyOf[2] (Value): null. payment_intent_ids (Optional):
          * Array of string or null. IDs of the payment intents created to collect this order.
          * payment_intent_ids.anyOf[1] (Value): Array of string. IDs of the payment intents created
@@ -10041,10 +10301,12 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
          * Payment link that created this order or started the subscription it renews. Absent for
          * other orders. Filter GET /v1/orders by payment_link_id to list a link's orders. Example:
          * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". payment_link_id.anyOf[2] (Value): null. payment_status
-         * (Optional): string or null. Collection progress. An invoice write-off also completes
+         * (Optional): string or null. Collection progress. Reversing a recorded invoice payment
+         * can move this back to unpaid or partially_paid. An invoice write-off also completes
          * collection without receiving the written-off amount. Value enum: "unpaid",
          * "partially_paid", "paid". payment_status.anyOf[1] (Value): string. Collection progress.
-         * An invoice write-off also completes collection without receiving the written-off amount.
+         * Reversing a recorded invoice payment can move this back to unpaid or partially_paid. An
+         * invoice write-off also completes collection without receiving the written-off amount.
          * Value enum: "unpaid", "partially_paid", "paid". payment_status.anyOf[2] (Value): null.
          * pending_order_edit_id (Optional): string or null. The order edit waiting for its balance
          * payment. While it is set, the units that edit removes can't join a fulfillment and the
@@ -10092,34 +10354,39 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
          * null. How much of the order has been paid, refunded, credited, written off, and settled
          * as tips, and what is still outstanding. settlement_amounts.anyOf[1] (Value): {@link
          * OrderSettlementAmountsPreviousAttributes}. settlement_amounts.anyOf[2] (Value): null.
-         * status (Optional): string or null. Whether the order still accepts changes and new
-         * payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue
-         * on a closed order. Value enum: "open", "closed". status.anyOf[1] (Value): string.
-         * Whether the order still accepts changes and new payments. Refunds, fulfillment,
-         * disputes, returns, and metadata or note edits continue on a closed order. Value enum:
-         * "open", "closed". status.anyOf[2] (Value): null. subscription (Optional): {@link
-         * ExpandedSubscriptionSummaryPreviousAttributes} or null. Subscription summary included
-         * when `expand` names `subscription`; `null` when expanded and this order does not bill a
-         * subscription. Present only when `expand` includes `subscription`; `null` when expanded
-         * and there is no related subscription. subscription.anyOf[1] (Value): {@link
-         * ExpandedSubscriptionSummaryPreviousAttributes}. subscription.anyOf[2] (Value): null.
-         * subscription_cycle (Optional): integer or null. Charged subscription cycle associated
-         * with this order. Signup is cycle 1; unpaid retries and skipped renewals do not advance
-         * the cycle. subscription_cycle.anyOf[1] (Value): integer. Charged subscription cycle
-         * associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do
-         * not advance the cycle. Format: uint64. minimum: 0. subscription_cycle.anyOf[2] (Value):
-         * null. subscription_delivery_changed_at (Optional): string or null. Time the subscriber
-         * changed delivery after this paid renewal was prepared. The order keeps its committed
-         * destination until you correct it or refund and replace it.
-         * subscription_delivery_changed_at.anyOf[1] (Value): string. Time the subscriber changed
-         * delivery after this paid renewal was prepared. The order keeps its committed destination
-         * until you correct it or refund and replace it. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". subscription_delivery_changed_at.anyOf[2] (Value): null.
-         * subscription_delivery_number (Optional): integer or null. Position of this delivery
-         * among the deliveries one charge paid for, starting at 2. Null when this is not a prepaid
-         * delivery order. subscription_delivery_number.anyOf[1] (Value): integer. Position of this
+         * shop_id (Optional): string or null. ID of the shop that started checkout.
+         * shop_id.anyOf[1] (Value): string. ID of the shop that started checkout. Example:
+         * "shop_01KEZF7C005VQBPV4FZHDZPAHE". shop_id.anyOf[2] (Value): null. status (Optional):
+         * string or null. Whether the order still accepts changes and new payments. An order
+         * closed as paid reopens if reversing a recorded invoice payment leaves an outstanding
+         * order balance. Refunds, fulfillment, disputes, returns, and metadata or note edits
+         * continue on a closed order. Value enum: "open", "closed". status.anyOf[1] (Value):
+         * string. Whether the order still accepts changes and new payments. An order closed as
+         * paid reopens if reversing a recorded invoice payment leaves an outstanding order
+         * balance. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on
+         * a closed order. Value enum: "open", "closed". status.anyOf[2] (Value): null.
+         * subscription (Optional): {@link ExpandedSubscriptionSummaryPreviousAttributes} or null.
+         * Subscription summary included when `expand` names `subscription`; `null` when expanded
+         * and this order does not bill a subscription. Present only when `expand` includes
+         * `subscription`; `null` when expanded and there is no related subscription.
+         * subscription.anyOf[1] (Value): {@link ExpandedSubscriptionSummaryPreviousAttributes}.
+         * subscription.anyOf[2] (Value): null. subscription_cycle (Optional): integer or null.
+         * Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries
+         * and skipped renewals do not advance the cycle. subscription_cycle.anyOf[1] (Value):
+         * integer. Charged subscription cycle associated with this order. Signup is cycle 1;
+         * unpaid retries and skipped renewals do not advance the cycle. Format: uint64. minimum:
+         * 0. subscription_cycle.anyOf[2] (Value): null. subscription_delivery_changed_at
+         * (Optional): string or null. Time the subscriber changed delivery after this paid renewal
+         * was prepared. The order keeps its committed destination until you correct it or refund
+         * and replace it. subscription_delivery_changed_at.anyOf[1] (Value): string. Time the
+         * subscriber changed delivery after this paid renewal was prepared. The order keeps its
+         * committed destination until you correct it or refund and replace it. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". subscription_delivery_changed_at.anyOf[2] (Value):
+         * null. subscription_delivery_number (Optional): integer or null. Position of this
          * delivery among the deliveries one charge paid for, starting at 2. Null when this is not
-         * a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+         * a prepaid delivery order. subscription_delivery_number.anyOf[1] (Value): integer.
+         * Position of this delivery among the deliveries one charge paid for, starting at 2. Null
+         * when this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
          * subscription_delivery_number.anyOf[2] (Value): null. subscription_id (Optional): string
          * or null. ID of the subscription this order bills. Absent on an order that isn't from a
          * subscription. subscription_id.anyOf[1] (Value): string. ID of the subscription this
@@ -10236,21 +10503,20 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
              */
             "client_reference"?: ((string) | (null));
             /**
-             * When the order closed. Present exactly when status is closed. Set once at the
-             * transition and never changed. anyOf[1] (Value): string. When the order closed.
-             * Present exactly when status is closed. Set once at the transition and never changed.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+             * When the order last closed. Present exactly when status is closed. anyOf[1] (Value):
+             * string. When the order last closed. Present exactly when status is closed. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
             "closed_at"?: ((string) | (null));
             /**
-             * Why the order closed. Present exactly when status is closed. Set once at closure.
-             * Unrecognized reasons are returned as other; new values may be added. Value enum:
-             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-             * "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): string. Why
-             * the order closed. Present exactly when status is closed. Set once at closure.
-             * Unrecognized reasons are returned as other; new values may be added. Value enum:
-             * "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off",
-             * "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): null.
+             * Why the order closed. Present exactly when status is closed. Flint returns other for
+             * an unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+             * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+             * "return_resolution_canceled", "other". anyOf[1] (Value): string. Why the order
+             * closed. Present exactly when status is closed. Flint returns other for an
+             * unrecognized reason and may add new values. Value enum: "invoice_voided", "paid",
+             * "closed_by_merchant", "checkout_expired", "written_off", "superseded",
+             * "return_resolution_canceled", "other". anyOf[2] (Value): null.
              */
             "closed_reason"?: (("invoice_voided"
                 | "paid"
@@ -10550,14 +10816,15 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
             /**
              * How the order was created. invoice means a Quick Pay invoice created the order;
              * attaching an invoice to an existing order preserves its origin. Value enum:
-             * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-             * anyOf[1] (Value): string. How the order was created. invoice means a Quick Pay
-             * invoice created the order; attaching an invoice to an existing order preserves its
-             * origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-             * "subscription", "invoice". anyOf[2] (Value): null.
+             * "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription",
+             * "invoice". anyOf[1] (Value): string. How the order was created. invoice means a
+             * Quick Pay invoice created the order; attaching an invoice to an existing order
+             * preserves its origin. Value enum: "virtual_terminal", "payment_link", "shop",
+             * "checkout", "api", "subscription", "invoice". anyOf[2] (Value): null.
              */
             "origin"?: (("virtual_terminal"
                 | "payment_link"
+                | "shop"
                 | "checkout"
                 | "api"
                 | "subscription"
@@ -10565,12 +10832,12 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
                 | (string & {}))
                 | (null));
             /**
-             * When `payment_status` became `paid`, including a final capture that releases the
-             * remaining balance. Set once and never changed, including after refunds. `null` when
-             * `payment_status` isn't `paid`, including an order whose balance was written off
-             * without being paid. anyOf[1] (Value): string. When `payment_status` became `paid`,
-             * including a final capture that releases the remaining balance. Set once and never
-             * changed, including after refunds. `null` when `payment_status` isn't `paid`,
+             * When the current paid state began, including a final capture that releases the
+             * remaining balance. A reversal that reopens the order clears this timestamp. `null`
+             * when `payment_status` isn't `paid`, including an order whose balance was written off
+             * without being paid. anyOf[1] (Value): string. When the current paid state began,
+             * including a final capture that releases the remaining balance. A reversal that
+             * reopens the order clears this timestamp. `null` when `payment_status` isn't `paid`,
              * including an order whose balance was written off without being paid. Format:
              * date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
              */
@@ -10598,9 +10865,11 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
              */
             "payment_link_id"?: ((string) | (null));
             /**
-             * Collection progress. An invoice write-off also completes collection without
+             * Collection progress. Reversing a recorded invoice payment can move this back to
+             * unpaid or partially_paid. An invoice write-off also completes collection without
              * receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
-             * anyOf[1] (Value): string. Collection progress. An invoice write-off also completes
+             * anyOf[1] (Value): string. Collection progress. Reversing a recorded invoice payment
+             * can move this back to unpaid or partially_paid. An invoice write-off also completes
              * collection without receiving the written-off amount. Value enum: "unpaid",
              * "partially_paid", "paid". anyOf[2] (Value): null.
              */
@@ -10671,12 +10940,20 @@ export type OrderInventoryExceptionResolvedMerchantEvent = (Exclude<MerchantWebh
              */
             "settlement_amounts"?: ((OrderSettlementAmountsPreviousAttributes) | (null));
             /**
-             * Whether the order still accepts changes and new payments. Refunds, fulfillment,
-             * disputes, returns, and metadata or note edits continue on a closed order. Value
-             * enum: "open", "closed". anyOf[1] (Value): string. Whether the order still accepts
-             * changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or
-             * note edits continue on a closed order. Value enum: "open", "closed". anyOf[2]
-             * (Value): null.
+             * ID of the shop that started checkout. anyOf[1] (Value): string. ID of the shop that
+             * started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". anyOf[2] (Value):
+             * null.
+             */
+            "shop_id"?: ((string) | (null));
+            /**
+             * Whether the order still accepts changes and new payments. An order closed as paid
+             * reopens if reversing a recorded invoice payment leaves an outstanding order balance.
+             * Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a
+             * closed order. Value enum: "open", "closed". anyOf[1] (Value): string. Whether the
+             * order still accepts changes and new payments. An order closed as paid reopens if
+             * reversing a recorded invoice payment leaves an outstanding order balance. Refunds,
+             * fulfillment, disputes, returns, and metadata or note edits continue on a closed
+             * order. Value enum: "open", "closed". anyOf[2] (Value): null.
              */
             "status"?: (("open" | "closed" | (string & {})) | (null));
             /**
@@ -11515,126 +11792,3 @@ export type OrderLineItemModifierInputTextRequestInput = ({
 }) & ({
     "quantity"?: never;
 })));
-export type OrderLineItemModifierPreviousAttributes = {
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. anyOf[1] (Value):
-     * {@link MetadataMap}. anyOf[2] (Value): null.
-     */
-    "metadata"?: ((MetadataMap) | (null));
-    /**
-     * Name of the modifier group recorded when this selection was added to the order line item.
-     * anyOf[1] (Value): string. Name of the modifier group recorded when this selection was added
-     * to the order line item. anyOf[2] (Value): null.
-     */
-    "modifier_group_name"?: ((string) | (null));
-    /**
-     * Identifier of the selected catalog modifier. If its group is owned by a modifier set
-     * (source: inline), read the group through GET /v1/modifier-sets/{modifier_set_id};
-     * /v1/modifier-groups doesn't return it. anyOf[1] (Value): string. Identifier of the selected
-     * catalog modifier. If its group is owned by a modifier set (source: inline), read the group
-     * through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it.
-     * Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S". anyOf[2] (Value): null.
-     */
-    "modifier_id"?: ((string) | (null));
-    /**
-     * Name of the selected modifier recorded on the order line item. anyOf[1] (Value): string.
-     * Name of the selected modifier recorded on the order line item. anyOf[2] (Value): null.
-     */
-    "name"?: ((string) | (null));
-    /**
-     * Stable identifier of the selected modifier on this order line item. anyOf[1] (Value):
-     * string. Stable identifier of the selected modifier on this order line item. Example:
-     * "olim_01KEZF7C00YP0WSZGRAD25EB1Z". anyOf[2] (Value): null.
-     */
-    "order_line_item_modifier_id"?: ((string) | (null));
-    /**
-     * Whole-number quantity; fractional quantities are not supported. anyOf[1] (Value): integer.
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. anyOf[2]
-     * (Value): null.
-     */
-    "quantity"?: ((number) | (null));
-    /**
-     * Whether this selection appears in fulfillment details, recorded when selected. anyOf[1]
-     * (Value): boolean. Whether this selection appears in fulfillment details, recorded when
-     * selected. anyOf[2] (Value): null.
-     */
-    "show_on_fulfillment"?: ((boolean) | (null));
-    /**
-     * Whether this selection appears on buyer receipts, recorded when selected. anyOf[1] (Value):
-     * boolean. Whether this selection appears on buyer receipts, recorded when selected. anyOf[2]
-     * (Value): null.
-     */
-    "show_on_receipt"?: ((boolean) | (null));
-    /**
-     * Whether the selection is a catalog list modifier or buyer-entered text. Value enum:
-     * "catalog_modifier", "text". anyOf[1] (Value): string. Whether the selection is a catalog
-     * list modifier or buyer-entered text. Value enum: "catalog_modifier", "text". anyOf[2]
-     * (Value): null.
-     */
-    "source_type"?: (("catalog_modifier" | "text" | (string & {})) | (null));
-    /**
-     * Selected text group and buyer-entered value. Read an inline text group through its owning
-     * modifier set. anyOf[1] (Value): {@link TextModifierRequestPreviousAttributes}. anyOf[2]
-     * (Value): null.
-     */
-    "text"?: ((TextModifierRequestPreviousAttributes) | (null));
-    /**
-     * Buyer-entered text recorded for a text modifier selection. anyOf[1] (Value): string.
-     * Buyer-entered text recorded for a text modifier selection. anyOf[2] (Value): null.
-     */
-    "text_value"?: ((string) | (null));
-    /**
-     * Total price this selection adds to the line: `unit_price_delta_money` times the selection's
-     * `quantity` times the line item's `quantity`. Always 0 for text selections. anyOf[1] (Value):
-     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "total_money"?: ((MoneyValuePreviousAttributes) | (null));
-    /**
-     * Amount added to the item's unit price for each unit of this selection, recorded when
-     * selected. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "unit_price_delta_money"?: ((MoneyValuePreviousAttributes) | (null));
-};
-/**
- * A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier,
- * with a quantity.
- */
-export type OrderLineItemModifierRequest = ({
-    /**
-     * Caller-owned metadata for this selection, returned on the order line item's modifier. Values
-     * can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned,
-     * and cannot be written through the public API. Caller-owned key-value data for a new or
-     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
-     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
-     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * ID of the existing modifier. Treated as an opaque resource reference; accepted spellings
-     * follow resource ID validation. Its resolved price and the resulting line subtotal must
-     * satisfy the order money ceiling. The amount and every computed order amount must not exceed
-     * 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this
-     * ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower
-     * payment option limits can apply. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
-     */
-    "modifier_id"?: string;
-    /**
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z".
-     */
-    "order_line_item_modifier_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity"?: number;
-    /**
-     * The text to use. Send it with a `text` modifier. Text a buyer entered for a text modifier
-     * group on an order line item.
-     */
-    "text"?: TextModifierRequest;
-    /** Selects the type branch. Value enum: "catalog", "text". */
-    "type": "catalog" | "text" | (string & {});
-})
-    & ((Exclude<OrderLineItemModifierInputCatalog & object, readonly unknown[]>)
-    | (Exclude<OrderLineItemModifierInputText & object, readonly unknown[]>)
-    | (Record<string, unknown>));

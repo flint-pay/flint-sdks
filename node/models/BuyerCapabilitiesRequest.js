@@ -1,9 +1,9 @@
-import { d10838 as c0 } from '../descriptors/data/514.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d10889 as c1, d10891 as c3 } from '../descriptors/data/516.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d10839 as c2 } from '../descriptors/data/515.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d10838 as d10838 } from '../descriptors/data/514.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
+import { d10925 as c0 } from '../descriptors/data/519.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d10976 as c1, d10978 as c3 } from '../descriptors/data/521.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d10926 as c2 } from '../descriptors/data/520.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d10925 as d10925 } from '../descriptors/data/519.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d10838;
+const read = d10925;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["BuyerCapabilitiesRequest"]:c0(),["BuyerPauseCapability"]:c1(),["BuyerRetentionOfferRequest"]:c2(),["BuyerSkipCapability"]:c3()}); }
 export { codec as _validate };

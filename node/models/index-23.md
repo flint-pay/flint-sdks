@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# MerchantBillingBalance to OnboardingProfile
+# MerchantAccountSessionStripeComponent to OnboardingAdvanceRequest
 
+- [MerchantAccountSessionStripeComponent](MerchantAccountSessionStripeComponent.md)
+- [MerchantAccountSessionStripeRequirements](MerchantAccountSessionStripeRequirements.md)
 - [MerchantBillingBalance](MerchantBillingBalance.md)
 - [MerchantBillingBalanceListResponse](MerchantBillingBalanceListResponse.md)
 - [MerchantBillingBalanceResponse](MerchantBillingBalanceResponse.md)
@@ -100,6 +102,4 @@
 - [OAuthTokenRequestTokenExchangeInput](OAuthTokenRequestTokenExchangeInput.md)
 - [OAuthTokenResponse](OAuthTokenResponse.md)
 - [OnboardingAdvanceRequest](OnboardingAdvanceRequest.md)
-- [OnboardingAdvanceRequestInput](OnboardingAdvanceRequestInput.md)
-- [OnboardingProfile](OnboardingProfile.md)
 

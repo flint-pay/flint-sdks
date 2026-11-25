@@ -150,7 +150,7 @@ const result = await client.customers.create(undefined, { idempotencyKey: idempo
 
 ### customers.createAccessLink
 
-Signs the buyer in to your Flint-hosted customer account as this customer. Works for 15 minutes and one open by default. Set expires_in_seconds to 259200 for a 72-hour single-use link. Set delivery to email to have Flint enqueue that 72-hour link in a store-branded email to the customer; the response contains sent=true and a masked recipient_email instead of the credential. The url is a bearer credential. Flint returns it only in this response and in a retry with the same idempotency key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. Optionally send return_url for a destination on your site, or omit the body. Requires customers.sessions.write. Idempotency is scoped to the merchant, credential, environment, and this customer's route. A replay returns the original link without extending its lifetime or replenishing its open. Without an idempotency key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with the request ID before sending a new request.
+Signs the buyer in to your Flint-hosted customer account as this customer. The default purpose, customer_account, opens account home. Use payment_method_setup to open Add card for your store. The link works once within 15 minutes by default. Set expires_in_seconds to 259200 for a 72-hour link. With delivery: email, Flint queues a store-branded sign-in or card request email, depending on purpose. The emailed link works once within 72 hours. Both responses include purpose. An email response includes sent=true and a masked recipient_email in place of the credential. The url is a bearer credential. Flint returns it only in this response and in a retry with the same idempotency key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. Optionally send return_url for a destination on your site, or omit the body. Requires customers.sessions.write. Idempotency is scoped to the merchant, credential, environment, and this customer's route. A replay keeps the original result, link lifetime, and open limit. Without an idempotency key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with the request ID before sending a new request.
 
 `POST /v1/customers/{customer_id}/access-links`
 
@@ -161,7 +161,7 @@ Signature: `createAccessLink(customer_id: InputValue<string>, params?: Customers
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `customer_id` | Required | string | Flint customer ID. Must be a valid ID with prefix cus_. Malformed IDs return 400 INVALID_REQUEST with detail INVALID_VALUE; well-formed IDs that do not exist return 404 RESOURCE_NOT_FOUND. |
-| `body` | Optional | [CreateCustomerAccessLinkRequestInput](../models/CreateCustomerAccessLinkRequest.md#createcustomeraccesslinkrequest) | Delivery mode, link lifetime, and return destination for a customer account link. |
+| `body` | Optional | [CreateCustomerAccessLinkRequestInput](../models/CreateCustomerAccessLinkRequest.md#createcustomeraccesslinkrequest) | Purpose, delivery mode, link lifetime, and return destination for a customer access link. |
 
 Body model: [CreateCustomerAccessLinkRequestInput](../models/CreateCustomerAccessLinkRequest.md#createcustomeraccesslinkrequest).
 
@@ -171,6 +171,7 @@ Body model: [CreateCustomerAccessLinkRequestInput](../models/CreateCustomerAcces
 | --- | --- | --- | --- |
 | `delivery` | Optional | string | link returns the credential for your server to relay. email asks Flint to enqueue a store-branded email to the customer's current address and returns only a delivery acknowledgement and masked recipient. Default: `"link"`. Values: `"link"`, `"email"`. |
 | `expires_in_seconds` | Optional | integer | 900 (15 minutes) or 259200 (72 hours). Omission keeps 900 for link delivery; email delivery always uses 259200. Both links are single-use. An idempotent replay keeps the original expiry. Values: `900`, `259200`. |
+| `purpose` | Optional | string | customer_account opens the account home. payment_method_setup opens Add card for your store and uses a card request email with email delivery. Default: `"customer_account"`. Values: `"customer_account"`, `"payment_method_setup"`. |
 | `return_url` | Optional | string | Where the buyer can return to on your site. Kept for the browser session this link starts, until sign-out or session end. Absolute HTTPS URL without credentials; test mode also accepts HTTP loopback URLs. Up to 2,048 characters. Query strings and fragments are allowed. Omit it for no return destination. Format: `uri`. minLength: `1`. maxLength: `2048`. |
 
 #### Response

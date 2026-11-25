@@ -1,1 +1,1 @@
-{"shared":"TaxConnection","dependencies":["SharedCodec102","SharedCodec103","SharedCodec3023","SharedCodec3024","TaxConnection","TaxConnectionDisclosure","TaxCountryCoverage","TaxDisclosureStatement"]}
+{"shared":"TaxConnection","dependencies":["SharedCodec102","SharedCodec103","SharedCodec3070","SharedCodec3071","TaxConnection","TaxConnectionDisclosure","TaxCountryCoverage","TaxDisclosureStatement"]}

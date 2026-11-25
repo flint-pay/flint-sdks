@@ -1,1 +1,0 @@
-{"shared":"PaymentLinkProductOptionValue","phpRepresentation":{"kind":"record","fields":{"option_value_id":{"kind":"value","type":"string"},"value":{"kind":"value","type":"string"}}},"dependencies":["PaymentLinkProductOptionValue"]}

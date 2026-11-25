@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# CreditNoteAllocation to CustomerTaxID
+# CreateWorkloadIdentityRequestInput to CustomerTaxExemptionListResponse
 
+- [CreateWorkloadIdentityRequestInput](CreateWorkloadIdentityRequestInput.md)
+- [CreditNote](CreditNote.md)
 - [CreditNoteAllocation](CreditNoteAllocation.md)
 - [CreditNoteAllocationCreatedInstalledMerchantsEvent](CreditNoteAllocationCreatedInstalledMerchantsEvent.md)
 - [CreditNoteAllocationCreatedMerchantEvent](CreditNoteAllocationCreatedMerchantEvent.md)
@@ -100,6 +102,4 @@
 - [CustomerTaxExemptionCoverageStatesPreviousAttributes](CustomerTaxExemptionCoverageStatesPreviousAttributes.md)
 - [CustomerTaxExemptionCoverageStatesRequestInput](CustomerTaxExemptionCoverageStatesRequestInput.md)
 - [CustomerTaxExemptionListResponse](CustomerTaxExemptionListResponse.md)
-- [CustomerTaxExemptionResponse](CustomerTaxExemptionResponse.md)
-- [CustomerTaxID](CustomerTaxID.md)
 

@@ -1,57 +1,630 @@
 import type {
-    BuyerInstructionsConfig,
-    BuyerInstructionsConfigRequestInput,
-    BuyerInstructionsConfigPreviousAttributes
-} from './types-2.js';
-import type {
+    DeliveryEligibilityExpressionRequestInput,
+    DeliveryEligibilityExpressionPreviousAttributes,
+    DeliveryEstimateRulePreviousAttributes,
     DeliveryEligibilityExpressionRequest,
     DeliveryEstimateRule,
-    DeliveryEligibilityExpressionRequestInput,
     DeliveryEstimateRuleRequestInput,
     DeliveryMethodConfiguration,
-    DeliveryMethodConfigurationPreviousAttributes,
     DeliveryMethod,
     DeliveryLocationSetsDeleteParams,
     DeliveryInputRequirement,
     DeliveryLocationSummaryResource,
-    DeliveryLocationSummaryResourcePreviousAttributes,
-    DeliveryMerchantDiagnostic
+    DeliveryLocationSummaryResourcePreviousAttributes
 } from './types-19.js';
-import type { DeliveryPricingStrategyRequest, DeliveryPricingStrategyRequestInput } from './types-21.js';
 import type {
-    DeliveryRecipientRequirement,
+    DeliveryPricingStrategyRequestInput,
+    DeliveryPricingStrategyPreviousAttributes,
+    DeliveryPricingStrategyRequest
+} from './types-21.js';
+import type {
     DeliveryRecipientRequirementRequestInput,
-    DeliveryRecipientRequirementPreviousAttributes
+    DeliveryRecipientRequirementPreviousAttributes,
+    DeliveryRecipientRequirement
 } from './types-23.js';
+import type {
+    DeliveryScheduleWindowRuleRequestInput,
+    DeliveryTransitTimeRuleRequestInput,
+    DeliveryShipmentDetails,
+    DeliveryWindowRequest,
+    DeliveryShipmentDetailsPreviousAttributes,
+    DeliveryWindowResourcePreviousAttributes
+} from './types-24.js';
+import type {
+    BuyerInstructionsConfigPreviousAttributes,
+    BuyerInstructionsConfig,
+    BuyerInstructionsConfigRequestInput
+} from './types-2.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { SubscriptionCounts, SubscriptionCountsPreviousAttributes } from './types-69.js';
-import type { ResponseMeta } from './types-62.js';
+import type { SubscriptionCounts, SubscriptionCountsPreviousAttributes } from './types-70.js';
+import type { ResponseMeta } from './types-63.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateDeliveryMethodRequestInput } from './types-9.js';
 import type { DisputesAcceptParams } from './types-26.js';
-import type { UpdateDeliveryMethodRequestInput } from './types-76.js';
+import type { UpdateDeliveryMethodRequestInput } from './types-77.js';
 import type {
     DeliveryArrivalEstimate,
     DeliveryArrivalEstimatePreviousAttributes,
-    DeliveryAddressAdvisoryResource,
-    DeliveryBuyerLocationResource,
-    DeliveryCandidateOutcomeResource
+    DeliveryAddressAdvisoryResource
 } from './types-18.js';
 import type {
     DeliveryQuoteExecutionLegResource,
     DeliveryQuoteExecutionLegResourcePreviousAttributes,
     DeliveryQuoteLineItemResource
 } from './types-22.js';
-import type {
-    DeliveryShipmentDetails,
-    DeliveryWindowRequest,
-    DeliveryShipmentDetailsPreviousAttributes,
-    DeliveryWindowResourcePreviousAttributes
-} from './types-24.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
 import type { Address } from './types-0.js';
-import type { CreateOrderLineItem } from './types-11.js';
+/**
+ * Patch object: fields you send are applied, fields you omit are unchanged. Each key you send
+ * replaces that part of the configuration as a whole, so send every field you want to keep in
+ * pricing, origin, eligibility, and the other objects. Null removes an optional key, as each field
+ * describes. Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields.
+ * pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a rate,
+ * leave out the ID to create one, and leave out a rate to remove it. The result must be a
+ * configuration you could create, including pickup_mode for pickup methods. An empty configuration
+ * is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires
+ * expected_version. minProperties: 1.
+ */
+export type DeliveryMethodConfigurationPatchRequestInput = {
+    /**
+     * Replaced as a whole: send every field you want to keep. Controls whether checkout collects
+     * buyer instructions for this method. Null disables instruction collection. enabled
+     * (Required): boolean. Whether checkout collects buyer instructions. label (Optional): string.
+     * Checkout field label, without leading or trailing whitespace. Clients use a delivery-type
+     * default when omitted. minLength: 1. maxLength: 255. placeholder (Optional): string. Checkout
+     * field placeholder, without leading or trailing whitespace. Clients use a delivery-type
+     * default when omitted. minLength: 1. maxLength: 500. required (Required): boolean. Whether
+     * the buyer must enter instructions before selecting the option. Requires enabled=true.
+     */
+    "buyer_instructions"?: {
+        /** Whether checkout collects buyer instructions. */
+        "enabled": boolean;
+        /**
+         * Checkout field label, without leading or trailing whitespace. Clients use a
+         * delivery-type default when omitted. minLength: 1. maxLength: 255.
+         */
+        "label"?: string;
+        /**
+         * Checkout field placeholder, without leading or trailing whitespace. Clients use a
+         * delivery-type default when omitted. minLength: 1. maxLength: 500.
+         */
+        "placeholder"?: string;
+        /**
+         * Whether the buyer must enter instructions before selecting the option. Requires
+         * enabled=true.
+         */
+        "required": boolean;
+    }
+        | null;
+    /**
+     * Tax category of the delivery charge, which decides its automatic tax and appears in tax
+     * records and reporting. Automatic tax calculates service_fee, shipping, delivery, handling,
+     * and surcharge at the general rate at the charge location, including the store for pickup.
+     * Null uses settings.tax.default_delivery_tax_category, or, when that is unset, shipping for
+     * shipment, delivery for local_delivery, or service_fee for pickup. Value enum: "service_fee",
+     * "shipping", "delivery", "handling", "surcharge", null.
+     */
+    "charge_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. Conditions that decide where this
+     * method is offered. Null removes the conditions, so the method is offered everywhere the
+     * merchant serves. anyOf[1] (Value): {@link DeliveryEligibilityExpressionRequestInput}. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. anyOf[2] (Value): null.
+     */
+    "eligibility"?: ((DeliveryEligibilityExpressionRequestInput) | (null));
+    /**
+     * Replaced as a whole: send every field you want to keep. The buyer-visible delivery or pickup
+     * estimate. Use type none when the merchant makes no timing promise. Null restores type none,
+     * when the pricing type allows it. schedule_window (Optional): {@link
+     * DeliveryScheduleWindowRuleRequestInput}. Weekly schedule of delivery windows. Set only when
+     * `type` is `schedule_window`. Scheduled-window estimate rule you supply for a delivery
+     * method, defined by its `availability` schedule. transit_time (Optional): {@link
+     * DeliveryTransitTimeRuleRequestInput}. Handling and transit time. Set only when `type` is
+     * `transit_time`. Estimate rule giving a delivery method's handling time and transit time as
+     * ranges of business days. type (Required): string. How Flint estimates timing. Set the
+     * property named by this value. Value enum: "none", "transit_time", "schedule_window".
+     */
+    "estimate"?: {
+        /**
+         * Weekly schedule of delivery windows. Set only when `type` is `schedule_window`.
+         * Scheduled-window estimate rule you supply for a delivery method, defined by its
+         * `availability` schedule.
+         */
+        "schedule_window"?: DeliveryScheduleWindowRuleRequestInput;
+        /**
+         * Handling and transit time. Set only when `type` is `transit_time`. Estimate rule giving
+         * a delivery method's handling time and transit time as ranges of business days.
+         */
+        "transit_time"?: DeliveryTransitTimeRuleRequestInput;
+        /**
+         * How Flint estimates timing. Set the property named by this value. Value enum: "none",
+         * "transit_time", "schedule_window".
+         */
+        "type": "none" | "transit_time" | "schedule_window";
+    }
+        | null;
+    /**
+     * Minimum remaining quote lifetime required before Flint offers this method. Required for
+     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
+     * less than Flint's 15-minute quote lifetime. Null restores 0 for fixed, tiered, or rate_table
+     * pricing. It is invalid for calculated, callback, or caller_supplied pricing. Format: int64.
+     * minimum: 0. maximum: 899.
+     */
+    "minimum_option_lifetime_seconds"?: number | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. Where delivery starts. A method can
+     * use a fixed location or a delivery location set; origin.type determines allocation or buyer
+     * pickup behavior. Null is invalid. The origin you supply for a delivery method, chosen by
+     * `type`: a fixed location, or locations from a delivery location set or an inline list.
+     */
+    "origin"?: DeliveryMethodOriginSelectorRequestInput;
+    /**
+     * Replaced as a whole: send every field you want to keep. How Flint calculates the delivery
+     * charge. Null is invalid. The pricing strategy you supply when updating a delivery method.
+     * Set `type` and the matching property.
+     */
+    "pricing"?: DeliveryPricingStrategyRequestInput;
+    /**
+     * Replaced as a whole: send every field you want to keep. Buyer-visible structured details
+     * supplied by the merchant. Null removes the public details; pickup methods still require
+     * pickup_mode. minProperties: 1. instructions (Optional): string. Buyer-visible instructions
+     * for this method. minLength: 1. maxLength: 2048. pickup_mode (Optional): string. Required for
+     * pickup methods and rejected for other method types. Value enum: "in_store", "curbside",
+     * "locker", "other". service_level (Optional): string. Buyer-visible service level. Shipment
+     * accepts economy, standard, expedited, express, overnight, same_day. Local delivery accepts
+     * on_demand, same_day, scheduled. Value enum: "economy", "standard", "expedited", "express",
+     * "overnight", "same_day", "on_demand", "scheduled".
+     */
+    "public_details"?: {
+        /** Buyer-visible instructions for this method. minLength: 1. maxLength: 2048. */
+        "instructions"?: string;
+        /**
+         * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+         * "curbside", "locker", "other".
+         */
+        "pickup_mode"?: "in_store" | "curbside" | "locker" | "other";
+        /**
+         * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+         * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+         * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+         * "scheduled".
+         */
+        "service_level"?: "economy"
+            | "standard"
+            | "expedited"
+            | "express"
+            | "overnight"
+            | "same_day"
+            | "on_demand"
+            | "scheduled";
+    }
+        | null;
+    /**
+     * Address and coordinate fields a callback method requires and is allowed to receive. Use []
+     * to clear it. Null is invalid. maxItems: 12. uniqueItems: true. [] enum:
+     * "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". [] (Value): string. Request
+     * properties the callback needs. - `destination_address`: The full destination address. -
+     * `destination_address.line1`: The destination street address. - `destination_address.line2`:
+     * The destination apartment, suite, or other secondary address. - `destination_address.city`:
+     * The destination city. - `destination_address.state`: The destination state or region. -
+     * `destination_address.postal_code`: The destination postal code. -
+     * `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. -
+     * `buyer_location`: The buyer location, supplied as an address or coordinates. -
+     * `buyer_location.address.line1`: The street address in the buyer location's address variant.
+     * - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the
+     * buyer location's address variant. - `buyer_location.address.city`: The city in the buyer
+     * location's address variant. - `buyer_location.address.state`: The state or region in the
+     * buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in
+     * the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1
+     * alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`:
+     * The latitude and longitude in the buyer location's coordinate variant. Value enum:
+     * "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate".
+     */
+    "quote_input_fields"?: Array<"destination_address"
+        | "destination_address.line1"
+        | "destination_address.line2"
+        | "destination_address.city"
+        | "destination_address.state"
+        | "destination_address.postal_code"
+        | "destination_address.country"
+        | "buyer_location"
+        | "buyer_location.address.line1"
+        | "buyer_location.address.line2"
+        | "buyer_location.address.city"
+        | "buyer_location.address.state"
+        | "buyer_location.address.postal_code"
+        | "buyer_location.address.country"
+        | "buyer_location.coordinate">;
+    /**
+     * Recipient fields this method asks for. A delivery selection can leave out required fields,
+     * but payment needs them. Use [] to clear it. Null is invalid. [] (Value): {@link
+     * DeliveryRecipientRequirementRequestInput}. Says whether a recipient field (`name`, `email`,
+     * or `phone`) is required for a delivery method, and the format it must use.
+     */
+    "recipient_requirements"?: Array<DeliveryRecipientRequirementRequestInput>;
+    /**
+     * How long after evaluation Flint guarantees a selected price, when that is later than the
+     * option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table
+     * prices for a cart without tracked inventory hold until the checkout's calculation expiry.
+     * Null restores 0, which uses the option expiry. Format: int64. minimum: 0.
+     */
+    "selection_guarantee_seconds"?: number | null;
+    /**
+     * US destinations where this shipment method's shipping charge is exempt from tax. Use
+     * uppercase two-letter state codes such as CA. All other destinations use the method's taxable
+     * setting or the merchant default. For a taxable shipment method with exemptions, quoting
+     * requires a destination country and, for US destinations, a state. Use [] to clear it. Null
+     * is invalid. uniqueItems: true. [] enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ",
+     * "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY",
+     * "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ",
+     * "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT",
+     * "VA", "VI", "VT", "WA", "WI", "WV", "WY". [] (Value): string. Value enum: "AA", "AE", "AK",
+     * "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA",
+     * "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT",
+     * "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC",
+     * "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY".
+     */
+    "tax_exempt_us_states"?: Array<"AA"
+        | "AE"
+        | "AK"
+        | "AL"
+        | "AP"
+        | "AR"
+        | "AS"
+        | "AZ"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DC"
+        | "DE"
+        | "FL"
+        | "GA"
+        | "GU"
+        | "HI"
+        | "IA"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "MA"
+        | "MD"
+        | "ME"
+        | "MI"
+        | "MN"
+        | "MO"
+        | "MP"
+        | "MS"
+        | "MT"
+        | "NC"
+        | "ND"
+        | "NE"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NV"
+        | "NY"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "PR"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UM"
+        | "UT"
+        | "VA"
+        | "VI"
+        | "VT"
+        | "WA"
+        | "WI"
+        | "WV"
+        | "WY">;
+    /**
+     * Whether the delivery charge is taxable. Null follows tax.default_delivery_taxable in the
+     * merchant's settings.
+     */
+    "taxable"?: boolean | null;
+};
+export type DeliveryMethodConfigurationPreviousAttributes = {
+    /**
+     * Controls whether checkout collects buyer instructions for this method. anyOf[1] (Value):
+     * {@link BuyerInstructionsConfigPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "buyer_instructions"?: ((BuyerInstructionsConfigPreviousAttributes) | (null));
+    /**
+     * Tax category of the delivery charge, which decides its automatic tax and appears in tax
+     * records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset,
+     * Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for
+     * pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or
+     * send null to clear it back to inheriting. Automatic tax calculates service_fee, shipping,
+     * delivery, handling, and surcharge at the general rate at the charge location, including the
+     * store for pickup. `null` when the method inherits the default delivery tax category from
+     * settings. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+     * anyOf[1] (Value): string. Tax category of the delivery charge, which decides its automatic
+     * tax and appears in tax records and reporting. Null inherits
+     * settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment
+     * methods, delivery for local delivery, or service_fee for pickup. Omit it on create to
+     * inherit, omit it on PATCH to preserve the current value, or send null to clear it back to
+     * inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. `null`
+     * when the method inherits the default delivery tax category from settings. Value enum:
+     * "service_fee", "shipping", "delivery", "handling", "surcharge", null. anyOf[2] (Value):
+     * null.
+     */
+    "charge_tax_category"?: (("service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {})) | (null));
+    /**
+     * Conditions that decide where this method is offered. Omit this field to offer the method
+     * everywhere the merchant serves. anyOf[1] (Value): {@link
+     * DeliveryEligibilityExpressionPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "eligibility"?: ((DeliveryEligibilityExpressionPreviousAttributes) | (null));
+    /**
+     * The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no
+     * timing promise. anyOf[1] (Value): {@link DeliveryEstimateRulePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "estimate"?: ((DeliveryEstimateRulePreviousAttributes) | (null));
+    /**
+     * Minimum remaining quote lifetime required before Flint offers this method. Required for
+     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
+     * less than Flint's 15-minute quote lifetime. anyOf[1] (Value): integer. Minimum remaining
+     * quote lifetime required before Flint offers this method. Required for calculated, callback,
+     * and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's
+     * 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. anyOf[2] (Value): null.
+     */
+    "minimum_option_lifetime_seconds"?: ((number) | (null));
+    /**
+     * Where delivery starts. A method can use a fixed location or a delivery location set;
+     * origin.type determines allocation or buyer pickup behavior. anyOf[1] (Value): {@link
+     * DeliveryMethodOriginSelectorPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "origin"?: ((DeliveryMethodOriginSelectorPreviousAttributes) | (null));
+    /**
+     * How Flint calculates the delivery charge. anyOf[1] (Value): {@link
+     * DeliveryPricingStrategyPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "pricing"?: ((DeliveryPricingStrategyPreviousAttributes) | (null));
+    /**
+     * Buyer-visible structured details supplied by the merchant. anyOf[1] (Value): object.
+     * anyOf[1].instructions (Optional): string or null. Buyer-visible instructions for this
+     * method. anyOf[1].instructions.anyOf[1] (Value): string. Buyer-visible instructions for this
+     * method. maxLength: 2048. anyOf[1].instructions.anyOf[2] (Value): null. anyOf[1].pickup_mode
+     * (Optional): string or null. Required for pickup methods and rejected for other method types.
+     * Value enum: "in_store", "curbside", "locker", "other". anyOf[1].pickup_mode.anyOf[1]
+     * (Value): string. Required for pickup methods and rejected for other method types. Value
+     * enum: "in_store", "curbside", "locker", "other". anyOf[1].pickup_mode.anyOf[2] (Value):
+     * null. anyOf[1].service_level (Optional): string or null. Buyer-visible service level.
+     * Shipment accepts economy, standard, expedited, express, overnight, same_day. Local delivery
+     * accepts on_demand, same_day, scheduled. Value enum: "economy", "standard", "expedited",
+     * "express", "overnight", "same_day", "on_demand", "scheduled".
+     * anyOf[1].service_level.anyOf[1] (Value): string. Buyer-visible service level. Shipment
+     * accepts economy, standard, expedited, express, overnight, same_day. Local delivery accepts
+     * on_demand, same_day, scheduled. Value enum: "economy", "standard", "expedited", "express",
+     * "overnight", "same_day", "on_demand", "scheduled". anyOf[1].service_level.anyOf[2] (Value):
+     * null. anyOf[2] (Value): null.
+     */
+    "public_details"?: (({
+        /**
+         * Buyer-visible instructions for this method. anyOf[1] (Value): string. Buyer-visible
+         * instructions for this method. maxLength: 2048. anyOf[2] (Value): null.
+         */
+        "instructions"?: ((string) | (null));
+        /**
+         * Required for pickup methods and rejected for other method types. Value enum: "in_store",
+         * "curbside", "locker", "other". anyOf[1] (Value): string. Required for pickup methods and
+         * rejected for other method types. Value enum: "in_store", "curbside", "locker", "other".
+         * anyOf[2] (Value): null.
+         */
+        "pickup_mode"?: (("in_store" | "curbside" | "locker" | "other" | (string & {})) | (null));
+        /**
+         * Buyer-visible service level. Shipment accepts economy, standard, expedited, express,
+         * overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Value enum:
+         * "economy", "standard", "expedited", "express", "overnight", "same_day", "on_demand",
+         * "scheduled". anyOf[1] (Value): string. Buyer-visible service level. Shipment accepts
+         * economy, standard, expedited, express, overnight, same_day. Local delivery accepts
+         * on_demand, same_day, scheduled. Value enum: "economy", "standard", "expedited",
+         * "express", "overnight", "same_day", "on_demand", "scheduled". anyOf[2] (Value): null.
+         */
+        "service_level"?: (("economy"
+            | "standard"
+            | "expedited"
+            | "express"
+            | "overnight"
+            | "same_day"
+            | "on_demand"
+            | "scheduled"
+            | (string & {}))
+            | (null));
+    })
+        | (null));
+    /**
+     * Address and coordinate fields a callback method requires and is allowed to receive. [] enum:
+     * "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". anyOf[1] (Value): Array of
+     * string. Address and coordinate fields a callback method requires and is allowed to receive.
+     * maxItems: 12. uniqueItems: true. [] enum: "destination_address",
+     * "destination_address.line1", "destination_address.line2", "destination_address.city",
+     * "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". anyOf[1][] (Value): string.
+     * Request properties the callback needs. - `destination_address`: The full destination
+     * address. - `destination_address.line1`: The destination street address. -
+     * `destination_address.line2`: The destination apartment, suite, or other secondary address. -
+     * `destination_address.city`: The destination city. - `destination_address.state`: The
+     * destination state or region. - `destination_address.postal_code`: The destination postal
+     * code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. -
+     * `buyer_location`: The buyer location, supplied as an address or coordinates. -
+     * `buyer_location.address.line1`: The street address in the buyer location's address variant.
+     * - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the
+     * buyer location's address variant. - `buyer_location.address.city`: The city in the buyer
+     * location's address variant. - `buyer_location.address.state`: The state or region in the
+     * buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in
+     * the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1
+     * alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`:
+     * The latitude and longitude in the buyer location's coordinate variant. Value enum:
+     * "destination_address", "destination_address.line1", "destination_address.line2",
+     * "destination_address.city", "destination_address.state", "destination_address.postal_code",
+     * "destination_address.country", "buyer_location", "buyer_location.address.line1",
+     * "buyer_location.address.line2", "buyer_location.address.city",
+     * "buyer_location.address.state", "buyer_location.address.postal_code",
+     * "buyer_location.address.country", "buyer_location.coordinate". anyOf[2] (Value): null.
+     */
+    "quote_input_fields"?: ((Array<"destination_address"
+        | "destination_address.line1"
+        | "destination_address.line2"
+        | "destination_address.city"
+        | "destination_address.state"
+        | "destination_address.postal_code"
+        | "destination_address.country"
+        | "buyer_location"
+        | "buyer_location.address.line1"
+        | "buyer_location.address.line2"
+        | "buyer_location.address.city"
+        | "buyer_location.address.state"
+        | "buyer_location.address.postal_code"
+        | "buyer_location.address.country"
+        | "buyer_location.coordinate"
+        | (string & {})>)
+        | (null));
+    /**
+     * Recipient fields this method asks for. A delivery selection can leave out required fields,
+     * but payment needs them. anyOf[1] (Value): Array of {@link
+     * DeliveryRecipientRequirementPreviousAttributes}. Recipient fields this method asks for. A
+     * delivery selection can leave out required fields, but payment needs them. anyOf[1][]
+     * (Value): {@link DeliveryRecipientRequirementPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "recipient_requirements"?: ((Array<DeliveryRecipientRequirementPreviousAttributes>) | (null));
+    /**
+     * How long after evaluation Flint guarantees a selected price, when that is later than the
+     * option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table
+     * prices for a cart without tracked inventory hold until the checkout's calculation expiry.
+     * anyOf[1] (Value): integer. How long after evaluation Flint guarantees a selected price, when
+     * that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed,
+     * tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's
+     * calculation expiry. Format: int64. minimum: 0. anyOf[2] (Value): null.
+     */
+    "selection_guarantee_seconds"?: ((number) | (null));
+    /**
+     * US destinations where this shipment method's shipping charge is exempt from tax. Use
+     * uppercase two-letter state codes such as CA. All other destinations use the method's taxable
+     * setting or the merchant default. For a taxable shipment method with exemptions, quoting
+     * requires a destination country and, for US destinations, a state. [] enum: "AA", "AE", "AK",
+     * "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA",
+     * "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT",
+     * "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC",
+     * "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY". anyOf[1] (Value):
+     * Array of string. US destinations where this shipment method's shipping charge is exempt from
+     * tax. Use uppercase two-letter state codes such as CA. All other destinations use the
+     * method's taxable setting or the merchant default. For a taxable shipment method with
+     * exemptions, quoting requires a destination country and, for US destinations, a state.
+     * uniqueItems: true. [] enum: "AA", "AE", "AK", "AL", "AP", "AR", "AS", "AZ", "CA", "CO",
+     * "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA",
+     * "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV",
+     * "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA", "VI",
+     * "VT", "WA", "WI", "WV", "WY". anyOf[1][] (Value): string. Value enum: "AA", "AE", "AK",
+     * "AL", "AP", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI", "IA",
+     * "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT",
+     * "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC",
+     * "SD", "TN", "TX", "UM", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY". anyOf[2] (Value):
+     * null.
+     */
+    "tax_exempt_us_states"?: ((Array<"AA"
+        | "AE"
+        | "AK"
+        | "AL"
+        | "AP"
+        | "AR"
+        | "AS"
+        | "AZ"
+        | "CA"
+        | "CO"
+        | "CT"
+        | "DC"
+        | "DE"
+        | "FL"
+        | "GA"
+        | "GU"
+        | "HI"
+        | "IA"
+        | "ID"
+        | "IL"
+        | "IN"
+        | "KS"
+        | "KY"
+        | "LA"
+        | "MA"
+        | "MD"
+        | "ME"
+        | "MI"
+        | "MN"
+        | "MO"
+        | "MP"
+        | "MS"
+        | "MT"
+        | "NC"
+        | "ND"
+        | "NE"
+        | "NH"
+        | "NJ"
+        | "NM"
+        | "NV"
+        | "NY"
+        | "OH"
+        | "OK"
+        | "OR"
+        | "PA"
+        | "PR"
+        | "RI"
+        | "SC"
+        | "SD"
+        | "TN"
+        | "TX"
+        | "UM"
+        | "UT"
+        | "VA"
+        | "VI"
+        | "VT"
+        | "WA"
+        | "WI"
+        | "WV"
+        | "WY"
+        | (string & {})>)
+        | (null));
+    /**
+     * Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable.
+     * Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null
+     * to clear it back to inheriting. `null` when the method inherits
+     * `settings.tax.default_delivery_taxable`. anyOf[1] (Value): boolean. Whether the delivery
+     * charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to
+     * inherit, omit it on PATCH to preserve the current value, or send null to clear it back to
+     * inheriting. `null` when the method inherits `settings.tax.default_delivery_taxable`.
+     * anyOf[2] (Value): null.
+     */
+    "taxable"?: ((boolean) | (null));
+};
 /**
  * The configuration you supply for a delivery method: origin, pricing, eligibility, timing
  * estimate, tax settings, and recipient requirements.
@@ -4443,134 +5016,4 @@ export type DeliveryPostalCodeValueRequestInput = {
     "type"?: "exact" | "prefix";
     /** The postal code, or the start of postal codes, to match. minLength: 1. */
     "value": string;
-};
-/**
- * The delivery options and prices Flint would offer for the supplied items and buyer location,
- * with input requirements and merchant diagnostics.
- */
-export type DeliveryPreview = {
-    /**
-     * Buyer location used to evaluate delivery availability and pickup proximity. Omitted when the
-     * request sent none. The normalized buyer address or coordinate used for this quote.
-     */
-    "buyer_location"?: DeliveryBuyerLocationResource;
-    /**
-     * Groups of order items that each choose their own delivery option. [] (Value): {@link
-     * DeliveryPreviewChoiceGroupResource}. One group of order items in a delivery options preview,
-     * with the options a buyer could choose, its availability status, and any input still needed.
-     */
-    "choice_groups": Array<DeliveryPreviewChoiceGroupResource>;
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency": string;
-    /**
-     * Delivery methods the preview evaluated. [] (Value): string. Example:
-     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "delivery_method_ids": Array<string>;
-    /**
-     * Destination address used to evaluate shipment and local delivery options. Omitted when the
-     * request sent none. A postal address. Every address has country. Addresses Flint checked as
-     * complete (customer and saved addresses, merchant, location, invoice, order delivery
-     * destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and
-     * city, and US ones always have state and postal_code. Delivery quote destinations, buyer
-     * locations and postal-code tax locations hold only what was provided, such as postal_code and
-     * country.
-     */
-    "destination_address"?: Address;
-    /** Time Flint computed this preview. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "evaluated_at": string;
-    /**
-     * How completely Flint evaluated the candidate delivery methods. Value enum: "complete",
-     * "incomplete", "degraded".
-     */
-    "evaluation_status": "complete" | "incomplete" | "degraded" | (string & {});
-    /**
-     * Request a new preview after this time, because prices and availability may have changed.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string;
-    /**
-     * Inputs the delivery methods need. A quote requirement, such as the destination address, is
-     * input a method needs before Flint can price it. A selection requirement is input a delivery
-     * selection needs before payment, such as a recipient field or delivery window an option
-     * requires. A method that waits on the buyer's address or store, or on an address the buyer
-     * must correct, already lists the recipient fields it requires. Those requirements name the
-     * method's choice group and have no delivery_option_ids. [] (Value): {@link
-     * DeliveryInputRequirement}. An input a delivery method needs, such as an address field or
-     * time window, with its `field_path`, purpose, and constraint.
-     */
-    "input_requirements": Array<DeliveryInputRequirement>;
-    /**
-     * Items the preview evaluated. [] (Value): {@link CreateOrderLineItem}. A line item in a
-     * delivery preview: a catalog variant, a bundle, or a custom item with a name and unit price.
-     */
-    "line_items": Array<CreateOrderLineItem>;
-    /**
-     * Present for merchant callers as an array, including when empty. Absent for buyer callers. []
-     * (Value): {@link DeliveryMerchantDiagnostic}. A merchant-only diagnostic explaining why a
-     * delivery method produced no option, with its outcome, recommended action, and eligibility
-     * mismatches.
-     */
-    "merchant_diagnostics"?: Array<DeliveryMerchantDiagnostic>;
-    /**
-     * The delivery question this preview answers. - `delivery_options`: Evaluates delivery methods
-     * and prices for the supplied items and buyer location. Value enum: "delivery_options".
-     */
-    "mode": "delivery_options" | (string & {});
-    /**
-     * ID of the Location at which pickup methods were priced. Omitted when the request sent none.
-     * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "pickup_location_id"?: string;
-};
-/**
- * One group of order items in a delivery options preview, with the options a buyer could choose,
- * its availability status, and any input still needed.
- */
-export type DeliveryPreviewChoiceGroupResource = {
-    /** Delivery types permitted by this group's items. [] (Value): string. */
-    "allowed_types"?: Array<string>;
-    /**
-     * Whether this group has a delivery option available. Value enum: "ready", "needs_input",
-     * "needs_checkout_context", "unavailable".
-     */
-    "availability_status": "ready" | "needs_input" | "needs_checkout_context" | "unavailable" | (string & {});
-    /**
-     * Evaluation result for each candidate delivery method, keyed by its method ID. * (Value):
-     * {@link DeliveryCandidateOutcomeResource}. The result of evaluating one delivery method for a
-     * choice group, selected by `type`: available with an option, unavailable, input required,
-     * cannot calculate, or requires checkout context.
-     */
-    "candidate_outcomes": Record<string, DeliveryCandidateOutcomeResource>;
-    /**
-     * How completely Flint evaluated the group's candidate delivery methods. Value enum:
-     * "complete", "incomplete", "degraded".
-     */
-    "evaluation_status": "complete" | "incomplete" | "degraded" | (string & {});
-    /**
-     * Where the group's items leave from, one leg per origin Location, when all of its methods
-     * leave from the same Locations. Omitted when the origin depends on the chosen method, such as
-     * shipping from a warehouse or picking up at a store. Each option then lists its own
-     * execution_legs. [] (Value): {@link DeliveryQuoteExecutionLegResource}. One leg of a delivery
-     * choice group, identifying the origin Location the group's items leave from.
-     */
-    "execution_legs"?: Array<DeliveryQuoteExecutionLegResource>;
-    /**
-     * Inputs this group's delivery methods need before they can be priced. [] (Value): {@link
-     * DeliveryInputRequirement}. An input a delivery method needs, such as an address field or
-     * time window, with its `field_path`, purpose, and constraint.
-     */
-    "input_requirements": Array<DeliveryInputRequirement>;
-    /**
-     * Order line items, or bundle components, this group covers, with the quantity covered. []
-     * (Value): {@link DeliveryQuoteLineItemResource}. An order line item, or one bundle component
-     * of it, and the quantity covered by a delivery choice group.
-     */
-    "line_items": Array<DeliveryQuoteLineItemResource>;
-    /**
-     * Delivery options available for these items. [] (Value): {@link DeliveryOptionProjection}. A
-     * delivery option in a quote or preview: its price, type, timing, delivery plan, execution
-     * legs, and shipment, pickup, or local delivery details.
-     */
-    "options": Array<DeliveryOptionProjection>;
 };

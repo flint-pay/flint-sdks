@@ -1,19 +1,21 @@
-import type { ResourceReference, ResponseMeta, ResourceReferencePreviousAttributes } from './types-62.js';
+import type { ResourceReference, ResourceReferencePreviousAttributes } from './types-62.js';
+import type { ResponseMeta } from './types-63.js';
 import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-12.js';
 import type { OrderChargeRequest, OrderChargeRequestInput } from './types-45.js';
 import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-64.js';
 import type { GetReturnResponse, GiftCard } from './types-28.js';
-import type { RiskListItemAddition } from './types-66.js';
+import type { RiskListItemAddition } from './types-67.js';
 import type { MoneyValue } from './types-44.js';
-import type { SignedMoneyRequestInput } from './types-68.js';
+import type { SignedMoneyRequestInput } from './types-69.js';
 import type { GiftCardLoad } from './types-29.js';
 import type { GiftCardTransaction } from './types-30.js';
 import type { InputValue } from '../runtime.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { CreateAPIKeyRequestInput, ConfigurationVersionRequestInput } from './types-8.js';
-import type { UpdateAPIKeyRequestInput } from './types-75.js';
-import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-40.js';
+import type { UpdateAPIKeyRequestInput } from './types-76.js';
+import type { ManualDiscountRequest } from './types-40.js';
 import type { PromotionRefRequest, PromotionRefRequestInput } from './types-59.js';
+import type { ManualDiscountRequestInput } from './types-41.js';
 /** A credential used to authenticate API requests. */
 export type APIKey = {
     /**
@@ -81,9 +83,10 @@ export type APIKey = {
      * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -121,9 +124,10 @@ export type APIKey = {
      * "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -169,6 +173,8 @@ export type APIKey = {
         | "checkouts.checkout_sessions.write"
         | "checkouts.payment_links.read"
         | "checkouts.payment_links.write"
+        | "checkouts.shops.read"
+        | "checkouts.shops.write"
         | "commerce.bundles.read"
         | "commerce.bundles.write"
         | "commerce.catalog.read"
@@ -509,11 +515,12 @@ export type APIRequestLog = {
      * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "shop", "shop_listing",
+     * "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_calculation_callback", "tax_connection",
+     * "tax_registration", "test_clock", "ticket", "user", "webhook_delivery", "webhook_endpoint",
+     * "webhook_event", "workload_identity".
      */
     "resource_type"?: "api_key"
         | "api_request_log"
@@ -656,6 +663,8 @@ export type APIRequestLog = {
         | "sandbox"
         | "settings"
         | "shipment"
+        | "shop"
+        | "shop_listing"
         | "subscription"
         | "subscription_delivery_migration"
         | "subscription_line_item"
@@ -856,11 +865,12 @@ export type APIRequestLogDetail = {
      * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "shop", "shop_listing",
+     * "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_calculation_callback", "tax_connection",
+     * "tax_registration", "test_clock", "ticket", "user", "webhook_delivery", "webhook_endpoint",
+     * "webhook_event", "workload_identity".
      */
     "resource_type"?: "api_key"
         | "api_request_log"
@@ -1003,6 +1013,8 @@ export type APIRequestLogDetail = {
         | "sandbox"
         | "settings"
         | "shipment"
+        | "shop"
+        | "shop_listing"
         | "subscription"
         | "subscription_delivery_migration"
         | "subscription_line_item"
@@ -1200,7 +1212,8 @@ export type AccessLink = {
     /**
      * What the link opens and how long it works. New purposes may be added; treat one you don't
      * recognize as opening its resource. Value enum: "order_view", "subscription_view",
-     * "subscription_manage", "return_view", "customer_account", "merchant_onboarding".
+     * "subscription_manage", "return_view", "customer_account", "merchant_onboarding",
+     * "payment_method_setup".
      */
     "purpose": "order_view"
         | "subscription_view"
@@ -1208,6 +1221,7 @@ export type AccessLink = {
         | "return_view"
         | "customer_account"
         | "merchant_onboarding"
+        | "payment_method_setup"
         | (string & {});
     /**
      * The destination supplied when creating a customer, subscription, or onboarding access link.
@@ -1805,6 +1819,8 @@ export type ApiKeyCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "checkouts.checkout_sessions.write"
                 | "checkouts.payment_links.read"
                 | "checkouts.payment_links.write"
+                | "checkouts.shops.read"
+                | "checkouts.shops.write"
                 | "commerce.bundles.read"
                 | "commerce.bundles.write"
                 | "commerce.catalog.read"
@@ -1938,6 +1954,8 @@ export type ApiKeyRevokedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "checkouts.checkout_sessions.write"
                 | "checkouts.payment_links.read"
                 | "checkouts.payment_links.write"
+                | "checkouts.shops.read"
+                | "checkouts.shops.write"
                 | "commerce.bundles.read"
                 | "commerce.bundles.write"
                 | "commerce.catalog.read"
@@ -2064,6 +2082,8 @@ export type ApiKeyRevokedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "checkouts.checkout_sessions.write"
                 | "checkouts.payment_links.read"
                 | "checkouts.payment_links.write"
+                | "checkouts.shops.read"
+                | "checkouts.shops.write"
                 | "commerce.bundles.read"
                 | "commerce.bundles.write"
                 | "commerce.catalog.read"
@@ -2198,6 +2218,8 @@ export type ApiKeyUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "checkouts.checkout_sessions.write"
                 | "checkouts.payment_links.read"
                 | "checkouts.payment_links.write"
+                | "checkouts.shops.read"
+                | "checkouts.shops.write"
                 | "commerce.bundles.read"
                 | "commerce.bundles.write"
                 | "commerce.catalog.read"
@@ -2324,6 +2346,8 @@ export type ApiKeyUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, rea
                 | "checkouts.checkout_sessions.write"
                 | "checkouts.payment_links.read"
                 | "checkouts.payment_links.write"
+                | "checkouts.shops.read"
+                | "checkouts.shops.write"
                 | "commerce.bundles.read"
                 | "commerce.bundles.write"
                 | "commerce.catalog.read"
@@ -2635,11 +2659,51 @@ export type ApiRequestLogsListParams = {
      * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity". Value
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "shop", "shop_listing",
+     * "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_calculation_callback", "tax_connection",
+     * "tax_registration", "test_clock", "ticket", "user", "webhook_delivery", "webhook_endpoint",
+     * "webhook_event", "workload_identity". Value enum: "api_key", "api_request_log", "balance",
+     * "balance_transaction", "bundle", "bundle_component", "category", "checkout_session",
+     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
+     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
+     * "customer_email_preferences", "customer_session", "customer_tax_exemption",
+     * "customer_verification", "delivery_choice_group", "delivery_location_set",
+     * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
+     * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
+     * "demo_session", "device", "discount", "dispute", "email_change_request",
+     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
+     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
+     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
+     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
+     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
+     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
+     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
+     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
+     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
+     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
+     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
+     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
+     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
+     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "shop", "shop_listing",
+     * "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_calculation_callback", "tax_connection",
+     * "tax_registration", "test_clock", "ticket", "user", "webhook_delivery", "webhook_endpoint",
+     * "webhook_event", "workload_identity". anyOf[1] (Value): Array of string. minItems: 1. []
      * enum: "api_key", "api_request_log", "balance", "balance_transaction", "bundle",
      * "bundle_component", "category", "checkout_session",
      * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
@@ -2674,14 +2738,14 @@ export type ApiRequestLogsListParams = {
      * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "api_key", "api_request_log",
-     * "balance", "balance_transaction", "bundle", "bundle_component", "category",
-     * "checkout_session", "checkout_session_customer_verification", "credit_note",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "shop", "shop_listing",
+     * "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_calculation_callback", "tax_connection",
+     * "tax_registration", "test_clock", "ticket", "user", "webhook_delivery", "webhook_endpoint",
+     * "webhook_event", "workload_identity". anyOf[1][] (Value): string. Value enum: "api_key",
+     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
+     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
      * "credit_note_allocation", "custom_domain", "customer", "customer_address",
      * "customer_deletion_request", "customer_email_preferences", "customer_session",
      * "customer_tax_exemption", "customer_verification", "delivery_choice_group",
@@ -2713,20 +2777,20 @@ export type ApiRequestLogsListParams = {
      * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
-     * anyOf[1][] (Value): string. Value enum: "api_key", "api_request_log", "balance",
-     * "balance_transaction", "bundle", "bundle_component", "category", "checkout_session",
-     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
-     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
-     * "customer_email_preferences", "customer_session", "customer_tax_exemption",
-     * "customer_verification", "delivery_choice_group", "delivery_location_set",
-     * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
-     * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
-     * "demo_session", "device", "discount", "dispute", "email_change_request",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "shop", "shop_listing",
+     * "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_calculation_callback", "tax_connection",
+     * "tax_registration", "test_clock", "ticket", "user", "webhook_delivery", "webhook_endpoint",
+     * "webhook_event", "workload_identity". anyOf[2] (Value): string. Value enum: "api_key",
+     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
+     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
+     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_tax_exemption", "customer_verification", "delivery_choice_group",
+     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
+     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
+     * "delivery_zone", "demo_session", "device", "discount", "dispute", "email_change_request",
      * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
      * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
      * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
@@ -2752,50 +2816,12 @@ export type ApiRequestLogsListParams = {
      * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
-     * anyOf[2] (Value): string. Value enum: "api_key", "api_request_log", "balance",
-     * "balance_transaction", "bundle", "bundle_component", "category", "checkout_session",
-     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
-     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
-     * "customer_email_preferences", "customer_session", "customer_tax_exemption",
-     * "customer_verification", "delivery_choice_group", "delivery_location_set",
-     * "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate",
-     * "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone",
-     * "demo_session", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "file", "flint_wallet", "flint_wallet_card", "fraud_warning",
-     * "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
-     * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "image", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "license_key", "license_key_activation", "license_key_pool",
-     * "license_key_pool_key", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "merchant_signup", "modifier",
-     * "modifier_group", "modifier_set", "order", "order_charge", "order_edit", "order_line_item",
-     * "order_line_item_modifier", "order_payment_attempt", "package", "package_item",
-     * "partner_app", "partner_app_credential", "partner_app_install", "payment_attempt",
-     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
-     * "payment_method", "payment_method_domain", "payment_review", "payment_split", "payout",
-     * "payout_destination", "payout_settings", "platform_fee", "platform_fee_balance_transaction",
-     * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
-     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item",
-     * "tax_calculation_callback", "tax_connection", "tax_registration", "test_clock", "ticket",
-     * "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "shop", "shop_listing",
+     * "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_calculation_callback", "tax_connection",
+     * "tax_registration", "test_clock", "ticket", "user", "webhook_delivery", "webhook_endpoint",
+     * "webhook_event", "workload_identity".
      */
     "resource_type"?: InputValue<("api_key"
         | "api_request_log"
@@ -2938,6 +2964,8 @@ export type ApiRequestLogsListParams = {
         | "sandbox"
         | "settings"
         | "shipment"
+        | "shop"
+        | "shop_listing"
         | "subscription"
         | "subscription_delivery_migration"
         | "subscription_line_item"
@@ -3096,6 +3124,8 @@ export type ApiRequestLogsListParams = {
         | "sandbox"
         | "settings"
         | "shipment"
+        | "shop"
+        | "shop_listing"
         | "subscription"
         | "subscription_delivery_migration"
         | "subscription_line_item"
@@ -3115,7 +3145,7 @@ export type ApiRequestLogsListParams = {
         | "workload_identity")[]>;
     /**
      * Filter by resource ID. pattern:
-     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwph|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|lk|lka|lkp|lkpa|lkpk|lkr|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcaa|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|saa|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tae|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
+     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwph|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|lk|lka|lkp|lkpa|lkpk|lkr|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfrl|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcaa|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|saa|sdmig|sdts|sdtu|set|sfba|sfpd|shl|shop|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tae|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      */
     "resource_id"?: InputValue<string>;

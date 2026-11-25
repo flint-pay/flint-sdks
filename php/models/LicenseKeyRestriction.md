@@ -14,5 +14,5 @@ Response model.
 | `reason` | Optional | string | Reason for a merchant or subscription restriction. |
 | `refund_id` | Optional | string | The refund that restricted the key. |
 | `subscription_id` | Optional | string | The subscription that restricted the key. |
-| `type` | Required | string | What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`. |
+| `type` | Required | string | What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`, `"payment_reversal"`. |
 

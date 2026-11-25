@@ -67,7 +67,7 @@ Previous values of changed top-level fields in data.object, at this delivery's A
 | `opened_reason` | Optional | string or null | Why Flint opened the review. Values: `"rule"`. `opened_reason`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesopened_reason). |
 | `order` | Optional | [ExpandedOrderSummaryPreviousAttributes](../models/ExpandedOrderSummaryPreviousAttributes.md#expandedordersummarypreviousattributes) or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
 | `order_id` | Optional | string or null | ID of the order the payment belongs to. `null` when the payment doesn't belong to an order. `order_id`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributesorder_id). |
-| `payment_flow` | Optional | string or null | How the reviewed payment was started. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. `payment_flow`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributespayment_flow). |
+| `payment_flow` | Optional | string or null | How the reviewed payment was started. Values: `"checkout"`, `"payment_link"`, `"shop"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. `payment_flow`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributespayment_flow). |
 | `payment_intent` | Optional | [ExpandedPaymentIntentSummaryPreviousAttributes](../models/ExpandedPaymentIntentSummaryPreviousAttributes.md#expandedpaymentintentsummarypreviousattributes) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. |
 | `payment_intent_id` | Optional | string or null | ID of the payment intent under review. `payment_intent_id`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributespayment_intent_id). |
 | `payment_review_id` | Optional | string or null | Unique identifier for this payment review, prefixed `rev_`. `payment_review_id`: [declared alternatives](../models/PaymentReviewClosedInstalledMerchantsEvent.md#paymentreviewclosedinstalledmerchantseventdataprevious_attributespayment_review_id). |
@@ -190,7 +190,7 @@ anyOf variant 2.
 
 anyOf variant 1: How the reviewed payment was started..
 
-- Value shape: string. How the reviewed payment was started. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`.
+- Value shape: string. How the reviewed payment was started. Values: `"checkout"`, `"payment_link"`, `"shop"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`.
 
 ### PaymentReviewClosedInstalledMerchantsEvent.data.previous_attributes.payment_flow variant 2
 

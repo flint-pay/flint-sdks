@@ -1,16 +1,133 @@
 import type { InputValue } from '../runtime.js';
 import type { PauseSubscriptionRequestInput } from './types-50.js';
-import type { RenewSubscriptionRequestInput } from './types-61.js';
-import type { ResourceVersionRequestInput, ResponseMeta } from './types-62.js';
-import type { SaveMeGiftCardRequestInput } from './types-67.js';
-import type { SkipMeSubscriptionCycleRequestInput } from './types-68.js';
-import type { UpdateCustomerAddressRequestInput, UpdateCustomerEmailPreferencesRequestInput } from './types-75.js';
-import type { UpdateMeRequestInput, UpdateMeSubscriptionLineItemRequestInput, UpdateMeSubscriptionRequestInput } from './types-76.js';
+import type { RenewSubscriptionRequestInput } from './types-62.js';
+import type { ResourceVersionRequestInput, ResponseMeta } from './types-63.js';
+import type { SaveMeGiftCardRequestInput } from './types-68.js';
+import type { SkipMeSubscriptionCycleRequestInput } from './types-69.js';
+import type { UpdateCustomerAddressRequestInput, UpdateCustomerEmailPreferencesRequestInput } from './types-76.js';
+import type { UpdateMeRequestInput, UpdateMeSubscriptionLineItemRequestInput, UpdateMeSubscriptionRequestInput } from './types-77.js';
 import type { Address } from './types-0.js';
 import type { ImageAttachment } from './types-31.js';
 import type { MerchantReadiness, MetadataMap, MerchantWebhookEnvelope } from './types-43.js';
 import type { DisputeResponseSessionStripeAccountSession } from './types-26.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+export type MeListFulfillmentEventsParams = {
+    /**
+     * Required buyer-owned order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": InputValue<string>;
+    /**
+     * Filter by fulfillment ID. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     */
+    "fulfillment_id"?: InputValue<string>;
+    /**
+     * Filter by shipment ID. pattern: ^shp_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+     */
+    "shipment_id"?: InputValue<string>;
+    /**
+     * Filter by package ID. pattern: ^pkg_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
+     */
+    "package_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+};
+export type MeListFulfillmentsParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Filter by buyer-visible status. Held fulfillments match their pre-hold status. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "pending", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked",
+     * "packed", "dispatched", "no_show". Value enum: "pending", "in_progress", "ready",
+     * "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked", "packed",
+     * "dispatched", "no_show". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "pending",
+     * "in_progress", "ready", "completed", "canceled", "failed", "scheduled", "accepted",
+     * "preparing", "picked", "packed", "dispatched", "no_show". anyOf[1][] (Value): string. Value
+     * enum: "pending", "in_progress", "ready", "completed", "canceled", "failed", "scheduled",
+     * "accepted", "preparing", "picked", "packed", "dispatched", "no_show". anyOf[2] (Value):
+     * string. Value enum: "pending", "in_progress", "ready", "completed", "canceled", "failed",
+     * "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show".
+     */
+    "status"?: InputValue<("pending"
+        | "in_progress"
+        | "ready"
+        | "completed"
+        | "canceled"
+        | "failed"
+        | "scheduled"
+        | "accepted"
+        | "preparing"
+        | "picked"
+        | "packed"
+        | "dispatched"
+        | "no_show")
+        | readonly ("pending"
+        | "in_progress"
+        | "ready"
+        | "completed"
+        | "canceled"
+        | "failed"
+        | "scheduled"
+        | "accepted"
+        | "preparing"
+        | "picked"
+        | "packed"
+        | "dispatched"
+        | "no_show")[]>;
+    /**
+     * Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+     * Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "shipment", "pickup",
+     * "local_delivery", "digital", "service", "handover". anyOf[1][] (Value): string. Value enum:
+     * "shipment", "pickup", "local_delivery", "digital", "service", "handover". anyOf[2] (Value):
+     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+     * "handover".
+     */
+    "type"?: InputValue<("shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover")
+        | readonly ("shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+};
 export type MeListGiftCardTransactionsParams = {
     /**
      * Exact gift card ID. Requires current saved access to this card. pattern:
@@ -403,16 +520,16 @@ export type MeListOrdersParams = {
      * Separate subscription renewal purchases (subscription) from orders placed through other
      * channels. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
      * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
-     * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". Value
-     * enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "virtual_terminal", "payment_link",
-     * "checkout", "api", "subscription", "invoice". anyOf[1][] (Value): string. Value enum:
-     * "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". anyOf[2]
-     * (Value): string. Value enum: "virtual_terminal", "payment_link", "checkout", "api",
-     * "subscription", "invoice".
+     * "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription", "invoice".
+     * Value enum: "virtual_terminal", "payment_link", "shop", "checkout", "api", "subscription",
+     * "invoice". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "virtual_terminal",
+     * "payment_link", "shop", "checkout", "api", "subscription", "invoice". anyOf[1][] (Value):
+     * string. Value enum: "virtual_terminal", "payment_link", "shop", "checkout", "api",
+     * "subscription", "invoice". anyOf[2] (Value): string. Value enum: "virtual_terminal",
+     * "payment_link", "shop", "checkout", "api", "subscription", "invoice".
      */
-    "origin"?: InputValue<("virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription" | "invoice")
-        | readonly ("virtual_terminal" | "payment_link" | "checkout" | "api" | "subscription" | "invoice")[]>;
+    "origin"?: InputValue<("virtual_terminal" | "payment_link" | "shop" | "checkout" | "api" | "subscription" | "invoice")
+        | readonly ("virtual_terminal" | "payment_link" | "shop" | "checkout" | "api" | "subscription" | "invoice")[]>;
     /**
      * Search across order_id, order number, buyer note, and line item names. Text fields match any
      * part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
@@ -579,18 +696,20 @@ export type MeListPaymentIntentsParams = {
     /**
      * Filter by immutable payment flow. Repeat or comma-separate values. Values are trimmed and
      * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
-     * filter are ORed; separate filters are ANDed. [] enum: "checkout", "payment_link", "invoice",
-     * "subscription_initial", "subscription_renewal", "virtual_terminal", "api". Value enum:
-     * "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". anyOf[1][] (Value): string. Value enum: "checkout",
-     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
-     * "virtual_terminal", "api". anyOf[2] (Value): string. Value enum: "checkout", "payment_link",
-     * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+     * filter are ORed; separate filters are ANDed. [] enum: "checkout", "payment_link", "shop",
+     * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api". Value
+     * enum: "checkout", "payment_link", "shop", "invoice", "subscription_initial",
+     * "subscription_renewal", "virtual_terminal", "api". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "checkout", "payment_link", "shop", "invoice", "subscription_initial",
+     * "subscription_renewal", "virtual_terminal", "api". anyOf[1][] (Value): string. Value enum:
+     * "checkout", "payment_link", "shop", "invoice", "subscription_initial",
+     * "subscription_renewal", "virtual_terminal", "api". anyOf[2] (Value): string. Value enum:
+     * "checkout", "payment_link", "shop", "invoice", "subscription_initial",
+     * "subscription_renewal", "virtual_terminal", "api".
      */
     "payment_flow"?: InputValue<("checkout"
         | "payment_link"
+        | "shop"
         | "invoice"
         | "subscription_initial"
         | "subscription_renewal"
@@ -598,6 +717,7 @@ export type MeListPaymentIntentsParams = {
         | "api")
         | readonly ("checkout"
         | "payment_link"
+        | "shop"
         | "invoice"
         | "subscription_initial"
         | "subscription_renewal"
@@ -2202,68 +2322,3 @@ export type MerchantBillingInvoiceListResponse = {
      */
     "request_id": string;
 };
-/** A response containing `MerchantBillingInvoice` data. */
-export type MerchantBillingInvoiceResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A Flint invoice for the
-     * merchant's Flint subscription.
-     */
-    "data": MerchantBillingInvoice;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type MerchantBillingInvoiceUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "applied_credit_money": MoneyValue;
-            "created_at": string;
-            "due_at": string;
-            "invoice_number": string;
-            "issued_at": string;
-            "line_items": Array<MerchantBillingInvoiceLineItem>;
-            "merchant_billing_invoice_id": string;
-            "outstanding_money": MoneyValue;
-            "paid_at"?: string;
-            "period_end_at": string;
-            "period_start_at": string;
-            "status": "open" | "paid" | "written_off" | (string & {});
-            "subtotal_money": MoneyValue;
-            "total_money": MoneyValue;
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "applied_credit_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "created_at"?: ((string) | (null));
-            "due_at"?: ((string) | (null));
-            "invoice_number"?: ((string) | (null));
-            "issued_at"?: ((string) | (null));
-            "line_items"?: ((Array<MerchantBillingInvoiceLineItemPreviousAttributes>) | (null));
-            "merchant_billing_invoice_id"?: ((string) | (null));
-            "outstanding_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "paid_at"?: ((string) | (null));
-            "period_end_at"?: ((string) | (null));
-            "period_start_at"?: ((string) | (null));
-            "status"?: (("open" | "paid" | "written_off" | (string & {})) | (null));
-            "subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "total_money"?: ((MoneyValuePreviousAttributes) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "merchant_billing_invoice.updated";
-})
-    & {
-    "event_type": "merchant_billing_invoice.updated";
-});

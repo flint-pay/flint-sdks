@@ -9,7 +9,7 @@ namespace Flint;
 final class BuyerCheckoutSessionLaunchResponseInput extends Model {
     /** @param array{'data': BuyerCheckoutSessionLaunchInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCheckoutSessionLaunchResponseInput')); }
-    /** Resource, collection, or operation result returned by this request. The session returned when launching checkout. A hosted launch includes url. A headless launch includes checkout_auth_token. A session in which a buyer completes an order's payment.
+    /** Resource, collection, or operation result returned by this request. The session returned when launching checkout. Use `url` for hosted checkout or `checkout_auth_token` for headless checkout. A session in which a buyer completes an order's payment.
      * @return BuyerCheckoutSessionLaunchInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */

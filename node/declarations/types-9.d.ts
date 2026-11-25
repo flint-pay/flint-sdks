@@ -8,13 +8,14 @@ import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-15.js';
 import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
 import type { MetadataMap, MetadataRequestInput } from './types-43.js';
-import type { TaxIdentityPatch, TaxIdentityRequestInput } from './types-74.js';
+import type { TaxIdentityPatch, TaxIdentityRequestInput } from './types-75.js';
 import type { CustomerTaxExemptionCoverage, CustomerTaxExemptionCoverageRequestInput } from './types-17.js';
 import type {
     DeliveryLocationSetConfiguration,
     DeliveryLocationSetConfigurationInput,
     DeliveryMethodConfigurationCreateRequest,
-    DeliveryMethodConfigurationCreateRequestInput
+    DeliveryMethodConfigurationCreateRequestInput,
+    DeliveryDistance
 } from './types-19.js';
 import type {
     DeliveryMethodConfigurationRequest,
@@ -28,20 +29,18 @@ import type {
     DeliveryAddressRequest,
     DeliveryBuyerLocationRequest,
     DeliveryAddressRequestInput,
-    DeliveryBuyerLocationRequestInput,
-    DeliveryDistance
+    DeliveryBuyerLocationRequestInput
 } from './types-18.js';
-import type { InventoryRoutingSourceRequest } from './types-33.js';
-import type { InventoryRoutingSourceRequestInput } from './types-34.js';
+import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-34.js';
 import type {
     DeliveryProfileConfigurationRequest,
     DeliveryProfileConfigurationRequestInput,
-    DeliveryRateCallbackConfiguration,
-    DeliveryRateCallbackConfigurationRequestInput
+    DeliveryRateCallbackConfiguration
 } from './types-22.js';
-import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-79.js';
-import type { DeliveryRevocationTarget } from './types-23.js';
+import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-80.js';
+import type { DeliveryRateCallbackConfigurationRequestInput } from './types-23.js';
 import type {
+    DeliveryRevocationTarget,
     DeliverySelectionInstructionsRequest,
     DeliverySelectionInstructionsRequestInput,
     DeliverySelectionRecipientRequest,
@@ -234,7 +233,7 @@ export type CreateCustomDomainRequestInput = {
      */
     "type": "checkout" | "customer_account";
 };
-/** Delivery mode, link lifetime, and return destination for a customer account link. */
+/** Purpose, delivery mode, link lifetime, and return destination for a customer access link. */
 export type CreateCustomerAccessLinkRequest = ({
     /**
      * link returns the credential for your server to relay. email asks Flint to enqueue a
@@ -249,6 +248,12 @@ export type CreateCustomerAccessLinkRequest = ({
      */
     "expires_in_seconds"?: number;
     /**
+     * customer_account opens the account home. payment_method_setup opens Add card for your store
+     * and uses a card request email with email delivery. Default: "customer_account". Value enum:
+     * "customer_account", "payment_method_setup".
+     */
+    "purpose"?: "customer_account" | "payment_method_setup" | (string & {});
+    /**
      * Where the buyer can return to on your site. Kept for the browser session this link starts,
      * until sign-out or session end. Absolute HTTPS URL without credentials; test mode also
      * accepts HTTP loopback URLs. Up to 2,048 characters. Query strings and fragments are allowed.
@@ -257,7 +262,7 @@ export type CreateCustomerAccessLinkRequest = ({
      */
     "return_url"?: string;
 });
-/** Delivery mode, link lifetime, and return destination for a customer account link. */
+/** Purpose, delivery mode, link lifetime, and return destination for a customer access link. */
 export type CreateCustomerAccessLinkRequestInput = ({
     /**
      * link returns the credential for your server to relay. email asks Flint to enqueue a
@@ -271,6 +276,12 @@ export type CreateCustomerAccessLinkRequestInput = ({
      * expiry. Value enum: 900, 259200.
      */
     "expires_in_seconds"?: 900 | 259200;
+    /**
+     * customer_account opens the account home. payment_method_setup opens Add card for your store
+     * and uses a card request email with email delivery. Default: "customer_account". Value enum:
+     * "customer_account", "payment_method_setup".
+     */
+    "purpose"?: "customer_account" | "payment_method_setup";
     /**
      * Where the buyer can return to on your site. Kept for the browser session this link starts,
      * until sign-out or session end. Absolute HTTPS URL without credentials; test mode also

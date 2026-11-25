@@ -1,28 +1,27 @@
+import type { MerchantWebhookEnvelope } from './types-43.js';
 import type {
-    PartnerAppPermissionManifestEntry,
     PartnerAppMerchantActionRouting,
     PartnerAppMerchantActionRoutingPreviousAttributes,
     PartnerAppPaymentSplits,
     PartnerAppPaymentSplitsPreviousAttributes,
-    PartnerAppPermissionManifestEntryPreviousAttributes,
     PartnerApp,
     PartnerAppMerchantReadiness,
     PartnerAppMerchantReadinessPreviousAttributes
 } from './types-49.js';
-import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PlatformFeeCap, PlatformFeeCapPreviousAttributes, PlatformFeeRequest, PlatformFeeRequestInput } from './types-56.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
-import type { ResourceReference, ResourceReferencePreviousAttributes, ResponseMeta, ReturnActor } from './types-62.js';
+import type { ResourceReference, ResourceReferencePreviousAttributes } from './types-62.js';
+import type { ResponseMeta, ReturnActor } from './types-63.js';
 import type { InputValue } from '../runtime.js';
 import type { AcceptPartnerAppPlatformTermsRequestInput } from './types-0.js';
 import type { CreatePartnerAppCredentialRequestInput, CreatePartnerAppRequestInput } from './types-12.js';
 import type { CheckoutSessionsListCustomerVerificationsParams } from './types-7.js';
 import type { RotatePartnerAppSecretRequestInput } from './types-67.js';
-import type { UpdatePartnerAppRequestInput } from './types-77.js';
-import type { WebhookEventSource } from './types-79.js';
+import type { UpdatePartnerAppRequestInput } from './types-78.js';
+import type { WebhookEventSource } from './types-80.js';
 import type { CheckoutBuyerContactRequest, CheckoutBuyerContactRequestInput } from './types-6.js';
 import type { OrderGiftCardAllocationAcceptance, OrderGiftCardAllocationAcceptanceInput } from './types-46.js';
-import type { OrderPaymentIntentSelection, OrderPaymentIntentSelectionInput, OrderPaymentAttempt } from './types-47.js';
+import type { OrderPaymentIntentSelection, OrderPaymentIntentSelectionInput } from './types-47.js';
 import type {
     PaymentSourceCredential,
     PaymentSplitRequest,
@@ -31,7 +30,78 @@ import type {
     PaymentSourceCredentialStripePaymentMethod,
     PaymentSourceCredentialStripePaymentMethodInput
 } from './types-54.js';
-import type { Order } from './types-45.js';
+/**
+ * One permission a partner app can request, with a title, a description, and the Flint scopes it
+ * grants.
+ */
+export type PartnerAppPermissionManifestEntry = {
+    /**
+     * What the permission lets the app do, shown to merchants when they approve the install.
+     * minLength: 1.
+     */
+    "description": string;
+    /**
+     * Whether the merchant can decline this permission when they approve the install. Defaults to
+     * false: the permission is required and is always granted.
+     */
+    "optional"?: boolean;
+    /**
+     * The permission's ID, which you choose and which must be unique within the manifest.
+     * Authorization requests name permissions by this ID in scope, and the code exchange returns
+     * the granted IDs as its scope. minLength: 1. Example: "manage_orders".
+     */
+    "permission_id": string;
+    /**
+     * The Flint API scopes the permission grants, at least one. Each must be a scope partner
+     * installs allow; the scope catalog lists them. Duplicates are dropped. [] (Value): string.
+     * minLength: 1.
+     */
+    "required_scopes": Array<string>;
+    /**
+     * A short name for the permission, shown to merchants when they approve the install. It can't
+     * contain a link or an email address. minLength: 1.
+     */
+    "title": string;
+};
+export type PartnerAppPermissionManifestEntryPreviousAttributes = {
+    /**
+     * What the permission lets the app do, shown to merchants when they approve the install.
+     * anyOf[1] (Value): string. What the permission lets the app do, shown to merchants when they
+     * approve the install. minLength: 1. anyOf[2] (Value): null.
+     */
+    "description"?: ((string) | (null));
+    /**
+     * Whether the merchant can decline this permission when they approve the install. Defaults to
+     * false: the permission is required and is always granted. anyOf[1] (Value): boolean. Whether
+     * the merchant can decline this permission when they approve the install. Defaults to false:
+     * the permission is required and is always granted. anyOf[2] (Value): null.
+     */
+    "optional"?: ((boolean) | (null));
+    /**
+     * The permission's ID, which you choose and which must be unique within the manifest.
+     * Authorization requests name permissions by this ID in scope, and the code exchange returns
+     * the granted IDs as its scope. anyOf[1] (Value): string. The permission's ID, which you
+     * choose and which must be unique within the manifest. Authorization requests name permissions
+     * by this ID in scope, and the code exchange returns the granted IDs as its scope. minLength:
+     * 1. Example: "manage_orders". anyOf[2] (Value): null.
+     */
+    "permission_id"?: ((string) | (null));
+    /**
+     * The Flint API scopes the permission grants, at least one. Each must be a scope partner
+     * installs allow; the scope catalog lists them. Duplicates are dropped. anyOf[1] (Value):
+     * Array of string. The Flint API scopes the permission grants, at least one. Each must be a
+     * scope partner installs allow; the scope catalog lists them. Duplicates are dropped.
+     * anyOf[1][] (Value): string. minLength: 1. anyOf[2] (Value): null.
+     */
+    "required_scopes"?: ((Array<string>) | (null));
+    /**
+     * A short name for the permission, shown to merchants when they approve the install. It can't
+     * contain a link or an email address. anyOf[1] (Value): string. A short name for the
+     * permission, shown to merchants when they approve the install. It can't contain a link or an
+     * email address. minLength: 1. anyOf[2] (Value): null.
+     */
+    "title"?: ((string) | (null));
+};
 /**
  * One permission a partner app can request, with a title, a description, and the Flint scopes it
  * grants.
@@ -1411,9 +1481,9 @@ export type PartnerWebhookEnvelope = ({
      * "return_disposition.updated", "return_inspection.acceptance_decided",
      * "return_inspection.created", "return_inspection.superseded", "return_receipt.created",
      * "return_receipt.superseded", "return_receipt.verified", "return_resolution.created",
-     * "return_resolution.updated", "shipment.created", "shipment.updated",
-     * "subscription.activated", "subscription.canceled", "subscription.cancellation_scheduled",
-     * "subscription.created", "subscription.cycle_skipped",
+     * "return_resolution.updated", "shipment.created", "shipment.updated", "shop.archived",
+     * "shop.created", "shop.updated", "subscription.activated", "subscription.canceled",
+     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
      * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
      * "subscription.delivery_updated", "subscription.dunning_exhausted",
      * "subscription.end_upcoming", "subscription.past_due", "subscription.paused",
@@ -1694,6 +1764,9 @@ export type PartnerWebhookEnvelope = ({
         | "return_resolution.updated"
         | "shipment.created"
         | "shipment.updated"
+        | "shop.archived"
+        | "shop.created"
+        | "shop.updated"
         | "subscription.activated"
         | "subscription.canceled"
         | "subscription.cancellation_scheduled"
@@ -1923,6 +1996,16 @@ export type PayOrderRequestConfirmPaymentIntents = ({
      * subscription signup. Default: false.
      */
     "save_payment_method"?: boolean;
+    /** The wording the buyer agreed to when saving this card. Send only when save_payment_method is true, using an API key or partner token with payments.payment_methods.write, or a Dashboard session. Flint trims surrounding whitespace and stores the remaining text exactly. The trimmed wording must contain 1 to 1,000 characters and cannot contain a null character. Checkout supplies its own wording and cannot send this field. minLength: 1. pattern: ^[\t-\r    -
+    
+       ]*[^\x00\t-\r    -
+    
+       ]([^\x00]{0,998}[^\x00\t-\r    -
+    
+       ])?[\t-\r    -
+    
+       ]*$. */
+    "save_payment_method_consent_text"?: string;
     /**
      * A US or Canadian mobile phone number in E.164 format, such as +14155552671, that confirms a
      * card saved while the checkout acts for no customer, or for the customer whose email the
@@ -2080,6 +2163,16 @@ export type PayOrderRequestConfirmPaymentIntentsInput = ({
      * subscription signup. Default: false.
      */
     "save_payment_method"?: boolean;
+    /** The wording the buyer agreed to when saving this card. Send only when save_payment_method is true, using an API key or partner token with payments.payment_methods.write, or a Dashboard session. Flint trims surrounding whitespace and stores the remaining text exactly. The trimmed wording must contain 1 to 1,000 characters and cannot contain a null character. Checkout supplies its own wording and cannot send this field. minLength: 1. pattern: ^[\t-\r    -
+    
+       ]*[^\x00\t-\r    -
+    
+       ]([^\x00]{0,998}[^\x00\t-\r    -
+    
+       ])?[\t-\r    -
+    
+       ]*$. */
+    "save_payment_method_consent_text"?: string;
     /**
      * A US or Canadian mobile phone number in E.164 format, such as +14155552671, that confirms a
      * card saved while the checkout acts for no customer, or for the customer whose email the
@@ -2206,20 +2299,20 @@ export type PayOrderRequestPay = ({
      * send it; from any other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. A
      * subscription_plan checkout session, or an order whose payment starts or renews a
      * subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on platform_fee, because
-     * Flint's billing creates the renewals. amount_money.amount must be at least 1 minor unit;
-     * otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money.amount. Omit
-     * platform_fee to charge no fee. The fee must be in the payment's currency, at most the
-     * platform fee cap the merchant approved for this amount, and below the amount; otherwise
-     * INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money, with maximum_money when the
-     * cap or the amount bounds it. Without an approved cap in this currency it is
-     * ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode the partner app's
-     * platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with capability
-     * platform_fees and the reason the app's platform status gives. Test mode never checks the
-     * capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees leave less
-     * at confirm or capture, so the payment never fails because of it. Part of the request
-     * fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the partner app
-     * charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes
-     * no share of it.
+     * Flint's billing creates the renewals. Set platform_fee_rule on the subscription or its
+     * checkout session. amount_money.amount must be at least 1 minor unit; otherwise
+     * INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money.amount. Omit platform_fee to
+     * charge no fee. The fee must be in the payment's currency, at most the platform fee cap the
+     * merchant approved for this amount, and below the amount; otherwise INVALID_REQUEST with
+     * INVALID_VALUE on platform_fee.amount_money, with maximum_money when the cap or the amount
+     * bounds it. Without an approved cap in this currency it is ACTION_NOT_ALLOWED with reason
+     * platform_fee_consent_required. In live mode the partner app's platform_fees capability must
+     * be active; otherwise ACTION_NOT_ALLOWED with capability platform_fees and the reason the
+     * app's platform status gives. Test mode never checks the capability. Flint lowers the fee, or
+     * cancels it, when the cap or Flint's own fees leave less at confirm or capture, so the
+     * payment never fails because of it. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). A platform fee the partner app charges on the payment,
+     * beside Flint's fees. The installed merchant pays it, and Flint takes no share of it.
      */
     "platform_fee"?: PlatformFeeRequest;
     /**
@@ -2265,6 +2358,16 @@ export type PayOrderRequestPay = ({
      * subscription signup. Default: false.
      */
     "save_payment_method"?: boolean;
+    /** The wording the buyer agreed to when saving this card. Send only when save_payment_method is true, using an API key or partner token with payments.payment_methods.write, or a Dashboard session. Flint trims surrounding whitespace and stores the remaining text exactly. The trimmed wording must contain 1 to 1,000 characters and cannot contain a null character. Checkout supplies its own wording and cannot send this field. minLength: 1. pattern: ^[\t-\r    -
+    
+       ]*[^\x00\t-\r    -
+    
+       ]([^\x00]{0,998}[^\x00\t-\r    -
+    
+       ])?[\t-\r    -
+    
+       ]*$. */
+    "save_payment_method_consent_text"?: string;
     /**
      * A US or Canadian mobile phone number in E.164 format, such as +14155552671, that confirms a
      * card saved while the checkout acts for no customer, or for the customer whose email the
@@ -2408,20 +2511,20 @@ export type PayOrderRequestPayInput = ({
      * send it; from any other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. A
      * subscription_plan checkout session, or an order whose payment starts or renews a
      * subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on platform_fee, because
-     * Flint's billing creates the renewals. amount_money.amount must be at least 1 minor unit;
-     * otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money.amount. Omit
-     * platform_fee to charge no fee. The fee must be in the payment's currency, at most the
-     * platform fee cap the merchant approved for this amount, and below the amount; otherwise
-     * INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money, with maximum_money when the
-     * cap or the amount bounds it. Without an approved cap in this currency it is
-     * ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode the partner app's
-     * platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with capability
-     * platform_fees and the reason the app's platform status gives. Test mode never checks the
-     * capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees leave less
-     * at confirm or capture, so the payment never fails because of it. Part of the request
-     * fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the partner app
-     * charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes
-     * no share of it.
+     * Flint's billing creates the renewals. Set platform_fee_rule on the subscription or its
+     * checkout session. amount_money.amount must be at least 1 minor unit; otherwise
+     * INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money.amount. Omit platform_fee to
+     * charge no fee. The fee must be in the payment's currency, at most the platform fee cap the
+     * merchant approved for this amount, and below the amount; otherwise INVALID_REQUEST with
+     * INVALID_VALUE on platform_fee.amount_money, with maximum_money when the cap or the amount
+     * bounds it. Without an approved cap in this currency it is ACTION_NOT_ALLOWED with reason
+     * platform_fee_consent_required. In live mode the partner app's platform_fees capability must
+     * be active; otherwise ACTION_NOT_ALLOWED with capability platform_fees and the reason the
+     * app's platform status gives. Test mode never checks the capability. Flint lowers the fee, or
+     * cancels it, when the cap or Flint's own fees leave less at confirm or capture, so the
+     * payment never fails because of it. Part of the request fingerprint. See [Platform
+     * fees](/docs/guides/platform-fees). A platform fee the partner app charges on the payment,
+     * beside Flint's fees. The installed merchant pays it, and Flint takes no share of it.
      */
     "platform_fee"?: PlatformFeeRequestInput;
     /**
@@ -2467,6 +2570,16 @@ export type PayOrderRequestPayInput = ({
      * subscription signup. Default: false.
      */
     "save_payment_method"?: boolean;
+    /** The wording the buyer agreed to when saving this card. Send only when save_payment_method is true, using an API key or partner token with payments.payment_methods.write, or a Dashboard session. Flint trims surrounding whitespace and stores the remaining text exactly. The trimmed wording must contain 1 to 1,000 characters and cannot contain a null character. Checkout supplies its own wording and cannot send this field. minLength: 1. pattern: ^[\t-\r    -
+    
+       ]*[^\x00\t-\r    -
+    
+       ]([^\x00]{0,998}[^\x00\t-\r    -
+    
+       ])?[\t-\r    -
+    
+       ]*$. */
+    "save_payment_method_consent_text"?: string;
     /**
      * A US or Canadian mobile phone number in E.164 format, such as +14155552671, that confirms a
      * card saved while the checkout acts for no customer, or for the customer whose email the
@@ -2807,37 +2920,3 @@ export type PayOrderRequestSetupInput = ({
      */
     "setup_payment_source"?: PaymentSourceCredentialStripePaymentMethodInput;
 });
-/** A response containing `PayOrderResult` data. */
-export type PayOrderResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The order is the primary
-     * resource and expected_version target; order_payment_attempt records the payment outcome.
-     */
-    "data": PayOrderResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * The order is the primary resource and expected_version target; order_payment_attempt records the
- * payment outcome.
- */
-export type PayOrderResult = {
-    /**
-     * The order after the payment request. Send its `version` as `expected_version` in your next
-     * change to the order. A customer's purchase and its payment and fulfillment progress.
-     */
-    "order": Order;
-    /**
-     * The payment attempt for this request. Read its `status` and `pending_actions` to decide what
-     * to do next. An attempt to pay an order.
-     */
-    "order_payment_attempt"?: OrderPaymentAttempt;
-};

@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read CardDetailsInput|array<array-key, mixed>|\stdClass $card
+ * @property-read array{'accepted_at': string|\DateTimeInterface, 'text': string, ...}|object|null $consent
  * @property-read string|\DateTimeInterface $created_at
  * @property-read array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $customer
  * @property-read string $customer_id
@@ -19,7 +20,7 @@ namespace Flint;
  * @property-read string $usage
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodInput extends Model {
-    /** @param array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id': string, 'fingerprint'?: string, 'is_default': bool, 'is_removing': bool, 'merchant_id': string, 'origin'?: string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string|\DateTimeInterface, 'usage': string, ...}|object $values */
+    /** @param array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'consent': array{'accepted_at': string|\DateTimeInterface, 'text': string, ...}|object|null, 'created_at': string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id': string, 'fingerprint'?: string, 'is_default': bool, 'is_removing': bool, 'merchant_id': string, 'origin'?: string, 'payment_method_id': string, 'saved_with'?: string, 'status': string, 'type': string, 'updated_at': string|\DateTimeInterface, 'usage': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodInput')); }
     /** Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
      * @return CardDetailsInput|array<array-key, mixed>|\stdClass
@@ -27,6 +28,12 @@ final class PaymentMethodInput extends Model {
      */
     public function getCard(): mixed { return $this->get('card'); }
     public function hasCard(): bool { return $this->has('card'); }
+    /** Recorded consent for the card save. Null when Flint has no recorded wording for this card. anyOf[1] (Value): {@see PaymentMethodConsentInput}. The wording and acceptance time recorded when the buyer agreed to save this card. anyOf[2] (Value): null.
+     * @return array{'accepted_at': string|\DateTimeInterface, 'text': string, ...}|object|null
+     * @throws SdkError When consent is omitted; use hasConsent() or valueOrDefault().
+     */
+    public function getConsent(): mixed { return $this->get('consent'); }
+    public function hasConsent(): bool { return $this->has('consent'); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().

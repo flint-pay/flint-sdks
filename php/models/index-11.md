@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# DeliveryQuoteListResponseInput to DeliveryWeeklyIntervalInput
+# DeliveryQuoteLineItemResourcePreviousAttributesInput to DeliveryTransitTimeRuleRequestInput
 
+- [DeliveryQuoteLineItemResourcePreviousAttributesInput](DeliveryQuoteLineItemResourcePreviousAttributesInput.md)
 - [DeliveryQuoteListResponseInput](DeliveryQuoteListResponseInput.md)
 - [DeliveryQuoteMethodResourceInput](DeliveryQuoteMethodResourceInput.md)
 - [DeliveryQuoteResponseInput](DeliveryQuoteResponseInput.md)
@@ -101,5 +102,4 @@
 - [DeliveryTransitTimeRuleInput](DeliveryTransitTimeRuleInput.md)
 - [DeliveryTransitTimeRulePreviousAttributesInput](DeliveryTransitTimeRulePreviousAttributesInput.md)
 - [DeliveryTransitTimeRuleRequestInput](DeliveryTransitTimeRuleRequestInput.md)
-- [DeliveryWeeklyIntervalInput](DeliveryWeeklyIntervalInput.md)
 

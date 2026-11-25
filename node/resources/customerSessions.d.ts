@@ -12,7 +12,7 @@ import type {
     CustomerSessionsRevokeParams
 } from '../declarations/types-17.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkRequiredIdempotency } from '../declarations/types-80.js';
+import type { _SdkRequiredIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,21 +38,22 @@ export type {
     CustomerSessionsRevocation,
     CustomerSessionsRevocationResponse
 } from '../declarations/types-17.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkRequiredIdempotency } from '../declarations/types-80.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkRequiredIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateCustomerSessionRequestInput } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type {
     ReadinessMerchantAccountSession,
     RefreshCustomerSessionRequestInput,
     RefreshCustomerSessionRequest
 } from '../declarations/types-60.js';
-export { makeCreateCustomerSessionRequest } from '../declarations/types-82.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeRefreshCustomerSessionRequest } from '../declarations/types-91.js';
+export { makeCreateCustomerSessionRequest } from '../declarations/types-83.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeRefreshCustomerSessionRequest } from '../declarations/types-92.js';
 export interface CustomerSessionsResource {
     /**
  * Mints a server-side, customer-scoped credential after the merchant has authenticated the buyer.

@@ -13,11 +13,12 @@ namespace Flint;
  * @property-read array{'email': string, 'message'?: string|null, 'name'?: string|null, 'sender_name'?: string}|object|null $gift_recipient
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string $payment_method_id
+ * @property-read array{'fixed_fee_money'?: array{'amount': string, 'currency': string}|object, 'maximum_fee_money'?: array{'amount': string, 'currency': string}|object, 'percent': int|float}|object|null $platform_fee_rule
  * @property-read null $scheduled_plan_change
  * @property-read array{'calculation'?: array{'components_source'?: string, 'mode': string}|object|null, 'enabled': bool}|object|null $tax
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateSubscriptionRequestInput extends Model {
-    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule'?: SubscriptionBillingScheduleUpdateRequestInput|array<array-key, mixed>|\stdClass, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null, 'sender_name'?: string}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_method_id'?: string, 'scheduled_plan_change'?: null, 'tax'?: array{'calculation'?: array{'components_source'?: string, 'mode': string}|object|null, 'enabled': bool}|object|null}|object $values */
+    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule'?: SubscriptionBillingScheduleUpdateRequestInput|array<array-key, mixed>|\stdClass, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null, 'sender_name'?: string}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_method_id'?: string, 'platform_fee_rule'?: array{'fixed_fee_money'?: array{'amount': string, 'currency': string}|object, 'maximum_fee_money'?: array{'amount': string, 'currency': string}|object, 'percent': int|float}|object|null, 'scheduled_plan_change'?: null, 'tax'?: array{'calculation'?: array{'components_source'?: string, 'mode': string}|object|null, 'enabled': bool}|object|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateSubscriptionRequestInput')); }
     /** New billing interval unit. Send it with `billing_interval_count`; the pair must be one the subscription's `billing_interval_options` offer. It applies from the next renewal that has not been paid, and it is refused while a plan change is scheduled. Not accepted as null. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -55,7 +56,7 @@ final class UpdateSubscriptionRequestInput extends Model {
      */
     public function getEndAfter(): mixed { return $this->get('end_after'); }
     public function hasEndAfter(): bool { return $this->has('end_after'); }
-    /** The current subscription version. Required when end_after is present. Format: uint64. minimum: 1.
+    /** The current subscription version. Required when end_after or platform_fee_rule is present. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -85,6 +86,12 @@ final class UpdateSubscriptionRequestInput extends Model {
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
+    /** Replace the whole rule or send null to remove it. Requires expected_version. Only a partner app install token can set or remove a platform fee rule. anyOf[1] (Value): {@see PlatformFeeRuleRequestInput}. Replaced as a whole: send every field you want to keep. anyOf[2] (Value): null.
+     * @return array{'fixed_fee_money'?: array{'amount': string, 'currency': string}|object, 'maximum_fee_money'?: array{'amount': string, 'currency': string}|object, 'percent': int|float}|object|null
+     * @throws SdkError When platform_fee_rule is omitted; use hasPlatformFeeRule() or valueOrDefault().
+     */
+    public function getPlatformFeeRule(): mixed { return $this->get('platform_fee_rule'); }
+    public function hasPlatformFeeRule(): bool { return $this->has('platform_fee_rule'); }
     /** Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it unchanged. Schedule or replace through change-plan.
      * @return null
      * @throws SdkError When scheduled_plan_change is omitted; use hasScheduledPlanChange() or valueOrDefault().

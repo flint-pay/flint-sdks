@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# InvoiceScheduleEntryInput to LookupEmailPreferencesRequestInput
+# InvoiceScheduleDueWriteInvoiceDueDateInput to LocationResponseInput
 
+- [InvoiceScheduleDueWriteInvoiceDueDateInput](InvoiceScheduleDueWriteInvoiceDueDateInput.md)
 - [InvoiceScheduleEntryInput](InvoiceScheduleEntryInput.md)
 - [InvoiceScheduleEntryPreviousAttributesInput](InvoiceScheduleEntryPreviousAttributesInput.md)
 - [InvoiceScheduleEntryWriteInput](InvoiceScheduleEntryWriteInput.md)
@@ -101,5 +102,4 @@
 - [LocationCoordinateRequestInput](LocationCoordinateRequestInput.md)
 - [LocationListResponseInput](LocationListResponseInput.md)
 - [LocationResponseInput](LocationResponseInput.md)
-- [LookupEmailPreferencesRequestInput](LookupEmailPreferencesRequestInput.md)
 

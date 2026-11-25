@@ -27,7 +27,7 @@ Body model: [CreateAPIKeyRequestInput](../models/CreateAPIKeyRequestInput.md#cre
 | `name` | Required | string | A label that helps you tell keys apart, 1 to 100 characters. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `100`. |
 | `partner_app_install_id` | Optional | string | Links this key to a connected app's install. Revoking the install or its grant for this key's environment revokes the key. The install must be active and authorized for that environment. Set only at creation; it never changes. Omit for an unlinked key. Keys created by a linked key inherit its link. Each install can have up to 25 linked keys that have not been revoked per environment. minLength: `1`. pattern: `^pinst_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `sandbox_id` | Optional | string | Public ID of the sandbox the new test key is bound to. A live credential or a user session sends it to create a test key in that sandbox, and omits it for a live key. A sandbox-bound credential, such as a test key, may name only its own sandbox and gets a test key there either way; any other sandbox returns 404. A Dashboard or onboarding session may name any of the merchant's active sandboxes, and an onboarding session must send it: its first key goes to default_sandbox_id. Storage generation IDs are never accepted. minLength: `1`. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys; developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: `1`. uniqueItems: `true`. Items values: [103 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys; developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: `1`. uniqueItems: `true`. Items values: [105 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### apiKeys.create with `access: "full"`
 
@@ -297,7 +297,7 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequestInput.md#upd
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
 | `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `100`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [103 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [105 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### apiKeys.update: Full
 
@@ -309,7 +309,7 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequestInput.md#upd
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
 | `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `100`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [103 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [105 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### apiKeys.update: Read only
 
@@ -321,7 +321,7 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequestInput.md#upd
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
 | `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `100`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [103 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [105 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### apiKeys.update: Restricted
 
@@ -333,7 +333,7 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequestInput.md#upd
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
 | `name` | Optional | string | A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. Surrounding whitespace is trimmed before length validation. A supplied value cannot be blank; use null where clearing is supported. minLength: `1`. maxLength: `100`. |
-| `scopes` | Required | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [103 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `scopes` | Required | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [105 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### apiKeys.update: No access change
 

@@ -11,7 +11,7 @@ import type {
     WorkloadIdentityListResponse,
     WorkloadIdentityResponse,
     _SdkWithoutIdempotency
-} from '../declarations/types-80.js';
+} from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,17 +38,18 @@ export type {
     WorkloadIdentitiesUpdateParams,
     WorkloadIdentityClaimConditionRequestInput,
     WorkloadIdentityClaimCondition
-} from '../declarations/types-80.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
+} from '../declarations/types-81.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateWorkloadIdentityRequestInput, Credentials } from '../declarations/types-15.js';
 export type { AuthMode } from '../declarations/types-1.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-78.js';
-export { makeCreateWorkloadIdentityRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdateWorkloadIdentityRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-95.js';
+export type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-79.js';
+export { makeCreateWorkloadIdentityRequest } from '../declarations/types-86.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeUpdateWorkloadIdentityRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-96.js';
 export interface WorkloadIdentitiesResource {
     /**
  * Creates an active identity in the authenticated environment and validates issuer discovery. A

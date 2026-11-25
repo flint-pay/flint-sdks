@@ -14,7 +14,7 @@ Fields shared by merchant webhook payloads.
 | `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `data` | Required | object | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/MerchantWebhookEnvelope.md#merchantwebhookenvelopedata). |
 | `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"merchant"`. |
-| `event_type` | Required | string | The resource change or condition this event announces. Values: [298 declared values](#merchantwebhookenvelope-event_type-values). |
+| `event_type` | Required | string | The resource change or condition this event announces. Values: [301 declared values](#merchantwebhookenvelope-event_type-values). |
 | `merchant_id` | Required | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `mode` | Required | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
@@ -239,6 +239,9 @@ Fields shared by merchant webhook payloads.
 - `"payment_intent.requires_action"`
 - `"payment_intent.requires_capture"`
 - `"payment_intent.succeeded"`
+- `"shop.created"`
+- `"shop.updated"`
+- `"shop.archived"`
 - `"payment_link.created"`
 - `"payment_link.updated"`
 - `"payment_method.archived"`

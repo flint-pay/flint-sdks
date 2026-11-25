@@ -90,17 +90,17 @@ Current catalog details for a payment link line item, such as its name, price, i
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `available_modifiers` | Optional | Array of [PublicResolvedModifierGroup](../models/PublicResolvedModifierGroup.md#publicresolvedmodifiergroup) | Modifier groups the buyer can choose from for this item. `available_modifiers[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsavailable_modifiers). |
-| `available_variants` | Optional | Array of [PaymentLinkAvailableVariant](../models/PaymentLinkAvailableVariant.md#paymentlinkavailablevariant) | Listed variants that can currently be sold in the line currency, in variant_ids order. Inactive, archived, unsellable, and other-currency variants are omitted. Each variant includes its advisory sold-out state and its own modifiers. Present only on variant_ids lines. `available_variants[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsavailable_variants). |
+| `available_variants` | Optional | Array of [PublicCatalogVariant](../models/PublicCatalogVariant.md#publiccatalogvariant) | Listed variants that can currently be sold in the line currency, in variant_ids order. Inactive, archived, unsellable, and other-currency variants are omitted. Each variant includes its advisory sold-out state and its own modifiers. Present only on variant_ids lines. `available_variants[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsavailable_variants). |
 | `bundle_components` | Optional | Array of [PublicResolvedBundleComponent](../models/PublicResolvedBundleComponent.md#publicresolvedbundlecomponent) | The components of the bundle. Present for a bundle line item. `bundle_components[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsbundle_components). |
 | `bundle_id` | Optional | string | ID of the bundle this line item sells. Example: `"bun_01KEZF7C00TQ6S76Z6CVQF5SVN"`. |
 | `catalog_object_type` | Optional | string | What the line item sells. Values: `"variant"`, `"bundle"`. |
 | `compare_at_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Current catalog reference unit price for sale display. Null when no variant compare-at price is set. Does not affect the amount charged. |
 | `image` | Optional | [Image](../models/Image.md#image) | Image of the variant or bundle. An image with its URL, size, and alt text. |
 | `is_inventory_tracked` | Optional | boolean | Whether Flint tracks stock for the item. |
-| `is_sold_out` | Required | boolean | True when the fixed variant or bundle components cannot be bought at the line minimum quantity from the link inventory_routing_source. The minimum is min_quantity when quantity adjustment is enabled, otherwise quantity. For variant choice lines, true only when every available_variants entry is sold out. Always false for untracked and ad hoc lines. Exposes no stock counts and reserves no stock. |
+| `is_sold_out` | Required | boolean | True when the link inventory_routing_source cannot supply the fixed variant or bundle components at the line minimum quantity. Offered delivery methods affect availability for items that need a delivery quote. If no quote is needed, stock alone decides. Separate bundle components can use different fulfillment methods. Shipping can use remaining backorder capacity for a fixed variant. Pickup requires physical stock. The minimum is min_quantity when quantity adjustment is enabled, otherwise quantity. For variant choice lines, true only when every available_variants entry is sold out. Always false for untracked and ad hoc lines. Exposes no stock counts and reserves no stock. |
 | `key` | Required | string | Key of the payment link line item this entry describes. |
 | `product_id` | Optional | string | ID of the product the variant belongs to. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
-| `product_options` | Optional | Array of [PaymentLinkProductOption](../models/PaymentLinkProductOption.md#paymentlinkproductoption) | Active product options for a variant_ids line, in option position order. Values include only those used by available_variants and retain value position order. Empty when the product has no options; omitted on fixed variant and bundle lines. `product_options[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsproduct_options). |
+| `product_options` | Optional | Array of [PublicCatalogOption](../models/PublicCatalogOption.md#publiccatalogoption) | Active product options for a variant_ids line, in option position order. Values include only those used by available_variants and retain value position order. Empty when the product has no options; omitted on fixed variant and bundle lines. `product_options[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsproduct_options). |
 | `quantity_price_breaks` | Required | Array of [QuantityPriceBreak](../models/QuantityPriceBreak.md#quantitypricebreak) | Default quantity breaks for a fixed variant. Empty for bundles, variant choice lines, and ad hoc lines. Each offered variant on a variant choice line has its own schedule in available_variants. |
 | `resolved_description` | Optional | string | Current catalog description of the variant or bundle, as of this read. |
 | `resolved_name` | Optional | string | Current catalog name of the variant or bundle, as of this read. |
@@ -165,19 +165,19 @@ One selectable option in a resolved modifier group, with its price change, tax c
 
 ### PublicPaymentLinkResponse.data.resolved_line_items[].available_variants[]
 
-A listed payment link variant that can be sold in the line currency, with its current price, options, image, modifiers, and advisory stock state.
+A variant that can be sold now, with its current price, options, image, modifiers, and advisory stock state.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `available_modifiers` | Optional | Array of [PublicResolvedModifierGroup](../models/PublicResolvedModifierGroup.md#publicresolvedmodifiergroup) | Modifier groups available for this variant's effective modifier set. Omitted when the variant has none. `available_modifiers[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsavailable_modifiers). |
 | `compare_at_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Current catalog reference unit price for sale display. Null when no variant compare-at price is set. Does not affect the amount charged. |
 | `image` | Optional | [Image](../models/Image.md#image) | Effective primary variant image, inherited from the product when the variant has none. Omitted when neither has an image. An image with its URL, size, and alt text. |
-| `is_sold_out` | Required | boolean | True when tracked inventory cannot supply the line's starting quantity through the payment link's inventory_routing_source. Uses min_quantity when quantity is adjustable, otherwise quantity. Always false for untracked variants. Advisory only: no stock is held at read or resolve time, and no stock counts are published. |
+| `is_sold_out` | Required | boolean | True when the starting quantity of a tracked variant cannot be supplied. For a variant that needs a delivery quote, the configured inventory routing source must supply that quantity for at least one offered delivery method. For a variant that needs no quote, stock alone decides. Shipping can use remaining backorder capacity. Pickup requires physical stock. Uses the minimum quantity when the buyer can adjust the quantity. Always false for untracked variants. Availability is advisory. Reads and checkout resolution do not hold stock or expose stock counts. |
 | `name` | Required | string | Order line name for this variant: the product name plus the variant label. |
 | `product_id` | Required | string | Identifier of the product the offered variant belongs to. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
-| `quantity_price_breaks` | Required | Array of [QuantityPriceBreak](../models/QuantityPriceBreak.md#quantitypricebreak) | Default variant quantity breaks. Use the largest minimum_quantity not above this line's own quantity; an empty array uses the base price. |
+| `quantity_price_breaks` | Required | Array of [QuantityPriceBreak](../models/QuantityPriceBreak.md#quantitypricebreak) | Default quantity breaks for this variant. Use the largest `minimum_quantity` at or below the quantity on the order line. An empty array uses the base price. |
 | `selected_options` | Required | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | The variant's product option values, in product option position order. Empty when the product has no options. `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
-| `unit_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Current catalog base unit price in the line currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `unit_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Current catalog base unit price. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `variant_id` | Required | string | ID of the offered product variant. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
 
 ### PublicPaymentLinkResponse.data.resolved_line_items[].available_variants[].available_modifiers[]
@@ -220,19 +220,19 @@ Field definitions: [OrderResponse.data.line_items[].bundle_components[].variant.
 
 ### PublicPaymentLinkResponse.data.resolved_line_items[].product_options[]
 
-An active product option offered on a payment link, with values used by its available variants.
+An active product option, with the values its available variants use.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `name` | Required | string | Product option name, such as Size or Color. |
 | `option_id` | Required | string | ID of the product option. Example: `"opt_01KEZF7C008R5Q9BG9B4B4KQH8"`. |
-| `values` | Required | Array of [PaymentLinkProductOptionValue](../models/PaymentLinkProductOptionValue.md#paymentlinkproductoptionvalue) | Values used by at least one available variant, in product option value position order. `values[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsproduct_optionsvalues). |
+| `values` | Required | Array of [PublicCatalogOptionValue](../models/PublicCatalogOptionValue.md#publiccatalogoptionvalue) | Values used by at least one available variant, in product option value position order. `values[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsproduct_optionsvalues). |
 
 ### PublicPaymentLinkResponse.data.resolved_line_items[].product_options[].values[]
 
-A product option value used by an available payment link variant.
+A product option value used by an available variant.
 
-Field definitions: [shared fields](PaymentLinkProductOptionValueInput.md#paymentlinkproductoptionvalueinput).
+Field definitions: [shared fields](PublicCatalogOptionValueInput.md#publiccatalogoptionvalueinput).
 
 ### PublicPaymentLinkResponse.data.resolved_line_items[].selected_options[]
 

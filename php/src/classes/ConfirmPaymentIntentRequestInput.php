@@ -8,9 +8,10 @@ namespace Flint;
  * @property-read string $payment_return_url
  * @property-read PaymentSourceCredentialInput|array<array-key, mixed>|\stdClass $payment_source
  * @property-read bool $save_payment_method
+ * @property-read string $save_payment_method_consent_text
  * Presence-aware input; omitted fields throw when accessed. */
 final class ConfirmPaymentIntentRequestInput extends Model {
-    /** @param array{'buyer_ip_address'?: string, 'client_action_type'?: string, 'expected_version'?: int, 'payment_return_url'?: string, 'payment_source'?: PaymentSourceCredentialInput|array<array-key, mixed>|\stdClass, 'save_payment_method'?: bool}|object $values */
+    /** @param array{'buyer_ip_address'?: string, 'client_action_type'?: string, 'expected_version'?: int, 'payment_return_url'?: string, 'payment_source'?: PaymentSourceCredentialInput|array<array-key, mixed>|\stdClass, 'save_payment_method'?: bool, 'save_payment_method_consent_text'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ConfirmPaymentIntentRequestInput')); }
     /** The buyer's IP address, for risk screening, when your server pays on the buyer's behalf. Write-only. minLength: 1. maxLength: 64.
      * @return string
@@ -48,4 +49,10 @@ final class ConfirmPaymentIntentRequestInput extends Model {
      */
     public function getSavePaymentMethod(): bool { return $this->get('save_payment_method'); }
     public function hasSavePaymentMethod(): bool { return $this->has('save_payment_method'); }
+    /** The wording the buyer agreed to when saving this card. Send only when save_payment_method is true, using an API key or partner token with payments.payment_methods.write, or a Dashboard session. Flint trims surrounding whitespace and stores the remaining text exactly. The trimmed wording must contain 1 to 1,000 characters and cannot contain a null character. Checkout supplies its own wording and cannot send this field. minLength: 1. pattern: ^[\t-\r    -     　]*[^\x00\t-\r    -     　]([^\x00]{0,998}[^\x00\t-\r    -     　])?[\t-\r    -     　]*$.
+     * @return string
+     * @throws SdkError When save_payment_method_consent_text is omitted; use hasSavePaymentMethodConsentText() or valueOrDefault().
+     */
+    public function getSavePaymentMethodConsentText(): string { return $this->get('save_payment_method_consent_text'); }
+    public function hasSavePaymentMethodConsentText(): bool { return $this->has('save_payment_method_consent_text'); }
 }

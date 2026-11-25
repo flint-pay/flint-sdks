@@ -1,4 +1,5 @@
 import type {
+    GiftCardNotification,
     GiftCardNotificationDelivery,
     GiftCardNotificationDeliveryPreviousAttributes,
     GiftCardNotificationRecipient,
@@ -6,10 +7,11 @@ import type {
     GiftCardFundingSource,
     GiftCardFundingSourcePreviousAttributes
 } from './types-29.js';
-import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { ResponseMeta } from './types-63.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
+import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { InputValue } from '../runtime.js';
-import type { CancelGiftCardNotificationRequestInput, CashOutGiftCardRequestInput } from './types-5.js';
+import type { CancelGiftCardNotificationRequestInput } from './types-5.js';
 import type { CreateGiftCardNotificationRequestInput, CreateGiftCardRedemptionRequestInput } from './types-10.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type {
@@ -19,9 +21,112 @@ import type {
     GiftCard
 } from './types-28.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
-import type { ResponseMeta, ResourceReference } from './types-62.js';
+import type { ResourceReference } from './types-62.js';
 import type { AdjustGiftCardBalanceRequestInput } from './types-0.js';
-import type { CloseGiftCardRequestInput } from './types-7.js';
+/** A response containing `GiftCardNotification` data. */
+export type GiftCardNotificationResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A message sent to a gift
+     * card recipient.
+     */
+    "data": GiftCardNotification;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type GiftCardNotificationUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "delivery"?: GiftCardNotificationDelivery;
+            "gift_card_id": string;
+            "gift_card_notification_id": string;
+            "recipient": GiftCardNotificationRecipient;
+            "resend_of_notification_id"?: string;
+            "sent_at"?: string;
+            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
+            "status_reason": "credential_rotated" | null | (string & {}) | null;
+            "supported_actions": Array<"cancel" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "delivery"?: ((GiftCardNotificationDeliveryPreviousAttributes) | (null));
+            "gift_card_id"?: ((string) | (null));
+            "gift_card_notification_id"?: ((string) | (null));
+            "recipient"?: ((GiftCardNotificationRecipientPreviousAttributes) | (null));
+            "resend_of_notification_id"?: ((string) | (null));
+            "sent_at"?: ((string) | (null));
+            "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
+            "status_reason"?: (("credential_rotated" | null | (string & {})) | (null));
+            "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "gift_card_notification.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "delivery"?: GiftCardNotificationDelivery;
+            "gift_card_id": string;
+            "gift_card_notification_id": string;
+            "recipient": GiftCardNotificationRecipient;
+            "resend_of_notification_id"?: string;
+            "sent_at"?: string;
+            "status": "scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {});
+            "status_reason": "credential_rotated" | null | (string & {}) | null;
+            "supported_actions": Array<"cancel" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "created_at"?: ((string) | (null));
+            "delivery"?: ((GiftCardNotificationDeliveryPreviousAttributes) | (null));
+            "gift_card_id"?: ((string) | (null));
+            "gift_card_notification_id"?: ((string) | (null));
+            "recipient"?: ((GiftCardNotificationRecipientPreviousAttributes) | (null));
+            "resend_of_notification_id"?: ((string) | (null));
+            "sent_at"?: ((string) | (null));
+            "status"?: (("scheduled" | "pending" | "sent" | "failed" | "unconfirmed" | "canceled" | (string & {})) | (null));
+            "status_reason"?: (("credential_rotated" | null | (string & {})) | (null));
+            "supported_actions"?: ((Array<"cancel" | (string & {})>) | (null));
+            "updated_at"?: ((string) | (null));
+            "version"?: ((number) | (null));
+        });
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "gift_card_notification.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "gift_card_notification.updated";
+});
 /**
  * The `gift_card_notification.updated` webhook payload for the `installed_merchants` event source.
  * Fields shared by partner webhook payloads.
@@ -6043,50 +6148,6 @@ export type GiftCardVersionRequestInput = {
     "expected_version"?: number;
 };
 export type GiftCardsAdjustBalanceParams = (InputValue<AdjustGiftCardBalanceRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardsCashOutParams = (InputValue<CashOutGiftCardRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type GiftCardsCloseParams = (InputValue<CloseGiftCardRequestInput> | {
-    "expected_version"?: never;
-})
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with

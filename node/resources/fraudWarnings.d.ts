@@ -8,7 +8,7 @@ import type {
     FraudWarningsListParams
 } from '../declarations/types-27.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,8 +31,8 @@ export type {
     FraudWarningListResponse,
     FraudWarningPaymentSummary
 } from '../declarations/types-27.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
@@ -43,15 +43,17 @@ export type { CheckoutBuyerContact } from '../declarations/types-6.js';
 export type { DeferredPromotion } from '../declarations/types-18.js';
 export type { PricingAmounts } from '../declarations/types-56.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
-export type { SettlementAmounts, SplitReversalReference } from '../declarations/types-68.js';
+export type { SettlementAmounts } from '../declarations/types-68.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
 } from '../declarations/types-54.js';
+export type { SplitReversalReference } from '../declarations/types-69.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface FraudWarningsResource {
     /**
  * Retrieves an early fraud warning. Expand `payment_intent` or `dispute` to include them.

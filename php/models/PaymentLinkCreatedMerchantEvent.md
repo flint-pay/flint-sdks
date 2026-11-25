@@ -67,6 +67,10 @@ Declared alternatives: [PaymentLinkResponse.data.line_items[]](../models/Payment
 
 Field definitions: [OrderResponse.data.charges[].metadata](../models/OrderResponse.md#orderresponsedatachargesmetadata).
 
+### PaymentLinkCreatedMerchantEvent.data fields 1.object.platform_fee_rule
+
+Field definitions: [PaymentLinkResponse.data.platform_fee_rule](../models/PaymentLinkResponse.md#paymentlinkresponsedataplatform_fee_rule).
+
 ### PaymentLinkCreatedMerchantEvent.data fields 1.object.redirects
 
 Field definitions: [PaymentLinkResponse.data.redirects](../models/PaymentLinkResponse.md#paymentlinkresponsedataredirects).

@@ -6,23 +6,23 @@ import type {
 } from './types-14.js';
 import type { MetadataMap, MetadataRequestInput } from './types-43.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
+import type { RefundCharge, RefundDestinations, RefundChargeInput, RefundDestinationsInput } from './types-60.js';
 import type {
-    RefundCharge,
-    RefundDestinations,
     RefundLineItem,
-    RefundChargeInput,
-    RefundDestinationsInput,
-    RefundLineItemInput
-} from './types-60.js';
-import type {
     RefundTaxBreakdownRefundIn,
     RefundTenderAllocationRequest,
+    RefundLineItemInput,
     RefundTaxBreakdownRefundInInput,
     RefundTenderAllocationRequestInput,
     RefundWithGiftCardCodes
 } from './types-61.js';
-import type { SplitReversalRequest, SplitReversalRequestInput } from './types-68.js';
-import type { ResponseMeta } from './types-62.js';
+import type { SplitReversalRequest, SplitReversalRequestInput } from './types-69.js';
+import type {
+    ResponseMeta,
+    ReturnEligibilitySelection,
+    ReturnEligibilitySelectionRequestInput,
+    ReturnEligibilityPreview
+} from './types-63.js';
 import type { CreateIntervalReportRequest, CreateIntervalReportRequestInput } from './types-10.js';
 import type {
     GetReturnDispositionResponse,
@@ -34,29 +34,27 @@ import type {
     GetReturnResponse
 } from './types-28.js';
 import type {
-    ReturnEligibilitySelection,
-    ReturnEligibilitySelectionRequestInput,
     ReturnInspectionLineItemRequest,
     ReturnInspectionLineItemRequestInput,
-    ReturnEligibilityPreview
-} from './types-63.js';
-import type { ReturnSourceSystemRequest, ReturnSourceSystemRequestInput } from './types-66.js';
-import type {
     ReturnPolicyRevisionRequest,
     ReturnPolicyRevisionRequestInput,
     ReturnLineItemRequest,
     ReturnLineItemRequestInput
 } from './types-64.js';
 import type {
+    ReturnSourceSystemRequest,
+    ReturnSourceSystemRequestInput,
     ReturnResolutionPreview,
+    ReturnResolutionLineItemRequest,
+    ReturnResolutionAdjustmentRequestInput,
+    ReturnResolutionLineItemRequestInput
+} from './types-66.js';
+import type {
     ReturnReceiptLineItemRequest,
     ReturnReceiptLineItemRequestInput,
     ReturnReplacementLineItemRequest,
     ReturnResolutionAdjustmentRequest,
-    ReturnResolutionLineItemRequest,
-    ReturnResolutionAdjustmentRequestInput,
-    ReturnReplacementLineItemRequestInput,
-    ReturnResolutionLineItemRequestInput
+    ReturnReplacementLineItemRequestInput
 } from './types-65.js';
 /** A reader registration selected by type. */
 export type CreateReaderRequest = ((CreateSmartReaderRequest) | (CreateTapToPayReaderRequest) | (Record<string, unknown>));

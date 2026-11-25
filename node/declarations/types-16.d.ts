@@ -1,6 +1,5 @@
-import type { CustomDomain } from './types-15.js';
-import type { ResponseMeta, ResolveCustomerDeletionRequestInput } from './types-62.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
+import type { ResponseMeta } from './types-63.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateCustomDomainRequestInput, CreateCustomerDeletionRequestInput } from './types-9.js';
 import type {
@@ -10,10 +9,150 @@ import type {
     ErrorResourceReferencePreviousAttributes
 } from './types-26.js';
 import type { Address } from './types-0.js';
-import type { TaxIdentity } from './types-74.js';
+import type { CustomerReceivables } from './types-17.js';
+import type { TaxIdentity } from './types-75.js';
 import type { BuyerCapabilities, BuyerCapabilitiesRequestInput } from './types-1.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
+import type { ResolveCustomerDeletionRequestInput } from './types-62.js';
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
+/** A merchant hostname for hosted checkout or customer account pages. */
+export type CustomDomain = {
+    /**
+     * Payment attempts in progress on this checkout hostname. `null` when `type` is
+     * `customer_account`. Format: int64.
+     */
+    "active_payment_attempt_count": number | null;
+    /**
+     * When this domain resource was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at": string;
+    /** Flint custom domain ID. Example: "cdom_01KEZF7C00483JTTKHZVFQHKS8". */
+    "custom_domain_id": string;
+    /**
+     * DNS records to add for setup or verification. For an archived hostname, records that can be
+     * deleted. [] (Value): {@link CustomDomainDNSRecord}. A DNS record for configuring or
+     * verifying a custom hostname.
+     */
+    "dns_records": Array<CustomDomainDNSRecord>;
+    /** Configured hostname, normalized to lowercase without a trailing dot. */
+    "hostname": string;
+    /**
+     * When the domain was last checked, in RFC3339 format; `null` when no check time is available.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "last_checked_at": string | null;
+    /**
+     * Payment method domain associated with this hostname. `null` when none is reported. Example:
+     * "pmdom_01KEZF7C001WQCSRGH9GWR6628".
+     */
+    "payment_method_domain_id": string | null;
+    /**
+     * End of the redirect window for an archived hostname. After archive, dns_records lists
+     * records you can delete. `null` when the hostname isn't archived. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "redirect_expires_at": string | null;
+    /**
+     * Current setup and availability state of the hostname. Archived domains retain their resource
+     * identity. Value enum: "provisioning", "active", "attention_required", "inactive",
+     * "archived".
+     */
+    "status": "provisioning" | "active" | "attention_required" | "inactive" | "archived" | (string & {});
+    /**
+     * Machine-readable detail for the current status. `null` when no reason is reported, including
+     * for active and archived domains. Value enum: "dns_record_missing", "dns_record_mismatch",
+     * "ownership_record_missing", "ownership_record_mismatch", "caa_record_blocks_certificate",
+     * "proxied_by_another_provider", "certificate_pending", "custom_domains_inactive", "other",
+     * null.
+     */
+    "status_reason": "dns_record_missing"
+        | "dns_record_mismatch"
+        | "ownership_record_missing"
+        | "ownership_record_mismatch"
+        | "caa_record_blocks_certificate"
+        | "proxied_by_another_provider"
+        | "certificate_pending"
+        | "custom_domains_inactive"
+        | "other"
+        | null
+        | (string & {})
+        | null;
+    /**
+     * Whether the hostname serves checkout pages or the customer account Flint hosts. Value enum:
+     * "checkout", "customer_account".
+     */
+    "type": "checkout" | "customer_account" | (string & {});
+    /**
+     * When this domain resource was last updated, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+};
+export type CustomDomainArchivedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_payment_attempt_count": number | null;
+            "created_at": string;
+            "custom_domain_id": string;
+            "dns_records": Array<CustomDomainDNSRecord>;
+            "hostname": string;
+            "last_checked_at": string | null;
+            "payment_method_domain_id": string | null;
+            "redirect_expires_at": string | null;
+            "status": "provisioning" | "active" | "attention_required" | "inactive" | "archived" | (string & {});
+            "status_reason": "dns_record_missing"
+                | "dns_record_mismatch"
+                | "ownership_record_missing"
+                | "ownership_record_mismatch"
+                | "caa_record_blocks_certificate"
+                | "proxied_by_another_provider"
+                | "certificate_pending"
+                | "custom_domains_inactive"
+                | "other"
+                | null
+                | (string & {})
+                | null;
+            "type": "checkout" | "customer_account" | (string & {});
+            "updated_at": string;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "active_payment_attempt_count"?: ((number) | (null));
+            "created_at"?: ((string) | (null));
+            "custom_domain_id"?: ((string) | (null));
+            "dns_records"?: ((Array<CustomDomainDNSRecordPreviousAttributes>) | (null));
+            "hostname"?: ((string) | (null));
+            "last_checked_at"?: ((string) | (null));
+            "payment_method_domain_id"?: ((string) | (null));
+            "redirect_expires_at"?: ((string) | (null));
+            "status"?: (("provisioning" | "active" | "attention_required" | "inactive" | "archived" | (string & {}))
+                | (null));
+            "status_reason"?: (("dns_record_missing"
+                | "dns_record_mismatch"
+                | "ownership_record_missing"
+                | "ownership_record_mismatch"
+                | "caa_record_blocks_certificate"
+                | "proxied_by_another_provider"
+                | "certificate_pending"
+                | "custom_domains_inactive"
+                | "other"
+                | null
+                | (string & {}))
+                | (null));
+            "type"?: (("checkout" | "customer_account" | (string & {})) | (null));
+            "updated_at"?: ((string) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "custom_domain.archived";
+})
+    & {
+    "event_type": "custom_domain.archived";
+});
 /** A DNS record for configuring or verifying a custom hostname. */
 export type CustomDomainDNSRecord = {
     /** DNS name at which to publish this record. */
@@ -766,17 +905,19 @@ export type Customer = {
     "version": number;
 };
 /**
- * The result of creating a customer account link. With link delivery it carries the single-use
- * sign-in link. With email delivery Flint has queued that link in an email to the customer, and
- * the response carries only a masked recipient address.
+ * The result of creating a customer access link. A link delivery returns the single-use sign-in
+ * link. An email delivery confirms Flint queued the message and gives a masked recipient address.
  */
 export type CustomerAccessLink = ({
     /** Whether the credential was returned or emailed. Value enum: "link", "email". */
     "delivery": "link" | "email" | (string & {});
     /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "expires_at"?: string;
-    /** The returned link opens the customer's account. Value enum: "customer_account". */
-    "purpose"?: "customer_account" | (string & {});
+    /**
+     * What the returned or emailed link opens. New purposes may be added. Value enum:
+     * "customer_account", "payment_method_setup".
+     */
+    "purpose": "customer_account" | "payment_method_setup" | (string & {});
     /**
      * Masked customer address receiving the account link. No credential is returned with email
      * delivery.
@@ -800,17 +941,19 @@ export type CustomerAccessLink = ({
     | (Exclude<CustomerAccessLinkEmailed & object, readonly unknown[]>)
     | (Record<string, unknown>));
 /**
- * The result of creating a customer account link. With link delivery it carries the single-use
- * sign-in link. With email delivery Flint has queued that link in an email to the customer, and
- * the response carries only a masked recipient address.
+ * The result of creating a customer access link. A link delivery returns the single-use sign-in
+ * link. An email delivery confirms Flint queued the message and gives a masked recipient address.
  */
 export type CustomerAccessLinkEmailed = ({
     /** Whether the credential was returned or emailed. Value enum: "email". */
     "delivery": "email" | (string & {});
     /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "expires_at"?: string;
-    /** The returned link opens the customer's account. Value enum: "customer_account". */
-    "purpose"?: "customer_account" | (string & {});
+    /**
+     * What the returned or emailed link opens. New purposes may be added. Value enum:
+     * "customer_account", "payment_method_setup".
+     */
+    "purpose": "customer_account" | "payment_method_setup" | (string & {});
     /**
      * Masked customer address receiving the account link. No credential is returned with email
      * delivery.
@@ -834,6 +977,11 @@ export type CustomerAccessLinkEmailed = ({
     /** Value enum: "email". */
     "delivery": unknown;
     /**
+     * What the returned or emailed link opens. New purposes may be added. Value enum:
+     * "customer_account", "payment_method_setup".
+     */
+    "purpose": "customer_account" | "payment_method_setup" | (string & {});
+    /**
      * True when Flint accepted the email into its durable delivery queue. Provider delivery runs
      * asynchronously. Value enum: true.
      */
@@ -848,9 +996,8 @@ export type CustomerAccessLinkEmailed = ({
 export type CustomerAccessLinkResponse = {
     /**
      * Resource, collection, or operation result returned by this request. The result of creating a
-     * customer account link. With link delivery it carries the single-use sign-in link. With email
-     * delivery Flint has queued that link in an email to the customer, and the response carries
-     * only a masked recipient address.
+     * customer access link. A link delivery returns the single-use sign-in link. An email delivery
+     * confirms Flint queued the message and gives a masked recipient address.
      */
     "data": CustomerAccessLink;
     /**
@@ -865,17 +1012,19 @@ export type CustomerAccessLinkResponse = {
     "request_id": string;
 };
 /**
- * The result of creating a customer account link. With link delivery it carries the single-use
- * sign-in link. With email delivery Flint has queued that link in an email to the customer, and
- * the response carries only a masked recipient address.
+ * The result of creating a customer access link. A link delivery returns the single-use sign-in
+ * link. An email delivery confirms Flint queued the message and gives a masked recipient address.
  */
 export type CustomerAccessLinkReturned = ({
     /** Whether the credential was returned or emailed. Value enum: "link". */
     "delivery": "link" | (string & {});
     /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "expires_at": string;
-    /** The returned link opens the customer's account. Value enum: "customer_account". */
-    "purpose": "customer_account" | (string & {});
+    /**
+     * What the returned or emailed link opens. New purposes may be added. Value enum:
+     * "customer_account", "payment_method_setup".
+     */
+    "purpose": "customer_account" | "payment_method_setup" | (string & {});
     /**
      * Masked customer address receiving the account link. No credential is returned with email
      * delivery.
@@ -900,8 +1049,11 @@ export type CustomerAccessLinkReturned = ({
     "delivery": unknown;
     /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "expires_at": string;
-    /** The returned link opens the customer's account. Value enum: "customer_account". */
-    "purpose": "customer_account" | (string & {});
+    /**
+     * What the returned or emailed link opens. New purposes may be added. Value enum:
+     * "customer_account", "payment_method_setup".
+     */
+    "purpose": "customer_account" | "payment_method_setup" | (string & {});
     /** The return_url from the request. Null when the request omitted it. */
     "return_url": string | null;
 }));
@@ -3749,30 +3901,4 @@ export type CustomerReceivableBalancePreviousAttributes = {
      * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      */
     "overdue_money"?: ((MoneyValuePreviousAttributes) | (null));
-};
-/** A customer's receivable balances by currency and when they were observed. */
-export type CustomerReceivables = {
-    /**
-     * One balance per currency in which the customer has an outstanding or overdue amount. Empty
-     * when the customer owes nothing. [] (Value): {@link CustomerReceivableBalance}. A customer's
-     * outstanding and overdue amounts in one currency.
-     */
-    "balances": Array<CustomerReceivableBalance>;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "observed_at": string;
-};
-export type CustomerReceivablesPreviousAttributes = {
-    /**
-     * One balance per currency in which the customer has an outstanding or overdue amount. Empty
-     * when the customer owes nothing. anyOf[1] (Value): Array of {@link
-     * CustomerReceivableBalancePreviousAttributes}. One balance per currency in which the customer
-     * has an outstanding or overdue amount. Empty when the customer owes nothing. anyOf[1][]
-     * (Value): {@link CustomerReceivableBalancePreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "balances"?: ((Array<CustomerReceivableBalancePreviousAttributes>) | (null));
-    /**
-     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-     */
-    "observed_at"?: ((string) | (null));
 };

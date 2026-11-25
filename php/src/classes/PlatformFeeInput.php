@@ -7,21 +7,25 @@ namespace Flint;
  * @property-read string $checkout_session_id
  * @property-read string|\DateTimeInterface $collected_at
  * @property-read string|\DateTimeInterface $created_at
+ * @property-read string $invoice_id
  * @property-read string $merchant_id
  * @property-read string $partner_app_id
  * @property-read string $partner_app_install_id
  * @property-read string $payment_intent_id
+ * @property-read string $payment_link_id
  * @property-read string $platform_fee_id
+ * @property-read PlatformFeeRuleInput|array<array-key, mixed>|\stdClass $platform_fee_rule
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $requested_amount_money
  * @property-read string|\DateTimeInterface $reserve_available_at
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $reserve_hold_money
  * @property-read string $status
+ * @property-read string $subscription_id
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class PlatformFeeInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'canceled_reason'?: string, 'checkout_session_id'?: string, 'collected_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'merchant_id': string, 'partner_app_id': string, 'partner_app_install_id': string, 'payment_intent_id': string, 'platform_fee_id': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'requested_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reserve_available_at'?: string|\DateTimeInterface, 'reserve_hold_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'canceled_reason'?: string, 'checkout_session_id'?: string, 'collected_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'invoice_id'?: string, 'merchant_id': string, 'partner_app_id': string, 'partner_app_install_id': string, 'payment_intent_id': string, 'payment_link_id'?: string, 'platform_fee_id': string, 'platform_fee_rule'?: PlatformFeeRuleInput|array<array-key, mixed>|\stdClass, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'requested_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reserve_available_at'?: string|\DateTimeInterface, 'reserve_hold_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_id'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PlatformFeeInput')); }
     /** The fee Flint will charge until the payment succeeds, then the fee charged. Flint lowers it at confirm and capture to fit the merchant's cap and Flint's own fees; 0 once canceled. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -53,6 +57,12 @@ final class PlatformFeeInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** The invoice the payment collected. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * @return string
+     * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
+     */
+    public function getInvoiceId(): string { return $this->get('invoice_id'); }
+    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
     /** The installed merchant charged the fee, as on the install. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
@@ -77,12 +87,24 @@ final class PlatformFeeInput extends Model {
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
+    /** The payment link whose checkout made the payment. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     * @return string
+     * @throws SdkError When payment_link_id is omitted; use hasPaymentLinkId() or valueOrDefault().
+     */
+    public function getPaymentLinkId(): string { return $this->get('payment_link_id'); }
+    public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
     /** Unique identifier for the platform fee, the payment intent's platform_fee.platform_fee_id. Example: "pfee_01KEZF7C00JHAZN19B3MMW0R3A".
      * @return string
      * @throws SdkError When platform_fee_id is omitted; use hasPlatformFeeId() or valueOrDefault().
      */
     public function getPlatformFeeId(): string { return $this->get('platform_fee_id'); }
     public function hasPlatformFeeId(): bool { return $this->has('platform_fee_id'); }
+    /** The rule that priced this fee, as it stood when the payment was created. The rule that sets the platform fee for each payment.
+     * @return PlatformFeeRuleInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When platform_fee_rule is omitted; use hasPlatformFeeRule() or valueOrDefault().
+     */
+    public function getPlatformFeeRule(): mixed { return $this->get('platform_fee_rule'); }
+    public function hasPlatformFeeRule(): bool { return $this->has('platform_fee_rule'); }
     /** The fee debited from the platform for returns so far, including opted-in payment refunds and returns of the whole application fee. Matches the platform ledger, including returns awaiting completion; reversals reduce the total. 0 when nothing has been debited. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
@@ -113,6 +135,12 @@ final class PlatformFeeInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** The subscription associated with the payment. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * @return string
+     * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
+     */
+    public function getSubscriptionId(): string { return $this->get('subscription_id'); }
+    public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
     /** When the fee last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().

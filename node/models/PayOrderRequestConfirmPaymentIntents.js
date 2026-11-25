@@ -1,13 +1,15 @@
-import { d7928 as c0 } from '../descriptors/data/343.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d9924 as c1, d9928 as c2 } from '../descriptors/data/460.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d1440 as c3 } from '../descriptors/data/71.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d10017 as c4, d10019 as c5, d10020 as c8, d10021 as c9, d10022 as c10, d10023 as c11, d10024 as c21, d10025 as c22 } from '../descriptors/data/464.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d9935 as c6, d9936 as c7, d9944 as c12, d9945 as c13, d9946 as c14, d9954 as c15, d9955 as c16, d9956 as c17, d9957 as c18, d9958 as c19, d9959 as c20 } from '../descriptors/data/461.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d1440 as d1440 } from '../descriptors/data/71.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
+import { d8003 as c0 } from '../descriptors/data/347.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d10009 as c1, d10013 as c2 } from '../descriptors/data/464.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d1442 as c3 } from '../descriptors/data/72.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d10102 as c4, d10104 as c5, d10105 as c8, d10106 as c9, d10107 as c10, d10108 as c11 } from '../descriptors/data/468.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d10020 as c6, d10021 as c7, d10029 as c12, d10030 as c13, d10031 as c14, d10039 as c15, d10040 as c16 } from '../descriptors/data/465.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d10041 as c17, d10042 as c18, d10043 as c19, d10044 as c20 } from '../descriptors/data/466.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d10109 as c21, d10110 as c22, d10111 as c23, d10112 as c24 } from '../descriptors/data/469.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d1442 as d1442 } from '../descriptors/data/72.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1440;
+const read = d1442;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["OrderGiftCardAllocationAcceptance"]:c1(),["OrderPaymentIntentSelection"]:c2(),["PayOrderRequestConfirmPaymentIntents"]:c3(),["PaymentSourceCredential"]:c4(),["ReaderPaymentSourceTip"]:c5(),["SharedCodec1932"]:c6(),["SharedCodec1933"]:c7(),["SharedCodec2250"]:c8(),["SharedCodec2251"]:c9(),["SharedCodec2252"]:c10(),["SharedCodec2253"]:c11(),["SharedCodec2273"]:c12(),["SharedCodec2274"]:c13(),["SharedCodec2275"]:c14(),["SharedCodec2283"]:c15(),["SharedCodec2284"]:c16(),["SharedCodec2285"]:c17(),["SharedCodec2286"]:c18(),["SharedCodec2287"]:c19(),["SharedCodec2288"]:c20(),["SharedCodec334"]:c21(),["SharedCodec336"]:c22()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["OrderGiftCardAllocationAcceptance"]:c1(),["OrderPaymentIntentSelection"]:c2(),["PayOrderRequestConfirmPaymentIntents"]:c3(),["PaymentSourceCredential"]:c4(),["ReaderPaymentSourceTip"]:c5(),["SharedCodec1957"]:c6(),["SharedCodec1958"]:c7(),["SharedCodec2276"]:c8(),["SharedCodec2277"]:c9(),["SharedCodec2278"]:c10(),["SharedCodec2279"]:c11(),["SharedCodec2299"]:c12(),["SharedCodec2300"]:c13(),["SharedCodec2301"]:c14(),["SharedCodec2309"]:c15(),["SharedCodec2310"]:c16(),["SharedCodec2311"]:c17(),["SharedCodec2312"]:c18(),["SharedCodec2313"]:c19(),["SharedCodec2314"]:c20(),["SharedCodec337"]:c21(),["SharedCodec339"]:c22(),["SharedCodec340"]:c23(),["SharedCodec341"]:c24()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePayOrderRequestConfirmPaymentIntents(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

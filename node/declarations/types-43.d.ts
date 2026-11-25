@@ -1,3 +1,11 @@
+import type {
+    MerchantBillingInvoice,
+    MerchantBillingInvoiceLineItem,
+    MerchantBillingInvoiceLineItemPreviousAttributes,
+    Merchant
+} from './types-42.js';
+import type { ResponseMeta, ReturnActor } from './types-63.js';
+import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type { InputValue } from '../runtime.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { CapabilityReadiness, CapabilityReadinessPreviousAttributes } from './types-5.js';
@@ -10,17 +18,78 @@ import type {
 import type { AddressPreviousAttributes } from './types-0.js';
 import type { ImageAttachmentPreviousAttributes } from './types-31.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { WebhookMerchant } from './types-79.js';
-import type { Merchant } from './types-42.js';
-import type { ResponseMeta, ReturnActor } from './types-62.js';
+import type { WebhookMerchant } from './types-80.js';
 import type { PlatformFeeCap } from './types-56.js';
 import type { LicenseKeyVersionRequestInput } from './types-40.js';
 import type { CreateMerchantSignupRequestInput, CreateModifierGroupRequestInput } from './types-11.js';
-import type { VerifyMerchantSignupRequestInput } from './types-78.js';
-import type { UpdateMerchantRequestInput, UpdateModifierGroupRequestInput } from './types-76.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput, ModifierSetGroup } from './types-44.js';
-import type { TextModifierConfig } from './types-74.js';
-import type { TextModifierConfigPreviousAttributes } from './types-75.js';
+import type { VerifyMerchantSignupRequestInput } from './types-79.js';
+import type { UpdateMerchantRequestInput, UpdateModifierGroupRequestInput } from './types-77.js';
+import type { TextModifierConfig, TextModifierConfigPreviousAttributes } from './types-75.js';
+/** A response containing `MerchantBillingInvoice` data. */
+export type MerchantBillingInvoiceResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A Flint invoice for the
+     * merchant's Flint subscription.
+     */
+    "data": MerchantBillingInvoice;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type MerchantBillingInvoiceUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "applied_credit_money": MoneyValue;
+            "created_at": string;
+            "due_at": string;
+            "invoice_number": string;
+            "issued_at": string;
+            "line_items": Array<MerchantBillingInvoiceLineItem>;
+            "merchant_billing_invoice_id": string;
+            "outstanding_money": MoneyValue;
+            "paid_at"?: string;
+            "period_end_at": string;
+            "period_start_at": string;
+            "status": "open" | "paid" | "written_off" | (string & {});
+            "subtotal_money": MoneyValue;
+            "total_money": MoneyValue;
+            "updated_at": string;
+        };
+        "previous_attributes"?: ({
+            [key: string]: unknown;
+        })
+            & ({
+            "applied_credit_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "created_at"?: ((string) | (null));
+            "due_at"?: ((string) | (null));
+            "invoice_number"?: ((string) | (null));
+            "issued_at"?: ((string) | (null));
+            "line_items"?: ((Array<MerchantBillingInvoiceLineItemPreviousAttributes>) | (null));
+            "merchant_billing_invoice_id"?: ((string) | (null));
+            "outstanding_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "paid_at"?: ((string) | (null));
+            "period_end_at"?: ((string) | (null));
+            "period_start_at"?: ((string) | (null));
+            "status"?: (("open" | "paid" | "written_off" | (string & {})) | (null));
+            "subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "total_money"?: ((MoneyValuePreviousAttributes) | (null));
+            "updated_at"?: ((string) | (null));
+        });
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "merchant_billing_invoice.updated";
+})
+    & {
+    "event_type": "merchant_billing_invoice.updated";
+});
 export type MerchantBillingInvoicesGetParams = {};
 export type MerchantBillingInvoicesListParams = {
     /**
@@ -2436,26 +2505,27 @@ export type MerchantWebhookEnvelope = ({
      * "payment_intent.created", "payment_intent.canceled",
      * "payment_intent.fulfillment_hold_updated", "payment_intent.payment_failed",
      * "payment_intent.processing", "payment_intent.requires_action",
-     * "payment_intent.requires_capture", "payment_intent.succeeded", "payment_link.created",
-     * "payment_link.updated", "payment_method.archived", "payment_method.failed",
-     * "payment_method.activated", "payment_method.updated", "payout.canceled", "payout.created",
-     * "payout.failed", "payout.succeeded", "payout.reversed", "payout.updated",
-     * "payout_destination.created", "payout_destination.archived", "payout_destination.disabled",
-     * "payout_destination.updated", "payout_settings.updated", "refund.partially_succeeded",
-     * "refund.succeeded", "refund.created", "refund.failed", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "payment_review.closed", "payment_review.reopened", "payment_review.opened",
-     * "subscription.activated", "subscription.canceled", "subscription.cancellation_scheduled",
-     * "subscription.created", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded",
-     * "subscription_payment_retry.created", "subscription_payment_retry.succeeded",
-     * "subscription_payment_retry.failed", "subscription.reactivated", "subscription.resumed",
-     * "subscription.end_upcoming", "subscription.renewal_upcoming", "subscription.trial_ending",
+     * "payment_intent.requires_capture", "payment_intent.succeeded", "shop.created",
+     * "shop.updated", "shop.archived", "payment_link.created", "payment_link.updated",
+     * "payment_method.archived", "payment_method.failed", "payment_method.activated",
+     * "payment_method.updated", "payout.canceled", "payout.created", "payout.failed",
+     * "payout.succeeded", "payout.reversed", "payout.updated", "payout_destination.created",
+     * "payout_destination.archived", "payout_destination.disabled", "payout_destination.updated",
+     * "payout_settings.updated", "refund.partially_succeeded", "refund.succeeded",
+     * "refund.created", "refund.failed", "refund.updated", "report.failed", "report.succeeded",
+     * "return.canceled", "return.completed", "return.created", "return.decision_recorded",
+     * "return.reopened", "return.updated", "return_disposition.created",
+     * "return_disposition.updated", "return_inspection.acceptance_decided",
+     * "return_inspection.created", "return_inspection.superseded", "return_receipt.created",
+     * "return_receipt.superseded", "return_receipt.verified", "return_resolution.created",
+     * "return_resolution.updated", "payment_review.closed", "payment_review.reopened",
+     * "payment_review.opened", "subscription.activated", "subscription.canceled",
+     * "subscription.cancellation_scheduled", "subscription.created",
+     * "subscription.dunning_exhausted", "subscription.past_due", "subscription.paused",
+     * "subscription.payment_succeeded", "subscription_payment_retry.created",
+     * "subscription_payment_retry.succeeded", "subscription_payment_retry.failed",
+     * "subscription.reactivated", "subscription.resumed", "subscription.end_upcoming",
+     * "subscription.renewal_upcoming", "subscription.trial_ending",
      * "subscription.plan_change_scheduled", "subscription.plan_change_canceled",
      * "subscription.plan_changed", "subscription.updated",
      * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
@@ -2682,6 +2752,9 @@ export type MerchantWebhookEnvelope = ({
         | "payment_intent.requires_action"
         | "payment_intent.requires_capture"
         | "payment_intent.succeeded"
+        | "shop.created"
+        | "shop.updated"
+        | "shop.archived"
         | "payment_link.created"
         | "payment_link.updated"
         | "payment_method.archived"
@@ -6719,133 +6792,4 @@ export type ModifierRequest = {
      * currency code.
      */
     "unit_price_delta_money"?: MoneyValue;
-};
-/**
- * A modifier you supply when creating or updating a modifier group, such as an add-on with a price
- * change.
- */
-export type ModifierRequestInput = {
-    /**
-     * Whole-number quantity selected by default. Used only when the choice is available and
-     * selected_by_default is true. A modifier set can override this value; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "default_quantity"?: number;
-    /**
-     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
-     * "software", "saas", "services", "professional_services", "food", "prepared_food",
-     * "clothing", "medical_goods", "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission";
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Stable identifier of the modifier. In a replacement request, include it to retain a modifier
-     * or omit it to create one. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
-     */
-    "modifier_id"?: string;
-    /**
-     * Name of the choice shown to buyers. Surrounding whitespace is trimmed before length
-     * validation. A supplied value cannot be blank; use null where clearing is supported.
-     * minLength: 1. maxLength: 255.
-     */
-    "name": string;
-    /**
-     * Display position of the choice within its group; lower values appear first. Format: int32.
-     */
-    "position"?: number;
-    /**
-     * Whether this choice is selected when the buyer has not supplied selections for the group. A
-     * modifier set can override this value; unavailable choices are never selected by default.
-     * Default: false.
-     */
-    "selected_by_default"?: boolean;
-    /** Whether this modifier appears in fulfillment details. */
-    "show_on_fulfillment"?: boolean;
-    /** Whether this modifier appears on buyer receipts. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Value
-     * enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Whether this modifier's price is taxable. A modifier set can override this value. */
-    "taxable"?: boolean;
-    /**
-     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
-     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "unit_price_delta_money"?: MoneyValueInput;
-};
-/** A reusable collection of customization groups. */
-export type ModifierSet = {
-    /**
-     * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "created_at"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Identifier of the merchant that owns this modifier set. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Ordered group entries in this set, including the full content of reusable groups and groups
-     * owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as it appears in a
-     * modifier set, with its selection limits, display options, and per-modifier overrides.
-     */
-    "modifier_groups": Array<ModifierSetGroup>;
-    /**
-     * Stable identifier of the modifier set assigned to catalog items. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     */
-    "modifier_set_id": string;
-    /** Name used to identify this modifier set. */
-    "name": string;
-    /**
-     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
-     * sets remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /**
-     * When the modifier set or any group it contains last changed, as an RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "updated_at"?: string;
-    /**
-     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
-     */
-    "version": number;
 };

@@ -13,17 +13,15 @@ import type {
     CreateOrderTipInput,
     CreateOrderLineItemVariant
 } from './types-12.js';
-import type { InventoryRoutingSourceRequest } from './types-33.js';
+import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-34.js';
 import type {
     OrderDeliveryDestinationRequest,
     OrderDeliveryDestinationRequestInput,
     Order,
-    OrderEdit,
     OrderCalculatedLineItemTax,
     OrderDraftLineItemInventoryDemandRequest
 } from './types-45.js';
 import type { OrderTaxRequest, OrderTaxRequestInput } from './types-48.js';
-import type { InventoryRoutingSourceRequestInput } from './types-34.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
 import type { CreateInvoiceIssueRequest, CreateInvoiceIssueRequestInput, CreateInlineModifierGroupRequestInput } from './types-10.js';
 import type { InvoicePaymentDueRequest, InvoicePaymentDueRequestInput } from './types-36.js';
@@ -36,11 +34,11 @@ import type {
     ModifierOverride,
     ModifierOverrideRequestInput
 } from './types-43.js';
+import type { PlatformFeeRuleRequest, PlatformFeeRuleRequestInput } from './types-56.js';
 import type {
     LocationCoordinate,
     LocationCoordinateRequestInput,
     ManualDiscountRequest,
-    ManualDiscountRequestInput,
     LineItemFulfillmentRequest
 } from './types-40.js';
 import type { CheckoutRedirects, CheckoutRedirectsRequestInput } from './types-6.js';
@@ -51,22 +49,20 @@ import type {
     SubscriptionSwapPreviewRequest,
     SubscriptionQuantityChangeLineItemRequestInput,
     SubscriptionSwapPreviewRequestInput
-} from './types-72.js';
-import type {
-    SubscriptionDeliveryDestinationRequestInput,
-    SubscriptionDeliveryRequest,
-    SubscriptionDeliveryRequestInput
-} from './types-70.js';
+} from './types-73.js';
+import type { SubscriptionDeliveryDestinationRequestInput, SubscribedLineRequest } from './types-70.js';
+import type { SubscriptionDeliveryRequest, SubscriptionDeliveryRequestInput } from './types-71.js';
 import type { TextModifierConfigRequest } from './types-75.js';
 import type { PromotionRefRequest, PromotionRefRequestInput } from './types-59.js';
-import type { OrderEditRemovalRequest, OrderEditRemovalRequestInput, OrderLineItemModifierRequest } from './types-46.js';
+import type { ManualDiscountRequestInput } from './types-41.js';
+import type { OrderEditRemovalRequest, OrderEditRemovalRequestInput, OrderEdit } from './types-46.js';
 import type { RefundCharge, RefundDestinations, RefundChargeInput, RefundDestinationsInput, Refund } from './types-60.js';
-import type { ResponseMeta } from './types-62.js';
+import type { ResponseMeta } from './types-63.js';
 import type { Dimensions } from './types-25.js';
 import type { GiftCardPurchaseRequest } from './types-30.js';
 import type { ImageReferenceRequest } from './types-31.js';
-import type { SubscribedLineRequest } from './types-69.js';
-import type { Weight } from './types-80.js';
+import type { OrderLineItemModifierRequest } from './types-47.js';
+import type { Weight } from './types-81.js';
 /** The request body for: Create invoice manual payment. */
 export type CreateInvoiceManualPaymentRequestInput = {
     /**
@@ -323,6 +319,12 @@ export type CreateInvoiceRequest = ({
      */
     "payment_due"?: InvoicePaymentDueRequest;
     /**
+     * Sets the platform fee for each payment Flint collects for this invoice. Only a partner app
+     * install token can set or remove a platform fee rule. Replaced as a whole: send every field
+     * you want to keep.
+     */
+    "platform_fee_rule"?: PlatformFeeRuleRequest;
+    /**
      * The buyer's purchase order number, printed on the invoice and PDF. minLength: 1. maxLength:
      * 255.
      */
@@ -440,6 +442,12 @@ export type CreateInvoiceRequestInput = ({
      */
     "payment_due"?: InvoicePaymentDueRequestInput;
     /**
+     * Sets the platform fee for each payment Flint collects for this invoice. Only a partner app
+     * install token can set or remove a platform fee rule. Replaced as a whole: send every field
+     * you want to keep.
+     */
+    "platform_fee_rule"?: PlatformFeeRuleRequestInput;
+    /**
      * The buyer's purchase order number, printed on the invoice and PDF. minLength: 1. maxLength:
      * 255.
      */
@@ -555,6 +563,12 @@ export type CreateInvoiceRequestOrder = ({
      * invoice: no due date, a calendar date, payment terms, or a default.
      */
     "payment_due"?: InvoicePaymentDueRequest;
+    /**
+     * Sets the platform fee for each payment Flint collects for this invoice. Only a partner app
+     * install token can set or remove a platform fee rule. Replaced as a whole: send every field
+     * you want to keep.
+     */
+    "platform_fee_rule"?: PlatformFeeRuleRequest;
     /** The buyer's purchase order number, printed on the invoice and PDF. minLength: 1. */
     "po_number"?: string;
     /**
@@ -676,6 +690,12 @@ export type CreateInvoiceRequestOrderInput = ({
      * invoice: no due date, a calendar date, payment terms, or a default.
      */
     "payment_due"?: InvoicePaymentDueRequestInput;
+    /**
+     * Sets the platform fee for each payment Flint collects for this invoice. Only a partner app
+     * install token can set or remove a platform fee rule. Replaced as a whole: send every field
+     * you want to keep.
+     */
+    "platform_fee_rule"?: PlatformFeeRuleRequestInput;
     /** The buyer's purchase order number, printed on the invoice and PDF. minLength: 1. */
     "po_number"?: string;
     /**
@@ -800,6 +820,12 @@ export type CreateInvoiceRequestQuickPay = ({
      * invoice: no due date, a calendar date, payment terms, or a default.
      */
     "payment_due"?: InvoicePaymentDueRequest;
+    /**
+     * Sets the platform fee for each payment Flint collects for this invoice. Only a partner app
+     * install token can set or remove a platform fee rule. Replaced as a whole: send every field
+     * you want to keep.
+     */
+    "platform_fee_rule"?: PlatformFeeRuleRequest;
     /** The buyer's purchase order number, printed on the invoice and PDF. minLength: 1. */
     "po_number"?: string;
     /**
@@ -921,6 +947,12 @@ export type CreateInvoiceRequestQuickPayInput = ({
      * invoice: no due date, a calendar date, payment terms, or a default.
      */
     "payment_due"?: InvoicePaymentDueRequestInput;
+    /**
+     * Sets the platform fee for each payment Flint collects for this invoice. Only a partner app
+     * install token can set or remove a platform fee rule. Replaced as a whole: send every field
+     * you want to keep.
+     */
+    "platform_fee_rule"?: PlatformFeeRuleRequestInput;
     /** The buyer's purchase order number, printed on the invoice and PDF. minLength: 1. */
     "po_number"?: string;
     /**

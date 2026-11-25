@@ -19,6 +19,7 @@ Resource, collection, or operation result returned by this request. A customer's
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `card` | Optional | [CardDetails](../models/CardDetails.md#carddetails) | Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used. |
+| `consent` | Required | [PaymentMethodConsent](../models/PaymentMethodConsent.md#paymentmethodconsent) or null | Recorded consent for the card save. Null when Flint has no recorded wording for this card. `consent`: [declared alternatives](../models/BuyerSavePaymentMethodResponse.md#buyersavepaymentmethodresponsedataconsent). |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `customer_id` | Required | string | Customer this payment method belongs to. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `is_default` | Required | boolean | Whether this is the customer's default payment method, the one BuyerCustomer.default_payment_method_id names. Change it with default_payment_method_id on PATCH /v1/me. Existing subscriptions keep their payment_method_id. |
@@ -30,6 +31,10 @@ Resource, collection, or operation result returned by this request. A customer's
 | `type` | Required | string | Kind of payment method. Values: `"card"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `usage` | Required | string | When Flint may charge the payment method. off_session payment methods can pay subscriptions, automatic invoices, and other charges without the buyer, and can be a customer's default. on_session payment methods were saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only in checkouts the buyer completes and refuses them for any charge without the buyer and as a default. Payment methods saved before usage existed are off_session. Values: `"on_session"`, `"off_session"`. |
+
+### BuyerPaymentMethodResponse.data.consent
+
+Declared alternatives: [BuyerSavePaymentMethodResponse.data.consent](../models/BuyerSavePaymentMethodResponse.md#buyersavepaymentmethodresponsedataconsent).
 
 ### BuyerPaymentMethodResponse.meta
 

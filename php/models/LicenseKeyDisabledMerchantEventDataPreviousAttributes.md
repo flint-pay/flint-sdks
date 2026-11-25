@@ -359,7 +359,7 @@ anyOf variant 2.
 | `reason` | Optional | string or null | Reason for a merchant or subscription restriction. `reason`: [declared alternatives](../models/LicenseKeyRestrictionPreviousAttributes.md#licensekeyrestrictionpreviousattributesreason). |
 | `refund_id` | Optional | string or null | The refund that restricted the key. `refund_id`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributesrestrictions-variant-1-fields-1refund_id). |
 | `subscription_id` | Optional | string or null | The subscription that restricted the key. `subscription_id`: [declared alternatives](../models/LicenseKeyDisabledMerchantEventDataPreviousAttributes.md#licensekeydisabledmerchanteventdatapreviousattributesrestrictions-variant-1-fields-1subscription_id). |
-| `type` | Optional | string or null | What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`. `type`: [declared alternatives](../models/LicenseKeyRestrictionPreviousAttributes.md#licensekeyrestrictionpreviousattributestype). |
+| `type` | Optional | string or null | What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`, `"payment_reversal"`. `type`: [declared alternatives](../models/LicenseKeyRestrictionPreviousAttributes.md#licensekeyrestrictionpreviousattributestype). |
 
 ### LicenseKeyDisabledMerchantEventDataPreviousAttributes.restrictions variant 1.[] fields 1.created_at
 

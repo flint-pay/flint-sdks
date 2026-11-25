@@ -23,12 +23,12 @@ namespace Flint;
 final class BuyerExpandedOrderSummary extends Model {
     /** @param array{'closed_at'?: string, 'closed_reason'?: string, 'created_at'?: string, 'customer_id'?: string, 'deferred_promotions': list<mixed>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': mixed, 'refund_status': string, 'settlement_amounts': mixed, 'status': string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerExpandedOrderSummary')); }
-    /** When the order closed. Present exactly when status is closed. Set once at the transition and never changed. Format: date-time.
+    /** When the order last closed. Present exactly when status is closed. Format: date-time.
      * @return ?string
      */
     public function getClosedAt(): ?string { return $this->get('closed_at'); }
     public function hasClosedAt(): bool { return $this->has('closed_at'); }
-    /** Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+    /** Why the order closed. Present exactly when status is closed. Flint returns other for an unrecognized reason and may add new values. Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
      * @return ?string
      */
     public function getClosedReason(): ?string { return $this->get('closed_reason'); }
@@ -68,7 +68,7 @@ final class BuyerExpandedOrderSummary extends Model {
      */
     public function getOrderNumber(): ?string { return $this->get('order_number'); }
     public function hasOrderNumber(): bool { return $this->has('order_number'); }
-    /** When `payment_status` became `paid`, including a final capture that releases the remaining balance. Set once and never changed, including after refunds. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. Format: date-time.
+    /** When the current paid state began, including a final capture that releases the remaining balance. A reversal that reopens the order clears this timestamp. `null` when `payment_status` isn't `paid`, including an order whose balance was written off without being paid. Format: date-time.
      * @return string|null
      */
     public function getPaidAt(): string|null { return $this->get('paid_at'); }
@@ -78,7 +78,7 @@ final class BuyerExpandedOrderSummary extends Model {
      */
     public function getPaymentIntentIds(): ?array { return $this->get('payment_intent_ids'); }
     public function hasPaymentIntentIds(): bool { return $this->has('payment_intent_ids'); }
-    /** Collection progress. An invoice write-off also completes collection without receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
+    /** Collection progress. Reversing a recorded invoice payment can move this back to unpaid or partially_paid. An invoice write-off also completes collection without receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
      * @return string
      */
     public function getPaymentStatus(): string { return $this->get('payment_status'); }
@@ -98,7 +98,7 @@ final class BuyerExpandedOrderSummary extends Model {
      */
     public function getSettlementAmounts(): OrderSettlementAmounts { return $this->get('settlement_amounts'); }
     public function hasSettlementAmounts(): bool { return $this->has('settlement_amounts'); }
-    /** Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value enum: "open", "closed".
+    /** Whether the order still accepts changes and new payments. An order closed as paid reopens if reversing a recorded invoice payment leaves an outstanding order balance. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value enum: "open", "closed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

@@ -41,7 +41,11 @@ Field definitions: [ApiKeyCreatedEvent.data fields 1.actor](../models/ApiKeyCrea
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
-Field definitions: [shared fields](PlatformFeeCanceledEventDataObject.md#platformfeecanceledeventdataobject).
+Field definitions: [shared fields](PlatformFee.md#platformfee).
+
+### PlatformFeeCanceledEvent.data fields 1.object.platform_fee_rule
+
+Field definitions: [PlatformFeeResponse.data.platform_fee_rule](../models/PlatformFeeResponse.md#platformfeeresponsedataplatform_fee_rule).
 
 ### PlatformFeeCanceledEvent.data fields 1.previous_attributes
 
@@ -105,6 +109,20 @@ anyOf variant 2.
 
 - Value shape: null. When the payment's create recorded the fee. 
 
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.invoice_id
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.invoice_id variant 1
+
+anyOf variant 1: The invoice the payment collected..
+
+- Value shape: string. The invoice the payment collected. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.invoice_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The invoice the payment collected. 
+
 ### PlatformFeeCanceledEvent.data fields 1.previous_attributes.merchant_id
 
 ### PlatformFeeCanceledEvent.data fields 1.previous_attributes.merchant_id variant 1
@@ -161,6 +179,20 @@ anyOf variant 2.
 
 - Value shape: null. The payment the fee rides on, owned by the installed merchant. After that merchant resets the sandbox the payment was in, the ID no longer resolves. 
 
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.payment_link_id
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.payment_link_id variant 1
+
+anyOf variant 1: The payment link whose checkout made the payment..
+
+- Value shape: string. The payment link whose checkout made the payment. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.payment_link_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The payment link whose checkout made the payment. 
+
 ### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_id
 
 ### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_id variant 1
@@ -174,6 +206,141 @@ anyOf variant 1: Unique identifier for the platform fee, the payment intent's pl
 anyOf variant 2.
 
 - Value shape: null. Unique identifier for the platform fee, the payment intent's platform_fee.platform_fee_id. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule
+
+The rule that priced this fee, as it stood when the payment was created.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `fixed_fee_money` | Conditional | object and [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The fixed amount per payment. `fixed_fee_money`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money). |
+| `maximum_fee_money` | Conditional | object and [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | The maximum fee per payment, at least the fixed amount. `maximum_fee_money`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1maximum_fee_money). |
+| `partner_app_id` | Conditional | string or null | The partner app whose install set the rule. `partner_app_id`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1partner_app_id). |
+| `percent` | Conditional | number or null | Percent of the amount collected. Zero requires fixed_fee_money. `percent`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1percent). |
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1
+
+anyOf PlatformFeeRulePreviousAttributes.
+
+- Optional: `fixed_fee_money`, `maximum_fee_money`, `partner_app_id`, `percent`.
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 2
+
+anyOf variant 2.
+
+- Undeclared: `fixed_fee_money`, `maximum_fee_money`, `partner_app_id`, `percent`.
+- Value shape: null. The rule that priced this fee, as it stood when the payment was created. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money
+
+The fixed amount per payment.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount` | Conditional | (integer string or null) | Amount in the currency's minor unit, such as cents for USD. `amount`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money-variant-1amount). |
+| `currency` | Conditional | string or null | Three-letter uppercase ISO 4217 currency code for this amount, such as USD. `currency`: [declared alternatives](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money-variant-1currency). |
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 1
+
+anyOf variant 1.
+
+- Optional: `amount`, `currency`.
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. The fixed amount per payment. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 1.amount
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 1.amount variant 1
+
+anyOf group 1 variant 1.
+
+- Value shape: integer string. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. maximum: `1000000`. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 1.amount variant 2, 4
+
+anyOf group 1 variant 2; anyOf group 2 variant 2.
+
+- Value shape: null. Amount in the currency's minor unit, such as cents for USD. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 1.amount variant 3
+
+anyOf group 2 variant 1: Amount in the currency's minor unit, such as cents for USD..
+
+- Value shape: integer string. Amount in the currency's minor unit, such as cents for USD. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 1.currency
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 1.currency variant 1
+
+anyOf variant 1: Three-letter uppercase ISO 4217 currency code for this amount, such as USD..
+
+- Value shape: string. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 1.currency variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Three-letter uppercase ISO 4217 currency code for this amount, such as USD. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.maximum_fee_money
+
+The maximum fee per payment, at least the fixed amount.
+
+Field definitions: [shared fields](#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money).
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.maximum_fee_money variant 1
+
+anyOf variant 1.
+
+- Optional: `amount`, `currency`.
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.maximum_fee_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. The maximum fee per payment, at least the fixed amount. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.maximum_fee_money variant 1.amount
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 1.amount](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money-variant-1amount).
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.maximum_fee_money variant 1.currency
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money variant 1.currency](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money-variant-1currency).
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.partner_app_id
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.partner_app_id variant 1
+
+anyOf variant 1: The partner app whose install set the rule..
+
+- Value shape: string. The partner app whose install set the rule. The partner app whose install set the rule. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.partner_app_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The partner app whose install set the rule. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.percent
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.percent variant 1
+
+anyOf variant 1: Percent of the amount collected. Zero requires fixed_fee_money..
+
+- Value shape: number. Percent of the amount collected. Zero requires fixed_fee_money. Percent of the amount collected. Zero requires fixed_fee_money. minimum: `0`. maximum: `25`. multipleOf: `0.0001`. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.percent variant 2
+
+anyOf variant 2.
+
+- Value shape: null. Percent of the amount collected. Zero requires fixed_fee_money. 
 
 ### PlatformFeeCanceledEvent.data fields 1.previous_attributes.reserve_available_at
 
@@ -202,6 +369,20 @@ anyOf variant 1: Where the fee stands. canceled is final..
 anyOf variant 2.
 
 - Value shape: null. Where the fee stands. canceled is final. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.subscription_id
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.subscription_id variant 1
+
+anyOf variant 1: The subscription associated with the payment..
+
+- Value shape: string. The subscription associated with the payment. 
+
+### PlatformFeeCanceledEvent.data fields 1.previous_attributes.subscription_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. The subscription associated with the payment. 
 
 ### PlatformFeeCanceledEvent.data fields 1.previous_attributes.updated_at
 

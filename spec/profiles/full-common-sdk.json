@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/4e727e1e3027cc354518aee1332545b9b968f05f/sdk-config.schema.json",
-  "version": "8.0.0-beta.11",
+  "version": "8.0.0-beta.12",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
@@ -804,8 +804,6 @@
     "PromotionRuleValueInput": "PromotionRuleValueRequest",
     "RefundAdjustmentReasonInput": "RefundAdjustmentReasonRequest",
     "RefundTenderAllocationInput": "RefundTenderAllocationRequest",
-    "ResolvePaymentLinkLineItemModifierInput": "ResolvePaymentLinkLineItemModifierRequest",
-    "ResolvePaymentLinkTextModifierInput": "ResolvePaymentLinkTextModifierRequest",
     "ReturnEligibilityLineItemInput": "ReturnEligibilityLineItemRequest",
     "ReturnProcessDispositionInput": "ReturnProcessDispositionRequest",
     "ReturnProcessInspectionInput": "ReturnProcessInspectionRequest",
@@ -939,6 +937,7 @@
       "refunds": "refunds",
       "checkout_sessions": "checkout-sessions",
       "payment_links": "payment-links",
+      "shops": "shops",
       "disputes": "disputes",
       "risk": "risk-controls",
       "money_movement": "money-movement",
@@ -9109,6 +9108,91 @@
       "retry": {
         "maxAttempts": 3
       }
+    },
+    "listShops": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "createShop": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "deleteShop": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getShop": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "updateShop": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false,
+      "example": {
+        "body": {
+          "description": "Updated shop description"
+        },
+        "shop_id": "shop_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+      }
+    },
+    "listShopListings": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "getShopListingPublic": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getShopPublic": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "resolveShop": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
     }
   },
   "requests": {

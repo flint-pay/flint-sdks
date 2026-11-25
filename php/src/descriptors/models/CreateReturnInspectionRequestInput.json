@@ -1,1 +1,1 @@
-{"shared":"CreateReturnInspectionRequest","dependencies":["CreateReturnInspectionRequest","ReturnInspectionLineItemRequest","ReturnSourceSystemRequest","SharedCodec2685","SharedCodec2686","SharedCodec2687","SharedCodec2704","SharedCodec2705","SharedCodec2706","SharedCodec455"]}
+{"shared":"CreateReturnInspectionRequest","dependencies":["CreateReturnInspectionRequest","ReturnInspectionLineItemRequest","ReturnSourceSystemRequest","SharedCodec2715","SharedCodec2716","SharedCodec2717","SharedCodec2734","SharedCodec2735","SharedCodec2736","SharedCodec462"]}

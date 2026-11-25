@@ -12,6 +12,7 @@ namespace Flint;
  * @property-read array{'email': string, 'message'?: string|null, 'name'?: string|null, 'sender_name'?: string}|object|null $gift_recipient
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $payment_method_id
+ * @property-read PlatformFeeRuleRequestInput|array<array-key, mixed>|\stdClass $platform_fee_rule
  * @property-read list<SubscriptionPromotionRequestInput|array<array-key, mixed>|\stdClass> $promotions
  * @property-read bool $prorate_first_period
  * @property-read SubscriptionServiceLocationRequestInput|array<array-key, mixed>|\stdClass $service_location
@@ -19,7 +20,7 @@ namespace Flint;
  * @property-read SubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass $terms
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsCreateParams extends Model {
-    /** @param array{'billing_anchor_day'?: int, 'billing_schedule'?: SubscriptionBillingScheduleRequestInput|array<array-key, mixed>|\stdClass, 'billing_start': SubscriptionBillingStartRequestInput|array<array-key, mixed>|\stdClass, 'customer_id': string, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null, 'external_reference_id'?: string, 'gift_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null, 'sender_name'?: string}|object|null, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'payment_method_id'?: string, 'promotions'?: list<SubscriptionPromotionRequestInput|array<array-key, mixed>|\stdClass>, 'prorate_first_period'?: bool, 'service_location'?: SubscriptionServiceLocationRequestInput|array<array-key, mixed>|\stdClass, 'tax'?: SubscriptionTaxRequestInput|array<array-key, mixed>|\stdClass, 'terms': SubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'billing_anchor_day'?: int, 'billing_schedule'?: SubscriptionBillingScheduleRequestInput|array<array-key, mixed>|\stdClass, 'billing_start': SubscriptionBillingStartRequestInput|array<array-key, mixed>|\stdClass, 'customer_id': string, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null, 'external_reference_id'?: string, 'gift_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null, 'sender_name'?: string}|object|null, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'payment_method_id'?: string, 'platform_fee_rule'?: PlatformFeeRuleRequestInput|array<array-key, mixed>|\stdClass, 'promotions'?: list<SubscriptionPromotionRequestInput|array<array-key, mixed>|\stdClass>, 'prorate_first_period'?: bool, 'service_location'?: SubscriptionServiceLocationRequestInput|array<array-key, mixed>|\stdClass, 'tax'?: SubscriptionTaxRequestInput|array<array-key, mixed>|\stdClass, 'terms': SubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsCreateParams')); }
     /** UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
      * @return int
@@ -81,6 +82,12 @@ final class SubscriptionsCreateParams extends Model {
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
+    /** The platform fee rule for the subscription. Only a partner app install token can set or remove a platform fee rule. Replaced as a whole: send every field you want to keep.
+     * @return PlatformFeeRuleRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When platform_fee_rule is omitted; use hasPlatformFeeRule() or valueOrDefault().
+     */
+    public function getPlatformFeeRule(): mixed { return $this->get('platform_fee_rule'); }
+    public function hasPlatformFeeRule(): bool { return $this->has('platform_fee_rule'); }
     /** Promotions to attach with their current terms frozen. Duplicate promotions are invalid. An offer's own promotion attaches automatically; listing it again returns already_applied. maxItems: 5. uniqueItems: true. [] (Value): {@see SubscriptionPromotionRequestInput}. A promotion to attach when creating or importing a subscription.
      * @return list<SubscriptionPromotionRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When promotions is omitted; use hasPromotions() or valueOrDefault().

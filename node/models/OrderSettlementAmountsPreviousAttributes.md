@@ -19,6 +19,7 @@
 | `released_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Authorized money a final capture released instead of collecting, which the order no longer owes. `released_money`: [declared alternatives](../models/OrderSettlementAmountsPreviousAttributes.md#ordersettlementamountspreviousattributesreleased_money). |
 | `removed_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Value order edits removed from the order, which it no longer owes: removed units' value plus each edit's charge_refunds[].amount_money, whether that value was refunded or applied to lines the edit added. This reduces outstanding_money without changing paid_money or refunded_money. `removed_money`: [declared alternatives](../models/OrderSettlementAmountsPreviousAttributes.md#ordersettlementamountspreviousattributesremoved_money). |
 | `settled_tip_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Portion of the collected money settled as tips. `settled_tip_money`: [declared alternatives](../models/OrderSettlementAmountsPreviousAttributes.md#ordersettlementamountspreviousattributessettled_tip_money). |
+| `subscription_credit_refundable_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Remaining money available for an order refund while the order funds a subscription renewal or change. Excludes money reserved for the credit, exchanges, and processing refunds. Present on affected order reads, including when the amount is zero. `subscription_credit_refundable_money`: [declared alternatives](../models/OrderSettlementAmountsPreviousAttributes.md#ordersettlementamountspreviousattributessubscription_credit_refundable_money). |
 | `outstanding_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Money still owed on the bill, never below zero. Refunds return money already collected and do not add to it. `outstanding_money`: [declared alternatives](../models/InvoiceSettlementAmountsPreviousAttributes.md#invoicesettlementamountspreviousattributesoutstanding_money). |
 | `paid_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Money collected toward the bill, net of reversed payments. Excludes written-off debt. On orders, dispute losses do not reduce this amount. `paid_money`: [declared alternatives](../models/InvoiceSettlementAmountsPreviousAttributes.md#invoicesettlementamountspreviousattributespaid_money). |
 | `refunded_money` | Optional | [MoneyValuePreviousAttributes](../models/MoneyValuePreviousAttributes.md#moneyvaluepreviousattributes) or null | Money returned to the buyer from what was collected toward the bill. On orders, this counts successful refunds. `refunded_money`: [declared alternatives](../models/InvoiceSettlementAmountsPreviousAttributes.md#invoicesettlementamountspreviousattributesrefunded_money). |
@@ -264,6 +265,33 @@ anyOf variant 2.
 Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
 
 ### OrderSettlementAmountsPreviousAttributes.settled_tip_money variant 1.currency
+
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
+
+### OrderSettlementAmountsPreviousAttributes.subscription_credit_refundable_money
+
+Remaining money available for an order refund while the order funds a subscription renewal or change. Excludes money reserved for the credit, exchanges, and processing refunds. Present on affected order reads, including when the amount is zero.
+
+Field definitions: [shared fields](PromotionRuleValuePreviousAttributes.md#promotionrulevaluepreviousattributes).
+
+### OrderSettlementAmountsPreviousAttributes.subscription_credit_refundable_money variant 1
+
+anyOf MoneyValuePreviousAttributes.
+
+- Optional: `amount`, `currency`.
+
+### OrderSettlementAmountsPreviousAttributes.subscription_credit_refundable_money variant 2
+
+anyOf variant 2.
+
+- Undeclared: `amount`, `currency`.
+- Value shape: null. Remaining money available for an order refund while the order funds a subscription renewal or change. Excludes money reserved for the credit, exchanges, and processing refunds. Present on affected order reads, including when the amount is zero. 
+
+### OrderSettlementAmountsPreviousAttributes.subscription_credit_refundable_money variant 1.amount
+
+Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.amount](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1amount).
+
+### OrderSettlementAmountsPreviousAttributes.subscription_credit_refundable_money variant 1.currency
 
 Declared alternatives: [BalanceTransactionFeeDetailPreviousAttributes.amount_money variant 1.currency](../models/BalanceTransactionFeeDetailPreviousAttributes.md#balancetransactionfeedetailpreviousattributesamount_money-variant-1currency).
 

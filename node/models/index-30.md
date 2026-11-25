@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# ProductOptionResponse to PromotionRuleRequestInput
+# ProductCreatedMerchantEvent to PromotionRuleGroup
 
+- [ProductCreatedMerchantEvent](ProductCreatedMerchantEvent.md)
+- [ProductListResponse](ProductListResponse.md)
+- [ProductOption](ProductOption.md)
+- [ProductOptionListResponse](ProductOptionListResponse.md)
+- [ProductOptionPreviousAttributes](ProductOptionPreviousAttributes.md)
 - [ProductOptionResponse](ProductOptionResponse.md)
 - [ProductOptionValue](ProductOptionValue.md)
 - [ProductOptionValuePreviousAttributes](ProductOptionValuePreviousAttributes.md)
@@ -97,9 +102,4 @@
 - [PromotionResponse](PromotionResponse.md)
 - [PromotionRule](PromotionRule.md)
 - [PromotionRuleGroup](PromotionRuleGroup.md)
-- [PromotionRuleGroupPreviousAttributes](PromotionRuleGroupPreviousAttributes.md)
-- [PromotionRuleGroupRequest](PromotionRuleGroupRequest.md)
-- [PromotionRuleGroupRequestInput](PromotionRuleGroupRequestInput.md)
-- [PromotionRulePreviousAttributes](PromotionRulePreviousAttributes.md)
-- [PromotionRuleRequestInput](PromotionRuleRequestInput.md)
 

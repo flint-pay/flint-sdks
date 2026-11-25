@@ -9,7 +9,7 @@ namespace Flint;
 final class CustomerAccessLinkResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAccessLinkResponse')); }
-    /** Resource, collection, or operation result returned by this request. The result of creating a customer account link. With link delivery it carries the single-use sign-in link. With email delivery Flint has queued that link in an email to the customer, and the response carries only a masked recipient address.
+    /** Resource, collection, or operation result returned by this request. The result of creating a customer access link. A link delivery returns the single-use sign-in link. An email delivery confirms Flint queued the message and gives a masked recipient address.
      * @return CustomerAccessLinkResponseDataLink|CustomerAccessLinkResponseDataEmail|\stdClass
      */
     public function getData(): CustomerAccessLinkResponseDataLink|CustomerAccessLinkResponseDataEmail|\stdClass { return $this->get('data'); }

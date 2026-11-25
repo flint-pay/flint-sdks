@@ -44,12 +44,14 @@ Response model.
 | `payment_link_id` | Optional | string or null | ID of the payment link the session was started from. Absent when it was not started from a payment link. `payment_link_id`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_link_id). |
 | `payment_return_url` | Optional | string or null | Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Query strings are deliberately excluded so credentials and provider state cannot cross Flint's payment relay. Put merchant identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048 characters. `payment_return_url`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributespayment_return_url). |
 | `payments` | Optional | [CheckoutPaymentConfigPreviousAttributes](../models/CheckoutPaymentConfigPreviousAttributes.md#checkoutpaymentconfigpreviousattributes) or null | Configured payment options for merchant credentials; currently available payment options for the checkout credential. |
+| `platform_fee_rule` | Optional | [PlatformFeeRulePreviousAttributes](../models/PlatformFeeRulePreviousAttributes.md#platformfeerulepreviousattributes) or null | The platform fee rule that the session was created with. `platform_fee_rule`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesplatform_fee_rule). |
 | `prefill` | Optional | [CheckoutPrefillPreviousAttributes](../models/CheckoutPrefillPreviousAttributes.md#checkoutprefillpreviousattributes) or null | Contact details and addresses to fill in for the buyer, who can change them. For a customer with saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's tax location. Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the checkout credential reads from the customer record. |
 | `problems` | Optional | Array of [CheckoutProblemResourcePreviousAttributes](../models/CheckoutProblemResourcePreviousAttributes.md#checkoutproblemresourcepreviousattributes) or null | Named conditions that affect checkout completion. Follow each problem's remediation action instead of reconstructing delivery lifecycle rules in the client. payment_in_progress means another payment for the order must finish before this checkout can complete. When Flint cannot read the checkout's delivery, the read still succeeds and reports delivery_unreadable; its remediation says whether reading the session again can succeed, and its next action's reason_code names the error. `problems`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesproblems). |
 | `promotion_config` | Optional | [CheckoutPromotionConfigPreviousAttributes](../models/CheckoutPromotionConfigPreviousAttributes.md#checkoutpromotionconfigpreviousattributes) or null | Whether automatic promotions apply to this session and whether the buyer can enter promotion codes. |
 | `redirects` | Optional | [CheckoutRedirectsPreviousAttributes](../models/CheckoutRedirectsPreviousAttributes.md#checkoutredirectspreviousattributes) or null | Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url. `redirects`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesredirects). |
 | `refunds` | Optional | Array of [BuyerRefundPreviousAttributes](../models/BuyerRefundPreviousAttributes.md#buyerrefundpreviousattributes) or null | All buyer-visible refunds on this session’s order, including refunds made by the store. Uses the same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array, with [] when there are none, and omitted from other responses and webhooks. A failed refund with failure_reason refund_abandoned could not be completed: tell the buyer to contact the store to get their money back. `refunds`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesrefunds). |
 | `setup_collection` | Optional | [SetupCollectionPreviousAttributes](../models/SetupCollectionPreviousAttributes.md#setupcollectionpreviousattributes) or null | Guidance for collecting a payment method to save. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads. |
+| `shop_id` | Optional | string or null | ID of the shop that started checkout. `shop_id`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesshop_id). |
 | `status` | Optional | string or null | Where the session is in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that is not open ended. Values: `"open"`, `"paid"`, `"partially_paid"`, `"expired"`, `"closed"`, `"invalidated"`. `status`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesstatus). |
 | `subscription_plan_id` | Optional | string or null | ID of the subscription plan a session of type `subscription_plan` signs the buyer up for. Absent for other types. `subscription_plan_id`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributessubscription_plan_id). |
 | `subscription_terms` | Optional | [CheckoutSubscriptionTermsPreviousAttributes](../models/CheckoutSubscriptionTermsPreviousAttributes.md#checkoutsubscriptiontermspreviousattributes) or null | Renewal terms a subscription checkout commits the buyer to. Frozen when the session's order was created, so later plan changes do not alter them. Absent when the checkout starts no subscription. `subscription_terms`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributessubscription_terms). |
@@ -60,7 +62,7 @@ Response model.
 | `terminal_reason` | Optional | string or null | Why the session ended. The checkout credential can still read its own closed or expired session; every other call is refused because the session is not open. order_paid_elsewhere applies only to invalidated sessions when payment succeeds or partially succeeds outside the session. order_mutated applies when an edit closes or completes its order, or ends an invoice, return-resolution, or subscription-plan session. Other merchant edits keep hosted and headless sessions open. A session already past expires_at ends with expired before the edit is applied. Values: [11 declared values](BuyerCheckoutSessionInput.md#buyercheckoutsessioninput-terminal_reason-values). `terminal_reason`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributesterminal_reason). |
 | `theme` | Optional | [CheckoutThemePreviousAttributes](../models/CheckoutThemePreviousAttributes.md#checkoutthemepreviousattributes) or null | The theme checkout renders with: your branding settings, with the session's `title`, `primary_color`, and `accent_color` over them. A session sets only those three; the other fields come from branding settings. Omitted when neither sets a value. |
 | `tip` | Optional | [CheckoutTipConfigPreviousAttributes](../models/CheckoutTipConfigPreviousAttributes.md#checkouttipconfigpreviousattributes) or null | The tip options this session offers the buyer. |
-| `type` | Optional | string or null | What the session collects payment for, fixed at creation. Values: `"order"`, `"quick_pay"`, `"subscription_plan"`, `"invoice"`, `"payment_link"`. `type`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestype). |
+| `type` | Optional | string or null | What the session collects payment for, fixed at creation. Values: `"order"`, `"quick_pay"`, `"subscription_plan"`, `"invoice"`, `"payment_link"`, `"shop"`. `type`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributestype). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `version` | Optional | integer or null | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. `version`: [declared alternatives](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1previous_attributesversion). |
 
@@ -1300,6 +1302,41 @@ anyOf variant 2.
 
 - Value shape: null. Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Query strings are deliberately excluded so credentials and provider state cannot cross Flint's payment relay. Put merchant identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048 characters. 
 
+### CheckoutSessionClosedMerchantEventDataPreviousAttributes.platform_fee_rule
+
+The platform fee rule that the session was created with.
+
+Field definitions: [shared fields](PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule).
+
+### CheckoutSessionClosedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1
+
+anyOf PlatformFeeRulePreviousAttributes.
+
+- Optional: `fixed_fee_money`, `maximum_fee_money`, `partner_app_id`, `percent`.
+
+### CheckoutSessionClosedMerchantEventDataPreviousAttributes.platform_fee_rule variant 2
+
+anyOf variant 2.
+
+- Undeclared: `fixed_fee_money`, `maximum_fee_money`, `partner_app_id`, `percent`.
+- Value shape: null. The platform fee rule that the session was created with. 
+
+### CheckoutSessionClosedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.fixed_fee_money
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.fixed_fee_money](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1fixed_fee_money).
+
+### CheckoutSessionClosedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.maximum_fee_money
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.maximum_fee_money](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1maximum_fee_money).
+
+### CheckoutSessionClosedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.partner_app_id
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.partner_app_id](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1partner_app_id).
+
+### CheckoutSessionClosedMerchantEventDataPreviousAttributes.platform_fee_rule variant 1.percent
+
+Declared alternatives: [PlatformFeeCanceledEvent.data fields 1.previous_attributes.platform_fee_rule variant 1.percent](../models/PlatformFeeCanceledEvent.md#platformfeecanceledeventdata-fields-1previous_attributesplatform_fee_rule-variant-1percent).
+
 ### CheckoutSessionClosedMerchantEventDataPreviousAttributes.problems
 
 ### CheckoutSessionClosedMerchantEventDataPreviousAttributes.problems variant 1
@@ -1651,6 +1688,20 @@ Declared alternatives: [PartnerAppInstallPermissionsUpdatedEvent.data fields 1.p
 
 Declared alternatives: [PaymentSplitCanceledEvent.data fields 1.previous_attributes.version](../models/PaymentSplitCanceledEvent.md#paymentsplitcanceledeventdata-fields-1previous_attributesversion).
 
+### CheckoutSessionClosedMerchantEventDataPreviousAttributes.shop_id
+
+### CheckoutSessionClosedMerchantEventDataPreviousAttributes.shop_id variant 1
+
+anyOf variant 1: ID of the shop that started checkout..
+
+- Value shape: string. ID of the shop that started checkout. 
+
+### CheckoutSessionClosedMerchantEventDataPreviousAttributes.shop_id variant 2
+
+anyOf variant 2.
+
+- Value shape: null. ID of the shop that started checkout. 
+
 ### CheckoutSessionClosedMerchantEventDataPreviousAttributes.status
 
 ### CheckoutSessionClosedMerchantEventDataPreviousAttributes.status variant 1
@@ -1907,7 +1958,7 @@ anyOf variant 2.
 
 anyOf variant 1: What the session collects payment for, fixed at creation..
 
-- Value shape: string. What the session collects payment for, fixed at creation. Values: `"order"`, `"quick_pay"`, `"subscription_plan"`, `"invoice"`, `"payment_link"`.
+- Value shape: string. What the session collects payment for, fixed at creation. Values: `"order"`, `"quick_pay"`, `"subscription_plan"`, `"invoice"`, `"payment_link"`, `"shop"`.
 
 ### CheckoutSessionClosedMerchantEventDataPreviousAttributes.type variant 2
 

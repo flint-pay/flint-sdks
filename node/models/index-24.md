@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# OnboardingProfileRequest to OrderInventoryExceptionResolvedInstalledMerchantsEvent
+# OnboardingAdvanceRequestInput to OrderInventoryExceptionCreatedInstalledMerchantsEvent
 
+- [OnboardingAdvanceRequestInput](OnboardingAdvanceRequestInput.md)
+- [OnboardingProfile](OnboardingProfile.md)
 - [OnboardingProfileRequest](OnboardingProfileRequest.md)
 - [OnboardingProfileRequestInput](OnboardingProfileRequestInput.md)
 - [OnboardingSessionAuthContext](OnboardingSessionAuthContext.md)
@@ -100,6 +102,4 @@
 - [OrderHandoverPreviousAttributes](OrderHandoverPreviousAttributes.md)
 - [OrderHandoverRequestInput](OrderHandoverRequestInput.md)
 - [OrderInventoryExceptionCreatedInstalledMerchantsEvent](OrderInventoryExceptionCreatedInstalledMerchantsEvent.md)
-- [OrderInventoryExceptionCreatedMerchantEvent](OrderInventoryExceptionCreatedMerchantEvent.md)
-- [OrderInventoryExceptionResolvedInstalledMerchantsEvent](OrderInventoryExceptionResolvedInstalledMerchantsEvent.md)
 

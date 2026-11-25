@@ -9,6 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `card` | Optional | [CardDetailsPreviousAttributes](../models/CardDetailsPreviousAttributes.md#carddetailspreviousattributes) or null | Brand, expiry and last four digits. Present when `type` is `card`. |
+| `consent` | Optional | [PaymentMethodConsentPreviousAttributes](../models/PaymentMethodConsentPreviousAttributes.md#paymentmethodconsentpreviousattributes) or null | Recorded consent for the card save. Null when Flint has no recorded wording for this card. `consent`: [declared alternatives](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributesconsent). |
 | `created_at` | Optional | string or null | RFC3339 timestamp. `created_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `customer` | Optional | [ExpandedCustomerSummaryPreviousAttributes](../models/ExpandedCustomerSummaryPreviousAttributes.md#expandedcustomersummarypreviousattributes) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. `customer`: [declared alternatives](../models/CheckoutSessionClosedMerchantEventDataPreviousAttributes.md#checkoutsessionclosedmerchanteventdatapreviousattributescustomer). |
 | `customer_id` | Optional | string or null | Customer this payment method belongs to. `customer_id`: [declared alternatives](../models/ExpandedPaymentMethodSummaryPreviousAttributes.md#expandedpaymentmethodsummarypreviousattributescustomer_id). |
@@ -23,6 +24,46 @@ Response model.
 | `type` | Optional | string or null | Kind of payment method. Values: `"card"`. `type`: [declared alternatives](../models/ExpandedPaymentMethodSummaryPreviousAttributes.md#expandedpaymentmethodsummarypreviousattributestype). |
 | `updated_at` | Optional | string or null | RFC3339 timestamp. `updated_at`: [declared alternatives](../models/ApiKeyRevokedEvent.md#apikeyrevokedeventdata-fields-1previous_attributescreated_at). |
 | `usage` | Optional | string or null | When Flint may charge the payment method. off_session payment methods can pay subscriptions, automatic invoices, and other charges without the buyer, and can be a customer's default. on_session payment methods were saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only in checkouts the buyer completes and refuses them for any charge without the buyer and as a default. Payment methods saved before usage existed are off_session. Values: `"on_session"`, `"off_session"`. `usage`: [declared alternatives](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributesusage). |
+
+### PaymentMethodActivatedMerchantEventDataPreviousAttributes.consent
+
+Recorded consent for the card save. Null when Flint has no recorded wording for this card.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `accepted_at` | Conditional | string or null | When the buyer accepted the wording, recorded when the payment attempt or card setup started. `accepted_at`: [declared alternatives](../models/PaymentMethodActivatedMerchantEventDataPreviousAttributes.md#paymentmethodactivatedmerchanteventdatapreviousattributesconsent-variant-1accepted_at). |
+| `text` | Conditional | string or null | The wording the buyer agreed to when saving the card. `text`: [declared alternatives](../models/PaymentMethodConsentPreviousAttributes.md#paymentmethodconsentpreviousattributestext). |
+
+### PaymentMethodActivatedMerchantEventDataPreviousAttributes.consent variant 1
+
+anyOf PaymentMethodConsentPreviousAttributes.
+
+- Optional: `accepted_at`, `text`.
+
+### PaymentMethodActivatedMerchantEventDataPreviousAttributes.consent variant 2
+
+anyOf variant 2.
+
+- Undeclared: `accepted_at`, `text`.
+- Value shape: null. Recorded consent for the card save. Null when Flint has no recorded wording for this card. 
+
+### PaymentMethodActivatedMerchantEventDataPreviousAttributes.consent variant 1.accepted_at
+
+### PaymentMethodActivatedMerchantEventDataPreviousAttributes.consent variant 1.accepted_at variant 1
+
+anyOf variant 1: When the buyer accepted the wording, recorded when the payment attempt or card setup started..
+
+- Value shape: string. When the buyer accepted the wording, recorded when the payment attempt or card setup started. When the buyer accepted the wording, recorded when the payment attempt or card setup started. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. 
+
+### PaymentMethodActivatedMerchantEventDataPreviousAttributes.consent variant 1.accepted_at variant 2
+
+anyOf variant 2.
+
+- Value shape: null. When the buyer accepted the wording, recorded when the payment attempt or card setup started. 
+
+### PaymentMethodActivatedMerchantEventDataPreviousAttributes.consent variant 1.text
+
+Declared alternatives: [PaymentMethodConsentPreviousAttributes.text](../models/PaymentMethodConsentPreviousAttributes.md#paymentmethodconsentpreviousattributestext).
 
 ### PaymentMethodActivatedMerchantEventDataPreviousAttributes.created_at
 

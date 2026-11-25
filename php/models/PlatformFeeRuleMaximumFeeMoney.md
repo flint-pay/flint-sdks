@@ -1,0 +1,15 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## PlatformFeeRuleMaximumFeeMoney
+
+The maximum fee per payment, at least the fixed amount.
+
+Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Response model.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount` | Required | integer string | Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. maximum: `1000000`. minimum: `0`. Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. maximum: `1000000`. minimum: `0`. |
+| `currency` | Required | string | Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
+

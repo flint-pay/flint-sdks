@@ -15,8 +15,8 @@ import type {
     TicketsUndoCheckInParams,
     TicketsUpdateParams,
     TicketsVoidParams
-} from '../declarations/types-75.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+} from '../declarations/types-76.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -46,9 +46,9 @@ export type {
     TicketsUpdateParams,
     TicketsVoidParams,
     TicketVersionRequestInput
-} from '../declarations/types-75.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+} from '../declarations/types-76.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CheckInTicketRequestInput, CheckoutBuyerContact, CheckInTicketRequest } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-1.js';
@@ -59,13 +59,14 @@ export type { PricingAmounts } from '../declarations/types-56.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { LookupTicketRequestInput, LookupTicketRequest } from '../declarations/types-40.js';
-export type { UpdateTicketRequestInput, UpdateTicketRequest } from '../declarations/types-78.js';
-export { makeCheckInTicketRequest } from '../declarations/types-81.js';
-export { makeLookupTicketRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeTicketVersionRequest } from '../declarations/types-93.js';
-export { makeUpdateTicketRequest } from '../declarations/types-95.js';
+export type { UpdateTicketRequestInput, UpdateTicketRequest } from '../declarations/types-79.js';
+export { makeCheckInTicketRequest } from '../declarations/types-82.js';
+export { makeLookupTicketRequest, makeMoneyValue } from '../declarations/types-89.js';
+export { makeTicketVersionRequest } from '../declarations/types-94.js';
+export { makeUpdateTicketRequest } from '../declarations/types-96.js';
 export interface TicketsResource {
     /**
  * Admits an issued ticket. Concurrent check-ins of one ticket admit it once: the others return 409

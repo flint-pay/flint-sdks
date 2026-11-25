@@ -1,11 +1,16 @@
-import type { InvoicePaymentOptionLimitRequestInput, InvoicePaymentDuePreviousAttributes } from './types-36.js';
+import type {
+    InvoicePaymentOptionLimit,
+    InvoicePaymentOptionLimitPreviousAttributes,
+    InvoicePaymentOptionLimitRequestInput,
+    InvoicePaymentDuePreviousAttributes
+} from './types-36.js';
 import type {
     InvoiceLateFeePolicy,
     InvoiceLateFeePolicyPreviousAttributes,
     InvoiceCollectionPreviousAttributes,
     InvoiceLateFeePreviousAttributes
 } from './types-35.js';
-import type { ResponseMeta } from './types-62.js';
+import type { ResponseMeta } from './types-63.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateInvoicePaymentTermRequestInput } from './types-11.js';
 import type {
@@ -13,21 +18,72 @@ import type {
     ExpandedCustomerSummaryPreviousAttributes,
     ExpandedOrderSummaryPreviousAttributes
 } from './types-26.js';
-import type { UpdateInvoicePaymentTermRequestInput } from './types-76.js';
+import type { UpdateInvoicePaymentTermRequestInput } from './types-77.js';
 import type { AddressPreviousAttributes } from './types-0.js';
 import type {
     InvoiceScheduleEntryPreviousAttributes,
     InvoiceSettlementAmountsPreviousAttributes,
-    InvoiceSnapshotPreviousAttributes,
-    InvoiceScheduleDueWriteAtIssue,
-    InvoiceScheduleDueWriteInvoiceDueDate
+    InvoiceSnapshotPreviousAttributes
 } from './types-38.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { PricingAmountsPreviousAttributes } from './types-56.js';
-import type { WebhookInvoice } from './types-79.js';
+import type { PlatformFeeRulePreviousAttributes } from './types-56.js';
+import type { PricingAmountsPreviousAttributes } from './types-57.js';
+import type { WebhookInvoice } from './types-80.js';
 import type { Invoice } from './types-34.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
+/**
+ * Which payment options an invoice accepts, any per-option total limits, and whether to show a
+ * cost comparison.
+ */
+export type InvoicePaymentPolicy = {
+    /**
+     * The payment options the buyer can use on the hosted invoice page. Send at least one.
+     * maxItems: 5. uniqueItems: true. [] enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit". [] (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit".
+     */
+    "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
+    /**
+     * Caps by payment option and currency. Flint doesn't offer an option when the invoice total in
+     * that currency is above its max_total_money. maxItems: 100. [] (Value): {@link
+     * InvoicePaymentOptionLimit}. The largest invoice total allowed for a payment option.
+     */
+    "payment_option_limits"?: Array<InvoicePaymentOptionLimit>;
+    /**
+     * Whether the buyer's invoice shows the estimated savings of a lower-cost payment option.
+     * Requires ach_debit and at least one of card, apple_pay, or google_pay.
+     */
+    "show_cost_comparison"?: boolean;
+};
+export type InvoicePaymentPolicyPreviousAttributes = {
+    /**
+     * The payment options the buyer can use on the hosted invoice page. Send at least one. []
+     * enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". anyOf[1] (Value): Array of
+     * string. The payment options the buyer can use on the hosted invoice page. Send at least one.
+     * maxItems: 5. uniqueItems: true. [] enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit". anyOf[1][] (Value): string. Value enum: "card", "apple_pay", "google_pay",
+     * "affirm", "ach_debit". anyOf[2] (Value): null.
+     */
+    "enabled_payment_options"?: ((Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>) | (null));
+    /**
+     * Caps by payment option and currency. Flint doesn't offer an option when the invoice total in
+     * that currency is above its max_total_money. anyOf[1] (Value): Array of {@link
+     * InvoicePaymentOptionLimitPreviousAttributes}. Caps by payment option and currency. Flint
+     * doesn't offer an option when the invoice total in that currency is above its
+     * max_total_money. maxItems: 100. anyOf[1][] (Value): {@link
+     * InvoicePaymentOptionLimitPreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "payment_option_limits"?: ((Array<InvoicePaymentOptionLimitPreviousAttributes>) | (null));
+    /**
+     * Whether the buyer's invoice shows the estimated savings of a lower-cost payment option.
+     * Requires ach_debit and at least one of card, apple_pay, or google_pay. anyOf[1] (Value):
+     * boolean. Whether the buyer's invoice shows the estimated savings of a lower-cost payment
+     * option. Requires ach_debit and at least one of card, apple_pay, or google_pay. anyOf[2]
+     * (Value): null.
+     */
+    "show_cost_comparison"?: ((boolean) | (null));
+};
 /**
  * Which payment options an invoice accepts, any per-option total limits, and whether to show a
  * cost comparison.
@@ -902,6 +958,7 @@ export type InvoiceRefundedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "paid_at"?: ((string) | (null));
             "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
             "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             "po_number"?: ((string) | (null));
             "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
             "recipient_email"?: ((string) | (null));
@@ -970,6 +1027,7 @@ export type InvoiceRefundedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "paid_at"?: ((string) | (null));
             "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
             "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             "po_number"?: ((string) | (null));
             "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
             "recipient_email"?: ((string) | (null));
@@ -1168,8 +1226,12 @@ export type InvoiceRefundedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * affect this invoice. previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
      * InvoicePaymentTermsSnapshotPreviousAttributes}.
      * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
-     * previous_attributes.po_number (Optional): string or null. The buyer's purchase order number,
-     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.platform_fee_rule (Optional): {@link PlatformFeeRulePreviousAttributes}
+     * or null. The active rule for payments Flint collects for this invoice. Omitted when no rule
+     * is set. previous_attributes.platform_fee_rule.anyOf[1] (Value): {@link
+     * PlatformFeeRulePreviousAttributes}. previous_attributes.platform_fee_rule.anyOf[2] (Value):
+     * null. previous_attributes.po_number (Optional): string or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
      * previous_attributes.po_number.anyOf[1] (Value): string. The buyer's purchase order number,
      * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
      * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
@@ -1436,18 +1498,22 @@ export type InvoiceRefundedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * policy. Later changes to the payment term don't affect this invoice.
          * payment_terms_snapshot.anyOf[1] (Value): {@link
          * InvoicePaymentTermsSnapshotPreviousAttributes}. payment_terms_snapshot.anyOf[2] (Value):
-         * null. po_number (Optional): string or null. The buyer's purchase order number, printed
-         * on the invoice and PDF. It cannot change after issue. `null` when unset.
-         * po_number.anyOf[1] (Value): string. The buyer's purchase order number, printed on the
-         * invoice and PDF. It cannot change after issue. `null` when unset. po_number.anyOf[2]
-         * (Value): null. pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or
-         * null. The invoice pricing totals, frozen at issue. A draft previews the backing order.
-         * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. recipient_email (Optional): string or null.
-         * Where Flint emails the invoice and its reminders. Email delivery requires it at issue.
-         * `null` when unset. recipient_email.anyOf[1] (Value): string. Where Flint emails the
-         * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+         * null. platform_fee_rule (Optional): {@link PlatformFeeRulePreviousAttributes} or null.
+         * The active rule for payments Flint collects for this invoice. Omitted when no rule is
+         * set. platform_fee_rule.anyOf[1] (Value): {@link PlatformFeeRulePreviousAttributes}.
+         * platform_fee_rule.anyOf[2] (Value): null. po_number (Optional): string or null. The
+         * buyer's purchase order number, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. po_number.anyOf[1] (Value): string. The buyer's purchase order
+         * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+         * po_number.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The invoice pricing totals, frozen at issue.
+         * A draft previews the backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[1] (Value): {@link
+         * PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * recipient_email (Optional): string or null. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[1] (Value): string. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
          * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null. Your
          * reference for the invoice, printed on the invoice and PDF. The buyer's purchase order
          * number goes in po_number. It cannot change after issue. `null` when unset.
@@ -1749,6 +1815,12 @@ export type InvoiceRefundedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * {@link InvoicePaymentTermsSnapshotPreviousAttributes}. anyOf[2] (Value): null.
              */
             "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            /**
+             * The active rule for payments Flint collects for this invoice. Omitted when no rule
+             * is set. anyOf[1] (Value): {@link PlatformFeeRulePreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             /**
              * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
              * after issue. `null` when unset. anyOf[1] (Value): string. The buyer's purchase order
@@ -2127,8 +2199,12 @@ export type InvoiceRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * affect this invoice. previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
      * InvoicePaymentTermsSnapshotPreviousAttributes}.
      * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
-     * previous_attributes.po_number (Optional): string or null. The buyer's purchase order number,
-     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.platform_fee_rule (Optional): {@link PlatformFeeRulePreviousAttributes}
+     * or null. The active rule for payments Flint collects for this invoice. Omitted when no rule
+     * is set. previous_attributes.platform_fee_rule.anyOf[1] (Value): {@link
+     * PlatformFeeRulePreviousAttributes}. previous_attributes.platform_fee_rule.anyOf[2] (Value):
+     * null. previous_attributes.po_number (Optional): string or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
      * previous_attributes.po_number.anyOf[1] (Value): string. The buyer's purchase order number,
      * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
      * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
@@ -2395,18 +2471,22 @@ export type InvoiceRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * policy. Later changes to the payment term don't affect this invoice.
          * payment_terms_snapshot.anyOf[1] (Value): {@link
          * InvoicePaymentTermsSnapshotPreviousAttributes}. payment_terms_snapshot.anyOf[2] (Value):
-         * null. po_number (Optional): string or null. The buyer's purchase order number, printed
-         * on the invoice and PDF. It cannot change after issue. `null` when unset.
-         * po_number.anyOf[1] (Value): string. The buyer's purchase order number, printed on the
-         * invoice and PDF. It cannot change after issue. `null` when unset. po_number.anyOf[2]
-         * (Value): null. pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or
-         * null. The invoice pricing totals, frozen at issue. A draft previews the backing order.
-         * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. recipient_email (Optional): string or null.
-         * Where Flint emails the invoice and its reminders. Email delivery requires it at issue.
-         * `null` when unset. recipient_email.anyOf[1] (Value): string. Where Flint emails the
-         * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+         * null. platform_fee_rule (Optional): {@link PlatformFeeRulePreviousAttributes} or null.
+         * The active rule for payments Flint collects for this invoice. Omitted when no rule is
+         * set. platform_fee_rule.anyOf[1] (Value): {@link PlatformFeeRulePreviousAttributes}.
+         * platform_fee_rule.anyOf[2] (Value): null. po_number (Optional): string or null. The
+         * buyer's purchase order number, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. po_number.anyOf[1] (Value): string. The buyer's purchase order
+         * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+         * po_number.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The invoice pricing totals, frozen at issue.
+         * A draft previews the backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[1] (Value): {@link
+         * PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * recipient_email (Optional): string or null. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[1] (Value): string. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
          * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null. Your
          * reference for the invoice, printed on the invoice and PDF. The buyer's purchase order
          * number goes in po_number. It cannot change after issue. `null` when unset.
@@ -2708,6 +2788,12 @@ export type InvoiceRefundedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * {@link InvoicePaymentTermsSnapshotPreviousAttributes}. anyOf[2] (Value): null.
              */
             "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            /**
+             * The active rule for payments Flint collects for this invoice. Omitted when no rule
+             * is set. anyOf[1] (Value): {@link PlatformFeeRulePreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             /**
              * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
              * after issue. `null` when unset. anyOf[1] (Value): string. The buyer's purchase order
@@ -3073,6 +3159,7 @@ export type InvoiceReopenedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "paid_at"?: ((string) | (null));
             "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
             "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             "po_number"?: ((string) | (null));
             "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
             "recipient_email"?: ((string) | (null));
@@ -3141,6 +3228,7 @@ export type InvoiceReopenedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "paid_at"?: ((string) | (null));
             "payment_due"?: ((InvoicePaymentDuePreviousAttributes) | (null));
             "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             "po_number"?: ((string) | (null));
             "pricing_amounts"?: ((PricingAmountsPreviousAttributes) | (null));
             "recipient_email"?: ((string) | (null));
@@ -3339,8 +3427,12 @@ export type InvoiceReopenedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * affect this invoice. previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
      * InvoicePaymentTermsSnapshotPreviousAttributes}.
      * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
-     * previous_attributes.po_number (Optional): string or null. The buyer's purchase order number,
-     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.platform_fee_rule (Optional): {@link PlatformFeeRulePreviousAttributes}
+     * or null. The active rule for payments Flint collects for this invoice. Omitted when no rule
+     * is set. previous_attributes.platform_fee_rule.anyOf[1] (Value): {@link
+     * PlatformFeeRulePreviousAttributes}. previous_attributes.platform_fee_rule.anyOf[2] (Value):
+     * null. previous_attributes.po_number (Optional): string or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
      * previous_attributes.po_number.anyOf[1] (Value): string. The buyer's purchase order number,
      * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
      * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
@@ -3607,18 +3699,22 @@ export type InvoiceReopenedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * policy. Later changes to the payment term don't affect this invoice.
          * payment_terms_snapshot.anyOf[1] (Value): {@link
          * InvoicePaymentTermsSnapshotPreviousAttributes}. payment_terms_snapshot.anyOf[2] (Value):
-         * null. po_number (Optional): string or null. The buyer's purchase order number, printed
-         * on the invoice and PDF. It cannot change after issue. `null` when unset.
-         * po_number.anyOf[1] (Value): string. The buyer's purchase order number, printed on the
-         * invoice and PDF. It cannot change after issue. `null` when unset. po_number.anyOf[2]
-         * (Value): null. pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or
-         * null. The invoice pricing totals, frozen at issue. A draft previews the backing order.
-         * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. recipient_email (Optional): string or null.
-         * Where Flint emails the invoice and its reminders. Email delivery requires it at issue.
-         * `null` when unset. recipient_email.anyOf[1] (Value): string. Where Flint emails the
-         * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+         * null. platform_fee_rule (Optional): {@link PlatformFeeRulePreviousAttributes} or null.
+         * The active rule for payments Flint collects for this invoice. Omitted when no rule is
+         * set. platform_fee_rule.anyOf[1] (Value): {@link PlatformFeeRulePreviousAttributes}.
+         * platform_fee_rule.anyOf[2] (Value): null. po_number (Optional): string or null. The
+         * buyer's purchase order number, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. po_number.anyOf[1] (Value): string. The buyer's purchase order
+         * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+         * po_number.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The invoice pricing totals, frozen at issue.
+         * A draft previews the backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[1] (Value): {@link
+         * PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * recipient_email (Optional): string or null. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[1] (Value): string. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
          * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null. Your
          * reference for the invoice, printed on the invoice and PDF. The buyer's purchase order
          * number goes in po_number. It cannot change after issue. `null` when unset.
@@ -3920,6 +4016,12 @@ export type InvoiceReopenedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * {@link InvoicePaymentTermsSnapshotPreviousAttributes}. anyOf[2] (Value): null.
              */
             "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            /**
+             * The active rule for payments Flint collects for this invoice. Omitted when no rule
+             * is set. anyOf[1] (Value): {@link PlatformFeeRulePreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             /**
              * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
              * after issue. `null` when unset. anyOf[1] (Value): string. The buyer's purchase order
@@ -4298,8 +4400,12 @@ export type InvoiceReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * affect this invoice. previous_attributes.payment_terms_snapshot.anyOf[1] (Value): {@link
      * InvoicePaymentTermsSnapshotPreviousAttributes}.
      * previous_attributes.payment_terms_snapshot.anyOf[2] (Value): null.
-     * previous_attributes.po_number (Optional): string or null. The buyer's purchase order number,
-     * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * previous_attributes.platform_fee_rule (Optional): {@link PlatformFeeRulePreviousAttributes}
+     * or null. The active rule for payments Flint collects for this invoice. Omitted when no rule
+     * is set. previous_attributes.platform_fee_rule.anyOf[1] (Value): {@link
+     * PlatformFeeRulePreviousAttributes}. previous_attributes.platform_fee_rule.anyOf[2] (Value):
+     * null. previous_attributes.po_number (Optional): string or null. The buyer's purchase order
+     * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
      * previous_attributes.po_number.anyOf[1] (Value): string. The buyer's purchase order number,
      * printed on the invoice and PDF. It cannot change after issue. `null` when unset.
      * previous_attributes.po_number.anyOf[2] (Value): null. previous_attributes.pricing_amounts
@@ -4566,18 +4672,22 @@ export type InvoiceReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * policy. Later changes to the payment term don't affect this invoice.
          * payment_terms_snapshot.anyOf[1] (Value): {@link
          * InvoicePaymentTermsSnapshotPreviousAttributes}. payment_terms_snapshot.anyOf[2] (Value):
-         * null. po_number (Optional): string or null. The buyer's purchase order number, printed
-         * on the invoice and PDF. It cannot change after issue. `null` when unset.
-         * po_number.anyOf[1] (Value): string. The buyer's purchase order number, printed on the
-         * invoice and PDF. It cannot change after issue. `null` when unset. po_number.anyOf[2]
-         * (Value): null. pricing_amounts (Optional): {@link PricingAmountsPreviousAttributes} or
-         * null. The invoice pricing totals, frozen at issue. A draft previews the backing order.
-         * total_money excludes late fees, which are in settlement_amounts.late_fee_money.
-         * pricing_amounts.anyOf[1] (Value): {@link PricingAmountsPreviousAttributes}.
-         * pricing_amounts.anyOf[2] (Value): null. recipient_email (Optional): string or null.
-         * Where Flint emails the invoice and its reminders. Email delivery requires it at issue.
-         * `null` when unset. recipient_email.anyOf[1] (Value): string. Where Flint emails the
-         * invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+         * null. platform_fee_rule (Optional): {@link PlatformFeeRulePreviousAttributes} or null.
+         * The active rule for payments Flint collects for this invoice. Omitted when no rule is
+         * set. platform_fee_rule.anyOf[1] (Value): {@link PlatformFeeRulePreviousAttributes}.
+         * platform_fee_rule.anyOf[2] (Value): null. po_number (Optional): string or null. The
+         * buyer's purchase order number, printed on the invoice and PDF. It cannot change after
+         * issue. `null` when unset. po_number.anyOf[1] (Value): string. The buyer's purchase order
+         * number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+         * po_number.anyOf[2] (Value): null. pricing_amounts (Optional): {@link
+         * PricingAmountsPreviousAttributes} or null. The invoice pricing totals, frozen at issue.
+         * A draft previews the backing order. total_money excludes late fees, which are in
+         * settlement_amounts.late_fee_money. pricing_amounts.anyOf[1] (Value): {@link
+         * PricingAmountsPreviousAttributes}. pricing_amounts.anyOf[2] (Value): null.
+         * recipient_email (Optional): string or null. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
+         * recipient_email.anyOf[1] (Value): string. Where Flint emails the invoice and its
+         * reminders. Email delivery requires it at issue. `null` when unset.
          * recipient_email.anyOf[2] (Value): null. reference (Optional): string or null. Your
          * reference for the invoice, printed on the invoice and PDF. The buyer's purchase order
          * number goes in po_number. It cannot change after issue. `null` when unset.
@@ -4879,6 +4989,12 @@ export type InvoiceReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * {@link InvoicePaymentTermsSnapshotPreviousAttributes}. anyOf[2] (Value): null.
              */
             "payment_terms_snapshot"?: ((InvoicePaymentTermsSnapshotPreviousAttributes) | (null));
+            /**
+             * The active rule for payments Flint collects for this invoice. Omitted when no rule
+             * is set. anyOf[1] (Value): {@link PlatformFeeRulePreviousAttributes}. anyOf[2]
+             * (Value): null.
+             */
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             /**
              * The buyer's purchase order number, printed on the invoice and PDF. It cannot change
              * after issue. `null` when unset. anyOf[1] (Value): string. The buyer's purchase order
@@ -5553,44 +5669,3 @@ export type InvoiceScheduleDueInvoiceDueDatePreviousAttributes = ({
      */
     "type"?: (("invoice_due_date" | (string & {})) | (null));
 });
-export type InvoiceScheduleDuePreviousAttributes = ({
-    /**
-     * Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent).
-     * Collectible from the start of this date, overdue only after it ends. Always present for
-     * date; for at_issue and invoice_due_date, omitted on drafts and resolved at issue to the
-     * issue date or invoice due_date. anyOf[1] (Value): string. Calendar due date in YYYY-MM-DD
-     * format in the invoice timezone (UTC when absent). Collectible from the start of this date,
-     * overdue only after it ends. Always present for date; for at_issue and invoice_due_date,
-     * omitted on drafts and resolved at issue to the issue date or invoice due_date. Format: date.
-     * Example: "2026-08-02". anyOf[2] (Value): null.
-     */
-    "due_date"?: ((string) | (null));
-    /**
-     * How the entry's due date is set. Value enum: "at_issue", "date", "invoice_due_date".
-     * anyOf[1] (Value): string. How the entry's due date is set. Value enum: "at_issue", "date",
-     * "invoice_due_date". anyOf[2] (Value): null.
-     */
-    "type"?: (("at_issue" | "date" | "invoice_due_date" | (string & {})) | (null));
-})
-    & (((Exclude<InvoiceScheduleDueAtIssuePreviousAttributes & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueDatePreviousAttributes & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueInvoiceDueDatePreviousAttributes & object, readonly unknown[]>)
-    | (Record<string, unknown>)));
-/**
- * When a payment schedule entry is due, as supplied when creating or updating an invoice: at
- * issue, on a set date, or on the invoice due date.
- */
-export type InvoiceScheduleDueWrite = ({
-    /**
-     * Calendar due date in YYYY-MM-DD format in the invoice timezone (UTC when absent). Required
-     * for date and must be today or later. Not accepted for at_issue or invoice_due_date, which
-     * resolve when the invoice is issued. Format: date. minLength: 1. Example: "2026-08-02".
-     */
-    "due_date"?: string;
-    /** How the entry's due time is set. Value enum: "at_issue", "date", "invoice_due_date". */
-    "type": "at_issue" | "date" | "invoice_due_date" | (string & {});
-})
-    & ((Exclude<InvoiceScheduleDueWriteAtIssue & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueDate & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueWriteInvoiceDueDate & object, readonly unknown[]>)
-    | (Record<string, unknown>));

@@ -1,6 +1,6 @@
 # Flint Public API reference
 
-Package 8.0.0-beta.11; API 2026-09-07.
+Package 8.0.0-beta.12; API 2026-09-07.
 
 [Models](MODELS.md) · [Runtime guide](RUNTIME.md)
 
@@ -124,6 +124,7 @@ Verify original request bytes with signing headers and one secret or a rotation 
 - **sandboxes**: [create](reference/sandboxes.md#sandboxescreate), [delete](reference/sandboxes.md#sandboxesdelete), [get](reference/sandboxes.md#sandboxesget), [list](reference/sandboxes.md#sandboxeslist), [reset](reference/sandboxes.md#sandboxesreset)
 - **settings**: [getEffective](reference/settings.md#settingsgeteffective), [get](reference/settings.md#settingsget), [update](reference/settings.md#settingsupdate)
 - **shipments**: [create](reference/shipments.md#shipmentscreate), [get](reference/shipments.md#shipmentsget), [list](reference/shipments.md#shipmentslist), [update](reference/shipments.md#shipmentsupdate), [void](reference/shipments.md#shipmentsvoid)
+- **shops**: [create](reference/shops.md#shopscreate), [delete](reference/shops.md#shopsdelete), [get](reference/shops.md#shopsget), [getListingPublic](reference/shops.md#shopsgetlistingpublic), [getPublic](reference/shops.md#shopsgetpublic), [listListings](reference/shops.md#shopslistlistings), [list](reference/shops.md#shopslist), [resolve](reference/shops.md#shopsresolve), [update](reference/shops.md#shopsupdate)
 - **subscriptionDeliveryMigrations**: [create](reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationscreate), [get](reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationsget), [listFailures](reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslistfailures), [list](reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslist)
 - **subscriptionOffers**: [create](reference/subscriptionOffers.md#subscriptionofferscreate), [delete](reference/subscriptionOffers.md#subscriptionoffersdelete), [get](reference/subscriptionOffers.md#subscriptionoffersget), [list](reference/subscriptionOffers.md#subscriptionofferslist), [update](reference/subscriptionOffers.md#subscriptionoffersupdate)
 - **subscriptionPlans**: [create](reference/subscriptionPlans.md#subscriptionplanscreate), [delete](reference/subscriptionPlans.md#subscriptionplansdelete), [get](reference/subscriptionPlans.md#subscriptionplansget), [list](reference/subscriptionPlans.md#subscriptionplanslist), [update](reference/subscriptionPlans.md#subscriptionplansupdate)

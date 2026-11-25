@@ -18,7 +18,7 @@ final class ReturnPolicyScopeIncludeRequestInput extends Model {
      */
     public function getCategoryHandles(): array { return $this->get('category_handles'); }
     public function hasCategoryHandles(): bool { return $this->has('category_handles'); }
-    /** Order origins the policy covers: `checkout`, `payment_link`, `virtual_terminal`, `api`, or `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum: "checkout", "payment_link", "virtual_terminal", "api", "subscription". [] (Value): string. minLength: 1. maxLength: 255. Value enum: "checkout", "payment_link", "virtual_terminal", "api", "subscription".
+    /** Order origins the policy covers: `checkout`, `payment_link`, `shop`, `virtual_terminal`, `api`, or `subscription`. Up to 100 values. maxItems: 100. uniqueItems: true. [] enum: "checkout", "payment_link", "shop", "virtual_terminal", "api", "subscription". [] (Value): string. minLength: 1. maxLength: 255. Value enum: "checkout", "payment_link", "shop", "virtual_terminal", "api", "subscription".
      * @return list<string>
      * @throws SdkError When channel_types is omitted; use hasChannelTypes() or valueOrDefault().
      */

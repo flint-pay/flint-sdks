@@ -19,7 +19,7 @@ final class InventorySettings extends Model {
      */
     public function getLowStockThreshold(): ?int { return $this->get('low_stock_threshold'); }
     public function hasLowStockThreshold(): bool { return $this->has('low_stock_threshold'); }
-    /** Inventory failure handling keyed by order source: checkout, payment_link, api, subscription, virtual_terminal, or default. The source-specific entry wins; default applies to the rest. * (Value): {@see InventoryOriginPolicy}. How Flint handles inventory failures for one order source: the action after a post-payment inventory failure and for a blocked subscription.
+    /** Inventory failure handling keyed by order source: checkout, payment_link, shop, api, subscription, virtual_terminal, or default. The source-specific entry wins; default applies to the rest. * (Value): {@see InventoryOriginPolicy}. How Flint handles inventory failures for one order source: the action after a post-payment inventory failure and for a blocked subscription.
      * @return ?array<array-key, InventoryOriginPolicy>
      */
     public function getOriginPolicies(): ?array { return $this->get('origin_policies'); }

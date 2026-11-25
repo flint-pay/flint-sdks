@@ -1,8 +1,9 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { RiskAttributeRegistry, RiskAttributeRegistryResponse } from '../declarations/types-66.js';
+import type { RiskAttributeRegistry } from '../declarations/types-66.js';
 import type {
+    RiskAttributeRegistryResponse,
     RiskRule,
     RiskRuleListResponse,
     RiskRuleResponse,
@@ -13,7 +14,7 @@ import type {
     RiskRulesListParams,
     RiskRulesUpdateParams
 } from '../declarations/types-67.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,10 +36,12 @@ export type {
     RiskRulesDeleteParams,
     RiskRulesGetParams,
     RiskRulesGetAttributesParams,
+    RiskAttributeRegistryResponse,
     RiskRulesListParams,
     RiskRuleListResponse,
     RiskRulesUpdateParams,
     RiskPredicateNodeRequestInput,
+    RiskPredicateNodeAllRequestInput,
     RiskPredicateNodeAnyRequestInput,
     RiskPredicateNodeNotRequestInput,
     RiskPredicateNodeComparisonRequestInput,
@@ -47,6 +50,8 @@ export type {
     RiskPredicateNodeInListRequestInput,
     RiskPredicateNodeIsMissingRequestInput,
     RiskRuleIssue,
+    RiskPredicateNode,
+    RiskPredicateNodeAll,
     RiskPredicateNodeAny,
     RiskPredicateNodeNot,
     RiskPredicateNodeComparison,
@@ -55,26 +60,20 @@ export type {
     RiskPredicateNodeInList,
     RiskPredicateNodeIsMissing
 } from '../declarations/types-67.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
-export type {
-    RiskAttributeRegistry,
-    RiskAttributeRegistryResponse,
-    RiskPredicateNodeAllRequestInput,
-    RiskPredicateNode,
-    RiskPredicateNodeAll,
-    RiskAttribute
-} from '../declarations/types-66.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
+export type { RiskAttributeRegistry, RiskAttribute } from '../declarations/types-66.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { CreateRiskRuleRequestInput } from '../declarations/types-14.js';
 export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { UpdateRiskRuleRequestInput } from '../declarations/types-78.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeCreateRiskRuleRequest } from '../declarations/types-84.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeCreateRiskRuleRequest } from '../declarations/types-85.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export {
     makeRiskPredicateNodeAllRequest,
     makeRiskPredicateNodeAnyRequest,
@@ -85,8 +84,8 @@ export {
     makeRiskPredicateNodeMoneyComparisonRequest,
     makeRiskPredicateNodeNotRequest,
     makeRiskPredicateNodeRequest
-} from '../declarations/types-92.js';
-export { makeUpdateRiskRuleRequest } from '../declarations/types-94.js';
+} from '../declarations/types-93.js';
+export { makeUpdateRiskRuleRequest } from '../declarations/types-95.js';
 export interface RiskRulesResource {
     /**
  * Creates a rule that applies from the next payment attempt. Flint validates the predicate and

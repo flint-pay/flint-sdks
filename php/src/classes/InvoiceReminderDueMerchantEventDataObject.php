@@ -27,6 +27,7 @@ namespace Flint;
  * @property-read ?string $paid_at
  * @property-read InvoiceReminderDueMerchantEventDataObjectPaymentDueNone|InvoiceReminderDueMerchantEventDataObjectPaymentDueDate|InvoiceReminderDueMerchantEventDataObjectPaymentDuePaymentTerms|\stdClass $payment_due
  * @property-read ?InvoicePaymentTermsSnapshot $payment_terms_snapshot
+ * @property-read ?PlatformFeeRule $platform_fee_rule
  * @property-read string|null $po_number
  * @property-read PricingAmounts $pricing_amounts
  * @property-read string|null $recipient_email
@@ -51,7 +52,7 @@ namespace Flint;
  * @property-read ?string $voided_at
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceReminderDueMerchantEventDataObject extends Model {
-    /** @param array{'cc_emails': list<string>, 'closed_at'?: string, 'collection': mixed, 'collection_block_status': string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_mode'?: string, 'due_date'?: string, 'external_reference_id': string|null, 'footer': string|null, 'idempotency_key'?: string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'paid_at'?: string, 'payment_due': mixed, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'pricing_amounts': mixed, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'reminders_paused': bool, 'reminders_paused_at'?: string, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'settlement_amounts': mixed, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'supported_actions': list<string>, 'timezone'?: string, 'uncollectible_at'?: string, 'updated_at': string, 'version': int, 'viewed_at'?: string, 'voided_at'?: string, ...}|object $values */
+    /** @param array{'cc_emails': list<string>, 'closed_at'?: string, 'collection': mixed, 'collection_block_status': string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_mode'?: string, 'due_date'?: string, 'external_reference_id': string|null, 'footer': string|null, 'idempotency_key'?: string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'paid_at'?: string, 'payment_due': mixed, 'payment_terms_snapshot'?: mixed, 'platform_fee_rule'?: mixed, 'po_number': string|null, 'pricing_amounts': mixed, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'reminders_paused': bool, 'reminders_paused_at'?: string, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'settlement_amounts': mixed, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'supported_actions': list<string>, 'timezone'?: string, 'uncollectible_at'?: string, 'updated_at': string, 'version': int, 'viewed_at'?: string, 'voided_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceReminderDueMerchantEventDataObject')); }
     /** Additional recipients copied on the invoice email and every reminder. [] (Value): string.
      * @return list<string>
@@ -178,6 +179,11 @@ final class InvoiceReminderDueMerchantEventDataObject extends Model {
      */
     public function getPaymentTermsSnapshot(): ?InvoicePaymentTermsSnapshot { return $this->get('payment_terms_snapshot'); }
     public function hasPaymentTermsSnapshot(): bool { return $this->has('payment_terms_snapshot'); }
+    /** The active rule for payments Flint collects for this invoice. Omitted when no rule is set. The rule that sets the platform fee for each payment.
+     * @return ?PlatformFeeRule
+     */
+    public function getPlatformFeeRule(): ?PlatformFeeRule { return $this->get('platform_fee_rule'); }
+    public function hasPlatformFeeRule(): bool { return $this->has('platform_fee_rule'); }
     /** The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
      * @return string|null
      */

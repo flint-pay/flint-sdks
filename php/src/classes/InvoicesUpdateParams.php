@@ -11,6 +11,7 @@ namespace Flint;
  * @property-read string|null $memo
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass $payment_due
+ * @property-read array{'fixed_fee_money'?: array{'amount': string, 'currency': string}|object, 'maximum_fee_money'?: array{'amount': string, 'currency': string}|object, 'percent': int|float}|object|null $platform_fee_rule
  * @property-read string|null $po_number
  * @property-read UpdateInvoiceQuickPayRequestInput|array<array-key, mixed>|\stdClass $quick_pay
  * @property-read string|null $recipient_email
@@ -22,7 +23,7 @@ namespace Flint;
  * @property-read string|null $service_date
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesUpdateParams extends Model {
-    /** @param array{'cc_emails'?: list<string>, 'collection'?: InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass, 'expected_order_version'?: int, 'expected_version'?: int, 'external_reference_id'?: string|null, 'footer'?: string|null, 'memo'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_due'?: InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass, 'po_number'?: string|null, 'quick_pay'?: UpdateInvoiceQuickPayRequestInput|array<array-key, mixed>|\stdClass, 'recipient_email'?: string|null, 'reference'?: string|null, 'reminders_paused'?: bool, 'remit_to_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'schedule_entries'?: list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at'?: string|\DateTimeInterface|null, 'service_date'?: string|null, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'cc_emails'?: list<string>, 'collection'?: InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass, 'expected_order_version'?: int, 'expected_version'?: int, 'external_reference_id'?: string|null, 'footer'?: string|null, 'memo'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_due'?: InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass, 'platform_fee_rule'?: array{'fixed_fee_money'?: array{'amount': string, 'currency': string}|object, 'maximum_fee_money'?: array{'amount': string, 'currency': string}|object, 'percent': int|float}|object|null, 'po_number'?: string|null, 'quick_pay'?: UpdateInvoiceQuickPayRequestInput|array<array-key, mixed>|\stdClass, 'recipient_email'?: string|null, 'reference'?: string|null, 'reminders_paused'?: bool, 'remit_to_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'schedule_entries'?: list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at'?: string|\DateTimeInterface|null, 'service_date'?: string|null, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesUpdateParams')); }
     /** Additional addresses copied on the invoice email and every reminder. Send the complete list; [] removes every address. [] (Value): string. minLength: 1.
      * @return list<string>
@@ -42,7 +43,7 @@ final class InvoicesUpdateParams extends Model {
      */
     public function getExpectedOrderVersion(): int { return $this->get('expected_order_version'); }
     public function hasExpectedOrderVersion(): bool { return $this->has('expected_order_version'); }
-    /** Invoice version last read. Required when schedule_entries or quick_pay is present. Format: int64. minimum: 1.
+    /** Invoice version last read. Required when schedule_entries, quick_pay, or platform_fee_rule is present. Format: int64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -78,6 +79,12 @@ final class InvoicesUpdateParams extends Model {
      */
     public function getPaymentDue(): mixed { return $this->get('payment_due'); }
     public function hasPaymentDue(): bool { return $this->has('payment_due'); }
+    /** Replace the whole rule or send null to remove it. Requires expected_version. Accepted while the invoice is draft, open, or partially paid. Only a partner app install token can set or remove a platform fee rule. anyOf[1] (Value): {@see PlatformFeeRuleRequestInput}. Replaced as a whole: send every field you want to keep. anyOf[2] (Value): null.
+     * @return array{'fixed_fee_money'?: array{'amount': string, 'currency': string}|object, 'maximum_fee_money'?: array{'amount': string, 'currency': string}|object, 'percent': int|float}|object|null
+     * @throws SdkError When platform_fee_rule is omitted; use hasPlatformFeeRule() or valueOrDefault().
+     */
+    public function getPlatformFeeRule(): mixed { return $this->get('platform_fee_rule'); }
+    public function hasPlatformFeeRule(): bool { return $this->has('platform_fee_rule'); }
     /** The buyer's purchase order number, printed on the invoice and PDF. Send null to clear it. minLength: 1. maxLength: 255.
      * @return string|null
      * @throws SdkError When po_number is omitted; use hasPoNumber() or valueOrDefault().
@@ -102,7 +109,7 @@ final class InvoicesUpdateParams extends Model {
      */
     public function getReference(): string|null { return $this->get('reference'); }
     public function hasReference(): bool { return $this->has('reference'); }
-    /** Pauses (true) or resumes (false) the automatic reminder cadence. Accepted only on an open or partially paid invoice with a balance remaining, and only alone or with expected_version: every other field is draft-only. While paused, manual send-reminder calls still work, and invoice.overdue and invoice.late_fee_due still fire. On resume, reminder times that passed while paused do not fire. Sending the current value succeeds without changing the invoice.
+    /** Pauses (true) or resumes (false) the automatic reminder cadence. Accepted only on an open or partially paid invoice with a balance remaining, alone or with expected_version and platform_fee_rule. While paused, manual send-reminder calls still work, and invoice.overdue and invoice.late_fee_due still fire. On resume, reminder times that passed while paused do not fire. Sending the current value succeeds without changing the invoice.
      * @return bool
      * @throws SdkError When reminders_paused is omitted; use hasRemindersPaused() or valueOrDefault().
      */

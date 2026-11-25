@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# CustomerTaxIDPreviousAttributes to DeliveryFixedPricingStrategyPreviousAttributes
+# CustomerTaxExemptionResponse to DeliveryExternalPricingStrategyPreviousAttributes
 
+- [CustomerTaxExemptionResponse](CustomerTaxExemptionResponse.md)
+- [CustomerTaxID](CustomerTaxID.md)
 - [CustomerTaxIDPreviousAttributes](CustomerTaxIDPreviousAttributes.md)
 - [CustomerUpdatedInstalledMerchantsEvent](CustomerUpdatedInstalledMerchantsEvent.md)
 - [CustomerUpdatedMerchantEvent](CustomerUpdatedMerchantEvent.md)
@@ -100,6 +102,4 @@
 - [DeliveryEstimateRuleRequestInput](DeliveryEstimateRuleRequestInput.md)
 - [DeliveryExternalPricingStrategy](DeliveryExternalPricingStrategy.md)
 - [DeliveryExternalPricingStrategyPreviousAttributes](DeliveryExternalPricingStrategyPreviousAttributes.md)
-- [DeliveryFixedPricingStrategy](DeliveryFixedPricingStrategy.md)
-- [DeliveryFixedPricingStrategyPreviousAttributes](DeliveryFixedPricingStrategyPreviousAttributes.md)
 

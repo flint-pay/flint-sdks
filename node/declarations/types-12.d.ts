@@ -16,18 +16,17 @@ import type {
 } from './types-45.js';
 import type {
     OrderLineItemModifierRequestModelInput,
+    OrderLineItemModifierRequest,
     OrderPaymentSourceSelection,
     OrderPaymentSourceSelectionInput
 } from './types-47.js';
-import type { SubscribedLineRequestModelInput, SubscribedLineRequest } from './types-69.js';
-import type { WeightRequestInput, Weight } from './types-80.js';
-import type { OrderLineItemModifierRequest, OrderHandover, OrderHandoverRequestInput } from './types-46.js';
+import type { SubscribedLineRequestModelInput, SubscribedLineRequest } from './types-70.js';
+import type { WeightRequestInput, Weight } from './types-81.js';
 import type { CreateOrderLineItemInputBundle, CreateOrderDiscount, CreateOrderDiscountInput } from './types-11.js';
-import type { InventoryRoutingSourceRequest } from './types-33.js';
+import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-34.js';
+import type { OrderHandover, OrderHandoverRequestInput } from './types-46.js';
 import type { OrderTaxRequest, OrderTaxRequestInput } from './types-48.js';
-import type { InventoryRoutingSourceRequestInput } from './types-34.js';
-import type { ReturnResolutionLineItemRequest } from './types-65.js';
-import type { ReturnShipmentLineItemAllocationRequestInput } from './types-66.js';
+import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-66.js';
 import type {
     CheckoutGiftCardChallenge,
     CheckoutBuyerFields,
@@ -46,10 +45,10 @@ import type {
     PartnerAppCredentialWorkloadIdentityRequest,
     PartnerAppCredentialWorkloadIdentityRequestInput,
     PartnerAppPaymentSplits,
-    PartnerAppPermissionManifestEntry,
     PartnerAppPaymentSplitsRequestInput
 } from './types-49.js';
 import type {
+    PartnerAppPermissionManifestEntry,
     PartnerAppPlatformProfile,
     PartnerAppPermissionManifestEntryRequestInput,
     PartnerAppPlatformProfileRequestInput
@@ -59,6 +58,8 @@ import type {
     PlatformFeeCapRequestInput,
     PlatformFeeRequest,
     PlatformFeeRequestInput,
+    PlatformFeeRuleRequest,
+    PlatformFeeRuleRequestInput,
     PriceListPriceRequest,
     PriceListPriceRequestInput,
     PriceList,
@@ -86,19 +87,16 @@ import type {
     PaymentLinkPaymentConfigInput,
     PaymentLinkThemeConfigInput
 } from './types-53.js';
-import type { ThemeConfig } from './types-75.js';
+import type { ThemeConfig } from './types-76.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { ResponseMeta } from './types-62.js';
+import type { ResponseMeta } from './types-63.js';
+import type { ProductVariantRequest, ProductVariantRequestInput } from './types-57.js';
 import type {
-    ProductVariantRequest,
-    ProductVariantRequestInput,
     PromotionApplicationMethodRequest,
-    PromotionApplicationMethodRequestInput
-} from './types-57.js';
-import type {
     PromotionCodeRequest,
     PromotionCombinesWithPatch,
     PromotionExclusivityRequest,
+    PromotionApplicationMethodRequestInput,
     PromotionCodeRequestInput,
     PromotionCombinesWithRequestInput,
     PromotionExclusivityRequestInput
@@ -3018,20 +3016,21 @@ export type CreatePaymentIntentRequest = ({
      * a partner app install token can send it; from any other credential it is INVALID_REQUEST
      * with NOT_ALLOWED on platform_fee. A subscription_plan checkout session, or an order whose
      * payment starts or renews a subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on
-     * platform_fee, because Flint's billing creates the renewals. amount_money.amount must be at
-     * least 1 minor unit; otherwise INVALID_REQUEST with INVALID_VALUE on
-     * platform_fee.amount_money.amount. Omit platform_fee to charge no fee. The fee must be in the
-     * payment's currency, at most the platform fee cap the merchant approved for this amount, and
-     * below the amount; otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money,
-     * with maximum_money when the cap or the amount bounds it. Without an approved cap in this
-     * currency it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode
-     * the partner app's platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with
-     * capability platform_fees and the reason the app's platform status gives. Test mode never
-     * checks the capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees
-     * leave less at confirm or capture, so the payment never fails because of it. Part of the
-     * request fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the
-     * partner app charges on the payment, beside Flint's fees. The installed merchant pays it, and
-     * Flint takes no share of it.
+     * platform_fee, because Flint's billing creates the renewals. Set platform_fee_rule on the
+     * subscription or its checkout session. amount_money.amount must be at least 1 minor unit;
+     * otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money.amount. Omit
+     * platform_fee to charge no fee. The fee must be in the payment's currency, at most the
+     * platform fee cap the merchant approved for this amount, and below the amount; otherwise
+     * INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money, with maximum_money when the
+     * cap or the amount bounds it. Without an approved cap in this currency it is
+     * ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode the partner app's
+     * platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with capability
+     * platform_fees and the reason the app's platform status gives. Test mode never checks the
+     * capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees leave less
+     * at confirm or capture, so the payment never fails because of it. Part of the request
+     * fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the partner app
+     * charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes
+     * no share of it.
      */
     "platform_fee"?: PlatformFeeRequest;
     /**
@@ -3176,20 +3175,21 @@ export type CreatePaymentIntentRequestInput = ({
      * a partner app install token can send it; from any other credential it is INVALID_REQUEST
      * with NOT_ALLOWED on platform_fee. A subscription_plan checkout session, or an order whose
      * payment starts or renews a subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on
-     * platform_fee, because Flint's billing creates the renewals. amount_money.amount must be at
-     * least 1 minor unit; otherwise INVALID_REQUEST with INVALID_VALUE on
-     * platform_fee.amount_money.amount. Omit platform_fee to charge no fee. The fee must be in the
-     * payment's currency, at most the platform fee cap the merchant approved for this amount, and
-     * below the amount; otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money,
-     * with maximum_money when the cap or the amount bounds it. Without an approved cap in this
-     * currency it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode
-     * the partner app's platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with
-     * capability platform_fees and the reason the app's platform status gives. Test mode never
-     * checks the capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees
-     * leave less at confirm or capture, so the payment never fails because of it. Part of the
-     * request fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the
-     * partner app charges on the payment, beside Flint's fees. The installed merchant pays it, and
-     * Flint takes no share of it.
+     * platform_fee, because Flint's billing creates the renewals. Set platform_fee_rule on the
+     * subscription or its checkout session. amount_money.amount must be at least 1 minor unit;
+     * otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money.amount. Omit
+     * platform_fee to charge no fee. The fee must be in the payment's currency, at most the
+     * platform fee cap the merchant approved for this amount, and below the amount; otherwise
+     * INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money, with maximum_money when the
+     * cap or the amount bounds it. Without an approved cap in this currency it is
+     * ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode the partner app's
+     * platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with capability
+     * platform_fees and the reason the app's platform status gives. Test mode never checks the
+     * capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees leave less
+     * at confirm or capture, so the payment never fails because of it. Part of the request
+     * fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the partner app
+     * charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes
+     * no share of it.
      */
     "platform_fee"?: PlatformFeeRequestInput;
     /**
@@ -3401,6 +3401,12 @@ export type CreatePaymentLinkRequest = {
      */
     "payments"?: CheckoutPaymentConfig;
     /**
+     * The platform fee rule copied to checkouts started from this link. Only a partner app install
+     * token can set or remove a platform fee rule. Replaced as a whole: send every field you want
+     * to keep.
+     */
+    "platform_fee_rule"?: PlatformFeeRuleRequest;
+    /**
      * Whether automatic promotions apply to checkouts started from this link and whether buyers
      * can enter promotion codes. Promotion settings for a checkout: whether automatic promotions
      * apply and whether the buyer can apply promotion codes.
@@ -3608,6 +3614,12 @@ export type CreatePaymentLinkRequestInput = {
      * the enabled payment options and a note shown with payment.
      */
     "payments"?: PaymentLinkPaymentConfigInput;
+    /**
+     * The platform fee rule copied to checkouts started from this link. Only a partner app install
+     * token can set or remove a platform fee rule. Replaced as a whole: send every field you want
+     * to keep.
+     */
+    "platform_fee_rule"?: PlatformFeeRuleRequestInput;
     /**
      * Whether automatic promotions apply to checkouts started from this link and whether buyers
      * can enter promotion codes. Promotion settings for a checkout: whether automatic promotions

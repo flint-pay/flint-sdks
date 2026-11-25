@@ -27,7 +27,7 @@ import type {
     PackagesVoidParams
 } from '../declarations/types-49.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -67,9 +67,9 @@ export type {
     PackagesUpdateItemParams,
     PackagesVoidParams
 } from '../declarations/types-49.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type { Package } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-80.js';
+export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreatePackageRequestInput,
@@ -89,7 +89,7 @@ export type { PricingAmounts } from '../declarations/types-56.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { OrderSettlementAmounts } from '../declarations/types-47.js';
 export type { SettlementAmounts } from '../declarations/types-68.js';
-export type { ReturnHandoffRequirementLineItem } from '../declarations/types-63.js';
+export type { ReturnHandoffRequirementLineItem, ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type {
     MarkPackageDeliveredRequestInput,
@@ -102,15 +102,15 @@ export type {
     MarkPackageShippedRequestInput
 } from '../declarations/types-41.js';
 export type { UpdatePackageRequestInput, UpdatePackageItemRequestInput } from '../declarations/types-77.js';
-export type { VoidPackageRequestInput } from '../declarations/types-78.js';
+export type { VoidPackageRequestInput } from '../declarations/types-79.js';
 export type { FulfillmentEventsGetParams } from '../declarations/types-27.js';
 export {
     makeCreatePackageItemRequest,
     makeCreatePackageRequest,
     makeCreatePackageRequestCreated,
     makeCreatePackageRequestShipped
-} from '../declarations/types-83.js';
-export { makeDimensionsRequest } from '../declarations/types-86.js';
+} from '../declarations/types-84.js';
+export { makeDimensionsRequest } from '../declarations/types-87.js';
 export {
     makeMarkPackageDeliveredRequest,
     makeMarkPackageDeliveryAttemptedRequest,
@@ -123,10 +123,10 @@ export {
     makeMetadataPatchRequest,
     makeMetadataRequest,
     makeMoneyValue
-} from '../declarations/types-88.js';
-export { makeReturnShipmentLineItemAllocationRequest } from '../declarations/types-92.js';
-export { makeUpdatePackageItemRequest, makeUpdatePackageRequest } from '../declarations/types-94.js';
-export { makeVoidPackageRequest, makeWeightRequest } from '../declarations/types-95.js';
+} from '../declarations/types-89.js';
+export { makeReturnShipmentLineItemAllocationRequest } from '../declarations/types-93.js';
+export { makeUpdatePackageItemRequest, makeUpdatePackageRequest } from '../declarations/types-95.js';
+export { makeVoidPackageRequest, makeWeightRequest } from '../declarations/types-96.js';
 export interface PackagesResource {
     /**
  * Creates a package record under a shipment. For an outbound package created with status shipped,

@@ -9,20 +9,12 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.subscriptions.create(
   {
-    billing_anchor_day: 15,
-    billing_schedule: {
-      owner: "flint",
-    },
     billing_start: {
       type: "immediate",
     },
-    customer_id: "cus_01KEZF7C003ACYXT6Q5EQZ78EE",
-    metadata: {
-      source: "api",
-    },
-    payment_method_id: "pm_01KEZF7C00WX8CKEVFDMRMYMBM",
+    customer_id: "cus_01KEZF7C006X9JK6NZNA2SM9XD",
     terms: {
-      subscription_plan_id: "plan_01KEZF7C00S177Q3KK6BKXGXV7",
+      subscription_plan_id: "plan_01KEZF7C004CY5ZR33XST2AASV",
       type: "subscription_plan",
     },
   },

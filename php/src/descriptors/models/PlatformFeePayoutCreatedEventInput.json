@@ -1,1 +1,1 @@
-{"shared":"PlatformFeePayoutCreatedEvent","dependencies":["MoneyValue","PlatformFeePayout","PlatformFeePayoutCreatedEvent","ReturnActor","SharedCodec10","SharedCodec11","SharedCodec12","SharedCodec2359","SharedCodec2360","SharedCodec8","SharedCodec9"]}
+{"shared":"PlatformFeePayoutCreatedEvent","dependencies":["MoneyValue","PlatformFeePayout","PlatformFeePayoutCreatedEvent","ReturnActor","SharedCodec10","SharedCodec11","SharedCodec12","SharedCodec2385","SharedCodec2386","SharedCodec8","SharedCodec9"]}

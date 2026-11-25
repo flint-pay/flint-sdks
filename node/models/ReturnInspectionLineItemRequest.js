@@ -1,9 +1,9 @@
-import { d10577 as c0, d10578 as c1, d10579 as c2, d10580 as c3 } from '../descriptors/data/499.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d10577 as d10577 } from '../descriptors/data/499.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
+import { d10664 as c0, d10665 as c1, d10666 as c2, d10667 as c3 } from '../descriptors/data/504.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d10664 as d10664 } from '../descriptors/data/504.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d10577;
+const read = d10664;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ReturnInspectionLineItemRequest"]:c0(),["SharedCodec2704"]:c1(),["SharedCodec2705"]:c2(),["SharedCodec2706"]:c3()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ReturnInspectionLineItemRequest"]:c0(),["SharedCodec2734"]:c1(),["SharedCodec2735"]:c2(),["SharedCodec2736"]:c3()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeReturnInspectionLineItemRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

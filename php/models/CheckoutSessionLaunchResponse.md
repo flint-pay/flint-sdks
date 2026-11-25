@@ -8,13 +8,13 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [CheckoutSessionLaunch](../models/CheckoutSessionLaunch.md#checkoutsessionlaunch) | Resource, collection, or operation result returned by this request. The session returned when launching checkout. A hosted launch includes url. A headless launch includes checkout_auth_token. A session in which a buyer completes an order's payment. A session in which a buyer completes an order's payment. `data`: [field definitions](../models/CheckoutSessionLaunchResponse.md#checkoutsessionlaunchresponsedata). |
+| `data` | Required | [CheckoutSessionLaunch](../models/CheckoutSessionLaunch.md#checkoutsessionlaunch) | Resource, collection, or operation result returned by this request. The session returned when launching checkout. Use `url` for hosted checkout or `checkout_auth_token` for headless checkout. A session in which a buyer completes an order's payment. A session in which a buyer completes an order's payment. `data`: [field definitions](../models/CheckoutSessionLaunchResponse.md#checkoutsessionlaunchresponsedata). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. `meta`: [field definitions](../models/DisputeResponse.md#disputeresponsemeta). |
 | `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### CheckoutSessionLaunchResponse.data
 
-Resource, collection, or operation result returned by this request. The session returned when launching checkout. A hosted launch includes url. A headless launch includes checkout_auth_token. A session in which a buyer completes an order's payment.
+Resource, collection, or operation result returned by this request. The session returned when launching checkout. Use `url` for hosted checkout or `checkout_auth_token` for headless checkout. A session in which a buyer completes an order's payment.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -24,13 +24,13 @@ Resource, collection, or operation result returned by this request. The session 
 | `can_apply_promotion_code` | Required | boolean | Whether to offer promotion-code entry now. True only while the session is open, is not in recovery, and merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins; null offers entry only when this merchant has an active code promotion whose schedule includes now, in the session's environment. Recomputed on each read. This hint does not change code admission: checkout lifecycle, promotion_config, and merchant policy still apply. |
 | `can_save_payment_method` | Optional | boolean | Whether checkout offers the buyer the option to save the card they type for faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true for one newly collected card. False when the merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted, card is not an available payment option, the checkout collects an invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot email the buyer a verification code. Returned only to the checkout credential; never in webhook payloads. |
 | `can_save_payment_method_with_phone` | Optional | boolean | Whether the buyer can save the card they type by giving a US or Canadian mobile phone number with the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted code after paying. True while Flint can send texts and either save_payment_method_requires_verification is true, so the number replaces confirming an email before paying, or the checkout acts for the customer whose email the buyer confirmed with this credential, so the number joins that customer's saved details once the buyer confirms it. Returned only to the checkout credential; never in webhook payloads. |
-| `checkout_session_id` | Required | string | Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
+| `checkout_session_id` | Required | string | Unique identifier for this checkout session, prefixed `cs_`. Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `client_reference` | Required | string or null | The reference the payment link URL or resolve request carried, such as your user ID. `null` when none was sent or checkout did not start from a payment link. Returned only to merchant credentials; omitted for buyer credentials. Set by the buyer's browser, so treat it as a claim, not proof of identity. minLength: `1`. maxLength: `255`. |
 | `closed_reason_message` | Optional | string | The note supplied when the checkout session was closed. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `custom_field_answers` | Required | Array of (object and Alternative shapes (see declared variants)) | The buyer's answers to the payment link's custom fields, the same as the `custom_field_answers` of the session's order. Read-only. Empty when the session didn't start from a payment link, the buyer answered no custom fields, or the order was created before Flint recorded answers here. Returned only to merchant credentials; omitted for buyer credentials. maxItems: `20`. `custom_field_answers[]`: [declared alternatives](../models/OrderResponse.md#orderresponsedatacustom_field_answers). |
 | `custom_text` | Optional | [CheckoutCustomTextConfig](../models/CheckoutCustomTextConfig.md#checkoutcustomtextconfig) | The custom text this session shows in checkout. Custom text shown in checkout: an order summary message and a shipping address label. |
-| `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | `customer`: [declared alternatives](../models/CheckoutSessionLaunchResponse.md#checkoutsessionlaunchresponsedatacustomer). |
+| `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | Omitted when launching checkout. Read the session with `expand=customer` to include the customer. `customer`: [declared alternatives](../models/CheckoutSessionLaunchResponse.md#checkoutsessionlaunchresponsedatacustomer). |
 | `customer_account_url` | Optional | string | The store's customer account, where the buyer can see this purchase and manage a subscription it starts. A stable link that opens the account wherever the merchant's `customer_account` settings put it; the buyer signs in there if needed. Pass it as Apple Pay's `managementURL` for a subscription. Omitted from webhooks, and when the account can't be resolved. Format: `uri`. Example: `"https://example.com/receipt"`. |
 | `customer_id` | Optional | string | The customer of the session's order. Omitted when the order has none. A checkout credential issued for this session acts for this customer. Add expand=customer to include the customer. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `customer_prefill` | Optional | [CheckoutCustomerPrefill](../models/CheckoutCustomerPrefill.md#checkoutcustomerprefill) | Contact and default addresses of the customer the checkout acts for, with the recipient name on its default shipping address: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. Present on GET and PATCH responses while the session is open and acts for a customer. Separate from merchant-supplied prefill and buyer_contact saved by the buyer. Returned only to the checkout credential; never in webhook payloads. Details the buyer's checkout can prefill from the customer it acts for. |
@@ -42,7 +42,7 @@ Resource, collection, or operation result returned by this request. The session 
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `gift_card_challenge` | Optional | [CheckoutGiftCardChallenge](../models/CheckoutGiftCardChallenge.md#checkoutgiftcardchallenge) | Where the buyer completes a gift card challenge for this checkout. Returned on single-session reads, session create and update responses, checkout launch results, and customer verification confirmation results while the session is open and can show the challenge. Omitted from lists, webhooks, expanded resources, and delivery selection results. A URL to load in an iframe when applying a gift card returns `GIFT_CARD_CHALLENGE_REQUIRED`. `gift_card_challenge`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatagift_card_challenge). |
 | `inventory_reservation_ids` | Optional | Array of string | Immutable cart hold IDs authorized by the merchant at session creation. Omitted when empty and from checkout-credential responses. Buyer and merchant delivery requests that omit IDs use eligible bound holds; explicit merchant IDs replace the binding for that request. First adopter wins when sessions share a hold. Invalidated or otherwise ended sessions cannot adopt stock, and replacements never inherit the binding. Unused cart units retain their own release and expiration lifecycle. Items: Example: `"invr_01KEZF7C0041ENRR0C2NF3AP12"`. |
-| `invoice` | Optional | [ExpandedInvoiceSummary](../models/ExpandedInvoiceSummary.md#expandedinvoicesummary) or null | `invoice`: [declared alternatives](../models/CheckoutSessionLaunchResponse.md#checkoutsessionlaunchresponsedatainvoice). |
+| `invoice` | Optional | [ExpandedInvoiceSummary](../models/ExpandedInvoiceSummary.md#expandedinvoicesummary) or null | Omitted when launching checkout. Read the session with `expand=invoice` to include the invoice. `invoice`: [declared alternatives](../models/CheckoutSessionLaunchResponse.md#checkoutsessionlaunchresponsedatainvoice). |
 | `invoice_id` | Optional | string | ID of the invoice a session of type `invoice` collects payment for. Absent for other types. Example: `"inv_01KEZF7C00A5GEBMWHEAJFSAR4"`. |
 | `is_in_recovery` | Required | boolean | Whether the checkout is in its payment recovery window after its deadline. The checkout credential can recover only an attempt it started. Merchant reads can also report a merchant-started attempt. |
 | `legal` | Optional | [CheckoutLegalConfig](../models/CheckoutLegalConfig.md#checkoutlegalconfig) | The terms and policy links this session shows the buyer, and whether the buyer must accept the terms. Legal settings for a checkout: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract. |
@@ -52,20 +52,21 @@ Resource, collection, or operation result returned by this request. The session 
 | `merchant_name` | Optional | string | The merchant's business name, which hosted checkout shows when `theme.title` is unset. Reads `Merchant` when the merchant has not set a business name. Returned by `GET /v1/checkout-sessions/{checkout_session_id}`; other responses and webhooks omit it. |
 | `merchant_support` | Optional | [CheckoutMerchantSupport](../models/CheckoutMerchantSupport.md#checkoutmerchantsupport) | How the buyer can reach the merchant for help: the support email, phone, and URL the merchant set. Present on GET and PATCH responses when the merchant set at least one of them. Show it where your checkout tells the buyer to contact the merchant, such as an expired or closed checkout, or your receipt. Returned only to the checkout credential; never in webhook payloads. The merchant's support contact. Each field is omitted when the merchant has not set it. `merchant_support`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatamerchant_support). |
 | `metadata` | Optional | Map of string | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/OrderResponse.md#orderresponsedatachargesmetadata). |
-| `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null | `order`: [declared alternatives](../models/CheckoutSessionLaunchResponse.md#checkoutsessionlaunchresponsedataorder). |
+| `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null | Omitted when launching checkout. Read the session with `expand=order` to include the order. `order`: [declared alternatives](../models/CheckoutSessionLaunchResponse.md#checkoutsessionlaunchresponsedataorder). |
 | `order_id` | Optional | string | ID of the order the session collects payment for, fixed at creation. Absent when the session has no order. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `page_origin` | Optional | string | Origin of the page that renders this headless checkout. Omitted when not set. |
 | `pay_to_new_address_requires_verification` | Optional | boolean | Whether at least one saved card this checkout lists would be refused for the current delivery destination because the paying credential last confirmed a code more than 15 minutes ago. Request a code with purpose pay_to_new_address, without email or channel, and confirm it with this credential before paying. A Flint wallet card can still pay to an address in that wallet while this is true for a store saved card. Pickup and orders that ship nothing never require this verification. Returned only to the checkout credential. Returned only to the checkout credential; never in webhook payloads. |
 | `payment_collection` | Optional | [PaymentCollection](../models/PaymentCollection.md#paymentcollection) | Guidance for collecting a payment source. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js. |
 | `payment_intent_ids` | Optional | Array of string | IDs of the payment intents for the session's order. Absent when the order has none. Items: Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 | `payment_intents` | Optional | Array of [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) | Present only when `expand` includes `payment_intents`: summaries of the payment intents in `payment_intent_ids`. `payment_intents[]`: [field definitions](../models/OrderResponse.md#orderresponsedatapayment_intents). |
-| `payment_link` | Optional | [ExpandedPaymentLinkSummary](../models/ExpandedPaymentLinkSummary.md#expandedpaymentlinksummary) or null | `payment_link`: [declared alternatives](../models/CheckoutSessionLaunchResponse.md#checkoutsessionlaunchresponsedatapayment_link). |
+| `payment_link` | Optional | [ExpandedPaymentLinkSummary](../models/ExpandedPaymentLinkSummary.md#expandedpaymentlinksummary) or null | Omitted when launching checkout. Read the session with `expand=payment_link` to include the payment link. `payment_link`: [declared alternatives](../models/CheckoutSessionLaunchResponse.md#checkoutsessionlaunchresponsedatapayment_link). |
 | `payment_link_id` | Optional | string | ID of the payment link the session was started from. Absent when it was not started from a payment link. Example: `"pl_01KEZF7C007WDMA5P9BPZ8J2AM"`. |
 | `payment_link_image` | Optional | [Image](../models/Image.md#image) | The current image of the payment link that opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses and webhooks omit it. An image with its URL, size, and alt text. |
 | `payment_method_save` | Optional | [CheckoutPaymentMethodSave](../models/CheckoutPaymentMethodSave.md#checkoutpaymentmethodsave) | The card the buyer saved pending with this checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after a payment that paid the order in full, or that was approved for the merchant to capture later, and saved a card this way. Without a number, confirmation requires an emailed code. A checkout whose payment is approved stays open until the capture. Returned only to the checkout credential; never in webhook payloads. A card the buyer saved with this checkout's payment that waits for a code. It works for nothing until the buyer confirms it with a code: request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose confirm_saved_payment_method. `payment_method_save`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatapayment_method_save). |
 | `payment_return_url` | Optional | string | Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Query strings are deliberately excluded so credentials and provider state cannot cross Flint's payment relay. Put merchant identifiers in the URL path, such as https://shop.example/return/sub_123. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: `uri`. maxLength: `2048`. Example: `"https://example.com/receipt"`. |
 | `payments` | Optional | [CheckoutPaymentConfig](../models/CheckoutPaymentConfig.md#checkoutpaymentconfig) | Configured payment options for merchant credentials; currently available payment options for the checkout credential. Payment settings for a checkout: the enabled payment options and a note shown with payment. |
 | `platform_fee` | Optional | [CheckoutSessionPlatformFee](../models/CheckoutSessionPlatformFee.md#checkoutsessionplatformfee) | The platform fee the partner app requested when it created the session with an install token. Each payment intent the session creates carries its own platform_fee, lowered to fit that payment. Absent when the session has none. The platform fee the partner app requested when it created the session. Each payment the session creates carries its own platform_fee, lowered to fit that payment. `platform_fee`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataplatform_fee). |
+| `platform_fee_rule` | Optional | [PlatformFeeRule](../models/PlatformFeeRule.md#platformfeerule) | The platform fee rule that the session was created with. The rule that sets the platform fee for each payment. `platform_fee_rule`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataplatform_fee_rule). |
 | `prefill` | Optional | [CheckoutPrefill](../models/CheckoutPrefill.md#checkoutprefill) | Contact details and addresses to fill in for the buyer, who can change them. For a customer with saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's tax location. Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the checkout credential reads from the customer record. |
 | `problems` | Required | Array of [CheckoutProblemResource](../models/CheckoutProblemResource.md#checkoutproblemresource) | Named conditions that affect checkout completion. Follow each problem's remediation action instead of reconstructing delivery lifecycle rules in the client. payment_in_progress means another payment for the order must finish before this checkout can complete. When Flint cannot read the checkout's delivery, the read still succeeds and reports delivery_unreadable; its remediation says whether reading the session again can succeed, and its next action's reason_code names the error. |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Whether automatic promotions apply to this session and whether the buyer can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
@@ -76,6 +77,7 @@ Resource, collection, or operation result returned by this request. The session 
 | `save_payment_method_requires_verification` | Optional | boolean | Whether saving a new card or using saved cards needs the buyer to confirm their email with a code. A new card can be saved pending with the payment and confirmed on the receipt; using saved cards still needs the code before paying. True when can_save_payment_method is true and the checkout acts for no customer for this credential: the merchant created it without one, and either the buyer has not confirmed an email with this credential, or the customer whose email they confirmed has since changed that email or been deleted. A credential other than the one a confirmation returned, such as the hosted checkout link opened on another device, reads true. Send the code with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout acts for a customer, and whenever can_save_payment_method is false. Returned only to the checkout credential; never in webhook payloads. |
 | `save_payment_method_types` | Optional | Array of string | What save_payment_method keeps, present when can_save_payment_method is true: card, a card the buyer types into checkout. Show the save option with that payment method only. A pay request that sends save_payment_method: true with Apple Pay, Google Pay, a bank account, or Affirm, through a confirmation token created with setup_future_usage none, still pays, and its payment attempt's payment_method_save reports not_saved. The values can grow. Returned only to the checkout credential; never in webhook payloads. Items values: `"card"`. |
 | `setup_collection` | Optional | [SetupCollection](../models/SetupCollection.md#setupcollection) | Guidance for collecting a payment method to save. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads. Client guidance for saving a payment method on the merchant's connected account. |
+| `shop_id` | Optional | string | ID of the shop that started checkout. Example: `"shop_01KEZF7C005VQBPV4FZHDZPAHE"`. |
 | `show_flint_mark` | Optional | boolean | Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when the merchant's agreement with Flint removes it. Returned by `GET /v1/checkout-sessions/{checkout_session_id}`; other responses and webhooks omit it. |
 | `status` | Required | string | Where the session is in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that is not open ended. Values: `"open"`, `"paid"`, `"partially_paid"`, `"expired"`, `"closed"`, `"invalidated"`. |
 | `subscription_plan_id` | Optional | string | ID of the subscription plan a session of type `subscription_plan` signs the buyer up for. Absent for other types. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
@@ -87,11 +89,11 @@ Resource, collection, or operation result returned by this request. The session 
 | `terminal_reason` | Optional | string | Why the session ended. The checkout credential can still read its own closed or expired session; every other call is refused because the session is not open. order_paid_elsewhere applies only to invalidated sessions when payment succeeds or partially succeeds outside the session. order_mutated applies when an edit closes or completes its order, or ends an invoice, return-resolution, or subscription-plan session. Other merchant edits keep hosted and headless sessions open. A session already past expires_at ends with expired before the edit is applied. Values: [11 declared values](BuyerCheckoutSessionInput.md#buyercheckoutsessioninput-terminal_reason-values). |
 | `theme` | Optional | [CheckoutTheme](../models/CheckoutTheme.md#checkouttheme) | The theme checkout renders with: your branding settings, with the session's `title`, `primary_color`, and `accent_color` over them. A session sets only those three; the other fields come from branding settings. Omitted when neither sets a value. Colors, corner radius, font family, and title that style a checkout, taken from the session or link theme or the merchant's branding settings. |
 | `tip` | Optional | [CheckoutTipConfig](../models/CheckoutTipConfig.md#checkouttipconfig) | The tip options this session offers the buyer. Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips. |
-| `type` | Required | string | What this launch collects. A return balance launch reports `return_resolution`. Later reads and checkout session events report `order` for that session. Values: `"order"`, `"quick_pay"`, `"subscription_plan"`, `"invoice"`, `"payment_link"`, `"return_resolution"`. Response only. |
+| `type` | Required | string | What this launch collects. A return balance launch reports `return_resolution`. Later reads and checkout session events report `order` for that session. Values: `"order"`, `"quick_pay"`, `"subscription_plan"`, `"invoice"`, `"payment_link"`, `"shop"`, `"return_resolution"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `url` | Optional | string | Hosted checkout URL that carries a one-time launch credential. Send the buyer here to pay. Present only for hosted sessions read with a merchant credential that can manage checkout sessions. Launch results include it for hosted sessions: create, payment-link resolve, and invoice and return-resolution checkout. Omitted for headless sessions. |
+| `url` | Optional | string | Hosted checkout URL with a one-time launch credential. Send the buyer here to pay. Omitted when the session is headless or another credential replays the request. |
 | `version` | Required | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
-| `checkout_auth_token` | Optional | string | Checkout credential. Send it as Authorization: Bearer &lt;checkout_auth_token>. Present on headless checkout launch and customer binding confirmation. Omitted on hosted checkout launch and when a saved-card confirmation keeps the current credential. |
+| `checkout_auth_token` | Optional | string | Headless checkout credential. Send it as Authorization: Bearer &lt;checkout_auth_token>. Omitted when the session is hosted or another credential replays the request. |
 | `remembered_buyer_token` | Optional | string | One-time identity token returned only when a successful code confirmation remembered the buyer. Store it on your backend or in an HttpOnly cookie. It never opens saved cards. minLength: `47`. maxLength: `47`. pattern: `^rbt_[A-Za-z0-9_-]{43}$`. |
 
 ### CheckoutSessionLaunchResponse.data.active_payment_attempt
@@ -108,6 +110,8 @@ Declared alternatives: [OrderResponse.data.custom_field_answers[]](../models/Ord
 
 ### CheckoutSessionLaunchResponse.data.customer
 
+Omitted when launching checkout. Read the session with `expand=customer` to include the customer.
+
 Field definitions: [shared fields](DisputeResponse.md#disputeresponsedatacustomer).
 
 ### CheckoutSessionLaunchResponse.data.customer variant 1
@@ -122,7 +126,7 @@ anyOf ExpandedCustomerSummary: A customer's summary fields, returned in place of
 anyOf variant 2.
 
 - Undeclared: `created_at`, `customer_id`, `email`, `name`, `phone`, `status`, `updated_at`.
-- Value shape: null.  
+- Value shape: null. Omitted when launching checkout. Read the session with `expand=customer` to include the customer. 
 
 ### CheckoutSessionLaunchResponse.data.delivery
 
@@ -133,6 +137,8 @@ Field definitions: [CheckoutSessionResponse.data.delivery](../models/CheckoutSes
 Field definitions: [CheckoutSessionResponse.data.gift_card_challenge](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatagift_card_challenge).
 
 ### CheckoutSessionLaunchResponse.data.invoice
+
+Omitted when launching checkout. Read the session with `expand=invoice` to include the invoice.
 
 Field definitions: [shared fields](PaymentIntentResponse.md#paymentintentresponsedatainvoice).
 
@@ -148,7 +154,7 @@ anyOf ExpandedInvoiceSummary: An invoice's summary fields, including status, due
 anyOf variant 2.
 
 - Undeclared: `collection_block_status`, `created_at`, `customer_id`, `due_date`, `invoice_id`, `invoice_number`, `is_overdue`, `order_id`, `pricing_amounts`, `refund_status`, `settlement_amounts`, `status`, `supported_actions`, `updated_at`.
-- Value shape: null.  
+- Value shape: null. Omitted when launching checkout. Read the session with `expand=invoice` to include the invoice. 
 
 ### CheckoutSessionLaunchResponse.data.merchant_support
 
@@ -159,6 +165,8 @@ Field definitions: [CheckoutSessionResponse.data.merchant_support](../models/Che
 Field definitions: [OrderResponse.data.charges[].metadata](../models/OrderResponse.md#orderresponsedatachargesmetadata).
 
 ### CheckoutSessionLaunchResponse.data.order
+
+Omitted when launching checkout. Read the session with `expand=order` to include the order.
 
 Field definitions: [shared fields](DisputeResponse.md#disputeresponsedataorder).
 
@@ -174,7 +182,7 @@ anyOf ExpandedOrderSummary: An order's summary fields, including status, payment
 anyOf variant 2.
 
 - Undeclared: `buyer_contact`, `closed_at`, `closed_reason`, `created_at`, `customer_id`, `deferred_promotions`, `fulfillment_status`, `governing_delivery_selection_id`, `order_id`, `order_number`, `paid_at`, `payment_intent_ids`, `payment_status`, `pricing_amounts`, `refund_status`, `settlement_amounts`, `status`, `supported_actions`, `updated_at`.
-- Value shape: null.  
+- Value shape: null. Omitted when launching checkout. Read the session with `expand=order` to include the order. 
 
 ### CheckoutSessionLaunchResponse.data.order variant 1.buyer_contact
 
@@ -190,6 +198,8 @@ Field definitions: [OrderResponse.data.payment_intents[]](../models/OrderRespons
 
 ### CheckoutSessionLaunchResponse.data.payment_link
 
+Omitted when launching checkout. Read the session with `expand=payment_link` to include the payment link.
+
 Field definitions: [shared fields](CheckoutSessionResponse.md#checkoutsessionresponsedatapayment_link).
 
 ### CheckoutSessionLaunchResponse.data.payment_link variant 1
@@ -204,7 +214,7 @@ anyOf ExpandedPaymentLinkSummary: A payment link's summary fields, including nam
 anyOf variant 2.
 
 - Undeclared: `completed_count`, `created_at`, `description`, `name`, `payment_link_id`, `payment_link_type`, `status`, `subscription_plan_id`, `updated_at`, `url`.
-- Value shape: null.  
+- Value shape: null. Omitted when launching checkout. Read the session with `expand=payment_link` to include the payment link. 
 
 ### CheckoutSessionLaunchResponse.data.payment_method_save
 
@@ -213,6 +223,10 @@ Field definitions: [CheckoutSessionResponse.data.payment_method_save](../models/
 ### CheckoutSessionLaunchResponse.data.platform_fee
 
 Field definitions: [CheckoutSessionResponse.data.platform_fee](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataplatform_fee).
+
+### CheckoutSessionLaunchResponse.data.platform_fee_rule
+
+Field definitions: [CheckoutSessionResponse.data.platform_fee_rule](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataplatform_fee_rule).
 
 ### CheckoutSessionLaunchResponse.data.redirects
 

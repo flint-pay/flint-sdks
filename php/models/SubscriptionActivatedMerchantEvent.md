@@ -79,6 +79,10 @@ Field definitions: [SubscriptionResponse.data.line_items[]](../models/Subscripti
 
 Field definitions: [OrderResponse.data.charges[].metadata](../models/OrderResponse.md#orderresponsedatachargesmetadata).
 
+### SubscriptionActivatedMerchantEvent.data fields 1.object.platform_fee_rule
+
+Field definitions: [SubscriptionResponse.data.platform_fee_rule](../models/SubscriptionResponse.md#subscriptionresponsedataplatform_fee_rule).
+
 ### SubscriptionActivatedMerchantEvent.data fields 1.object.promotions[]
 
 Field definitions: [SubscriptionResponse.data.promotions[]](../models/SubscriptionResponse.md#subscriptionresponsedatapromotions).
@@ -284,6 +288,10 @@ Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.payment_method_id
 
 Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.payment_method_id](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributespayment_method_id).
+
+### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.platform_fee_rule
+
+Declared alternatives: [SubscriptionActivatedMerchantEventDataPreviousAttributes.platform_fee_rule](../models/SubscriptionActivatedMerchantEventDataPreviousAttributes.md#subscriptionactivatedmerchanteventdatapreviousattributesplatform_fee_rule).
 
 ### SubscriptionActivatedMerchantEvent.data fields 1.previous_attributes.promotions
 

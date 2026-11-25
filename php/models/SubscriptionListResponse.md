@@ -67,6 +67,10 @@ Field definitions: [OrderResponse.data.charges[].metadata](../models/OrderRespon
 
 Declared alternatives: [SubscriptionResponse.data.payment_method](../models/SubscriptionResponse.md#subscriptionresponsedatapayment_method).
 
+### SubscriptionListResponse.data[].platform_fee_rule
+
+Field definitions: [SubscriptionResponse.data.platform_fee_rule](../models/SubscriptionResponse.md#subscriptionresponsedataplatform_fee_rule).
+
 ### SubscriptionListResponse.data[].promotions[]
 
 Field definitions: [SubscriptionResponse.data.promotions[]](../models/SubscriptionResponse.md#subscriptionresponsedatapromotions).

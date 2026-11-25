@@ -24,7 +24,7 @@ import type {
     ProductsUpdateVariantParams
 } from '../declarations/types-57.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -69,8 +69,8 @@ export type {
     ProductOptionValue,
     ProductVariantSelectedOptionRequest
 } from '../declarations/types-57.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-80.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
+export type { _SdkWithoutIdempotency, WeightRequestInput, Weight } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateProductRequestInput,
@@ -79,7 +79,7 @@ export type {
     CreateProductRequestSimpleInput,
     CreateProductRequestOptionedInput
 } from '../declarations/types-12.js';
-export type { MoneyValueInput, ModifierSetGroup, MoneyValue, NextAction } from '../declarations/types-44.js';
+export type { MoneyValueInput, ModifierSet, ModifierSetGroup, MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { GiftCardProductConfigurationRequestInput, GiftCardProductConfiguration } from '../declarations/types-30.js';
 export type {
     GiftCardCustomAmountBoundsRequestInput,
@@ -92,7 +92,6 @@ export type { InventoryItemCreateRequestInput } from '../declarations/types-32.j
 export type {
     MetadataRequestInput,
     MetadataMap,
-    ModifierSet,
     ModifierGroup,
     Modifier,
     ModifierOverride,
@@ -101,13 +100,13 @@ export type {
 } from '../declarations/types-43.js';
 export type { LicenseKeyConfigurationRequestInput, LicenseKeyConfiguration } from '../declarations/types-39.js';
 export type { PoolLicenseKeyConfigurationRequestInput, PoolLicenseKeyConfiguration } from '../declarations/types-56.js';
-export type { QuantityPriceBreakRequestInput, QuantityPriceBreak } from '../declarations/types-59.js';
+export type { QuantityPriceBreakRequestInput, ReadinessMerchantAccountSession, QuantityPriceBreak } from '../declarations/types-60.js';
 export type { DimensionsRequestInput, Dimensions } from '../declarations/types-25.js';
 export type { AuthMode, BundlesGetParams } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
 export type { CategoryReference } from '../declarations/types-5.js';
-export type { TextModifierConfig } from '../declarations/types-74.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
+export type { TextModifierConfig } from '../declarations/types-75.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { InventoryRoutingSource } from '../declarations/types-33.js';
 export type { SelectedProductOption } from '../declarations/types-68.js';
 export type {
@@ -115,7 +114,7 @@ export type {
     UpdateProductOptionRequestInput,
     UpdateProductOptionValueRequestInput,
     UpdateProductVariantRequestInput
-} from '../declarations/types-77.js';
+} from '../declarations/types-78.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export {
     makeCreateProductOptionRequest,
@@ -123,36 +122,35 @@ export {
     makeCreateProductRequest,
     makeCreateProductRequestOptioned,
     makeCreateProductRequestSimple
-} from '../declarations/types-84.js';
-export { makeDimensionsRequest } from '../declarations/types-86.js';
+} from '../declarations/types-85.js';
+export { makeDimensionsRequest, makeGeneratedLicenseKeyConfigurationRequest } from '../declarations/types-87.js';
 export {
-    makeGeneratedLicenseKeyConfigurationRequest,
     makeGiftCardCustomAmountBoundsRequest,
     makeGiftCardProductConfigurationRequest,
     makeImageInputFile,
     makeImageInputSourceURL,
     makeImageRequest,
     makeInventoryItemCreateRequest
-} from '../declarations/types-87.js';
+} from '../declarations/types-88.js';
 export {
     makeLicenseKeyConfigurationRequest,
     makeMetadataPatchRequest,
     makeMetadataRequest,
     makeMoneyValue
-} from '../declarations/types-88.js';
+} from '../declarations/types-89.js';
 export {
     makePoolLicenseKeyConfigurationRequest,
     makeProductVariantRequest,
     makeProductVariantSelectedOptionRequest
-} from '../declarations/types-90.js';
-export { makeQuantityPriceBreakRequest } from '../declarations/types-91.js';
+} from '../declarations/types-91.js';
+export { makeQuantityPriceBreakRequest } from '../declarations/types-92.js';
 export {
     makeUpdateProductOptionRequest,
     makeUpdateProductOptionValueRequest,
     makeUpdateProductRequest,
     makeUpdateProductVariantRequest
-} from '../declarations/types-94.js';
-export { makeWeightRequest } from '../declarations/types-95.js';
+} from '../declarations/types-95.js';
+export { makeWeightRequest } from '../declarations/types-96.js';
 export interface ProductsResource {
     /**
  * Creates a product, the catalog item buyers purchase through orders, checkout, payment links, and

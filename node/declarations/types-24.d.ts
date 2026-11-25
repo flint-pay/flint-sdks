@@ -1,3 +1,5 @@
+import type { DeliveryRevocation, DeliveryRecipientResource, DeliveryRecipientResourcePreviousAttributes } from './types-23.js';
+import type { ResponseMeta } from './types-63.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateDeliveryRevocationRequestInput, CreateDeliverySelectionRequestInput } from './types-9.js';
 import type { DisputesAcceptParams } from './types-26.js';
@@ -17,7 +19,6 @@ import type {
     DeliveryInputRequirementPreviousAttributes,
     DeliveryInventoryReservationSummary
 } from './types-19.js';
-import type { DeliveryRecipientResource, DeliveryRecipientResourcePreviousAttributes } from './types-23.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
 import type {
     DeliveryPickupDetails,
@@ -27,7 +28,6 @@ import type {
 } from './types-20.js';
 import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { ResponseMeta } from './types-62.js';
 import type { CheckoutSession } from './types-6.js';
 import type { Order } from './types-45.js';
 import type {
@@ -36,6 +36,79 @@ import type {
     DeliveryPricingTierBandPreviousAttributes
 } from './types-21.js';
 import type { DeliveryZoneConfiguration, DeliveryZoneConfigurationPreviousAttributes } from './types-25.js';
+/** A response containing `DeliveryRevocation` data. */
+export type DeliveryRevocationResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A permanent fence on an
+     * exact delivery method revision, rate callback revision, callback signing key, or Location
+     * geography version. Quotes that depend on it are revoked, and selections that depend on it
+     * stop being current.
+     */
+    "data": DeliveryRevocation;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The parent and exact child identity permanently fenced by this revocation. */
+export type DeliveryRevocationTarget = ({
+    /**
+     * ID of the delivery method that owns the targeted revision. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id"?: string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_method_id. Example:
+     * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     */
+    "delivery_method_revision_id"?: string;
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. Example:
+     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id"?: string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_rate_callback_id. Example:
+     * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+     */
+    "delivery_rate_callback_revision_id"?: string;
+    /**
+     * ID of the HMAC signing key to fence. It must be the named callback's current or previous
+     * key; secret material is never returned. Example: "cbkey_00112233445566778899aabb".
+     */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Exact recorded geography version of location_id to fence. Future and unrecorded versions are
+     * not accepted. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    /**
+     * ID of the Location that recorded the targeted geography version. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * The kind of exact dependency this revocation fences. Value enum: "location_geography",
+     * "delivery_rate_callback_signing_key", "delivery_rate_callback_revision",
+     * "delivery_method_revision".
+     */
+    "target_type": "location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback_revision"
+        | "delivery_method_revision"
+        | (string & {});
+})
+    & ((Exclude<DeliveryRevocationTargetLocationGeography & object, readonly unknown[]>)
+    | (Exclude<DeliveryRevocationTargetDeliveryRateCallbackSigningKey & object, readonly unknown[]>)
+    | (Exclude<DeliveryRevocationTargetDeliveryRateCallbackRevision & object, readonly unknown[]>)
+    | (Exclude<DeliveryRevocationTargetDeliveryMethodRevision & object, readonly unknown[]>)
+    | (Record<string, unknown>));
 /** Fences one immutable revision of the named delivery method. */
 export type DeliveryRevocationTargetDeliveryMethodRevision = {
     /**
@@ -3740,482 +3813,4 @@ export type DeliveryZoneArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & ob
 })))
     & {
     "event_type": "delivery_zone.archived";
-});
-/**
- * The `delivery_zone.archived` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type DeliveryZoneArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.configuration (Required): {@link DeliveryZoneConfiguration}.
-     * Current geographic eligibility conditions. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions. object.created_at (Required): string.
-     * Time the zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_zone_revision_id (Required): string. Immutable revision used for new
-     * quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". object.delivery_zone_id (Required):
-     * string. Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.metadata
-     * (Optional): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored
-     * on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.name (Required): string. Merchant-facing zone name.
-     * object.status (Required): string. Current zone lifecycle status. Value enum: "active",
-     * "archived". object.updated_at (Required): string. Time the zone last changed. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer.
-     * Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.configuration (Optional): {@link
-     * DeliveryZoneConfigurationPreviousAttributes} or null. Current geographic eligibility
-     * conditions. previous_attributes.configuration.anyOf[1] (Value): {@link
-     * DeliveryZoneConfigurationPreviousAttributes}. previous_attributes.configuration.anyOf[2]
-     * (Value): null. previous_attributes.created_at (Optional): string or null. Time the zone was
-     * created. previous_attributes.created_at.anyOf[1] (Value): string. Time the zone was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
-     * (Value): null. previous_attributes.current_delivery_zone_revision_id (Optional): string or
-     * null. Immutable revision used for new quotes.
-     * previous_attributes.current_delivery_zone_revision_id.anyOf[1] (Value): string. Immutable
-     * revision used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
-     * previous_attributes.current_delivery_zone_revision_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_zone_id (Optional): string or null. Stable delivery zone ID.
-     * previous_attributes.delivery_zone_id.anyOf[1] (Value): string. Stable delivery zone ID.
-     * Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP". previous_attributes.delivery_zone_id.anyOf[2]
-     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
-     * Caller-owned identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
-     * string or null. Merchant-facing zone name. previous_attributes.name.anyOf[1] (Value):
-     * string. Merchant-facing zone name. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Current zone lifecycle status. Value
-     * enum: "active", "archived". previous_attributes.status.anyOf[1] (Value): string. Current
-     * zone lifecycle status. Value enum: "active", "archived". previous_attributes.status.anyOf[2]
-     * (Value): null. previous_attributes.updated_at (Optional): string or null. Time the zone last
-     * changed. previous_attributes.updated_at.anyOf[1] (Value): string. Time the zone last
-     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Optimistic-concurrency version for zone writes.
-     * previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency version for
-     * zone writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * configuration (Required): {@link DeliveryZoneConfiguration}. Current geographic
-         * eligibility conditions. A reusable geographic predicate containing only country, state,
-         * postal_code, and radius conditions. created_at (Required): string. Time the zone was
-         * created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_zone_revision_id (Required): string. Immutable revision used for new
-         * quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". delivery_zone_id (Required):
-         * string. Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". metadata (Optional):
-         * {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored on a
-         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-         * limits may not satisfy them. name (Required): string. Merchant-facing zone name. status
-         * (Required): string. Current zone lifecycle status. Value enum: "active", "archived".
-         * updated_at (Required): string. Time the zone last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Optimistic-concurrency version for
-         * zone writes. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Current geographic eligibility conditions. A reusable geographic predicate
-             * containing only country, state, postal_code, and radius conditions.
-             */
-            "configuration": DeliveryZoneConfiguration;
-            /** Time the zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Immutable revision used for new quotes. Example:
-             * "dzoner_01KEZF7C00DF2H9VW29JN861K6".
-             */
-            "current_delivery_zone_revision_id": string;
-            /** Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP". */
-            "delivery_zone_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
-             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
-             * not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Merchant-facing zone name. */
-            "name": string;
-            /** Current zone lifecycle status. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /** Time the zone last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /** Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. configuration (Optional): {@link
-         * DeliveryZoneConfigurationPreviousAttributes} or null. Current geographic eligibility
-         * conditions. configuration.anyOf[1] (Value): {@link
-         * DeliveryZoneConfigurationPreviousAttributes}. configuration.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. Time the zone was created. created_at.anyOf[1]
-         * (Value): string. Time the zone was created. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * current_delivery_zone_revision_id (Optional): string or null. Immutable revision used
-         * for new quotes. current_delivery_zone_revision_id.anyOf[1] (Value): string. Immutable
-         * revision used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
-         * current_delivery_zone_revision_id.anyOf[2] (Value): null. delivery_zone_id (Optional):
-         * string or null. Stable delivery zone ID. delivery_zone_id.anyOf[1] (Value): string.
-         * Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
-         * delivery_zone_id.anyOf[2] (Value): null. external_reference_id (Optional): string or
-         * null. Caller-owned identifier for this resource in an external system.
-         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
-         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
-         * external_reference_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap}
-         * or null. Caller-owned metadata. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. name (Optional): string or null. Merchant-facing zone
-         * name. name.anyOf[1] (Value): string. Merchant-facing zone name. name.anyOf[2] (Value):
-         * null. status (Optional): string or null. Current zone lifecycle status. Value enum:
-         * "active", "archived". status.anyOf[1] (Value): string. Current zone lifecycle status.
-         * Value enum: "active", "archived". status.anyOf[2] (Value): null. updated_at (Optional):
-         * string or null. Time the zone last changed. updated_at.anyOf[1] (Value): string. Time
-         * the zone last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null.
-         * Optimistic-concurrency version for zone writes. version.anyOf[1] (Value): integer.
-         * Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1.
-         * version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Current geographic eligibility conditions. anyOf[1] (Value): {@link
-             * DeliveryZoneConfigurationPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null));
-            /**
-             * Time the zone was created. anyOf[1] (Value): string. Time the zone was created.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Immutable revision used for new quotes. anyOf[1] (Value): string. Immutable revision
-             * used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". anyOf[2] (Value):
-             * null.
-             */
-            "current_delivery_zone_revision_id"?: ((string) | (null));
-            /**
-             * Stable delivery zone ID. anyOf[1] (Value): string. Stable delivery zone ID. Example:
-             * "dzone_01KEZF7C005RY7KGCN4M2CH5WP". anyOf[2] (Value): null.
-             */
-            "delivery_zone_id"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
-             * null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Merchant-facing zone name. anyOf[1] (Value): string. Merchant-facing zone name.
-             * anyOf[2] (Value): null.
-             */
-            "name"?: ((string) | (null));
-            /**
-             * Current zone lifecycle status. Value enum: "active", "archived". anyOf[1] (Value):
-             * string. Current zone lifecycle status. Value enum: "active", "archived". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("active" | "archived" | (string & {})) | (null));
-            /**
-             * Time the zone last changed. anyOf[1] (Value): string. Time the zone last changed.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Optimistic-concurrency version for zone writes. anyOf[1] (Value): integer.
-             * Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1. anyOf[2]
-             * (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "delivery_zone.archived". */
-    "event_type"?: "delivery_zone.archived";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `delivery_zone.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type DeliveryZoneArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.configuration (Required): {@link DeliveryZoneConfiguration}.
-     * Current geographic eligibility conditions. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions. object.created_at (Required): string.
-     * Time the zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_zone_revision_id (Required): string. Immutable revision used for new
-     * quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". object.delivery_zone_id (Required):
-     * string. Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.metadata
-     * (Optional): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored
-     * on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.name (Required): string. Merchant-facing zone name.
-     * object.status (Required): string. Current zone lifecycle status. Value enum: "active",
-     * "archived". object.updated_at (Required): string. Time the zone last changed. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer.
-     * Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     * previous_attributes.configuration (Optional): {@link
-     * DeliveryZoneConfigurationPreviousAttributes} or null. Current geographic eligibility
-     * conditions. previous_attributes.configuration.anyOf[1] (Value): {@link
-     * DeliveryZoneConfigurationPreviousAttributes}. previous_attributes.configuration.anyOf[2]
-     * (Value): null. previous_attributes.created_at (Optional): string or null. Time the zone was
-     * created. previous_attributes.created_at.anyOf[1] (Value): string. Time the zone was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.created_at.anyOf[2]
-     * (Value): null. previous_attributes.current_delivery_zone_revision_id (Optional): string or
-     * null. Immutable revision used for new quotes.
-     * previous_attributes.current_delivery_zone_revision_id.anyOf[1] (Value): string. Immutable
-     * revision used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
-     * previous_attributes.current_delivery_zone_revision_id.anyOf[2] (Value): null.
-     * previous_attributes.delivery_zone_id (Optional): string or null. Stable delivery zone ID.
-     * previous_attributes.delivery_zone_id.anyOf[1] (Value): string. Stable delivery zone ID.
-     * Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP". previous_attributes.delivery_zone_id.anyOf[2]
-     * (Value): null. previous_attributes.external_reference_id (Optional): string or null.
-     * Caller-owned identifier for this resource in an external system.
-     * previous_attributes.external_reference_id.anyOf[1] (Value): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * previous_attributes.external_reference_id.anyOf[2] (Value): null.
-     * previous_attributes.metadata (Optional): {@link MetadataMap} or null. Caller-owned metadata.
-     * previous_attributes.metadata.anyOf[1] (Value): {@link MetadataMap}.
-     * previous_attributes.metadata.anyOf[2] (Value): null. previous_attributes.name (Optional):
-     * string or null. Merchant-facing zone name. previous_attributes.name.anyOf[1] (Value):
-     * string. Merchant-facing zone name. previous_attributes.name.anyOf[2] (Value): null.
-     * previous_attributes.status (Optional): string or null. Current zone lifecycle status. Value
-     * enum: "active", "archived". previous_attributes.status.anyOf[1] (Value): string. Current
-     * zone lifecycle status. Value enum: "active", "archived". previous_attributes.status.anyOf[2]
-     * (Value): null. previous_attributes.updated_at (Optional): string or null. Time the zone last
-     * changed. previous_attributes.updated_at.anyOf[1] (Value): string. Time the zone last
-     * changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes.updated_at.anyOf[2] (Value): null. previous_attributes.version
-     * (Optional): integer or null. Optimistic-concurrency version for zone writes.
-     * previous_attributes.version.anyOf[1] (Value): integer. Optimistic-concurrency version for
-     * zone writes. Format: uint64. minimum: 1. previous_attributes.version.anyOf[2] (Value): null.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * configuration (Required): {@link DeliveryZoneConfiguration}. Current geographic
-         * eligibility conditions. A reusable geographic predicate containing only country, state,
-         * postal_code, and radius conditions. created_at (Required): string. Time the zone was
-         * created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_zone_revision_id (Required): string. Immutable revision used for new
-         * quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". delivery_zone_id (Required):
-         * string. Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". metadata (Optional):
-         * {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored on a
-         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-         * limits may not satisfy them. name (Required): string. Merchant-facing zone name. status
-         * (Required): string. Current zone lifecycle status. Value enum: "active", "archived".
-         * updated_at (Required): string. Time the zone last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Optimistic-concurrency version for
-         * zone writes. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Current geographic eligibility conditions. A reusable geographic predicate
-             * containing only country, state, postal_code, and radius conditions.
-             */
-            "configuration": DeliveryZoneConfiguration;
-            /** Time the zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Immutable revision used for new quotes. Example:
-             * "dzoner_01KEZF7C00DF2H9VW29JN861K6".
-             */
-            "current_delivery_zone_revision_id": string;
-            /** Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP". */
-            "delivery_zone_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
-             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
-             * not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Merchant-facing zone name. */
-            "name": string;
-            /** Current zone lifecycle status. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /** Time the zone last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /** Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events. configuration (Optional): {@link
-         * DeliveryZoneConfigurationPreviousAttributes} or null. Current geographic eligibility
-         * conditions. configuration.anyOf[1] (Value): {@link
-         * DeliveryZoneConfigurationPreviousAttributes}. configuration.anyOf[2] (Value): null.
-         * created_at (Optional): string or null. Time the zone was created. created_at.anyOf[1]
-         * (Value): string. Time the zone was created. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". created_at.anyOf[2] (Value): null.
-         * current_delivery_zone_revision_id (Optional): string or null. Immutable revision used
-         * for new quotes. current_delivery_zone_revision_id.anyOf[1] (Value): string. Immutable
-         * revision used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6".
-         * current_delivery_zone_revision_id.anyOf[2] (Value): null. delivery_zone_id (Optional):
-         * string or null. Stable delivery zone ID. delivery_zone_id.anyOf[1] (Value): string.
-         * Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
-         * delivery_zone_id.anyOf[2] (Value): null. external_reference_id (Optional): string or
-         * null. Caller-owned identifier for this resource in an external system.
-         * external_reference_id.anyOf[1] (Value): string. Caller-owned identifier for this
-         * resource in an external system. maxLength: 255. Example: "warehouse-1842".
-         * external_reference_id.anyOf[2] (Value): null. metadata (Optional): {@link MetadataMap}
-         * or null. Caller-owned metadata. metadata.anyOf[1] (Value): {@link MetadataMap}.
-         * metadata.anyOf[2] (Value): null. name (Optional): string or null. Merchant-facing zone
-         * name. name.anyOf[1] (Value): string. Merchant-facing zone name. name.anyOf[2] (Value):
-         * null. status (Optional): string or null. Current zone lifecycle status. Value enum:
-         * "active", "archived". status.anyOf[1] (Value): string. Current zone lifecycle status.
-         * Value enum: "active", "archived". status.anyOf[2] (Value): null. updated_at (Optional):
-         * string or null. Time the zone last changed. updated_at.anyOf[1] (Value): string. Time
-         * the zone last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * updated_at.anyOf[2] (Value): null. version (Optional): integer or null.
-         * Optimistic-concurrency version for zone writes. version.anyOf[1] (Value): integer.
-         * Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1.
-         * version.anyOf[2] (Value): null.
-         */
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            /**
-             * Current geographic eligibility conditions. anyOf[1] (Value): {@link
-             * DeliveryZoneConfigurationPreviousAttributes}. anyOf[2] (Value): null.
-             */
-            "configuration"?: ((DeliveryZoneConfigurationPreviousAttributes) | (null));
-            /**
-             * Time the zone was created. anyOf[1] (Value): string. Time the zone was created.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "created_at"?: ((string) | (null));
-            /**
-             * Immutable revision used for new quotes. anyOf[1] (Value): string. Immutable revision
-             * used for new quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". anyOf[2] (Value):
-             * null.
-             */
-            "current_delivery_zone_revision_id"?: ((string) | (null));
-            /**
-             * Stable delivery zone ID. anyOf[1] (Value): string. Stable delivery zone ID. Example:
-             * "dzone_01KEZF7C005RY7KGCN4M2CH5WP". anyOf[2] (Value): null.
-             */
-            "delivery_zone_id"?: ((string) | (null));
-            /**
-             * Caller-owned identifier for this resource in an external system. anyOf[1] (Value):
-             * string. Caller-owned identifier for this resource in an external system. maxLength:
-             * 255. Example: "warehouse-1842". anyOf[2] (Value): null.
-             */
-            "external_reference_id"?: ((string) | (null));
-            /**
-             * Caller-owned metadata. anyOf[1] (Value): {@link MetadataMap}. anyOf[2] (Value):
-             * null.
-             */
-            "metadata"?: ((MetadataMap) | (null));
-            /**
-             * Merchant-facing zone name. anyOf[1] (Value): string. Merchant-facing zone name.
-             * anyOf[2] (Value): null.
-             */
-            "name"?: ((string) | (null));
-            /**
-             * Current zone lifecycle status. Value enum: "active", "archived". anyOf[1] (Value):
-             * string. Current zone lifecycle status. Value enum: "active", "archived". anyOf[2]
-             * (Value): null.
-             */
-            "status"?: (("active" | "archived" | (string & {})) | (null));
-            /**
-             * Time the zone last changed. anyOf[1] (Value): string. Time the zone last changed.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
-             */
-            "updated_at"?: ((string) | (null));
-            /**
-             * Optimistic-concurrency version for zone writes. anyOf[1] (Value): integer.
-             * Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1. anyOf[2]
-             * (Value): null.
-             */
-            "version"?: ((number) | (null));
-        });
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "delivery_zone.archived". */
-    "event_type"?: "delivery_zone.archived";
 });

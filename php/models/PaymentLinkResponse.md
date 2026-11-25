@@ -43,6 +43,7 @@ Resource, collection, or operation result returned by this request. A reusable l
 | `payment_link_id` | Required | string | Unique identifier for this payment link, prefixed `pl_`. Example: `"pl_01KEZF7C007WDMA5P9BPZ8J2AM"`. |
 | `payment_link_type` | Optional | string | What kind of link this is. Values: `"standard"`, `"donation"`, `"event"`. |
 | `payments` | Optional | [CheckoutPaymentConfig](../models/CheckoutPaymentConfig.md#checkoutpaymentconfig) | Payment options for checkouts started from this link. Payment settings for a checkout: the enabled payment options and a note shown with payment. |
+| `platform_fee_rule` | Optional | [PlatformFeeRule](../models/PlatformFeeRule.md#platformfeerule) | The platform fee rule copied to checkouts started from this link. The rule that sets the platform fee for each payment. `platform_fee_rule`: [field definitions](../models/PaymentLinkResponse.md#paymentlinkresponsedataplatform_fee_rule). |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
 | `redirects` | Optional | [CheckoutRedirects](../models/CheckoutRedirects.md#checkoutredirects) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url. `redirects`: [field definitions](../models/PaymentLinkResponse.md#paymentlinkresponsedataredirects). |
 | `sales_end_at` | Optional | string | RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -192,6 +193,20 @@ Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line it
 ### PaymentLinkResponse.data.metadata
 
 Field definitions: [OrderResponse.data.charges[].metadata](../models/OrderResponse.md#orderresponsedatachargesmetadata).
+
+### PaymentLinkResponse.data.platform_fee_rule
+
+The platform fee rule copied to checkouts started from this link. The rule that sets the platform fee for each payment.
+
+Field definitions: [shared fields](SubscriptionResponse.md#subscriptionresponsedataplatform_fee_rule).
+
+### PaymentLinkResponse.data.platform_fee_rule.fixed_fee_money
+
+Field definitions: [SubscriptionResponse.data.platform_fee_rule.fixed_fee_money](../models/SubscriptionResponse.md#subscriptionresponsedataplatform_fee_rulefixed_fee_money).
+
+### PaymentLinkResponse.data.platform_fee_rule.maximum_fee_money
+
+Field definitions: [SubscriptionResponse.data.platform_fee_rule.maximum_fee_money](../models/SubscriptionResponse.md#subscriptionresponsedataplatform_fee_rulemaximum_fee_money).
 
 ### PaymentLinkResponse.data.redirects
 

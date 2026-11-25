@@ -1,7 +1,7 @@
 import type { MoneyValue, MoneyValuePreviousAttributes } from './types-44.js';
-import type { SubscriptionIntervalOption, SubscriptionIntervalOptionPreviousAttributes } from './types-70.js';
-import type { SubscriptionPlanLineItem, SubscriptionPlanLineItemPreviousAttributes } from './types-71.js';
-import type { ResponseMeta } from './types-62.js';
+import type { SubscriptionIntervalOption, SubscriptionIntervalOptionPreviousAttributes } from './types-71.js';
+import type { SubscriptionPlanLineItem, SubscriptionPlanLineItemPreviousAttributes } from './types-72.js';
+import type { ResponseMeta } from './types-63.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateFileRequestInput, CreateFulfillmentEventRequestInput } from './types-10.js';
 import type {
@@ -21,6 +21,7 @@ import type { DeliveryFulfillmentDetails, DeliveryFulfillmentDetailsPreviousAttr
 import type {
     FulfillmentOutcome,
     FulfillmentRecipient,
+    FulfillmentLineItemPreviousAttributes,
     FulfillmentOutcomePreviousAttributes,
     FulfillmentRecipientPreviousAttributes
 } from './types-28.js';
@@ -29,13 +30,140 @@ import type {
     ServiceFulfillmentDetails,
     ShipmentFulfillmentDetails,
     ServiceFulfillmentDetailsPreviousAttributes,
-    ShipmentFulfillmentDetailsPreviousAttributes,
-    SinglePackageCreateRequest,
-    SinglePackageCreateRequestInput
+    ShipmentFulfillmentDetailsPreviousAttributes
 } from './types-68.js';
 import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-12.js';
-import type { PackageCreateRequest, PackageCreateRequestInput } from './types-48.js';
-import type { OrderLineItemModifier, OrderLineItemModifierPreviousAttributes } from './types-46.js';
+import type { PackageCreateRequest } from './types-48.js';
+import type { SinglePackageCreateRequest, SinglePackageCreateRequestInput } from './types-69.js';
+import type { PackageCreateRequestInput } from './types-49.js';
+import type { OrderLineItemModifier } from './types-46.js';
+/**
+ * A payout destination's summary fields, such as type, bank name, last four digits, and status,
+ * returned when the destination is expanded.
+ */
+export type ExpandedPayoutDestinationSummary = {
+    /**
+     * Payout methods available through Flint for this destination. Only standard is currently
+     * available. [] enum: "standard". [] (Value): string. Value enum: "standard".
+     */
+    "available_payout_methods": Array<"standard" | (string & {})>;
+    /** Name of the bank, when your processor reports it. */
+    "bank_name"?: string;
+    /**
+     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
+     * "US".
+     */
+    "country"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at"?: string;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /**
+     * Whether this is the default destination for its currency. Scheduled payouts, and payouts
+     * created without payout_destination_id, go to the default, and only an active destination can
+     * be it.
+     */
+    "is_default_for_currency": boolean;
+    /** Last four digits of the account or card number. */
+    "last4"?: string;
+    /**
+     * Unique identifier for this payout destination, prefixed `pdest_`. Example:
+     * "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
+     */
+    "payout_destination_id": string;
+    /**
+     * Current status. Archived: deleted, and still readable by ID. Value enum: "pending",
+     * "active", "verification_required", "disabled", "archived", "failed".
+     */
+    "status": "pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {});
+    /**
+     * Destination type. Unmapped destination types are returned as other. Value enum:
+     * "bank_account", "debit_card", "other".
+     */
+    "type": "bank_account" | "debit_card" | "other" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at"?: string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+export type ExpandedPayoutDestinationSummaryPreviousAttributes = {
+    /**
+     * Payout methods available through Flint for this destination. Only standard is currently
+     * available. [] enum: "standard". anyOf[1] (Value): Array of string. Payout methods available
+     * through Flint for this destination. Only standard is currently available. [] enum:
+     * "standard". anyOf[1][] (Value): string. Value enum: "standard". anyOf[2] (Value): null.
+     */
+    "available_payout_methods"?: ((Array<"standard" | (string & {})>) | (null));
+    /**
+     * Name of the bank, when your processor reports it. anyOf[1] (Value): string. Name of the
+     * bank, when your processor reports it. anyOf[2] (Value): null.
+     */
+    "bank_name"?: ((string) | (null));
+    /**
+     * ISO 3166-1 alpha-2 country code. anyOf[1] (Value): string. ISO 3166-1 alpha-2 country code.
+     * minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". anyOf[2] (Value): null.
+     */
+    "country"?: ((string) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "created_at"?: ((string) | (null));
+    /**
+     * ISO 4217 currency code. anyOf[1] (Value): string. ISO 4217 currency code. minLength: 3.
+     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". anyOf[2] (Value): null.
+     */
+    "currency"?: ((string) | (null));
+    /**
+     * Whether this is the default destination for its currency. Scheduled payouts, and payouts
+     * created without payout_destination_id, go to the default, and only an active destination can
+     * be it. anyOf[1] (Value): boolean. Whether this is the default destination for its currency.
+     * Scheduled payouts, and payouts created without payout_destination_id, go to the default, and
+     * only an active destination can be it. anyOf[2] (Value): null.
+     */
+    "is_default_for_currency"?: ((boolean) | (null));
+    /**
+     * Last four digits of the account or card number. anyOf[1] (Value): string. Last four digits
+     * of the account or card number. anyOf[2] (Value): null.
+     */
+    "last4"?: ((string) | (null));
+    /**
+     * Unique identifier for this payout destination, prefixed `pdest_`. anyOf[1] (Value): string.
+     * Unique identifier for this payout destination, prefixed `pdest_`. Example:
+     * "pdest_01KEZF7C00M55HZDZXZP6YVE6B". anyOf[2] (Value): null.
+     */
+    "payout_destination_id"?: ((string) | (null));
+    /**
+     * Current status. Archived: deleted, and still readable by ID. Value enum: "pending",
+     * "active", "verification_required", "disabled", "archived", "failed". anyOf[1] (Value):
+     * string. Current status. Archived: deleted, and still readable by ID. Value enum: "pending",
+     * "active", "verification_required", "disabled", "archived", "failed". anyOf[2] (Value): null.
+     */
+    "status"?: (("pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {}))
+        | (null));
+    /**
+     * Destination type. Unmapped destination types are returned as other. Value enum:
+     * "bank_account", "debit_card", "other". anyOf[1] (Value): string. Destination type. Unmapped
+     * destination types are returned as other. Value enum: "bank_account", "debit_card", "other".
+     * anyOf[2] (Value): null.
+     */
+    "type"?: (("bank_account" | "debit_card" | "other" | (string & {})) | (null));
+    /**
+     * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
+     */
+    "updated_at"?: ((string) | (null));
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. anyOf[1] (Value): integer. Persisted version of this
+     * resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. anyOf[2] (Value): null.
+     */
+    "version"?: ((number) | (null));
+};
 /**
  * A payout's summary fields, including amount, method, status, and arrival date, returned when the
  * payout is expanded.
@@ -14977,60 +15105,6 @@ export type FulfillmentLineItem = {
     "order_id": string;
     /**
      * Order line whose quantity is allocated to the fulfillment. Example:
-     * "li_01KEZF7C008YPRCK7VDKTGWR31".
-     */
-    "order_line_item_id": string;
-    /**
-     * Whole-number quantity in component units for a bundle component, or line units otherwise;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "quantity": number;
-};
-export type FulfillmentLineItemPreviousAttributes = {
-    /**
-     * Bundle component this row counts, in component units. `null` when the line isn't a bundle
-     * component. Look it up in the order line's bundle_components. anyOf[1] (Value): string.
-     * Bundle component this row counts, in component units. `null` when the line isn't a bundle
-     * component. Look it up in the order line's bundle_components. Example:
-     * "bunc_01KEZF7C00CQASEZGAPEANTGD1". anyOf[2] (Value): null.
-     */
-    "bundle_component_id"?: ((string) | (null));
-    /**
-     * Modifier selections snapshotted from the order line for fulfillment. anyOf[1] (Value): Array
-     * of {@link OrderLineItemModifierPreviousAttributes}. Modifier selections snapshotted from the
-     * order line for fulfillment. anyOf[1][] (Value): {@link
-     * OrderLineItemModifierPreviousAttributes}. anyOf[2] (Value): null.
-     */
-    "modifiers"?: ((Array<OrderLineItemModifierPreviousAttributes>) | (null));
-    /**
-     * Order that owns the referenced line item. anyOf[1] (Value): string. Order that owns the
-     * referenced line item. Example: "ord_01KEZF7C0054GQKJ142A8X367A". anyOf[2] (Value): null.
-     */
-    "order_id"?: ((string) | (null));
-    /**
-     * Order line whose quantity is allocated to the fulfillment. anyOf[1] (Value): string. Order
-     * line whose quantity is allocated to the fulfillment. Example:
-     * "li_01KEZF7C008YPRCK7VDKTGWR31". anyOf[2] (Value): null.
-     */
-    "order_line_item_id"?: ((string) | (null));
-    /**
-     * Whole-number quantity in component units for a bundle component, or line units otherwise;
-     * fractional quantities are not supported. anyOf[1] (Value): integer. Whole-number quantity in
-     * component units for a bundle component, or line units otherwise; fractional quantities are
-     * not supported. Format: int64. anyOf[2] (Value): null.
-     */
-    "quantity"?: ((number) | (null));
-};
-/** An order line item and quantity to include when creating a fulfillment. */
-export type FulfillmentLineItemRequest = {
-    /**
-     * Bundle component to fulfill, from the order line's bundle_components. Omit or send `null`
-     * when the line isn't a bundle component. A bundle line requires its component ID. minLength:
-     * 1. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
-     */
-    "bundle_component_id"?: string | null;
-    /**
-     * Order line whose quantity is allocated. minLength: 1. Example:
      * "li_01KEZF7C008YPRCK7VDKTGWR31".
      */
     "order_line_item_id": string;

@@ -7,8 +7,8 @@ import type {
 } from './types-9.js';
 import type { CreatePickupFulfillmentDetails, CreatePickupFulfillmentDetailsInput } from './types-12.js';
 import type { CreateServiceFulfillmentDetails, CreateServiceFulfillmentDetailsInput } from './types-14.js';
-import type { FulfillmentLineItemRequest } from './types-27.js';
 import type {
+    FulfillmentLineItemRequest,
     FulfillmentPackagingRequest,
     FulfillmentRecipientRequest,
     FulfillmentLineItemRequestInput,
@@ -27,7 +27,7 @@ import type {
 } from './types-29.js';
 import type { MoneyValue, MoneyValueInput } from './types-44.js';
 import type { GiftCardTransaction } from './types-30.js';
-import type { ResponseMeta } from './types-62.js';
+import type { ResponseMeta } from './types-63.js';
 import type {
     InitialGiftCardFunding,
     InitialGiftCardFundingInput,
@@ -38,25 +38,20 @@ import type {
     InventoryAdjustmentQuantityLineRequest,
     InventoryAdjustmentQuantityLineRequestInput,
     InventoryAllocationConfigurationValue,
-    InventoryAllocationPolicyConfigurationRequestInput,
-    InventoryBackorderPolicyRequest
+    InventoryAllocationPolicyConfigurationRequestInput
 } from './types-31.js';
 import type { CreateModifierRequestInput } from './types-11.js';
 import type { TextModifierConfigRequestInput } from './types-75.js';
 import type {
     InventorySourceSystemRequest,
     InventorySourceSystemRequestInput,
+    InventoryRoutingSourceRequest,
     InventoryRoutingSourceRequestInput,
     InventoryTransferLineRequest,
     InventoryTransferLineRequestInput
 } from './types-34.js';
-import type { InventoryReceiptLineRequest, InventoryReceiptLineRequestInput } from './types-32.js';
-import type {
-    InventoryRoutingDemand,
-    InventoryRoutingSourceRequest,
-    InventoryReservationOwnerRequestInput,
-    InventoryRoutingDemandInput
-} from './types-33.js';
+import type { InventoryBackorderPolicyRequest, InventoryReceiptLineRequest, InventoryReceiptLineRequestInput } from './types-32.js';
+import type { InventoryRoutingDemand, InventoryReservationOwnerRequestInput, InventoryRoutingDemandInput } from './types-33.js';
 import type { LookupLicenseKeyRequest } from './types-40.js';
 /** The request body for: Request a customer email change; Request an email change. */
 export type CreateEmailChangeRequestInput = CreateEmailChangeRequest;

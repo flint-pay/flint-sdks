@@ -13,16 +13,20 @@ Request input.
 | `checkout_session_id` | Optional | string | The checkout session the payment came from. Absent when the fee was sent with the payment itself. Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `collected_at` | Optional | string | When Flint collected the fee with the payment. Absent unless status is succeeded. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `created_at` | Required | string | When the payment's create recorded the fee. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `invoice_id` | Optional | string | The invoice the payment collected. Example: `"inv_01KEZF7C00A5GEBMWHEAJFSAR4"`. |
 | `merchant_id` | Required | string | The installed merchant charged the fee, as on the install. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `partner_app_id` | Required | string | The partner app that charged the fee. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
 | `partner_app_install_id` | Required | string | The install whose partner app token created the payment. Example: `"pinst_01KEZF7C003HVKZR3GZAW6AFAZ"`. |
 | `payment_intent_id` | Required | string | The payment the fee rides on, owned by the installed merchant. After that merchant resets the sandbox the payment was in, the ID no longer resolves. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
+| `payment_link_id` | Optional | string | The payment link whose checkout made the payment. Example: `"pl_01KEZF7C007WDMA5P9BPZ8J2AM"`. |
 | `platform_fee_id` | Required | string | Unique identifier for the platform fee, the payment intent's platform_fee.platform_fee_id. Example: `"pfee_01KEZF7C00JHAZN19B3MMW0R3A"`. |
+| `platform_fee_rule` | Optional | [PlatformFeeRuleInput](../models/PlatformFeeRuleInput.md#platformfeeruleinput) | The rule that priced this fee, as it stood when the payment was created. The rule that sets the platform fee for each payment. |
 | `refunded_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The fee debited from the platform for returns so far, including opted-in payment refunds and returns of the whole application fee. Matches the platform ledger, including returns awaiting completion; reversals reduce the total. 0 when nothing has been debited. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `requested_amount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The fee the request asked for. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `reserve_available_at` | Optional | string | The original scheduled release date of the held share. Refunds can release their proportional share early. Absent until the fee posts, and when nothing was held. Setting it sends no event. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `reserve_hold_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The share of the fee Flint held in your reserve when it posted the fee to your ledger. Absent until then. The original collection snapshot: refunds release their proportional share early, and loss coverage draws on the reserve as a whole. Read PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `status` | Required | string | Where the fee stands. canceled is final. Values: `"pending"`, `"succeeded"`, `"canceled"`. |
+| `subscription_id` | Optional | string | The subscription associated with the payment. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
 | `updated_at` | Required | string | When the fee last changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
 

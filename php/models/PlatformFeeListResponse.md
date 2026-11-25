@@ -19,6 +19,10 @@ A platform fee your partner app charged, or asked to charge, on a payment it cre
 
 Field definitions: [shared fields](PlatformFeeResponse.md#platformfeeresponsedata).
 
+### PlatformFeeListResponse.data[].platform_fee_rule
+
+Field definitions: [PlatformFeeResponse.data.platform_fee_rule](../models/PlatformFeeResponse.md#platformfeeresponsedataplatform_fee_rule).
+
 ### PlatformFeeListResponse.meta
 
 Field definitions: [DisputeResponse.meta](../models/DisputeResponse.md#disputeresponsemeta).

@@ -1,8 +1,8 @@
 import type { InputValue } from '../runtime.js';
-import type { RemoveLicenseKeyPoolKeysRequestInput } from './types-61.js';
-import type { UpdateLicenseKeyPoolRequestInput, UpdateLicenseKeyRequestInput, UpdateLocationRequestInput } from './types-76.js';
+import type { RemoveLicenseKeyPoolKeysRequestInput, ResendLicenseKeyRequestInput } from './types-62.js';
+import type { UpdateLicenseKeyPoolRequestInput, UpdateLicenseKeyRequestInput, UpdateLocationRequestInput } from './types-77.js';
 import type { LicenseKey, LicenseKeyActivation } from './types-39.js';
-import type { ResponseMeta, ResendLicenseKeyRequestInput, ReturnActivity } from './types-62.js';
+import type { ResponseMeta, ReturnActivity, ReturnDisposition, ReturnInspection } from './types-63.js';
 import type {
     ExpandedCustomerSummary,
     ExpandedCustomerSummaryPreviousAttributes,
@@ -14,14 +14,97 @@ import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { DisableLicenseKeyRequestInput } from './types-25.js';
 import type { RevealLicenseKeyRequestInput, ReturnResource } from './types-66.js';
-import type { ValidateLicenseKeyRequestInput } from './types-78.js';
-import type { ReturnDisposition, ReturnInspection } from './types-63.js';
-import type { ReturnLineItem, ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-64.js';
-import type { ReturnResolution } from './types-65.js';
+import type { ValidateLicenseKeyRequestInput } from './types-79.js';
+import type { ReturnLineItem, ReturnPolicy, ReturnPolicyRevision } from './types-64.js';
+import type { ReturnReason, ReturnReceipt, ReturnResolution } from './types-65.js';
 import type { Address } from './types-0.js';
 import type { CreateLocationRequestInput } from './types-11.js';
 import type { InventoryAllocationPoliciesDeleteParams } from './types-31.js';
-import type { MoneyValue, MoneyValueInput } from './types-44.js';
+import type { MoneyValue } from './types-44.js';
+export type LicenseKeyPoolsListKeysParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by one or more pool key statuses. Values are trimmed and deduplicated in first-seen
+     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
+     * filters are ANDed. [] enum: "available", "held", "issued", "removed". Value enum:
+     * "available", "held", "issued", "removed". anyOf[1] (Value): Array of string. minItems: 1. []
+     * enum: "available", "held", "issued", "removed". anyOf[1][] (Value): string. Value enum:
+     * "available", "held", "issued", "removed". anyOf[2] (Value): string. Value enum: "available",
+     * "held", "issued", "removed".
+     */
+    "status"?: InputValue<("available" | "held" | "issued" | "removed")
+        | readonly ("available" | "held" | "issued" | "removed")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type LicenseKeyPoolsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "archived". Value enum: "active", "archived". anyOf[1] (Value): Array of string. minItems:
+     * 1. [] enum: "active", "archived". anyOf[1][] (Value): string. Value enum: "active",
+     * "archived". anyOf[2] (Value): string. Value enum: "active", "archived".
+     */
+    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type LicenseKeyPoolsRemoveKeysParams = (RemoveLicenseKeyPoolKeysRequestInput)
     & {
     /**
@@ -96,8 +179,11 @@ export type LicenseKeyRestriction = {
     "refund_id"?: string;
     /** The subscription that restricted the key. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
     "subscription_id"?: string;
-    /** What caused the restriction. Value enum: "merchant", "refund", "dispute", "subscription". */
-    "type": "merchant" | "refund" | "dispute" | "subscription" | (string & {});
+    /**
+     * What caused the restriction. Value enum: "merchant", "refund", "dispute", "subscription",
+     * "payment_reversal".
+     */
+    "type": "merchant" | "refund" | "dispute" | "subscription" | "payment_reversal" | (string & {});
 };
 export type LicenseKeyRestrictionPreviousAttributes = {
     /**
@@ -131,11 +217,11 @@ export type LicenseKeyRestrictionPreviousAttributes = {
      */
     "subscription_id"?: ((string) | (null));
     /**
-     * What caused the restriction. Value enum: "merchant", "refund", "dispute", "subscription".
-     * anyOf[1] (Value): string. What caused the restriction. Value enum: "merchant", "refund",
-     * "dispute", "subscription". anyOf[2] (Value): null.
+     * What caused the restriction. Value enum: "merchant", "refund", "dispute", "subscription",
+     * "payment_reversal". anyOf[1] (Value): string. What caused the restriction. Value enum:
+     * "merchant", "refund", "dispute", "subscription", "payment_reversal". anyOf[2] (Value): null.
      */
-    "type"?: (("merchant" | "refund" | "dispute" | "subscription" | (string & {})) | (null));
+    "type"?: (("merchant" | "refund" | "dispute" | "subscription" | "payment_reversal" | (string & {})) | (null));
 };
 export type LicenseKeyUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
@@ -2512,74 +2598,4 @@ export type ManualDiscountRequest = {
      * "line_item".
      */
     "scope"?: "order" | "line_item" | (string & {});
-};
-/**
- * A discount you apply by hand to an order, with a name, an amount, and the order, line items, or
- * charges it applies to.
- */
-export type ManualDiscountRequestInput = {
-    /**
-     * Fixed discount to apply to the order. The amount and every computed order amount must not
-     * exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above
-     * this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field.
-     * Lower payment option limits can apply. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * Which part of the order the discount reduces. Value enum: "order", "line_item",
-     * "service_charge".
-     */
-    "discount_class"?: "order" | "line_item" | "service_charge";
-    /**
-     * Name of the discount. Surrounding whitespace is trimmed before length validation. A supplied
-     * value cannot be blank; use null where clearing is supported. minLength: 1.
-     */
-    "name": string;
-    /**
-     * IDs of the charges this discount reduces. [] (Value): string. minLength: 1. Example:
-     * "och_01KEZF7C00XX8AKACP0GHKFWWT".
-     */
-    "order_charge_ids"?: Array<string>;
-    /**
-     * IDs of the order line items this discount applies to. [] (Value): string. minLength: 1.
-     * Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
-     */
-    "order_line_item_ids"?: Array<string>;
-    /**
-     * Whether the discount applies to the whole order or to specific line items. Send
-     * `discount_class` instead of `scope`; a conflicting pair is refused. Value enum: "order",
-     * "line_item".
-     */
-    "scope"?: "order" | "line_item";
-};
-/** Records a missed service appointment with a required no-show reason. */
-export type MarkFulfillmentNoShowRequest = {
-    /**
-     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
-     * "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the action occurred, as an RFC 3339 timestamp. On complete, also records completion
-     * evidence. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /**
-     * Why fulfillment work is paused or the service appointment was missed. Value enum:
-     * "customer_no_show", "provider_no_show", "location_unavailable", "scheduling_error", "other".
-     */
-    "reason": "customer_no_show"
-        | "provider_no_show"
-        | "location_unavailable"
-        | "scheduling_error"
-        | "other"
-        | (string & {});
-    /**
-     * Your internal note explaining this transition. Not included in buyer emails. minLength: 1.
-     * maxLength: 500.
-     */
-    "reason_message"?: string;
 };

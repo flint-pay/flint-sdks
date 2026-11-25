@@ -2,20 +2,21 @@ import type { APIKeyAuthContext } from './types-0.js';
 import type { CLILoginAuthContext, BuyerSkipCapability, BuyerSkipCapabilityInput, BuyerSetupCollection } from './types-4.js';
 import type { OnboardingSessionAuthContext } from './types-45.js';
 import type { PartnerAppAuthContext } from './types-49.js';
-import type { WorkloadIdentityAuthContext } from './types-80.js';
+import type { WorkloadIdentityAuthContext } from './types-81.js';
 import type { InputValue } from '../runtime.js';
 import type { DisputesAcceptParams, ExpandedOrderSummary, ExpandedOrderSummaryPreviousAttributes } from './types-26.js';
-import type { ResponseMeta, ResourceReference, ResourceReferencePreviousAttributes } from './types-62.js';
+import type { ResponseMeta } from './types-63.js';
 import type { Credentials } from './types-15.js';
-import type { MoneyValue, MoneyMovementListMeta, MoneyValuePreviousAttributes } from './types-44.js';
-import type { MerchantWebhookEnvelope, MetadataMap, ModifierSet } from './types-43.js';
+import type { MoneyValue, MoneyMovementListMeta, MoneyValuePreviousAttributes, ModifierSet } from './types-44.js';
+import type { ResourceReference, ResourceReferencePreviousAttributes } from './types-62.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { CategoryReference, CategoryReferencePreviousAttributes } from './types-5.js';
 import type { ImageAttachment, ImageAttachmentPreviousAttributes, Image } from './types-31.js';
-import type { WebhookBundle } from './types-78.js';
+import type { WebhookBundle } from './types-79.js';
 import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-68.js';
 import type { CreateBundleRequestInput } from './types-8.js';
-import type { UpdateBundleRequestInput } from './types-75.js';
+import type { UpdateBundleRequestInput } from './types-76.js';
 import type {
     BuyerPauseActionOptions,
     BuyerPayBalanceActionOptions,
@@ -3102,7 +3103,7 @@ export type BalanceTransactionsListParams = {
         | "payment_split")[]>;
     /**
      * Filter by related_resource.resource_id. pattern:
-     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwph|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|lk|lka|lkp|lkpa|lkpk|lkr|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcaa|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|saa|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tae|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
+     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwph|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|lk|lka|lkp|lkpa|lkpk|lkr|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfrl|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcaa|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|saa|sdmig|sdts|sdtu|set|sfba|sfpd|shl|shop|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tae|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      */
     "related_resource_id"?: InputValue<string>;
@@ -6951,6 +6952,8 @@ export type BuyerCheckoutSession = {
      * payloads. Client guidance for saving a payment method on the merchant's connected account.
      */
     "setup_collection"?: BuyerSetupCollection;
+    /** ID of the shop that started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". */
+    "shop_id"?: string;
     /**
      * Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when
      * the merchant's agreement with Flint removes it. Returned by `GET
@@ -7029,9 +7032,9 @@ export type BuyerCheckoutSession = {
     "tip"?: CheckoutTipConfig;
     /**
      * What the session collects payment for, fixed at creation. Value enum: "order", "quick_pay",
-     * "subscription_plan", "invoice", "payment_link".
+     * "subscription_plan", "invoice", "payment_link", "shop".
      */
-    "type": "order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {});
+    "type": "order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | "shop" | (string & {});
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "updated_at": string;
     /**
@@ -7048,8 +7051,9 @@ export type BuyerCheckoutSession = {
     "version": number;
 };
 /**
- * The session returned when launching checkout. A hosted launch includes url. A headless launch
- * includes checkout_auth_token. A session in which a buyer completes an order's payment.
+ * The session returned when launching checkout. Use `url` for hosted checkout or
+ * `checkout_auth_token` for headless checkout. A session in which a buyer completes an order's
+ * payment.
  */
 export type BuyerCheckoutSessionLaunch = ({
     /**
@@ -7099,7 +7103,10 @@ export type BuyerCheckoutSessionLaunch = ({
      * confirms it. Returned only to the checkout credential; never in webhook payloads.
      */
     "can_save_payment_method_with_phone"?: boolean;
-    /** Example: "cs_01KEZF7C004JRWFW43H037MQRN". */
+    /**
+     * Unique identifier for this checkout session, prefixed `cs_`. Example:
+     * "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
     "checkout_session_id": string;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
@@ -7356,6 +7363,8 @@ export type BuyerCheckoutSessionLaunch = ({
      * payloads. Client guidance for saving a payment method on the merchant's connected account.
      */
     "setup_collection"?: BuyerSetupCollection;
+    /** ID of the shop that started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". */
+    "shop_id"?: string;
     /**
      * Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when
      * the merchant's agreement with Flint removes it. Returned by `GET
@@ -7435,22 +7444,21 @@ export type BuyerCheckoutSessionLaunch = ({
     /**
      * What this launch collects. A return balance launch reports `return_resolution`. Later reads
      * and checkout session events report `order` for that session. Value enum: "order",
-     * "quick_pay", "subscription_plan", "invoice", "payment_link", "return_resolution".
+     * "quick_pay", "subscription_plan", "invoice", "payment_link", "shop", "return_resolution".
      */
     "type": "order"
         | "quick_pay"
         | "subscription_plan"
         | "invoice"
         | "payment_link"
+        | "shop"
         | "return_resolution"
         | (string & {});
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "updated_at": string;
     /**
-     * Hosted checkout URL that carries a one-time launch credential. Send the buyer here to pay.
-     * Present only for hosted sessions read with a merchant credential that can manage checkout
-     * sessions. Launch results include it for hosted sessions: create, payment-link resolve, and
-     * invoice and return-resolution checkout. Omitted for headless sessions.
+     * Hosted checkout URL with a one-time launch credential. Send the buyer here to pay. Omitted
+     * when the session is headless or another credential replays the request.
      */
     "url"?: string;
     /**
@@ -7461,9 +7469,8 @@ export type BuyerCheckoutSessionLaunch = ({
 })
     & ({
     /**
-     * Checkout credential. Send it as Authorization: Bearer <checkout_auth_token>. Present on
-     * headless checkout launch and customer binding confirmation. Omitted on hosted checkout
-     * launch and when a saved-card confirmation keeps the current credential.
+     * Headless checkout credential. Send it as Authorization: Bearer <checkout_auth_token>.
+     * Omitted when the session is hosted or another credential replays the request.
      */
     "checkout_auth_token"?: string;
     /**

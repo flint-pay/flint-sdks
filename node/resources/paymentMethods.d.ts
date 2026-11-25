@@ -11,8 +11,8 @@ import type {
     PaymentMethodsListParams
 } from '../declarations/types-53.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { SavePaymentMethodResponse } from '../declarations/types-67.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { SavePaymentMethodResponse } from '../declarations/types-68.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,22 +35,23 @@ export type {
     PaymentMethodResponse,
     PaymentMethodsGetParams,
     PaymentMethodsListParams,
-    PaymentMethodListResponse
+    PaymentMethodListResponse,
+    PaymentMethodConsent
 } from '../declarations/types-53.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
-export type { SavePaymentMethodResponse, SavePaymentMethodRequestInput } from '../declarations/types-67.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
+export type { SavePaymentMethodResponse, SavePaymentMethodRequestInput } from '../declarations/types-68.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
-export type { StripeClientSetup, StripeClientAuthority } from '../declarations/types-68.js';
-export type { StripeClientSetupStripe } from '../declarations/types-69.js';
+export type { StripeClientSetup, StripeClientSetupStripe, StripeClientAuthority } from '../declarations/types-69.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { CardDetails } from '../declarations/types-5.js';
 export type { ExpandedCustomerSummary, DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeSavePaymentMethodRequest } from '../declarations/types-92.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeSavePaymentMethodRequest } from '../declarations/types-93.js';
 export interface PaymentMethodsResource {
     /**
  * Initiates saving a payment method and returns the client setup payload needed to complete setup

@@ -1,1 +1,1 @@
-{"shared":"OrderTaxExemptionInputOrder","dependencies":["CustomerTaxExemptionCoverageRequest","OrderTaxExemptionInputOrder","SharedCodec1975","SharedCodec689","SharedCodec690","SharedCodec691","SharedCodec692"]}
+{"shared":"OrderTaxExemptionInputOrder","dependencies":["CustomerTaxExemptionCoverageRequest","OrderTaxExemptionInputOrder","SharedCodec2000","SharedCodec719","SharedCodec720","SharedCodec721","SharedCodec722"]}

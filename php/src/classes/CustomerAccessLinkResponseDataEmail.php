@@ -4,14 +4,14 @@ namespace Flint;
 /**
  * @property-read string $delivery
  * @property-read ?string $expires_at
- * @property-read ?string $purpose
+ * @property-read string $purpose
  * @property-read string $recipient_email
  * @property-read string|null $return_url
  * @property-read bool $sent
  * @property-read ?string $url
  * Presence-aware response; omitted optional fields return null. */
 final class CustomerAccessLinkResponseDataEmail extends Model {
-    /** @param array{'delivery': string, 'expires_at'?: string, 'purpose'?: string, 'recipient_email': string, 'return_url': string|null, 'sent': bool, 'url'?: string, ...}|object $values */
+    /** @param array{'delivery': string, 'expires_at'?: string, 'purpose': string, 'recipient_email': string, 'return_url': string|null, 'sent': bool, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAccessLinkResponseDataEmail')); }
     /** Whether the credential was returned or emailed. Value enum: "email".
      * @return string
@@ -23,10 +23,10 @@ final class CustomerAccessLinkResponseDataEmail extends Model {
      */
     public function getExpiresAt(): ?string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** The returned link opens the customer's account. Value enum: "customer_account".
-     * @return ?string
+    /** What the returned or emailed link opens. New purposes may be added. Value enum: "customer_account", "payment_method_setup".
+     * @return string
      */
-    public function getPurpose(): ?string { return $this->get('purpose'); }
+    public function getPurpose(): string { return $this->get('purpose'); }
     public function hasPurpose(): bool { return $this->has('purpose'); }
     /** Masked customer address receiving the account link. No credential is returned with email delivery.
      * @return string

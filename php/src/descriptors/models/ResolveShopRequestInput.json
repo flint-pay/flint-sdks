@@ -1,0 +1,1 @@
+{"shared":"ResolveShopRequest","dependencies":["PaymentLinkResolvePrefillRequest","PublicCatalogModifierRequest","PublicCatalogTextModifierRequest","ResolveShopLineItemRequest","ResolveShopRequest","SharedCodec2540","SharedCodec2541","SharedCodec493","SharedCodec495","SharedCodec496"]}

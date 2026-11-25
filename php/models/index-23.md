@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PaymentIntentExpiredMerchantEventInput to PaymentReviewListResponseInput
+# PaymentIntentExpiredInstalledMerchantsEventInput to PaymentReviewListResponseInput
 
+- [PaymentIntentExpiredInstalledMerchantsEventInput](PaymentIntentExpiredInstalledMerchantsEventInput.md)
 - [PaymentIntentExpiredMerchantEventInput](PaymentIntentExpiredMerchantEventInput.md)
 - [PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEventInput](PaymentIntentFulfillmentHoldUpdatedInstalledMerchantsEventInput.md)
 - [PaymentIntentFulfillmentHoldUpdatedMerchantEventInput](PaymentIntentFulfillmentHoldUpdatedMerchantEventInput.md)
@@ -29,7 +30,6 @@
 - [PaymentLimitSettingsInput](PaymentLimitSettingsInput.md)
 - [PaymentLimitSettingsPatchInput](PaymentLimitSettingsPatchInput.md)
 - [PaymentLinkInput](PaymentLinkInput.md)
-- [PaymentLinkAvailableVariantInput](PaymentLinkAvailableVariantInput.md)
 - [PaymentLinkCreatedInstalledMerchantsEventInput](PaymentLinkCreatedInstalledMerchantsEventInput.md)
 - [PaymentLinkCreatedMerchantEventInput](PaymentLinkCreatedMerchantEventInput.md)
 - [PaymentLinkCustomFieldInput](PaymentLinkCustomFieldInput.md)
@@ -67,8 +67,6 @@
 - [PaymentLinkListResponseInput](PaymentLinkListResponseInput.md)
 - [PaymentLinkPaymentConfigInput](PaymentLinkPaymentConfigInput.md)
 - [PaymentLinkPaymentPatchRequestInput](PaymentLinkPaymentPatchRequestInput.md)
-- [PaymentLinkProductOptionInput](PaymentLinkProductOptionInput.md)
-- [PaymentLinkProductOptionValueInput](PaymentLinkProductOptionValueInput.md)
 - [PaymentLinkRedirectsPatchRequestInput](PaymentLinkRedirectsPatchRequestInput.md)
 - [PaymentLinkResolvePrefillRequestInput](PaymentLinkResolvePrefillRequestInput.md)
 - [PaymentLinkResponseInput](PaymentLinkResponseInput.md)
@@ -84,6 +82,8 @@
 - [PaymentMethodActivatedMerchantEventInput](PaymentMethodActivatedMerchantEventInput.md)
 - [PaymentMethodArchivedInstalledMerchantsEventInput](PaymentMethodArchivedInstalledMerchantsEventInput.md)
 - [PaymentMethodArchivedMerchantEventInput](PaymentMethodArchivedMerchantEventInput.md)
+- [PaymentMethodConsentInput](PaymentMethodConsentInput.md)
+- [PaymentMethodConsentPreviousAttributesInput](PaymentMethodConsentPreviousAttributesInput.md)
 - [PaymentMethodDomainInput](PaymentMethodDomainInput.md)
 - [PaymentMethodDomainListResponseInput](PaymentMethodDomainListResponseInput.md)
 - [PaymentMethodDomainPaymentOptionStatusInput](PaymentMethodDomainPaymentOptionStatusInput.md)

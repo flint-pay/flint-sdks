@@ -111,7 +111,7 @@ $result = $client->deliveryMethods->create([
 
 ### deliveryMethods.delete
 
-Retires the delivery method after checking current dependencies. The retired resource remains available by ID for historical records. Deleting an already archived resource returns it without changing its version or repeating effects. A method referenced by checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids on an active or inactive payment link cannot be archived; the request returns 409 RESOURCE_IN_USE with the blocking references. Remove the method from checkout.default_delivery_method_ids with PATCH /v1/settings or from the link's delivery_method_ids with PATCH /v1/payment-links/{payment_link_id}. Open checkout sessions keep their pinned revision and do not block retirement.
+Retires the delivery method after checking current dependencies. The retired resource remains available by ID for historical records. Deleting an already archived resource returns it without changing its version or repeating effects. A method referenced by checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids on an active or inactive payment link or shop cannot be archived; the request returns 409 RESOURCE_IN_USE with the blocking references. Remove the method from checkout.default_delivery_method_ids with PATCH /v1/settings or remove it from delivery_method_ids on the payment link or shop. Open checkout sessions keep their pinned revision and do not block retirement.
 
 `DELETE /v1/delivery-methods/{delivery_method_id}`
 
@@ -284,7 +284,7 @@ $result = $client->deliveryMethods->list([], new RequestOptions());
 
 ### deliveryMethods.update
 
-Sparsely updates mutable fields. A request that carries configuration, name, description, display_position, or recommendation_priority publishes a new immutable revision, even when its values are unchanged, and requires expected_version. Other fields, such as status, metadata, and external_reference_id, advance version and keep the current revision, so they never replace a revoked revision. Archived resources can't be changed; create a new resource instead. A method referenced by checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids on an active or inactive payment link cannot be set inactive; the request returns 409 RESOURCE_IN_USE with the blocking references. Remove the method from checkout.default_delivery_method_ids with PATCH /v1/settings or from the link's delivery_method_ids with PATCH /v1/payment-links/{payment_link_id}.
+Sparsely updates mutable fields. A request that carries configuration, name, description, display_position, or recommendation_priority publishes a new immutable revision, even when its values are unchanged, and requires expected_version. Other fields, such as status, metadata, and external_reference_id, advance version and keep the current revision, so they never replace a revoked revision. Archived resources can't be changed; create a new resource instead. A method referenced by checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids on an active or inactive payment link or shop cannot be set inactive; the request returns 409 RESOURCE_IN_USE with the blocking references. Remove the method from checkout.default_delivery_method_ids with PATCH /v1/settings or remove it from delivery_method_ids on the payment link or shop.
 
 `PATCH /v1/delivery-methods/{delivery_method_id}`
 

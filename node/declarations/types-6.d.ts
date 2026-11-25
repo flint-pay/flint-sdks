@@ -1,5 +1,5 @@
-import type { SubscriptionQuantityChangeLineItemRequest, SubscriptionQuantityChangeLineItemRequestInput } from './types-72.js';
-import type { SubscriptionPlanChangeLineItemRequest, SubscriptionPlanChangeLineItemRequestInput } from './types-71.js';
+import type { SubscriptionQuantityChangeLineItemRequest, SubscriptionQuantityChangeLineItemRequestInput } from './types-73.js';
+import type { SubscriptionPlanChangeLineItemRequest, SubscriptionPlanChangeLineItemRequestInput } from './types-72.js';
 import type { Address, AddressPreviousAttributes, AddressRequest, AddressRequestInput } from './types-0.js';
 import type {
     DeliveryInputRequirement,
@@ -42,11 +42,12 @@ import type { CustomFieldAnswer, CustomFieldAnswerPreviousAttributes } from './t
 import type { Image } from './types-31.js';
 import type { LegalSettings } from './types-39.js';
 import type { PaymentCollection, PaymentCollectionPreviousAttributes } from './types-51.js';
+import type { PlatformFeeRule, PlatformFeeRulePreviousAttributes } from './types-56.js';
 import type { SetupCollection, SetupCollectionPreviousAttributes } from './types-68.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { WebhookCheckoutSession } from './types-78.js';
-import type { WebhookSnapshotOrderPaymentAttemptPreviousAttributes } from './types-79.js';
-import type { ResponseMeta } from './types-62.js';
+import type { WebhookCheckoutSession } from './types-79.js';
+import type { WebhookSnapshotOrderPaymentAttemptPreviousAttributes } from './types-80.js';
+import type { ResponseMeta } from './types-63.js';
 /** The request body for: Change subscription quantity. */
 export type ChangeMeSubscriptionQuantityRequest = {
     /**
@@ -1562,6 +1563,11 @@ export type CheckoutSession = {
      */
     "platform_fee"?: CheckoutSessionPlatformFee;
     /**
+     * The platform fee rule that the session was created with. The rule that sets the platform fee
+     * for each payment.
+     */
+    "platform_fee_rule"?: PlatformFeeRule;
+    /**
      * Contact details and addresses to fill in for the buyer, who can change them. For a customer
      * with saved addresses, Flint fills in any address you leave out, and reads include it. With
      * quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's
@@ -1640,6 +1646,8 @@ export type CheckoutSession = {
      * payloads. Client guidance for saving a payment method on the merchant's connected account.
      */
     "setup_collection"?: SetupCollection;
+    /** ID of the shop that started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". */
+    "shop_id"?: string;
     /**
      * Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when
      * the merchant's agreement with Flint removes it. Returned by `GET
@@ -1725,9 +1733,9 @@ export type CheckoutSession = {
     "tip"?: CheckoutTipConfig;
     /**
      * What the session collects payment for, fixed at creation. Value enum: "order", "quick_pay",
-     * "subscription_plan", "invoice", "payment_link".
+     * "subscription_plan", "invoice", "payment_link", "shop".
      */
-    "type": "order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {});
+    "type": "order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | "shop" | (string & {});
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "updated_at": string;
     /**
@@ -1787,12 +1795,14 @@ export type CheckoutSessionClosedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "payment_link_id"?: ((string) | (null));
             "payment_return_url"?: ((string) | (null));
             "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             "prefill"?: ((CheckoutPrefillPreviousAttributes) | (null));
             "problems"?: ((Array<CheckoutProblemResourcePreviousAttributes>) | (null));
             "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
             "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
             "refunds"?: ((Array<BuyerRefundPreviousAttributes>) | (null));
             "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "shop_id"?: ((string) | (null));
             "status"?: (("open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {})) | (null));
             "subscription_plan_id"?: ((string) | (null));
             "subscription_terms"?: ((CheckoutSubscriptionTermsPreviousAttributes) | (null));
@@ -1815,7 +1825,8 @@ export type CheckoutSessionClosedEvent = ((((Exclude<MerchantWebhookEnvelope & o
                 | (null));
             "theme"?: ((CheckoutThemePreviousAttributes) | (null));
             "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
-            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | "shop" | (string & {}))
+                | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -1867,12 +1878,14 @@ export type CheckoutSessionClosedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "payment_link_id"?: ((string) | (null));
             "payment_return_url"?: ((string) | (null));
             "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             "prefill"?: ((CheckoutPrefillPreviousAttributes) | (null));
             "problems"?: ((Array<CheckoutProblemResourcePreviousAttributes>) | (null));
             "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
             "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
             "refunds"?: ((Array<BuyerRefundPreviousAttributes>) | (null));
             "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "shop_id"?: ((string) | (null));
             "status"?: (("open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {})) | (null));
             "subscription_plan_id"?: ((string) | (null));
             "subscription_terms"?: ((CheckoutSubscriptionTermsPreviousAttributes) | (null));
@@ -1895,7 +1908,8 @@ export type CheckoutSessionClosedEvent = ((((Exclude<MerchantWebhookEnvelope & o
                 | (null));
             "theme"?: ((CheckoutThemePreviousAttributes) | (null));
             "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
-            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | "shop" | (string & {}))
+                | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -2162,6 +2176,10 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * options for merchant credentials; currently available payment options for the checkout
      * credential. previous_attributes.payments.anyOf[1] (Value): {@link
      * CheckoutPaymentConfigPreviousAttributes}. previous_attributes.payments.anyOf[2] (Value):
+     * null. previous_attributes.platform_fee_rule (Optional): {@link
+     * PlatformFeeRulePreviousAttributes} or null. The platform fee rule that the session was
+     * created with. previous_attributes.platform_fee_rule.anyOf[1] (Value): {@link
+     * PlatformFeeRulePreviousAttributes}. previous_attributes.platform_fee_rule.anyOf[2] (Value):
      * null. previous_attributes.prefill (Optional): {@link CheckoutPrefillPreviousAttributes} or
      * null. Contact details and addresses to fill in for the buyer, who can change them. For a
      * customer with saved addresses, Flint fills in any address you leave out, and reads include
@@ -2213,13 +2231,16 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * Returned only to the checkout credential; never in webhook payloads.
      * previous_attributes.setup_collection.anyOf[1] (Value): {@link
      * SetupCollectionPreviousAttributes}. previous_attributes.setup_collection.anyOf[2] (Value):
-     * null. previous_attributes.status (Optional): string or null. Where the session is in its
-     * lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that
-     * is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
-     * "invalidated". previous_attributes.status.anyOf[1] (Value): string. Where the session is in
-     * its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session
-     * that is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
-     * "invalidated". previous_attributes.status.anyOf[2] (Value): null.
+     * null. previous_attributes.shop_id (Optional): string or null. ID of the shop that started
+     * checkout. previous_attributes.shop_id.anyOf[1] (Value): string. ID of the shop that started
+     * checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". previous_attributes.shop_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the session is
+     * in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a
+     * session that is not open ended. Value enum: "open", "paid", "partially_paid", "expired",
+     * "closed", "invalidated". previous_attributes.status.anyOf[1] (Value): string. Where the
+     * session is in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says
+     * why a session that is not open ended. Value enum: "open", "paid", "partially_paid",
+     * "expired", "closed", "invalidated". previous_attributes.status.anyOf[2] (Value): null.
      * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
      * plan a session of type `subscription_plan` signs the buyer up for. Absent for other types.
      * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
@@ -2289,10 +2310,10 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * previous_attributes.tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
      * previous_attributes.tip.anyOf[2] (Value): null. previous_attributes.type (Optional): string
      * or null. What the session collects payment for, fixed at creation. Value enum: "order",
-     * "quick_pay", "subscription_plan", "invoice", "payment_link".
+     * "quick_pay", "subscription_plan", "invoice", "payment_link", "shop".
      * previous_attributes.type.anyOf[1] (Value): string. What the session collects payment for,
      * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
-     * "payment_link". previous_attributes.type.anyOf[2] (Value): null.
+     * "payment_link", "shop". previous_attributes.type.anyOf[2] (Value): null.
      * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
@@ -2524,21 +2545,25 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * CheckoutPaymentConfigPreviousAttributes} or null. Configured payment options for
          * merchant credentials; currently available payment options for the checkout credential.
          * payments.anyOf[1] (Value): {@link CheckoutPaymentConfigPreviousAttributes}.
-         * payments.anyOf[2] (Value): null. prefill (Optional): {@link
-         * CheckoutPrefillPreviousAttributes} or null. Contact details and addresses to fill in for
-         * the buyer, who can change them. For a customer with saved addresses, Flint fills in any
-         * address you leave out, and reads include it. With quick_pay or subscription_plan and
-         * automatic tax on, a prefilled address sets the order's tax location. Not changed by what
-         * the buyer types; for that, read buyer_contact. customer_prefill is what the checkout
-         * credential reads from the customer record. prefill.anyOf[1] (Value): {@link
-         * CheckoutPrefillPreviousAttributes}. prefill.anyOf[2] (Value): null. problems (Optional):
-         * Array of {@link CheckoutProblemResourcePreviousAttributes} or null. Named conditions
-         * that affect checkout completion. Follow each problem's remediation action instead of
-         * reconstructing delivery lifecycle rules in the client. payment_in_progress means another
-         * payment for the order must finish before this checkout can complete. When Flint cannot
-         * read the checkout's delivery, the read still succeeds and reports delivery_unreadable;
-         * its remediation says whether reading the session again can succeed, and its next
-         * action's reason_code names the error. problems.anyOf[1] (Value): Array of {@link
+         * payments.anyOf[2] (Value): null. platform_fee_rule (Optional): {@link
+         * PlatformFeeRulePreviousAttributes} or null. The platform fee rule that the session was
+         * created with. platform_fee_rule.anyOf[1] (Value): {@link
+         * PlatformFeeRulePreviousAttributes}. platform_fee_rule.anyOf[2] (Value): null. prefill
+         * (Optional): {@link CheckoutPrefillPreviousAttributes} or null. Contact details and
+         * addresses to fill in for the buyer, who can change them. For a customer with saved
+         * addresses, Flint fills in any address you leave out, and reads include it. With
+         * quick_pay or subscription_plan and automatic tax on, a prefilled address sets the
+         * order's tax location. Not changed by what the buyer types; for that, read buyer_contact.
+         * customer_prefill is what the checkout credential reads from the customer record.
+         * prefill.anyOf[1] (Value): {@link CheckoutPrefillPreviousAttributes}. prefill.anyOf[2]
+         * (Value): null. problems (Optional): Array of {@link
+         * CheckoutProblemResourcePreviousAttributes} or null. Named conditions that affect
+         * checkout completion. Follow each problem's remediation action instead of reconstructing
+         * delivery lifecycle rules in the client. payment_in_progress means another payment for
+         * the order must finish before this checkout can complete. When Flint cannot read the
+         * checkout's delivery, the read still succeeds and reports delivery_unreadable; its
+         * remediation says whether reading the session again can succeed, and its next action's
+         * reason_code names the error. problems.anyOf[1] (Value): Array of {@link
          * CheckoutProblemResourcePreviousAttributes}. Named conditions that affect checkout
          * completion. Follow each problem's remediation action instead of reconstructing delivery
          * lifecycle rules in the client. payment_in_progress means another payment for the order
@@ -2572,22 +2597,24 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * save. Checkout-credential reads include it only while the session is open. Returned only
          * to the checkout credential; never in webhook payloads. setup_collection.anyOf[1]
          * (Value): {@link SetupCollectionPreviousAttributes}. setup_collection.anyOf[2] (Value):
-         * null. status (Optional): string or null. Where the session is in its lifecycle. Only an
-         * `open` session accepts payment. `terminal_reason` says why a session that is not open
-         * ended. Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
-         * status.anyOf[1] (Value): string. Where the session is in its lifecycle. Only an `open`
-         * session accepts payment. `terminal_reason` says why a session that is not open ended.
-         * Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
-         * status.anyOf[2] (Value): null. subscription_plan_id (Optional): string or null. ID of
-         * the subscription plan a session of type `subscription_plan` signs the buyer up for.
-         * Absent for other types. subscription_plan_id.anyOf[1] (Value): string. ID of the
-         * subscription plan a session of type `subscription_plan` signs the buyer up for. Absent
-         * for other types. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-         * subscription_plan_id.anyOf[2] (Value): null. subscription_terms (Optional): {@link
-         * CheckoutSubscriptionTermsPreviousAttributes} or null. Renewal terms a subscription
-         * checkout commits the buyer to. Frozen when the session's order was created, so later
-         * plan changes do not alter them. Absent when the checkout starts no subscription.
-         * subscription_terms.anyOf[1] (Value): {@link
+         * null. shop_id (Optional): string or null. ID of the shop that started checkout.
+         * shop_id.anyOf[1] (Value): string. ID of the shop that started checkout. Example:
+         * "shop_01KEZF7C005VQBPV4FZHDZPAHE". shop_id.anyOf[2] (Value): null. status (Optional):
+         * string or null. Where the session is in its lifecycle. Only an `open` session accepts
+         * payment. `terminal_reason` says why a session that is not open ended. Value enum:
+         * "open", "paid", "partially_paid", "expired", "closed", "invalidated". status.anyOf[1]
+         * (Value): string. Where the session is in its lifecycle. Only an `open` session accepts
+         * payment. `terminal_reason` says why a session that is not open ended. Value enum:
+         * "open", "paid", "partially_paid", "expired", "closed", "invalidated". status.anyOf[2]
+         * (Value): null. subscription_plan_id (Optional): string or null. ID of the subscription
+         * plan a session of type `subscription_plan` signs the buyer up for. Absent for other
+         * types. subscription_plan_id.anyOf[1] (Value): string. ID of the subscription plan a
+         * session of type `subscription_plan` signs the buyer up for. Absent for other types.
+         * Example: "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null.
+         * subscription_terms (Optional): {@link CheckoutSubscriptionTermsPreviousAttributes} or
+         * null. Renewal terms a subscription checkout commits the buyer to. Frozen when the
+         * session's order was created, so later plan changes do not alter them. Absent when the
+         * checkout starts no subscription. subscription_terms.anyOf[1] (Value): {@link
          * CheckoutSubscriptionTermsPreviousAttributes}. subscription_terms.anyOf[2] (Value): null.
          * superseding_checkout_session_id (Optional): string or null. ID of the session that
          * replaced this one. Present when `terminal_reason` is `superseded`.
@@ -2641,16 +2668,16 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * buyer. tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}. tip.anyOf[2]
          * (Value): null. type (Optional): string or null. What the session collects payment for,
          * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
-         * "payment_link". type.anyOf[1] (Value): string. What the session collects payment for,
-         * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
-         * "payment_link". type.anyOf[2] (Value): null. updated_at (Optional): string or null.
-         * RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
-         * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. version.anyOf[1] (Value):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1.
-         * version.anyOf[2] (Value): null.
+         * "payment_link", "shop". type.anyOf[1] (Value): string. What the session collects payment
+         * for, fixed at creation. Value enum: "order", "quick_pay", "subscription_plan",
+         * "invoice", "payment_link", "shop". type.anyOf[2] (Value): null. updated_at (Optional):
+         * string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
+         * owned state. Expanded resources and external observations can change independently.
+         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
+         * Expanded resources and external observations can change independently. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
@@ -2947,6 +2974,11 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
              */
             "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
             /**
+             * The platform fee rule that the session was created with. anyOf[1] (Value): {@link
+             * PlatformFeeRulePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
+            /**
              * Contact details and addresses to fill in for the buyer, who can change them. For a
              * customer with saved addresses, Flint fills in any address you leave out, and reads
              * include it. With quick_pay or subscription_plan and automatic tax on, a prefilled
@@ -3008,6 +3040,12 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * anyOf[2] (Value): null.
              */
             "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            /**
+             * ID of the shop that started checkout. anyOf[1] (Value): string. ID of the shop that
+             * started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". anyOf[2] (Value):
+             * null.
+             */
+            "shop_id"?: ((string) | (null));
             /**
              * Where the session is in its lifecycle. Only an `open` session accepts payment.
              * `terminal_reason` says why a session that is not open ended. Value enum: "open",
@@ -3113,12 +3151,13 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
             "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
             /**
              * What the session collects payment for, fixed at creation. Value enum: "order",
-             * "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[1] (Value):
-             * string. What the session collects payment for, fixed at creation. Value enum:
-             * "order", "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[2]
-             * (Value): null.
+             * "quick_pay", "subscription_plan", "invoice", "payment_link", "shop". anyOf[1]
+             * (Value): string. What the session collects payment for, fixed at creation. Value
+             * enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link", "shop".
+             * anyOf[2] (Value): null.
              */
-            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | "shop" | (string & {}))
+                | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -3421,6 +3460,10 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * options for merchant credentials; currently available payment options for the checkout
      * credential. previous_attributes.payments.anyOf[1] (Value): {@link
      * CheckoutPaymentConfigPreviousAttributes}. previous_attributes.payments.anyOf[2] (Value):
+     * null. previous_attributes.platform_fee_rule (Optional): {@link
+     * PlatformFeeRulePreviousAttributes} or null. The platform fee rule that the session was
+     * created with. previous_attributes.platform_fee_rule.anyOf[1] (Value): {@link
+     * PlatformFeeRulePreviousAttributes}. previous_attributes.platform_fee_rule.anyOf[2] (Value):
      * null. previous_attributes.prefill (Optional): {@link CheckoutPrefillPreviousAttributes} or
      * null. Contact details and addresses to fill in for the buyer, who can change them. For a
      * customer with saved addresses, Flint fills in any address you leave out, and reads include
@@ -3472,13 +3515,16 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * Returned only to the checkout credential; never in webhook payloads.
      * previous_attributes.setup_collection.anyOf[1] (Value): {@link
      * SetupCollectionPreviousAttributes}. previous_attributes.setup_collection.anyOf[2] (Value):
-     * null. previous_attributes.status (Optional): string or null. Where the session is in its
-     * lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that
-     * is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
-     * "invalidated". previous_attributes.status.anyOf[1] (Value): string. Where the session is in
-     * its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session
-     * that is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
-     * "invalidated". previous_attributes.status.anyOf[2] (Value): null.
+     * null. previous_attributes.shop_id (Optional): string or null. ID of the shop that started
+     * checkout. previous_attributes.shop_id.anyOf[1] (Value): string. ID of the shop that started
+     * checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". previous_attributes.shop_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the session is
+     * in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a
+     * session that is not open ended. Value enum: "open", "paid", "partially_paid", "expired",
+     * "closed", "invalidated". previous_attributes.status.anyOf[1] (Value): string. Where the
+     * session is in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says
+     * why a session that is not open ended. Value enum: "open", "paid", "partially_paid",
+     * "expired", "closed", "invalidated". previous_attributes.status.anyOf[2] (Value): null.
      * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
      * plan a session of type `subscription_plan` signs the buyer up for. Absent for other types.
      * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
@@ -3548,10 +3594,10 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * previous_attributes.tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
      * previous_attributes.tip.anyOf[2] (Value): null. previous_attributes.type (Optional): string
      * or null. What the session collects payment for, fixed at creation. Value enum: "order",
-     * "quick_pay", "subscription_plan", "invoice", "payment_link".
+     * "quick_pay", "subscription_plan", "invoice", "payment_link", "shop".
      * previous_attributes.type.anyOf[1] (Value): string. What the session collects payment for,
      * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
-     * "payment_link". previous_attributes.type.anyOf[2] (Value): null.
+     * "payment_link", "shop". previous_attributes.type.anyOf[2] (Value): null.
      * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
@@ -3783,21 +3829,25 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * CheckoutPaymentConfigPreviousAttributes} or null. Configured payment options for
          * merchant credentials; currently available payment options for the checkout credential.
          * payments.anyOf[1] (Value): {@link CheckoutPaymentConfigPreviousAttributes}.
-         * payments.anyOf[2] (Value): null. prefill (Optional): {@link
-         * CheckoutPrefillPreviousAttributes} or null. Contact details and addresses to fill in for
-         * the buyer, who can change them. For a customer with saved addresses, Flint fills in any
-         * address you leave out, and reads include it. With quick_pay or subscription_plan and
-         * automatic tax on, a prefilled address sets the order's tax location. Not changed by what
-         * the buyer types; for that, read buyer_contact. customer_prefill is what the checkout
-         * credential reads from the customer record. prefill.anyOf[1] (Value): {@link
-         * CheckoutPrefillPreviousAttributes}. prefill.anyOf[2] (Value): null. problems (Optional):
-         * Array of {@link CheckoutProblemResourcePreviousAttributes} or null. Named conditions
-         * that affect checkout completion. Follow each problem's remediation action instead of
-         * reconstructing delivery lifecycle rules in the client. payment_in_progress means another
-         * payment for the order must finish before this checkout can complete. When Flint cannot
-         * read the checkout's delivery, the read still succeeds and reports delivery_unreadable;
-         * its remediation says whether reading the session again can succeed, and its next
-         * action's reason_code names the error. problems.anyOf[1] (Value): Array of {@link
+         * payments.anyOf[2] (Value): null. platform_fee_rule (Optional): {@link
+         * PlatformFeeRulePreviousAttributes} or null. The platform fee rule that the session was
+         * created with. platform_fee_rule.anyOf[1] (Value): {@link
+         * PlatformFeeRulePreviousAttributes}. platform_fee_rule.anyOf[2] (Value): null. prefill
+         * (Optional): {@link CheckoutPrefillPreviousAttributes} or null. Contact details and
+         * addresses to fill in for the buyer, who can change them. For a customer with saved
+         * addresses, Flint fills in any address you leave out, and reads include it. With
+         * quick_pay or subscription_plan and automatic tax on, a prefilled address sets the
+         * order's tax location. Not changed by what the buyer types; for that, read buyer_contact.
+         * customer_prefill is what the checkout credential reads from the customer record.
+         * prefill.anyOf[1] (Value): {@link CheckoutPrefillPreviousAttributes}. prefill.anyOf[2]
+         * (Value): null. problems (Optional): Array of {@link
+         * CheckoutProblemResourcePreviousAttributes} or null. Named conditions that affect
+         * checkout completion. Follow each problem's remediation action instead of reconstructing
+         * delivery lifecycle rules in the client. payment_in_progress means another payment for
+         * the order must finish before this checkout can complete. When Flint cannot read the
+         * checkout's delivery, the read still succeeds and reports delivery_unreadable; its
+         * remediation says whether reading the session again can succeed, and its next action's
+         * reason_code names the error. problems.anyOf[1] (Value): Array of {@link
          * CheckoutProblemResourcePreviousAttributes}. Named conditions that affect checkout
          * completion. Follow each problem's remediation action instead of reconstructing delivery
          * lifecycle rules in the client. payment_in_progress means another payment for the order
@@ -3831,22 +3881,24 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * save. Checkout-credential reads include it only while the session is open. Returned only
          * to the checkout credential; never in webhook payloads. setup_collection.anyOf[1]
          * (Value): {@link SetupCollectionPreviousAttributes}. setup_collection.anyOf[2] (Value):
-         * null. status (Optional): string or null. Where the session is in its lifecycle. Only an
-         * `open` session accepts payment. `terminal_reason` says why a session that is not open
-         * ended. Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
-         * status.anyOf[1] (Value): string. Where the session is in its lifecycle. Only an `open`
-         * session accepts payment. `terminal_reason` says why a session that is not open ended.
-         * Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
-         * status.anyOf[2] (Value): null. subscription_plan_id (Optional): string or null. ID of
-         * the subscription plan a session of type `subscription_plan` signs the buyer up for.
-         * Absent for other types. subscription_plan_id.anyOf[1] (Value): string. ID of the
-         * subscription plan a session of type `subscription_plan` signs the buyer up for. Absent
-         * for other types. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-         * subscription_plan_id.anyOf[2] (Value): null. subscription_terms (Optional): {@link
-         * CheckoutSubscriptionTermsPreviousAttributes} or null. Renewal terms a subscription
-         * checkout commits the buyer to. Frozen when the session's order was created, so later
-         * plan changes do not alter them. Absent when the checkout starts no subscription.
-         * subscription_terms.anyOf[1] (Value): {@link
+         * null. shop_id (Optional): string or null. ID of the shop that started checkout.
+         * shop_id.anyOf[1] (Value): string. ID of the shop that started checkout. Example:
+         * "shop_01KEZF7C005VQBPV4FZHDZPAHE". shop_id.anyOf[2] (Value): null. status (Optional):
+         * string or null. Where the session is in its lifecycle. Only an `open` session accepts
+         * payment. `terminal_reason` says why a session that is not open ended. Value enum:
+         * "open", "paid", "partially_paid", "expired", "closed", "invalidated". status.anyOf[1]
+         * (Value): string. Where the session is in its lifecycle. Only an `open` session accepts
+         * payment. `terminal_reason` says why a session that is not open ended. Value enum:
+         * "open", "paid", "partially_paid", "expired", "closed", "invalidated". status.anyOf[2]
+         * (Value): null. subscription_plan_id (Optional): string or null. ID of the subscription
+         * plan a session of type `subscription_plan` signs the buyer up for. Absent for other
+         * types. subscription_plan_id.anyOf[1] (Value): string. ID of the subscription plan a
+         * session of type `subscription_plan` signs the buyer up for. Absent for other types.
+         * Example: "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null.
+         * subscription_terms (Optional): {@link CheckoutSubscriptionTermsPreviousAttributes} or
+         * null. Renewal terms a subscription checkout commits the buyer to. Frozen when the
+         * session's order was created, so later plan changes do not alter them. Absent when the
+         * checkout starts no subscription. subscription_terms.anyOf[1] (Value): {@link
          * CheckoutSubscriptionTermsPreviousAttributes}. subscription_terms.anyOf[2] (Value): null.
          * superseding_checkout_session_id (Optional): string or null. ID of the session that
          * replaced this one. Present when `terminal_reason` is `superseded`.
@@ -3900,16 +3952,16 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * buyer. tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}. tip.anyOf[2]
          * (Value): null. type (Optional): string or null. What the session collects payment for,
          * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
-         * "payment_link". type.anyOf[1] (Value): string. What the session collects payment for,
-         * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
-         * "payment_link". type.anyOf[2] (Value): null. updated_at (Optional): string or null.
-         * RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
-         * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. version.anyOf[1] (Value):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1.
-         * version.anyOf[2] (Value): null.
+         * "payment_link", "shop". type.anyOf[1] (Value): string. What the session collects payment
+         * for, fixed at creation. Value enum: "order", "quick_pay", "subscription_plan",
+         * "invoice", "payment_link", "shop". type.anyOf[2] (Value): null. updated_at (Optional):
+         * string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
+         * owned state. Expanded resources and external observations can change independently.
+         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
+         * Expanded resources and external observations can change independently. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
@@ -4206,6 +4258,11 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              */
             "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
             /**
+             * The platform fee rule that the session was created with. anyOf[1] (Value): {@link
+             * PlatformFeeRulePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
+            /**
              * Contact details and addresses to fill in for the buyer, who can change them. For a
              * customer with saved addresses, Flint fills in any address you leave out, and reads
              * include it. With quick_pay or subscription_plan and automatic tax on, a prefilled
@@ -4267,6 +4324,12 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * anyOf[2] (Value): null.
              */
             "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            /**
+             * ID of the shop that started checkout. anyOf[1] (Value): string. ID of the shop that
+             * started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". anyOf[2] (Value):
+             * null.
+             */
+            "shop_id"?: ((string) | (null));
             /**
              * Where the session is in its lifecycle. Only an `open` session accepts payment.
              * `terminal_reason` says why a session that is not open ended. Value enum: "open",
@@ -4372,12 +4435,13 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
             "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
             /**
              * What the session collects payment for, fixed at creation. Value enum: "order",
-             * "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[1] (Value):
-             * string. What the session collects payment for, fixed at creation. Value enum:
-             * "order", "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[2]
-             * (Value): null.
+             * "quick_pay", "subscription_plan", "invoice", "payment_link", "shop". anyOf[1]
+             * (Value): string. What the session collects payment for, fixed at creation. Value
+             * enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link", "shop".
+             * anyOf[2] (Value): null.
              */
-            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | "shop" | (string & {}))
+                | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.
@@ -4695,12 +4759,14 @@ export type CheckoutSessionExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "payment_link_id"?: ((string) | (null));
             "payment_return_url"?: ((string) | (null));
             "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             "prefill"?: ((CheckoutPrefillPreviousAttributes) | (null));
             "problems"?: ((Array<CheckoutProblemResourcePreviousAttributes>) | (null));
             "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
             "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
             "refunds"?: ((Array<BuyerRefundPreviousAttributes>) | (null));
             "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "shop_id"?: ((string) | (null));
             "status"?: (("open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {})) | (null));
             "subscription_plan_id"?: ((string) | (null));
             "subscription_terms"?: ((CheckoutSubscriptionTermsPreviousAttributes) | (null));
@@ -4723,7 +4789,8 @@ export type CheckoutSessionExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & 
                 | (null));
             "theme"?: ((CheckoutThemePreviousAttributes) | (null));
             "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
-            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | "shop" | (string & {}))
+                | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -4775,12 +4842,14 @@ export type CheckoutSessionExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "payment_link_id"?: ((string) | (null));
             "payment_return_url"?: ((string) | (null));
             "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
             "prefill"?: ((CheckoutPrefillPreviousAttributes) | (null));
             "problems"?: ((Array<CheckoutProblemResourcePreviousAttributes>) | (null));
             "promotion_config"?: ((CheckoutPromotionConfigPreviousAttributes) | (null));
             "redirects"?: ((CheckoutRedirectsPreviousAttributes) | (null));
             "refunds"?: ((Array<BuyerRefundPreviousAttributes>) | (null));
             "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            "shop_id"?: ((string) | (null));
             "status"?: (("open" | "paid" | "partially_paid" | "expired" | "closed" | "invalidated" | (string & {})) | (null));
             "subscription_plan_id"?: ((string) | (null));
             "subscription_terms"?: ((CheckoutSubscriptionTermsPreviousAttributes) | (null));
@@ -4803,7 +4872,8 @@ export type CheckoutSessionExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & 
                 | (null));
             "theme"?: ((CheckoutThemePreviousAttributes) | (null));
             "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
-            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | "shop" | (string & {}))
+                | (null));
             "updated_at"?: ((string) | (null));
             "version"?: ((number) | (null));
         });
@@ -5070,6 +5140,10 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
      * options for merchant credentials; currently available payment options for the checkout
      * credential. previous_attributes.payments.anyOf[1] (Value): {@link
      * CheckoutPaymentConfigPreviousAttributes}. previous_attributes.payments.anyOf[2] (Value):
+     * null. previous_attributes.platform_fee_rule (Optional): {@link
+     * PlatformFeeRulePreviousAttributes} or null. The platform fee rule that the session was
+     * created with. previous_attributes.platform_fee_rule.anyOf[1] (Value): {@link
+     * PlatformFeeRulePreviousAttributes}. previous_attributes.platform_fee_rule.anyOf[2] (Value):
      * null. previous_attributes.prefill (Optional): {@link CheckoutPrefillPreviousAttributes} or
      * null. Contact details and addresses to fill in for the buyer, who can change them. For a
      * customer with saved addresses, Flint fills in any address you leave out, and reads include
@@ -5121,13 +5195,16 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
      * Returned only to the checkout credential; never in webhook payloads.
      * previous_attributes.setup_collection.anyOf[1] (Value): {@link
      * SetupCollectionPreviousAttributes}. previous_attributes.setup_collection.anyOf[2] (Value):
-     * null. previous_attributes.status (Optional): string or null. Where the session is in its
-     * lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that
-     * is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
-     * "invalidated". previous_attributes.status.anyOf[1] (Value): string. Where the session is in
-     * its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session
-     * that is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed",
-     * "invalidated". previous_attributes.status.anyOf[2] (Value): null.
+     * null. previous_attributes.shop_id (Optional): string or null. ID of the shop that started
+     * checkout. previous_attributes.shop_id.anyOf[1] (Value): string. ID of the shop that started
+     * checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". previous_attributes.shop_id.anyOf[2]
+     * (Value): null. previous_attributes.status (Optional): string or null. Where the session is
+     * in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a
+     * session that is not open ended. Value enum: "open", "paid", "partially_paid", "expired",
+     * "closed", "invalidated". previous_attributes.status.anyOf[1] (Value): string. Where the
+     * session is in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says
+     * why a session that is not open ended. Value enum: "open", "paid", "partially_paid",
+     * "expired", "closed", "invalidated". previous_attributes.status.anyOf[2] (Value): null.
      * previous_attributes.subscription_plan_id (Optional): string or null. ID of the subscription
      * plan a session of type `subscription_plan` signs the buyer up for. Absent for other types.
      * previous_attributes.subscription_plan_id.anyOf[1] (Value): string. ID of the subscription
@@ -5197,10 +5274,10 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
      * previous_attributes.tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}.
      * previous_attributes.tip.anyOf[2] (Value): null. previous_attributes.type (Optional): string
      * or null. What the session collects payment for, fixed at creation. Value enum: "order",
-     * "quick_pay", "subscription_plan", "invoice", "payment_link".
+     * "quick_pay", "subscription_plan", "invoice", "payment_link", "shop".
      * previous_attributes.type.anyOf[1] (Value): string. What the session collects payment for,
      * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
-     * "payment_link". previous_attributes.type.anyOf[2] (Value): null.
+     * "payment_link", "shop". previous_attributes.type.anyOf[2] (Value): null.
      * previous_attributes.updated_at (Optional): string or null. RFC3339 timestamp.
      * previous_attributes.updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
      * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes.updated_at.anyOf[2] (Value):
@@ -5432,21 +5509,25 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
          * CheckoutPaymentConfigPreviousAttributes} or null. Configured payment options for
          * merchant credentials; currently available payment options for the checkout credential.
          * payments.anyOf[1] (Value): {@link CheckoutPaymentConfigPreviousAttributes}.
-         * payments.anyOf[2] (Value): null. prefill (Optional): {@link
-         * CheckoutPrefillPreviousAttributes} or null. Contact details and addresses to fill in for
-         * the buyer, who can change them. For a customer with saved addresses, Flint fills in any
-         * address you leave out, and reads include it. With quick_pay or subscription_plan and
-         * automatic tax on, a prefilled address sets the order's tax location. Not changed by what
-         * the buyer types; for that, read buyer_contact. customer_prefill is what the checkout
-         * credential reads from the customer record. prefill.anyOf[1] (Value): {@link
-         * CheckoutPrefillPreviousAttributes}. prefill.anyOf[2] (Value): null. problems (Optional):
-         * Array of {@link CheckoutProblemResourcePreviousAttributes} or null. Named conditions
-         * that affect checkout completion. Follow each problem's remediation action instead of
-         * reconstructing delivery lifecycle rules in the client. payment_in_progress means another
-         * payment for the order must finish before this checkout can complete. When Flint cannot
-         * read the checkout's delivery, the read still succeeds and reports delivery_unreadable;
-         * its remediation says whether reading the session again can succeed, and its next
-         * action's reason_code names the error. problems.anyOf[1] (Value): Array of {@link
+         * payments.anyOf[2] (Value): null. platform_fee_rule (Optional): {@link
+         * PlatformFeeRulePreviousAttributes} or null. The platform fee rule that the session was
+         * created with. platform_fee_rule.anyOf[1] (Value): {@link
+         * PlatformFeeRulePreviousAttributes}. platform_fee_rule.anyOf[2] (Value): null. prefill
+         * (Optional): {@link CheckoutPrefillPreviousAttributes} or null. Contact details and
+         * addresses to fill in for the buyer, who can change them. For a customer with saved
+         * addresses, Flint fills in any address you leave out, and reads include it. With
+         * quick_pay or subscription_plan and automatic tax on, a prefilled address sets the
+         * order's tax location. Not changed by what the buyer types; for that, read buyer_contact.
+         * customer_prefill is what the checkout credential reads from the customer record.
+         * prefill.anyOf[1] (Value): {@link CheckoutPrefillPreviousAttributes}. prefill.anyOf[2]
+         * (Value): null. problems (Optional): Array of {@link
+         * CheckoutProblemResourcePreviousAttributes} or null. Named conditions that affect
+         * checkout completion. Follow each problem's remediation action instead of reconstructing
+         * delivery lifecycle rules in the client. payment_in_progress means another payment for
+         * the order must finish before this checkout can complete. When Flint cannot read the
+         * checkout's delivery, the read still succeeds and reports delivery_unreadable; its
+         * remediation says whether reading the session again can succeed, and its next action's
+         * reason_code names the error. problems.anyOf[1] (Value): Array of {@link
          * CheckoutProblemResourcePreviousAttributes}. Named conditions that affect checkout
          * completion. Follow each problem's remediation action instead of reconstructing delivery
          * lifecycle rules in the client. payment_in_progress means another payment for the order
@@ -5480,22 +5561,24 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
          * save. Checkout-credential reads include it only while the session is open. Returned only
          * to the checkout credential; never in webhook payloads. setup_collection.anyOf[1]
          * (Value): {@link SetupCollectionPreviousAttributes}. setup_collection.anyOf[2] (Value):
-         * null. status (Optional): string or null. Where the session is in its lifecycle. Only an
-         * `open` session accepts payment. `terminal_reason` says why a session that is not open
-         * ended. Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
-         * status.anyOf[1] (Value): string. Where the session is in its lifecycle. Only an `open`
-         * session accepts payment. `terminal_reason` says why a session that is not open ended.
-         * Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
-         * status.anyOf[2] (Value): null. subscription_plan_id (Optional): string or null. ID of
-         * the subscription plan a session of type `subscription_plan` signs the buyer up for.
-         * Absent for other types. subscription_plan_id.anyOf[1] (Value): string. ID of the
-         * subscription plan a session of type `subscription_plan` signs the buyer up for. Absent
-         * for other types. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-         * subscription_plan_id.anyOf[2] (Value): null. subscription_terms (Optional): {@link
-         * CheckoutSubscriptionTermsPreviousAttributes} or null. Renewal terms a subscription
-         * checkout commits the buyer to. Frozen when the session's order was created, so later
-         * plan changes do not alter them. Absent when the checkout starts no subscription.
-         * subscription_terms.anyOf[1] (Value): {@link
+         * null. shop_id (Optional): string or null. ID of the shop that started checkout.
+         * shop_id.anyOf[1] (Value): string. ID of the shop that started checkout. Example:
+         * "shop_01KEZF7C005VQBPV4FZHDZPAHE". shop_id.anyOf[2] (Value): null. status (Optional):
+         * string or null. Where the session is in its lifecycle. Only an `open` session accepts
+         * payment. `terminal_reason` says why a session that is not open ended. Value enum:
+         * "open", "paid", "partially_paid", "expired", "closed", "invalidated". status.anyOf[1]
+         * (Value): string. Where the session is in its lifecycle. Only an `open` session accepts
+         * payment. `terminal_reason` says why a session that is not open ended. Value enum:
+         * "open", "paid", "partially_paid", "expired", "closed", "invalidated". status.anyOf[2]
+         * (Value): null. subscription_plan_id (Optional): string or null. ID of the subscription
+         * plan a session of type `subscription_plan` signs the buyer up for. Absent for other
+         * types. subscription_plan_id.anyOf[1] (Value): string. ID of the subscription plan a
+         * session of type `subscription_plan` signs the buyer up for. Absent for other types.
+         * Example: "plan_01KEZF7C004CY5ZR33XST2AASV". subscription_plan_id.anyOf[2] (Value): null.
+         * subscription_terms (Optional): {@link CheckoutSubscriptionTermsPreviousAttributes} or
+         * null. Renewal terms a subscription checkout commits the buyer to. Frozen when the
+         * session's order was created, so later plan changes do not alter them. Absent when the
+         * checkout starts no subscription. subscription_terms.anyOf[1] (Value): {@link
          * CheckoutSubscriptionTermsPreviousAttributes}. subscription_terms.anyOf[2] (Value): null.
          * superseding_checkout_session_id (Optional): string or null. ID of the session that
          * replaced this one. Present when `terminal_reason` is `superseded`.
@@ -5549,16 +5632,16 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
          * buyer. tip.anyOf[1] (Value): {@link CheckoutTipConfigPreviousAttributes}. tip.anyOf[2]
          * (Value): null. type (Optional): string or null. What the session collects payment for,
          * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
-         * "payment_link". type.anyOf[1] (Value): string. What the session collects payment for,
-         * fixed at creation. Value enum: "order", "quick_pay", "subscription_plan", "invoice",
-         * "payment_link". type.anyOf[2] (Value): null. updated_at (Optional): string or null.
-         * RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2] (Value): null. version
-         * (Optional): integer or null. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. version.anyOf[1] (Value):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1.
-         * version.anyOf[2] (Value): null.
+         * "payment_link", "shop". type.anyOf[1] (Value): string. What the session collects payment
+         * for, fixed at creation. Value enum: "order", "quick_pay", "subscription_plan",
+         * "invoice", "payment_link", "shop". type.anyOf[2] (Value): null. updated_at (Optional):
+         * string or null. RFC3339 timestamp. updated_at.anyOf[1] (Value): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at.anyOf[2]
+         * (Value): null. version (Optional): integer or null. Persisted version of this resource's
+         * owned state. Expanded resources and external observations can change independently.
+         * version.anyOf[1] (Value): integer. Persisted version of this resource's owned state.
+         * Expanded resources and external observations can change independently. Format: uint64.
+         * minimum: 1. version.anyOf[2] (Value): null.
          */
         "previous_attributes"?: ({
             [key: string]: unknown;
@@ -5855,6 +5938,11 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
              */
             "payments"?: ((CheckoutPaymentConfigPreviousAttributes) | (null));
             /**
+             * The platform fee rule that the session was created with. anyOf[1] (Value): {@link
+             * PlatformFeeRulePreviousAttributes}. anyOf[2] (Value): null.
+             */
+            "platform_fee_rule"?: ((PlatformFeeRulePreviousAttributes) | (null));
+            /**
              * Contact details and addresses to fill in for the buyer, who can change them. For a
              * customer with saved addresses, Flint fills in any address you leave out, and reads
              * include it. With quick_pay or subscription_plan and automatic tax on, a prefilled
@@ -5916,6 +6004,12 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
              * anyOf[2] (Value): null.
              */
             "setup_collection"?: ((SetupCollectionPreviousAttributes) | (null));
+            /**
+             * ID of the shop that started checkout. anyOf[1] (Value): string. ID of the shop that
+             * started checkout. Example: "shop_01KEZF7C005VQBPV4FZHDZPAHE". anyOf[2] (Value):
+             * null.
+             */
+            "shop_id"?: ((string) | (null));
             /**
              * Where the session is in its lifecycle. Only an `open` session accepts payment.
              * `terminal_reason` says why a session that is not open ended. Value enum: "open",
@@ -6021,12 +6115,13 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
             "tip"?: ((CheckoutTipConfigPreviousAttributes) | (null));
             /**
              * What the session collects payment for, fixed at creation. Value enum: "order",
-             * "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[1] (Value):
-             * string. What the session collects payment for, fixed at creation. Value enum:
-             * "order", "quick_pay", "subscription_plan", "invoice", "payment_link". anyOf[2]
-             * (Value): null.
+             * "quick_pay", "subscription_plan", "invoice", "payment_link", "shop". anyOf[1]
+             * (Value): string. What the session collects payment for, fixed at creation. Value
+             * enum: "order", "quick_pay", "subscription_plan", "invoice", "payment_link", "shop".
+             * anyOf[2] (Value): null.
              */
-            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | (string & {})) | (null));
+            "type"?: (("order" | "quick_pay" | "subscription_plan" | "invoice" | "payment_link" | "shop" | (string & {}))
+                | (null));
             /**
              * RFC3339 timestamp. anyOf[1] (Value): string. RFC3339 timestamp. Format: date-time.
              * Example: "2026-08-02T16:00:00Z". anyOf[2] (Value): null.

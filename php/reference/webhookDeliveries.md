@@ -4,7 +4,7 @@
 
 ### webhookDeliveries.create
 
-Creates a delivery for a retained event and an endpoint that currently subscribes to it, then attempts delivery now. A failed attempt starts the automatic retry schedule. Each event and endpoint pair can have only one delivery. Partner-source endpoints are global configuration. Changes to them or their events and deliveries require a live-mode credential or a Dashboard session, including test events and endpoints subscribed only to test installed-merchant events. Test credentials fail with `FORBIDDEN` and reason `live_mode_required`, including on idempotent replay.
+Creates a delivery for a retained event and an outbound endpoint that currently subscribes to it, then attempts delivery now. The CLI-managed sandbox listener endpoint receives events only through the stream. A failed attempt starts the automatic retry schedule. Each event and endpoint pair can have only one delivery. Partner-source endpoints are global configuration. Changes to them or their events and deliveries require a live-mode credential or a Dashboard session, including test events and endpoints subscribed only to test installed-merchant events. Test credentials fail with `FORBIDDEN` and reason `live_mode_required`, including on idempotent replay.
 
 `POST /v1/webhook-deliveries`
 

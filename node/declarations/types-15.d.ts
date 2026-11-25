@@ -1,5 +1,5 @@
-import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-79.js';
-import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-80.js';
+import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-80.js';
+import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-81.js';
 import type { CredentialProvider, InputValue } from '../runtime.js';
 import type { ExpandedInvoiceSummary, ExpandedInvoiceSummaryPreviousAttributes, DisputesAcceptParams } from './types-26.js';
 import type { MoneyValue, MoneyValuePreviousAttributes, MoneyValueInput } from './types-44.js';
@@ -8,15 +8,30 @@ import type {
     TaxIdentity,
     TaxCurrencyConversionPreviousAttributes,
     TaxIdentityPreviousAttributes
-} from './types-74.js';
+} from './types-75.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { ResponseMeta } from './types-62.js';
+import type { ResponseMeta } from './types-63.js';
 import type { Invoice } from './types-34.js';
 import type { CreateCreditNoteAllocationRequestInput, CreateCreditNoteRequestInput } from './types-9.js';
 import type { IssueCreditNoteRequestInput, InvoicesMarkUncollectibleParams } from './types-38.js';
-import type { UpdateCreditNoteRequestInput } from './types-75.js';
-import type { CustomDomainDNSRecord, CustomDomainDNSRecordPreviousAttributes } from './types-16.js';
+import type { UpdateCreditNoteRequestInput } from './types-76.js';
+/** The request body for: Create webhook delivery. */
+export type CreateWebhookDeliveryRequest = {
+    /** Your note explaining this action. minLength: 1. maxLength: 500. */
+    "reason_message"?: string;
+    /**
+     * Active endpoint that currently subscribes to the event. minLength: 1. Example:
+     * "whep_01KEZF7C006FXYTAJRZCGCBJTN".
+     */
+    "webhook_endpoint_id": string;
+    /**
+     * Retained webhook event to deliver. minLength: 1. Example: "whev_01KEZF7C00362MS3HV970TRZGS".
+     */
+    "webhook_event_id": string;
+};
+/** The request body for: Create webhook delivery. */
+export type CreateWebhookDeliveryRequestInput = CreateWebhookDeliveryRequest;
 /** The request body for: Create webhook endpoint. */
 export type CreateWebhookEndpointRequest = ({
     /**
@@ -240,9 +255,9 @@ export type CreateWebhookTestEventRequest = {
      * "return_disposition.updated", "return_inspection.acceptance_decided",
      * "return_inspection.created", "return_inspection.superseded", "return_receipt.created",
      * "return_receipt.superseded", "return_receipt.verified", "return_resolution.created",
-     * "return_resolution.updated", "shipment.created", "shipment.updated",
-     * "subscription.activated", "subscription.canceled", "subscription.cancellation_scheduled",
-     * "subscription.created", "subscription.cycle_skipped",
+     * "return_resolution.updated", "shipment.created", "shipment.updated", "shop.archived",
+     * "shop.created", "shop.updated", "subscription.activated", "subscription.canceled",
+     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
      * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
      * "subscription.delivery_updated", "subscription.dunning_exhausted",
      * "subscription.end_upcoming", "subscription.past_due", "subscription.paused",
@@ -523,6 +538,9 @@ export type CreateWebhookTestEventRequest = {
         | "return_resolution.updated"
         | "shipment.created"
         | "shipment.updated"
+        | "shop.archived"
+        | "shop.created"
+        | "shop.updated"
         | "subscription.activated"
         | "subscription.canceled"
         | "subscription.cancellation_scheduled"
@@ -660,9 +678,9 @@ export type CreateWebhookTestEventRequestInput = {
      * "return_disposition.updated", "return_inspection.acceptance_decided",
      * "return_inspection.created", "return_inspection.superseded", "return_receipt.created",
      * "return_receipt.superseded", "return_receipt.verified", "return_resolution.created",
-     * "return_resolution.updated", "shipment.created", "shipment.updated",
-     * "subscription.activated", "subscription.canceled", "subscription.cancellation_scheduled",
-     * "subscription.created", "subscription.cycle_skipped",
+     * "return_resolution.updated", "shipment.created", "shipment.updated", "shop.archived",
+     * "shop.created", "shop.updated", "subscription.activated", "subscription.canceled",
+     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
      * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
      * "subscription.delivery_updated", "subscription.dunning_exhausted",
      * "subscription.end_upcoming", "subscription.past_due", "subscription.paused",
@@ -943,6 +961,9 @@ export type CreateWebhookTestEventRequestInput = {
         | "return_resolution.updated"
         | "shipment.created"
         | "shipment.updated"
+        | "shop.archived"
+        | "shop.created"
+        | "shop.updated"
         | "subscription.activated"
         | "subscription.canceled"
         | "subscription.cancellation_scheduled"
@@ -1020,9 +1041,10 @@ export type CreateWorkloadIdentityRequest = {
      * "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -1060,9 +1082,10 @@ export type CreateWorkloadIdentityRequest = {
      * "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -1108,6 +1131,8 @@ export type CreateWorkloadIdentityRequest = {
         | "checkouts.checkout_sessions.write"
         | "checkouts.payment_links.read"
         | "checkouts.payment_links.write"
+        | "checkouts.shops.read"
+        | "checkouts.shops.write"
         | "commerce.bundles.read"
         | "commerce.bundles.write"
         | "commerce.catalog.read"
@@ -1248,9 +1273,10 @@ export type CreateWorkloadIdentityRequestInput = {
      * "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -1288,9 +1314,10 @@ export type CreateWorkloadIdentityRequestInput = {
      * "accounts.devices.write", "accounts.workload_identities.read",
      * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
      * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "checkouts.payment_links.write", "checkouts.shops.read", "checkouts.shops.write",
+     * "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read",
+     * "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write",
+     * "commerce.delivery.read", "commerce.delivery.write",
      * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
      * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
      * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
@@ -1336,6 +1363,8 @@ export type CreateWorkloadIdentityRequestInput = {
         | "checkouts.checkout_sessions.write"
         | "checkouts.payment_links.read"
         | "checkouts.payment_links.write"
+        | "checkouts.shops.read"
+        | "checkouts.shops.write"
         | "commerce.bundles.read"
         | "commerce.bundles.write"
         | "commerce.catalog.read"
@@ -9285,141 +9314,3 @@ export type CreditNotesUpdateParams = (InputValue<UpdateCreditNoteRequestInput>)
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
 export type CreditNotesVoidParams = InvoicesMarkUncollectibleParams;
-/** A merchant hostname for hosted checkout or customer account pages. */
-export type CustomDomain = {
-    /**
-     * Payment attempts in progress on this checkout hostname. `null` when `type` is
-     * `customer_account`. Format: int64.
-     */
-    "active_payment_attempt_count": number | null;
-    /**
-     * When this domain resource was created, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "created_at": string;
-    /** Flint custom domain ID. Example: "cdom_01KEZF7C00483JTTKHZVFQHKS8". */
-    "custom_domain_id": string;
-    /**
-     * DNS records to add for setup or verification. For an archived hostname, records that can be
-     * deleted. [] (Value): {@link CustomDomainDNSRecord}. A DNS record for configuring or
-     * verifying a custom hostname.
-     */
-    "dns_records": Array<CustomDomainDNSRecord>;
-    /** Configured hostname, normalized to lowercase without a trailing dot. */
-    "hostname": string;
-    /**
-     * When the domain was last checked, in RFC3339 format; `null` when no check time is available.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "last_checked_at": string | null;
-    /**
-     * Payment method domain associated with this hostname. `null` when none is reported. Example:
-     * "pmdom_01KEZF7C001WQCSRGH9GWR6628".
-     */
-    "payment_method_domain_id": string | null;
-    /**
-     * End of the redirect window for an archived hostname. After archive, dns_records lists
-     * records you can delete. `null` when the hostname isn't archived. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "redirect_expires_at": string | null;
-    /**
-     * Current setup and availability state of the hostname. Archived domains retain their resource
-     * identity. Value enum: "provisioning", "active", "attention_required", "inactive",
-     * "archived".
-     */
-    "status": "provisioning" | "active" | "attention_required" | "inactive" | "archived" | (string & {});
-    /**
-     * Machine-readable detail for the current status. `null` when no reason is reported, including
-     * for active and archived domains. Value enum: "dns_record_missing", "dns_record_mismatch",
-     * "ownership_record_missing", "ownership_record_mismatch", "caa_record_blocks_certificate",
-     * "proxied_by_another_provider", "certificate_pending", "custom_domains_inactive", "other",
-     * null.
-     */
-    "status_reason": "dns_record_missing"
-        | "dns_record_mismatch"
-        | "ownership_record_missing"
-        | "ownership_record_mismatch"
-        | "caa_record_blocks_certificate"
-        | "proxied_by_another_provider"
-        | "certificate_pending"
-        | "custom_domains_inactive"
-        | "other"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * Whether the hostname serves checkout pages or the customer account Flint hosts. Value enum:
-     * "checkout", "customer_account".
-     */
-    "type": "checkout" | "customer_account" | (string & {});
-    /**
-     * When this domain resource was last updated, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "updated_at": string;
-};
-export type CustomDomainArchivedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "active_payment_attempt_count": number | null;
-            "created_at": string;
-            "custom_domain_id": string;
-            "dns_records": Array<CustomDomainDNSRecord>;
-            "hostname": string;
-            "last_checked_at": string | null;
-            "payment_method_domain_id": string | null;
-            "redirect_expires_at": string | null;
-            "status": "provisioning" | "active" | "attention_required" | "inactive" | "archived" | (string & {});
-            "status_reason": "dns_record_missing"
-                | "dns_record_mismatch"
-                | "ownership_record_missing"
-                | "ownership_record_mismatch"
-                | "caa_record_blocks_certificate"
-                | "proxied_by_another_provider"
-                | "certificate_pending"
-                | "custom_domains_inactive"
-                | "other"
-                | null
-                | (string & {})
-                | null;
-            "type": "checkout" | "customer_account" | (string & {});
-            "updated_at": string;
-        };
-        "previous_attributes"?: ({
-            [key: string]: unknown;
-        })
-            & ({
-            "active_payment_attempt_count"?: ((number) | (null));
-            "created_at"?: ((string) | (null));
-            "custom_domain_id"?: ((string) | (null));
-            "dns_records"?: ((Array<CustomDomainDNSRecordPreviousAttributes>) | (null));
-            "hostname"?: ((string) | (null));
-            "last_checked_at"?: ((string) | (null));
-            "payment_method_domain_id"?: ((string) | (null));
-            "redirect_expires_at"?: ((string) | (null));
-            "status"?: (("provisioning" | "active" | "attention_required" | "inactive" | "archived" | (string & {}))
-                | (null));
-            "status_reason"?: (("dns_record_missing"
-                | "dns_record_mismatch"
-                | "ownership_record_missing"
-                | "ownership_record_mismatch"
-                | "caa_record_blocks_certificate"
-                | "proxied_by_another_provider"
-                | "certificate_pending"
-                | "custom_domains_inactive"
-                | "other"
-                | null
-                | (string & {}))
-                | (null));
-            "type"?: (("checkout" | "customer_account" | (string & {})) | (null));
-            "updated_at"?: ((string) | (null));
-        });
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "custom_domain.archived";
-})
-    & {
-    "event_type": "custom_domain.archived";
-});

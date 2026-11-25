@@ -13,7 +13,7 @@ import type {
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { CreateAPIKeyResponse } from '../declarations/types-8.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -39,7 +39,7 @@ export type {
     ApiKeysRevokeParams,
     ApiKeysUpdateParams
 } from '../declarations/types-0.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type {
     CreateAPIKeyResponse,
     CreateAPIKeyRequestInput,
@@ -48,22 +48,23 @@ export type {
     CreateAPIKeyRequestRestrictedInput,
     ConfigurationVersionRequestInput
 } from '../declarations/types-8.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { UpdateAPIKeyRequestInput } from '../declarations/types-75.js';
+export type { UpdateAPIKeyRequestInput } from '../declarations/types-76.js';
 export {
     makeConfigurationVersionRequest,
     makeCreateAPIKeyRequest,
     makeCreateAPIKeyRequestFull,
     makeCreateAPIKeyRequestReadOnly,
     makeCreateAPIKeyRequestRestricted
-} from '../declarations/types-81.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdateAPIKeyRequest } from '../declarations/types-93.js';
+} from '../declarations/types-82.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeUpdateAPIKeyRequest } from '../declarations/types-94.js';
 export interface ApiKeysResource {
     /**
  * Creates a merchant-bound external API key. A live credential creates a live key, or a test key

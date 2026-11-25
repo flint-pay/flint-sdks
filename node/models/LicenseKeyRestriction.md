@@ -16,5 +16,5 @@ One occurrence of a cause keeping the key disabled.
 | `reason` | Optional | string | Reason for a merchant or subscription restriction. |
 | `refund_id` | Optional | string | The refund that restricted the key. Example: `"ref_01KEZF7C003DTD59WKYHEXYQ1K"`. |
 | `subscription_id` | Optional | string | The subscription that restricted the key. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
-| `type` | Required | string | What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`. |
+| `type` | Required | string | What caused the restriction. Values: `"merchant"`, `"refund"`, `"dispute"`, `"subscription"`, `"payment_reversal"`. |
 

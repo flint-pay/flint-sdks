@@ -11,13 +11,14 @@ namespace Flint;
  * @property-read MoneyValuePreviousAttributes|null $released_money
  * @property-read MoneyValuePreviousAttributes|null $removed_money
  * @property-read MoneyValuePreviousAttributes|null $settled_tip_money
+ * @property-read MoneyValuePreviousAttributes|null $subscription_credit_refundable_money
  * @property-read MoneyValuePreviousAttributes|null $outstanding_money
  * @property-read MoneyValuePreviousAttributes|null $paid_money
  * @property-read MoneyValuePreviousAttributes|null $refunded_money
  * @property-read MoneyValuePreviousAttributes|null $written_off_money
  * Presence-aware response; omitted optional fields return null. */
 final class OrderSettlementAmountsPreviousAttributes extends Model {
-    /** @param array{'dispute_lost_money'?: mixed, 'disputed_money'?: mixed, 'exchange_refundable_money'?: mixed, 'net_collected_money'?: mixed, 'overpaid_money'?: mixed, 'pending_refund_money'?: mixed, 'released_money'?: mixed, 'removed_money'?: mixed, 'settled_tip_money'?: mixed, 'outstanding_money'?: mixed, 'paid_money'?: mixed, 'refunded_money'?: mixed, 'written_off_money'?: mixed, ...}|object $values */
+    /** @param array{'dispute_lost_money'?: mixed, 'disputed_money'?: mixed, 'exchange_refundable_money'?: mixed, 'net_collected_money'?: mixed, 'overpaid_money'?: mixed, 'pending_refund_money'?: mixed, 'released_money'?: mixed, 'removed_money'?: mixed, 'settled_tip_money'?: mixed, 'subscription_credit_refundable_money'?: mixed, 'outstanding_money'?: mixed, 'paid_money'?: mixed, 'refunded_money'?: mixed, 'written_off_money'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderSettlementAmountsPreviousAttributes')); }
     /** Principal lost to chargebacks on counted order payments. A later win removes that dispute from this amount. Excludes dispute fees and does not reopen outstanding_money. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
@@ -64,6 +65,11 @@ final class OrderSettlementAmountsPreviousAttributes extends Model {
      */
     public function getSettledTipMoney(): MoneyValuePreviousAttributes|null { return $this->get('settled_tip_money'); }
     public function hasSettledTipMoney(): bool { return $this->has('settled_tip_money'); }
+    /** Remaining money available for an order refund while the order funds a subscription renewal or change. Excludes money reserved for the credit, exchanges, and processing refunds. Present on affected order reads, including when the amount is zero. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     * @return MoneyValuePreviousAttributes|null
+     */
+    public function getSubscriptionCreditRefundableMoney(): MoneyValuePreviousAttributes|null { return $this->get('subscription_credit_refundable_money'); }
+    public function hasSubscriptionCreditRefundableMoney(): bool { return $this->has('subscription_credit_refundable_money'); }
     /** Money still owed on the bill, never below zero. Refunds return money already collected and do not add to it. anyOf[1] (Value): {@see MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
      * @return MoneyValuePreviousAttributes|null
      */

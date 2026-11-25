@@ -1,15 +1,60 @@
-import type { InventoryLevel, InventoryReceipt } from './types-32.js';
-import type { ResponseMeta } from './types-62.js';
+import type { InventoryReceipt, InventoryLevel } from './types-32.js';
+import type { ResponseMeta } from './types-63.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateInventoryReceiptRequestInput, CreateInventoryReservationRequestInput } from './types-10.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { InventoryActionRequired, InventoryActionRequiredPreviousAttributes } from './types-31.js';
+import type { InventoryRoutingSourcePreviousAttributes } from './types-34.js';
 import type { MerchantWebhookEnvelope } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
 import type { CommitInventoryReservationRequestInput } from './types-7.js';
 import type { ConsumeInventoryReservationRequestInput } from './types-8.js';
 import type { ReleaseInventoryReservationRequestInput } from './types-61.js';
-import type { UpdateInventoryReservationRequestInput } from './types-76.js';
+import type { UpdateInventoryReservationRequestInput } from './types-77.js';
+/** A page of `InventoryReceipt` objects. */
+export type InventoryReceiptListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * InventoryReceipt}. Returned units received into Inventory, from a Return disposition or
+     * against the reservation line that consumed them. For supplier deliveries, use POST
+     * /v1/inventory-adjustments with reason: received.
+     */
+    "data": Array<InventoryReceipt>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `InventoryReceipt` data. */
+export type InventoryReceiptResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Returned units received
+     * into Inventory, from a Return disposition or against the reservation line that consumed
+     * them. For supplier deliveries, use POST /v1/inventory-adjustments with reason: received.
+     */
+    "data": InventoryReceipt;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /**
  * Inventory receipt and the levels it changed. inventory_receipt is the primary resource and
  * expected_version target.
@@ -11484,37 +11529,3 @@ export type InventoryRoutingSourceInputPolicyRevisionInput = {
     /** How Flint routes demand to Locations. Value enum: "policy_revision". */
     "type": "policy_revision";
 };
-export type InventoryRoutingSourcePreviousAttributes = {
-    /**
-     * ID of the allocation policy that routes demand. anyOf[1] (Value): string. ID of the
-     * allocation policy that routes demand. Example: "invp_01KEZF7C0076BZX855WAGC5SQK". anyOf[2]
-     * (Value): null.
-     */
-    "inventory_allocation_policy_id"?: ((string) | (null));
-    /**
-     * ID of the allocation policy revision that routes demand. anyOf[1] (Value): string. ID of the
-     * allocation policy revision that routes demand. Example: "invpv_01KEZF7C00JSFTTBKC1JY614JJ".
-     * anyOf[2] (Value): null.
-     */
-    "inventory_allocation_policy_revision_id"?: ((string) | (null));
-    /**
-     * ID of the fixed Location that serves all demand. anyOf[1] (Value): string. ID of the fixed
-     * Location that serves all demand. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". anyOf[2]
-     * (Value): null.
-     */
-    "location_id"?: ((string) | (null));
-    /**
-     * How Flint routes demand to Locations. Value enum: "fixed_location", "policy",
-     * "policy_revision". anyOf[1] (Value): string. How Flint routes demand to Locations. Value
-     * enum: "fixed_location", "policy", "policy_revision". anyOf[2] (Value): null.
-     */
-    "type"?: (("fixed_location" | "policy" | "policy_revision" | (string & {})) | (null));
-};
-/**
- * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one
- * policy revision, selected by `type`.
- */
-export type InventoryRoutingSourceRequest = ((InventoryRoutingSourceInputFixedLocation)
-    | (InventoryRoutingSourceInputPolicy)
-    | (InventoryRoutingSourceInputPolicyRevision)
-    | (Record<string, unknown>));

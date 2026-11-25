@@ -11,6 +11,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `card` | Optional | [CardDetailsInput](../models/CardDetailsInput.md#carddetailsinput) | Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used. |
+| `consent` | Required | [PaymentMethodConsentInput](../models/PaymentMethodConsentInput.md#paymentmethodconsentinput) or null | Recorded consent for the card save. Null when Flint has no recorded wording for this card. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `customer_id` | Required | string | Customer this payment method belongs to. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `is_default` | Required | boolean | Whether this is the customer's default payment method, the one BuyerCustomer.default_payment_method_id names. Change it with default_payment_method_id on PATCH /v1/me. Existing subscriptions keep their payment_method_id. |

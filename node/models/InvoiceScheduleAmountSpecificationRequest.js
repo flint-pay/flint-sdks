@@ -1,11 +1,11 @@
-import { d9306 as c0 } from '../descriptors/data/422.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d7928 as c1 } from '../descriptors/data/343.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d8379 as c2, d8380 as c3, d8381 as c4, d8382 as c5, d8383 as c6, d8384 as c7, d8385 as c8 } from '../descriptors/data/371.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
-import { d9306 as d9306 } from '../descriptors/data/422.js?sdk=6b6c9c7504997706af80698ebf5c1134152c5d05e2ad1b214f18b1a37d7a234e';
+import { d9386 as c0 } from '../descriptors/data/426.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d8003 as c1 } from '../descriptors/data/347.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d8459 as c2, d8460 as c3, d8461 as c4, d8462 as c5, d8463 as c6, d8464 as c7, d8465 as c8 } from '../descriptors/data/375.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d9386 as d9386 } from '../descriptors/data/426.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d9306;
+const read = d9386;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InvoiceScheduleAmountSpecificationRequest"]:c0(),["MoneyValue"]:c1(),["SharedCodec1671"]:c2(),["SharedCodec1672"]:c3(),["SharedCodec1673"]:c4(),["SharedCodec1674"]:c5(),["SharedCodec1675"]:c6(),["SharedCodec1676"]:c7(),["SharedCodec1677"]:c8()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InvoiceScheduleAmountSpecificationRequest"]:c0(),["MoneyValue"]:c1(),["SharedCodec1696"]:c2(),["SharedCodec1697"]:c3(),["SharedCodec1698"]:c4(),["SharedCodec1699"]:c5(),["SharedCodec1700"]:c6(),["SharedCodec1701"]:c7(),["SharedCodec1702"]:c8()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInvoiceScheduleAmountSpecificationRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

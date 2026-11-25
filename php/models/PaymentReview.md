@@ -20,7 +20,7 @@ Response model.
 | `opened_reason` | Required | string | Why Flint opened the review. Values: `"rule"`. |
 | `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null | Present only when `expand` includes `order`; `null` when expanded and there is no related order. |
 | `order_id` | Required | string or null | ID of the order the payment belongs to. `null` when the payment doesn't belong to an order. |
-| `payment_flow` | Required | string | How the reviewed payment was started. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
+| `payment_flow` | Required | string | How the reviewed payment was started. Values: `"checkout"`, `"payment_link"`, `"shop"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
 | `payment_intent` | Optional | [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) or null | Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. |
 | `payment_intent_id` | Required | string | ID of the payment intent under review. |
 | `payment_review_id` | Required | string | Unique identifier for this payment review, prefixed `rev_`. |

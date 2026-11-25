@@ -1,8 +1,8 @@
 import type { Result, WithResponseInfo, InputValue, WebhookHeaders as _SdkWebhookHeaders } from '../runtime.js';
 import type { ClientOptions } from './types-7.js';
-import type { VerifiedWebhook } from './types-78.js';
-import type { WebhookVerificationOptions } from './types-80.js';
-import type { verifyWebhook, verifyWebhookAsync } from './types-95.js';
+import type { VerifiedWebhook } from './types-79.js';
+import type { WebhookVerificationOptions } from './types-81.js';
+import type { verifyWebhook, verifyWebhookAsync } from './types-96.js';
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {
     constructor(options?: ClientOptions);
@@ -121,6 +121,7 @@ export declare class Client {
     readonly sandboxes: import('../resources/sandboxes.js').SandboxesResource;
     readonly settings: import('../resources/settings.js').SettingsResource;
     readonly shipments: import('../resources/shipments.js').ShipmentsResource;
+    readonly shops: import('../resources/shops.js').ShopsResource;
     readonly subscriptionDeliveryMigrations: import('../resources/subscriptionDeliveryMigrations.js').SubscriptionDeliveryMigrationsResource;
     readonly subscriptionOffers: import('../resources/subscriptionOffers.js').SubscriptionOffersResource;
     readonly subscriptionPlans: import('../resources/subscriptionPlans.js').SubscriptionPlansResource;

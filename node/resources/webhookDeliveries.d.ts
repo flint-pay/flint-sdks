@@ -6,18 +6,14 @@ import type {
     WebhookDeliveriesGetParams,
     WebhookDeliveriesListAttemptsParams,
     WebhookDeliveriesListParams,
-    WebhookDeliveriesResendParams
-} from '../declarations/types-78.js';
-import type {
+    WebhookDeliveriesResendParams,
     WebhookDelivery,
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse,
-    WebhookDeliveryAttempt,
-    WebhookDeliveryAttemptListResponse,
-    WebhookDeliveryListResponse,
-    WebhookDeliveryResponse
+    WebhookDeliveryAttempt
 } from '../declarations/types-79.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { WebhookDeliveryAttemptListResponse, WebhookDeliveryListResponse, WebhookDeliveryResponse } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,44 +30,39 @@ export type {
 } from '../runtime.js';
 export type {
     WebhookDeliveriesCreateParams,
+    WebhookDelivery,
     WebhookDeliveriesGetParams,
     WebhookDeliveriesListParams,
     WebhookDeliveriesListAttemptsParams,
-    WebhookDeliveriesResendParams
-} from '../declarations/types-78.js';
+    WebhookDeliveryAttempt,
+    WebhookDeliveriesResendParams,
+    WebhookDeliveryAction,
+    WebhookDeliveryActionResponse
+} from '../declarations/types-79.js';
 export type {
     RequestOptions,
-    ResponseMeta,
-    ResponseWarning,
     ResourceReference,
     ResendWebhookDeliveryRequestInput,
     ResendWebhookDeliveryRequest
 } from '../declarations/types-62.js';
-export type {
-    WebhookDelivery,
-    WebhookDeliveryResponse,
-    WebhookDeliveryListResponse,
-    WebhookDeliveryAttemptListResponse,
-    WebhookDeliveryAttempt,
-    WebhookDeliveryAction,
-    WebhookDeliveryActionResponse
-} from '../declarations/types-79.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { WebhookDeliveryResponse, WebhookDeliveryListResponse, WebhookDeliveryAttemptListResponse } from '../declarations/types-80.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
-export type { CreateWebhookDeliveryRequestInput, CreateWebhookDeliveryRequest } from '../declarations/types-14.js';
+export type { CreateWebhookDeliveryRequestInput, Credentials, CreateWebhookDeliveryRequest } from '../declarations/types-15.js';
 export type { AuthMode } from '../declarations/types-1.js';
-export type { Credentials } from '../declarations/types-15.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { NextAction, MoneyValue } from '../declarations/types-44.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
 export type { CustomersListAddressesParams } from '../declarations/types-17.js';
-export { makeCreateWebhookDeliveryRequest } from '../declarations/types-85.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
-export { makeResendWebhookDeliveryRequest } from '../declarations/types-91.js';
+export { makeCreateWebhookDeliveryRequest } from '../declarations/types-86.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
+export { makeResendWebhookDeliveryRequest } from '../declarations/types-92.js';
 export interface WebhookDeliveriesResource {
     /**
- * Creates a delivery for a retained event and an endpoint that currently subscribes to it, then
- * attempts delivery now. A failed attempt starts the automatic retry schedule. Each event and
+ * Creates a delivery for a retained event and an outbound endpoint that currently subscribes to
+ * it, then attempts delivery now. The CLI-managed sandbox listener endpoint receives events only
+ * through the stream. A failed attempt starts the automatic retry schedule. Each event and
  * endpoint pair can have only one delivery. Partner-source endpoints are global configuration.
  * Changes to them or their events and deliveries require a live-mode credential or a Dashboard
  * session, including test events and endpoints subscribed only to test installed-merchant events.

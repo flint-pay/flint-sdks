@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# DeliveryPricingStrategy to DeliveryRateCallbackArchivedInstalledMerchantsEvent
+# DeliveryPricingRateRequest to DeliveryRateCallbackActivatedInstalledMerchantsEvent
 
+- [DeliveryPricingRateRequest](DeliveryPricingRateRequest.md)
+- [DeliveryPricingRateRequestInput](DeliveryPricingRateRequestInput.md)
 - [DeliveryPricingStrategy](DeliveryPricingStrategy.md)
 - [DeliveryPricingStrategyCalculated](DeliveryPricingStrategyCalculated.md)
 - [DeliveryPricingStrategyCalculatedPreviousAttributes](DeliveryPricingStrategyCalculatedPreviousAttributes.md)
@@ -100,6 +102,4 @@
 - [DeliveryRadiusOriginPreviousAttributes](DeliveryRadiusOriginPreviousAttributes.md)
 - [DeliveryRateCallback](DeliveryRateCallback.md)
 - [DeliveryRateCallbackActivatedInstalledMerchantsEvent](DeliveryRateCallbackActivatedInstalledMerchantsEvent.md)
-- [DeliveryRateCallbackActivatedMerchantEvent](DeliveryRateCallbackActivatedMerchantEvent.md)
-- [DeliveryRateCallbackArchivedInstalledMerchantsEvent](DeliveryRateCallbackArchivedInstalledMerchantsEvent.md)
 

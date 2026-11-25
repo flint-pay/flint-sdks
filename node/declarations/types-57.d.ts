@@ -1,11 +1,27 @@
-import type { ResponseMeta } from './types-62.js';
-import type { ReturnProcessResult } from './types-64.js';
+import type {
+    MoneyValuePreviousAttributes,
+    ModifierSet,
+    MoneyValue,
+    ModifierSetPreviousAttributes,
+    MoneyValueInput
+} from './types-44.js';
+import type { ReturnProcessDecision, ReturnProcessDispositionRequest, ReturnProcessDecisionInput } from './types-64.js';
+import type {
+    ReturnProcessInspectionRequest,
+    ReturnProcessResolutionRequest,
+    ReturnProcessDispositionRequestInput,
+    ReturnProcessInspectionRequestInput,
+    ReturnProcessResolutionRequestInput,
+    ReturnProcessReceiptRequest,
+    ReturnProcessReceiptRequestInput,
+    ReturnProcessResult
+} from './types-65.js';
+import type { ResponseMeta } from './types-63.js';
 import type { CategoryReference, CategoryReferencePreviousAttributes } from './types-5.js';
 import type { ImageAttachment, ImageAttachmentPreviousAttributes, ImageRequest, ImageRequestInput } from './types-31.js';
-import type { MetadataMap, ModifierSet, MerchantWebhookEnvelope, MetadataRequestInput } from './types-43.js';
+import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-43.js';
 import type { PartnerWebhookEnvelope } from './types-50.js';
-import type { WebhookProduct, WebhookProductVariant } from './types-79.js';
-import type { MoneyValue, MoneyValuePreviousAttributes, ModifierSetPreviousAttributes, MoneyValueInput } from './types-44.js';
+import type { WebhookProduct, WebhookProductVariant } from './types-80.js';
 import type { Dimensions, DimensionsPreviousAttributes, DimensionsRequestInput } from './types-25.js';
 import type {
     GiftCardProductConfiguration,
@@ -18,25 +34,17 @@ import type {
     LicenseKeyConfigurationRequest,
     LicenseKeyConfigurationRequestInput
 } from './types-39.js';
-import type {
-    QuantityPriceBreak,
-    QuantityPriceBreakPreviousAttributes,
-    QuantityPriceBreakRequestInput,
-    PromotionRuleGroup,
-    PromotionSchedule,
-    PromotionRuleGroupPreviousAttributes,
-    PromotionRuleGroupRequest,
-    PromotionRuleGroupRequestInput
-} from './types-59.js';
+import type { QuantityPriceBreak, QuantityPriceBreakPreviousAttributes, QuantityPriceBreakRequestInput } from './types-60.js';
 import type { SelectedProductOption, SelectedProductOptionPreviousAttributes } from './types-68.js';
-import type { Weight, WeightPreviousAttributes, WeightRequestInput } from './types-80.js';
-import type { InventoryRoutingSource, InventoryRoutingSourcePreviousAttributes } from './types-33.js';
+import type { Weight, WeightPreviousAttributes, WeightRequestInput } from './types-81.js';
+import type { InventoryRoutingSource } from './types-33.js';
+import type { InventoryRoutingSourcePreviousAttributes } from './types-34.js';
 import type { InventoryItemCreateRequest, InventoryItemCreateRequestInput } from './types-32.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateProductRequestInput } from './types-12.js';
 import type { DisputesAcceptParams } from './types-26.js';
 import type { BundlesGetParams } from './types-1.js';
-import type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from './types-77.js';
+import type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from './types-78.js';
 import type {
     PromotionCode,
     PromotionCodesSummary,
@@ -44,16 +52,224 @@ import type {
     PromotionExclusivity,
     PromotionRecurrence,
     PromotionRecurrencePreviousAttributes,
-    PromotionRecurrenceRequestInput,
     PromotionBuyXGetYMethod,
-    PromotionPercentOffMethod,
-    PromotionBuyXGetYMethodPreviousAttributes,
-    PromotionPercentOffMethodPreviousAttributes,
-    PromotionBuyXGetYMethodRequest,
-    PromotionPercentOffMethodRequest,
-    PromotionBuyXGetYMethodRequestInput,
-    PromotionPercentOffMethodRequestInput
+    PromotionPercentOffMethod
 } from './types-58.js';
+import type {
+    PromotionRuleGroup,
+    PromotionSchedule,
+    PromotionRuleGroupPreviousAttributes,
+    PromotionRuleGroupRequest,
+    PromotionRecurrenceRequestInput,
+    PromotionRuleGroupRequestInput
+} from './types-59.js';
+export type PricingAmountsPreviousAttributes = {
+    /**
+     * Tax added on top of prices, included in total_money. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "additive_tax_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Total of the order's service charges after service-charge discounts. anyOf[1] (Value):
+     * {@link MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "charge_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Total of order and line-item discounts. Service-charge discounts, such as free shipping, are
+     * not included; they reduce charge_money. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "discount_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Tax already included in subtotal_money and charge_money. Informational; it is not added
+     * again to total_money. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2]
+     * (Value): null.
+     */
+    "inclusive_tax_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Tip money included in the price. After payment, it includes the original settled tip. Each
+     * tip reports any refund in its refunded_money field. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "requested_tip_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Sum of the line items' subtotal_money: prices with modifiers, before discounts. Lines with
+     * tax-inclusive prices include their tax here. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "subtotal_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * Total tax, equal to additive_tax_money + inclusive_tax_money. anyOf[1] (Value): {@link
+     * MoneyValuePreviousAttributes}. anyOf[2] (Value): null.
+     */
+    "tax_money"?: ((MoneyValuePreviousAttributes) | (null));
+    /**
+     * subtotal_money - discount_money + charge_money + additive_tax_money + requested_tip_money,
+     * never below zero. anyOf[1] (Value): {@link MoneyValuePreviousAttributes}. anyOf[2] (Value):
+     * null.
+     */
+    "total_money"?: ((MoneyValuePreviousAttributes) | (null));
+};
+/**
+ * How to process one line of an existing return: the received quantity, inspection, decision,
+ * disposition, and resolution.
+ */
+export type ProcessExistingReturnLineItemRequest = {
+    /**
+     * The decision for this line, as an assertion about the committed terms. Example:
+     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}. Start from
+     * the pinned policy proposal recomputed for approved_quantity when the line has a policy
+     * evaluation and the proposal can be built. Otherwise start with return_required_quantity
+     * equal to approved_quantity, allowed_resolution_types containing refund, exchange,
+     * replacement, no_monetary_action, and store_credit in that order regardless of whether the
+     * original payment is refundable, no automatic_resolution_type, is_inspection_required false,
+     * and no receiving_location_id. Each supplied field replaces its starting value;
+     * allowed_resolution_types replaces the whole list. Omit automatic_resolution_type to keep its
+     * starting value, or send null to resolve manually. Then fill an omitted release_timing with
+     * after_inspection when merchandise is required and inspection is required, after_receipt when
+     * merchandise is required without inspection, or after_approval when no merchandise is
+     * required. Validate the merged decision for quantity bounds, allowed resolution types, and
+     * reachable timing and inspection requirements. A pinned policy always requires
+     * override_reason when approved_quantity exceeds evaluated eligible_quantity, even when no
+     * proposal can be built. With a pinned policy but no proposal, other decision fields use these
+     * defaults and override_reason is otherwise optional. Example:
+     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
+     */
+    "decision"?: ReturnProcessDecision;
+    /**
+     * A disposition to record for this line's units. What was done with a returned item, such as
+     * restocked as sellable or sent for repair, supplied when processing an existing return.
+     */
+    "disposition"?: ReturnProcessDispositionRequest;
+    /**
+     * An inspection to record for this line's units. An inspection result for a returned item,
+     * supplied when processing an existing return.
+     */
+    "inspection"?: ReturnProcessInspectionRequest;
+    /**
+     * Whole number of units received. It must equal the line's committed return_required_quantity;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "received_quantity"?: number;
+    /**
+     * A resolution to create and confirm for this line. The resolution to apply to a returned
+     * item, such as refund or exchange, with the quantity and any replacement items.
+     */
+    "resolution"?: ReturnProcessResolutionRequest;
+    /**
+     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+};
+/**
+ * How to process one line of an existing return: the received quantity, inspection, decision,
+ * disposition, and resolution.
+ */
+export type ProcessExistingReturnLineItemRequestInput = {
+    /**
+     * The decision for this line, as an assertion about the committed terms. Example:
+     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}. Start from
+     * the pinned policy proposal recomputed for approved_quantity when the line has a policy
+     * evaluation and the proposal can be built. Otherwise start with return_required_quantity
+     * equal to approved_quantity, allowed_resolution_types containing refund, exchange,
+     * replacement, no_monetary_action, and store_credit in that order regardless of whether the
+     * original payment is refundable, no automatic_resolution_type, is_inspection_required false,
+     * and no receiving_location_id. Each supplied field replaces its starting value;
+     * allowed_resolution_types replaces the whole list. Omit automatic_resolution_type to keep its
+     * starting value, or send null to resolve manually. Then fill an omitted release_timing with
+     * after_inspection when merchandise is required and inspection is required, after_receipt when
+     * merchandise is required without inspection, or after_approval when no merchandise is
+     * required. Validate the merged decision for quantity bounds, allowed resolution types, and
+     * reachable timing and inspection requirements. A pinned policy always requires
+     * override_reason when approved_quantity exceeds evaluated eligible_quantity, even when no
+     * proposal can be built. With a pinned policy but no proposal, other decision fields use these
+     * defaults and override_reason is otherwise optional. Example:
+     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
+     */
+    "decision"?: ReturnProcessDecisionInput;
+    /**
+     * A disposition to record for this line's units. What was done with a returned item, such as
+     * restocked as sellable or sent for repair, supplied when processing an existing return.
+     */
+    "disposition"?: ReturnProcessDispositionRequestInput;
+    /**
+     * An inspection to record for this line's units. An inspection result for a returned item,
+     * supplied when processing an existing return.
+     */
+    "inspection"?: ReturnProcessInspectionRequestInput;
+    /**
+     * Whole number of units received. It must equal the line's committed return_required_quantity;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "received_quantity"?: number;
+    /**
+     * A resolution to create and confirm for this line. The resolution to apply to a returned
+     * item, such as refund or exchange, with the quantity and any replacement items.
+     */
+    "resolution"?: ReturnProcessResolutionRequestInput;
+    /**
+     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+};
+/** The request body for: Process existing return. */
+export type ProcessExistingReturnRequest = {
+    /**
+     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
+     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
+     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
+     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
+     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
+     * completion_mode. Value enum: "manual", "automatic".
+     */
+    "completion_mode"?: "manual" | "automatic" | (string & {});
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * One decision for each line. minItems: 1. [] (Value): {@link
+     * ProcessExistingReturnLineItemRequest}. How to process one line of an existing return: the
+     * received quantity, inspection, decision, disposition, and resolution.
+     */
+    "line_items": Array<ProcessExistingReturnLineItemRequest>;
+    /**
+     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
+     * it was received, supplied when processing an existing return.
+     */
+    "receipt"?: ReturnProcessReceiptRequest;
+};
+/** The request body for: Process existing return. */
+export type ProcessExistingReturnRequestInput = {
+    /**
+     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
+     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
+     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
+     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
+     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
+     * completion_mode. Value enum: "manual", "automatic".
+     */
+    "completion_mode"?: "manual" | "automatic";
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * One decision for each line. minItems: 1. [] (Value): {@link
+     * ProcessExistingReturnLineItemRequestInput}. How to process one line of an existing return:
+     * the received quantity, inspection, decision, disposition, and resolution.
+     */
+    "line_items": Array<ProcessExistingReturnLineItemRequestInput>;
+    /**
+     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
+     * it was received, supplied when processing an existing return.
+     */
+    "receipt"?: ReturnProcessReceiptRequestInput;
+};
 /** A response containing `ReturnProcessResult` data. */
 export type ProcessExistingReturnResponse = {
     /**
@@ -4063,19 +4279,20 @@ export type ProductVariantInventoryAvailability = {
     /**
      * The largest quantity of this variant one order line could route from
      * `inventory_routing_source` now, capped at 9,999, the order line maximum. Held and committed
-     * stock is counted out, as pay counts it. `null` when `status` is `not_tracked` or
-     * `routing_source_required`. Returned to Dashboard users and to API keys and partner tokens
-     * that hold `commerce.inventory.read` or `commerce.inventory.write`; omitted for other
-     * credentials, which still receive `status`. Format: int64. minimum: 0. maximum: 9999.
+     * stock is excluded. The quantity includes backorders that shipping checkout can accept.
+     * `null` when `status` is `not_tracked` or `routing_source_required`. Returned to Dashboard
+     * users and to API keys and partner tokens that hold `commerce.inventory.read` or
+     * `commerce.inventory.write`; omitted for other credentials, which still receive `status`.
+     * Format: int64. minimum: 0. maximum: 9999.
      */
     "available_quantity"?: number | null;
     /**
      * The merchant's default routing source or the Location Flint selected when no default is set.
-     * For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` for
-     * untracked variants or when neither a default nor an eligible Location applies. anyOf[1]
-     * (Value): {@link InventoryRoutingSource}. Where an order, payment link, or reservation routes
-     * inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
-     * anyOf[2] (Value): null.
+     * For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` when
+     * the variant is untracked or when neither a default nor an eligible Location applies.
+     * anyOf[1] (Value): {@link InventoryRoutingSource}. Where an order, payment link, or
+     * reservation routes inventory from: a fixed Location, an inventory allocation policy, or one
+     * policy revision. anyOf[2] (Value): null.
      */
     "inventory_routing_source": ((InventoryRoutingSource) | (null));
     /**
@@ -4088,23 +4305,24 @@ export type ProductVariantInventoryAvailabilityPreviousAttributes = {
     /**
      * The largest quantity of this variant one order line could route from
      * `inventory_routing_source` now, capped at 9,999, the order line maximum. Held and committed
-     * stock is counted out, as pay counts it. `null` when `status` is `not_tracked` or
-     * `routing_source_required`. Returned to Dashboard users and to API keys and partner tokens
-     * that hold `commerce.inventory.read` or `commerce.inventory.write`; omitted for other
-     * credentials, which still receive `status`. anyOf[1] (Value): integer. The largest quantity
-     * of this variant one order line could route from `inventory_routing_source` now, capped at
-     * 9,999, the order line maximum. Held and committed stock is counted out, as pay counts it.
+     * stock is excluded. The quantity includes backorders that shipping checkout can accept.
      * `null` when `status` is `not_tracked` or `routing_source_required`. Returned to Dashboard
      * users and to API keys and partner tokens that hold `commerce.inventory.read` or
+     * `commerce.inventory.write`; omitted for other credentials, which still receive `status`.
+     * anyOf[1] (Value): integer. The largest quantity of this variant one order line could route
+     * from `inventory_routing_source` now, capped at 9,999, the order line maximum. Held and
+     * committed stock is excluded. The quantity includes backorders that shipping checkout can
+     * accept. `null` when `status` is `not_tracked` or `routing_source_required`. Returned to
+     * Dashboard users and to API keys and partner tokens that hold `commerce.inventory.read` or
      * `commerce.inventory.write`; omitted for other credentials, which still receive `status`.
      * Format: int64. minimum: 0. maximum: 9999. anyOf[2] (Value): null.
      */
     "available_quantity"?: ((number) | (null));
     /**
      * The merchant's default routing source or the Location Flint selected when no default is set.
-     * For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` for
-     * untracked variants or when neither a default nor an eligible Location applies. anyOf[1]
-     * (Value): {@link InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
+     * For a policy, `inventory_allocation_policy_revision_id` names the revision used. `null` when
+     * the variant is untracked or when neither a default nor an eligible Location applies.
+     * anyOf[1] (Value): {@link InventoryRoutingSourcePreviousAttributes}. anyOf[2] (Value): null.
      */
     "inventory_routing_source"?: ((InventoryRoutingSourcePreviousAttributes) | (null));
     /**
@@ -7181,295 +7399,3 @@ export type PromotionApplicationMethod = ((PromotionPercentOffMethod)
     | (PromotionAmountOffMethod)
     | (PromotionBuyXGetYMethod)
     | (Record<string, unknown>));
-/**
- * Send only application_method fields to change. Omitted fields keep their stored values. Sending
- * a different type replaces the effect with the supplied effect fields; allocation,
- * calculation_basis, recurrence, and discounted_item_rules are preserved unless sent, and
- * discounted_item_rules: null clears the stored rules. Money, recurrence, currency_options, and
- * each rule group are replaced whole when present. null clears only nullable fields.
- * discounted_item_rules cannot be null for buy_x_get_y. minProperties: 1.
- */
-export type PromotionApplicationMethodPatch = {
-    /**
-     * How the effect is allocated. Omitted allocation keeps its stored value; it defaults by
-     * discount_class only when no allocation is stored. Changing discount_class does not reset
-     * allocation. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * Positive fixed discount in the primary currency. allocation determines whether it applies to
-     * each matched item or once across the matched set. amount (Required): integer string.
-     * Positive amount in the currency's minor unit, such as cents for USD. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency
-     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
-     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "amount_off_money"?: {
-        /**
-         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
-         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-         */
-        "amount": `${bigint}`;
-        /**
-         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
-         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-         */
-        "currency": string;
-    };
-    /**
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "buy_min_quantity"?: number;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Send null to
-     * clear it. Value enum: "subtotal_pre_tax", "subtotal_post_tax", null.
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | null | (string & {}) | null;
-    /**
-     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
-     * its key. * (Value): object. *.amount (Required): integer string. Positive amount in the
-     * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1. *.currency (Required): string.
-     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency_options"?: Record<string, {
-        /**
-         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
-         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-         */
-        "amount": `${bigint}`;
-        /**
-         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
-         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-         */
-        "currency": string;
-    }>
-        | null;
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. anyOf[1] (Value): {@link PromotionRuleGroupRequest}. A rule
-     * group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested
-     * groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or
-     * send null where the field is clearable. Responses list rules before nested groups. Under
-     * any, a nested group containing only one rule reads back as that rule. Under all, nested
-     * groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic
-     * normalizations stabilize after one round trip. matched_items.subtotal sums the line items
-     * matched by the line_item.* rules in the same all group, including its nested groups.
-     * anyOf[2] (Value): null.
-     */
-    "discounted_item_rules"?: ((PromotionRuleGroupRequest) | (null) | (unknown));
-    /**
-     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
-     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "get_percent_off"?: number;
-    /**
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "get_quantity"?: number;
-    /**
-     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
-     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
-     */
-    "max_applications_per_order"?: number | null;
-    /**
-     * Maximum matched units discounted, valid only for percent_off with allocation each. null
-     * clears the limit. Fields belonging to another effect return INVALID_REQUEST; send type to
-     * change effects. Format: int32. minimum: 1.
-     */
-    "max_discounted_quantity"?: number | null;
-    /** Percentage to discount, from 1 to 100. minimum: 1. maximum: 100. multipleOf: 0.0001. */
-    "percent_off"?: number;
-    /**
-     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups.
-     */
-    "qualifying_item_rules"?: PromotionRuleGroupRequest;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. anyOf[1] (Value): {@link PromotionRecurrence}. How
-     * often a promotion's discount repeats on a subscription: once, for a number of charged
-     * payments, or forever. anyOf[2] (Value): null.
-     */
-    "recurrence"?: ((PromotionRecurrence) | (null) | (unknown));
-    /**
-     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
-     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
-     * "highest_price", "first_added".
-     */
-    "reward_selection"?: "cheapest" | "highest_price" | "first_added" | (string & {});
-    /**
-     * Discount effect: a percentage, a fixed amount, or a discount on reward items after
-     * qualifying purchases. Value enum: "percent_off", "amount_off", "buy_x_get_y".
-     */
-    "type"?: "percent_off" | "amount_off" | "buy_x_get_y" | (string & {});
-};
-/**
- * Send only application_method fields to change. Omitted fields keep their stored values. Sending
- * a different type replaces the effect with the supplied effect fields; allocation,
- * calculation_basis, recurrence, and discounted_item_rules are preserved unless sent, and
- * discounted_item_rules: null clears the stored rules. Money, recurrence, currency_options, and
- * each rule group are replaced whole when present. null clears only nullable fields.
- * discounted_item_rules cannot be null for buy_x_get_y. minProperties: 1.
- */
-export type PromotionApplicationMethodPatchInput = {
-    /**
-     * How the effect is allocated. Omitted allocation keeps its stored value; it defaults by
-     * discount_class only when no allocation is stored. Changing discount_class does not reset
-     * allocation. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across";
-    /**
-     * Positive fixed discount in the primary currency. allocation determines whether it applies to
-     * each matched item or once across the matched set. amount (Required): integer string.
-     * Positive amount in the currency's minor unit, such as cents for USD. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1. currency
-     * (Required): string. Three-letter uppercase ISO 4217 currency code for this amount, such as
-     * USD. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "amount_off_money"?: {
-        /**
-         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
-         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-         */
-        "amount": `${bigint}` | bigint;
-        /**
-         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
-         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-         */
-        "currency": string;
-    };
-    /**
-     * Number of qualifying units needed for one application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "buy_min_quantity"?: number;
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Send null to
-     * clear it. Value enum: "subtotal_pre_tax", "subtotal_post_tax", null.
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | null;
-    /**
-     * Alternative positive fixed discounts, keyed by currency code. Each Money currency must match
-     * its key. * (Value): object. *.amount (Required): integer string. Positive amount in the
-     * currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1. *.currency (Required): string.
-     * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength: 3.
-     * maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency_options"?: Record<string, {
-        /**
-         * Positive amount in the currency's minor unit, such as cents for USD. Use an integer
-         * string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-         */
-        "amount": `${bigint}` | bigint;
-        /**
-         * Three-letter uppercase ISO 4217 currency code for this amount, such as USD. minLength:
-         * 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-         */
-        "currency": string;
-    }>
-        | null;
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. anyOf[1] (Value): {@link PromotionRuleGroupRequestInput}. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups. anyOf[2] (Value): null.
-     */
-    "discounted_item_rules"?: ((PromotionRuleGroupRequestInput) | (null));
-    /**
-     * Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items
-     * free. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "get_percent_off"?: number;
-    /**
-     * Maximum number of reward units discounted per application of a buy_x_get_y promotion.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     */
-    "get_quantity"?: number;
-    /**
-     * Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit
-     * beyond the qualifying and reward quantities. Format: int32. minimum: 1.
-     */
-    "max_applications_per_order"?: number | null;
-    /**
-     * Maximum matched units discounted, valid only for percent_off with allocation each. null
-     * clears the limit. Fields belonging to another effect return INVALID_REQUEST; send type to
-     * change effects. Format: int32. minimum: 1.
-     */
-    "max_discounted_quantity"?: number | null;
-    /** Percentage to discount, from 1 to 100. minimum: 1. maximum: 100. multipleOf: 0.0001. */
-    "percent_off"?: number;
-    /**
-     * Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A
-     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
-     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
-     * rules, or send null where the field is clearable. Responses list rules before nested groups.
-     * Under any, a nested group containing only one rule reads back as that rule. Under all,
-     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
-     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
-     * line items matched by the line_item.* rules in the same all group, including its nested
-     * groups.
-     */
-    "qualifying_item_rules"?: PromotionRuleGroupRequestInput;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. anyOf[1] (Value): {@link
-     * PromotionRecurrenceRequestInput}. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever. anyOf[2] (Value): null.
-     */
-    "recurrence"?: ((PromotionRecurrenceRequestInput) | (null));
-    /**
-     * Which matching reward items receive the discount: the cheapest, the highest priced, or those
-     * added first to the order. Defaults to cheapest. Default: "cheapest". Value enum: "cheapest",
-     * "highest_price", "first_added".
-     */
-    "reward_selection"?: "cheapest" | "highest_price" | "first_added";
-    /**
-     * Discount effect: a percentage, a fixed amount, or a discount on reward items after
-     * qualifying purchases. Value enum: "percent_off", "amount_off", "buy_x_get_y".
-     */
-    "type"?: "percent_off" | "amount_off" | "buy_x_get_y";
-};
-/** A flat application method whose type selects its effect fields. */
-export type PromotionApplicationMethodPreviousAttributes = (((PromotionPercentOffMethodPreviousAttributes)
-    | (PromotionAmountOffMethodPreviousAttributes)
-    | (PromotionBuyXGetYMethodPreviousAttributes)
-    | (unknown)));
-/** A flat application method whose type selects its effect fields. */
-export type PromotionApplicationMethodRequest = ((PromotionPercentOffMethodRequest)
-    | (PromotionAmountOffMethodRequest)
-    | (PromotionBuyXGetYMethodRequest)
-    | (Record<string, unknown>));
-/** A flat application method whose type selects its effect fields. */
-export type PromotionApplicationMethodRequestInput = ((PromotionPercentOffMethodRequestInput)
-    | (PromotionAmountOffMethodRequestInput)
-    | (PromotionBuyXGetYMethodRequestInput));

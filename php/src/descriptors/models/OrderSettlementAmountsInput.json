@@ -1,1 +1,1 @@
-{"shared":"OrderSettlementAmounts","dependencies":["MoneyValue","OrderSettlementAmounts","SharedCodec1724","SignedMoney"]}
+{"shared":"OrderSettlementAmounts","dependencies":["MoneyValue","OrderSettlementAmounts","SharedCodec1749","SignedMoney"]}

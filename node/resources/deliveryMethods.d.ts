@@ -11,7 +11,7 @@ import type {
     DeliveryMethodsUpdateParams
 } from '../declarations/types-20.js';
 import type { RequestOptions } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -50,9 +50,10 @@ export type {
     DeliveryMethodOriginSelector,
     DeliveryMethodOriginSelectorFixedLocation,
     DeliveryMethodOriginSelectorAllocatedOriginGroup,
-    DeliveryMethodOriginSelectorPickupLocationCollection
+    DeliveryMethodOriginSelectorPickupLocationCollection,
+    DeliveryMethodConfigurationPatchRequestInput
 } from '../declarations/types-20.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-62.js';
+export type { RequestOptions, ResourceReference } from '../declarations/types-62.js';
 export type {
     DeliveryMethod,
     DeliveryMethodConfigurationCreateRequestInput,
@@ -63,14 +64,14 @@ export type {
     DeliveryFixedPricingStrategyRequestInput,
     DeliveryMethodConfiguration,
     DeliveryEligibilityExpression,
+    DeliveryDistance,
     DeliveryEstimateRule,
     DeliveryDistanceUnitPrice,
     DeliveryExternalPricingStrategy,
     DeliveryFixedPricingStrategy,
-    DeliveryMethodConfigurationPatchRequestInput,
     DeliveryLocationSetsDeleteParams
 } from '../declarations/types-19.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type {
     CreateDeliveryMethodRequestInput,
@@ -90,7 +91,6 @@ export type {
     DeliveryCallbackPricingStrategyRequestInput,
     DeliveryCallerSuppliedPricingStrategyRequestInput,
     DeliveryCustomerBooleanCondition,
-    DeliveryDistance,
     DeliveryAvailability,
     DeliveryBlackoutInterval,
     DeliveryBusinessDayRange,
@@ -163,17 +163,18 @@ export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, Meta
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
 export type { AddRiskListItemsRequest } from '../declarations/types-0.js';
-export type { SubscriptionCounts } from '../declarations/types-69.js';
+export type { SubscriptionCounts } from '../declarations/types-70.js';
+export type { ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export type { UpdateDeliveryMethodRequestInput } from '../declarations/types-76.js';
+export type { UpdateDeliveryMethodRequestInput } from '../declarations/types-77.js';
 export type { DisputesAcceptParams } from '../declarations/types-26.js';
-export { makeAddRiskListItemsRequest, makeBuyerInstructionsConfigRequest } from '../declarations/types-80.js';
+export { makeAddRiskListItemsRequest, makeBuyerInstructionsConfigRequest } from '../declarations/types-81.js';
 export {
     makeCreateDeliveryMethodRequest,
     makeCreateDeliveryMethodRequestLocalDelivery,
     makeCreateDeliveryMethodRequestPickup,
     makeCreateDeliveryMethodRequestShipment
-} from '../declarations/types-82.js';
+} from '../declarations/types-83.js';
 export {
     makeDeliveryAvailabilityRequest,
     makeDeliveryBlackoutIntervalRequest,
@@ -205,12 +206,12 @@ export {
     makeDeliveryPricingRateCreateRequest,
     makeDeliveryPricingRateRequest,
     makeDeliveryPricingStrategyCreateInputCalculated,
-    makeDeliveryPricingStrategyCreateInputCallback
-} from '../declarations/types-85.js';
-export {
+    makeDeliveryPricingStrategyCreateInputCallback,
     makeDeliveryPricingStrategyCreateInputCallerSupplied,
     makeDeliveryPricingStrategyCreateInputFixed,
-    makeDeliveryPricingStrategyCreateInputRateTable,
+    makeDeliveryPricingStrategyCreateInputRateTable
+} from '../declarations/types-86.js';
+export {
     makeDeliveryPricingStrategyCreateInputTiered,
     makeDeliveryPricingStrategyCreateRequest,
     makeDeliveryPricingStrategyInputCalculated,
@@ -236,9 +237,9 @@ export {
     makeDeliveryWeightUnitPriceRequest,
     makeDeliveryWindowTimeCondition,
     makeDeliveryZoneConditionRequest
-} from '../declarations/types-86.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-88.js';
-export { makeUpdateDeliveryMethodRequest } from '../declarations/types-93.js';
+} from '../declarations/types-87.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-89.js';
+export { makeUpdateDeliveryMethodRequest } from '../declarations/types-94.js';
 export interface DeliveryMethodsResource {
     /**
  * Delivery methods combine eligibility, pricing, schedules, estimates, tax treatment, and
@@ -261,11 +262,10 @@ export interface DeliveryMethodsResource {
  * available by ID for historical records. Deleting an already archived resource returns it without
  * changing its version or repeating effects. A method referenced by
  * checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids on an active or
- * inactive payment link cannot be archived; the request returns 409 RESOURCE_IN_USE with the
- * blocking references. Remove the method from checkout.default_delivery_method_ids with
- * `client.settings.update` or from the link's delivery_method_ids with
- * `client.paymentLinks.update`. Open checkout sessions keep their pinned revision and do not block
- * retirement.
+ * inactive payment link or shop cannot be archived; the request returns 409 RESOURCE_IN_USE with
+ * the blocking references. Remove the method from checkout.default_delivery_method_ids with
+ * `client.settings.update` or remove it from delivery_method_ids on the payment link or shop. Open
+ * checkout sessions keep their pinned revision and do not block retirement.
  *
  * `DELETE /v1/delivery-methods/{delivery_method_id}`
  * @param delivery_method_id Flint delivery method ID. Must be a valid ID with prefix dmet_.
@@ -319,10 +319,10 @@ export interface DeliveryMethodsResource {
  * external_reference_id, advance version and keep the current revision, so they never replace a
  * revoked revision. Archived resources can't be changed; create a new resource instead. A method
  * referenced by checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids
- * on an active or inactive payment link cannot be set inactive; the request returns 409
+ * on an active or inactive payment link or shop cannot be set inactive; the request returns 409
  * RESOURCE_IN_USE with the blocking references. Remove the method from
- * checkout.default_delivery_method_ids with `client.settings.update` or from the link's
- * delivery_method_ids with `client.paymentLinks.update`.
+ * checkout.default_delivery_method_ids with `client.settings.update` or remove it from
+ * delivery_method_ids on the payment link or shop.
  *
  * `PATCH /v1/delivery-methods/{delivery_method_id}`
  * @param delivery_method_id Flint delivery method ID. Must be a valid ID with prefix dmet_.

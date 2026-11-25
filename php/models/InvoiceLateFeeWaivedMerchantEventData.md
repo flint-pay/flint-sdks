@@ -50,6 +50,10 @@ Declared alternatives: [InvoiceResponse.data.payment_due](../models/InvoiceRespo
 
 Field definitions: [InvoiceResponse.data.payment_terms_snapshot](../models/InvoiceResponse.md#invoiceresponsedatapayment_terms_snapshot).
 
+### InvoiceLateFeeWaivedMerchantEventData.object fields 1.platform_fee_rule
+
+Field definitions: [InvoiceResponse.data.platform_fee_rule](../models/InvoiceResponse.md#invoiceresponsedataplatform_fee_rule).
+
 ### InvoiceLateFeeWaivedMerchantEventData.object fields 1.remit_to_address
 
 Field definitions: [InvoiceResponse.data.remit_to_address](../models/InvoiceResponse.md#invoiceresponsedataremit_to_address).

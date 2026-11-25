@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# PackageCreatedInstalledMerchantsEvent to PaymentCollectionPreviousAttributes
+# OrderUpdatedMerchantEvent to PaymentClientActionURLPreviousAttributes
 
+- [OrderUpdatedMerchantEvent](OrderUpdatedMerchantEvent.md)
+- [Package](Package.md)
 - [PackageCreatedInstalledMerchantsEvent](PackageCreatedInstalledMerchantsEvent.md)
 - [PackageCreatedMerchantEvent](PackageCreatedMerchantEvent.md)
 - [PackageCreateInputCreated](PackageCreateInputCreated.md)
@@ -100,6 +102,4 @@
 - [PaymentClientActionStripePreviousAttributes](PaymentClientActionStripePreviousAttributes.md)
 - [PaymentClientActionURL](PaymentClientActionURL.md)
 - [PaymentClientActionURLPreviousAttributes](PaymentClientActionURLPreviousAttributes.md)
-- [PaymentCollection](PaymentCollection.md)
-- [PaymentCollectionPreviousAttributes](PaymentCollectionPreviousAttributes.md)
 

@@ -23,7 +23,7 @@ A credential used to authenticate API requests.
 | `partner_app_install_id` | Required | string or null | The connected app install this key is linked to. The key is revoked when that install is revoked or loses its grant for this key's environment. Null when the key is unlinked. Never changes. pattern: `^pinst_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"pinst_01KEZF7C003HVKZR3GZAW6AFAZ"`. |
 | `revoked_at` | Optional | string | When this key was revoked, in RFC 3339 format. Present only for revoked keys. For keys revoked before revocation timestamps were recorded, this is the last update time. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `sandbox_id` | Optional | string | ID of the sandbox this resource belongs to. Example: `"test_01KEZF7C00JC77HTMTB2XHNPE0"`. |
-| `scopes` | Required | Array of string | The scopes the key holds now. For full and read_only keys this list grows when Flint adds scopes. Items values: [103 declared values](#apikey-scopes--values). |
+| `scopes` | Required | Array of string | The scopes the key holds now. For full and read_only keys this list grows when Flint adds scopes. Items values: [105 declared values](#apikey-scopes--values). |
 | `status` | Required | string | Current key status. A non-revoked key is expired when expires_at is at or before the current time; otherwise it is active. Revoked keys remain revoked regardless of expires_at. Values: `"active"`, `"expired"`, `"revoked"`. |
 | `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts now. Active and expired keys can be revoked; revoked keys accept none. Items values: `"revoke"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -42,6 +42,8 @@ A credential used to authenticate API requests.
 - `"checkouts.checkout_sessions.write"`
 - `"checkouts.payment_links.read"`
 - `"checkouts.payment_links.write"`
+- `"checkouts.shops.read"`
+- `"checkouts.shops.write"`
 - `"commerce.bundles.read"`
 - `"commerce.bundles.write"`
 - `"commerce.catalog.read"`
@@ -142,7 +144,7 @@ Who created this key: the API key or workload identity whose credential made the
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Public Flint ID of the referenced resource. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Required | string | Public resource kind identified by resource_id, such as payment_intent for a payment. Example: `"order"`. Values: [158 declared values](#apikeycreated_by-resource_type-values). |
+| `resource_type` | Required | string | Public resource kind identified by resource_id, such as payment_intent for a payment. Example: `"order"`. Values: [160 declared values](#apikeycreated_by-resource_type-values). |
 
 #### APIKey.created_by resource_type values
 
@@ -287,6 +289,8 @@ Who created this key: the API key or workload identity whose credential made the
 - `"sandbox"`
 - `"settings"`
 - `"shipment"`
+- `"shop"`
+- `"shop_listing"`
 - `"subscription"`
 - `"subscription_delivery_migration"`
 - `"subscription_line_item"`

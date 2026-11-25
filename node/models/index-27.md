@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# PaymentCollectionStripe to PaymentLinkPaymentPatchRequestInput
+# PaymentCollection to PaymentLinkPaymentPatchRequest
 
+- [PaymentCollection](PaymentCollection.md)
+- [PaymentCollectionPreviousAttributes](PaymentCollectionPreviousAttributes.md)
 - [PaymentCollectionStripe](PaymentCollectionStripe.md)
 - [PaymentCollectionStripeElements](PaymentCollectionStripeElements.md)
 - [PaymentCollectionStripeElementsPreviousAttributes](PaymentCollectionStripeElementsPreviousAttributes.md)
@@ -48,7 +50,6 @@
 - [PaymentLimitSettingsPatch](PaymentLimitSettingsPatch.md)
 - [PaymentLimitSettingsPatchInput](PaymentLimitSettingsPatchInput.md)
 - [PaymentLink](PaymentLink.md)
-- [PaymentLinkAvailableVariant](PaymentLinkAvailableVariant.md)
 - [PaymentLinkCreatedInstalledMerchantsEvent](PaymentLinkCreatedInstalledMerchantsEvent.md)
 - [PaymentLinkCreatedMerchantEvent](PaymentLinkCreatedMerchantEvent.md)
 - [PaymentLinkCustomField](PaymentLinkCustomField.md)
@@ -101,5 +102,4 @@
 - [PaymentLinkListResponse](PaymentLinkListResponse.md)
 - [PaymentLinkPaymentConfigInput](PaymentLinkPaymentConfigInput.md)
 - [PaymentLinkPaymentPatchRequest](PaymentLinkPaymentPatchRequest.md)
-- [PaymentLinkPaymentPatchRequestInput](PaymentLinkPaymentPatchRequestInput.md)
 

@@ -18,7 +18,7 @@ Signature: `get(string|Model $platform_fee_id, array|Model|null $params = null, 
 
 #### Response
 
-Returned payload: [PlatformFee](../models/PlatformFeeCanceledEventDataObject.md#platformfeecanceledeventdataobject).
+Returned payload: [PlatformFee](../models/PlatformFee.md#platformfee).
 
 #### Errors
 
@@ -69,6 +69,9 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `partner_app_install_id` | Optional | string | Exact match on the install whose token created the payment. minLength: `1`. pattern: `^pinst_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `merchant_id` | Optional | string | Exact match on the installed merchant charged the fee. minLength: `1`. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `payment_intent_id` | Optional | string | Exact match on the payment the fee rides on. minLength: `1`. pattern: `^pi_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `subscription_id` | Optional | string | Exact match on the subscription. minLength: `1`. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `invoice_id` | Optional | string | Exact match on the invoice. minLength: `1`. pattern: `^inv_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `payment_link_id` | Optional | string | Exact match on the payment link. minLength: `1`. pattern: `^pl_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Statuses to include. Omit it to list every status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"succeeded"`, `"canceled"`. Values: `"pending"`, `"succeeded"`, `"canceled"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |

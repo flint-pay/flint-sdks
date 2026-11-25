@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# CreateReturnPolicyRequestInput to CreditNote
+# CreateReturnPolicyRequestInput to CreateWorkloadIdentityRequest
 
 - [CreateReturnPolicyRequestInput](CreateReturnPolicyRequestInput.md)
 - [CreateReturnPreviewData](CreateReturnPreviewData.md)
@@ -51,6 +51,8 @@
 - [CreateShipmentRequestOutboundInput](CreateShipmentRequestOutboundInput.md)
 - [CreateShipmentRequestReturn](CreateShipmentRequestReturn.md)
 - [CreateShipmentRequestReturnInput](CreateShipmentRequestReturnInput.md)
+- [CreateShopRequest](CreateShopRequest.md)
+- [CreateShopRequestInput](CreateShopRequestInput.md)
 - [CreateSmartReaderRequest](CreateSmartReaderRequest.md)
 - [CreateSmartReaderRequestInput](CreateSmartReaderRequestInput.md)
 - [CreateSubscriptionAccessLinkRequest](CreateSubscriptionAccessLinkRequest.md)
@@ -100,6 +102,4 @@
 - [CreateWebhookTestEventRequest](CreateWebhookTestEventRequest.md)
 - [CreateWebhookTestEventRequestInput](CreateWebhookTestEventRequestInput.md)
 - [CreateWorkloadIdentityRequest](CreateWorkloadIdentityRequest.md)
-- [CreateWorkloadIdentityRequestInput](CreateWorkloadIdentityRequestInput.md)
-- [CreditNote](CreditNote.md)
 

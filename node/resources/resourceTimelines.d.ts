@@ -1,7 +1,7 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-7.js';
 import type { RequestOptions, ResourceTimeline, ResourceTimelineResponse, ResourceTimelinesGetParams } from '../declarations/types-62.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -25,23 +25,21 @@ export type {
     ResourceTimelineAPIRequestEntry,
     ResourceReference,
     ResourceTimelineWebhookEventEntry,
-    ReturnActor,
     ResourceTimelineFieldChange,
     ResourceTimelineWebhookDeliveryAttemptEntry,
     ResourceTimelineImageMutationEntry,
     ResourceTimelinePoolAttestationEntry,
-    ResourceTimelineLicenseKeyRestrictionChangeEntry,
-    ResponseMeta,
-    ResponseWarning
+    ResourceTimelineLicenseKeyRestrictionChangeEntry
 } from '../declarations/types-62.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-80.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-81.js';
 export type { ClientOptions } from '../declarations/types-7.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-15.js';
+export type { ReturnActor, ResponseMeta, ResponseWarning } from '../declarations/types-63.js';
 export type { MoneyValue, NextAction } from '../declarations/types-44.js';
 export type { PaymentActivityActor } from '../declarations/types-51.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-60.js';
-export { makeMoneyValue } from '../declarations/types-88.js';
+export { makeMoneyValue } from '../declarations/types-89.js';
 export interface ResourceTimelinesResource {
     /**
  * Returns summary-only API request, webhook event, webhook delivery attempt, image mutation,

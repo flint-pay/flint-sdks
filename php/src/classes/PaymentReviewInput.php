@@ -104,7 +104,7 @@ final class PaymentReviewInput extends Model {
      */
     public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** How the reviewed payment was started. Value enum: "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+    /** How the reviewed payment was started. Value enum: "checkout", "payment_link", "shop", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
      * @return string
      * @throws SdkError When payment_flow is omitted; use hasPaymentFlow() or valueOrDefault().
      */

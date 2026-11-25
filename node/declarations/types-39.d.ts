@@ -26,10 +26,10 @@ import type {
     CreditNoteCreatedEvent,
     CreditNoteIssuedEvent,
     CreditNoteUpdatedEvent,
-    CreditNoteVoidedEvent,
-    CustomDomainArchivedEvent
+    CreditNoteVoidedEvent
 } from './types-15.js';
 import type {
+    CustomDomainArchivedEvent,
     CustomDomainUpdatedEvent,
     CustomerCreatedEvent,
     CustomerDeletedEvent,
@@ -68,10 +68,10 @@ import type {
     DeliveryZoneUpdatedEvent,
     DisputeCreatedEvent,
     DisputeInquiryClosedEvent,
-    DisputeLostEvent,
-    DisputeNeedsResponseEvent
+    DisputeLostEvent
 } from './types-25.js';
 import type {
+    DisputeNeedsResponseEvent,
     DisputePreventedEvent,
     DisputeUpdatedEvent,
     DisputeWonEvent,
@@ -101,13 +101,9 @@ import type {
     GeneratedLicenseKeyConfigurationRequest,
     GeneratedLicenseKeyConfigurationRequestInput
 } from './types-28.js';
+import type { GiftCardLoadCreatedEvent, GiftCardLoadUpdatedEvent, GiftCardNotificationCreatedEvent } from './types-29.js';
 import type {
-    GiftCardLoadCreatedEvent,
-    GiftCardLoadUpdatedEvent,
-    GiftCardNotificationCreatedEvent,
-    GiftCardNotificationUpdatedEvent
-} from './types-29.js';
-import type {
+    GiftCardNotificationUpdatedEvent,
     GiftCardRedemptionCreatedEvent,
     GiftCardRedemptionUpdatedEvent,
     GiftCardTransactionCreatedEvent,
@@ -151,10 +147,10 @@ import type {
     InvoiceIssuedEvent,
     InvoiceLateFeeAssessedEvent,
     InvoiceLateFeeDueEvent,
-    InvoiceLateFeeWaivedEvent,
-    InvoiceManualPaymentCreatedEvent
+    InvoiceLateFeeWaivedEvent
 } from './types-35.js';
 import type {
+    InvoiceManualPaymentCreatedEvent,
     InvoiceManualPaymentReversedEvent,
     InvoiceMarkedUncollectibleEvent,
     InvoiceOverdueEvent,
@@ -170,12 +166,9 @@ import type {
 import type { InvoiceRefundedEvent, InvoiceReminderDueEvent, InvoiceReopenedEvent } from './types-37.js';
 import type { InvoiceSentEvent, InvoiceUpdatedEvent, InvoiceVoidedEvent } from './types-38.js';
 import type { LicenseKeyUpdatedEvent, LicenseKeyRestriction, LicenseKeyRestrictionPreviousAttributes } from './types-40.js';
+import type { MerchantBillingBalanceUpdatedEvent, MerchantBillingInvoiceIssuedEvent } from './types-42.js';
 import type {
-    MerchantBillingBalanceUpdatedEvent,
-    MerchantBillingInvoiceIssuedEvent,
-    MerchantBillingInvoiceUpdatedEvent
-} from './types-42.js';
-import type {
+    MerchantBillingInvoiceUpdatedEvent,
     MerchantReadinessUpdatedEvent,
     MerchantUpdatedEvent,
     ModifierGroupArchivedEvent,
@@ -195,8 +188,9 @@ import type {
     OrderInventoryExceptionResolvedEvent
 } from './types-46.js';
 import type { OrderPaidEvent, OrderPartiallyPaidEvent, OrderPartiallyRefundedEvent, OrderRefundedEvent } from './types-47.js';
-import type { OrderUpdatedEvent, PackageCreatedEvent } from './types-48.js';
+import type { OrderUpdatedEvent } from './types-48.js';
 import type {
+    PackageCreatedEvent,
     PackageUpdatedEvent,
     PartnerAppInstallCreatedEvent,
     PartnerAppInstallPermissionsUpdatedEvent,
@@ -285,34 +279,44 @@ import type {
     PromotionCodeUpdatedEvent,
     PromotionCreatedEvent
 } from './types-58.js';
-import type { PromotionUpdatedEvent, ReaderArchivedEvent, ReaderCreatedEvent, ReaderUpdatedEvent } from './types-59.js';
-import type { RefundCreatedEvent, RefundFailedEvent, RefundPartiallySucceededEvent } from './types-60.js';
+import type { PromotionUpdatedEvent } from './types-59.js';
 import type {
+    ReaderArchivedEvent,
+    ReaderCreatedEvent,
+    ReaderUpdatedEvent,
+    RefundCreatedEvent,
+    RefundFailedEvent
+} from './types-60.js';
+import type {
+    RefundPartiallySucceededEvent,
     RefundSucceededEvent,
     RefundUpdatedEvent,
-    ReportFailedEvent,
     ReleaseLicenseKeyActivationRequestInput
 } from './types-61.js';
-import type { ReportSucceededEvent, ReturnCanceledEvent, ReturnCompletedEvent, ResponseMeta } from './types-62.js';
+import type { ReportFailedEvent, ReportSucceededEvent } from './types-62.js';
 import type {
+    ReturnCanceledEvent,
+    ReturnCompletedEvent,
     ReturnCreatedEvent,
     ReturnDecisionRecordedEvent,
     ReturnDispositionCreatedEvent,
     ReturnDispositionUpdatedEvent,
+    ResponseMeta
+} from './types-63.js';
+import type {
     ReturnInspectionAcceptanceDecidedEvent,
     ReturnInspectionCreatedEvent,
     ReturnInspectionSupersededEvent
-} from './types-63.js';
-import type { ReturnReceiptCreatedEvent } from './types-64.js';
+} from './types-64.js';
 import type {
+    ReturnReceiptCreatedEvent,
     ReturnReceiptSupersededEvent,
     ReturnReceiptVerifiedEvent,
-    ReturnReopenedEvent,
-    ReturnResolutionCreatedEvent,
-    ReturnResolutionUpdatedEvent
+    ReturnReopenedEvent
 } from './types-65.js';
-import type { ReturnUpdatedEvent } from './types-66.js';
-import type { ShipmentCreatedEvent, ShipmentUpdatedEvent } from './types-68.js';
+import type { ReturnResolutionCreatedEvent, ReturnResolutionUpdatedEvent, ReturnUpdatedEvent } from './types-66.js';
+import type { ShipmentCreatedEvent, ShipmentUpdatedEvent, ShopArchivedEvent, ShopCreatedEvent } from './types-68.js';
+import type { ShopUpdatedEvent } from './types-69.js';
 import type {
     SubscriptionActivatedEvent,
     SubscriptionCanceledEvent,
@@ -320,14 +324,14 @@ import type {
     SubscriptionCreatedEvent,
     SubscriptionCycleSkippedEvent,
     SubscriptionDeliveryActionRequiredEvent
-} from './types-69.js';
+} from './types-70.js';
 import type {
     SubscriptionDeliveryMigrationCompletedEvent,
     SubscriptionDeliveryPauseUpcomingEvent,
     SubscriptionDeliveryUpdatedEvent,
     SubscriptionDunningExhaustedEvent,
     SubscriptionEndUpcomingEvent
-} from './types-70.js';
+} from './types-71.js';
 import type {
     SubscriptionPastDueEvent,
     SubscriptionPausedEvent,
@@ -338,17 +342,21 @@ import type {
     SubscriptionPlanChangeCanceledEvent,
     SubscriptionPlanChangeScheduledEvent,
     SubscriptionPlanChangedEvent
-} from './types-71.js';
-import type { SubscriptionReactivatedEvent, SubscriptionRenewalUpcomingEvent, SubscriptionResumedEvent } from './types-72.js';
+} from './types-72.js';
 import type {
-    SubscriptionTrialEndingEvent,
+    SubscriptionReactivatedEvent,
+    SubscriptionRenewalUpcomingEvent,
+    SubscriptionResumedEvent,
+    SubscriptionTrialEndingEvent
+} from './types-73.js';
+import type {
     SubscriptionUpdatedEvent,
     TaxCalculationCallbackActivatedEvent,
     TaxCalculationCallbackArchivedEvent,
     TaxCalculationCallbackCreatedEvent,
     TaxCalculationCallbackDeactivatedEvent,
     TaxCalculationCallbackUpdatedEvent
-} from './types-73.js';
+} from './types-74.js';
 import type {
     TaxConnectionUpdatedEvent,
     TestClockAdvancingEvent,
@@ -356,14 +364,40 @@ import type {
     TestClockCreatedEvent,
     TestClockFailedEvent,
     TestClockReadyEvent
-} from './types-74.js';
-import type { TicketCheckedInEvent, TicketCreatedEvent, TicketUpdatedEvent, TicketVoidedEvent } from './types-75.js';
+} from './types-75.js';
+import type { TicketCheckedInEvent, TicketCreatedEvent, TicketUpdatedEvent, TicketVoidedEvent } from './types-76.js';
 import type { InputValue } from '../runtime.js';
 import type {
     CreateLicenseKeyActivationRequestInput,
     CreateLicenseKeyPoolKeysRequestInput,
     CreateLicenseKeyPoolRequestInput
 } from './types-11.js';
+/** The request body for: Issue invoice. */
+export type IssueInvoiceRequest = {
+    /**
+     * How the invoice reaches its recipient. Omit it to use merchant_default. Default:
+     * "merchant_default". Value enum: "merchant_default", "email", "caller_managed".
+     */
+    "delivery_mode"?: "merchant_default" | "email" | "caller_managed" | (string & {});
+    /**
+     * Invoice version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
+     * int64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** The request body for: Issue invoice. */
+export type IssueInvoiceRequestInput = {
+    /**
+     * How the invoice reaches its recipient. Omit it to use merchant_default. Default:
+     * "merchant_default". Value enum: "merchant_default", "email", "caller_managed".
+     */
+    "delivery_mode"?: "merchant_default" | "email" | "caller_managed";
+    /**
+     * Invoice version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
+     * int64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
 export type KnownWebhookEvent = ApiKeyCreatedEvent
     | ApiKeyRevokedEvent
     | ApiKeyUpdatedEvent
@@ -629,6 +663,9 @@ export type KnownWebhookEvent = ApiKeyCreatedEvent
     | ReturnUpdatedEvent
     | ShipmentCreatedEvent
     | ShipmentUpdatedEvent
+    | ShopArchivedEvent
+    | ShopCreatedEvent
+    | ShopUpdatedEvent
     | SubscriptionDeliveryMigrationCompletedEvent
     | SubscriptionPaymentRetryCreatedEvent
     | SubscriptionPaymentRetryFailedEvent
@@ -8190,87 +8227,3 @@ export type LicenseKeyPoolsDeleteParams = {
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
 export type LicenseKeyPoolsGetParams = DisputesAcceptParams;
-export type LicenseKeyPoolsListKeysParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by one or more pool key statuses. Values are trimmed and deduplicated in first-seen
-     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
-     * filters are ANDed. [] enum: "available", "held", "issued", "removed". Value enum:
-     * "available", "held", "issued", "removed". anyOf[1] (Value): Array of string. minItems: 1. []
-     * enum: "available", "held", "issued", "removed". anyOf[1][] (Value): string. Value enum:
-     * "available", "held", "issued", "removed". anyOf[2] (Value): string. Value enum: "available",
-     * "held", "issued", "removed".
-     */
-    "status"?: InputValue<("available" | "held" | "issued" | "removed")
-        | readonly ("available" | "held" | "issued" | "removed")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type LicenseKeyPoolsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "archived". Value enum: "active", "archived". anyOf[1] (Value): Array of string. minItems:
-     * 1. [] enum: "active", "archived". anyOf[1][] (Value): string. Value enum: "active",
-     * "archived". anyOf[2] (Value): string. Value enum: "active", "archived".
-     */
-    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};

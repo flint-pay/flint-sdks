@@ -1,0 +1,1 @@
+{"shared":"PaymentMethodConsentPreviousAttributes","phpRepresentation":{"kind":"record","fields":{"accepted_at":{"kind":"nullable","value":{"kind":"value","type":"string"}},"text":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["PaymentMethodConsentPreviousAttributes","SharedCodec0","SharedCodec20"]}
