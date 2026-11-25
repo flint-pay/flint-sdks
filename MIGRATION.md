@@ -31,11 +31,12 @@ Replace the old payment-link model names with the shared public catalog names. U
 
 The 52 breaking-class findings also cover APIs outside shops. Re-run TypeScript type checking and PHP integration tests against the refreshed contract, including fixtures for these areas.
 
-- **Payment-method consent.** For merchant card-save flows that take consent, send the buyer-approved wording in `save_payment_method_consent_text` with `save_payment_method: true`. Checkout supplies its own wording. Handle nullable saved-card `consent`. When present, it contains `accepted_at` and `text`.
+- **Payment-method consent.** For merchant card-save flows that take consent, send the buyer-approved wording in `save_payment_method_consent_text` with `save_payment_method: true`. Checkout supplies its own wording. Include `consent` when constructing `PaymentMethod` and `BuyerPaymentMethod` models. Use `null` when no consent is recorded or supply `accepted_at` and `text`.
 - **Customer access links.** Use `purpose: "payment_method_setup"` to open Add card. The default, `customer_account`, opens the account home. Include `purpose` in typed access-link response fixtures.
-- **Platform fees and settlement.** Update money-movement and settlement consumers to the new response models. Include required fields in fixtures and handle newly reported fee transaction types.
-- **Resource IDs.** Use IDs returned by the corresponding API operations and update hardcoded test IDs to match the resource-specific patterns.
-- **Webhooks and authentication.** Replay representative signed webhook fixtures against the new event types and test each credential profile you use against the generated method reference. For public shop operations, omit merchant credentials.
+- **Platform fees and settlement.** Use the declared types for `platform_fee_rule` on payment links, platform fees, and checkout session, invoice, and subscription webhook models. Use resource IDs for the new optional `invoice_id`, `payment_link_id`, and `subscription_id` fields on `PlatformFee`. Use the declared money type for `subscription_credit_refundable_money` on order settlement amounts and their previous-attribute models.
+- **Resource IDs.** Update hardcoded IDs to match the revised patterns for `resource_id` in API request logs and webhook events and `related_resource_id` in balance transactions. Use IDs returned by the relevant API operations.
+- **Errors and PHP models.** Review variant dispatch for `ErrorDetail.current_resource`. Check nested entity and dictionary access when using `Flint\PublicResolvedLineItemInfo`.
+- **Webhooks and authentication.** Replay representative signed fixtures, including streamed webhook events, against the new generated event types. Use the declared `shop_id` type on checkout session and order webhook models. Check the generated reference for each credential profile you use. For public shop operations, omit merchant credentials.
 
 ## Changes in 8.0.0-beta.11
 
