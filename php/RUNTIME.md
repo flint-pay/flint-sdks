@@ -1,6 +1,6 @@
 # Flint Public API runtime guide
 
-Package 8.0.0-beta.12; API 2026-09-07.
+Package 8.0.0-beta.13; API 2026-09-07.
 
 [Back to the quickstart](README.md) · [API index](REFERENCE.md) · [Models](MODELS.md)
 
@@ -414,6 +414,7 @@ $verified = $client->verifyWebhookDelivery($rawBody, getallheaders(), ['endpoint
 // For HMAC deliveries, also pass 'secrets' => [$currentSecret, $previousSecret] during rotation.
 if ($verified['known']) {
     $event = $verified['event'];
+    // Use instanceof to narrow generated event classes before calling their getters.
     // Persist and process the matched event idempotently.
 } else {
     // Persist for review; do not assume a declared model or payload shape.
@@ -422,7 +423,7 @@ if ($verified['known']) {
 
 ### HMAC verification and secret rotation
 
-Endpoints whose `signing_methods` include `hmac` also send `webhook-signature`, `webhook-timestamp`, `webhook-id`. Pass `secrets` to verify those deliveries by shared secret. Use Flint\Webhooks::verify($rawBody, $headers, $secrets, $nowSeconds = null) to verify without client options, a base URL or API credentials. Client::verifyWebhook delegates to the same verifier. The static method keeps mixed arguments so invalid inputs produce SDK error subclasses. Call verifyWebhook($rawBody, $headers, $secrets, $nowSeconds = null) with original request bytes and `webhook-signature`, `webhook-timestamp`, `webhook-id`. This package uses standard-webhooks HMAC-SHA256 signing and a 300-second timestamp tolerance. Secrets must use the whsec_ prefix and canonical base64 encoding of exactly 32 key bytes. Pass one secret string or an array of active secrets during rotation. nowSeconds is an optional Unix time override in seconds for deterministic tests; normally omit it. Millisecond-scale values raise an input error explaining the conversion. PHP emits event classes for supported single object envelopes. Multi-variant or ambiguous event schemas verify and validate normally but return stdClass values (with arrays for JSON lists), even when known is true. Check the event name and payload fields before using these values; known does not guarantee a generated PHP class. 
+Endpoints whose `signing_methods` include `hmac` also send `webhook-signature`, `webhook-timestamp`, `webhook-id`. Pass `secrets` to verify those deliveries by shared secret. Use Flint\Webhooks::verify($rawBody, $headers, $secrets, $nowSeconds = null) to verify without client options, a base URL or API credentials. Client::verifyWebhook delegates to the same verifier. The static method keeps mixed arguments so invalid inputs produce SDK error subclasses. Call verifyWebhook($rawBody, $headers, $secrets, $nowSeconds = null) with original request bytes and `webhook-signature`, `webhook-timestamp`, `webhook-id`. This package uses standard-webhooks HMAC-SHA256 signing and a 300-second timestamp tolerance. Secrets must use the whsec_ prefix and canonical base64 encoding of exactly 32 key bytes. Pass one secret string or an array of active secrets during rotation. nowSeconds is an optional Unix time override in seconds for deterministic tests; normally omit it. Millisecond-scale values raise an input error explaining the conversion. PHP returns generated classes for supported single object envelopes and for named variants selected by a declared discriminator. For Flint merchant webhooks, event_source selects the Merchant or InstalledMerchants class. Use instanceof to access a specific class’s getters. Envelopes without a class binding can return stdClass values or arrays even when known is true. 
 
 ### Failures and recovery
 

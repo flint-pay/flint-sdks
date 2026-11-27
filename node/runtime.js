@@ -4,6 +4,33 @@ import { errorMapping, VALIDATION_MESSAGES, compileRuntimePlan, assertRuntimePla
 import { compileCodec, ANY_CODEC, exactValue, wireKind } from './codec-plan.js';
 export { directionalSchema } from './codec-plan.js';
 const inspectCustom = Symbol.for('nodejs.util.inspect.custom');
+function sensitiveKey(key, fields) {
+    return fields.includes(key) || /authorization|token|secret|password|api.?key/i.test(key);
+}
+function inspectResponseObject(value, codec, redactFields, definitions) {
+    if (typeof codec.extra === 'object' && !Object.keys(codec.fields ?? {}).length) {
+        const sensitiveValues = redactCodec(null, codec, redactFields, definitions) === '[REDACTED]' ||
+            redactCodec(null, codec.extra, redactFields, definitions) === '[REDACTED]';
+        for (const key of Object.keys(value)) {
+            if (!sensitiveValues && !sensitiveKey(key, redactFields))
+                continue;
+            // Keep a plain record for Fetch and serializers. Ordinary inspection skips getters.
+            let field = value[key];
+            Object.defineProperty(value, key, {
+                enumerable: true,
+                configurable: true,
+                get: () => field,
+                set: (updated) => {
+                    field = updated;
+                },
+            });
+        }
+        return;
+    }
+    Object.defineProperty(value, inspectCustom, {
+        value: () => redactCodec(value, codec, redactFields, definitions),
+    });
+}
 const resultMetadata = new WeakMap();
 function metadata(result) {
     return resultMetadata.get(result) ?? result.lastResponse;
@@ -1429,6 +1456,7 @@ export class EventStream {
 }
 const validationFailures = new WeakMap();
 const publicParam = (path) => path.replace(/^input(?:\.|(?=\[)|$)/, '') || 'body';
+const hasDefinedField = (entries, key) => Object.hasOwn(entries, key) && entries[key] !== undefined;
 const pathKey = (path, key) => /^[A-Za-z0-9_-]+$/.test(key) ? `${path}.${key}` : `${path}[${JSON.stringify(key)}]`;
 function suggestion(value, allowed) {
     if (typeof value !== 'string')
@@ -2464,8 +2492,20 @@ function executeNode(value, s, context) {
                 throw error;
             }
         };
-        if (not && matches(not, false) === true)
-            bad(path, 'value matches a forbidden combination');
+        if (not && matches(not, false) === true) {
+            const input = value && typeof value === 'object' && !Array.isArray(value)
+                ? value
+                : undefined;
+            const fields = input &&
+                s.excludeFields?.find((group) => group.every((key) => hasDefinedField(input, key)));
+            if (!fields)
+                issue(path, 'forbidden');
+            const paths = fields.map((field) => publicParam(pathKey(path, field)));
+            const last = paths.pop();
+            issue(path, paths.length ? 'forbiddenFields' : 'forbiddenField', {
+                fields: paths.length ? paths.join(', ') + ' and ' + last : last,
+            });
+        }
         const conditional = conditionalBranch(value, { codec: s, definitions }, context);
         for (const branch of [...(allOf ?? []), ...(conditional ? [conditional] : [])])
             result = combine(result, executeNode(value, branch, {
@@ -2509,9 +2549,7 @@ function executeNode(value, s, context) {
             !Array.isArray(result) &&
             !(result instanceof ParsedNumber)) {
             const object = Object.assign(Object.create(null), result);
-            Object.defineProperty(object, inspectCustom, {
-                value: () => redactCodec(object, s, redactFields, definitions),
-            });
+            inspectResponseObject(object, s, redactFields, definitions);
             return object;
         }
         return result;
@@ -2599,7 +2637,7 @@ function executeNode(value, s, context) {
             return typeError(path, 'an object', value);
         const entries = value;
         for (const k of response ? s.requiredOutput : s.requiredInput)
-            if (!Object.hasOwn(entries, k) || entries[k] === undefined)
+            if (!hasDefinedField(entries, k))
                 bad(pathKey(path, k), 'required field is missing');
         const out = Object.create(null);
         for (const [k, v] of Object.entries(entries)) {
@@ -2664,10 +2702,7 @@ function executeNode(value, s, context) {
                 issue(path, 'maxProperties', { limit: s.checks.maxProperties, length: count });
         }
         if (response)
-            Object.defineProperty(out, inspectCustom, {
-                value: () => redactCodec(out, s, redactFields, definitions),
-                enumerable: false,
-            });
+            inspectResponseObject(out, s, redactFields, definitions);
         return out;
     }
     if (type === 'array' || (type === undefined && Array.isArray(value))) {
@@ -2824,7 +2859,7 @@ export function redactCodec(value, schema, fields = [], definitions = {}, depth 
     if (value && typeof value === 'object')
         return Object.fromEntries(Object.entries(value).map(([k, v]) => [
             k,
-            fields.includes(k) || /authorization|token|secret|password|api.?key/i.test(k)
+            sensitiveKey(k, fields)
                 ? '[REDACTED]'
                 : redactCodec(v, {
                     ...ANY_CODEC,
