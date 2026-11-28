@@ -40,6 +40,7 @@ export declare const REQUEST_OPTIONS: {
             readonly some?: readonly CodecPlan[];
             readonly exactlyOne?: readonly CodecPlan[];
             readonly exclude?: CodecPlan;
+            readonly excludeFields?: readonly (readonly string[])[];
             readonly includes?: CodecPlan;
             readonly when?: {
                 readonly test: CodecPlan;
@@ -94,6 +95,7 @@ export declare function requestOption(value: unknown, path: string): {
         readonly some?: readonly CodecPlan[];
         readonly exactlyOne?: readonly CodecPlan[];
         readonly exclude?: CodecPlan;
+        readonly excludeFields?: readonly (readonly string[])[];
         readonly includes?: CodecPlan;
         readonly when?: {
             readonly test: CodecPlan;

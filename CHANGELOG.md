@@ -1,5 +1,16 @@
 # Changelog
 
+## 8.0.0-beta.13
+
+Node and PHP target API date `2026-09-07` with Flint commit `a99c1d7b204cfc2931e623b04a341ea296e897dd` and SDK generator commit `f8f3367d7e4f6fb9fe4c9bcdea3fc0a348b82558`. Install this prerelease from npm `next` or request `8.0.0-beta.13` in Composer.
+
+- TypeScript projects can install the Node SDK alongside the `@types/node` 20.19.x declarations used by create-next-app. The runtime requires Node.js 22.3 or newer.
+- Pass `files.create` upload headers directly to native `fetch`. Default object inspection hides sensitive header values. See the [file upload example](https://github.com/flint-pay/sdk-generator/blob/main/examples/flint-file-upload.mjs).
+- For recognized merchant webhook deliveries, PHP verification returns the generated merchant or installed-merchants event class selected by `event_source`. Use the class's typed accessors for the payload.
+- Node and PHP local validation errors name the fields involved in a forbidden combination.
+
+See the [beta.13 migration notes](MIGRATION.md#changes-in-800-beta13) for upgrade checks.
+
 ## 8.0.0-beta.12
 
 Node and PHP pin Flint `a99c1d7b204cfc2931e623b04a341ea296e897dd` at API date `2026-09-07` and SDK generator `06dde7ef2d3e39e1f608b8fe5b5a31d17e2d65a7`. This prerelease publishes to npm `next`. The `latest` tag stays on `7.0.0`.

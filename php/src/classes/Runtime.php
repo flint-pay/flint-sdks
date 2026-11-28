@@ -682,8 +682,25 @@ class Runtime
                 throw new \InvalidArgumentException('Invalid compiled webhook JWT location');
             }
         }
-        foreach ($contract['webhook']['events'] ?? [] as $name => $codec) {
+        $events = $contract['webhook']['events'] ?? [];
+        foreach ($events as $name => $codec) {
             Codec::assertPlan($codec, 'events.' . $name);
+        }
+        $variants = $contract['webhook']['eventVariants'] ?? [];
+        if (!is_array($variants)) {
+            throw new \InvalidArgumentException('Invalid compiled webhook event variants');
+        }
+        foreach ($variants as $name => $variant) {
+            if (
+                !isset($events[$name]) ||
+                !is_string($variant['field'] ?? null) ||
+                $variant['field'] === '' ||
+                !is_array($variant['models'] ?? null) ||
+                !$variant['models'] ||
+                array_filter($variant['models'], fn($model) => !is_string($model) || $model === '')
+            ) {
+                throw new \InvalidArgumentException('Invalid compiled webhook event variant');
+            }
         }
     }
     private function definitions(): array
@@ -3636,14 +3653,17 @@ class Runtime
             $event = $decoded;
         }
         $event = Codec::plainNumbers($event);
-        if (
-            $known &&
-            is_string($eventType) &&
-            isset($w['eventModels'][$eventType]) &&
-            is_object($event)
-        ) {
-            $class = __NAMESPACE__ . '\\' . $w['eventModels'][$eventType];
-            $event = new $class((array) $event, $redactFields);
+        if ($known && is_string($eventType) && is_object($event)) {
+            $model = $w['eventModels'][$eventType] ?? null;
+            $variant = $w['eventVariants'][$eventType] ?? null;
+            if ($variant !== null) {
+                $tag = $event->{$variant['field']} ?? null;
+                $model = is_string($tag) ? $variant['models'][$tag] ?? null : null;
+            }
+            if ($model !== null) {
+                $class = __NAMESPACE__ . '\\' . $model;
+                $event = new $class(new DecodedResponseValue($event), $redactFields);
+            }
         }
         return [
             'event' => $event,

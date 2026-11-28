@@ -64,6 +64,9 @@ export declare const VALIDATION_MESSAGES: {
     readonly unknown: "{param} is not a field of {where}{suggestion}";
     readonly notAllowed: "{param} can't be sent: {reason}";
     readonly invalid: "{param} must be {expectation}";
+    readonly forbidden: "{param} matches a forbidden rule.";
+    readonly forbiddenField: "{fields} can't be sent.";
+    readonly forbiddenFields: "{fields} can't be sent together.";
     readonly minimum: "{param} must be at least {limit}; received a number";
     readonly maximum: "{param} must be at most {limit}; received a number";
     readonly exclusiveMinimum: "{param} must be greater than {limit}; received a number";
@@ -183,6 +186,10 @@ export interface CompiledRuntimePlan extends Omit<RuntimeContract, 'operations' 
         certificate?: TypeCertificate;
         events: Record<string, CodecPlan>;
         eventModels?: Record<string, string>;
+        eventVariants?: Record<string, {
+            field: string;
+            models: Record<string, string>;
+        }>;
     };
 }
 /** The registry supplies both executors with the same mandatory codec. */
@@ -225,6 +232,7 @@ export declare function compileRequestOption(value: unknown, path: string): {
         readonly some?: readonly CodecPlan[];
         readonly exactlyOne?: readonly CodecPlan[];
         readonly exclude?: CodecPlan;
+        readonly excludeFields?: readonly (readonly string[])[];
         readonly includes?: CodecPlan;
         readonly when?: {
             readonly test: CodecPlan;

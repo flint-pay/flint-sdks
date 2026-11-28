@@ -62,6 +62,27 @@ final class Codec
                 }
             }
         }
+        if (array_key_exists('excludeFields', $value)) {
+            $groups = $value['excludeFields'];
+            if (
+                !isset($value['exclude']) ||
+                !is_array($groups) ||
+                !$groups ||
+                !array_is_list($groups)
+            ) {
+                $invalid('invalid exclusion fields');
+            }
+            foreach ($groups as $group) {
+                if (
+                    !is_array($group) ||
+                    !$group ||
+                    !array_is_list($group) ||
+                    array_filter($group, fn($field) => !is_string($field))
+                ) {
+                    $invalid('invalid exclusion field group');
+                }
+            }
+        }
         if (!is_array($value['checks'] ?? null)) {
             $invalid('missing checks');
         }
@@ -215,7 +236,7 @@ final class Codec
         return self::$validationFailures[$error] ?? null;
     }
 
-    private const VALIDATION_MESSAGES = '{"required":"{param} is required","discriminator":"{param} is required: one of {allowed}","enum":"{param} must be one of {allowed}; received {value}{suggestion}","unknown":"{param} is not a field of {where}{suggestion}","notAllowed":"{param} can\'t be sent: {reason}","invalid":"{param} must be {expectation}","minimum":"{param} must be at least {limit}; received a number","maximum":"{param} must be at most {limit}; received a number","exclusiveMinimum":"{param} must be greater than {limit}; received a number","exclusiveMaximum":"{param} must be less than {limit}; received a number","multipleOf":"{param} must be a multiple of {limit}; received a number","minLength":"{param} must be a string with at least {limit} characters; received a string of length {length}","maxLength":"{param} must be a string with at most {limit} characters; received a string of length {length}","minItems":"{param} must be an array with at least {limit} items; received an array of length {length}","maxItems":"{param} must be an array with at most {limit} items; received an array of length {length}","minProperties":"{param} must be an object with at least {limit} fields; received an object with {length} fields","maxProperties":"{param} must be an object with at most {limit} fields; received an object with {length} fields","uppercaseCurrency":"{param} must be a three-letter uppercase ISO 4217 code such as USD.","pattern":"{param} must be a string matching the required pattern; received a string","uniqueItems":"{param} must be an array of unique items; received an array","contains":"{param} must be an array containing the required shape; received an array","union":"{param} matches none of its {count} shapes; closest is {shape}: {failure}"}';
+    private const VALIDATION_MESSAGES = '{"required":"{param} is required","discriminator":"{param} is required: one of {allowed}","enum":"{param} must be one of {allowed}; received {value}{suggestion}","unknown":"{param} is not a field of {where}{suggestion}","notAllowed":"{param} can\'t be sent: {reason}","invalid":"{param} must be {expectation}","forbidden":"{param} matches a forbidden rule.","forbiddenField":"{fields} can\'t be sent.","forbiddenFields":"{fields} can\'t be sent together.","minimum":"{param} must be at least {limit}; received a number","maximum":"{param} must be at most {limit}; received a number","exclusiveMinimum":"{param} must be greater than {limit}; received a number","exclusiveMaximum":"{param} must be less than {limit}; received a number","multipleOf":"{param} must be a multiple of {limit}; received a number","minLength":"{param} must be a string with at least {limit} characters; received a string of length {length}","maxLength":"{param} must be a string with at most {limit} characters; received a string of length {length}","minItems":"{param} must be an array with at least {limit} items; received an array of length {length}","maxItems":"{param} must be an array with at most {limit} items; received an array of length {length}","minProperties":"{param} must be an object with at least {limit} fields; received an object with {length} fields","maxProperties":"{param} must be an object with at most {limit} fields; received an object with {length} fields","uppercaseCurrency":"{param} must be a three-letter uppercase ISO 4217 code such as USD.","pattern":"{param} must be a string matching the required pattern; received a string","uniqueItems":"{param} must be an array of unique items; received an array","contains":"{param} must be an array containing the required shape; received an array","union":"{param} matches none of its {count} shapes; closest is {shape}: {failure}"}';
     private static bool $sensitive = false;
     private static array $redactFields = [];
 
@@ -2020,7 +2041,23 @@ final class Codec
                 }
             };
             if (isset($s['exclude']) && $matches($s['exclude'], false) === true) {
-                self::fail($path, 'value matches a forbidden combination');
+                if ($value instanceof \stdClass || (is_array($value) && !array_is_list($value))) {
+                    $keys = array_keys((array) $value);
+                    foreach ($s['excludeFields'] ?? [] as $group) {
+                        if (array_diff($group, $keys)) {
+                            continue;
+                        }
+                        $paths = array_map(
+                            fn($field) => self::param(self::pathKey($path, $field)),
+                            $group,
+                        );
+                        $last = array_pop($paths);
+                        self::issue($path, $paths ? 'forbiddenFields' : 'forbiddenField', [
+                            'fields' => $paths ? implode(', ', $paths) . ' and ' . $last : $last,
+                        ]);
+                    }
+                }
+                self::issue($path, 'forbidden');
             }
             $conditional = self::conditionalBranch(
                 $value,

@@ -325,10 +325,10 @@ foreach (json_decode(file_get_contents('webhooks.json'), true, 512, JSON_THROW_O
     throw $error;
   }
   if ($keyState === 'invalid') throw new \\RuntimeException('Accepted an invalid creating key');
-  if (!$verified['known'] || $verified['event']->event_type !== $case['type']) throw new \\RuntimeException('Unrecognized webhook: ' . $case['type']);
-  $object = $verified['event']->data->object;
-  if (property_exists($object, 'idempotency_key') !== ($keyState !== 'omitted')) throw new \\RuntimeException('Key presence not preserved: ' . $case['type']);
-  if ($keyState !== 'omitted' && $object->idempotency_key !== ($keyState === 'null' ? null : 'synthetic-creating-key')) throw new \\RuntimeException('Key value not preserved: ' . $case['type']);
+  if (!$verified['known'] || $verified['event']->getEventType() !== $case['type']) throw new \\RuntimeException('Unrecognized webhook: ' . $case['type']);
+  $object = $verified['event']->getData()->getObject();
+  if ($object->hasIdempotencyKey() !== ($keyState !== 'omitted')) throw new \\RuntimeException('Key presence not preserved: ' . $case['type']);
+  if ($object->getIdempotencyKey() !== ($keyState === 'present' ? 'synthetic-creating-key' : null)) throw new \\RuntimeException('Key value not preserved: ' . $case['type']);
 }
 echo "Installed root Composer package: all operations and partner OAuth helpers passed.\\n";
 `,

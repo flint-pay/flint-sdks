@@ -1,8 +1,8 @@
-import { d8003 as c0 } from '../descriptors/data/347.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
-import { d9161 as c1 } from '../descriptors/data/415.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
-import { d10402 as c2, d10403 as c3, d10404 as c4, d10405 as c5, d10406 as c6, d10407 as c7 } from '../descriptors/data/488.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
-import { d7865 as c8 } from '../descriptors/data/333.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
-import { d7865 as d7865 } from '../descriptors/data/333.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d8003 as c0 } from '../descriptors/data/348.js?sdk=4bd39e0afc590f9c2d1ce732a52fb628d9f934ea237d2b464d4157caa3c5129d';
+import { d9161 as c1 } from '../descriptors/data/416.js?sdk=4bd39e0afc590f9c2d1ce732a52fb628d9f934ea237d2b464d4157caa3c5129d';
+import { d10402 as c2, d10403 as c3, d10404 as c4, d10405 as c5, d10406 as c6, d10407 as c7 } from '../descriptors/data/489.js?sdk=4bd39e0afc590f9c2d1ce732a52fb628d9f934ea237d2b464d4157caa3c5129d';
+import { d7865 as c8 } from '../descriptors/data/334.js?sdk=4bd39e0afc590f9c2d1ce732a52fb628d9f934ea237d2b464d4157caa3c5129d';
+import { d7865 as d7865 } from '../descriptors/data/334.js?sdk=4bd39e0afc590f9c2d1ce732a52fb628d9f934ea237d2b464d4157caa3c5129d';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d7865;
 let prepared;

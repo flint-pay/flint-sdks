@@ -1,8 +1,8 @@
-import { d8003 as c0 } from '../descriptors/data/347.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
-import { d1834 as c1 } from '../descriptors/data/92.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
-import { d10689 as c2, d10691 as c3, d10693 as c4, d10695 as c5, d10698 as c6, d10699 as c7, d10700 as c8, d10701 as c9 } from '../descriptors/data/506.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
-import { d10709 as c10, d10710 as c11, d10711 as c12, d10712 as c13 } from '../descriptors/data/507.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
-import { d1834 as d1834 } from '../descriptors/data/92.js?sdk=9fc2ad28758ecb3836861aa4a55c027f918b2a3c68d2a2ab563c8b7345819552';
+import { d8003 as c0 } from '../descriptors/data/348.js?sdk=4bd39e0afc590f9c2d1ce732a52fb628d9f934ea237d2b464d4157caa3c5129d';
+import { d1834 as c1 } from '../descriptors/data/92.js?sdk=4bd39e0afc590f9c2d1ce732a52fb628d9f934ea237d2b464d4157caa3c5129d';
+import { d10689 as c2, d10691 as c3, d10693 as c4, d10695 as c5, d10698 as c6, d10699 as c7, d10700 as c8, d10701 as c9 } from '../descriptors/data/507.js?sdk=4bd39e0afc590f9c2d1ce732a52fb628d9f934ea237d2b464d4157caa3c5129d';
+import { d10709 as c10, d10710 as c11, d10711 as c12, d10712 as c13 } from '../descriptors/data/508.js?sdk=4bd39e0afc590f9c2d1ce732a52fb628d9f934ea237d2b464d4157caa3c5129d';
+import { d1834 as d1834 } from '../descriptors/data/92.js?sdk=4bd39e0afc590f9c2d1ce732a52fb628d9f934ea237d2b464d4157caa3c5129d';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d1834;
 let prepared;

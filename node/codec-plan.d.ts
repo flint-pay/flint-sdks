@@ -85,6 +85,8 @@ export interface CodecPlan {
     readonly some?: readonly CodecPlan[];
     readonly exactlyOne?: readonly CodecPlan[];
     readonly exclude?: CodecPlan;
+    /** Field-presence combinations for diagnostics after the exclusion matches. */
+    readonly excludeFields?: readonly (readonly string[])[];
     readonly includes?: CodecPlan;
     readonly when?: {
         readonly test: CodecPlan;

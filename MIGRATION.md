@@ -1,6 +1,6 @@
 # SDK 8.0.0
 
-This guide covers upgrading from `7.0.0` to the `8.0.0-beta.12` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.12` or `flintpay/flint:8.0.0-beta.12`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
+This guide covers upgrading from `7.0.0` to the `8.0.0-beta.13` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.13` or `flintpay/flint:8.0.0-beta.13`. The API date is `2026-09-07`; see `sdk.lock.json` for the pinned Flint `main` revision. Stable releases pin the backend commit serving production.
 
 TypeScript reports most of these changes as compile errors, so run `tsc` after upgrading and work through the output. PHP reports them when the call runs; use the search patterns in [Finding call sites](#finding-call-sites).
 
@@ -14,6 +14,13 @@ What changed, most common first:
 - [Results](#results-carry-lastresponse): results carry `lastResponse`, and the `*WithResponse` methods are removed.
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
+
+## Changes in 8.0.0-beta.13
+
+- TypeScript projects can install the SDK alongside `@types/node` 20.19.x or 22.16 and newer. Use Node.js 22.3 or newer to run the SDK and Node.js 22.12 or newer for CommonJS `require()`.
+- Pass the `upload.headers` from `files.create` directly to `fetch`. See the [file upload example](https://github.com/flint-pay/sdk-generator/blob/main/examples/flint-file-upload.mjs).
+- In PHP, update type declarations for verified merchant webhook deliveries to accept the generated event classes. Replay representative signed events and use the typed accessors for their payloads.
+- Use the validation paths and codes when handling local SDK errors. Errors for forbidden combinations now name the conflicting fields.
 
 ## Changes in 8.0.0-beta.12
 
